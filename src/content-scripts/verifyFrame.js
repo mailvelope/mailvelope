@@ -4,7 +4,6 @@
  */
 
 import {DISPLAY_INLINE, DISPLAY_POPUP} from '../lib/constants';
-import $ from 'jquery';
 import ExtractFrame from './extractFrame';
 import {prefs} from './main';
 
@@ -14,7 +13,7 @@ export default class VerifyFrame extends ExtractFrame {
   constructor() {
     super();
     this.pgpSigRange = null;
-    this.$vDialog = null;
+    this.vDialog = null;
     // verify popup active
     this.vPopup = false;
     this.ctrlName = `vFrame-${this.id}`;
@@ -26,7 +25,7 @@ export default class VerifyFrame extends ExtractFrame {
   }
 
   calcSignatureHeight() {
-    const treeWalker = document.createTreeWalker(this.$pgpElement.get(0), NodeFilter.SHOW_TEXT, {
+    const treeWalker = document.createTreeWalker(this.pgpElement, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
         if (PGP_SIG_HEADER.test(node.textContent)) {
           return NodeFilter.FILTER_ACCEPT;
@@ -42,8 +41,8 @@ export default class VerifyFrame extends ExtractFrame {
 
   renderFrame() {
     super.renderFrame();
-    this.$eFrame.addClass('m-verify');
-    this.$eFrame.removeClass('m-large');
+    this.eFrame.classList.add('m-verify');
+    this.eFrame.classList.remove('m-large');
   }
 
   registerEventListener() {
@@ -52,28 +51,25 @@ export default class VerifyFrame extends ExtractFrame {
     this.port.on('armored-message', () => this.port.emit('vframe-armored-message', {data: this.getArmoredMessage()}));
   }
 
-  clickHandler() {
-    super.clickHandler();
+  clickHandler(ev) {
+    super.clickHandler(undefined, ev);
     if (prefs.security.display_decrypted == DISPLAY_INLINE) {
       this.inlineDialog();
     } else if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
     }
-    return false;
   }
 
   inlineDialog() {
-    this.$vDialog = $('<iframe/>', {
-      id: `vDialog-${this.id}`,
-      'class': 'm-frame-dialog',
-      frameBorder: 0,
-      scrolling: 'no'
-    });
-    const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
-    this.vDialog.attr('src', url);
-    this.$eFrame.append(this.vDialog);
+    this.vDialog = document.createElement('iframe');
+    this.vDialog.id = `vDialog-${this.id}`;
+    this.vDialog.src = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
+    this.vDialog.frameBorder = 0;
+    this.vDialog.scrolling = 'no';
+    this.vDialog.classList.add('m-frame-dialog');
+    this.eFrame.append(this.vDialog);
     this.setFrameDim();
-    this.$vDialog.fadeIn();
+    this.vDialog.classList.add('m-fadeIn');
   }
 
   popupDialog() {
@@ -83,30 +79,30 @@ export default class VerifyFrame extends ExtractFrame {
 
   removeDialog() {
     // check if dialog is active
-    if (!this.$vDialog && !this.vPopup) {
+    if (!this.vDialog && !this.vPopup) {
       return;
     }
     if (prefs.security.display_decrypted === DISPLAY_INLINE) {
-      this.$vDialog.fadeOut();
+      this.vDialog.classList.add('m-fadeOut');
       // removal triggers disconnect event
-      this.$vDialog.remove();
-      this.$vDialog = null;
+      this.vDialog.remove();
+      this.vDialog = null;
     } else {
       this.vPopup = false;
     }
-    this.$eFrame.addClass('m-cursor');
-    this.$eFrame.removeClass('m-open');
-    this.$eFrame.on('click', this.clickHandler.bind(this));
+    this.eFrame.classList.add('m-cursor');
+    this.eFrame.classList.remove('m-open');
+    this.eFrame.on('click', this.clickHandler);
   }
 
   setFrameDim() {
     const boundingRect = this.pgpRange.getBoundingClientRect();
-    this.$eFrame.width(boundingRect.width);
-    this.$eFrame.css('bottom', 0);
-    if (this.$vDialog) {
-      this.$eFrame.height(boundingRect.height);
+    this.eFrame.style.width = `${boundingRect.width}px`;
+    this.eFrame.style.bottom = 0;
+    if (this.vDialog) {
+      this.eFrame.style.height = `${boundingRect.height}px`;
     } else {
-      this.$eFrame.height(this.pgpSigRange.getBoundingClientRect().height);
+      this.eFrame.style.height = `${this.pgpSigRange.getBoundingClientRect().height}px`;
     }
   }
 }

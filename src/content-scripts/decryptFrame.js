@@ -5,7 +5,6 @@
 
 import {DISPLAY_INLINE, DISPLAY_POPUP} from '../lib/constants';
 import {deDup} from '../lib/util';
-import $ from 'jquery';
 import {prefs} from './main';
 
 import ExtractFrame from './extractFrame';
@@ -21,7 +20,7 @@ export default class DecryptFrame extends ExtractFrame {
 
   renderFrame() {
     super.renderFrame();
-    this.$eFrame.addClass('m-decrypt');
+    this.eFrame.classList.add('m-decrypt');
   }
 
   registerEventListener() {
@@ -41,28 +40,25 @@ export default class DecryptFrame extends ExtractFrame {
     });
   }
 
-  clickHandler() {
-    super.clickHandler();
+  clickHandler(ev) {
+    super.clickHandler(undefined, ev);
     if (prefs.security.display_decrypted == DISPLAY_INLINE) {
       this.inlineDialog();
     } else if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
     }
-    return false;
   }
 
   inlineDialog() {
-    this.dDialog = $('<iframe/>', {
-      id: `dDialog-${this.id}`,
-      'class': 'm-frame-dialog',
-      frameBorder: 0,
-      scrolling: 'no'
-    });
-    const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
-    this.dDialog.attr('src', url);
-    this.$eFrame.append(this.dDialog);
+    this.dDialog = document.createElement('iframe');
+    this.dDialog.id = `dDialog-${this.id}`;
+    this.dDialog.src = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
+    this.dDialog.frameBorder = 0;
+    this.dDialog.scrolling = 'no';
+    this.dDialog.classList.add('m-frame-dialog');
+    this.eFrame.append(this.dDialog);
     this.setFrameDim();
-    this.dDialog.fadeIn();
+    this.dDialog.classList.add('m-fadeIn');
   }
 
   popupDialog() {
@@ -76,15 +72,15 @@ export default class DecryptFrame extends ExtractFrame {
       return;
     }
     if (prefs.security.display_decrypted === DISPLAY_INLINE) {
-      this.dDialog.fadeOut();
+      this.dDialog.classList.add('m-fadeOut');
       // removal triggers disconnect event
       this.dDialog.remove();
       this.dDialog = null;
     } else {
       this.dPopup = false;
     }
-    this.$eFrame.addClass('m-cursor');
+    this.eFrame.classList.add('m-cursor');
     this.toggleIcon();
-    this.$eFrame.on('click', this.clickHandler.bind(this));
+    this.eFrame.addEventListener('click', this.clickHandler);
   }
 }

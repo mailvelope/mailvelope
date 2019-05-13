@@ -38,9 +38,6 @@ export default class KeyGenContainer {
       this.container.setAttribute('scrolling', 'no');
       this.container.style.width = '100%';
       this.container.style.height = '100%';
-      while (this.parent.firstChild) {
-        this.parent.removeChild(this.parent.firstChild);
-      }
       this.parent.appendChild(this.container);
     });
   }

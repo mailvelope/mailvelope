@@ -6,7 +6,6 @@
 import {getHash, normalizeArmored} from '../lib/util';
 import {LARGE_FRAME, FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
-import $ from 'jquery';
 import {currentProvider} from './main';
 
 export default class ExtractFrame {
@@ -14,12 +13,14 @@ export default class ExtractFrame {
     this.id = getHash();
     // range element with armored message
     this.pgpRange = null;
-    // jQuery element that contains complete ASCII Armored Message
-    this.$pgpElement = null;
+    // HTMLElement that contains complete ASCII Armored Message
+    this.pgpElement = null;
     this.domIntersectionObserver = null;
-    this.$eFrame = null;
+    this.eFrame = null;
     this.port = null;
     this.currentProvider = currentProvider;
+    this.clickHandler = this.clickHandler.bind(this);
+    this.setFrameDim = this.setFrameDim.bind(this);
   }
 
   attachTo(pgpRange) {
@@ -32,15 +33,14 @@ export default class ExtractFrame {
   init(pgpRange) {
     this.pgpRange = pgpRange;
     // set container element
-    this.$pgpElement = $('<div/>', {
-      'class': 'm-extract-wrapper',
-    });
+    this.pgpElement = document.createElement('div');
+    this.pgpElement.classList.add('m-extract-wrapper');
     // set status to attached
-    this.$pgpElement.data(FRAME_STATUS, FRAME_ATTACHED);
+    this.pgpElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
     // store frame obj in pgpText tag
-    this.$pgpElement.append(this.pgpRange.extractContents());
-    this.pgpRange.insertNode(this.$pgpElement.get(0));
-    this.pgpRange.selectNodeContents(this.$pgpElement.get(0));
+    this.pgpElement.append(this.pgpRange.extractContents());
+    this.pgpRange.insertNode(this.pgpElement);
+    this.pgpRange.selectNodeContents(this.pgpElement);
   }
 
   establishConnection() {
@@ -48,66 +48,71 @@ export default class ExtractFrame {
   }
 
   renderFrame() {
-    this.$eFrame = $('<div/>', {
-      id: `eFrame-${this.id}`,
-      'class': 'm-extract-frame m-cursor',
-      html: '<a class="m-frame-close">×</a>'
-    });
-    this.$pgpElement.append(this.$eFrame);
+    this.eFrame = document.createElement('div');
+    this.eFrame.id = `eFrame-${this.id}`;
+    this.eFrame.innerHTML = '<a class="m-frame-close">×</a>';
+    this.eFrame.classList.add('m-extract-frame', 'm-cursor');
+    this.pgpElement.append(this.eFrame);
     if (this.pgpRange.getBoundingClientRect().height > LARGE_FRAME) {
-      this.$eFrame.addClass('m-large');
+      this.eFrame.classList.add('m-large');
     }
-    this.$eFrame.on('click', this.clickHandler.bind(this));
-    this.$eFrame.find('.m-frame-close').on('click', this.closeFrame.bind(this));
-    $(window).resize(this.setFrameDim.bind(this));
+    this.eFrame.addEventListener('click', this.clickHandler);
+    this.eFrame.querySelector('.m-frame-close').addEventListener('click', this.closeFrame.bind(this, false));
+    window.addEventListener('resize', this.setFrameDim);
     this.domIntersectionObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+      for (const entry of entries) {
         if (entry.intersectionRatio > 0) {
           this.setFrameDim();
-          this.$eFrame.fadeIn('slow');
+          this.eFrame.classList.remove('m-fadeIn');
+          this.eFrame.classList.add('m-fadeIn');
         }
-      }, {root: this.$pgpElement.parent().get(0)});
-    });
-    this.domIntersectionObserver.observe(this.$pgpElement.get(0));
+      }
+    }, {root: this.pgpElement.parentNode});
+    this.domIntersectionObserver.observe(this.pgpElement);
   }
 
   registerEventListener() {
-    document.addEventListener('mailvelope-observe', () => this.setFrameDim());
+    document.addEventListener('mailvelope-observe', this.setFrameDim);
     this.port.on('destroy', () => this.closeFrame(true));
-    this.port.onDisconnect.addListener(() => this.closeFrame(false));
+    this.port.onDisconnect.addListener(() => this.closeFrame());
   }
 
-  clickHandler(callback) {
-    this.$eFrame.off('click');
+  clickHandler(callback, ev) {
+    this.eFrame.removeEventListener('click', this.clickHandler);
     this.toggleIcon(callback);
-    this.$eFrame.removeClass('m-cursor');
-    return false;
+    this.eFrame.classList.remove('m-cursor');
+    if (ev) {
+      ev.stopPropagation();
+    }
   }
 
-  closeFrame(finalClose) {
-    this.$eFrame.fadeOut(() => {
+  closeFrame(finalClose, ev) {
+    this.eFrame.classList.add('m-fadeOut');
+    window.setTimeout(() => {
       this.domIntersectionObserver.disconnect();
-      $(window).off('resize');
-      this.$eFrame.remove();
+      window.removeEventListener('resize', this.setFrameDim);
+      this.eFrame.remove();
       if (finalClose === true) {
         this.port.disconnect();
-        this.$pgpElement.data(FRAME_STATUS, null);
+        this.pgpElement.dataset[FRAME_STATUS] = '';
       } else {
-        this.$pgpElement.data(FRAME_STATUS, FRAME_DETACHED);
+        this.pgpElement.dataset[FRAME_STATUS] = FRAME_DETACHED;
       }
-    });
-    return false;
+    }, 300);
+    if (ev) {
+      ev.stopPropagation();
+    }
   }
 
   toggleIcon(callback) {
-    this.$eFrame.one('transitionend', callback);
-    this.$eFrame.toggleClass('m-open');
+    this.eFrame.addEventListener('transitionend', callback, {once: true});
+    this.eFrame.classList.toggle('m-open');
   }
 
   setFrameDim() {
     const boundingRect = this.pgpRange.getBoundingClientRect();
-    this.$eFrame.width(boundingRect.width);
-    this.$eFrame.height(boundingRect.height);
+    this.eFrame.style.width = `${boundingRect.width}px`;
+    this.eFrame.style.height = `${boundingRect.height}px`;
   }
 
   getArmoredMessage() {
@@ -128,6 +133,6 @@ export default class ExtractFrame {
   }
 
   getEmailSender() {
-    return this.currentProvider.getSender(this.$pgpElement);
+    return this.currentProvider.getSender(this.pgpElement);
   }
 }

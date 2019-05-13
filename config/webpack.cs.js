@@ -11,17 +11,11 @@ const output = {
   pathinfo: true,
   filename: 'cs-mailvelope.js'
 };
-const resolve = {
-  alias: {
-    'jquery': path.resolve('./node_modules/jquery/dist/jquery.min.js')
-  }
-};
 
 exports.prod = {
   ...common.prod,
   entry,
   output,
-  resolve,
   module: {
     rules: [common.replaceVersion(/main\.js$/, pjson.version)]
   }

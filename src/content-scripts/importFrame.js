@@ -13,14 +13,13 @@ export default class ImportFrame extends ExtractFrame {
 
   renderFrame() {
     super.renderFrame();
-    this.$eFrame.addClass('m-import');
+    this.eFrame.classList.add('m-import');
   }
 
-  clickHandler() {
+  clickHandler(ev) {
     super.clickHandler(() => {
       this.port.emit('imframe-armored-key', {data: this.getPGPMessage()});
-      this.$eFrame.addClass('m-ok');
-    });
-    return false;
+      this.eFrame.classList.add('m-ok');
+    }, ev);
   }
 }
