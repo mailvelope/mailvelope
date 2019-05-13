@@ -69,7 +69,7 @@ export default class VerifyFrame extends ExtractFrame {
     this.vDialog.classList.add('m-frame-dialog');
     this.eFrame.append(this.vDialog);
     this.setFrameDim();
-    this.vDialog.classList.add('m-fadeIn');
+    this.vDialog.classList.add('m-show');
   }
 
   popupDialog() {
@@ -83,7 +83,7 @@ export default class VerifyFrame extends ExtractFrame {
       return;
     }
     if (prefs.security.display_decrypted === DISPLAY_INLINE) {
-      this.vDialog.classList.add('m-fadeOut');
+      this.vDialog.classList.remove('m-show');
       // removal triggers disconnect event
       this.vDialog.remove();
       this.vDialog = null;

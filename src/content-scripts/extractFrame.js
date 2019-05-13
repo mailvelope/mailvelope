@@ -63,8 +63,8 @@ export default class ExtractFrame {
       for (const entry of entries) {
         if (entry.intersectionRatio > 0) {
           this.setFrameDim();
-          this.eFrame.classList.remove('m-fadeIn');
-          this.eFrame.classList.add('m-fadeIn');
+          this.eFrame.classList.remove('m-show');
+          this.eFrame.classList.add('m-show');
         }
       }
     }, {root: this.pgpElement.parentNode});
@@ -87,7 +87,7 @@ export default class ExtractFrame {
   }
 
   closeFrame(finalClose, ev) {
-    this.eFrame.classList.add('m-fadeOut');
+    this.eFrame.classList.remove('m-show');
     window.setTimeout(() => {
       this.domIntersectionObserver.disconnect();
       window.removeEventListener('resize', this.setFrameDim);

@@ -11,7 +11,7 @@
 :root .m-extract-frame {
   background-position: center center, center center;
   background-image: none, none;
-  transition: background-position 0.5s ease, background-image 0.5s ease, height 0.5s linear;
+  transition: visibility 0.3s 0s, opacity 0.3s ease-out, background-position 0.5s ease, background-image 0.5s ease, height 0.5s linear;
   background-color: rgba(254,251,243,.8);
   background-repeat: no-repeat;
   border: 1px solid rgba(0,0,0,.2);
@@ -66,8 +66,6 @@
   background-position: 20px 140px, center 156px;
 }
 
-
-
 :root div.m-encrypt-frame[id^="eFrame"] {
   background: rgba(254,251,243,.8);
   border: 1px solid rgba(0,0,0,.2);
@@ -80,6 +78,12 @@
   visibility: hidden;
   opacity: 0;
   z-index: 11;
+  transition: visibility 0.3s 0s, opacity 0.3s ease-out;
+}
+
+:root div.m-encrypt-frame.m-show[id^="eFrame"] {
+  visibility: visible;
+  opacity: 1;  
 }
 
 :root .m-encrypt-frame .m-encrypt-button {
@@ -123,6 +127,12 @@
   width: 100%;
 }
 
+:root .m-extract-frame.m-show, 
+:root .m-extract-frame .m-frame-dialog.m-show {
+  visibility: visible;
+  opacity: 1;
+}
+
 :root .m-frame-close {
   float: right;
   font-size: 20px;
@@ -147,23 +157,6 @@
 
 :root .m-encrypt-frame .m-frame-close {
   margin-left: 10px;
-}
-
-:root .m-frame-fill-right {
-  float: right;
-  width: 4px;
-}
-
-:root .m-fadeOut {
-  visibility: hidden !important;
-  opacity: 0 !important;
-  transition: visibility 0s linear 300ms, opacity 300ms;
-}
-
-:root .m-fadeIn {
-  visibility: visible !important;
-  opacity: 1 !important;
-  transition: visibility 0s linear 0s, opacity 300ms;
 }
 
 /*!

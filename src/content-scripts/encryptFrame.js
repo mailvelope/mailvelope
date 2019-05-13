@@ -68,7 +68,7 @@ export default class EncryptFrame {
   handleKeypress() {
     if (++this.keyCounter >= 13) {
       this.emailTextElement.removeEventListener('keypress', this.handleKeypress);
-      this.eFrame.classList.add('m-fadeOut');
+      this.eFrame.classList.remove('m-show');
       window.setTimeout(() => this.closeFrame(), 300);
     }
   }
@@ -85,7 +85,7 @@ export default class EncryptFrame {
     this.eFrame.querySelector('.m-frame-close').addEventListener('click', this.closeFrame.bind(this));
     this.eFrame.querySelector('#editorBtn').addEventListener('click', this.onEditorButton.bind(this));
     this.normalizeButtons();
-    this.eFrame.classList.add('m-fadeIn');
+    this.eFrame.classList.add('m-show');
     this.emailTextElement.addEventListener('keypress', this.handleKeypress);
   }
 
@@ -106,7 +106,7 @@ export default class EncryptFrame {
   }
 
   closeFrame(finalClose, ev) {
-    this.eFrame.classList.add('m-fadeOut');
+    this.eFrame.classList.remove('m-show');
     window.setTimeout(() => {
       window.removeEventListener('resize', this.setFrameDim);
       this.eFrame.remove();
