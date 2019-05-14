@@ -115,6 +115,9 @@ class Gmail {
    */
   async getSender(emailElement) {
     const emailArea = emailElement.closest('.gs');
+    if (!emailArea) {
+      return [];
+    }
     return getAttr(emailArea.querySelectorAll('.cf.ix span[email]'), 'email');
   }
 }
@@ -160,6 +163,9 @@ class Yahoo {
    */
   async getSender(emailElement) {
     const emailArea = emailElement.closest('.thread-item');
+    if (!emailArea) {
+      return [];
+    }
     return getAttr(emailArea.querySelectorAll('.thread-item-header .contents > .hcard-mailto span[data-address]'), 'data-address');
   }
 }
@@ -206,6 +212,9 @@ class Outlook {
   }
 
   extractPersona(pane) {
+    if (!pane) {
+      return [];
+    }
     // click persona pane to open popup
     return this.waitForPersonaCard(() => pane.click())
     .then(({personaCard, addedNode}) => {
@@ -230,6 +239,9 @@ class Outlook {
 
   getSender(emailElement) {
     const emailArea = emailElement.closest('.ShowReferenceAttachmentsLinks');
+    if (!emailArea) {
+      return [];
+    }
     const persona = emailArea.querySelector('.PersonaPaneLauncher');
     return this.extractPersona(persona);
   }
