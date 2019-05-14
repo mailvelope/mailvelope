@@ -83,4 +83,17 @@ export default class DecryptFrame extends ExtractFrame {
     this.toggleIcon();
     this.eFrame.addEventListener('click', this.clickHandler);
   }
+
+  setFrameDim() {
+    if (this.dDialog === null) {
+      super.setFrameDim();
+    } else {
+      const {height} = this.pgpRange.getBoundingClientRect();
+      let {width} = this.pgpElement.parentElement.getBoundingClientRect();
+      // less 1px border and 2 pixel box-shadow
+      width -= 3;
+      this.eFrame.style.width = `${width}px`;
+      this.eFrame.style.height = `${height}px`;
+    }
+  }
 }
