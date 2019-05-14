@@ -110,9 +110,9 @@ export default class ExtractFrame {
   }
 
   setFrameDim() {
-    const boundingRect = this.pgpRange.getBoundingClientRect();
-    this.eFrame.style.width = `${boundingRect.width}px`;
-    this.eFrame.style.height = `${boundingRect.height}px`;
+    const {width, height} = this.pgpRange.getBoundingClientRect();
+    this.eFrame.style.width = `${width}px`;
+    this.eFrame.style.height = `${height}px`;
   }
 
   getArmoredMessage() {

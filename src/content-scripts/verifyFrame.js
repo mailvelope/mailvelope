@@ -96,13 +96,19 @@ export default class VerifyFrame extends ExtractFrame {
   }
 
   setFrameDim() {
-    const boundingRect = this.pgpRange.getBoundingClientRect();
-    this.eFrame.style.width = `${boundingRect.width}px`;
+    let width;
+    let height;
     this.eFrame.style.bottom = 0;
     if (this.vDialog) {
-      this.eFrame.style.height = `${boundingRect.height}px`;
+      ({height} = this.pgpRange.getBoundingClientRect());
+      ({width} = this.pgpElement.parentElement.getBoundingClientRect());
+      // less 1px border and 2 pixel box-shadow
+      width -= 3;
     } else {
-      this.eFrame.style.height = `${this.pgpSigRange.getBoundingClientRect().height}px`;
+      ({height} = this.pgpSigRange.getBoundingClientRect());
+      ({width} = this.pgpRange.getBoundingClientRect());
     }
+    this.eFrame.style.width = `${width}px`;
+    this.eFrame.style.height = `${height}px`;
   }
 }
