@@ -464,8 +464,12 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "Užklausti raktus iš gavėjų pašto teikėjo (Saityno raktų katalogo)",
+        "message": "Užklausti raktus iš gavėjų el. pašto teikėjo (Saityno raktų katalogo)",
         "description": "Enable Web Key Directory Auto Lookup"
+    },
+    "keyserver_autocrypt_lookup": {
+        "message": "Naudoti raktus iš Autocrypt gaunamojo el. pašto antraščių",
+        "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_url_warning": {
         "message": "Raktų serverio URL privalo būti šio formato: http(s)://keys.example.com",
@@ -478,6 +482,10 @@
     "key_export_create_file": {
         "message": "Įrašyti",
         "description": "Download file button."
+    },
+    "key_export_filename": {
+        "message": "Failo pavadinimas",
+        "description": "Label of filename input."
     },
     "key_export_header": {
         "message": "Eksportuoti raktą",
@@ -808,7 +816,7 @@
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_confirm": {
-        "message": "Ar vis dar norėtumėte panaikinti?",
+        "message": "Ar vis dar norėtumėte panaikinti raktą?",
         "description": "Confirmation question of revoke key dialog."
     },
     "user_title": {
@@ -856,7 +864,7 @@
         "description": "Title of revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "Panaikinus, naudotojo ID šiam raktui bus visam laikui nebetinkamas naudoti.",
+        "message": "Panaikinus, naudotojo ID šiam raktui liks visam laikui nebetinkamas naudoti.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_confirmation": {
@@ -880,7 +888,7 @@
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "galutiniam pašalinimui iš Mailvelope raktų serverio, į $1 buvo išsiųstas patvirtinimo el. laiškas.",
+        "message": "Galutiniam pašalinimui iš Mailvelope raktų serverio, į $1 buvo išsiųstas patvirtinimo el. laiškas.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
@@ -896,11 +904,11 @@
         "description": "Title of signatures panel in user."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Įveskite vardą!",
+        "message": "Įveskite vardą",
         "description": "Error message for name input field."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "El. pašto adresas jau yra naudojamas!",
+        "message": "El. pašto adresas jau yra naudojamas",
         "description": "Error message for email input field."
     },
     "keyusers_title": {
@@ -956,7 +964,7 @@
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "Galiojimo pabaigos data taip pat yra visų porakčių atstatymas. Negaliojantys porakčiai ar porakčiai, kurių galiojimas jau yra pasibaigęs išliks nepaveikti.",
+        "message": "Galiojimo pabaigos data taip pat yra pakeista visiems porakčiams. Negaliojantys porakčiai ar porakčiai, kurių galiojimas jau yra pasibaigęs, išliks nepaveikti.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_title": {
@@ -1668,7 +1676,7 @@
         "description": "OpenPGP settings header"
     },
     "security_hide_armored_head": {
-        "message": "Slėpti Mailvelope versiją ir komentarą PGP pranešime.",
+        "message": "Slėpti Mailvelope versiją ir komentarą PGP pranešimuose.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {

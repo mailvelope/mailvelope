@@ -8,7 +8,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with '*.'.",
+        "message": "Domen uyğunlaşma nümunəsi '*.' ilə başlamalıdır.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -116,7 +116,7 @@
         "description": "Dashboard view header"
     },
     "decrypt_digital_signature": {
-        "message": "Rəqəmsal imzalanıb",
+        "message": "Digitally signed",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
@@ -340,7 +340,7 @@
         "description": "Behavior when no action is specified in form"
     },
     "form_sign_error_no_default_key": {
-        "message": "No private key is available in the keyring to sign the form content. Please import or create one.",
+        "message": "Formanın tərkibini imzalamaq üçün fərdi açar mövcud deyildir. Yenisini yaratmaq üçün, lütfən daxil et.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_forward": {
@@ -392,7 +392,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "message": "GnuPG-ni quraşdırmısan? Əhər etməmisənsə, <0>Buradan yüklə</0>. Mövcudluğunu yoxlamaq üçün <1>Mailvelope-u Yenidan Aç</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -408,7 +408,7 @@
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Which encryption backend do you prefer?",
+        "message": "Hansı şifrələmə arxa fonunu üstün tutursan?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
@@ -416,11 +416,11 @@
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Note: public keys are synchronized between available keyrings. Depending on availability of private keys, Mailvelope can override the preferred encryption library setting.",
+        "message": "Qeyd: ictimai açarlar mövcud açar halqaları arasında sinxronlaşdırılır. Fərdi açarların mövcudluğundan asılı olaraq Mailvelope üstün şifrələmə kataloq parametrlərini yenidən təyin edə bilər.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "general_default_key_always": {
-        "message": "Always add my default key to the list of recipients. (This allows you to decrypt sent mails)",
+        "message": "Hər zaman mənim başlanğıc açarımı qəbul edənlərin siyahısına əlavə et. (Bu sənə imkan verir ki, göndərilən emailləri deşifrələyə biləsən)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
@@ -432,7 +432,7 @@
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
+        "message": "Zəhmət olmasa GnuPG açar halqanda bu açarların mövcud olmasını və etibarlılığını yoxla: $1",
         "description": ""
     },
     "header_warning": {
@@ -464,8 +464,12 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "Query keys from the recipients Mail provider (Web Key Directory)",
+        "message": "Query keys from the recipients email provider (Web Key Directory)",
         "description": "Enable Web Key Directory Auto Lookup"
+    },
+    "keyserver_autocrypt_lookup": {
+        "message": "Gələn emailin Avtokript başlığından açarları istifadə et",
+        "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_url_warning": {
         "message": "Açar serverinin URL-i aşağıdakı formata malik olmalıdır: http(s)://keys.example.com",
@@ -478,6 +482,10 @@
     "key_export_create_file": {
         "message": "Saxla",
         "description": "Download file button."
+    },
+    "key_export_filename": {
+        "message": "Faylın adı",
+        "description": "Label of filename input."
     },
     "key_export_header": {
         "message": "İxrac açarı",
@@ -512,7 +520,7 @@
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Future Default",
+        "message": "Gələcək Başlanğıc",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
@@ -656,7 +664,7 @@
         "description": "Info message."
     },
     "key_import_number_of_failed": {
-        "message": "Number of keys that could not be imported due to errors: $1",
+        "message": "Xəta səbəbilə daxil edilə bilməyən açar sayı: $1",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
@@ -716,83 +724,83 @@
         "description": "Export key button label"
     },
     "key_revoke_btn": {
-        "message": "Revoke",
+        "message": "Ləğv Et",
         "description": "Revoke key button label"
     },
     "key_remove_btn_title": {
-        "message": "Remove key from keyring",
+        "message": "Açarı açar halqasından ləğv et",
         "description": "Title for remove key button"
     },
     "key_export_btn_title": {
-        "message": "Export key",
+        "message": "Açarı ixrac et",
         "description": "Title for export key button"
     },
     "key_revoke_btn_title": {
-        "message": "Revoke key",
+        "message": "Açarı ləğv et",
         "description": "Title for revoke key button"
     },
     "key_default_active_btn_title": {
-        "message": "Key is set as default key",
+        "message": "Bu açar başlanğıc açar kimi təyin edilib",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "The key is invalid and cannot be set as the default key",
+        "message": "Açar xətalıdır və başlanğıc açar kimi təyin edilə bilməz",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Set key as default key",
+        "message": "Başlanğıc açar kimi təyin et",
         "description": "Title for inactive default key button"
     },
     "key_keyserver_sync": {
-        "message": "The key data on the Mailvelope key server is up to date.",
+        "message": "Mailvelope-un açar serverindəki məlumat ən son yenilənmiş formadadır.",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_mod": {
-        "message": "The key data on the Mailvelope key server is no longer up to date.",
+        "message": "Mailvelope-un açar serverindəki məlumat köhnəlmişdir.",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "The key is not synchronized with the Mailvelope key server.",
+        "message": "Bu açar Mailvelope-un açar serveri ilə sinxronlaşmayıb.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_upload": {
-        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
+        "message": "Açarı Mailvelope-un açar serveri ilə sinxronlaşdırmaq üçün bütün istifadəçi adlarına təsdiq emaili göndərilmişdir.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "The key data has been updated on the Mailvelope key server.",
+        "message": "Açar məlumatı Mailvelope açar serverində yenilənmişdir.",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove": {
-        "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
+        "message": "Yekun olaraq Mailvelope açar serverindən silinməsi üçün təsdiq emaili bütün istifadəçi adlarına göndərilmişdir.",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Remove all user IDs",
+        "message": "Bütün istifadəçi adlarını sil",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_upload_btn": {
-        "message": "Synchronize",
+        "message": "Sinxronlaşdır",
         "description": "Key server upload button label"
     },
     "key_keyserver_update_btn": {
-        "message": "Update",
+        "message": "Yenilə",
         "description": "Key server update button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "Resend",
+        "message": "Yenidən Göndər",
         "description": "Key server send again button label"
     },
     "key_remove_dialog_title": {
-        "message": "Remove key",
+        "message": "Açarı sil",
         "description": "Title of delete key dialog."
     },
     "key_export_dialog_title": {
-        "message": "Export key",
+        "message": "Açarı ixrac et",
         "description": "Title of export key dialog."
     },
     "key_export_dialog_question": {
-        "message": "Which key would you like to export?",
+        "message": "İxrac etmək istədiyin açar hansıdır?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_copy_to_clipboard": {
@@ -800,23 +808,23 @@
         "description": "Copy to clipboard button label."
     },
     "key_revoke_dialog_title": {
-        "message": "Revoke key",
+        "message": "Açarı ləğv et",
         "description": "Title of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "With the revocation the key remains permanently unusable.",
+        "message": "Ləğv edilmənin davamı olaraq açar həmişəlik istifadəsiz qalacaqdır.",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_confirm": {
-        "message": "Would you still like to revoke?",
+        "message": "Would you still like to revoke the key?",
         "description": "Confirmation question of revoke key dialog."
     },
     "user_title": {
-        "message": "User ID",
+        "message": "İstifadəçi adı",
         "description": "Title of user page"
     },
     "user_create_title": {
-        "message": "Create user ID",
+        "message": "İstifadəçi adı yarat",
         "description": "Title of create user page"
     },
     "user_create_btn": {
@@ -828,91 +836,91 @@
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "Remove user ID",
+        "message": "İstifadəçi adını sil",
         "description": "Remove user button title"
     },
     "user_revoke_btn": {
-        "message": "Revoke",
+        "message": "Ləğv Et",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Revoke user ID",
+        "message": "İstifadəçi adını ləğv et",
         "description": "Revoke user button title"
     },
     "user_remove_dialog_title": {
-        "message": "Remove user ID",
+        "message": "İstifadəçi adını sil",
         "description": "Title of remove user dialog."
     },
     "user_remove_dialog_confirmation": {
-        "message": "Do you want to remove this user ID from your key?",
+        "message": "Açardan bu istifadəçi adını silmək istəyirsən?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "User ID is also removed from the Mailvelope key server.",
+        "message": "İstifadəçi adı eyni zamanda Mailvelope açar serverindən də silindi.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_revoke_dialog_title": {
-        "message": "Revoke user ID",
+        "message": "İstifadəçi adını ləğv et",
         "description": "Title of revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "With the revocation the user ID for this key remains permanently unusable.",
+        "message": "After revocation, the user ID for this key will permanently remain unusable.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Would you still like to revoke?",
+        "message": "Hələ də ləğv etməkdə qərarlısan?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_keyserver_sync": {
-        "message": "The user ID is synchronized with the Mailvelope key server.",
+        "message": "Bu istifadəçi adı Mailvelope-un açar serveri ilə sinxronlaşmayıb.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
+        "message": "Zəhmət olmasa bu istifadəçi adının Mailvelope-un açar serveri ilə sinxronlaşdırılmasını təsdiq et.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_not": {
-        "message": "The user ID is not synchronized with the Mailvelope key server.",
+        "message": "İstifadəçi adı Mailvelope-un açar serveri ilə sinxronlaşdırılmamışdır.",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1.",
+        "message": "Mailvelope serveri ilə sinxronlaşdırılması üçün təsdiq emaili $1 ünvanına göndərilmişdir.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "for final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "Remove user ID",
+        "message": "İstifadəçi adını sil",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "Resend confirmation",
+        "message": "Təsdiqi yenidən göndər",
         "description": "Resend confirmation button label text"
     },
     "usersignatures_title": {
-        "message": "Verifications",
+        "message": "Təsdiqləmə",
         "description": "Title of signatures panel in user."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Please enter a name!",
+        "message": "Please enter a name",
         "description": "Error message for name input field."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "The email address is already in use!",
+        "message": "The email address is already in use",
         "description": "Error message for email input field."
     },
     "keyusers_title": {
-        "message": "Assigned user IDs",
+        "message": "Təyin edilmiş istifadəçi adları",
         "description": "Title of the key users panel"
     },
     "keyusers_add_btn": {
-        "message": "Add new",
+        "message": "Yenisini əlavə et",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Add a new user ID",
+        "message": "Yeni istifadəçi adı əlavə et",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
@@ -920,19 +928,19 @@
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_sync": {
-        "message": "synchronized",
+        "message": "sinxronlaşdırıldı",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_not": {
-        "message": "not synchronized",
+        "message": "sinxronlaşdırılmadı",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "unverified",
+        "message": "təsdiq edilmədi",
         "description": "User ID key server not verified label text"
     },
     "keydetails_title": {
-        "message": "Key details",
+        "message": "Açarın detalları",
         "description": "Title of the key details panel"
     },
     "keydetails_creation_date": {
@@ -944,7 +952,7 @@
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "never",
+        "message": "heç vaxt",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
@@ -952,11 +960,11 @@
         "description": "Password of a PGP key."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "Change expiration date",
+        "message": "Son istifadə tarixini dəyiş",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also reset for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_title": {
@@ -1132,7 +1140,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_invalid_userid": {
-        "message": "Yanlış istifadəçi İD-si",
+        "message": "Yanlış istifadəçi adı",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
@@ -1200,7 +1208,7 @@
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Sub Key",
+        "message": "Subkey",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
@@ -1212,7 +1220,7 @@
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "İstifadəçi ID-ləri",
+        "message": "İstifadəçi adları",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
@@ -1240,7 +1248,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "See available settings at:",
+        "message": "Mümkün parametrlərə bax:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
@@ -1388,19 +1396,19 @@
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Please enter your key password to revoke this key.",
+        "message": "Bu açarı ləğv etmək üçün lütfən açar şifrəni daxil et.",
         "description": ""
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Please enter your key password to create the user ID.",
+        "message": "İstifadəçi adı yaratmaq üçün lütfən açar şifrəni daxil et.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Please enter your key password to revoke the user ID.",
+        "message": "İstifadəçi adını ləğv etmək üçün lütfən açar şifrəni daxil et.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Please enter your key password to set a new expiration date for the key.",
+        "message": "Açar üçün son istifadə tarixini yeniləmək üçün lütfən açar şifrəni daxil et.",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1408,7 +1416,7 @@
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "Say:",
+        "message": "İstifadəçi adı:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
@@ -1452,7 +1460,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "[BRAND] ilə şifrələnmiş ünsiyyət PGP əsaslı bir prosedurdur. Bu, şifrəli elektron məktub göndərmək imkanı verir, həmçinin yalnız sənin və alıcının onları oxumasını təmin edir.",
+        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1668,7 +1676,7 @@
         "description": "OpenPGP settings header"
     },
     "security_hide_armored_head": {
-        "message": "Hide Mailvelope version and comment in PGP message.",
+        "message": "Hide Mailvelope version and comment in PGP messages.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
@@ -1952,7 +1960,7 @@
         "description": ""
     },
     "alert_header_error": {
-        "message": "Səhv!",
+        "message": "Xəta!",
         "description": "Alert header of category error."
     }
 }

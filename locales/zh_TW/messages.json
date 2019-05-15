@@ -8,7 +8,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with '*.'.",
+        "message": "網域符合規則開頭應為 '*.'",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -116,7 +116,7 @@
         "description": "Dashboard view header"
     },
     "decrypt_digital_signature": {
-        "message": "數位化簽署",
+        "message": "Digitally signed",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
@@ -464,8 +464,12 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "向收件人郵件提供商查詢密鑰（Web Key 目錄）",
+        "message": "Query keys from the recipients email provider (Web Key Directory)",
         "description": "Enable Web Key Directory Auto Lookup"
+    },
+    "keyserver_autocrypt_lookup": {
+        "message": "Use keys from Autocrypt headers of incoming email",
+        "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_url_warning": {
         "message": "密鑰伺服器的網址必須為如下格式：http(s)://keys.example.com",
@@ -478,6 +482,10 @@
     "key_export_create_file": {
         "message": "儲存",
         "description": "Download file button."
+    },
+    "key_export_filename": {
+        "message": "檔案名稱",
+        "description": "Label of filename input."
     },
     "key_export_header": {
         "message": "匯出密鑰",
@@ -716,59 +724,59 @@
         "description": "Export key button label"
     },
     "key_revoke_btn": {
-        "message": "Revoke",
+        "message": "撒銷",
         "description": "Revoke key button label"
     },
     "key_remove_btn_title": {
-        "message": "Remove key from keyring",
+        "message": "從鑰匙環撤銷密鑰",
         "description": "Title for remove key button"
     },
     "key_export_btn_title": {
-        "message": "Export key",
+        "message": "滙出密鑰",
         "description": "Title for export key button"
     },
     "key_revoke_btn_title": {
-        "message": "Revoke key",
+        "message": "撒銷密鑰",
         "description": "Title for revoke key button"
     },
     "key_default_active_btn_title": {
-        "message": "Key is set as default key",
+        "message": "被設為默認密鑰",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "The key is invalid and cannot be set as the default key",
+        "message": "密鑰無效且不能被設為默認密鑰",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Set key as default key",
+        "message": "設定密鑰為默認",
         "description": "Title for inactive default key button"
     },
     "key_keyserver_sync": {
-        "message": "The key data on the Mailvelope key server is up to date.",
+        "message": "Mailvelope 密鑰伺服器的資料已為最新",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_mod": {
-        "message": "The key data on the Mailvelope key server is no longer up to date.",
+        "message": "Mailvelope 密鑰伺服器的資料還未被更新。",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "The key is not synchronized with the Mailvelope key server.",
+        "message": "用戶 ID 尚未與 Mailvelope 伺服器同步。",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_upload": {
-        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
+        "message": "要同步 Mailvelope 密鑰伺服器，系統會傳送一封確認信給用戶。",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "The key data has been updated on the Mailvelope key server.",
+        "message": "密鑰資料已上傳到 Mailvelope 密鑰伺服器。",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove": {
-        "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
+        "message": "Mailvelope 主機寄送了一封最終的移除確認信給相關的用戶 IDs",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Remove all user IDs",
+        "message": "移除所有用戶的識別碼",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_upload_btn": {
@@ -780,19 +788,19 @@
         "description": "Key server update button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "Resend",
+        "message": "重新送出",
         "description": "Key server send again button label"
     },
     "key_remove_dialog_title": {
-        "message": "Remove key",
+        "message": "移除密鑰",
         "description": "Title of delete key dialog."
     },
     "key_export_dialog_title": {
-        "message": "Export key",
+        "message": "滙出密鑰",
         "description": "Title of export key dialog."
     },
     "key_export_dialog_question": {
-        "message": "Which key would you like to export?",
+        "message": "欲滙出哪件密鑰？",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_copy_to_clipboard": {
@@ -800,23 +808,23 @@
         "description": "Copy to clipboard button label."
     },
     "key_revoke_dialog_title": {
-        "message": "Revoke key",
+        "message": "撒銷密鑰",
         "description": "Title of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "With the revocation the key remains permanently unusable.",
+        "message": "此密鑰所撤銷的用戶 ID 將再也無法使用。",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_confirm": {
-        "message": "Would you still like to revoke?",
+        "message": "Would you still like to revoke the key?",
         "description": "Confirmation question of revoke key dialog."
     },
     "user_title": {
-        "message": "User ID",
+        "message": "用戶識別碼",
         "description": "Title of user page"
     },
     "user_create_title": {
-        "message": "Create user ID",
+        "message": "建立用戶識別",
         "description": "Title of create user page"
     },
     "user_create_btn": {
@@ -828,91 +836,91 @@
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "Remove user ID",
+        "message": "移除用戶 ID",
         "description": "Remove user button title"
     },
     "user_revoke_btn": {
-        "message": "Revoke",
+        "message": "撒銷",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Revoke user ID",
+        "message": "撤銷用戶 ID",
         "description": "Revoke user button title"
     },
     "user_remove_dialog_title": {
-        "message": "Remove user ID",
+        "message": "移除用戶 ID",
         "description": "Title of remove user dialog."
     },
     "user_remove_dialog_confirmation": {
-        "message": "Do you want to remove this user ID from your key?",
+        "message": "用從此密鑰移除這個用戶 ID 嗎",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "User ID is also removed from the Mailvelope key server.",
+        "message": "用戶 ID 亦已自 Mailvelope 伺服器移除。",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_revoke_dialog_title": {
-        "message": "Revoke user ID",
+        "message": "撤銷用戶 ID",
         "description": "Title of revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "With the revocation the user ID for this key remains permanently unusable.",
+        "message": "After revocation, the user ID for this key will permanently remain unusable.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Would you still like to revoke?",
+        "message": "仍要進行撤銷嗎？",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_keyserver_sync": {
-        "message": "The user ID is synchronized with the Mailvelope key server.",
+        "message": "用戶 ID 已與 Mailvelope 伺服器同步。",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
+        "message": "請確認用戶 ID 即將與 Mailvelope 伺服器進行同步。",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_not": {
-        "message": "The user ID is not synchronized with the Mailvelope key server.",
+        "message": "用戶 ID 尚未與 Mailvelope 伺服器同步。",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1.",
+        "message": "要同步 Mailvelope 密鑰伺服器，系統確認信會寄給$1。",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "for final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "Remove user ID",
+        "message": "移除用戶 ID",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "Resend confirmation",
+        "message": "重寄確認信",
         "description": "Resend confirmation button label text"
     },
     "usersignatures_title": {
-        "message": "Verifications",
+        "message": "驗證",
         "description": "Title of signatures panel in user."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Please enter a name!",
+        "message": "Please enter a name",
         "description": "Error message for name input field."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "The email address is already in use!",
+        "message": "The email address is already in use",
         "description": "Error message for email input field."
     },
     "keyusers_title": {
-        "message": "Assigned user IDs",
+        "message": "指派的用戶 IDs",
         "description": "Title of the key users panel"
     },
     "keyusers_add_btn": {
-        "message": "Add new",
+        "message": "新增",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Add a new user ID",
+        "message": "新增使用者  ID",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
@@ -920,19 +928,19 @@
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_sync": {
-        "message": "synchronized",
+        "message": "已同步",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_not": {
-        "message": "not synchronized",
+        "message": "未同步",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "unverified",
+        "message": "未經驗證",
         "description": "User ID key server not verified label text"
     },
     "keydetails_title": {
-        "message": "Key details",
+        "message": "密鑰詳情",
         "description": "Title of the key details panel"
     },
     "keydetails_creation_date": {
@@ -940,7 +948,7 @@
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "Expires",
+        "message": "逾期",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
@@ -952,11 +960,11 @@
         "description": "Password of a PGP key."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "Change expiration date",
+        "message": "更改到期日",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also reset for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_title": {
@@ -964,7 +972,7 @@
         "description": "Title of change password dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "Old password",
+        "message": "舊密碼",
         "description": "Old password input label"
     },
     "dialog_cancel_btn": {
@@ -1200,7 +1208,7 @@
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Sub Key",
+        "message": "Subkey",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
@@ -1220,7 +1228,7 @@
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "Primary",
+        "message": "主要的",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
@@ -1388,19 +1396,19 @@
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Please enter your key password to revoke this key.",
+        "message": "請輸入密鑰的主密碼以便進行撤銷",
         "description": ""
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Please enter your key password to create the user ID.",
+        "message": "請輸入密鑰的主密碼來建立用戶 ID",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Please enter your key password to revoke the user ID.",
+        "message": "請輸入密鑰的主密碼以撤銷用戶 ID",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Please enter your key password to set a new expiration date for the key.",
+        "message": "請輸入密鑰之密碼以為其設置新的到期日",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1452,7 +1460,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "[BRAND] 加密通訊是以 PGP-為基礎的程式，它可以讓你傳送加密郵件，同時確保只有寄件者和收件人可以讀取訊息。",
+        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1668,7 +1676,7 @@
         "description": "OpenPGP settings header"
     },
     "security_hide_armored_head": {
-        "message": "在PGP 訊息中隱藏 Mailvelope 版本和評論。",
+        "message": "Hide Mailvelope version and comment in PGP messages.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {

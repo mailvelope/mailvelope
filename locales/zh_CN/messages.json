@@ -8,7 +8,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern should begin with '*.'.",
+        "message": "域匹配模式应该以 *. 开头。",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -388,15 +388,15 @@
         "description": "Yes form button."
     },
     "general_gnupg_check_availability": {
-        "message": "Allow us to check availability",
+        "message": "允许我们检查可用性",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>",
+        "message": "是否已安装 GnuPG？如果没有，<0>点此下载</0>。如要重新重新检查可用性，<1>重启 Mailvelope</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG is not available",
+        "message": "GnuPG 不可用",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
@@ -464,8 +464,12 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "从收件人的邮件服务查询密钥（网络密钥服务）",
+        "message": "Query keys from the recipients email provider (Web Key Directory)",
         "description": "Enable Web Key Directory Auto Lookup"
+    },
+    "keyserver_autocrypt_lookup": {
+        "message": "Use keys from Autocrypt headers of incoming email",
+        "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_url_warning": {
         "message": "密钥服务器 URL 必须是下列格式: http(s)://keys.example.com",
@@ -478,6 +482,10 @@
     "key_export_create_file": {
         "message": "保存",
         "description": "Download file button."
+    },
+    "key_export_filename": {
+        "message": "文件名",
+        "description": "Label of filename input."
     },
     "key_export_header": {
         "message": "导出密钥",
@@ -808,7 +816,7 @@
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_confirm": {
-        "message": "Would you still like to revoke?",
+        "message": "Would you still like to revoke the key?",
         "description": "Confirmation question of revoke key dialog."
     },
     "user_title": {
@@ -856,7 +864,7 @@
         "description": "Title of revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "With the revocation the user ID for this key remains permanently unusable.",
+        "message": "After revocation, the user ID for this key will permanently remain unusable.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_confirmation": {
@@ -880,7 +888,7 @@
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "for final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
@@ -896,11 +904,11 @@
         "description": "Title of signatures panel in user."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Please enter a name!",
+        "message": "Please enter a name",
         "description": "Error message for name input field."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "The email address is already in use!",
+        "message": "The email address is already in use",
         "description": "Error message for email input field."
     },
     "keyusers_title": {
@@ -956,7 +964,7 @@
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also reset for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_title": {
@@ -1200,7 +1208,7 @@
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Sub Key",
+        "message": "Subkey",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
@@ -1452,7 +1460,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "使用 [BRAND] 的通信是基于PGP的。您发送的邮件将被加密，同时确保仅有您和您指定的收件人可以读取邮件内容。",
+        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1668,7 +1676,7 @@
         "description": "OpenPGP settings header"
     },
     "security_hide_armored_head": {
-        "message": "Hide Mailvelope version and comment in PGP message.",
+        "message": "Hide Mailvelope version and comment in PGP messages.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {

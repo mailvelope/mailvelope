@@ -1,14 +1,14 @@
 {
     "alert_header_success": {
-        "message": "L’opération a été effectuée avec succès!",
+        "message": "L’opération a été effectuée avec succès !",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "Avertissement!",
+        "message": "Avertissement !",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Le modèle de correspondance de domaine devrait commencer par '*.'.",
+        "message": "Le modèle de correspondance de domaine devrait commencer par « *. ».",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -20,19 +20,19 @@
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Impossible de lire ce courriel en clair : $1",
+        "message": "Impossible de lire ce message en clair : $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "action_menu_activate_current_tab": {
-        "message": "Activer sur l’onglet courant",
+        "message": "Activer sur l’onglet sélectionné",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_advanced_menu_aria_label": {
-        "message": "Menu évolué de Mailvelope",
+        "message": "Menu avancé de Mailvelope",
         "description": "Accessibility, aria label of the advanced menu"
     },
     "action_menu_advanced_options": {
-        "message": "Options évoluées",
+        "message": "Options avancées",
         "description": "Advanced options link in the action menu"
     },
     "action_menu_all_options": {
@@ -44,7 +44,7 @@
         "description": "Back link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Configurez Mailvelope</0> pour commencer!",
+        "message": "<0>Configurez Mailvelope</0> pour commencer !",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard": {
@@ -104,7 +104,7 @@
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Gestion des clés",
+        "message": "Gérer les clés",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
@@ -132,15 +132,15 @@
         "description": "Copy decrypted message to clipboard."
     },
     "decrypt_popup_header": {
-        "message": "Courriel",
+        "message": "Message",
         "description": "Header of decrypt popup."
     },
     "decrypt_popup_title": {
-        "message": "Courriel déchiffré",
+        "message": "Le message a été déchiffré",
         "description": "Title of decrypt popup."
     },
     "dialog_keyid_label": {
-        "message": "ID de clé ",
+        "message": "ID de clé",
         "description": "Label for key ID."
     },
     "dialog_popup_close": {
@@ -212,7 +212,7 @@
         "description": "Transfer button of editor popup."
     },
     "editor_label_add_recipient": {
-        "message": "Ajouter un destinataire",
+        "message": "Ajoutez un destinataire",
         "description": "Label for recipient text input."
     },
     "editor_key_not_found": {
@@ -220,7 +220,7 @@
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Pour rendre le chiffrement possible, tous les destinataires doivent avoir une clé PGP. Vous pouvez quand même signer le courriel.",
+        "message": "Pour rendre le chiffrement possible, tous les destinataires doivent avoir une clé PGP. Vous pouvez quand même signer le message.",
         "description": "Warning for when a recipient key was not found."
     },
     "encrypt_dialog_add": {
@@ -252,7 +252,7 @@
         "description": "Title of download area"
     },
     "encrypt_error": {
-        "message": "Impossible de chiffrer ce courriel : $1",
+        "message": "Impossible de chiffrer ce message : $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_selection": {
@@ -408,7 +408,7 @@
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Quel logiciel de chiffrement préférez-vous ?",
+        "message": "Quelle dorsale de chiffrement préférez-vous ?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
@@ -420,11 +420,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "general_default_key_always": {
-        "message": "Toujours ajouter ma clé par défaut à la liste des destinataires. (Cela vous permet de déchiffrer les courriels envoyés)",
+        "message": "Toujours ajouter ma clé par défaut à la liste des destinataires (cela vous permet de déchiffrer les courriels envoyés)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Signer tous les courriels avec la clé par défaut",
+        "message": "Signer tous les messages avec la clé par défaut",
         "description": "Label for default private key option."
     },
     "gnupg_connection": {
@@ -436,7 +436,7 @@
         "description": ""
     },
     "header_warning": {
-        "message": "Avertissement",
+        "message": "Avertissement !",
         "description": "Header warning."
     },
     "install_landing_page_getting_started": {
@@ -444,7 +444,7 @@
         "description": "Install landing page getting started message"
     },
     "install_landing_page_help": {
-        "message": "Consulter l’<0>aide en ligne</0>pour obtenir plus d’informations.",
+        "message": "Consulter l’<0>aide en ligne</0>pour de plus amples renseignements.",
         "description": "Install landing page help message"
     },
     "install_landing_page_welcome": {
@@ -456,7 +456,7 @@
         "description": "HKP key server option: url."
     },
     "keyserver_additionals_label": {
-        "message": "Sources supplémentaires de clés",
+        "message": "Sources complémentaires de clés",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_tofu_lookup": {
@@ -464,8 +464,12 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_wkd_lookup": {
-        "message": "Chercher les clés auprès du fournisseur de courriel des destinataires (annuaire de clés Web)",
+        "message": "Chercher les clés auprès du service de courriel des destinataires (annuaire de clés Web)",
         "description": "Enable Web Key Directory Auto Lookup"
+    },
+    "keyserver_autocrypt_lookup": {
+        "message": "Utiliser les clés des en-têtes Autocrypt du courriel entrant",
+        "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_url_warning": {
         "message": "L’URL du serveur de clés doit être au format suivant : http(s)://cles.exemple.com",
@@ -479,20 +483,24 @@
         "message": "Enregistrer",
         "description": "Download file button."
     },
+    "key_export_filename": {
+        "message": "Nom du fichier",
+        "description": "Label of filename input."
+    },
     "key_export_header": {
         "message": "Exporter la clé",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "Ce fichier contient aussi des clés privées. Conserver ce fichier en lieu sûr et ne le partager avec personne.",
+        "message": "Ce fichier contient aussi des clés privées. Conservez ce fichier en lieu sûr et ne le partagez avec personne.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Évolué",
+        "message": "Avancé",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "En générer une autre...",
+        "message": "En générer une autre…",
         "description": "Key import button"
     },
     "key_gen_demail": {
@@ -556,11 +564,11 @@
         "description": "Key generation success message"
     },
     "key_gen_wait_header": {
-        "message": "Génération de la clé en cours...",
+        "message": "Génération de la clé en cours…",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Veuillez patienter, la génération de la clé peut prendre plusieurs minutes en fonction de différents facteurs, comme la taille de la clé.",
+        "message": "Veuillez patienter, la génération de la clé peut prendre plusieurs minutes en fonction de différents facteurs, tels que la taille de la clé.",
         "description": "Wait dialog info message"
     },
     "key_gen_upload": {
@@ -604,7 +612,7 @@
         "description": ""
     },
     "key_import_extend_headline": {
-        "message": "Plus d’informations sur les communications chiffrées :",
+        "message": "Plus de renseignements sur les communications chiffrées :",
         "description": "Key import dialog description."
     },
     "key_import_extend_hint": {
@@ -752,7 +760,7 @@
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "La clé n’est pas synchronisée avec le serveur de clé de Mailvelope.",
+        "message": "La clé n’est pas synchronisée avec le serveur de clés de Mailvelope.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_upload": {
@@ -856,7 +864,7 @@
         "description": "Title of revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "Après révocation, l’ID utilisateur de cet clé ne pourra plus jamais être utilisé",
+        "message": "Après révocation, l’ID utilisateur de cette clé ne pourra plus jamais être utilisé",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_confirmation": {
@@ -880,7 +888,7 @@
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "pour la suppression définitive du serveur de clés de Mailvelope, un courriel de confirmation a été envoyé à $1.",
+        "message": "Pour une suppression définitive sur le serveur de clés de Mailvelope, un courriel de confirmation a été envoyé à $1.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
@@ -956,7 +964,7 @@
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "La date d’expiration est aussi changée pour toutes les sous-clés. Les sous-clés invalides ou celles déjà expirées ne seront pas affectées.",
+        "message": "La date d’expiration est aussi réinitialisée pour toutes les sous-clés. Les sous-clés invalides ou celles déjà expirées ne seront pas affectées.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_title": {
@@ -1156,7 +1164,7 @@
         "description": "Main key in the PGP key."
     },
     "keygrid_default_label": {
-        "message": "Valeur par défaut",
+        "message": "Clé par défaut",
         "description": "Label for the default key"
     },
     "keygrid_private_keys": {
@@ -1308,7 +1316,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Une biclé (ensemble de deux clés) est exigée pour chiffrer, déchiffrer les courriels et pour inviter vos contacts à des communications chiffrées de bout en bout.",
+        "message": "Une biclé (ensemble de deux clés) est exigée pour chiffrer, déchiffrer les messages et pour inviter vos contacts à des communications chiffrées de bout en bout.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
@@ -1316,11 +1324,11 @@
         "description": "Setup heading if no keypair available"
     },
     "message_no_keys": {
-        "message": "Aucune clé privée n’a été trouvée pour ce courriel. Les ID de clé privée exigés sont : $1",
+        "message": "Aucune clé privée n’a été trouvée pour ce message. Les ID de clé privée exigés sont : $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Impossible de déchiffrer ce courriel : $1",
+        "message": "Impossible de déchiffrer ce message : $1",
         "description": "Message read error message: $1: error message."
     },
     "options_about": {
@@ -1376,7 +1384,7 @@
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour déchiffrer ce courriel.",
+        "message": "Veuillez saisir le mot de passe de votre clé pour déchiffrer ce message.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
@@ -1384,7 +1392,7 @@
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour signer ce courriel.",
+        "message": "Veuillez saisir le mot de passe de votre clé pour signer ce message.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
@@ -1440,7 +1448,7 @@
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "Sans sauvegarde, vos courriels chiffrés ne pourront pas être déchiffrés en cas de perte de votre mot de passe, si votre appareil est défectueux ou si vous éprouvez des problèmes avec l’extension pour navigateur.",
+        "message": "Sans sauvegarde, vos messages chiffrés ne pourront pas être déchiffrés en cas de perte de votre mot de passe, si votre appareil est défectueux ou si vous éprouvez des problèmes avec l’extension pour navigateur.",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
@@ -1452,7 +1460,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Les communications chiffrées avec [BRAND] sont une procédure fondée sur PGP. Elle vous permet d’envoyer des courriels chiffrés et garantit aussi que seuls vous et le destinataire puissiez les lire.",
+        "message": "Les communications chiffrées avec [BRAND] sont une procédure fondée sur PGP. Elle vous permet d’envoyer des courriels chiffrés et garantit aussi que seuls vous et le destinataire pouvez les lire.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1572,7 +1580,7 @@
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Les contacts GMX vous garantissent que les utilisateurs affichés sont bien des utilisateurs valides. Vous devriez cependant toujours vérifier l’identité de contacts utilisant une adresse courriel d’un autre fournisseur de services de courriel.",
+        "message": "Les contacts GMX vous garantissent que les utilisateurs affichés sont bien des utilisateurs valides. Vous devriez cependant toujours vérifier l’identité des contacts grâce à l’adresse courriel d’un autre service de courriel.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
@@ -1652,11 +1660,11 @@
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Où les courriels déchiffrés sont-ils affichés ?",
+        "message": "Où les messages déchiffrés sont-ils affichés ?",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "Sur la page du fournisseur de services de courriel.",
+        "message": "Sur la page du service de courriel.",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
@@ -1664,11 +1672,11 @@
         "description": "Decrypted message display option"
     },
     "security_openpgp_header": {
-        "message": "Paramètres d’OpenPGP",
+        "message": "Paramètres OpenPGP",
         "description": "OpenPGP settings header"
     },
     "security_hide_armored_head": {
-        "message": "Caché la version et le commentaire de Mailvelope dans les courriels PGP.",
+        "message": "Cacher la version et le commentaire de Mailvelope dans les messages PGP.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
@@ -1676,11 +1684,11 @@
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "Clic pour ajouter une pièce jointe",
+        "message": "Clic pour ajouter une fichier joint",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "Une pièce jointe a été téléchargée",
+        "message": "Un fichier joint a été téléchargé",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
@@ -1728,7 +1736,7 @@
         "description": "Encrypt form as an event source"
     },
     "security_log_encryption_operation": {
-        "message": "Le courriel a été chiffré pour : $1",
+        "message": "Le message a été chiffré pour : $1",
         "description": ""
     },
     "security_log_import_dialog": {
@@ -1756,7 +1764,7 @@
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "Une pièce jointe a été supprimée",
+        "message": "Un fichier joint a été supprimé",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
@@ -1764,7 +1772,7 @@
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Le courriel a été signé avec la clé :$1",
+        "message": "Le message a été signé avec la clé :$1",
         "description": ""
     },
     "security_log_signature_modal_close": {
@@ -1832,15 +1840,15 @@
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Signer le courriel avec la clé :",
+        "message": "Signer le message avec la clé :",
         "description": "Header of sign dialog."
     },
     "sign_error": {
-        "message": "Impossible de signer ce courriel :$1",
+        "message": "Impossible de signer ce message :$1",
         "description": "Error during signing process."
     },
     "text_compose_header": {
-        "message": "Rédiger un courriel",
+        "message": "Rédiger un message",
         "description": "Text encryption feature header"
     },
     "text_decrypt_button": {
@@ -1856,11 +1864,11 @@
         "description": "Navigation link to text encryption feature"
     },
     "text_paste_armored_header": {
-        "message": "Coller le courriel chiffré par PGP",
+        "message": "Coller le message chiffré par PGP",
         "description": "Text decryption armored block header"
     },
     "text_result_header": {
-        "message": "Courriel chiffré",
+        "message": "Message chiffré",
         "description": "Text encryption result header"
     },
     "upload_aborting_warning": {
@@ -1868,19 +1876,19 @@
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Ajouter une pièce jointe",
+        "message": "Ajouter une fichier joint",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_quota_exceeded_warning": {
-        "message": "Taille autorisée des pièces jointes :",
+        "message": "Taille autorisée des fichiers joints :",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "La pièce jointe est trop volumineuse",
+        "message": "Le fichier joint est trop volumineux",
         "description": ""
     },
     "verify_error": {
-        "message": "Impossible de vérifier ce courriel : $1",
+        "message": "Impossible de vérifier ce message : $1",
         "description": "Error during verification process."
     },
     "verify_result_error": {
@@ -1900,7 +1908,7 @@
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "waiting_dialog_prepare_email": {
-        "message": "Préparation de votre courriel",
+        "message": "Préparation de votre message",
         "description": "Message in the waiting dialog for quoting email"
     },
     "watchlist_command_create": {
@@ -1908,7 +1916,7 @@
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "Éditer",
+        "message": "Modifier",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
@@ -1940,7 +1948,7 @@
         "description": "Site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "HTTPS-seulement",
+        "message": "HTTPS seulement",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "word_or": {
