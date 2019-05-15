@@ -110,6 +110,18 @@
     },
     {
       "active": true,
+      "site": "freenet.de",
+      "https_only": true,
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.freenet.de",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "posteo.de",
       "https_only": true,
       "frames": [
@@ -261,7 +273,7 @@
       "secureBgndColorId": 0,
       "password_cache": true,
       "password_timeout": 30,
-      "hide_armored_header": false      
+      "hide_armored_header": false
     },
     "general": {
       "editor_type": "plain",

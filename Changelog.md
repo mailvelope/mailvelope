@@ -1,6 +1,18 @@
 Mailvelope Changelog
 ====================
 
+v3.2.0
+-------
+__May 15, 2019__
+
+  * Migrate to Bootstrap 4
+  * Add openpgp-email-read and openpgp-email-write web components
+  * Add query by email parameter to keyring.hasPrivateKey method
+  * Add basic Autocrypt integration
+  * Enable key lookup (Mailvelope key server, WKD, Autocrypt) for client-API calls
+  * Add freenet.de to default list of authorized domains
+  * Update OpenPGP.js to 4.5.1
+
 v3.1.0
 -------
 __Mar 11, 2019__
