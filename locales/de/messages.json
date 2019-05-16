@@ -611,7 +611,7 @@
     "message": "Auf Schlüssel Server nach öffentlichen Schlüsseln suchen.",
     "decryption": "Key search input."
   },
-  "key_import_search_btn": {
+  "key_import_hkp_search_btn": {
     "message": "Suchen",
     "decryption": "Key search input button."
   },
@@ -1256,10 +1256,6 @@
   "keyring_import_search_description": {
     "message": "Suche auf dem Schlüsselserver nach vorhandenen Kontakten.",
     "description": "Description of key search for search tab of keyring import."
-  },
-  "keyring_import_confirm_description": {
-    "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesen Kontakten eingerichtet:",
-    "description": "Description of keys confirm of keyring import."
   },
   "keyring_main": {
     "description": "Label for the main keyring",

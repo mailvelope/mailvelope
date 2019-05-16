@@ -585,11 +585,11 @@
   },
   "key_import_default_description": {
     "description": "Key import dialog description.",
-    "message": "Confirm to enable encrypted communication with this recipient."
+    "message": "Confirm to enable encrypted communication with this recipient:"
   },
   "key_import_default_headline": {
     "description": "Key import dialog header.",
-    "message": "Add contact to encrypted communication?"
+    "message": "Confirm key"
   },
   "key_import_dialog_header": {
     "description": "Key import dialog header.",
@@ -603,37 +603,9 @@
     "description": "Import error alert.",
     "message": "An error occurred while processing the keys"
   },
-  "key_import_extend_date": {
-    "description": "",
-    "message": "Created:"
-  },
-  "key_import_extend_description": {
-    "description": "Key import dialog description.",
-    "message": "The PGP fingerprint is used to uniquely identify the PGP key of your contact."
-  },
-  "key_import_extend_fingerprint": {
-    "description": "",
-    "message": "PGP Fingerprint:"
-  },
-  "key_import_extend_headline": {
-    "description": "Key import dialog description.",
-    "message": "Further information on encrypted communication:"
-  },
-  "key_import_extend_hint": {
-    "description": "",
-    "message": "Hint:"
-  },
   "key_import_file": {
     "message": "Import key from file",
     "description": "File selection label."
-  },
-  "key_import_file_select": {
-    "description": "File selection button label.",
-    "message": "Select a key text file to import"
-  },
-  "key_import_hkp_search": {
-      "message": "Key search",
-      "decryption": "Key search input."
   },
   "key_import_hkp_search_public": {
     "message": "Search for public keys on key server.",
@@ -657,19 +629,11 @@
   },
   "key_import_invalidated_description": {
     "description": "",
-    "message": "Encrypted communication with [CONTACT] is no longer possible. The contact needs to re-invite you."
-  },
-  "key_import_invalidated_headline": {
-    "description": "Key import dialog header.",
-    "message": "Warning: Necessary data for encrypted communication has expired."
-  },
-  "key_import_multiple_keys": {
-    "description": "Info message.",
-    "message": "Please insert one or multiple keys in text format here."
+    "message": "Warning: Necessary data for encrypted communication has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you."
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
-    "message": "Number of keys that could not be imported due to errors: $1"
+    "message": "$1 key(s) could not be imported due to errors."
   },
   "key_import_private_exists": {
     "description": "Import success message: $1: keyid, $2: userid.",
@@ -1263,6 +1227,10 @@
     "message": "Do you want to remove the keyring with ID: $1?",
     "description": "Confirmation message prompted when a keyring is deleted"
   },
+  "keyring_confirm_keys": {
+    "message": "Confirm $1 key(s)",
+    "description": "Tab of keyring to import keys."
+  },
   "keyring_display_keys": {
     "description": "Tab of keyring to display keys.",
     "message": "Display Keys"
@@ -1279,9 +1247,17 @@
     "description": "Header of the key ring.",
     "message": "Key Management"
   },
+  "keyring_import_description": {
+    "message": "You can add your contacts either as file or as text from the clipboard.",
+    "description": "Description of key import for import tab of keyring import."
+  },
   "keyring_import_keys": {
     "description": "Tab of keyring to import keys.",
-    "message": "Import Keys"
+    "message": "Add Keys"
+  },
+  "keyring_import_search_description": {
+    "message": "Search on the key server for existing contacts.",
+    "description": "Description of key search for search tab of keyring import."
   },
   "keyring_main": {
     "description": "Label for the main keyring",

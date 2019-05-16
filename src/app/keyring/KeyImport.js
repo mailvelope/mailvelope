@@ -6,7 +6,7 @@
 import {port, getAppDataSlot} from '../app';
 import {KeyringOptions} from './KeyringOptions';
 import * as l10n from '../../lib/l10n';
-import {normalizeArmored} from '../../lib/util';
+import {normalizeArmored, formatFpr} from '../../lib/util';
 import React from 'react';
 import PropTypes from 'prop-types';
 import KeySearch from './components/KeySearch';
@@ -30,9 +30,8 @@ l10n.register([
   'keyring_import_keys',
   'keyring_import_description',
   'keyring_import_search_description',
-  'keyring_import_search_description',
   'keyring_confirm_keys',
-  'keyring_import_confirm_description',
+  'key_import_default_description',
   'key_import_number_of_failed',
   'keygrid_keyid',
   'keygrid_user_name',
@@ -43,7 +42,7 @@ l10n.register([
   'form_import',
   'form_confirm',
   'form_import',
-  'key_import_search_btn'
+  'key_import_hkp_search_btn'
 ]);
 
 export default class KeyImport extends React.Component {
@@ -162,7 +161,7 @@ export default class KeyImport extends React.Component {
               <nav className="mt-3">
                 <div className="nav nav-tabs" id="nav-tab" role="tablist">
                   <a className="nav-item nav-link active" data-toggle="tab" href="#key-import" role="tab" aria-controls="nav-key-import" aria-selected="true">{l10n.map.form_import}</a>
-                  {!this.context.demail && <a className="nav-item nav-link" data-toggle="tab" href="#key-search" role="tab" aria-controls="nav-key-search" aria-selected="false">{l10n.map.key_import_search_btn}</a>}
+                  {!this.context.demail && <a className="nav-item nav-link" data-toggle="tab" href="#key-search" role="tab" aria-controls="nav-key-search" aria-selected="false">{l10n.map.key_import_hkp_search_btn}</a>}
                 </div>
               </nav>
               <div className="tab-content mt-4" id="nav-tabContent">
@@ -200,10 +199,10 @@ export default class KeyImport extends React.Component {
           ) : (
             <>
               <h4 className="card-title">{l10n.get('keyring_confirm_keys', [this.state.keys.length])}</h4>
-              <p>{l10n.map.keyring_import_confirm_description}</p>
+              <p>{l10n.map.key_import_default_description}</p>
               {this.state.invalid > 0 && <Alert header={l10n.map.alert_header_warning} type="danger">{l10n.get('key_import_number_of_failed', [this.state.invalid])}</Alert>}
               <div className="table-responsive">
-                <table className="table border" id="keyRingTable">
+                <table className="table border">
                   <thead>
                     <tr>
                       <th></th>
@@ -220,10 +219,10 @@ export default class KeyImport extends React.Component {
                           <td className={`text-center ${userIndex !== 0 ? 'border-top-0' : ''}`}>
                             {userIndex === 0 && <i className={`icon icon-${key.type === 'public' ? 'key' : 'keyPair'}`}></i>}
                           </td>
-                          <td className={`monospaced ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? key.keyId : ''}</td>
+                          <td className={`monospaced text-nowrap ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? key.keyId : ''}</td>
                           <td className={userIndex !== 0 ? 'border-top-0' : ''}>{user.name}</td>
                           <td className={`emailCell ${userIndex !== 0 ? 'border-top-0' : ''}`}>{user.email}</td>
-                          <td className={`monospaced text-muted ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? key.fingerprint : ''}</td>
+                          <td className={`monospaced text-muted ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? formatFpr(key.fingerprint) : ''}</td>
                         </tr>
                       )
                     )}

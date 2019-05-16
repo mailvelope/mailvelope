@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {showSecurityBackground} from '../../lib/util';
+import {showSecurityBackground, formatFpr} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
 import Spinner from '../util/Spinner';
 import Alert from '../util/Alert';
@@ -119,7 +119,7 @@ export default class ImportKey extends React.Component {
                             <thead>
                               <tr>
                                 <th></th>
-                                <th style={{minWidth: '140px'}}>{l10n.map.keygrid_keyid}</th>
+                                <th>{l10n.map.keygrid_keyid}</th>
                                 <th>{l10n.map.keygrid_user_name}</th>
                                 <th>{l10n.map.keygrid_user_email}</th>
                                 <th>{l10n.map.keygrid_key_fingerprint}</th>
@@ -131,10 +131,10 @@ export default class ImportKey extends React.Component {
                                   <td className={`align-middle ${userIndex !== 0 ? 'border-top-0' : ''}`}>
                                     {userIndex === 0 && <i className={`icon icon-${this.state.key.type === 'public' ? 'key' : 'keyPair'}`}></i>}
                                   </td>
-                                  <td className={`monospaced small text-break align-middle ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? this.state.key.keyId : ''}</td>
+                                  <td className={`monospaced text-nowrap small text-break align-middle ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? this.state.key.keyId : ''}</td>
                                   <td className={`align-middle ${userIndex !== 0 ? 'border-top-0' : ''}`}>{user.name}</td>
                                   <td className={`align-middle ${userIndex !== 0 ? 'border-top-0' : ''}`}>{user.email}</td>
-                                  <td style={{maxWidth: '180px'}} className={`monospaced text-muted small text-break align-middle ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? this.state.key.fingerprint : ''}</td>
+                                  <td style={{maxWidth: '180px'}} className={`monospaced text-muted small text-break align-middle ${userIndex !== 0 ? 'border-top-0' : ''}`}>{userIndex === 0 ? formatFpr(this.state.key.fingerprint) : ''}</td>
                                 </tr>
                               )}
                             </tbody>
