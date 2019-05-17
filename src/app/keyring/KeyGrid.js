@@ -133,9 +133,9 @@ export default class KeyGrid extends React.Component {
     }
     return (
       <div className="card-body">
-        <div className="card-title d-flex flex-wrap align-items-center w-100">
-          <h1 className="flex-shrink-0">{l10n.map.keyring_header}</h1>
-          <div className="ml-auto flex-shrink-0">
+        <div className="card-title d-flex flex-wrap align-items-center">
+          <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_header}</h1>
+          <div className="flex-shrink-0">
             <KeyringSelect keyringId={this.context.keyringId} keyringAttr={this.props.keyringAttr} onChange={this.props.onChangeKeyring} onDelete={this.props.onDeleteKeyring} prefs={this.props.prefs} />
           </div>
         </div>

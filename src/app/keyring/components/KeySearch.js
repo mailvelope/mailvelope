@@ -12,7 +12,6 @@ import {port} from '../../app';
 
 l10n.register([
   'key_import_hkp_search',
-  'key_import_hkp_search_public',
   'key_import_hkp_search_btn',
   'key_import_hkp_search_ph',
   'key_import_hkp_server',
@@ -48,7 +47,7 @@ export default class KeySearch extends React.Component {
           <div className="input-group">
             <input id="keySearchInput" type="text" className="form-control" ref={query => this.query = query} placeholder={l10n.map.key_import_hkp_search_ph} aria-describedby="keySearchInputHelpBlock" />
             <div className="input-group-append">
-              <button className="btn btn-secondary" type="submit">{l10n.map.key_import_hkp_search_btn}</button>
+              <button className="btn btn-primary" type="submit">{l10n.map.key_import_hkp_search_btn}</button>
             </div>
           </div>
           <span id="keySearchInputHelpBlock" className="form-text">

@@ -19,7 +19,8 @@ l10n.register([
   'key_export_create_file',
   'header_warning',
   'key_export_warning_private',
-  'key_export_dialog_copy_to_clipboard'
+  'key_export_dialog_copy_to_clipboard',
+  'dialog_popup_close'
 ]);
 
 export default class KeyExport extends React.Component {

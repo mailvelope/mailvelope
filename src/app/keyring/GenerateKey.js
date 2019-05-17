@@ -60,6 +60,7 @@ export default class GenerateKey extends React.Component {
       generating: false, // key generation in progress
       errors: {}, // form errors
       key: null, // generated key
+      modified: false
     };
   }
 
@@ -78,7 +79,7 @@ export default class GenerateKey extends React.Component {
       if (target.error) {
         errors[target.id] = new Error();
       }
-      return {[target.id]: value, errors};
+      return {[target.id]: value, errors, modified: true};
     });
   }
 
@@ -117,11 +118,11 @@ export default class GenerateKey extends React.Component {
     try {
       const newKey = await port.send('generateKey', {parameters, keyringId: this.context.keyringId});
       if (this.props.onKeyringChange) {
-        this.props.onKeyringChange();
+        await this.props.onKeyringChange();
       }
       this.setState({key: newKey}, () => this.props.onNotification({id: Date.now(), header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'}));
     } catch (error) {
-      this.setState({generating: false}, () => this.props.onNotification({id: Date.now(), header: l10n.map.key_gen_error, message: error.message, type: 'error'}));
+      this.setState({generating: false, modified: false}, () => this.props.onNotification({id: Date.now(), header: l10n.map.key_gen_error, message: error.message, type: 'error'}));
     }
   }
 
@@ -133,7 +134,15 @@ export default class GenerateKey extends React.Component {
     }
     return (
       <div className={`card-body ${this.state.generating ? 'busy' : ''}`}>
-        <h2 className="mb-4">{l10n.map.keyring_generate_key}</h2>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb bg-transparent p-0">
+            <li className="breadcrumb-item"><Link to='/keyring' replace tabIndex="0"><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
+          </ol>
+        </nav>
+        <div className="card-title d-flex flex-wrap align-items-center">
+          <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_generate_key}</h1>
+          <button type="button" onClick={this.handleGenerate} disabled={Object.keys(this.state.errors).length || !this.state.modified} className="btn btn-primary">{l10n.map.key_gen_generate}</button>
+        </div>
         <form className="form" autoComplete="off">
           <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} errors={this.state.errors} />
           <AdvancedExpand>
@@ -143,12 +152,6 @@ export default class GenerateKey extends React.Component {
           <div className={`form-group custom-control custom-checkbox ${this.context.demail ? 'd-none' : ''}`}>
             <input className="custom-control-input" checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" />
             <label className="custom-control-label" htmlFor="mveloKeyServerUpload"><span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
-          </div>
-          <div className="btn-bar">
-            <button onClick={this.handleGenerate} type="button" className="btn btn-primary">{l10n.map.key_gen_generate}</button>
-            <Link className="btn btn-secondary" to='/keyring' replace tabIndex="0">
-              <span>{l10n.map.form_back}</span>
-            </Link>
           </div>
         </form>
         <Modal isOpen={this.state.generating} title={l10n.map.key_gen_wait_header} onShow={this.generateKey} keyboard={false} hideFooter={true} onHide={() => this.setState({generating: false})}>

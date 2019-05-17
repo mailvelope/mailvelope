@@ -250,63 +250,68 @@ a.nav-link {
 
 // navbar
 nav {
-  &.navbar > .container  {
-    .navbar-brand {
-      margin-right: 2rem;
-    }
+  .navbar-brand {
+    margin-right: 2rem;
+  }
 
+  .navbar-nav {
+    &.navbar-tabs {
+      @include media-breakpoint-up(sm) {
+        flex-direction: row;
+        .nav-item {
+          .nav-link {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+          }
+        }
+      }
+    }
     .nav-item {
       .nav-link {
         font-family: $headings-font-family;
         font-size: 1rem;
         font-weight: 400;
         color: $gray-900;
-      }      
-    }
+        position: relative;
+        &:not(:last-child) {
+          @include media-breakpoint-up(md) {
+            margin-right: 1rem;
+          }          
+        }
 
-    &:first-child .nav-item {
-      position: relative;
-      &:not(:last-child) {
-        @include media-breakpoint-up(md) {
-          margin-right: 1rem;
-        }          
+        &::after {
+          content:' ';
+          position: absolute;
+          top: 92%;
+          left: 50%;
+          width: 50%;
+          height: 0.125rem;
+          background-color: transparent;
+          transform:translateX(-50%);
+        }
+        
+        &:hover {
+            color: $black;
+        }
       }
 
-      &::after {
-        content:' ';
-        position: absolute;
-        top: 92%;
-        left: 50%;
-        width: 50%;
-        height: 0.125rem;
-        background-color: transparent;
-        transform:translateX(-50%);
-      }
-      
-      &:hover {
-        .nav-link {
-          color: $black;
-        }                
-      }
-
-      // &:hover::after {
-      //   background-color: $black;
-      //   width: 40%;
-      // }
-      &.active {
-        .nav-link {
+      &.active .nav-link,
+      .nav-link.active {
           color: theme-color("primary");
           font-weight: 500;
-        }          
       }
 
-      &.active::after {
+      &.active .nav-link::after, 
+      .nav-link.active::after {
         @include media-breakpoint-up(md) {
           background-color: theme-color("primary");
         }        
       }
+
     }
+
   }
+
 }
 
 // nav-pills

@@ -671,6 +671,18 @@
     "description": "Key import dialog header.",
     "message": "Schlüssel zu Schlüsselbund hinzufügen"
   },
+  "key_import_contacts_import_btn": {
+    "message": "Kontakte importieren",
+    "description": "Contact import button label on key import page."
+  },
+  "key_import_from_text_btn": {
+    "message": "Schlüssel aus der Zwischenablage einfügen",
+    "description": "Import keys from clipboard button label on key import page."
+  },
+  "key_import_from_text_label": {
+    "message": "Text aus Zwischenablage",
+    "description": "Import keys from clipboard textarea label on key import page."
+  },
   "key_import_error": {
     "description": "Import error alert.",
     "message": "Importfehler."
@@ -683,9 +695,9 @@
     "description": "Import error alert.",
     "message": "Während der Verarbeitung der Schlüssel ist ein Ausnahmefall aufgetreten"
   },
-  "key_import_file": {
-    "description": "File selection label.",
-    "message": "Schlüssel importieren aus Datei"
+  "key_import_file_label": {
+    "message": "Dateien auswählen",
+    "description": "File selection label."
   },
   "key_import_hkp_search_btn": {
     "decryption": "Key search input button.",
@@ -1158,8 +1170,20 @@
     "message": "Schlüssel erstellen"
   },
   "keyring_header": {
-    "description": "Header of the key ring.",
-    "message": "Schlüsselverwaltung"
+    "message": "Schlüsselverwaltung",
+    "description": "Header of the key ring."
+  },
+  "keyring_import_keys": {
+    "message": "Schlüssel hinzufügen",
+    "description": "Tab of keyring to import keys."
+  },
+  "keyring_confirm_keys": {
+    "message": "Schlüssel bestätigen",
+    "description": "Tab of keyring to import keys."
+  },
+  "keyring_confirm_keys_plural": {
+    "message": "$1 Schlüssel bestätigen",
+    "description": "Tab of keyring to import keys."
   },
   "keyring_import_description": {
     "description": "Description of key import for import tab of keyring import.",
