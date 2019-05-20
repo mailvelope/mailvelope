@@ -31,8 +31,10 @@ l10n.register([
   'keyring_import_description',
   'keyring_import_search_description',
   'keyring_confirm_keys',
+  'keyring_confirm_keys_plural',
   'key_import_default_description',
   'key_import_number_of_failed',
+  'key_import_number_of_failed_plural',
   'keygrid_keyid',
   'keygrid_user_name',
   'keygrid_user_email',
@@ -198,9 +200,9 @@ export default class KeyImport extends React.Component {
             </>
           ) : (
             <>
-              <h4 className="card-title">{l10n.get('keyring_confirm_keys', [this.state.keys.length])}</h4>
+              <h4 className="card-title">{this.state.keys.length > 1 ? l10n.get('keyring_confirm_keys_plural', [this.state.keys.length]) : l10n.map.keyring_confirm_keys}</h4>
               <p>{l10n.map.key_import_default_description}</p>
-              {this.state.invalid > 0 && <Alert header={l10n.map.alert_header_warning} type="danger">{l10n.get('key_import_number_of_failed', [this.state.invalid])}</Alert>}
+              {this.state.invalid > 0 && <Alert header={l10n.map.alert_header_warning} type="danger">{this.state.invalid > 1 ? l10n.get('key_import_number_of_failed_plural', [this.state.invalid]) : l10n.map.key_import_number_of_failed}</Alert>}
               <div className="table-responsive">
                 <table className="table border">
                   <thead>

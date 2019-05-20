@@ -633,7 +633,11 @@
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
-    "message": "$1 key(s) could not be imported due to errors."
+    "message": "Key could not be imported due to errors."
+  },
+  "key_import_number_of_failed_plural": {
+    "description": "Error message with number of failed imports.",
+    "message": "$1 keys could not be imported due to errors."
   },
   "key_import_private_exists": {
     "description": "Import success message: $1: keyid, $2: userid.",
@@ -1228,7 +1232,11 @@
     "description": "Confirmation message prompted when a keyring is deleted"
   },
   "keyring_confirm_keys": {
-    "message": "Confirm $1 key(s)",
+    "message": "Confirm key",
+    "description": "Tab of keyring to import keys."
+  },
+  "keyring_confirm_keys_plural": {
+    "message": "Confirm $1 keys",
     "description": "Tab of keyring to import keys."
   },
   "keyring_display_keys": {

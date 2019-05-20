@@ -633,7 +633,11 @@
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
-    "message": "$1 Schlüssel war(en) fehlerhaft und konnte(n) nicht eingelesen werden."
+    "message": "Schlüssel war fehlerhaft und konnte nicht eingelesen werden."
+  },
+  "key_import_number_of_failed_plural": {
+    "description": "Error message with number of failed imports.",
+    "message": "$1 Schlüssel waren fehlerhaft und konnten nicht eingelesen werden."
   },
   "key_import_private_exists": {
     "message": "Der private Teilschlüssel des bestehenden öffentlichen Schlüssels $1 des Benutzers $2 wurde in den Schlüsselbund importiert",
@@ -1246,6 +1250,10 @@
     "description": "Tab of keyring to import keys."
   },
   "keyring_confirm_keys": {
+    "message": "Schlüssel bestätigen",
+    "description": "Tab of keyring to import keys."
+  },
+  "keyring_confirm_keys_plural": {
     "message": "$1 Schlüssel bestätigen",
     "description": "Tab of keyring to import keys."
   },
