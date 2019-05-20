@@ -8,16 +8,17 @@
   color: $gray-900;
 
   .modal {
-    padding: 3rem;
+    padding: 2.75rem;
   }
 
   &.embedded {
     .modal {
       padding: 1rem;
-      .modal-content {
-        background-color: rgba($white, 0.8);
-      }
     }
+  }
+
+  .modal-content {
+    background-color: rgba($white, 0.8);
   }
 
   .editor-body .plain-text iframe {

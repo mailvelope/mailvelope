@@ -15,38 +15,34 @@ export default class VerifyController extends SubController {
     this.keyringId = getPreferredKeyringId();
     this.verifyPopup = null;
     // register event handlers
-    this.on('verify-inline-init', this.onVerifyInit);
-    this.on('verify-popup-init', this.onVerifyInit);
+    this.on('decrypt-message-init', this.onVerifyInit);
+    this.on('decrypt-dialog-cancel', this.onCancel);
+    this.on('decrypt-inline-user-input', msg => uiLog.push(msg.source, msg.type));
     this.on('vframe-display-popup', this.onDisplayPopup);
     this.on('vframe-armored-message', this.onArmoredMessage);
-    this.on('verify-dialog-cancel', this.onCancel);
-    this.on('verify-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
   onVerifyInit() {
     this.ports.vFrame.emit('armored-message');
   }
 
-  onDisplayPopup() {
-    mvelo.windows.openPopup(`components/verify-popup/verifyPopup.html?id=${this.id}`, {width: 742, height: 550})
-    .then(popup => {
-      this.verifyPopup = popup;
-      popup.addRemoveListener(() => {
-        this.ports.vFrame.emit('remove-dialog');
-        this.verifyPopup = null;
-      });
+  async onDisplayPopup() {
+    this.verifyPopup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
+    this.verifyPopup.addRemoveListener(() => {
+      this.ports.vFrame.emit('remove-dialog');
+      this.verifyPopup = null;
     });
   }
 
   async onArmoredMessage(msg) {
     try {
       const {data, signatures} = await verifyMessage({armored: msg.data, keyringId: this.keyringId});
-      this.ports.vDialog.emit('verified-message', {
+      this.ports.dDialog.emit('verified-message', {
         message: data,
         signers: signatures
       });
     } catch (e) {
-      this.ports.vDialog.emit('error-message', {error: e.message});
+      this.ports.dDialog.emit('error-message', {error: e.message});
     }
   }
 

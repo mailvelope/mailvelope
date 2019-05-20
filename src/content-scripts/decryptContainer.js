@@ -25,7 +25,7 @@ export default class DecryptContainer {
       this.armored = armored;
       this.parent = document.querySelector(this.selector);
       this.container = document.createElement('iframe');
-      const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}&isContainer=true`);
+      const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=true`);
       this.container.setAttribute('src', url);
       this.container.setAttribute('frameBorder', 0);
       this.container.setAttribute('scrolling', 'no');

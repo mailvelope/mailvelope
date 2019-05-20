@@ -362,6 +362,7 @@ export default class Editor extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
         {!this.props.embedded && (
           <>
             <BlurWarning ref={node => this.blurWarning = node} />

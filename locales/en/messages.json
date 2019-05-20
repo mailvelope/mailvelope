@@ -107,6 +107,10 @@
     "description": "Dashboard view security logs link",
     "message": "Security logs"
   },
+  "decrypt_attachment_label": {
+    "description": "Label for attachments in decrypted message",
+    "message": "Attachements"
+  },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
     "message": "Digitally signed"
@@ -151,6 +155,10 @@
     "description": "Title of decrypt popup.",
     "message": "Decrypted Message"
   },
+  "decrypt_signer_label": {
+    "description": "Label for signature line in decrypted message",
+    "message": "Sender"
+  },
   "decrypt_text_area_label": {
     "description": "Label of textarea to paste armored block in on decrypt page.",
     "message": "Text to decrypt"
@@ -166,10 +174,6 @@
   "dialog_cancel_btn": {
     "description": "Dialog cancel button label",
     "message": "Cancel"
-  },
-  "dialog_keyid_label": {
-    "description": "Label for key ID.",
-    "message": "Key ID:"
   },
   "dialog_no_btn": {
     "description": "Dialog no button label",
@@ -659,6 +663,10 @@
     "description": "Wait dialog info message",
     "message": "Please wait, key generation can take up to several minutes depending on various factors, such as the key size."
   },
+  "key_import_contacts_import_btn": {
+    "description": "Contact import button label on key import page.",
+    "message": "Import contacts"
+  },
   "key_import_default_description": {
     "description": "Key import dialog description.",
     "message": "Confirm to enable encrypted communication with this recipient:"
@@ -670,18 +678,6 @@
   "key_import_dialog_header": {
     "description": "Key import dialog header.",
     "message": "Add key to keyring"
-  },
-  "key_import_contacts_import_btn": {
-    "message": "Import contacts",
-    "description": "Contact import button label on key import page."
-  },
-  "key_import_from_text_btn": {
-    "message": "Import key from clipboard",
-    "description": "Import keys from clipboard button label on key import page."
-  },
-  "key_import_from_text_label": {
-    "message": "Text from clipboard",
-    "description": "Import keys from clipboard textarea label on key import page."
   },
   "key_import_error": {
     "description": "Import error alert.",
@@ -696,8 +692,16 @@
     "message": "An error occurred while processing the keys"
   },
   "key_import_file_label": {
-    "message": "Select files",
-    "description": "File selection label."
+    "description": "File selection label.",
+    "message": "Select files"
+  },
+  "key_import_from_text_btn": {
+    "description": "Import keys from clipboard button label on key import page.",
+    "message": "Import key from clipboard"
+  },
+  "key_import_from_text_label": {
+    "description": "Import keys from clipboard textarea label on key import page.",
+    "message": "Text from clipboard"
   },
   "key_import_hkp_search_btn": {
     "decryption": "Key search input button.",
@@ -1174,18 +1178,6 @@
   "keyring_header": {
     "description": "Header of the key ring.",
     "message": "Key Management"
-  },
-  "keyring_import_keys": {
-    "message": "Add key",
-    "description": "Tab of keyring to import keys."
-  },
-  "keyring_confirm_keys": {
-    "message": "Confirm key",
-    "description": "Tab of keyring to import keys."
-  },
-  "keyring_confirm_keys_plural": {
-    "message": "Confirm $1 keys",
-    "description": "Tab of keyring to import keys."
   },
   "keyring_import_description": {
     "description": "Description of key import for import tab of keyring import.",
@@ -1958,18 +1950,6 @@
   "verify_error": {
     "description": "Error during verification process.",
     "message": "Could not verify this message: $1"
-  },
-  "verify_result_error": {
-    "description": "Verfiy signature error. Wrong signature of [userid].",
-    "message": "Invalid signature of"
-  },
-  "verify_result_success": {
-    "description": "Verfiy signature succeeded.",
-    "message": "Signed by"
-  },
-  "verify_result_warning": {
-    "description": "Verfiy signature warning.",
-    "message": "Signed with an unknown key"
   },
   "waiting_dialog_decryption_failed": {
     "description": "Error message in the waiting dialog after failing to decrypt a message",

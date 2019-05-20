@@ -23,7 +23,7 @@ function init() {
   // component id
   const id = query.get('id' || '');
   // component used as a container (client API)
-  const isContainer = Boolean(query.get('isContainer') || '');
+  const embedded = Boolean(query.get('embedded') || '');
   const root = document.createElement('div');
-  ReactDOM.render(<DecryptMessage id={id} isContainer={isContainer} />, document.body.appendChild(root));
+  ReactDOM.render(<DecryptMessage id={id} embedded={embedded} />, document.body.appendChild(root));
 }

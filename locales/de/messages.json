@@ -107,6 +107,10 @@
     "description": "Dashboard view security logs link",
     "message": "Sicherheitsprotokolle"
   },
+  "decrypt_attachment_label": {
+    "description": "Label for attachments in decrypted message",
+    "message": "Anhänge"
+  },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
     "message": "Digital unterschrieben"
@@ -151,6 +155,10 @@
     "description": "Title of decrypt popup.",
     "message": "Entschlüsselte Nachricht"
   },
+  "decrypt_signer_label": {
+    "description": "Label for signature line in decrypted message",
+    "message": "Absender"
+  },
   "decrypt_text_area_label": {
     "description": "Label of textarea to paste armored block in on decrypt page.",
     "message": "Zu entschlüsselnder Text"
@@ -166,10 +174,6 @@
   "dialog_cancel_btn": {
     "description": "Dialog cancel button label",
     "message": "Abbrechen"
-  },
-  "dialog_keyid_label": {
-    "description": "Label for key ID.",
-    "message": "Schlüssel:"
   },
   "dialog_no_btn": {
     "description": "Dialog no button label",
@@ -659,6 +663,10 @@
     "description": "Wait dialog info message",
     "message": "Bitte warten, die Schlüsselerstellung kann mehrere Minuten dauern, abhängig von Faktoren wie der Schlüsselgröße."
   },
+  "key_import_contacts_import_btn": {
+    "description": "Contact import button label on key import page.",
+    "message": "Kontakte importieren"
+  },
   "key_import_default_description": {
     "description": "Key import dialog description.",
     "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet:"
@@ -670,18 +678,6 @@
   "key_import_dialog_header": {
     "description": "Key import dialog header.",
     "message": "Schlüssel zu Schlüsselbund hinzufügen"
-  },
-  "key_import_contacts_import_btn": {
-    "message": "Kontakte importieren",
-    "description": "Contact import button label on key import page."
-  },
-  "key_import_from_text_btn": {
-    "message": "Schlüssel aus der Zwischenablage einfügen",
-    "description": "Import keys from clipboard button label on key import page."
-  },
-  "key_import_from_text_label": {
-    "message": "Text aus Zwischenablage",
-    "description": "Import keys from clipboard textarea label on key import page."
   },
   "key_import_error": {
     "description": "Import error alert.",
@@ -696,8 +692,16 @@
     "message": "Während der Verarbeitung der Schlüssel ist ein Ausnahmefall aufgetreten"
   },
   "key_import_file_label": {
-    "message": "Dateien auswählen",
-    "description": "File selection label."
+    "description": "File selection label.",
+    "message": "Dateien auswählen"
+  },
+  "key_import_from_text_btn": {
+    "description": "Import keys from clipboard button label on key import page.",
+    "message": "Schlüssel aus der Zwischenablage einfügen"
+  },
+  "key_import_from_text_label": {
+    "description": "Import keys from clipboard textarea label on key import page.",
+    "message": "Text aus Zwischenablage"
   },
   "key_import_hkp_search_btn": {
     "decryption": "Key search input button.",
@@ -1170,20 +1174,8 @@
     "message": "Schlüssel erstellen"
   },
   "keyring_header": {
-    "message": "Schlüsselverwaltung",
-    "description": "Header of the key ring."
-  },
-  "keyring_import_keys": {
-    "message": "Schlüssel hinzufügen",
-    "description": "Tab of keyring to import keys."
-  },
-  "keyring_confirm_keys": {
-    "message": "Schlüssel bestätigen",
-    "description": "Tab of keyring to import keys."
-  },
-  "keyring_confirm_keys_plural": {
-    "message": "$1 Schlüssel bestätigen",
-    "description": "Tab of keyring to import keys."
+    "description": "Header of the key ring.",
+    "message": "Schlüsselverwaltung"
   },
   "keyring_import_description": {
     "description": "Description of key import for import tab of keyring import.",
@@ -1956,18 +1948,6 @@
   "verify_error": {
     "description": "Error during verification process.",
     "message": "Diese Nachricht konnte nicht überprüft werden: $1"
-  },
-  "verify_result_error": {
-    "description": "Verfiy signature error. Wrong signature of [userid].",
-    "message": "Falsche Signatur von"
-  },
-  "verify_result_success": {
-    "description": "Verfiy signature succeeded.",
-    "message": "Signiert von"
-  },
-  "verify_result_warning": {
-    "description": "Verfiy signature warning.",
-    "message": "Mit unbekanntem Schlüssel signiert"
   },
   "waiting_dialog_decryption_failed": {
     "description": "Error message in the waiting dialog after failing to decrypt a message",

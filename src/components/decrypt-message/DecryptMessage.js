@@ -6,20 +6,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {showSecurityBackground, getHash, str2ab, terminate} from '../../lib/util';
+import {encodeHTML, getHash, str2ab, terminate} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
 import ContentSandbox from './components/ContentSandbox';
-import SignatureModal from './components/SignatureModal';
 import {FileDownloadPanel} from '../util/FilePanel';
+import SecurityBG from '../util/SecurityBG';
 import Modal from '../util/Modal';
 import Alert from '../util/Alert';
 import Spinner from '../util/Spinner';
 
-import './DecryptMessage.css';
+import './DecryptMessage.scss';
 
 // register language strings
 l10n.register([
   'alert_header_error',
+  'decrypt_signer_label',
+  'decrypt_attachment_label',
   'decrypt_digital_signature',
   'decrypt_digital_signature_failure',
   'decrypt_digital_signature_null',
@@ -36,7 +38,8 @@ export default class DecryptMessage extends React.Component {
       waiting: true,
       files: [],
       error: null,
-      showError: false
+      showError: false,
+      pwdDialog: null
     };
     this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
     this.registerEventListeners();
@@ -44,18 +47,28 @@ export default class DecryptMessage extends React.Component {
     this.port.emit('decrypt-message-init');
   }
 
-  componentDidMount() {
-    if (this.props.secureBackground) {
-      showSecurityBackground(this.port, true);
-    }
-  }
-
   registerEventListeners() {
     this.port.on('decrypted-message', this.onDecryptedMessage);
+    this.port.on('verified-message', this.onVerifiedMessage);
     this.port.on('add-decrypted-attachment', this.onDecryptedAttachment);
     this.port.on('signature-verification', this.onSignatureVerification);
     this.port.on('error-message', this.showErrorMsg);
+    this.port.on('show-pwd-dialog', this.onShowPwdDialog);
+    this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('terminate', () => terminate(this.port));
+  }
+
+  onShowPwdDialog(msg) {
+    this.setState({pwdDialog: msg, waiting: false, error: null});
+  }
+
+  onHidePwdDialog() {
+    this.setState({pwdDialog: null, waiting: true});
+  }
+
+  onVerifiedMessage(msg) {
+    this.onSignatureVerification(msg);
+    this.setState({message: encodeHTML(msg.message), waiting: false});
   }
 
   onDecryptedMessage({message}) {
@@ -130,55 +143,77 @@ export default class DecryptMessage extends React.Component {
     this.logUserInput('security_log_signature_modal_close');
   }
 
-  signatureButton() {
-    let caption;
+  signatureStatus() {
+    let labelClass;
+    let labelText;
     if (!this.state.signer) {
       return null;
     }
-    if (this.state.signer.valid) {
-      caption = l10n.map.decrypt_digital_signature;
-    } else if (this.state.signer.valid === false) {
-      caption = l10n.map.decrypt_digital_signature_failure;
-    } else if (this.state.signer.valid === null) {
-      caption = l10n.map.decrypt_digital_signature_null;
+    switch (this.state.signer.valid) {
+      case true:
+        labelClass = 'success';
+        labelText = l10n.map.decrypt_digital_signature;
+        break;
+      case false:
+        labelClass = 'danger';
+        labelText = l10n.map.decrypt_digital_signature_failure;
+        break;
+      default:
+        labelClass = 'warning';
+        labelText = l10n.map.decrypt_digital_signature_null;
     }
     return (
-      <div className="rounded" style={{background: 'rgba(255,255,255,.5)', padding: '0.1rem 0.2rem', fontSize: '80%'}}>
-        <a role="button" id="sigBtn" className="text-decoration-none" href="#" onClick={() => this.onClickSignature()}>{caption}</a>
-      </div>
+      <span className={`${labelClass} text-nowrap`}><span className={`icon icon-marker text-${labelClass}`} aria-hidden="true"></span> {labelText}</span>
     );
   }
 
   render() {
     return (
-      <div className={this.props.secureBackground && !this.state.waiting ? 'secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
+      <SecurityBG className={`decrypt-msg ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
         {this.state.waiting && <Spinner style={{margin: '160px auto 0'}} />}
-        <div className={`decrypt-msg fade ${this.state.waiting ? '' : 'show'} d-flex flex-column align-content-center h-100`}>
-          <div className="decrypt-msg-header d-flex overflow-auto justify-content-end align-items-center mb-2 w-100">
-            <div className={`${!this.props.secureBackground && !this.state.files.length ? 'd-none' : ''} mr-auto`}>
-              <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+        <div className="modal d-block" style={{zIndex: 1035}}>
+          <div className="modal-dialog h-100 mw-100 m-0">
+            <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
+              {this.state.signer && (
+                <div className="modal-header flex-column border-0 flex-shrink-0">
+                  <div className="signature d-flex align-items-center justify-content-start flex-wrap w-100">
+                    <label className="mb-0 mr-3">{l10n.map.decrypt_signer_label}</label>
+                    <Alert type="info" className="my-2 mr-auto flex-shrink-1">
+                      <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
+                      <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
+                    </Alert>
+                    {this.signatureStatus()}
+                  </div>
+                  {this.props.embedded && this.state.files.length > 0  && (
+                    <div className="files d-flex justify-content-start align-items-center">
+                      <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
+                      <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+                    </div>
+                  )}
+                </div>
+              )}
+              <div className="modal-body overflow-auto">
+                <div className="plain-text w-100 h-100">
+                  <ContentSandbox value={this.state.message} />
+                </div>
+              </div>
+              {!this.props.embedded && this.state.files.length > 0  && (
+                <div className="modal-footer justify-content-start flex-shrink-0">
+                  <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
+                  <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+                </div>
+              )}
             </div>
-            {!this.props.isContainer && this.signatureButton()}
-            {this.props.secureBackground &&
-              <button type="button" className="btn btn-link secureBgndSettingsBtn lockBtnIcon flex-shrink-0" onClick={() => this.port.emit('open-security-settings')} title={l10n.map.security_background_button_title}></button>
-            }
-          </div>
-          <div className="decrypt-msg-body flex-grow-1 mb-2 w-100">
-            <div className="plain-text w-100 h-100">
-              <ContentSandbox value={this.state.message} />
-            </div>
-          </div>
-          <div className="decrypt-msg-footer d-flex align-items-center justify-content-end">
-            {this.props.isContainer && this.signatureButton()}
           </div>
         </div>
+        {this.state.pwdDialog && <iframe className="decrypt-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
         {this.state.error &&
           <Modal isOpen={this.state.showError} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} title={this.state.error.header} onHide={() => this.handleCancel()} hideFooter={true}>
             <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
           </Modal>
         }
-        <SignatureModal isOpen={this.state.showSig} toggle={() => this.setState(prevState => ({showSig: !prevState.showSig}))} signer={this.state.signer} onHide={() => this.handleSignatureModalHide()} />
-      </div>
+        {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
+      </SecurityBG>
     );
   }
 }
@@ -186,7 +221,7 @@ export default class DecryptMessage extends React.Component {
 DecryptMessage.propTypes = {
   id: PropTypes.string,
   secureBackground: PropTypes.bool,
-  isContainer: PropTypes.bool
+  embedded: PropTypes.bool
 };
 
 DecryptMessage.defaultProps = {

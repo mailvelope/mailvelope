@@ -66,7 +66,7 @@ export default class VerifyFrame extends ExtractFrame {
       frameBorder: 0,
       scrolling: 'no'
     });
-    const url = chrome.runtime.getURL(`components/verify-inline/verifyInline.html?id=${this.id}`);
+    const url = chrome.runtime.getURL(`components/decrypt-message/decryptMessage.html?id=${this.id}`);
     this.vDialog.attr('src', url);
     this.eFrame.append(this.vDialog);
     this.setFrameDim();
