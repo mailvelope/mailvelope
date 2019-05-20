@@ -8,7 +8,6 @@ import {getHash, MvError} from '../lib/util';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {mapKeys, cloneKey, parseUserId} from '../modules/key';
-import * as keyringSync from '../modules/keyringSync';
 import * as openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';
 import {getLastModifiedDate} from '../modules/key';
@@ -85,6 +84,15 @@ export default class ImportController extends sub.SubController {
         throw new Error(this.keys.err[0].message);
       }
       this.key = this.keys.keys[0];
+      if (this.keys.keys.length > 1) {
+        console.log('Multiple keys detected during key import, only first key is imported.');
+        // only import first key in armored block
+        this.armored = this.key.armor();
+      }
+      if (await this.key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid) {
+        throw new Error('Key is invalid.');
+      }
+      // collect key details
       [this.keyDetails] = await mapKeys(this.keys.keys);
       if (this.keyDetails.type === 'private') {
         throw new Error('Import of private keys not allowed.');
@@ -101,14 +109,6 @@ export default class ImportController extends sub.SubController {
         users.push(uiUser);
       }
       this.keyDetails.users = users;
-      if (this.keys.keys.length > 1) {
-        console.log('Multiple keys detected during key import, only first key is imported.');
-        // only import first key in armored block
-        this.armored = this.key.armor();
-      }
-      if (await this.key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid) {
-        throw new Error('Key is invalid.');
-      }
       // check if key already in keyring
       const fingerprint = this.key.primaryKey.getFingerprint();
       let stockKey = this.keyring.keystore.getKeysForId(fingerprint);
@@ -125,41 +125,28 @@ export default class ImportController extends sub.SubController {
 
   async updateKey(fingerprint, stockKey, newKey) {
     const statusBefore = await stockKey.verifyPrimaryKey();
-    const beforeLastModified = getLastModifiedDate(stockKey);
     // clone key to check how update would affect validity of key
     const stockKeyClone = await cloneKey(stockKey);
     await stockKeyClone.update(newKey);
     const statusAfter = await stockKeyClone.verifyPrimaryKey();
-    const afterLastModified = getLastModifiedDate(stockKeyClone);
-    let status;
-    if (beforeLastModified.valueOf() === afterLastModified.valueOf()) {
-      // key does not change, we still reply with status UPDATED
-      // -> User will not be notified
-      return 'UPDATED';
-    }
-    if (statusBefore !== openpgp.enums.keyStatus.valid &&
-        statusAfter === openpgp.enums.keyStatus.valid) {
-      // an invalid key gets status valid due to this key import
-      // -> User confirmation required
-      status = await this.openPopup();
-    }
-    if (status === 'REJECTED') {
-      return status;
-    }
-    await stockKey.update(newKey);
-    this.keyring.sync.add(fingerprint, keyringSync.UPDATE);
-    await this.keyring.keystore.store();
-    await this.keyring.sync.commit();
-    if (statusBefore === openpgp.enums.keyStatus.valid &&
-        statusAfter !== openpgp.enums.keyStatus.valid) {
-      // the key import changes the status of the key to not valid
-      // -> User will be notified
-      this.invalidated = true;
+    if (statusBefore !== statusAfter) {
+      // key validity changes -> User confirmation required
+      if (statusAfter !== openpgp.enums.keyStatus.valid) {
+        this.invalidated = true;
+      }
       return this.openPopup();
-    } else {
-      // update is non-critical, no user confirmation required
-      return 'UPDATED';
     }
+    const beforeLastModified = getLastModifiedDate(stockKey);
+    const afterLastModified = getLastModifiedDate(stockKeyClone);
+    if (beforeLastModified.valueOf() !== afterLastModified.valueOf()) {
+      // update is non-critical, no user confirmation required
+      const [importResult] = await this.keyring.importKeys([{type: 'public', armored: this.armored}]);
+      if (importResult.type === 'error') {
+        throw new Error(importResult.message);
+      }
+    }
+    // even if key does not change, we still reply with status UPDATED -> User will not be notified
+    return 'UPDATED';
   }
 
   openPopup() {
