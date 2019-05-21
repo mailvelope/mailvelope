@@ -7,8 +7,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {port, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
-
-import './watchList.css';
 import WatchListEditor from './components/watchListEditor';
 
 l10n.register([

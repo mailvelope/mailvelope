@@ -53,7 +53,7 @@ class ActionMenuWrapper extends Component {
       <div className={`action-menu ${this.state.isSetupDone ? '' : 'action-menu-setup'}`}>
         <div className="action-menu-wrapper card">
           <div className="action-menu-header card-header d-flex">
-            <img src="../../img/mailvelope/logo.svg" width="111" height="20" className="d-inline-block mr-auto" alt="" />
+            <img src="../../img/Mailvelope/logo.svg" width="111" height="20" className="d-inline-block mr-auto" alt="" />
             <div className="nav-right">
               {this.state.isSetupDone && <a id="options" onClick={e => this.onMenuItemClick(e)} tabIndex="0" title={l10n.map.action_menu_all_options}><span className="icon icon-settings" aria-hidden="true"></span></a>}
               <a href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0" title={l10n.map.action_menu_help}><span className="icon icon-help" aria-hidden="true"></span></a>

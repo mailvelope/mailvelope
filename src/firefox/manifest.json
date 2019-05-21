@@ -11,15 +11,15 @@
   "homepage_url":"https://www.mailvelope.com",
   "manifest_version": 2,
   "icons": {
-    "16": "img/mailvelope/logo_signet.svg",
-    "48": "img/mailvelope/logo_signet.svg",
-    "64": "img/mailvelope/logo_signet.svg",
-    "96": "img/mailvelope/logo_signet.svg",
-    "128": "img/mailvelope/logo_signet.svg"
+    "16": "img/Mailvelope/logo_signet.svg",
+    "48": "img/Mailvelope/logo_signet.svg",
+    "64": "img/Mailvelope/logo_signet.svg",
+    "96": "img/Mailvelope/logo_signet.svg",
+    "128": "img/Mailvelope/logo_signet.svg"
   },
   "browser_action": {
     "browser_style": false,
-    "default_icon": "img/mailvelope/logo_signet.svg",
+    "default_icon": "img/Mailvelope/logo_signet.svg",
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/action-menu/actionMenu.html"
   },
@@ -46,7 +46,6 @@
     "components/encrypted-form/encryptedForm.html",
     "components/verify-inline/verifyInlineSig.css",
     "content-scripts/framestyles.css",
-    "dep/font-awesome/fonts/fontawesome-webfont.woff2",    
     "img/edit_add-22.png",
     "img/key-24.png",
     "img/key-icon-blue96.png",
@@ -57,7 +56,6 @@
     "img/mail_new.png",
     "img/ok48.png",
     "img/verify-24.png",
-    "res/fonts/Courgette-Regular.woff2",
     "main.css"
   ],
   "default_locale": "en"

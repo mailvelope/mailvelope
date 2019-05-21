@@ -24,7 +24,7 @@
     "description": "File encryption label in the action menu"
   },
   "action_menu_file_encryption_description": {
-    "message": "Eine oder mehrere Datei(en) verschlüsseln.",
+    "message": "Eine oder mehrere Dateien verschlüsseln.",
     "description": "File encryption description in the action menu"
   },
   "action_menu_keyring_label": {
@@ -95,10 +95,6 @@
     "description": "Dashboard encrypt decrypt files link",
     "message": "Verschlüsselung"
   },
-  "dashboard_link_help": {
-    "description": "Dashboard help link",
-    "message": "Hilfe"
-  },
   "dashboard_link_manage_domains": {
     "description": "Dashboard manage domains link",
     "message": "Autorisierte Domains"
@@ -110,10 +106,6 @@
   "dashboard_link_view_security_log": {
     "description": "Dashboard view security logs link",
     "message": "Sicherheitsprotokolle"
-  },
-  "dashboard_title": {
-    "description": "Dashboard view header",
-    "message": "Übersicht"
   },
   "decrypt_digital_signature": {
     "message": "Digital unterschrieben",

@@ -6,7 +6,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
-// import Trans from '../util/Trans';
 import './InstallLandingPage.scss';
 
 l10n.register([
@@ -31,10 +30,10 @@ function InstallLandingPage() {
       <div className="d-flex d-flex justify-content-center">
         <div className="w-100"></div>
         <div className="jumbotron align-self-end mb-0 fle">
-          <img src="../../img/mailvelope/logo.svg" width="336" alt="" />
+          <img src="../../img/Mailvelope/logo.svg" width="336" alt="" />
         </div>
         <div id="arrow" className="w-100">
-          <img src="../../img/mailvelope/corner-arrow.svg" width="100%" alt="" />
+          <img src="../../img/Mailvelope/corner-arrow.svg" width="100%" alt="" />
         </div>
       </div>
     </main>

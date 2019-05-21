@@ -1,14 +1,11 @@
 /**
- * Copyright (C) 2017 Mailvelope GmbH
+ * Copyright (C) 2017-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
 import React from 'react';
-// import ActionMenuBase from './ActionMenuBase';
-// import ActionMenuAdvanced from './ActionMenuAdvanced';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
-// import $ from 'jquery';
 
 l10n.register([
   'action_menu_dashboard_label',

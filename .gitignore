@@ -18,6 +18,10 @@ cert/
 atlassian-ide-plugin.xml
 .idea/
 
+# fonts
+/src/res/fonts/TypeMates
+src/res/styles/fonts.css
+
 # misc
 .DS_Store
 .svn

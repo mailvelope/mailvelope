@@ -141,9 +141,7 @@ module.exports = function(grunt) {
             'components/**/*.html',
             'components/{decrypt-popup,enter-password,generate-key,key-backup,recovery-sheet,restore-backup,verify-inline,verify-popup}/**/*',
             'content-scripts/*.css',
-            'img/*',
-            'img/mailvelope/*',
-            'img/security/*',
+            'img/{*,mailvelope/*,security/*}',
             'lib/{constants,EventHandler,jquery.ext,l10n,util}.js',
           ],
           dest: 'build/tmp'
@@ -152,8 +150,7 @@ module.exports = function(grunt) {
           flatten: true,
           cwd: 'src/',
           src: [
-            'res/fonts/**/*.txt',
-            'res/fonts/**/*.md',
+            'res/fonts/**/*.{txt,md}',
           ],
           dest: 'build/tmp/res/fonts',
         }]
