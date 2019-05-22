@@ -23,11 +23,11 @@ function plugins() {
   ];
 }
 
-function scss(loader = 'style-loader') {
+function scss(loader = 'style-loader', css = false) {
   return {
     rules: [
       {
-        test: /\.scss$/,
+        test: css ? /\.(css|scss)$/ : /\.scss$/,
         use: [{
           loader,
         }, {
@@ -95,7 +95,7 @@ function react() {
           }
         }]
       },
-      ...scssRules
+      ...scssRules,
     ]
   };
 }
