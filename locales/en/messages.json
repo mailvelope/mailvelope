@@ -28,52 +28,40 @@
     "message": "Could not read this cleartext message: $1"
   },
   "action_menu_activate_current_tab": {
-    "message": "Activate on current tab",
+    "message": "Authorize this domain",
     "description": "Activate on current tab shortcut in the action menu"
-  },
-  "action_menu_advanced_menu_aria_label":  {
-    "message": "Mailvelope advanced menu",
-    "description": "Accessibility, aria label of the advanced menu"
-  },
-  "action_menu_advanced_options": {
-    "message": "Advanced options",
-    "description": "Advanced options link in the action menu"
   },
   "action_menu_all_options": {
     "message": "All options",
     "description": "All options link in the action menu"
   },
-  "action_menu_back": {
-    "message": "Back",
-    "description": "Back link in the action menu"
-  },
   "action_menu_configure_mailvelope": {
     "message": "<0>Configure Mailvelope</0> to get started!",
     "description": "Configure Mailvelope label in the action menu"
   },
-  "action_menu_dashboard": {
-    "message": "<0>Dashboard:</0> browse all configuration options.",
+  "action_menu_dashboard_description": {
+    "message": "Display all configuration options.",
+    "description": "Dashboard description in the action menu"
+  },
+  "action_menu_dashboard_label": {
+    "message": "Dashboard",
     "description": "Dashboard label in the action menu"
   },
-  "action_menu_edit_security_settings": {
-    "message": "Edit security settings",
-    "description": "Edit security settings shortcut in the action menu"
+  "action_menu_file_encryption_description": {
+    "message": "Encrypt one or multiple files.",
+    "description": "File encryption description in the action menu"
   },
-  "action_menu_file_encryption": {
-    "message": "<0>File encryption:</0> encrypt a file or more.",
+  "action_menu_file_encryption_label": {
+    "message": "File encryption",
     "description": "File encryption label in the action menu"
   },
-  "action_menu_keyring": {
-    "message": "<0>Keyring:</0> manage public and private keys.",
+  "action_menu_keyring_description": {
+    "message": "Manage public and private keys.",
+    "description": "Keyring description in the action menu"
+  },
+  "action_menu_keyring_label": {
+    "message": "Keyring",
     "description": "Keyring label in the action menu"
-  },
-  "action_menu_manage_domains": {
-    "message": "Manage authorized domains",
-    "description": "Manage domains shortcut in the action menu"
-  },
-  "action_menu_more_options": {
-    "message": "More options",
-    "description": "More options link in the action menu (setup state)"
   },
   "action_menu_help": {
     "message": "Help",
@@ -84,12 +72,20 @@
     "description": "Accessibility, aria label of the primary menu"
   },
   "action_menu_reload_extension_scripts": {
-    "message": "Reload extension scripts",
+    "message": "Reload Mailvelope",
     "description": "Reload extension scripts shortcut in the action menu"
   },
-  "action_menu_review_security_logs": {
-    "message": "Review security logs",
-    "description": "Review security logs shortcut in the action menu"
+  "action_menu_review_security_logs_description": {
+    "message": "Review security relevant user actions.",
+    "description": "Review security logs description in the action menu"
+  },
+  "action_menu_review_security_logs_label": {
+    "message": "Security log",
+    "description": "Review security logs label in the action menu"
+  },
+  "action_menu_setup_start_label": {
+    "message": "Let's start",
+    "description": "Start button label"
   },
   "action_menu_setup_menu_aria_label":  {
     "message": "Mailvelope setup menu",
@@ -97,15 +93,11 @@
   },
   "dashboard_link_encrypt_decrypt_files": {
     "description": "Dashboard encrypt decrypt files link",
-    "message": "Encrypt and decrypt files"
-  },
-  "dashboard_link_help": {
-    "description": "Dashboard help link",
-    "message": "Help"
+    "message": "Encryption"
   },
   "dashboard_link_manage_domains": {
     "description": "Dashboard manage domains link",
-    "message": "Manage authorized domains"
+    "message": "Authorized domains"
   },
   "dashboard_link_manage_keys": {
     "description": "Dashboard manage keys link",
@@ -113,11 +105,7 @@
   },
   "dashboard_link_view_security_log": {
     "description": "Dashboard view security logs link",
-    "message": "View security logs"
-  },
-  "dashboard_title": {
-    "description": "Dashboard view header",
-    "message": "Dashboard"
+    "message": "Security logs"
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
@@ -447,17 +435,9 @@
     "description": "Header warning.",
     "message": "Warning!"
   },
-  "install_landing_page_getting_started": {
-    "description": "Install landing page getting started message",
-    "message": "Click on the Mailvelope icon <0></0> in your browser toolbar to begin with the configuration."
-  },
-  "install_landing_page_help": {
-    "description": "Install landing page help message",
-    "message": "Check out the <0>online help</0> for more information."
-  },
-  "install_landing_page_welcome": {
-    "description": "Install landing page welcome message",
-    "message": "Welcome to Mailvelope!"
+  "install_landing_page_hint": {
+    "description": "Install landing page getting started hint",
+    "message": "Click here, to open the extension."
   },
   "keyserver_hkp_url": {
     "description": "HKP key server option: url.",

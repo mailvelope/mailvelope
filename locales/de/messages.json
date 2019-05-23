@@ -40,7 +40,7 @@
     "description": "Review security logs label in the action menu"
   },
   "action_menu_review_security_logs_description": {
-    "message": "Anzeige der sicherheitsrelevanten Benutzeraktionen",
+    "message": "Anzeige der sicherheitsrelevanten Benutzeraktionen.",
     "description": "Review security logs description in the action menu"
   },
   "action_menu_help": {
@@ -262,10 +262,6 @@
   "encrypt_upload_file_warning_too_big": {
     "message": "Eine der Dateien ist zu groß.",
     "description": "."
-  },
-  "encrypt_frame_btn_label": {
-    "message": "Sichere E-Mail schreiben",
-    "description": "Button text for encrypt overlay"    
   },
   "encrypting_home": {
     "message": "Verschlüsselung",
