@@ -54,6 +54,12 @@ export default class PasswordDialog extends React.Component {
     document.addEventListener('keyup', this.onEsc.bind(this), false);
   }
 
+  componentDidUpdate() {
+    if ((!this.state.waiting && !this.state.password) || this.state.showError) {
+      this.pwdInput.focus();
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('keyup', this.onEsc, false);
   }
@@ -133,12 +139,12 @@ export default class PasswordDialog extends React.Component {
                     </Alert>
                     {this.state.reason && <p>{this.state.reason}</p>}
                     <div className="form-group">
-                      <input type="password" value={this.state.password} onPaste={e => this.onInputPaste(e.clipboardData.getData('Text'))} onChange={e => this.onInputPaste(e.target.value)} className={`form-control text-monospace ${this.state.showError ? 'is-invalid' : ''}`} />
+                      <input ref={node => this.pwdInput = node} type="password" value={this.state.password} onPaste={e => this.onInputPaste(e.clipboardData.getData('Text'))} onChange={e => this.onInputPaste(e.target.value)} className={`form-control text-monospace ${this.state.showError ? 'is-invalid' : ''}`} />
                       <div className={this.state.showError ? 'invalid-feedback' : 'd-none'}>{l10n.map.pwd_dialog_wrong_pwd}</div>
                     </div>
                     <div>
                       <div className="custom-control custom-checkbox">
-                        <input type="checkbox" checked={this.state.cache} onChange={e => this.onChangeCache(e.target.value)} className="custom-control-input" id="remember" />
+                        <input type="checkbox" checked={this.state.cache} onChange={e => this.onChangeCache(e.target.checked)} className="custom-control-input" id="remember" />
                         <label className="custom-control-label" htmlFor="remember">{l10n.map.pwd_dialog_cache_pwd}</label>
                       </div>
                     </div>
