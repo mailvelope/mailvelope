@@ -206,14 +206,12 @@ export async function showSecurityBackground(port, isEmbedded) {
     });
   }
 
-  const background = await port.send('get-security-background');
-  const securityBG = background.bgIcon ? (await generateSecurityBGSVG(background)).outerHTML : generateSecurityBackground(background);
-  const securityBGColor = background.bgColor ? background.bgColor : background.color;
+  const {image, color} = await getSecurityBackground(port);
 
   const secureStyle = `\n.secureBackground {
-    background-color: ${securityBGColor};
+    background-color: ${color};
     background-position: 0 0;
-    background-image: url(data:image/svg+xml;base64,${btoa(securityBG)});
+    background-image: ${image};
   }`;
   const lockIcon = generateSecurityBackground({width: 28, height: 28, colorId: 2});
   const lockButton = `\n.lockBtnIcon, .lockBtnIcon:active {
@@ -225,6 +223,13 @@ export async function showSecurityBackground(port, isEmbedded) {
   }`;
   removeSecurityBackground();
   $('head').append($('<style>').attr('id', 'secBgndCss').text(secureStyle + lockButton));
+}
+
+export async function getSecurityBackground(port) {
+  const background = await port.send('get-security-background');
+  const image = background.bgIcon ? (await generateSecurityBGSVG(background)).outerHTML : generateSecurityBackground(background);
+  const color = background.bgColor ? background.bgColor : background.color;
+  return {image: `url(data:image/svg+xml;base64,${btoa(image)})`, color};
 }
 
 async function generateSecurityBGSVG({bgIcon}) {

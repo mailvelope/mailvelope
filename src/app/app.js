@@ -18,10 +18,11 @@
 import React from 'react';
 import {Route, Redirect, Link} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
-import {showSecurityBackground, terminate} from '../lib/util';
+import {terminate} from '../lib/util';
 import {APP_TOP_FRAME_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import {NavLink, NavPill} from './util/util';
+import SecurityBG from '../components/util/SecurityBG';
 
 import Dashboard from './dashboard/Dashboard';
 import Keyring from './keyring/Keyring';
@@ -105,7 +106,6 @@ export class App extends React.Component {
     .then(prefs => this.setState({prefs}));
     port.send('get-gnupg-status')
     .then(gnupg => this.setState({gnupg}));
-    showSecurityBackground(port);
   }
 
   handleChangePrefs(update) {
@@ -118,7 +118,7 @@ export class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <SecurityBG port={port}>
         <Route exact path="/" render={() => <Redirect to="/keyring" />} />
         <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
         <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
@@ -215,7 +215,7 @@ export class App extends React.Component {
             <p id="version" className="d-sm-none d-md-block">{this.state.version}</p>
           </div>
         </footer>
-      </div>
+      </SecurityBG>
     );
   }
 }

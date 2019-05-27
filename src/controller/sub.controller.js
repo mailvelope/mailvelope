@@ -17,6 +17,7 @@ export class SubController extends EventHandler {
     }
     this.on('open-security-settings', this.openSecuritySettings);
     this.on('get-security-background', this.getSecurityBackground);
+    this.on('security-background-update', this.updateSecurityBackground);
   }
 
   initMainPort(port) {
@@ -62,6 +63,10 @@ export class SubController extends EventHandler {
 
   getSecurityBackground() {
     return getSecurityBackground();
+  }
+
+  updateSecurityBackground() {
+    this.ports[this.mainType].emit('update-security-background');
   }
 }
 

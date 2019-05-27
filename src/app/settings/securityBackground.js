@@ -6,7 +6,6 @@
 import React from 'react';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
-import {showSecurityBackground} from '../../lib/util';
 
 import {securityBGs, securityColors} from '../../res/common.json';
 import './SecurityBackground.scss';
@@ -64,7 +63,7 @@ export default class SecurityBackground extends React.Component {
       }
     };
     await port.send('set-prefs', {prefs: update});
-    showSecurityBackground(port);
+    port.emit('security-background-update');
     this.setState({modified: false});
   }
 
