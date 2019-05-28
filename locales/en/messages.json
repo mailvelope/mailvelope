@@ -299,6 +299,18 @@
     "description": "",
     "message": "Could not decrypt this file: $1"
   },
+  "file_not_signed": {
+    "message": "File not signed",
+    "description": "Text of signer field of file element."
+  },
+  "file_signed": {
+    "message": "File signed by $1",
+    "description": "Text of signer field of file element."
+  },
+  "file_invalid_signed": {
+    "message": "Signature is invalid",
+    "description": "Text of signer field of file element."
+  },
   "form_back": {
     "message": "Back",
     "description": "Back form button."

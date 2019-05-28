@@ -299,6 +299,18 @@
     "message": "Diese verschlüsselte Datei konnte nicht gelesen werden: $1",
     "description": ""
   },
+  "file_not_signed": {
+    "message": "Die Datei wurde nicht signiert",
+    "description": "Text of signer field of file element."
+  },
+  "file_signed": {
+    "message": "Die Datei wurde signiert von $1",
+    "description": "Text of signer field of file element."
+  },
+  "file_invalid_signed": {
+    "message": "Die Signatur ist fehlerhaft",
+    "description": "Text of signer field of file element."
+  },
   "form_back": {
     "message": "Zurück",
     "description": "back form button."

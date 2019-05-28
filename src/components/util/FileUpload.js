@@ -74,7 +74,7 @@ export default class FileUpload extends React.Component {
         onDrop={this.handleDrop}>
         <div className="area d-flex flex-column justify-content-center align-items-center overflow-auto p-3">
           {this.props.files.length > 0 &&
-            <div className="align-items-start align-self-stretch mb-2 ">
+            <div className="align-items-start align-self-stretch">
               <FileUploadPanel files={this.props.files} onRemoveFile={this.props.onRemoveFile} />
             </div>
           }

@@ -1,17 +1,22 @@
 /**
- * Copyright (C) 2017 Mailvelope GmbH
+ * Copyright (C) 2017-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {extractFileExtension, getExtensionClass, extractFileNameWithoutExt} from '../../lib/file';
+import Alert from './Alert';
+import {extractFileExtension, extractFileNameWithoutExt} from '../../lib/file';
 
-import './FilePanel.css';
+import './FilePanel.scss';
 
 l10n.register([
-  'editor_remove_upload'
+  'editor_remove_upload',
+  'key_export_dialog_copy_to_clipboard',
+  'file_not_signed',
+  'file_signed',
+  'file_invalid_signed'
 ]);
 
 export class FileUploadPanel extends React.Component {
@@ -23,7 +28,7 @@ export class FileUploadPanel extends React.Component {
 
   render() {
     return (
-      <div className="file-panel" ref={node => this.panel = node}>
+      <div className="file-panel d-flex flex-wrap align-items-center" ref={node => this.panel = node}>
         {this.props.files.map(file => <FileUploadElement key={file.id} file={file} onRemove={this.props.onRemoveFile} />)}
       </div>
     );
@@ -35,14 +40,16 @@ FileUploadPanel.propTypes = {
   onRemoveFile: PropTypes.func
 };
 
-function FileUploadElement({file, secureIcon, onRemove}) {
+function FileUploadElement({file, onRemove}) {
   const fileExt = extractFileExtension(file.name);
   return (
     <div className="file-element" id={file.id} title={file.name}>
-      {fileExt && <span className={`file-extension ${getExtensionClass(fileExt)}`}>{fileExt}</span>}
-      <span className="file-name">{extractFileNameWithoutExt(file.name)}</span>
-      {secureIcon && <span className="icon icon-lock secure-icon"></span>}
-      {onRemove && <span title={l10n.map.editor_remove_upload} className="icon icon-close remove-file" onClick={() => onRemove(file.id)}></span>}
+      <div className="file-header">
+        {(fileExt === 'asc' || fileExt === 'gpg') && <img src="../../img/Mailvelope/logo_signet.svg" width="28" height="28" />}
+        {fileExt && <span className="file-extension">{fileExt}</span>}
+        <span className="file-name">{extractFileNameWithoutExt(file.name)}</span>
+        {onRemove && <span title={l10n.map.editor_remove_upload} className="icon icon-close" onClick={() => onRemove(file.id)}></span>}
+      </div>
     </div>
   );
 }
@@ -55,28 +62,45 @@ FileUploadElement.propTypes = {
 
 export function FileDownloadPanel(props) {
   return (
-    <div className="file-panel">
-      {props.files.map(file => <FileDownloadElement key={file.id} file={file} onClick={props.onClickFile} />)}
+    <div className={`file-panel ${props.className || 'd-flex flex-wrap align-items-center'}`}>
+      {props.files.map(file => <FileDownloadElement key={file.id} file={file} onClick={props.onClickFile} onCopyToClipboard={props.onCopyToClipboard} />)}
     </div>
   );
 }
 
 FileDownloadPanel.propTypes = {
+  className: PropTypes.string,
   files: PropTypes.array, // {id, name}
-  onClickFile: PropTypes.func
+  onClickFile: PropTypes.func,
+  onCopyToClipboard: PropTypes.func
 };
 
-function FileDownloadElement({file, onClick}) {
+function getSignerText(signer) {
+  return !signer ? l10n.map.file_not_signed : l10n.get('file_signed', [signer]);
+}
+
+function FileDownloadElement({file, onClick, onCopyToClipboard}) {
   const fileExt = extractFileExtension(file.name);
+  const fileName = extractFileNameWithoutExt(file.name);
   return (
-    <a className="file-element" onClick={onClick} title={file.name} download={file.name} href={file.objectURL}>
-      <span className={`label file-extension ${getExtensionClass(fileExt)}`}>{fileExt}</span>
-      <span className="file-name">{extractFileNameWithoutExt(file.name)}</span>
-    </a>
+    <div className="file-element">
+      <a className="file-header" onClick={onClick} title={file.name} download={file.name} href={file.objectURL}>
+        {(fileExt === 'asc' || fileExt === 'gpg') && <img src="../../img/Mailvelope/logo_signet.svg" width="28" height="28" />}
+        <span className="file-extension">{fileExt}</span>
+        <span className="file-name">{fileName}</span>
+        <span className="icon icon-download"></span>
+        {(fileExt === 'txt' || fileName.endsWith('.txt')) &&
+          <button type="button" className="icon-btn ml-1" title={l10n.map.key_export_dialog_copy_to_clipboard} onClick={e => { e.preventDefault(); onCopyToClipboard(file.content); }}><span className="icon icon-copy"></span></button>
+        }
+      </a>
+      {fileExt === 'txt' &&  <textarea className="form-control" value={file.content} rows={2} spellCheck="false" autoComplete="off" readOnly />}
+      {file.signer !== undefined && <Alert className="mt-2 mb-0" type="info">{getSignerText(file.signer)}</Alert>}
+    </div>
   );
 }
 
 FileDownloadElement.propTypes = {
   file: PropTypes.object, // {id, name, objectURL}
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onCopyToClipboard: PropTypes.func
 };
