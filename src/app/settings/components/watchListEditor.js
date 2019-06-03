@@ -10,16 +10,18 @@ import * as l10n from '../../../lib/l10n';
 import Modal from '../../../components/util/Modal';
 
 l10n.register([
+  'alert_invalid_domainmatchpattern_warning',
+  'alert_no_domainmatchpattern_warning',
+  'form_cancel',
+  'form_ok',
+  'keygrid_delete',
+  'watchlist_expose_api',
   'watchlist_record_title',
   'watchlist_title_active',
-  'watchlist_title_site',
-  'watchlist_title_scan',
   'watchlist_title_frame',
-  'watchlist_expose_api',
   'watchlist_title_https_only',
-  'keygrid_delete',
-  'form_ok',
-  'form_cancel'
+  'watchlist_title_scan',
+  'watchlist_title_site'
 ]);
 
 export default function WatchListEditor(props) {
@@ -65,7 +67,8 @@ export default function WatchListEditor(props) {
                       </div>
                     </td>
                     <td className="w-100">
-                      <input type="text" value={frame.frame} onChange={e => props.onChangeFrame({frame: e.target.value}, index)} className="form-control matchPatternName w-100" placeholder="e.g.: *.gmx.de" />
+                      <input type="text" value={frame.frame} onChange={e => props.onChangeFrame({frame: e.target.value}, index)} className={`form-control matchPatternName w-100 ${props.errors[`frame${index}`] ? 'is-invalid' : ''}`} placeholder="e.g.: *.gmx.de" />
+                      <div className="invalid-feedback">{l10n.map.alert_invalid_domainmatchpattern_warning}</div>
                     </td>
                     <td>
                       <div className="custom-control custom-switch">
@@ -84,6 +87,7 @@ export default function WatchListEditor(props) {
                 )}
               </tbody>
             </table>
+            {props.errors.frames && <div className="invalid-feedback d-block">{l10n.map.alert_no_domainmatchpattern_warning}</div>}
           </form>
         </div>
       }
@@ -102,7 +106,8 @@ WatchListEditor.propTypes = {
   onSave: PropTypes.func,
   onChangeSite: PropTypes.func,
   onChangeFrame: PropTypes.func,
-  isOpen: PropTypes.bool
+  isOpen: PropTypes.bool,
+  errors: PropTypes.object
 };
 
 function EditorFooter(props) {

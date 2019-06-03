@@ -11,15 +11,13 @@ import Modal from '../../components/util/Modal';
 import WatchListEditor from './components/watchListEditor';
 
 l10n.register([
+  'keygrid_delete',
   'settings_watchlist',
   'watchlist_command_create',
-  'watchlist_title_active',
-  'watchlist_title_site',
   'watchlist_command_edit',
-  'keygrid_delete',
   'watchlist_delete_confirmation',
-  'alert_invalid_domainmatchpattern_warning',
-  'alert_no_domainmatchpattern_warning'
+  'watchlist_title_active',
+  'watchlist_title_site'
 ]);
 
 export default class WatchList extends React.Component {
@@ -30,7 +28,8 @@ export default class WatchList extends React.Component {
       editorSite: null,
       editorIndex: null,
       modified: false,
-      showEditor: false
+      showEditor: false,
+      errors: {}
     };
     this.handleChangeSite = this.handleChangeSite.bind(this);
     this.handleChangeFrame = this.handleChangeFrame.bind(this);
@@ -94,17 +93,25 @@ export default class WatchList extends React.Component {
   }
 
   handleSaveWatchListEditor() {
-    if (!this.state.modified) {
-      return this.setState({showEditor: false});
+    // if (!this.state.modified) {
+    //   return this.setState({showEditor: false});
+    // }
+    const errors = {};
+    for (const [index, value] of this.state.editorSite.frames.entries()) {
+      if (!/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(value.frame)) {
+        errors[`frame${index}`] = new Error();
+      }
     }
-    if (this.state.editorSite.frames.some(frame => !/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(frame.frame))) {
-      alert(l10n.map.alert_invalid_domainmatchpattern_warning);
-      return;
-    }
+
     if (this.state.editorSite.frames.length < 1) {
-      alert(l10n.map.alert_no_domainmatchpattern_warning);
+      errors.frames = new Error();
+    }
+
+    if (Object.keys(errors).length) {
+      this.setState({errors});
       return;
     }
+
     this.setState(prevState => {
       const newList = [...prevState.watchList];
       newList[prevState.editorIndex] = prevState.editorSite;
@@ -131,7 +138,8 @@ export default class WatchList extends React.Component {
       modify(site);
       return {
         editorSite: site,
-        modified: true
+        modified: true,
+        errors: {}
       };
     });
   }
@@ -219,9 +227,9 @@ export default class WatchList extends React.Component {
             </div>
           </div>
         </Modal>
-        <WatchListEditor isOpen={this.state.showEditor} toggle={() => this.setState(prevState => ({showEditor: !prevState.showEditor}))} site={this.state.editorSite}
+        <WatchListEditor isOpen={this.state.showEditor} toggle={() => this.setState(prevState => ({showEditor: !prevState.showEditor}))} site={this.state.editorSite} errors={this.state.errors}
           onHide={() => this.handleHideWatchListEditor()}
-          onCancel={() => this.setState({showEditor: false})}
+          onCancel={() => this.setState({showEditor: false, errors: {}})}
           onSave={() => this.handleSaveWatchListEditor()}
           onChangeSite={this.handleChangeSite}
           onChangeFrame={this.handleChangeFrame}

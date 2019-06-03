@@ -82,8 +82,10 @@ export default class KeyServer extends React.Component {
   handleServerChange(server) {
     const hkp_base_url = server && server.value || '';
     const valid_base_url = this.validateUrl(hkp_base_url);
-    const alert = valid_base_url ? null : {header: l10n.map.alert_header_warning, message: l10n.map.keyserver_url_warning, type: 'warning'};
-    this.setState({hkp_base_url, modified: true, valid_base_url, alert});
+    if (!valid_base_url) {
+      this.props.onSetNotification({header: l10n.map.alert_header_warning, message: l10n.map.keyserver_url_warning, type: 'error', hideDelay: 2500});
+    }
+    this.setState({hkp_base_url, modified: true, valid_base_url});
   }
 
   /**
@@ -101,13 +103,12 @@ export default class KeyServer extends React.Component {
    * @param  {String} url   The base url of the hkp server
    * @return {Promise}      If the test was valid. Rejects in case of an error.
    */
-  testUrl(url) {
-    return window.fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Server not reachable');
-      }
-    });
+  async testUrl(url) {
+    const response = await window.fetch(url);
+    if (!response.ok) {
+      throw new Error('Server not reachable');
+    }
+    return response;
   }
 
   handleCheck(event) {
@@ -118,9 +119,9 @@ export default class KeyServer extends React.Component {
   /**
    * Save the key server settings.
    */
-  handleSave() {
-    this.testUrl(this.state.hkp_base_url)
-    .then(() => {
+  async handleSave() {
+    try {
+      await this.testUrl(this.state.hkp_base_url);
       const update = {
         keyserver: {
           hkp_base_url: this.state.hkp_base_url,
@@ -130,10 +131,11 @@ export default class KeyServer extends React.Component {
           autocrypt_lookup: this.state.autocrypt_lookup
         }
       };
-      this.props.onChangePrefs(update)
-      .then(() => port.emit('init-script-injection'));
-    })
-    .catch(() => this.setState({alert: {header: l10n.map.alert_header_error, message: l10n.map.keyserver_url_error, type: 'danger'}}));
+      await this.props.onChangePrefs(update);
+      port.emit('init-script-injection');
+    } catch (e) {
+      this.props.onSetNotification({header: l10n.map.alert_header_error, message: l10n.map.keyserver_url_error, type: 'error'});
+    }
   }
 
   render() {
@@ -147,10 +149,12 @@ export default class KeyServer extends React.Component {
               isClearable
               options={this.state.hkp_server_list}
               value={this.state.hkp_server_list.find(({value}) => value === this.state.hkp_base_url)}
+              placeholder={() => 'http(s)://keys.example.com'}
               onChange={this.handleServerChange}
               isValidNewOption={option => this.validateUrl(option)}
               className="react-select-container"
               classNamePrefix="react-select"
+              noOptionsMessage={() => l10n.map.keyserver_url_warning}
               theme={theme => ({
                 ...theme,
                 borderRadius: '4px',
@@ -194,5 +198,6 @@ export default class KeyServer extends React.Component {
 
 KeyServer.propTypes = {
   prefs: PropTypes.object,
+  onSetNotification: PropTypes.func,
   onChangePrefs: PropTypes.func.isRequired
 };

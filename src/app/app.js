@@ -21,20 +21,14 @@ import * as l10n from '../lib/l10n';
 import {terminate} from '../lib/util';
 import {APP_TOP_FRAME_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
-import {NavLink, NavPill} from './util/util';
+import {NavLink} from './util/util';
 import SecurityBG from '../components/util/SecurityBG';
 
 import Dashboard from './dashboard/Dashboard';
 import Keyring from './keyring/Keyring';
 import Encrypt from './encrypt/Encrypt';
 import Decrypt from './decrypt/Decrypt';
-
-import General from './settings/general';
-import Security from './settings/security';
-import SecurityBackground from './settings/SecurityBackground';
-import WatchList from './settings/watchList';
-import SecurityLog from './settings/securityLog';
-import KeyServer from './settings/keyserver';
+import Settings from './settings/Settings';
 
 import './app.scss';
 
@@ -145,37 +139,7 @@ export class App extends React.Component {
             <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
             <Route path='/encrypt' component={Encrypt} />
             <Route path='/decrypt' component={Decrypt} />
-            <Route path='/settings' render={() => (
-              <div className="jumbotron">
-                <section className="card mv-options">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-lg-3 mb-4">
-                        <div role="navigation">
-                          <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
-                            <NavPill to="/settings/watchlist">{l10n.map.settings_watchlist}</NavPill>
-                            <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
-                            <NavPill to="/settings/security-background">{l10n.map.settings_security_background}</NavPill>
-                            <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
-                            <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-9">
-                        <Route path='/settings/general' component={General} />
-                        <Route path='/settings/watchlist' component={WatchList} />
-                        <Route path='/settings/security' component={Security} />
-                        <Route path='/settings/security-background' component={SecurityBackground} />
-                        <Route path='/settings/security-log' component={SecurityLog} />
-                        <Route path='/settings/key-server' render={() => <KeyServer prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-
-            )} />
+            <Route path='/settings' render={() => <Settings prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
           </AppOptions.Provider>
         </main>
         <footer className="container">

@@ -174,6 +174,18 @@ export function str2Uint8Array(str) {
   return bufView;
 }
 
+export function str2bool(value) {
+  if (value && typeof value === 'string') {
+    if (value.toLowerCase() === 'true') {
+      return true;
+    }
+    if (value.toLowerCase() === 'false') {
+      return false;
+    }
+  }
+  return value;
+}
+
 export function dataURL2str(dataURL) {
   const base64 = dataURL2base64(dataURL);
   return window.atob(base64);
