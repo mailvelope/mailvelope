@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {port, getAppDataSlot} from '../app';
 import * as l10n from '../../lib/l10n';
+import Modal from '../../components/util/Modal';
 import WatchListEditor from './components/watchListEditor';
 
 l10n.register([
@@ -33,6 +34,7 @@ export default class WatchList extends React.Component {
     };
     this.handleChangeSite = this.handleChangeSite.bind(this);
     this.handleChangeFrame = this.handleChangeFrame.bind(this);
+    this.handleDeleteWatchListEntry = this.handleDeleteWatchListEntry.bind(this);
   }
 
   componentDidMount() {
@@ -69,16 +71,12 @@ export default class WatchList extends React.Component {
     return copy;
   }
 
-  deleteWatchListEntry(event, index) {
-    event.stopPropagation();
-    const confirmResult = confirm(l10n.map.watchlist_delete_confirmation);
-    if (confirmResult) {
-      this.setState(prevState => {
-        const newList = [...prevState.watchList];
-        newList.splice(index, 1);
-        return {watchList: newList};
-      }, () => this.saveWatchListData());
-    }
+  handleDeleteWatchListEntry() {
+    this.setState(prevState => {
+      const newList = [...prevState.watchList];
+      newList.splice(prevState.editorIndex, 1);
+      return {watchList: newList, showDeleteModal: false};
+    }, () => this.saveWatchListData());
   }
 
   addWatchListEntry() {
@@ -199,7 +197,7 @@ export default class WatchList extends React.Component {
                   <td>{site.site}</td>
                   <td className="text-center">
                     <div className="actions">
-                      <button type="button" onClick={e => this.deleteWatchListEntry(e, index)} className="btn btn-secondary"><span className="icon icon-delete" aria-hidden="true"></span></button>
+                      <button type="button" onClick={e => { e.stopPropagation(); this.setState({showDeleteModal: true, editorIndex: index}); }} className="btn btn-secondary"><span className="icon icon-delete" aria-hidden="true"></span></button>
                       <span className="icon icon-arrow-right" aria-hidden="true"></span>
                     </div>
                   </td>
@@ -208,6 +206,19 @@ export default class WatchList extends React.Component {
             </tbody>
           </table>
         </div>
+        <Modal isOpen={this.state.showDeleteModal} toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={() => this.setState({editorIndex: null})}>
+          <div>
+            <p>{l10n.map.watchlist_delete_confirmation}</p>
+            <div className="row btn-bar">
+              <div className="col-6">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
+              </div>
+              <div className="col-6">
+                <button type="button" onClick={this.handleDeleteWatchListEntry} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
         <WatchListEditor isOpen={this.state.showEditor} toggle={() => this.setState(prevState => ({showEditor: !prevState.showEditor}))} site={this.state.editorSite}
           onHide={() => this.handleHideWatchListEditor()}
           onCancel={() => this.setState({showEditor: false})}

@@ -81,7 +81,7 @@ export default class Keyring extends React.Component {
     const gnupg = keyringId === GNUPG_KEYRING_ID;
     // propagate state change to backend
     port.emit('set-active-keyring', {keyringId});
-    let keys = await port.send('getKeys', {keyringId: this.state.keyringId});
+    let keys = await port.send('getKeys', {keyringId});
     keys = keys.sort((a, b) => a.name.localeCompare(b.name));
     const hasPrivateKey = keys.some(key => key.type === 'private');
     /* eslint-enable react/no-access-state-in-setstate */
@@ -95,20 +95,19 @@ export default class Keyring extends React.Component {
     await this.loadKeyring();
   }
 
-  async handleDeleteKeyring(keyringId, keyringName) {
-    if (confirm(l10n.get('keyring_confirm_deletion', keyringName))) {
-      await port.send('delete-keyring', {keyringId});
-    }
+  async handleDeleteKeyring(keyringId) {
+    await port.send('delete-keyring', {keyringId});
+    await this.loadKeyring();
   }
 
-  handleChangeDefaultKey(keyFpr) {
-    port.send('set-keyring-attr', {keyringId: this.state.keyringId, keyringAttr: {default_key: keyFpr}})
-    .then(() => this.setState({defaultKeyFpr: keyFpr}));
+  async handleChangeDefaultKey(keyFpr) {
+    await port.send('set-keyring-attr', {keyringId: this.state.keyringId, keyringAttr: {default_key: keyFpr}});
+    this.setState({defaultKeyFpr: keyFpr});
   }
 
-  handleDeleteKey(fingerprint, type) {
-    port.send('removeKey', {fingerprint, type, keyringId: this.state.keyringId})
-    .then(() => this.loadKeyring());
+  async handleDeleteKey(fingerprint, type) {
+    await port.send('removeKey', {fingerprint, type, keyringId: this.state.keyringId});
+    this.loadKeyring();
   }
 
   async handleRefreshKeyring() {

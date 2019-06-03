@@ -118,7 +118,7 @@ export default class KeyringSelect extends React.Component {
                     <p className="d-block mb-0 small">{keyringEmail}</p>
                   </div>
                   {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
-                    <button type="button" onClick={e => { e.stopPropagation(); this.props.onDelete(keyringId, keyringName); }} className="btn btn-secondary mx-2">
+                    <button type="button" onClick={e => { e.preventDefault(); e.stopPropagation(); this.props.onDelete(keyringId, keyringName); }} className="btn btn-secondary mx-2">
                       <span className="icon icon-delete" aria-hidden="true"></span>
                     </button>
                   }

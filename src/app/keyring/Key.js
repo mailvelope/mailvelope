@@ -123,7 +123,7 @@ export default class Key extends React.Component {
   }
 
   handleDelete() {
-    this.setState({exit: true}, this.props.onDeleteKey(this.state.keyDetails.fingerprint, this.state.keyDetails.type));
+    this.setState({exit: true}, () => this.props.onDeleteKey(this.state.keyDetails.fingerprint, this.state.keyDetails.type));
   }
 
   async validateKeyPassword(password) {

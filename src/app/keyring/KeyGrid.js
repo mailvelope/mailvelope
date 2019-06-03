@@ -19,6 +19,7 @@ l10n.register([
   'keygrid_all_keys',
   'keygrid_creation_date_short',
   'keygrid_default_label',
+  'keyring_confirm_deletion',
   'keygrid_delete_confirmation',
   'keygrid_import_title',
   'keygrid_export',
@@ -45,9 +46,14 @@ export default class KeyGrid extends React.Component {
       keyTypeFilter: 'allkeys',
       selectedKey: null,
       activeKey: keyId ? keyId : null,
+      activeKeyring: null,
       keyringBackup: null,
       showExportModal: false,
+      showDeleteKeyModal: false,
+      showDeleteKeyringModal: false
     };
+    this.deleteKeyEntry = this.deleteKeyEntry.bind(this);
+    this.deleteKeyring = this.deleteKeyring.bind(this);
   }
 
   componentDidMount() {
@@ -91,13 +97,14 @@ export default class KeyGrid extends React.Component {
     this.setState({selectedKey: index});
   }
 
-  deleteKeyEntry(e, fingerprint) {
-    e.stopPropagation();
-    const deleteConfirm = confirm(l10n.map.keygrid_delete_confirmation);
-    if (deleteConfirm) {
-      const key = this.props.keys.find(key => key.fingerprint === fingerprint);
-      this.props.onDeleteKey(fingerprint, key.type);
-    }
+  deleteKeyEntry() {
+    const key = this.props.keys.find(key => key.fingerprint === this.state.activeKey);
+    this.setState({showDeleteKeyModal: false}, () => this.props.onDeleteKey(key.fingerprint, key.type));
+  }
+
+  deleteKeyring() {
+    const keyringId = this.state.activeKeyring.id;
+    this.setState({showDeleteKeyringModal: false}, () => this.props.onDeleteKeyring(keyringId));
   }
 
   openExportKeyringDialog() {
@@ -136,7 +143,7 @@ export default class KeyGrid extends React.Component {
         <div className="card-title d-flex flex-wrap align-items-center">
           <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_header}</h1>
           <div className="flex-shrink-0">
-            <KeyringSelect keyringId={this.context.keyringId} keyringAttr={this.props.keyringAttr} onChange={this.props.onChangeKeyring} onDelete={this.props.onDeleteKeyring} prefs={this.props.prefs} />
+            <KeyringSelect keyringId={this.context.keyringId} keyringAttr={this.props.keyringAttr} onChange={this.props.onChangeKeyring} onDelete={(keyringId, keyringName) => this.setState({showDeleteKeyringModal: true, activeKeyring: {id: keyringId, name: keyringName}})} prefs={this.props.prefs} />
           </div>
         </div>
         <div className="form-group btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
@@ -190,7 +197,7 @@ export default class KeyGrid extends React.Component {
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
-                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => this.deleteKeyEntry(e, key.fingerprint)} className="btn btn-secondary keyDeleteBtn"><span className="icon icon-delete" aria-hidden="true"></span></button>}
+                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => { e.stopPropagation(); this.setState({showDeleteKeyModal: true, activeKey: key.fingerprint}); }} className="btn btn-secondary keyDeleteBtn"><span className="icon icon-delete" aria-hidden="true"></span></button>}
                       <span className="icon icon-arrow-right" aria-hidden="true"></span>
                     </div>
                   </td>
@@ -201,6 +208,32 @@ export default class KeyGrid extends React.Component {
           </table>
         </div>
         {this.props.spinner && <Spinner delay={0} />}
+        <Modal isOpen={this.state.showDeleteKeyModal} toggle={() => this.setState(prevState => ({showDeleteKeyModal: !prevState.showDeleteKeyModal}))} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={() => this.setState({activeKey: null})}>
+          <div>
+            <p>{l10n.map.keygrid_delete_confirmation}</p>
+            <div className="row btn-bar">
+              <div className="col-6">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteKeyModal: false})}>{l10n.map.dialog_no_btn}</button>
+              </div>
+              <div className="col-6">
+                <button type="button" onClick={this.deleteKeyEntry} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+        <Modal isOpen={this.state.showDeleteKeyringModal} toggle={() => this.setState(prevState => ({showDeleteKeyringModal: !prevState.showDeleteKeyringModal}))} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={() => this.setState({activeKeyring: null})}>
+          <div>
+            <p>{l10n.get('keyring_confirm_deletion', this.state.activeKeyring && this.state.activeKeyring.name)}</p>
+            <div className="row btn-bar">
+              <div className="col-6">
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteKeyringModal: false})}>{l10n.map.dialog_no_btn}</button>
+              </div>
+              <div className="col-6">
+                <button type="button" onClick={this.deleteKeyring} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
         <Modal isOpen={this.state.showExportModal} toggle={() => this.setState(prevState => ({showExportModal: !prevState.showExportModal}))} size="medium" title={l10n.map.keyring_backup} hideFooter={true}>
           <KeyringOptions.Consumer>
             {({keyringId}) => <KeyExport showArmored={false} fileNameEditable={true} keyringId={keyringId} keyFprs={this.state.keyringBackup.keyFprs} keyName="keyring" all={this.state.keyringBackup.all} type={this.state.keyringBackup.type} publicOnly={this.context.gnupg} onClose={() => this.setState({showExportModal: false})} />}
