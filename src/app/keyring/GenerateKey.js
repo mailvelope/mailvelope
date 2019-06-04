@@ -14,7 +14,7 @@ import moment from 'moment';
 import NameAddrInput from './components/NameAddrInput';
 import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
-import DefinePassword from './components/DefinePassword';
+import DefinePassword from '../../components/util/DefinePassword';
 import Modal from '../../components/util/Modal';
 import {Redirect, Link} from 'react-router-dom';
 

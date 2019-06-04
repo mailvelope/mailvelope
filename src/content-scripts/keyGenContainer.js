@@ -32,7 +32,7 @@ export default class KeyGenContainer {
       this.createPromise = {resolve, reject};
       this.parent = document.querySelector(this.selector);
       this.container = document.createElement('iframe');
-      const url = chrome.runtime.getURL(`components/generate-key/keyGenDialog.html?id=${this.id}`);
+      const url = chrome.runtime.getURL(`components/generate-key/genKey.html?id=${this.id}`);
       this.container.setAttribute('src', url);
       this.container.setAttribute('frameBorder', 0);
       this.container.setAttribute('scrolling', 'no');

@@ -943,29 +943,17 @@
     "description": "Title of the key details panel",
     "message": "Key details"
   },
-  "keygen_dialog_confirm": {
-    "description": "",
-    "message": "Repeat"
-  },
-  "keygen_dialog_confirm_error_unequal": {
-    "description": "",
-    "message": "Please double-check your input."
-  },
-  "keygen_dialog_confirm_success": {
-    "description": "",
-    "message": "Input is valid."
-  },
-  "keygen_dialog_password": {
-    "description": "",
-    "message": "Key Password"
-  },
   "keygen_dialog_password_placeholder": {
     "description": "",
     "message": "min 4 characters"
   },
+  "keygen_dialog_password_error_length": {
+    "description": "",
+    "message": "Password requires at least $1 characters"
+  },
   "keygen_dialog_prolog": {
     "description": "",
-    "message": "Please assign a password to protect your encrypted communication:"
+    "message": "Please assign a password for your key to protect your encrypted communication:"
   },
   "keygen_waiting_description": {
     "description": "",

@@ -10,32 +10,32 @@ import {KeyringOptions} from './../KeyringOptions';
 import {formatFpr} from '../../../lib/util';
 import * as l10n from '../../../lib/l10n';
 import DatePicker from './DatePicker';
-import DefinePassword from './DefinePassword';
+import DefinePassword from '../../../components/util/DefinePassword';
 import KeySelect from './KeySelect';
 import KeyStatus from './KeyStatus';
 import Modal from '../../../components/util/Modal';
 import Alert from '../../../components/util/Alert';
 
 l10n.register([
-  'keydetails_title',
-  'keygrid_validity_status',
+  'change_link',
+  'dialog_cancel_btn',
+  'dialog_save_btn',
+  'keydetails_change_exp_date_dialog_note',
+  'keydetails_change_exp_date_dialog_title',
+  'keydetails_change_pwd_dialog_old',
+  'keydetails_change_pwd_dialog_title',
   'keydetails_creation_date',
   'keydetails_expiration_date',
   'keydetails_key_not_expire',
   'keydetails_password',
-  'keygrid_keyid',
+  'keydetails_title',
   'keygrid_algorithm',
-  'keygrid_key_length',
   'keygrid_key_fingerprint',
-  'keydetails_change_exp_date_dialog_title',
-  'keydetails_change_exp_date_dialog_note',
-  'keydetails_change_pwd_dialog_title',
-  'keydetails_change_pwd_dialog_old',
-  'pwd_dialog_wrong_pwd',
-  'dialog_cancel_btn',
-  'dialog_save_btn',
+  'keygrid_key_length',
   'keygrid_key_not_expire',
-  'change_link'
+  'keygrid_keyid',
+  'keygrid_validity_status',
+  'pwd_dialog_wrong_pwd',
 ]);
 
 // set locale

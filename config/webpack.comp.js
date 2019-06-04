@@ -40,7 +40,8 @@ module.exports = [
   dev('encrypted-form', 'encryptedFormRoot'),
   dev('install-landing-page', 'installLandingPage'),
   dev('import-key', 'importKeyRoot'),
-  dev('enter-password', 'passwordDialogRoot')
+  dev('enter-password', 'passwordDialogRoot'),
+  dev('generate-key', 'genKeyRoot')
 ];
 
 module.exports.prod = [
@@ -50,7 +51,8 @@ module.exports.prod = [
   prod('encrypted-form', 'encryptedFormRoot'),
   prod('install-landing-page', 'installLandingPage'),
   prod('import-key', 'importKeyRoot'),
-  prod('enter-password', 'passwordDialogRoot')
+  prod('enter-password', 'passwordDialogRoot'),
+  prod('generate-key', 'genKeyRoot')
 ];
 
 module.exports.dev = module.exports;

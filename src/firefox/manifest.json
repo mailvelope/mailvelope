@@ -38,7 +38,7 @@
     "app/app.html",
     "client-API/mailvelope-client-api.js",
     "components/decrypt-message/decryptMessage.html",
-    "components/generate-key/keyGenDialog.html",
+    "components/generate-key/genKey.html",
     "components/key-backup/keyBackupDialog.html",
     "components/restore-backup/restoreBackupDialog.html",
     "components/editor/editor.html",

@@ -941,29 +941,17 @@
     "description": "Title of the key details panel",
     "message": "Schlüsseldetails"
   },
-  "keygen_dialog_confirm": {
-    "description": "",
-    "message": "Wiederholen"
-  },
-  "keygen_dialog_confirm_error_unequal": {
-    "description": "",
-    "message": "Bitte die Eingabe überprüfen."
-  },
-  "keygen_dialog_confirm_success": {
-    "description": "",
-    "message": "Eingaben sind korrekt."
-  },
-  "keygen_dialog_password": {
-    "description": "",
-    "message": "Schlüsselpasswort"
-  },
   "keygen_dialog_password_placeholder": {
     "description": "",
     "message": "mindestens 4 Zeichen"
   },
+  "keygen_dialog_password_error_length": {
+    "description": "",
+    "message": "Password benötigt mindestens $1 Zeichen"
+  },
   "keygen_dialog_prolog": {
     "description": "",
-    "message": "Passwort vergeben zum Schutz Ihrer verschlüsselten Kommunikation:"
+    "message": "Vergeben Sie ein Passwort für Ihren Schlüssel zur sicheren Kommunikation:"
   },
   "keygen_waiting_description": {
     "description": "",
