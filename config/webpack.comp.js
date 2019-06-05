@@ -41,7 +41,8 @@ module.exports = [
   dev('install-landing-page', 'installLandingPage'),
   dev('import-key', 'importKeyRoot'),
   dev('enter-password', 'passwordDialogRoot'),
-  dev('generate-key', 'genKeyRoot')
+  dev('generate-key', 'genKeyRoot'),
+  dev('key-backup', 'backupKeyRoot')
 ];
 
 module.exports.prod = [
@@ -52,7 +53,8 @@ module.exports.prod = [
   prod('install-landing-page', 'installLandingPage'),
   prod('import-key', 'importKeyRoot'),
   prod('enter-password', 'passwordDialogRoot'),
-  prod('generate-key', 'genKeyRoot')
+  prod('generate-key', 'genKeyRoot'),
+  prod('key-backup', 'backupKeyRoot')
 ];
 
 module.exports.dev = module.exports;

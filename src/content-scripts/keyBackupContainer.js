@@ -32,7 +32,7 @@ export default class KeyBackupContainer {
   create() {
     return new Promise((resolve, reject) => {
       this.createPromise = {resolve, reject};
-      const url = chrome.runtime.getURL(`components/key-backup/keyBackupDialog.html?id=${this.id}`);
+      const url = chrome.runtime.getURL(`components/key-backup/backupKey.html?id=${this.id}`);
       this.parent = document.querySelector(this.selector);
       this.container = document.createElement('iframe');
       this.port.emit('set-keybackup-window-props', {

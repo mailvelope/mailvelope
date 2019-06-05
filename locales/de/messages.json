@@ -871,11 +871,11 @@
   },
   "keybackup_restore_dialog_list_1": {
     "description": "",
-    "message": "&hellip;Sie ihren Beleg verloren haben"
+    "message": "Sie ihren Beleg verloren haben"
   },
   "keybackup_restore_dialog_list_2": {
     "description": "",
-    "message": "&hellip;aus Sicherheitsgründen ein neuer Wiederherstellungsbeleg erstellt werden muss"
+    "message": "aus Sicherheitsgründen ein neuer Wiederherstellungsbeleg erstellt werden muss"
   },
   "keybackup_setup_dialog_button": {
     "description": "",

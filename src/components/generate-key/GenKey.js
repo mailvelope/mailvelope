@@ -86,12 +86,12 @@ export default class GenKey extends React.Component {
         <div className="modal d-block" style={{padding: '1rem'}}>
           <div className="modal-dialog d-flex align-items-center h-100 mw-100 m-0">
             <div className="modal-content shadow-lg border-0" style={{backgroundColor: 'rgba(255,255,255,0.8)'}}>
-              <div className="modal-body overflow-auto p-4">
+              <div className="modal-body d-flex flex-column overflow-auto p-4">
                 {this.state.waiting ? (
                   <>
                     <Spinner style={{margin: '20px auto 20px auto'}} />
-                    <h4>{l10n.map.keygen_waiting_headline}</h4>
-                    <p>{l10n.map.keygen_waiting_description}</p>
+                    <h4 className="align-self-center">{l10n.map.keygen_waiting_headline}</h4>
+                    <p className="align-self-center text-center">{l10n.map.keygen_waiting_description}</p>
                   </>
                 ) : (
                   <>
