@@ -83,7 +83,7 @@ export default class KeyServer extends React.Component {
     const hkp_base_url = server && server.value || '';
     const valid_base_url = this.validateUrl(hkp_base_url);
     if (!valid_base_url) {
-      this.props.onSetNotification({header: l10n.map.alert_header_warning, message: l10n.map.keyserver_url_warning, type: 'error', hideDelay: 2500});
+      this.props.onSetNotification({header: l10n.map.alert_header_warning, message: l10n.map.keyserver_url_warning, type: 'error', hideDelay: 5000});
     }
     this.setState({hkp_base_url, modified: true, valid_base_url});
   }

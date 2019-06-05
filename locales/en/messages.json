@@ -1207,6 +1207,10 @@
     "description": "public and private key types",
     "message": "Key Pairs"
   },
+  "keyring_remove_dialog_title": {
+    "description": "Title of delete keyring dialog.",
+    "message": "Remove keyring"
+  },
   "keyring_setup": {
     "description": "Setup keyring for mail provider.",
     "message": "Setup"
@@ -1978,6 +1982,10 @@
   "watchlist_record_title": {
     "description": "Title of the watchlist editor dialog.",
     "message": "Authorized Domain"
+  },
+  "watchlist_remove_dialog_title": {
+    "description": "Title of delete watchlist dialog.",
+    "message": "Remove domain"
   },
   "watchlist_title_active": {
     "description": "Entry in watchlist is active.",

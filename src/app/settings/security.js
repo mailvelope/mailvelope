@@ -69,28 +69,29 @@ export default class Security extends React.Component {
   }
 
   async handleSave() {
-    if (this.validate()) {
+    const pwdTimeout = this.validatePwdTimeout();
+    if (pwdTimeout !== false) {
       const update = {
         security: {
           display_decrypted: this.state.display_decrypted,
           password_cache: this.state.password_cache,
-          password_timeout: this.state.password_timeout,
+          password_timeout: pwdTimeout,
           hide_armored_header: this.state.hide_armored_header
         }
       };
       await port.send('set-prefs', {prefs: update});
-      this.setState({modified: false}, () => this.props.onSetNotification({message: l10n.map.reload_tab}));
+      this.setState({password_timeout: pwdTimeout, modified: false}, () => this.props.onSetNotification({message: l10n.map.reload_tab}));
     }
   }
 
-  validate() {
+  validatePwdTimeout() {
     // password timeout betweet 1-999
     const timeout = parseInt(this.state.password_timeout);
     if (isNaN(timeout) || (timeout < 1 || timeout > 999)) {
       this.setState({errors: {password_timeout: new Error()}});
       return false;
     }
-    return true;
+    return timeout;
   }
 
   handleCancel() {
@@ -137,7 +138,7 @@ export default class Security extends React.Component {
             </div>
           </div>
           <div className="btn-bar">
-            <button type="button" id="secBtnSave" className="btn btn-primary" onClick={this.handleSave} disabled={!this.state.modified}>{l10n.map.form_save}</button>
+            <button type="button" id="secBtnSave" className="btn btn-primary" onClick={this.handleSave} disabled={!this.state.modified || Object.keys(this.state.errors).length}>{l10n.map.form_save}</button>
             <button type="button" className="btn btn-secondary" onClick={this.handleCancel} disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
           </div>
         </form>

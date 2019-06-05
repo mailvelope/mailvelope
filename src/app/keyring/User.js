@@ -16,38 +16,36 @@ import NameAddrInput from './components/NameAddrInput';
 import UserSignatures from './components/UserSignatures';
 import KeyStatus from './components/KeyStatus';
 import Spinner from '../../components/util/Spinner';
-import Modal from '../../components/util/Modal';
+import SimpleDialog from '../../components/util/SimpleDialog';
 import Alert from '../../components/util/Alert';
 
 l10n.register([
-  'user_title',
-  'user_create_btn',
-  'user_create_title',
-  'user_remove_btn',
-  'user_remove_btn_title',
-  'user_revoke_btn',
-  'user_revoke_btn_title',
-  'keygrid_user_name',
-  'keygrid_user_email',
-  'keygrid_validity_status',
+  'key_keyserver_resend_btn',
+  'key_keyserver_upload_btn',
   'keydetails_creation_date',
   'keydetails_expiration_date',
   'keydetails_key_not_expire',
-  'user_keyserver_sync',
-  'user_keyserver_unverified',
+  'keygrid_user_email',
+  'keygrid_user_name',
+  'keygrid_validity_status',
+  'user_create_btn',
+  'user_create_title',
   'user_keyserver_not',
   'user_keyserver_remove_btn',
   'user_keyserver_resend_confirmation_btn',
-  'key_keyserver_upload_btn',
-  'key_keyserver_resend_btn',
-  'user_remove_dialog_title',
+  'user_keyserver_sync',
+  'user_keyserver_unverified',
+  'user_remove_btn',
+  'user_remove_btn_title',
   'user_remove_dialog_confirmation',
   'user_remove_dialog_keyserver_warning',
-  'user_revoke_dialog_title',
-  'user_revoke_dialog_description',
+  'user_remove_dialog_title',
+  'user_revoke_btn',
+  'user_revoke_btn_title',
   'user_revoke_dialog_confirmation',
-  'dialog_yes_btn',
-  'dialog_no_btn'
+  'user_revoke_dialog_description',
+  'user_revoke_dialog_title',
+  'user_title',
 ]);
 
 // set locale
@@ -344,38 +342,32 @@ export default class User extends React.Component {
         {this.state.processing &&
           <Spinner fullscreen={true} delay={0} />
         }
-        <Modal isOpen={this.state.showDeleteModal} toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))} size="small" title={l10n.map.user_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-          <div>
-            <p>{l10n.map.user_remove_dialog_confirmation}</p>
-            {this.state.user.remote &&
-              <Alert type="warning" header={l10n.map.header_warning}>
-                {l10n.map.user_remove_dialog_keyserver_warning}
-              </Alert>
-            }
-            <div className="row btn-bar">
-              <div className="col-6">
-                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
-              </div>
-              <div className="col-6">
-                <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
-              </div>
-            </div>
-          </div>
-        </Modal>
-        <Modal isOpen={this.state.showRevokeModal} toggle={() => this.setState(prevState => ({showRevokeModal: !prevState.showRevokeModal}))} size="small" title={l10n.map.user_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-          <div>
-            <p>{l10n.map.user_revoke_dialog_description}</p>
-            <p><strong>{l10n.map.user_revoke_dialog_confirmation}</strong></p>
-            <div className="row btn-bar">
-              <div className="col-6">
-                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showRevokeModal: false})}>{l10n.map.dialog_no_btn}</button>
-              </div>
-              <div className="col-6">
-                <button type="button" onClick={() => this.setState({action: 'revoke', showRevokeModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
-              </div>
-            </div>
-          </div>
-        </Modal>
+        <SimpleDialog
+          isOpen={this.state.showDeleteModal}
+          toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))}
+          onHide={this.handleHiddenModal}
+          title={l10n.map.user_remove_dialog_title}
+          onOk={() => this.setState({action: 'delete', showDeleteModal: false})}
+          onCancel={() => this.setState({showDeleteModal: false})}
+        >
+          <p>{l10n.map.user_remove_dialog_confirmation}</p>
+          {this.state.user.remote &&
+            <Alert type="warning" header={l10n.map.header_warning}>
+              {l10n.map.user_remove_dialog_keyserver_warning}
+            </Alert>
+          }
+        </SimpleDialog>
+        <SimpleDialog
+          isOpen={this.state.showRevokeModal}
+          toggle={() => this.setState(prevState => ({showRevokeModal: !prevState.showRevokeModal}))}
+          onHide={this.handleHiddenModal}
+          title={l10n.map.user_revoke_dialog_title}
+          onOk={() => this.setState({action: 'revoke', showRevokeModal: false})}
+          onCancel={() => this.setState({showRevokeModal: false})}
+        >
+          <p>{l10n.map.user_revoke_dialog_description}</p>
+          <p><strong>{l10n.map.user_revoke_dialog_confirmation}</strong></p>
+        </SimpleDialog>
       </div>
     );
   }

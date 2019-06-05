@@ -19,6 +19,7 @@ import KeyStatus from './components/KeyStatus';
 import Spinner from '../../components/util/Spinner';
 import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
+import SimpleDialog from '../../components/util/SimpleDialog';
 
 l10n.register([
   'keyring_header',
@@ -38,8 +39,6 @@ l10n.register([
   'key_keyserver_upload_btn',
   'key_keyserver_update_btn',
   'key_keyserver_resend_btn',
-  'dialog_yes_btn',
-  'dialog_no_btn',
   'key_remove_dialog_title',
   'key_export_dialog_title',
   'key_revoke_dialog_title',
@@ -292,35 +291,28 @@ export default class Key extends React.Component {
             <KeyDetails keyDetails={this.state.keyDetails} onChangeExpDate={this.handleSetExDate} onValidateKeyPwd={this.validateKeyPassword} onChangePwd={this.handleChangePwd}></KeyDetails>
           </>
         )}
-        <Modal isOpen={this.state.showDeleteModal} toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))} size="small" title={l10n.map.key_remove_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-          <div>
-            <p>{l10n.map.keygrid_delete_confirmation}</p>
-            <div className="row btn-bar">
-              <div className="col-6">
-                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showDeleteModal: false})}>{l10n.map.dialog_no_btn}</button>
-              </div>
-              <div className="col-6">
-                <button type="button" onClick={() => this.setState({action: 'delete', showDeleteModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
-              </div>
-            </div>
-          </div>
-        </Modal>
+        <SimpleDialog
+          isOpen={this.state.showDeleteModal}
+          toggle={() => this.setState(prevState => ({showDeleteModal: !prevState.showDeleteModal}))}
+          onHide={this.handleHiddenModal}
+          title={l10n.map.key_remove_dialog_title}
+          message={l10n.map.keygrid_delete_confirmation}
+          onOk={() => this.setState({action: 'delete', showDeleteModal: false})}
+          onCancel={() => this.setState({showDeleteModal: false})}
+        />
+        <SimpleDialog
+          isOpen={this.state.showRevokeModal}
+          toggle={() => this.setState(prevState => ({showRevokeModal: !prevState.showRevokeModal}))}
+          onHide={this.handleHiddenModal}
+          title={l10n.map.key_revoke_dialog_title}
+          onOk={() => this.setState({action: 'revoke', showRevokeModal: false})}
+          onCancel={() => this.setState({showRevokeModal: false})}
+        >
+          <p>{l10n.map.key_revoke_dialog_description}</p>
+          <p><strong>{l10n.map.key_revoke_dialog_confirm}</strong></p>
+        </SimpleDialog>
         <Modal isOpen={this.state.showExportModal} toggle={() => this.setState(prevState => ({showExportModal: !prevState.showExportModal}))} size="medium" title={l10n.map.key_export_dialog_title} hideFooter={true}>
           <KeyExport keyringId={this.context.keyringId} keyFprs={[this.state.keyDetails.fingerprint]} keyName={this.state.keyDetails.name} publicOnly={this.context.gnupg} onClose={() => this.setState({showExportModal: false})} />
-        </Modal>
-        <Modal isOpen={this.state.showRevokeModal} toggle={() => this.setState(prevState => ({showRevokeModal: !prevState.showRevokeModal}))} size="small" title={l10n.map.key_revoke_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
-          <div>
-            <p>{l10n.map.key_revoke_dialog_description}</p>
-            <p><strong>{l10n.map.key_revoke_dialog_confirm}</strong></p>
-            <div className="row btn-bar">
-              <div className="col-6">
-                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showRevokeModal: false})}>{l10n.map.dialog_no_btn}</button>
-              </div>
-              <div className="col-6">
-                <button type="button" onClick={() => this.setState({action: 'revoke', showRevokeModal: false})} className="btn btn-primary btn-block">{l10n.map.dialog_yes_btn}</button>
-              </div>
-            </div>
-          </div>
         </Modal>
         {this.state.processing &&
           <Spinner fullscreen={true} delay={0} />
