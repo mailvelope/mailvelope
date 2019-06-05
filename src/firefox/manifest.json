@@ -40,7 +40,7 @@
     "components/decrypt-message/decryptMessage.html",
     "components/generate-key/genKey.html",
     "components/key-backup/backupKey.html",
-    "components/restore-backup/restoreBackupDialog.html",
+    "components/restore-backup/backupRestore.html",
     "components/editor/editor.html",
     "components/encrypted-form/encryptedForm.html",
     "content-scripts/framestyles.css",

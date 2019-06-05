@@ -62,7 +62,7 @@ export default class BackupKey extends React.Component {
 
   handleClick() {
     this.logUserInput('security_log_backup_create');
-    this.setState({waiting: true}, () => window.setTimeout(() => this.port.emit('create-backup-code-window'), 3000));
+    this.setState({waiting: true, error: null}, () => window.setTimeout(() => this.port.emit('create-backup-code-window'), 3000));
   }
 
   logUserInput(type) {

@@ -42,7 +42,8 @@ module.exports = [
   dev('import-key', 'importKeyRoot'),
   dev('enter-password', 'passwordDialogRoot'),
   dev('generate-key', 'genKeyRoot'),
-  dev('key-backup', 'backupKeyRoot')
+  dev('key-backup', 'backupKeyRoot'),
+  dev('restore-backup', 'backupRestoreRoot')
 ];
 
 module.exports.prod = [
@@ -54,7 +55,8 @@ module.exports.prod = [
   prod('import-key', 'importKeyRoot'),
   prod('enter-password', 'passwordDialogRoot'),
   prod('generate-key', 'genKeyRoot'),
-  prod('key-backup', 'backupKeyRoot')
+  prod('key-backup', 'backupKeyRoot'),
+  prod('restore-backup', 'backupRestoreRoot')
 ];
 
 module.exports.dev = module.exports;

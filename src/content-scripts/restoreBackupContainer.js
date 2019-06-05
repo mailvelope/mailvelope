@@ -31,7 +31,7 @@ export default class RestoreBackupContainer {
   create() {
     return new Promise((resolve, reject) => {
       this.createPromise = {resolve, reject};
-      const url = chrome.runtime.getURL(`components/restore-backup/restoreBackupDialog.html?id=${this.id}`);
+      const url = chrome.runtime.getURL(`components/restore-backup/backupRestore.html?id=${this.id}`);
       this.parent = document.querySelector(this.selector);
       this.container = document.createElement('iframe');
       this.port.emit('set-init-data', {
