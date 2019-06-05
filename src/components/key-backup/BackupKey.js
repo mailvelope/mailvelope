@@ -57,7 +57,7 @@ export default class BackupKey extends React.Component {
   }
 
   terminate() {
-    this.setState({terminate: true}, () => this.port.disconnet());
+    this.setState({terminate: true}, () => this.port.disconnect());
   }
 
   handleClick() {

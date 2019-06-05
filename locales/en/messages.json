@@ -893,11 +893,11 @@
   },
   "keybackup_setup_dialog_list_1": {
     "description": "In order to restore your encrypted communication in case of data loss.",
-    "message": "In order to restore it in case of data loss."
+    "message": "In order to restore it in case of data loss"
   },
   "keybackup_setup_dialog_list_2": {
     "description": "In order to transfer your encrypted communication to other devices.",
-    "message": "In order to transfer it to other devices."
+    "message": "In order to transfer it to other devices"
   },
   "keybackup_waiting_description": {
     "description": "",

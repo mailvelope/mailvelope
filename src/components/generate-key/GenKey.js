@@ -46,7 +46,7 @@ export default class GenKey extends React.Component {
   }
 
   terminate() {
-    this.setState({terminate: true}, () => this.port.disconnet());
+    this.setState({terminate: true}, () => this.port.disconnect());
   }
 
   handleChange(event) {

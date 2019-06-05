@@ -863,7 +863,7 @@
   },
   "keybackup_restore_dialog_description": {
     "description": "",
-    "message": "Erstellen Sie hier einen neuen Wiederherstellungsbeleg, falls"
+    "message": "Erstellen Sie hier einen neuen Wiederherstellungsbeleg, falls:"
   },
   "keybackup_restore_dialog_headline": {
     "description": "",
@@ -875,7 +875,7 @@
   },
   "keybackup_restore_dialog_list_2": {
     "description": "",
-    "message": "aus Sicherheitsgründen ein neuer Wiederherstellungsbeleg erstellt werden muss"
+    "message": "Aus Sicherheitsgründen ein neuer Wiederherstellungsbeleg erstellt werden muss"
   },
   "keybackup_setup_dialog_button": {
     "description": "",
@@ -891,11 +891,11 @@
   },
   "keybackup_setup_dialog_list_1": {
     "description": "In order to restore your encrypted communication in case of data loss.",
-    "message": "Bei Verlust wiederherzustellen."
+    "message": "Bei Verlust wiederherzustellen"
   },
   "keybackup_setup_dialog_list_2": {
     "description": "In order to transfer your encrypted communication to other devices.",
-    "message": "Auf andere Geräte zu übertragen."
+    "message": "Auf andere Geräte zu übertragen"
   },
   "keybackup_waiting_description": {
     "description": "",
