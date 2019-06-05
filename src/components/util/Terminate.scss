@@ -1,0 +1,27 @@
+.terminate {
+  position: fixed;
+  z-index: 1050;
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+  }
+
+  > .symbol {
+    font-size: 8em;
+    color: #fff;
+    opacity: 0.85;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+

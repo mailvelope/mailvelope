@@ -366,7 +366,7 @@ export default class Editor extends React.Component {
         {!this.props.embedded && (
           <>
             <BlurWarning ref={node => this.blurWarning = node} />
-            {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/pwdDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
+            {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
           </>
         )}
         <Modal isOpen={this.state.waiting} className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={() => this.blurWarning && this.blurWarning.startBlurValid}>

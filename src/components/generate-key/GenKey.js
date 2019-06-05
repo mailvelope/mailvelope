@@ -10,6 +10,7 @@ import EventHandler from '../../lib/EventHandler';
 import SecurityBG from '../util/SecurityBG';
 import DefinePassword from '../util/DefinePassword';
 import Spinner from '../util/Spinner';
+import Terminate from '../util/Terminate';
 
 // register language strings
 l10n.register([
@@ -102,6 +103,7 @@ export default class GenKey extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.terminate && <Terminate />}
       </SecurityBG>
     );
   }
