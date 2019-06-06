@@ -40,8 +40,8 @@ export default class PrivateKeyController extends sub.SubController {
     this.on('restore-backup-dialog-init', () => this.ports.restoreBackupCont.emit('dialog-done'));
     this.on('restore-backup-code', msg => this.restorePrivateKeyBackup(msg.code));
     this.on('backup-code-window-init', () => this.ports.keyBackupCont.emit('popup-isready'));
-    this.on('get-logo-image', () => this.ports.backupCodeWindow.emit('set-logo-image', {image: this.getLogoImage()}));
-    this.on('get-backup-code', () => this.ports.backupCodeWindow.emit('set-backup-code', {backupCode: this.getBackupCode()}));
+    this.on('get-logo-image', () => this.ports.recoverySheet.emit('set-logo-image', {image: this.getLogoImage()}));
+    this.on('get-backup-code', () => this.ports.recoverySheet.emit('set-backup-code', {backupCode: this.getBackupCode()}));
     this.on('create-backup-code-window', this.createBackupCodeWindow);
   }
 

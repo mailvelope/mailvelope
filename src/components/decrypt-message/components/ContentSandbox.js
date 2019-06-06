@@ -19,7 +19,7 @@ export default class ContentSandbox extends React.PureComponent {
   }
 
   setContent(value) {
-    const sandboxDoc = this.sandbox.contentDocument || this.sandbox.contentWindow.document;
+    const sandboxDoc = this.sandbox.contentDocument;
     const content = sandboxDoc.querySelector('#content');
     content.innerHTML = value;
   }

@@ -19,9 +19,9 @@ function init() {
   document.body.dataset.mvelo = true;
   const query = new URLSearchParams(document.location.search);
   // component id
-  const id = query.get('id' || '');
+  const id = query.get('id') || '';
   // brand if any
-  const brand = query.get('brand' || '');
+  const brand = query.get('brand') || '';
   // component used as a container (client API)
   const root = document.createElement('div');
   ReactDOM.render(<RecoverySheet id={id} brand={brand} />, document.body.appendChild(root));

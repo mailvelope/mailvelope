@@ -19,7 +19,7 @@ function init() {
   document.body.dataset.mvelo = true;
   const query = new URLSearchParams(document.location.search);
   // component id
-  const id = query.get('id' || '');
+  const id = query.get('id') || '';
   // component used as a container (client API)
   const root = document.createElement('div');
   ReactDOM.render(<BackupRestore id={id} />, document.body.appendChild(root));

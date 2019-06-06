@@ -1405,11 +1405,11 @@
   },
   "recovery_sheet_backup_local": {
     "description": "",
-    "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your [BRAND] account. "
+    "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your $1 account. "
   },
   "recovery_sheet_backup_server": {
     "description": "",
-    "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our [BRAND] servers by our security partner Mailvelope."
+    "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope."
   },
   "recovery_sheet_be_aware": {
     "description": "Label",
@@ -1429,7 +1429,7 @@
   },
   "recovery_sheet_encryption_note": {
     "description": "Sub title",
-    "message": "Hints for encrypted communication with [BRAND]"
+    "message": "Hints for encrypted communication with $1"
   },
   "recovery_sheet_enter_code": {
     "description": "Label for navigation path",
@@ -1437,7 +1437,7 @@
   },
   "recovery_sheet_explain_pgp": {
     "description": "",
-    "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them."
+    "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them."
   },
   "recovery_sheet_extension_problems": {
     "description": "List item",
@@ -1449,7 +1449,7 @@
   },
   "recovery_sheet_further_info": {
     "description": "",
-    "message": "You can find more information and setting options in your [BRAND] account under"
+    "message": "You can find more information and setting options in your $1 account under"
   },
   "recovery_sheet_header": {
     "description": "Title of recovery sheet.",
@@ -1461,7 +1461,7 @@
   },
   "recovery_sheet_invite_contacts": {
     "description": "",
-    "message": "In your encrypted communication settings of your [BRAND] account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. "
+    "message": "In your encrypted communication settings of your $1 account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. "
   },
   "recovery_sheet_keep_safe": {
     "description": "",
@@ -1469,7 +1469,7 @@
   },
   "recovery_sheet_key_server": {
     "description": "",
-    "message": "Other [BRAND] users who are using the PGP procedure of GMX can be directly found in a central directory in your [BRAND] account. If you do not want to have any entries in this directory, please deactivate this function in your [BRAND] account settings."
+    "message": "Other $1 users who are using the PGP procedure of GMX can be directly found in a central directory in your $1 account. If you do not want to have any entries in this directory, please deactivate this function in your $1 account settings."
   },
   "recovery_sheet_mobile_devices": {
     "description": "",

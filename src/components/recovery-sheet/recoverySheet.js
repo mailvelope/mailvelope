@@ -14,23 +14,16 @@ import './RecoverySheet.css';
 // register language strings
 l10n.register([
   'recovery_sheet_backup_data',
-  'recovery_sheet_backup_local',
-  'recovery_sheet_backup_server',
   'recovery_sheet_be_aware',
   'recovery_sheet_check_settings',
   'recovery_sheet_creation_date',
   'recovery_sheet_data_lost',
-  'recovery_sheet_encryption_note',
   'recovery_sheet_enter_code',
-  'recovery_sheet_explain_pgp',
   'recovery_sheet_extension_problems',
   'recovery_sheet_forgot_password',
-  'recovery_sheet_further_info',
   'recovery_sheet_header',
   'recovery_sheet_in_general',
-  'recovery_sheet_invite_contacts',
   'recovery_sheet_keep_safe',
-  'recovery_sheet_key_server',
   'recovery_sheet_mobile_devices',
   'recovery_sheet_not_working',
   'recovery_sheet_other_computer',
@@ -57,7 +50,7 @@ l10n.register([
   'recovery_sheet_unlock_backup'
 ]);
 
-export default class BackupKey extends React.Component {
+export default class RecoverySheet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +59,7 @@ export default class BackupKey extends React.Component {
       logoDataUrl: null,
       date: (new Date()).toLocaleDateString()
     };
-    this.port = EventHandler.connect(`backupCodeWindow-${props.id}`, this);
+    this.port = EventHandler.connect(`recoverySheet-${props.id}`, this);
     this.registerEventListeners();
     this.port.emit('get-logo-image');
     this.port.emit('get-backup-code');
@@ -107,10 +100,6 @@ export default class BackupKey extends React.Component {
     return brand;
   }
 
-  replaceBrand(text) {
-    return text.replace(/\[BRAND\]/g, this.state.brand);
-  }
-
   render() {
     return (
       <div className={`recovery-sheet ${this.props.brand || ''}`}>
@@ -122,7 +111,7 @@ export default class BackupKey extends React.Component {
         <section className="recovery-sheet_content container">
           <div className="row">
             <div className="col-2">
-              <img src={this.state.logoDataUrl ? this.state.logoDataUrl : '../../img/mail_locked_96.png'} className="logo" />
+              <img src={this.state.logoDataUrl ? this.state.logoDataUrl : '../../img/Mailvelope/logo_signet_96.png'} className="logo" />
             </div>
             <div className="col-10">
               <h2>{l10n.map.recovery_sheet_subtitle_receipt}</h2>
@@ -227,16 +216,16 @@ export default class BackupKey extends React.Component {
             <section className="recovery-sheet_content container">
               <div className="row">
                 <div className="col-2">
-                  <img src={this.state.logoDataUrl ? this.state.logoDataUrl : '../../img/mail_locked_96.png'} className="logo" />
+                  <img src={this.state.logoDataUrl ? this.state.logoDataUrl : '../../img/Mailvelope/logo_signet_96.png'} className="logo" />
                 </div>
                 <div className="col-10">
-                  <h2>{this.replaceBrand(l10n.map.recovery_sheet_encryption_note)}</h2>
-                  <p>{this.replaceBrand(l10n.map.recovery_sheet_explain_pgp)}</p>
+                  <h2>{l10n.get('recovery_sheet_encryption_note', this.state.brand)}</h2>
+                  <p>{l10n.get('recovery_sheet_explain_pgp', this.state.brand)}</p>
                   <div className="recovery-sheet_description">
                     <h4>{l10n.map.recovery_sheet_backup_data}</h4>
                     <ul>
-                      <li>{this.replaceBrand(l10n.map.recovery_sheet_backup_server)}</li>
-                      <li>{this.replaceBrand(l10n.map.recovery_sheet_backup_local)}</li>
+                      <li>{l10n.get('recovery_sheet_backup_server', this.state.brand)}</li>
+                      <li>{l10n.get('recovery_sheet_backup_local', this.state.brand)}</li>
                       <li><em>{l10n.map.recovery_sheet_be_aware}</em>: <span>{l10n.map.recovery_sheet_data_lost}</span></li>
                     </ul>
                     <h4>{l10n.map.recovery_sheet_recover_data}</h4>
@@ -247,8 +236,8 @@ export default class BackupKey extends React.Component {
                     <h4>{l10n.map.recovery_sheet_other_contacts}</h4>
                     <ul>
                       <li>{l10n.map.recovery_sheet_pgp_compat}</li>
-                      <li>{this.replaceBrand(l10n.map.recovery_sheet_pgp_compat)}</li>
-                      <li>{this.replaceBrand(l10n.map.recovery_sheet_invite_contacts)}</li>
+                      <li>{l10n.get('recovery_sheet_key_server', this.state.brand)}</li>
+                      <li>{l10n.get('recovery_sheet_invite_contacts', this.state.brand)}</li>
                       <li><em>{l10n.map.recovery_sheet_recommendation}</em>: <span>{l10n.map.recovery_sheet_trusted_contacts}</span></li>
                     </ul>
                     <h4>{l10n.map.recovery_sheet_other_devices_setup}</h4>
@@ -257,7 +246,7 @@ export default class BackupKey extends React.Component {
                     </ul>
                   </div>
 
-                  <p><span>{this.replaceBrand(l10n.map.recovery_sheet_further_info)}</span> <em className="gmx-specific">{l10n.map.recovery_sheet_provider_inbox}</em><span className="gmx-specific"> &gt; </span><em>{l10n.map.recovery_sheet_provider_settings}</em> &gt; <em className="gmx-specific">{l10n.map.recovery_sheet_provider_security}</em><span className="gmx-specific"> &gt; </span><em>{l10n.map.recovery_sheet_provider_communication}</em>.</p>
+                  <p><span>{l10n.get('recovery_sheet_further_info', this.state.brand)}</span> <em className="gmx-specific">{l10n.map.recovery_sheet_provider_inbox}</em><span className="gmx-specific"> &gt; </span><em>{l10n.map.recovery_sheet_provider_settings}</em> &gt; <em className="gmx-specific">{l10n.map.recovery_sheet_provider_security}</em><span className="gmx-specific"> &gt; </span><em>{l10n.map.recovery_sheet_provider_communication}</em>.</p>
                 </div>
               </div>
               <section className="recovery-sheet_print d-print-none">
@@ -278,7 +267,7 @@ export default class BackupKey extends React.Component {
   }
 }
 
-BackupKey.propTypes = {
+RecoverySheet.propTypes = {
   id: PropTypes.string,
   brand: PropTypes.string
 };

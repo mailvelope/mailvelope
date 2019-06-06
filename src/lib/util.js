@@ -342,26 +342,6 @@ export function formatFpr(fpr) {
   return fpr.toUpperCase().match(/.{1,4}/g).join(' ');
 }
 
-export function appendTpl($element, path) {
-  return new Promise((resolve, reject) => {
-    const req = new XMLHttpRequest();
-    req.open('GET', path);
-    req.responseType = 'text';
-    req.onload = function() {
-      if (req.status == 200) {
-        $element.append($.parseHTML(req.response));
-        setTimeout(() => resolve($element), 1);
-      } else {
-        reject(new Error(req.statusText));
-      }
-    };
-    req.onerror = function() {
-      reject(new Error('Network Error'));
-    };
-    req.send();
-  });
-}
-
 export function isWebEx() {
   return typeof browser !== 'undefined';
 }

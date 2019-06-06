@@ -21,9 +21,9 @@ function init() {
   document.body.dataset.mvelo = true;
   const query = new URLSearchParams(document.location.search);
   // component id
-  const id = query.get('id' || '');
+  const id = query.get('id') || '';
   // component used as a container (client API)
-  const embedded = Boolean(query.get('embedded') || '');
+  const embedded = Boolean(query.get('embedded'));
   const root = document.createElement('div');
   ReactDOM.render(<DecryptMessage id={id} embedded={embedded} />, document.body.appendChild(root));
 }

@@ -1403,11 +1403,11 @@
   },
   "recovery_sheet_backup_local": {
     "description": "",
-    "message": "Möchten Sie Ihre Daten ausschließlich lokal auf Ihrem Computer speichern, finden Sie diese Möglichkeit in den Einstellungen zur verschlüsselten Kommunikation in Ihrem [BRAND] Postfach."
+    "message": "Möchten Sie Ihre Daten ausschließlich lokal auf Ihrem Computer speichern, finden Sie diese Möglichkeit in den Einstellungen zur verschlüsselten Kommunikation in Ihrem $1 Postfach."
   },
   "recovery_sheet_backup_server": {
     "description": "",
-    "message": "Zur Sicherung Ihrer, für die verschlüsselte Kommunikation wichtigen Daten (z. B. Schlüssel-Passwort), werden diese von unserem deutschen Sicherheitspartner Mailvelope verschlüsselt auf unseren [BRAND] Servern gespeichert."
+    "message": "Zur Sicherung Ihrer, für die verschlüsselte Kommunikation wichtigen Daten (z. B. Schlüssel-Passwort), werden diese von unserem deutschen Sicherheitspartner Mailvelope verschlüsselt auf unseren $1 Servern gespeichert."
   },
   "recovery_sheet_be_aware": {
     "description": "Label",
@@ -1427,7 +1427,7 @@
   },
   "recovery_sheet_encryption_note": {
     "description": "Sub title",
-    "message": "Hinweise zur verschlüsselten Kommunikation bei [BRAND]"
+    "message": "Hinweise zur verschlüsselten Kommunikation bei $1"
   },
   "recovery_sheet_enter_code": {
     "description": "Label for navigation path",
@@ -1435,7 +1435,7 @@
   },
   "recovery_sheet_explain_pgp": {
     "description": "",
-    "message": "Verschlüsselte Kommunikation bei [BRAND] ist ein PGP-basiertes Verfahren. Es ermöglicht Ihnen, bei Bedarf E-Mails verschlüsselt zu versenden und stellt zugleich sicher, dass nur Sie und der Empfänger diese lesen können."
+    "message": "Verschlüsselte Kommunikation bei $1 ist ein PGP-basiertes Verfahren. Es ermöglicht Ihnen, bei Bedarf E-Mails verschlüsselt zu versenden und stellt zugleich sicher, dass nur Sie und der Empfänger diese lesen können."
   },
   "recovery_sheet_extension_problems": {
     "description": "List item",
@@ -1447,7 +1447,7 @@
   },
   "recovery_sheet_further_info": {
     "description": "",
-    "message": "Weitere Informationen und Einstellungsmöglichkeiten finden Sie In Ihrem [BRAND] Postfach unter"
+    "message": "Weitere Informationen und Einstellungsmöglichkeiten finden Sie In Ihrem $1 Postfach unter"
   },
   "recovery_sheet_header": {
     "description": "Title of recovery sheet.",
@@ -1459,7 +1459,7 @@
   },
   "recovery_sheet_invite_contacts": {
     "description": "",
-    "message": "Sie haben die Möglichkeit, über Ihre Einstellungen zur verschlüsselten Kommunikation im [BRAND] Postfach weitere Kontakte zur Kommunikation mit PGP einzuladen. Bereits erfolgreich eingeladene Kontakte erkennen Sie anhand des Schlosssymbols an der E-Mail-Adresse."
+    "message": "Sie haben die Möglichkeit, über Ihre Einstellungen zur verschlüsselten Kommunikation im $1 Postfach weitere Kontakte zur Kommunikation mit PGP einzuladen. Bereits erfolgreich eingeladene Kontakte erkennen Sie anhand des Schlosssymbols an der E-Mail-Adresse."
   },
   "recovery_sheet_keep_safe": {
     "description": "",
@@ -1467,7 +1467,7 @@
   },
   "recovery_sheet_key_server": {
     "description": "",
-    "message": "[BRAND] Nutzer, die das von GMX und WEB.DE verwendete PGP-Verfahren verwenden, finden Sie direkt in einem zentralen Verzeichnis in Ihrem [BRAND] Postfach. Wenn Sie keinen Eintrag in diesem Verzeichnis wünschen, widersprechen Sie diesem bitte in Ihren [BRAND] Postfach Einstellungen."
+    "message": "$1 Nutzer, die das von GMX und WEB.DE verwendete PGP-Verfahren verwenden, finden Sie direkt in einem zentralen Verzeichnis in Ihrem $1 Postfach. Wenn Sie keinen Eintrag in diesem Verzeichnis wünschen, widersprechen Sie diesem bitte in Ihren $1 Postfach Einstellungen."
   },
   "recovery_sheet_mobile_devices": {
     "description": "",
