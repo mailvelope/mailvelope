@@ -5,7 +5,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 
 export default class ContentSandbox extends React.PureComponent {
   constructor(props) {
@@ -20,7 +19,9 @@ export default class ContentSandbox extends React.PureComponent {
   }
 
   setContent(value) {
-    $(this.sandbox).contents().find('#content').append($.parseHTML(value));
+    const sandboxDoc = this.sandbox.contentDocument || this.sandbox.contentWindow.document;
+    const content = sandboxDoc.querySelector('#content');
+    content.innerHTML = value;
   }
 
   render() {

@@ -52,8 +52,9 @@ export default class BackupKey extends React.Component {
 
   handleError(msg) {
     if (msg.error.code !== 'PWD_DIALOG_CANCEL') {
-      this.setState({waiting: false, error: new Error(l10n.map.keybackup_failed)});
+      this.setState({error: new Error(l10n.map.keybackup_failed)});
     }
+    this.setState({waiting: false});
   }
 
   terminate() {

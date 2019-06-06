@@ -103,8 +103,9 @@
 }
 
 .recovery-sheet_code-container {
-    background-color: #fff;
-    height: 85px;
+    position: static !important;
+    background-color: #fff;    
+    height: 85px !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -271,30 +272,6 @@ button.recovery-sheet_print-button {
 .tablet-image {
     width: 70px;
     height: 97px;
-}
-
-.gmx .desktop-image {
-    background: url('assets/gmx.net/desktop.png');
-}
-
-.webde .desktop-image {
-    background: url('assets/web.de/desktop.png');
-}
-
-.gmx .smartphone-image {
-    background: url('assets/gmx.net/smartphone.png');
-}
-
-.webde .smartphone-image {
-    background: url('assets/web.de/smartphone.png');
-}
-
-.gmx .tablet-image {
-    background: url('assets/gmx.net/tablet.png');
-}
-
-.webde .tablet-image {
-    background: url('assets/web.de/tablet.png');
 }
 
 /***************************************

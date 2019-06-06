@@ -153,20 +153,20 @@ export default class PrivateKeyController extends sub.SubController {
       sync.triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
       this.keyBackup = await createPrivateKeyBackup(defaultKey, unlockedKey.password);
       await sync.getByKeyring(this.keyringId).backup({backup: this.keyBackup.message});
-      let page = 'recoverySheet';
+      let page = 'recoverySheet.html';
       switch (this.host) {
         case 'web.de':
-          page += `${'.1und1.html?brand=webde' + '&id='}${this.id}`;
+          page += `?brand=webde&id=${this.id}`;
           break;
         case 'gmx.net':
         case 'gmx.com':
         case 'gmx.co.uk':
         case 'gmx.fr':
         case 'gmx.es':
-          page += `${'.1und1.html?brand=gmx' + '&id='}${this.id}`;
+          page += `?brand=gmx&id=${this.id}`;
           break;
         default:
-          page += `${'.html' + '?id='}${this.id}`;
+          page += `?id=${this.id}`;
           break;
       }
       const path = `components/recovery-sheet/${page}`;
