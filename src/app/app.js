@@ -18,11 +18,11 @@
 import React from 'react';
 import {Route, Redirect, Link} from 'react-router-dom';
 import * as l10n from '../lib/l10n';
-import {terminate} from '../lib/util';
 import {APP_TOP_FRAME_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import {NavLink} from './util/util';
 import SecurityBG from '../components/util/SecurityBG';
+import Terminate from '../components/util/Terminate';
 
 import Dashboard from './dashboard/Dashboard';
 import Keyring from './keyring/Keyring';
@@ -33,24 +33,24 @@ import Settings from './settings/Settings';
 import './app.scss';
 
 l10n.register([
-  'encrypt_home',
   'decrypt_home',
-  'keyring_header',
+  'encrypt_home',
   'keyring_display_keys',
-  'keyring_import_keys',
   'keyring_generate_key',
+  'keyring_header',
+  'keyring_import_keys',
   'keyring_setup',
-  'options_title',
-  'options_home',
-  'options_docu',
   'options_about',
+  'options_docu',
+  'options_home',
+  'options_title',
   'security_background_button_title',
   'settings_general',
+  'settings_keyserver',
   'settings_security',
   'settings_security_background',
-  'settings_watchlist',
   'settings_security_log',
-  'settings_keyserver'
+  'settings_watchlist'
 ]);
 
 export let port; // EventHandler
@@ -63,13 +63,14 @@ export class App extends React.Component {
     const query = new URLSearchParams(document.location.search);
     // init messaging
     port = EventHandler.connect(`app-${this.getId(query)}`);
-    port.on('terminate', () => terminate(port));
+    port.on('terminate', this.terminate);
     l10n.mapToLocal();
     document.title = l10n.map.options_title;
     // set initial state
     this.state = {
       prefs: null, // global preferences
       gnupg: false, // GnuPG installed
+      terminate: false,
       version: '' // Mailvelope version
     };
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
@@ -87,6 +88,10 @@ export class App extends React.Component {
       }
       return id;
     }
+  }
+
+  terminate() {
+    this.setState({terminate: true}, () => this.port.disconnect());
   }
 
   componentDidMount() {
@@ -148,6 +153,7 @@ export class App extends React.Component {
             <p id="version" className="d-sm-none d-md-block">{this.state.version}</p>
           </div>
         </footer>
+        {this.state.terminate && <Terminate />}
       </SecurityBG>
     );
   }

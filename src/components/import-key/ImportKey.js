@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {showSecurityBackground, formatFpr} from '../../lib/util';
+import {formatFpr} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
 import SecurityBG from '../util/SecurityBG';
 import Spinner from '../util/Spinner';
@@ -42,12 +42,6 @@ export default class ImportKey extends React.Component {
     this.registerEventListeners();
     // emit event to backend that key import dialog has initialized
     this.port.emit('key-import-dialog-init');
-  }
-
-  componentDidMount() {
-    if (this.props.secureBackground) {
-      showSecurityBackground(this.port, true);
-    }
   }
 
   registerEventListeners() {
@@ -157,10 +151,5 @@ export default class ImportKey extends React.Component {
 
 ImportKey.propTypes = {
   id: PropTypes.string,
-  secureBackground: PropTypes.bool,
   isContainer: PropTypes.bool
-};
-
-ImportKey.defaultProps = {
-  secureBackground: true
 };

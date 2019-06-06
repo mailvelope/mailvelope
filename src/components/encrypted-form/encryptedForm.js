@@ -6,13 +6,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {showSecurityBackground, mapError, terminate, formatFpr} from '../../lib/util';
+import {mapError, formatFpr} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
 import FormSandbox from './components/FormSandbox';
 import './encryptedForm.css';
+import SecurityBG from '../util/SecurityBG';
 import Spinner from '../util/Spinner';
 import Alert from '../util/Alert';
 import Modal from '../util/Modal';
+import Terminate from '../util/Terminate';
 
 // register language strings
 l10n.register([
@@ -37,7 +39,8 @@ export default class EncryptedForm extends React.Component {
       formDefinition: null,
       formEncoding: null,
       formRecipient: null,
-      recipientFpr: null
+      recipientFpr: null,
+      terminate: false
     };
     this.port = EventHandler.connect(`encryptedForm-${this.props.id}`, this);
     this.registerEventListeners();
@@ -47,18 +50,19 @@ export default class EncryptedForm extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.secureBackground) {
-      showSecurityBackground(this.port, true);
-    }
     this.onResize();
   }
 
   registerEventListeners() {
     this.port.on('encrypted-form-definition', this.showForm);
     this.port.on('error-message', this.showErrorMsg);
-    this.port.on('terminate', () => terminate(this.port));
+    this.port.on('terminate', () => this.onTerminate);
     this.port.on('encrypted-form-submit', this.onFormSubmit);
     this.port.on('encrypted-form-submit-cancel', this.onFormSubmitCancel);
+  }
+
+  onTerminate() {
+    this.setState({terminate: true}, () => this.port.disconnect());
   }
 
   showForm(event) {
@@ -142,7 +146,7 @@ export default class EncryptedForm extends React.Component {
       );
     }
     return (
-      <div className={this.props.secureBackground ? 'jumbotron secureBackground' : ''} style={{height: '100%', position: 'relative'}}>
+      <SecurityBG className="jumbotron" port={this.port} style={{height: '100%', position: 'relative'}}>
         <div className="card">
           <div className="card-body">
             {this.state.error ? (<Alert type={this.state.error.type}>{this.state.error.message}</Alert>) : (
@@ -161,16 +165,12 @@ export default class EncryptedForm extends React.Component {
             )}
           </div>
         </div>
-      </div>
+        {this.state.terminate && <Terminate />}
+      </SecurityBG>
     );
   }
 }
 
 EncryptedForm.propTypes = {
   id: PropTypes.string,
-  secureBackground: PropTypes.bool
-};
-
-EncryptedForm.defaultProps = {
-  secureBackground: true
 };

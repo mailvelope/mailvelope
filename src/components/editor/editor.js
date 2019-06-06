@@ -12,7 +12,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {str2ab, terminate} from '../../lib/util';
+import {str2ab} from '../../lib/util';
 import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
 import EventHandler from '../../lib/EventHandler';
 import PlainText from './components/PlainText';
@@ -24,6 +24,7 @@ import FileUpload from '../util/FileUpload';
 import Modal from '../util/Modal';
 import Alert from '../util/Alert';
 import Spinner from '../util/Spinner';
+import Terminate from '../util/Terminate';
 
 import * as fileLib from '../../lib/file';
 
@@ -61,7 +62,8 @@ export default class Editor extends React.Component {
       error: null,
       showError: false,
       pwdDialog: null,
-      files: []
+      files: [],
+      terminate: false
     };
 
     this.port = EventHandler.connect(`editor-${this.props.id}`, this);
@@ -94,7 +96,7 @@ export default class Editor extends React.Component {
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('get-plaintext', this.getPlaintext);
     this.port.on('error-message', this.onErrorMessage);
-    this.port.on('terminate', () => terminate(this.port));
+    this.port.on('terminate', this.onTerminate);
     this.port.on('public-key-userids', this.onPublicKeyUserids);
     this.port.on('key-update', this.onKeyUpdate);
   }
@@ -107,6 +109,10 @@ export default class Editor extends React.Component {
       defaultKey: Boolean(defaultKeyFpr),
       privKeys
     });
+  }
+
+  onTerminate() {
+    this.setState({terminate: true}, () => this.port.disconnect());
   }
 
   handlePlainTextLoad() {
@@ -385,6 +391,7 @@ export default class Editor extends React.Component {
           </Modal>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
+        {this.state.terminate && <Terminate />}
       </SecurityBG>
     );
   }

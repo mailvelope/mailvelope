@@ -195,12 +195,6 @@ export function dataURL2base64(dataURL) {
   return dataURL.split(';base64,')[1];
 }
 
-export function addLoadingAnimation($parent) {
-  $parent = $parent || $('body')[0];
-  const spinner = $('<div class="m-spinner-inline"><div class="symbol"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>');
-  spinner.appendTo($parent);
-}
-
 export function generateSecurityBackground({width, height, scaling = 1, angle = 0, colorId = 0}) {
   const iconWidth = width * scaling;
   const iconHeight = height * scaling;
@@ -375,18 +369,6 @@ export function toArray(param) {
 export function checkUrl(url) {
   const pattern = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gi;
   return pattern.test(url);
-}
-
-export function terminate(port) {
-  removeSecurityBackground()
-  .then(() => {
-    $('body').empty();
-    setTimeout(() => {
-      $('body').removeClass()
-      .addClass('icon icon-bolt termination');
-    }, 0);
-  });
-  port.disconnect();
 }
 
 export function addDocumentTitle(text) {

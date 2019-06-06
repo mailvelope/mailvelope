@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {encodeHTML, getHash, str2ab, terminate} from '../../lib/util';
+import {encodeHTML, getHash, str2ab} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
 import ContentSandbox from './components/ContentSandbox';
 import {FileDownloadPanel} from '../util/FilePanel';
@@ -14,17 +14,18 @@ import SecurityBG from '../util/SecurityBG';
 import Modal from '../util/Modal';
 import Alert from '../util/Alert';
 import Spinner from '../util/Spinner';
+import Terminate from '../util/Terminate';
 
 import './DecryptMessage.scss';
 
 // register language strings
 l10n.register([
   'alert_header_error',
-  'decrypt_signer_label',
   'decrypt_attachment_label',
   'decrypt_digital_signature',
   'decrypt_digital_signature_failure',
   'decrypt_digital_signature_null',
+  'decrypt_signer_label',
   'security_background_button_title'
 ]);
 
@@ -39,7 +40,8 @@ export default class DecryptMessage extends React.Component {
       files: [],
       error: null,
       showError: false,
-      pwdDialog: null
+      pwdDialog: null,
+      terminate: false
     };
     this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
     this.registerEventListeners();
@@ -55,7 +57,11 @@ export default class DecryptMessage extends React.Component {
     this.port.on('error-message', this.showErrorMsg);
     this.port.on('show-pwd-dialog', this.onShowPwdDialog);
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
-    this.port.on('terminate', () => terminate(this.port));
+    this.port.on('terminate', this.onTerminate);
+  }
+
+  onTerminate() {
+    this.setState({terminate: true}, () => this.port.disconnect());
   }
 
   onShowPwdDialog(msg) {
@@ -213,6 +219,7 @@ export default class DecryptMessage extends React.Component {
           </Modal>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
+        {this.state.terminate && <Terminate />}
       </SecurityBG>
     );
   }
@@ -220,10 +227,5 @@ export default class DecryptMessage extends React.Component {
 
 DecryptMessage.propTypes = {
   id: PropTypes.string,
-  secureBackground: PropTypes.bool,
   embedded: PropTypes.bool
-};
-
-DecryptMessage.defaultProps = {
-  secureBackground: true
 };
