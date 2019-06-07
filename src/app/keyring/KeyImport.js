@@ -41,7 +41,6 @@ l10n.register([
   'key_import_hkp_search_btn',
   'key_import_invalid_text',
   'key_import_number_of_failed',
-  'key_import_number_of_failed_plural',
   'key_import_textarea',
   'key_import_textarea',
   'key_import_too_big',
@@ -50,7 +49,6 @@ l10n.register([
   'keygrid_user_email',
   'keygrid_user_name',
   'keyring_confirm_keys',
-  'keyring_confirm_keys_plural',
   'keyring_import_description',
   'keyring_import_keys',
   'keyring_import_search_description'
@@ -281,7 +279,7 @@ export default class KeyImport extends React.Component {
                 </ol>
               </nav>
               <div className="card-title d-flex flex-wrap align-items-center">
-                <h1 className="flex-shrink-0">{l10n.get('keyring_confirm_keys', [this.state.keys.length])}</h1>
+                <h1 className="flex-shrink-0">{this.state.keys.length > 1 ? l10n.get('keyring_confirm_keys_plural', [this.state.keys.length]) : l10n.map.keyring_confirm_keys}</h1>
                 <div className="ml-auto flex-shrink-0">
                   <div className="btn-bar">
                     <button type="button" onClick={() => this.handleBack()} className="btn btn-secondary">{l10n.map.form_cancel}</button>
@@ -290,7 +288,7 @@ export default class KeyImport extends React.Component {
                 </div>
               </div>
               <p>{l10n.map.key_import_default_description}</p>
-              {this.state.invalid > 0 && <Alert header={l10n.map.alert_header_warning} type="danger">{this.state.invalid > 1 ? l10n.get('key_import_number_of_failed_plural', [this.state.invalid]) : l10n.map.key_import_number_of_failed}</Alert>}
+              {this.state.invalid > 0 && <Alert header={l10n.map.alert_header_warning} type="danger">{this.state.invalid > 1 ? l10n.get('key_import_number_of_failed_plural', [this.state.invalid.length]) : l10n.map.key_import_number_of_failed}</Alert>}
               <div className="table-responsive">
                 <table className="table table-custom">
                   <thead>
