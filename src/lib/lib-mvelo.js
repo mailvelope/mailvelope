@@ -56,7 +56,21 @@ mvelo.storage.set = function(id, obj) {
 };
 
 mvelo.storage.remove = function(id) {
-  return browser.storage.local.remove(id);
+  id = typeof id === 'string' ? [id] : id;
+  if (id.length === 1) {
+    return browser.storage.local.remove(id[0]);
+  } else {
+    return mvelo.storage.get(id[0])
+    .then(data => {
+      const path = id.slice(1);
+      let obj = data;
+      for (let i = 0; i < path.length - 1; i++) {
+        obj = obj[path[i]];
+      }
+      delete obj[path.pop()];
+      mvelo.storage.set(id[0], data);
+    });
+  }
 };
 
 mvelo.tabs = {};

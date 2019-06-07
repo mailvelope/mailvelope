@@ -48,13 +48,6 @@ export function addUpdateHandler(fn) {
 
 export function getSecurityBackground() {
   return {
-    color: prefs.security.secureBgndColor,
-    iconColor: prefs.security.secureBgndIconColor,
-    angle: prefs.security.secureBgndAngle,
-    scaling: prefs.security.secureBgndScaling,
-    width: prefs.security.secureBgndWidth,
-    height: prefs.security.secureBgndHeight,
-    colorId: prefs.security.secureBgndColorId,
     bgIcon: prefs.security.bgIcon,
     bgColor: prefs.security.bgColor
   };
@@ -79,3 +72,8 @@ export function getPreferences() {
 export function setPreferences(preferences) {
   return mvelo.storage.set('mvelo.preferences', preferences);
 }
+
+export function removePreference(preference) {
+  return mvelo.storage.remove(preference);
+}
+

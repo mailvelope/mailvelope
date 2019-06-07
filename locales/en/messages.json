@@ -59,6 +59,10 @@
     "description": "Accessibility, aria label of the setup menu",
     "message": "Mailvelope setup menu"
   },
+  "action_menu_setup_new_bg_description": {
+    "description": "Configure new security bg description text in the action menu",
+    "message": "The last update of Mailvelope requires you to reconfigure your security background."
+  },
   "action_menu_setup_start_label": {
     "description": "Start button label",
     "message": "Let's start"

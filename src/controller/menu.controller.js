@@ -17,6 +17,7 @@ export default class MenuController extends sub.SubController {
     this.on('browser-action', this.onBrowserAction);
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
+    this.on('get-is-bg-customized', this.getIsBGCustomized);
   }
 
   onBrowserAction({action}) {
@@ -48,6 +49,10 @@ export default class MenuController extends sub.SubController {
       case 'email-providers':
         this.openApp('/settings/watchlist');
         break;
+      case 'setup-new-bg':
+        this.cleanupPrefs();
+        this.openApp('/settings/security-background');
+        break;
       default:
         console.log('unknown browser action');
     }
@@ -75,6 +80,18 @@ export default class MenuController extends sub.SubController {
     // check if at least one keyring has a private key
     const hasPrivateKey = getAllKeyring().some(keyring => keyring.hasPrivateKey());
     return {isSetupDone: hasPrivateKey};
+  }
+
+  getIsBGCustomized() {
+    // check for old security bg values in local storage
+    return {isBGCustomized: !Object.keys(prefs.prefs.security).some(key => key.includes('secureBgnd'))};
+  }
+
+  async cleanupPrefs() {
+    for (const key of Object.keys(prefs.prefs.security).filter(key => key.includes('secureBgnd'))) {
+      await prefs.removePreference(['mvelo.preferences', 'security', key]);
+      await prefs.init();
+    }
   }
 
   addToWatchList() {

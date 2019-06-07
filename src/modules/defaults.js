@@ -7,29 +7,13 @@ import {PLAIN_TEXT} from '../lib/constants';
 import {getPreferences, setPreferences, getWatchList, setWatchList} from './prefs';
 import {getSecureRandom} from './crypto';
 import defaults from '../res/defaults.json';
+import {securityBGs, securityColors} from '../res/common.json';
 
-function getRandomAngle() {
-  let angle = getSecureRandom(0, 120) - 60;
-  if (angle < 0) {
-    angle += 360;
-  }
-  return angle;
-}
-
-function initSecurityBgnd(pref) {
-  pref.security.secureBgndScaling     = pref.security.secureBgndScaling    || (getSecureRandom(9, 20) / 10);
-  pref.security.secureBgndWidth       = pref.security.secureBgndWidth      || 45;
-  pref.security.secureBgndHeight      = pref.security.secureBgndHeight     || 45;
-  pref.security.secureBgndColor       = pref.security.secureBgndColor      || defaults.preferences.security.secureBgndColor;
-  pref.security.secureBgndIconColor   = pref.security.secureBgndIconColor  || defaults.preferences.security.secureBgndIconColor;
-
-  if (typeof pref.security.secureBgndAngle === 'undefined') {
-    pref.security.secureBgndAngle = getRandomAngle();
-  }
-
-  if (typeof pref.security.secureBgndColorId === 'undefined') {
-    pref.security.secureBgndColorId = defaults.preferences.security.secureBgndColorId;
-  }
+function initSecurityBgnd(prefs) {
+  const securityBGArr = Object.entries(securityBGs);
+  prefs.security.bgIcon = securityBGArr[getSecureRandom(0, securityBGArr.length)][0];
+  const securityColorArr = Object.entries(securityColors);
+  prefs.security.bgColor = securityColorArr[getSecureRandom(0, securityColorArr.length)][1];
 }
 
 export function init() {
@@ -71,13 +55,6 @@ export function init() {
       if (typeof prefs.security.hide_armored_header == 'undefined') {
         prefs.security.hide_armored_header = defaults.preferences.security.hide_armored_header;
       }
-      if (typeof prefs.security.bgIcon == 'undefined') {
-        prefs.security.bgIcon = defaults.preferences.security.bgIcon;
-      }
-      if (typeof prefs.security.bgColor == 'undefined') {
-        prefs.security.bgColor = defaults.preferences.security.bgColor;
-      }
-
       // merge watchlist on version change
       return mergeWatchlist(defaults)
       .then(() => setPreferences(prefs));
