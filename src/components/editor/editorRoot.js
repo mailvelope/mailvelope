@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
 import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
-import {addDocumentTitle} from '../../lib/util';
+import {addDocumentTitle, str2bool} from '../../lib/util';
 import Editor from './editor';
 
 import './editorRoot.css';
@@ -27,7 +27,7 @@ function init() {
   document.body.dataset.mvelo = true;
   const query = new URLSearchParams(document.location.search);
   // indicator if editor runs in container or popup
-  const embedded = Boolean(query.get('embedded'));
+  const embedded = str2bool(query.get('embedded') || false);
   // component id
   const id = query.get('id') || '';
   // attachment max file size

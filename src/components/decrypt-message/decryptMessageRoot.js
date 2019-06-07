@@ -6,6 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
+import {str2bool} from '../../lib/util';
 import DecryptMessage from './DecryptMessage';
 
 import './decryptMessageRoot.css';
@@ -23,7 +24,7 @@ function init() {
   // component id
   const id = query.get('id') || '';
   // component used as a container (client API)
-  const embedded = Boolean(query.get('embedded'));
+  const embedded = str2bool(query.get('embedded') || false);
   const root = document.createElement('div');
   ReactDOM.render(<DecryptMessage id={id} embedded={embedded} />, document.body.appendChild(root));
 }
