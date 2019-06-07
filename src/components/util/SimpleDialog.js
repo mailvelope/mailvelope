@@ -33,7 +33,7 @@ export default function SimpleDialog(props) {
 }
 
 SimpleDialog.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   isOpen: PropTypes.bool,
   message: PropTypes.string,
   onCancel: PropTypes.func,
