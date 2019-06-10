@@ -295,10 +295,6 @@
     "description": "Button to save all files",
     "message": "Alle herunterladen"
   },
-  "encrypt_download_file_button": {
-    "description": "Download icon",
-    "message": "Klick um Datei zu speichern"
-  },
   "encrypt_encrypted_files_label": {
     "description": "Encrypted files label on encrypt success page.",
     "message": "Verschlüsselte Dateien"
