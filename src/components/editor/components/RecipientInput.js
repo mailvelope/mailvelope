@@ -158,12 +158,9 @@ export class RecipientInputCtrl {
    */
   getKey(recipient) {
     return _props.keys.find(key => {
-      if (recipient.fingerprint) {
-        return key.fingerprint === recipient.fingerprint;
-      }
-      if (key.email && recipient.email) {
-        return key.email.toLowerCase() === recipient.email.toLowerCase();
-      }
+      const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
+      const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
+      return fprMatch && emailMatch || emailMatch;
     });
   }
 
