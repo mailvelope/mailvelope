@@ -21,10 +21,6 @@ l10n.register([
 l10n.mapToLocal();
 
 function init() {
-  if (document.body.dataset.mvelo) {
-    return;
-  }
-  document.body.dataset.mvelo = true;
   const query = new URLSearchParams(document.location.search);
   // indicator if editor runs in container or popup
   const embedded = str2bool(query.get('embedded') || false);

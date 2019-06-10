@@ -13,10 +13,6 @@ document.addEventListener('DOMContentLoaded', init);
 l10n.mapToLocal();
 
 function init() {
-  if (document.body.dataset.mvelo) {
-    return;
-  }
-  document.body.dataset.mvelo = true;
   const query = new URLSearchParams(document.location.search);
   // component id
   const id = query.get('id') || '';

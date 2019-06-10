@@ -11,10 +11,6 @@ import {App} from './app';
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-  if (document.body.dataset.mvelo) {
-    return;
-  }
-  document.body.dataset.mvelo = true;
   const root = document.createElement('div');
   ReactDOM.render((
     <HashRouter>
