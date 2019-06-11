@@ -28,7 +28,7 @@ const prod = {
 const dev = {
   ...prod,
   mode: 'development',
-  devtool: 'source-map'
+  devtool: 'inline-cheap-module-source-map'
 };
 
 module.exports = [dev];

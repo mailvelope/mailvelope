@@ -29,7 +29,7 @@ function dev(pathname, filename) {
   return {
     ...prod(pathname, filename),
     mode: 'development',
-    devtool: 'inline-source-map'
+    devtool: 'inline-cheap-module-source-map'
   };
 }
 

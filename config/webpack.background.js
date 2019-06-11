@@ -33,7 +33,7 @@ const prod = {
 const dev = {
   ...prod,
   mode: 'development',
-  devtool: 'inline-cheap-source-map',
+  devtool: 'inline-cheap-module-source-map',
   module: {
     rules: [common.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`)],
     noParse: /openpgp\.js$/

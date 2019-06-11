@@ -30,6 +30,6 @@ exports.prod = {
 exports.dev = {
   ...exports.prod,
   mode: 'development',
-  devtool: 'inline-source-map'
+  devtool: 'inline-cheap-module-source-map'
 };
 
