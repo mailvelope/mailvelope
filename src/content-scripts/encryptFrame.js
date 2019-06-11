@@ -18,7 +18,7 @@ export default class EncryptFrame {
     this.refreshPosIntervalID = 0;
     this.emailTextElement = null;
     // type of external editor
-    this.editorType = PLAIN_TEXT; //prefs.general.editor_type;
+    this.editorType = PLAIN_TEXT;
     this.options = {closeBtn: true};
     this.keyCounter = 0;
     this.currentProvider = currentProvider;

@@ -3,17 +3,19 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {PLAIN_TEXT} from '../lib/constants';
 import {getPreferences, setPreferences, getWatchList, setWatchList} from './prefs';
 import {getSecureRandom} from './crypto';
 import defaults from '../res/defaults.json';
 import {securityBGs, securityColors} from '../res/common.json';
 
 function initSecurityBgnd(prefs) {
+  if (prefs.security.bgIcon && prefs.security.bgColor) {
+    return;
+  }
   const securityBGArr = Object.entries(securityBGs);
-  prefs.security.bgIcon = securityBGArr[getSecureRandom(0, securityBGArr.length)][0];
+  prefs.security.bgIcon = securityBGArr[getSecureRandom(0, securityBGArr.length - 1)][0];
   const securityColorArr = Object.entries(securityColors);
-  prefs.security.bgColor = securityColorArr[getSecureRandom(0, securityColorArr.length)][1];
+  prefs.security.bgColor = securityColorArr[getSecureRandom(0, securityColorArr.length - 1)][1];
 }
 
 export function init() {
@@ -29,10 +31,7 @@ export function init() {
     } else if (prefs.version !== defaults.version) {
       // version changed
       prefs.version = defaults.version;
-      prefs.general.editor_type = PLAIN_TEXT;
-
       initSecurityBgnd(prefs);
-
       // add default values for new settings
       if (typeof prefs.keyserver == 'undefined') {
         prefs.keyserver = defaults.preferences.keyserver;

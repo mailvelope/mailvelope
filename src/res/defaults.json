@@ -275,7 +275,6 @@
       "hide_armored_header": false
     },
     "general": {
-      "editor_type": "plain",
       "auto_add_primary": true,
       "auto_sign_msg": false,
       "prefer_gnupg": true
