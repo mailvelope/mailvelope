@@ -213,7 +213,7 @@
   },
   "editor_blur_warn": {
     "description": "Warning for lost focus.",
-    "message": "Achtung. Texteditor hat den Fokus verloren."
+    "message": "Achtung: Texteditor hat den Fokus verloren."
   },
   "editor_encrypt_button": {
     "description": "Encrypt button.",

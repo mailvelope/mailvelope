@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import $ from 'jquery';
 import * as l10n from '../../../lib/l10n';
 
 l10n.register([
@@ -14,23 +13,22 @@ l10n.register([
 export default class BlurWarning extends React.Component {
   constructor() {
     super();
-    // ref to blur warning
-    this.blurWarn = null;
+    this.state = {showBlurWarning: false};
+    // timeoutID for period in which the blur warning alert is visible
+    this.blurWarnActive = null;
     // timeoutID for period in which blur events are monitored
     this.blurWarnPeriod = null;
     // timeoutID for period in which blur events are non-critical
     this.blurValid = null;
     // observe window for getting focus
-    $(window).on('focus', () => this.startBlurValid());
+    window.addEventListener('focus', () => this.startBlurValid());
   }
 
   startBlurWarnInterval() {
     if (this.blurWarnPeriod) {
-      // clear timeout
-      window.clearTimeout(this.blurWarnPeriod);
+      return;
     }
-    // restart
-    this.blurWarnPeriod = window.setTimeout(() => this.blurWarnPeriod = null, 2000);
+    this.blurWarnPeriod = setTimeout(() => this.blurWarnPeriod = null, 2000);
   }
 
   /*
@@ -41,38 +39,36 @@ export default class BlurWarning extends React.Component {
   */
   onBlur() {
     if (this.blurWarnPeriod && !this.blurValid) {
-      window.setTimeout(() => this.showBlurWarning(), 40);
+      setTimeout(() => this.showBlurWarning(), 40);
     }
   }
 
   showBlurWarning() {
-    const blurWarn = $(this.blurWarn);
-    if (!this.blurValid) {
-      // fade in 600ms, wait 200ms, fade out 600ms
-      blurWarn.show()
-      .stop(true)
-      .animate({opacity: 1}, 'slow', 'swing', () => {
-        setTimeout(() => {
-          blurWarn.animate({opacity: 0}, 'slow', 'swing', () => {
-            blurWarn.hide();
-          });
-        }, 200);
-      });
+    if (this.blurValid) {
+      return;
     }
+    if (this.blurWarnActive) {
+      clearTimeout(this.blurWarnActive);
+    }
+    this.setState({showBlurWarning: true});
+    this.blurWarnActive = setTimeout(() => this.setState({showBlurWarning: false}), 800);
   }
 
   startBlurValid() {
     if (this.blurValid) {
       // clear timeout
-      window.clearTimeout(this.blurValid);
+      clearTimeout(this.blurValid);
     }
     // restart
-    this.blurValid = window.setTimeout(() => this.blurValid = null, 40);
+    this.blurValid = setTimeout(() => this.blurValid = null, 40);
   }
 
   render() {
+    if (!this.state.showBlurWarning) {
+      return null;
+    }
     return (
-      <div ref={node => this.blurWarn = node} className="alert alert-warning" style={{display: 'none', opacity: 0, position: 'absolute', top: '200px', left: '50%', marginLeft: '-240px'}}>
+      <div className="alert alert-warning fade show" role="alert" style={{position: 'absolute', top: '300px', left: '50%', marginLeft: '-240px', zIndex: 1050}}>
         <h3>{l10n.map.editor_blur_warn}</h3>
       </div>
     );

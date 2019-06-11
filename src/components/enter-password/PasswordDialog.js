@@ -51,7 +51,7 @@ export default class PasswordDialog extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keyup', this.onKeyUp.bind(this), false);
+    document.addEventListener('keyup', this.onKeyUp.bind(this));
   }
 
   componentDidUpdate() {
@@ -61,7 +61,7 @@ export default class PasswordDialog extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.onKeyUp, false);
+    document.removeEventListener('keyup', this.onKeyUp);
   }
 
   onKeyUp({keyCode}) {
