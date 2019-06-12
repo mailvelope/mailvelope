@@ -63,7 +63,8 @@ export default class Editor extends React.Component {
       showError: false,
       pwdDialog: null,
       files: [],
-      terminate: false
+      terminate: false,
+      embedded: false
     };
 
     this.port = EventHandler.connect(`editor-${this.props.id}`, this);
@@ -77,14 +78,13 @@ export default class Editor extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.embedded) {
-      this.fileUpload = new fileLib.FileUpload();
-    }
+    this.port.emit('editor-mount');
   }
 
   registerEventListeners() {
     this.port.on('set-text', ({text}) => this.setState({defaultPlainText: text}));
     this.port.on('set-init-data', this.onSetInitData);
+    this.port.on('set-embedded-mode', this.onSetEmbeddedMode);
     this.port.on('set-attachment', this.onSetAttachment);
     this.port.on('decrypt-in-progress', this.showWaitingModal);
     this.port.on('encrypt-in-progress', this.showWaitingModal);
@@ -111,13 +111,20 @@ export default class Editor extends React.Component {
     });
   }
 
+  onSetEmbeddedMode({embedded}) {
+    this.setState({embedded});
+    if (embedded) {
+      this.fileUpload = new fileLib.FileUpload();
+    }
+  }
+
   onTerminate() {
     this.setState({terminate: true}, () => this.port.disconnect());
   }
 
   handlePlainTextLoad() {
     // emit event to backend that editor has initialized
-    this.port.emit('editor-init');
+    this.port.emit('editor-load');
   }
 
   /**
@@ -190,7 +197,7 @@ export default class Editor extends React.Component {
     }
     // don't use key cache when sign & encrypt of message and user has not touched the editor
     // otherwise any predefinedText could be signed with the client-API
-    const noCache = this.props.embedded && !msg.draft && !this.state.hasUserInput;
+    const noCache = this.state.embedded && !msg.draft && !this.state.hasUserInput;
     this.sendPlainText(msg.action, noCache, msg.draft);
   }
 
@@ -319,13 +326,13 @@ export default class Editor extends React.Component {
 
   render() {
     return (
-      <SecurityBG className={`editor ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
+      <SecurityBG className={`editor ${this.state.embedded ? 'embedded' : ''}`} port={this.port}>
         <div className="modal d-block" style={{zIndex: 1035}}>
           <div className="modal-dialog h-100 mw-100 m-0">
             <div className="modal-content shadow-lg overflow-auto border-0 h-100">
               <div className="modal-body p-4">
                 <div className="editor d-flex flex-column align-content-center h-100">
-                  {this.props.recipientInput &&
+                  {!this.state.embedded &&
                     <div className="mb-3">
                       <label>{l10n.map.editor_label_recipient}</label>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
@@ -345,7 +352,7 @@ export default class Editor extends React.Component {
                       </div>
                     </div>
                   </div>
-                  {this.props.embedded && (
+                  {this.state.embedded && (
                     <div className="mt-3">
                       <label>{l10n.map.editor_label_attachments}</label>
                       <FileUpload files={this.state.files} onClickUpload={() => this.logUserInput('security_log_add_attachment')} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddAttachment(files)} />
@@ -353,7 +360,7 @@ export default class Editor extends React.Component {
                   )}
                 </div>
               </div>
-              {!this.props.embedded && (
+              {!this.state.embedded && (
                 <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
                   <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
                     privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
@@ -369,7 +376,7 @@ export default class Editor extends React.Component {
           </div>
         </div>
         {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
-        {!this.props.embedded && (
+        {!this.state.embedded && (
           <>
             <BlurWarning ref={node => this.blurWarning = node} />
             {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
@@ -399,9 +406,7 @@ export default class Editor extends React.Component {
 
 Editor.propTypes = {
   id: PropTypes.string,
-  embedded: PropTypes.bool,
-  maxFileUploadSize: PropTypes.number,
-  recipientInput: PropTypes.bool,
+  maxFileUploadSize: PropTypes.number
 };
 
 Editor.defaultProps = {

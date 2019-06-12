@@ -38,7 +38,8 @@ export default class EditorController extends sub.SubController {
     this.options = {};
 
     // register event handlers
-    this.on('editor-init', this.onEditorInit);
+    this.on('editor-mount', this.onEditorMount);
+    this.on('editor-load', this.onEditorLoad);
     this.on('editor-plaintext', this.onEditorPlaintext);
     this.on('editor-user-input', this.onEditorUserInput);
     this.on('auto-locate', this.onAutoLocate);
@@ -52,7 +53,11 @@ export default class EditorController extends sub.SubController {
     this.on('open-app', ({fragment}) => this.openApp(fragment));
   }
 
-  async onEditorInit() {
+  onEditorMount() {
+    this.ports.editor.emit('set-embedded-mode', {embedded: Boolean(this.ports.editorCont)});
+  }
+
+  async onEditorLoad() {
     if (this.ports.editorCont) {
       this.ports.editorCont.emit('editor-ready');
     } else {

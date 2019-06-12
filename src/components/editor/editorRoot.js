@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
 import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
-import {addDocumentTitle, str2bool} from '../../lib/util';
+import {addDocumentTitle} from '../../lib/util';
 import Editor from './editor';
 
 import './editorRoot.css';
@@ -22,8 +22,6 @@ l10n.mapToLocal();
 
 function init() {
   const query = new URLSearchParams(document.location.search);
-  // indicator if editor runs in container or popup
-  const embedded = str2bool(query.get('embedded') || false);
   // component id
   const id = query.get('id') || '';
   // attachment max file size
@@ -35,7 +33,7 @@ function init() {
   addDocumentTitle(l10n.map.editor_header);
   const root = document.createElement('div');
   ReactDOM.render(
-    (<Editor id={id} embedded={embedded} maxFileUploadSize={maxFileUploadSize} recipientInput={!embedded} />),
+    (<Editor id={id} maxFileUploadSize={maxFileUploadSize} />),
     document.body.appendChild(root)
   );
 }
