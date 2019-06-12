@@ -92,7 +92,7 @@ export default class VerifyFrame extends ExtractFrame {
     }
     this.eFrame.classList.add('m-cursor');
     this.eFrame.classList.remove('m-open');
-    this.eFrame.on('click', this.clickHandler);
+    this.eFrame.addEventListener('click', this.clickHandler);
   }
 
   setFrameDim() {
