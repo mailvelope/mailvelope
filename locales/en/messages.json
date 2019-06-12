@@ -961,7 +961,7 @@
   },
   "keygen_waiting_description": {
     "description": "",
-    "message": "Setting up encrypted communication can take several minutes. Your browser may become unresponsive. Please be patient."
+    "message": "This process can take several minutes. Your browser may become unresponsive. Please be patient."
   },
   "keygen_waiting_headline": {
     "description": "",

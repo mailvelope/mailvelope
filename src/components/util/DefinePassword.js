@@ -55,13 +55,13 @@ export default class DefinePassword extends React.Component {
     return (
       <div>
         <div className="form-group">
-          <label htmlFor="password">{l10n.map.key_gen_pwd}</label>
-          <input ref={pwdInput => this.pwdInput = pwdInput} value={this.props.value} onChange={this.props.onChange} onPaste={e => this.props.onChange({target: {type: 'password', id: 'password', value: e.clipboardData.getData('Text')}})} type="password" className={`form-control ${this.props.errors.password ? ' is-invalid' : ''} text-monospace`} id="password" disabled={this.props.disabled} />
+          <label htmlFor="password" className={this.props.hideLabels ? 'sr-only' : ''}>{l10n.map.key_gen_pwd}</label>
+          <input ref={pwdInput => this.pwdInput = pwdInput} value={this.props.value} onChange={this.props.onChange} onPaste={e => this.props.onChange({target: {type: 'password', id: 'password', value: e.clipboardData.getData('Text')}})} type="password" className={`form-control ${this.props.errors.password ? ' is-invalid' : ''} text-monospace`} id="password" disabled={this.props.disabled} placeHolder={this.props.hideLabels ? l10n.map.key_gen_pwd : ''} />
           {this.props.errors.password && <div className="invalid-feedback">{this.props.errors.password.message !== '' ? this.props.errors.password.message : l10n.map.key_gen_pwd_empty}</div>}
         </div>
         <div className="form-group">
-          <label htmlFor="passwordCheck">{l10n.map.key_gen_pwd_reenter}</label>
-          <input value={this.state.passwordCheck} onChange={this.handleChange} onPaste={e => this.props.onChange({target: {type: 'password', id: 'passwordCheck', value: e.clipboardData.getData('Text')}})} type="password" className={`form-control ${(this.props.errors.passwordCheck) ? 'is-invalid' : ''} text-monospace`} id="passwordCheck" disabled={this.props.disabled} />
+          <label htmlFor="passwordCheck" className={this.props.hideLabels ? 'sr-only' : ''}>{l10n.map.key_gen_pwd_reenter}</label>
+          <input value={this.state.passwordCheck} onChange={this.handleChange} onPaste={e => this.props.onChange({target: {type: 'password', id: 'passwordCheck', value: e.clipboardData.getData('Text')}})} type="password" className={`form-control ${(this.props.errors.passwordCheck) ? 'is-invalid' : ''} text-monospace`} id="passwordCheck" disabled={this.props.disabled} placeHolder={this.props.hideLabels ? l10n.map.key_gen_pwd_reenter : ''} />
           {this.props.errors.passwordCheck && <div className="invalid-feedback">{l10n.map.key_gen_pwd_unequal}</div>}
         </div>
       </div>
@@ -74,10 +74,12 @@ DefinePassword.propTypes = {
   focus: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  errors: PropTypes.object
+  errors: PropTypes.object,
+  hideLabels: PropTypes.bool
 };
 
 DefinePassword.defaultProps = {
-  focus: false
+  focus: false,
+  hideLabels: false
 };
 

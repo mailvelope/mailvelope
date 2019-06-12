@@ -89,14 +89,14 @@ export default class GenKey extends React.Component {
               <div className="modal-body d-flex flex-column overflow-auto p-4">
                 {this.state.waiting ? (
                   <>
-                    <Spinner style={{margin: '20px auto 20px auto'}} />
-                    <h4 className="align-self-center">{l10n.map.keygen_waiting_headline}</h4>
-                    <p className="align-self-center text-center">{l10n.map.keygen_waiting_description}</p>
+                    <Spinner style={{margin: '10px auto 20px auto'}} />
+                    <h4 className="align-self-center text-center">{l10n.map.keygen_waiting_headline}</h4>
+                    <p className="align-self-center text-center mb-0">{l10n.map.keygen_waiting_description}</p>
                   </>
                 ) : (
                   <>
                     <h4 className="mb-4">{l10n.map.keygen_dialog_prolog}</h4>
-                    <DefinePassword value={this.state.password} focus={true} errors={this.state.errors} onChange={this.handleChange} />
+                    <DefinePassword value={this.state.password} focus={true} errors={this.state.errors} onChange={this.handleChange} hideLabels={true} />
                   </>
                 )}
               </div>

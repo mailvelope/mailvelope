@@ -959,7 +959,7 @@
   },
   "keygen_waiting_description": {
     "description": "",
-    "message": "Das Einrichten der verschlüsselten Kommunikation kann mehrere Minuten dauern. Ihr Browser reagiert ggf. gewisse Zeit nicht. Bitte haben Sie einen Moment Geduld."
+    "message": "Dieser Vorgang kann mehrere Minuten dauern. Ihr Browser reagiert ggf. gewisse Zeit nicht. Bitte haben Sie einen Moment Geduld."
   },
   "keygen_waiting_headline": {
     "description": "",
