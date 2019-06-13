@@ -41,9 +41,9 @@ export default class EncryptFrame {
     this.editElement = element;
     // set status to attached
     this.editElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
-    this.emailTextElement = this.editElement.tagName === 'iframe' ? this.editElement.contentDocument.body : this.editElement;
+    this.emailTextElement = this.editElement.tagName.toLowerCase() === 'iframe' ? this.editElement.contentDocument.body : this.editElement;
     // inject style if we have a non-body editable element inside a dynamic iframe
-    if (!this.editElement.tagName === 'body' && this.editElement.closest('body').dataset[DYN_IFRAME]) {
+    if (!this.editElement.tagName.toLowerCase() === 'body' && this.editElement.closest('body').dataset[DYN_IFRAME]) {
       const html = this.editElement.closest('html');
       if (!html.dataset.mveloStyle) {
         const style = document.createElement('link');
@@ -130,7 +130,7 @@ export default class EncryptFrame {
   }
 
   setFrameDim() {
-    this.eFrame.style.top = `${this.editElement.offsetTop + 3}px`;
+    this.eFrame.style.top = `${this.editElement.offsetTop + 5}px`;
     this.eFrame.style.right = '20px';
   }
 
@@ -172,7 +172,7 @@ export default class EncryptFrame {
   getEmailText(type) {
     let text;
     let html;
-    if (this.emailTextElement.tagName === 'textarea') {
+    if (this.emailTextElement.tagName.toLowerCase() === 'textarea') {
       text = this.emailTextElement.value;
     } else { // html element
       if (type === 'text') {
@@ -208,7 +208,7 @@ export default class EncryptFrame {
    * Replace content of editor element (_emailTextElement)
    */
   setMessage(msg) {
-    if (this.emailTextElement.tagName === 'textarea') {
+    if (this.emailTextElement.tagName.toLowerCase() === 'textarea') {
       this.emailTextElement.value = msg;
     } else {
       // element is contenteditable or RTE

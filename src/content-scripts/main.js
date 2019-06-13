@@ -175,7 +175,7 @@ function findPGPRanges() {
     // check if element is editable
     const isEditable = firstParent(node, '[contenteditable], textarea');
     if (isEditable ||
-      treeWalker.currentNode.parentNode.tagName === 'SCRIPT' ||
+      treeWalker.currentNode.parentNode.tagName.toLowerCase() === 'script' ||
       treeWalker.currentNode.ownerDocument.designMode === 'on') {
       continue;
     }
@@ -199,7 +199,7 @@ function findPGPRanges() {
 
 function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
-  let editable = Array.from(document.querySelectorAll('[contenteditable], textarea')).filter(isVisible).filter(element => element.tagName !== 'body');
+  let editable = Array.from(document.querySelectorAll('[contenteditable], textarea')).filter(isVisible).filter(element => element.tagName.toLowerCase() !== 'body');
   const iframes = Array.from(document.getElementsByTagName('iframe')).filter(isVisible);
   const dynFrames = [];
   const origFrames = [];
