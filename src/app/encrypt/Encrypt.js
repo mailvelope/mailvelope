@@ -51,7 +51,6 @@ export default class Encrypt extends React.Component {
   constructor() {
     super();
     this.state = {
-      armored: true,
       initializing: true,
       waiting: false,
       encryptDisabled: true,
@@ -138,7 +137,7 @@ export default class Encrypt extends React.Component {
         signingKeyFpr: this.state.signingKey ? this.state.signingKey.fingerprint : '',
         uiLogSource: 'security_log_encrypt_ui',
         noCache: false,
-        armor: this.state.armored
+        armor: true
       });
       this.setState(prevState => ({encrypted: [...prevState.encrypted, this.createFileObject({content: encrypted, filename: 'text.txt', mimeType: 'text/plain'})]}));
     } catch (error) {
@@ -156,7 +155,7 @@ export default class Encrypt extends React.Component {
           signingKeyFpr: this.state.signingKey ? this.state.signingKey.fingerprint : '',
           uiLogSource: 'security_log_encrypt_ui',
           noCache: false,
-          armor: this.state.armored
+          armor: false
         });
         this.setState(prevState => ({encrypted: [...prevState.encrypted, this.createFileObject({content: encrypted, filename: plainFile.name, mimeType: 'application/octet-stream'})]}));
       } catch (error) {
@@ -166,12 +165,12 @@ export default class Encrypt extends React.Component {
   }
 
   createFileObject({content, filename, mimeType}) {
-    const file = {
-      id: getHash(),
-      name: `${filename}${this.state.armored ? '.asc' : '.gpg'}`,
-    };
+    const file = {id: getHash()};
     if (fileLib.extractFileExtension(filename) === 'txt') {
+      file.name = `${filename}.asc`;
       file.content = content;
+    } else {
+      file.name = `${filename}.gpg`;
     }
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     mimeType = 'application/octet-stream';
