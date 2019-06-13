@@ -105,7 +105,9 @@ export default class ExtractFrame {
   }
 
   toggleIcon(callback) {
-    this.eFrame.addEventListener('transitionend', callback, {once: true});
+    if (callback) {
+      this.eFrame.addEventListener('transitionend', callback, {once: true});
+    }
     this.eFrame.classList.toggle('m-open');
   }
 
@@ -116,12 +118,17 @@ export default class ExtractFrame {
   }
 
   getArmoredMessage() {
-    const pgpSelection = window.getSelection();
-    // required in order to make Selection.addRange work
-    pgpSelection.removeAllRanges();
-    pgpSelection.addRange(this.pgpRange);
-    const msg = pgpSelection.toString();
-    pgpSelection.removeAllRanges();
+    let msg;
+    if (this.pgpElement.parentElement.tagName.toLowerCase() === 'pre' && !this.pgpElement.querySelectorAll('br').length) {
+      msg = this.pgpRange.toString();
+    } else {
+      const pgpSelection = window.getSelection();
+      // required in order to make Selection.addRange work
+      pgpSelection.removeAllRanges();
+      pgpSelection.addRange(this.pgpRange);
+      msg = pgpSelection.toString();
+      pgpSelection.removeAllRanges();
+    }
     return msg;
   }
 

@@ -11,7 +11,7 @@
 :root .m-extract-frame {
   background-position: center center, center center;
   background-image: none, none;
-  transition: visibility 0.3s 0s, opacity 0.3s ease-out, background-image 0.5s ease, height 0.3s linear;
+  transition: visibility 0.3s 0s, opacity 0.3s ease-out, background-position 0.5s ease, height 0.3s linear;
   background-color: rgba(254,251,243,.8);
   background-repeat: no-repeat;
   border: 1px solid rgba(0,0,0,.2);
@@ -44,6 +44,10 @@
 :root .m-extract-frame.m-open {
   background-position: 20px center, center center;
   background-size: 80px, 48px;
+}
+
+:root .m-extract-frame.m-large.m-open {
+  background-position: 20px 140px, center 156px;
 }
 
 :root .m-extract-frame.m-open.m-decrypt {
