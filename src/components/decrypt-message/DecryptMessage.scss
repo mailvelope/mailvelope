@@ -57,4 +57,13 @@
     transform: translate3d(-50%,-50%,0);
     z-index: 1050;
   }
+
+  .toastWrapper {
+    z-index: 1051;
+    position: fixed;
+    top: 5.75rem;
+    left: 50%;
+    transform:translateX(-50%);
+  }
+
 }

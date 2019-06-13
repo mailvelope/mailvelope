@@ -22,7 +22,7 @@ import BlurWarning from './components/BlurWarning';
 import SecurityBG from '../util/SecurityBG';
 import FileUpload from '../util/FileUpload';
 import Modal from '../util/Modal';
-import Alert from '../util/Alert';
+import Toast from '../util/Toast';
 import Spinner from '../util/Spinner';
 import Terminate from '../util/Terminate';
 
@@ -324,6 +324,12 @@ export default class Editor extends React.Component {
     }
   }
 
+  toggleError(timeout = 0) {
+    setTimeout(() => {
+      this.setState(prevState => ({showError: !prevState.showError}));
+    }, timeout);
+  }
+
   render() {
     return (
       <SecurityBG className={`editor ${this.state.embedded ? 'embedded' : ''}`} port={this.port}>
@@ -389,13 +395,11 @@ export default class Editor extends React.Component {
           </div>
         </Modal>
         {this.state.error &&
-          <Modal isOpen={this.state.showError} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} title={this.state.error.header} onShow={() => this.blurWarning && this.blurWarning.startBlurValid} footer={
-            <div className="modal-footer"><button type="button" className="btn btn-primary" onClick={() => this.setState({showError: false})}>{l10n.map.form_ok}</button></div>
-          }>
-            <div style={{maxHeight: '120px', overflowX: 'auto'}}>
-              <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
-            </div>
-          </Modal>
+          <div className="toastWrapper">
+            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.toggleError()} type="error" transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.toggleError(4000); }}}>
+              {this.state.error.message}
+            </Toast>
+          </div>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
         {this.state.terminate && <Terminate />}

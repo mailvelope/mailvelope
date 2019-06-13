@@ -11,8 +11,8 @@ import EventHandler from '../../lib/EventHandler';
 import ContentSandbox from './components/ContentSandbox';
 import {FileDownloadPanel} from '../util/FilePanel';
 import SecurityBG from '../util/SecurityBG';
-import Modal from '../util/Modal';
 import Alert from '../util/Alert';
+import Toast from '../util/Toast';
 import Spinner from '../util/Spinner';
 import Terminate from '../util/Terminate';
 
@@ -214,9 +214,11 @@ export default class DecryptMessage extends React.Component {
         </div>
         {this.state.pwdDialog && <iframe className="decrypt-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
         {this.state.error &&
-          <Modal isOpen={this.state.showError} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} title={this.state.error.header} onHide={() => this.handleCancel()} hideFooter={true}>
-            <Alert type={this.state.error.type}>{this.state.error.message}</Alert>
-          </Modal>
+          <div className="toastWrapper">
+            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} type="error" transition={{timeout: 150, unmountOnExit: true, onExited: () => this.handleCancel()}}>
+              {this.state.error.message}
+            </Toast>
+          </div>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
         {this.state.terminate && <Terminate />}
