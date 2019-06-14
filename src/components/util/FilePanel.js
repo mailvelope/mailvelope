@@ -75,10 +75,6 @@ FileDownloadPanel.propTypes = {
   onCopyToClipboard: PropTypes.func
 };
 
-function getSignerText(signer) {
-  return !signer ? l10n.map.file_not_signed : l10n.get('file_signed', [signer]);
-}
-
 function FileDownloadElement({file, onClick, onCopyToClipboard}) {
   const fileExt = extractFileExtension(file.name);
   const fileName = extractFileNameWithoutExt(file.name);
@@ -94,7 +90,7 @@ function FileDownloadElement({file, onClick, onCopyToClipboard}) {
         }
       </a>
       {fileExt === 'txt' &&  <textarea className="form-control" value={file.content} rows={6} spellCheck="false" autoComplete="off" readOnly />}
-      {file.signer !== undefined && <Alert className="mt-2 mb-0 align-self-start" type="info">{getSignerText(file.signer)}</Alert>}
+      {file.signer && <Alert className="mt-2 mb-0 align-self-start" type={file.signer.type}>{file.signer.label}</Alert>}
     </div>
   );
 }

@@ -60,7 +60,7 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
     // sync public keys for the signatures
     await syncPublicKeys({keyring, keyIds: sigKeyIds, keyringId});
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
-    return {data, signatures};
+    return {data, signatures, keyringId: keyring.id};
   } catch (e) {
     console.log('getPgpBackend().decrypt() error', e);
     throw e;
@@ -421,6 +421,7 @@ export async function decryptFile(encryptedFile, unlockKey) {
     if (!result.filename) {
       result.filename = encryptedFile.name.slice(0, -4);
     }
+    result.keyringId = keyring.id;
     return result;
   } catch (error) {
     console.log('pgpModel.decryptFile() error', error);
