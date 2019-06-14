@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {Dropdown, DropdownToggle, DropdownMenu} from 'reactstrap';
 import {KEYRING_DELIMITER, MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../../../lib/constants';
 import * as l10n from '../../../lib/l10n';
 import {port} from '../../app';
@@ -18,7 +19,11 @@ l10n.register([
 export default class KeyringSelect extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {names: {}};
+    this.state = {
+      names: {},
+      dropdownOpen: false
+    };
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -94,19 +99,25 @@ export default class KeyringSelect extends React.Component {
     return '../../../img/Mailvelope/keyring.svg';
   }
 
+  toggle() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  }
+
   render() {
     return (
       <>
         {(Object.keys(this.props.keyringAttr).length > 1 && this.props.prefs) &&
-        <div id="keyringSelect" className="dropdown">
-          <button className="btn btn-light dropdown-toggle d-flex justify-content-between align-items-center text-left px-2" type="button" data-toggle="dropdown" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="true">
+        <Dropdown id="keyringSelect" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+          <DropdownToggle className="btn-light d-flex justify-content-between align-items-center text-left px-2" caret>
             <img src={this.getKeyringThumbnail(this.props.keyringId)} style={{objectFit: 'contain', width: '32px', height: 'auto', maxHeight: '32px'}} />
             <div className="ml-2 flex-grow-1 d-inline-block">
               <h5 className="d-block mb-1">{this.getKeyringName(this.props.keyringId)}</h5>
               <p className="d-block mb-0 small">{this.getKeyringEmail(this.props.keyringId)}</p>
             </div>
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" role="menu">
+          </DropdownToggle>
+          <DropdownMenu>
             {Object.keys(this.props.keyringAttr).map((keyringId, index) => {
               const keyringName = this.getKeyringName(keyringId);
               const keyringEmail = this.getKeyringEmail(keyringId);
@@ -126,8 +137,8 @@ export default class KeyringSelect extends React.Component {
               );
             })
             }
-          </div>
-        </div>
+          </DropdownMenu>
+        </Dropdown>
         }
       </>
     );

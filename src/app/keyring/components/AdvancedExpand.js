@@ -3,10 +3,11 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as l10n from '../../../lib/l10n';
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Collapse} from 'reactstrap';
+import Alert from '../../../components/util/Alert';
+import * as l10n from '../../../lib/l10n';
 
 import './AdvancedExpand.css';
 
@@ -18,31 +19,26 @@ export default class AdvancedExpand extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      expand: false
+      collapse: false
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
-  handleClick() {
-    this.setState(previousState => ({expand: !previousState.expand}), () => {
-      // component re-rendered, trigger animation
-      if (this.state.expand) {
-        $(this.expandAreaNode).slideDown();
-      } else {
-        $(this.expandAreaNode).slideUp();
-      }
-    });
+  toggle() {
+    this.setState(state => ({collapse: !state.collapse}));
   }
 
   render() {
     return (
       <div>
         <div className="form-group">
-          <button type="button" className={`btn btn-primary ${this.state.expand ? 'key-advanced-open' : 'key-advanced-closed'}`} onClick={this.handleClick}>{l10n.map.key_gen_advanced_btn}</button>
+          <button type="button" className={`btn btn-primary ${this.state.collapse ? 'key-advanced-open' : 'key-advanced-closed'}`} onClick={this.toggle}>{l10n.map.key_gen_advanced_btn}</button>
         </div>
-        <div className="alert alert-info" style={{display: 'none'}} ref={node => this.expandAreaNode = node}>
-          {this.props.children}
-        </div>
+        <Collapse isOpen={this.state.collapse}>
+          <Alert type="info">
+            {this.props.children}
+          </Alert>
+        </Collapse>
       </div>
     );
   }

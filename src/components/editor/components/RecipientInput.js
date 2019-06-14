@@ -49,7 +49,7 @@ export class RecipientInput extends React.Component {
     // attach ctrl to editor module
     angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);
     // bootstrap angular
-    angular.bootstrap($('.recipients-input').get(0), ['recipientInput']);
+    angular.bootstrap(document.querySelector('.recipients-input'), ['recipientInput']);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -165,22 +165,22 @@ export class RecipientInputCtrl {
   }
 
   /**
-   * Uses jQuery to color the recipient's input tag depending on
+   * Color the recipient's input tag depending on
    * whether they have a key or not.
    * @param  {Object} recipient   The recipient object
    */
   colorTag(recipient) {
     this._timeout(() => { // wait for html tag to appear
-      $('tags-input li.tag-item').each(function() {
-        if ($(this).text().indexOf(recipient.email) === -1) {
-          return;
+      const tags = document.querySelectorAll('tags-input li.tag-item');
+      for (const tag of tags) {
+        if (tag.textContent.indexOf(recipient.email) !== -1) {
+          if (recipient.key) {
+            tag.classList.add('tag-success');
+          } else {
+            tag.classList.add('tag-danger');
+          }
         }
-        if (recipient.key) {
-          $(this).addClass('tag-success');
-        } else {
-          $(this).addClass('tag-danger');
-        }
-      });
+      }
     });
   }
 

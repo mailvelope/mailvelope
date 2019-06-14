@@ -6,7 +6,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
 
 export default class PlainText extends React.PureComponent {
   constructor(props) {
@@ -35,10 +34,13 @@ export default class PlainText extends React.PureComponent {
         onBlur={this.props.onBlur}
         onMouseUp={this.props.onMouseUp}
         ref={node => this.textarea = node}
-        style={{width: '100%', height: '100%', marginBottom: 0, color: 'black', resize: 'none'}}
+        style={{width: '100%', height: '100%', marginBottom: 0, color: 'black', resize: 'none', lineHeight: 1.5}}
       />
     );
-    ReactDOM.render(textarea, $(this.sandbox).contents().find('#root').get(0));
+
+    const sandboxDoc = this.sandbox.contentDocument;
+    const content = sandboxDoc.querySelector('#root');
+    ReactDOM.render(textarea, content);
     this.props.onLoad && this.props.onLoad();
   }
 

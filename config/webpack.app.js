@@ -11,7 +11,6 @@ const output = {
   filename: 'app.bundle.js'
 };
 const externals = {
-  jquery: 'jQuery',
   react: 'React',
   'react-dom': 'ReactDOM'
 };
