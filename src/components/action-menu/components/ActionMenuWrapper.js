@@ -47,7 +47,7 @@ class ActionMenuWrapper extends Component {
   }
 
   hide() {
-    $(document.body).fadeOut(() => window.close());
+    window.close();
   }
 
   render() {

@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
 import * as l10n from '../../lib/l10n';
 import {mapError, formatFpr} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
