@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash, normalizeArmored, encodeHTML, decodeHTML} from '../lib/util';
+import {getHash, normalizeArmored, encodeHTML, decodeHTML, parseHTML} from '../lib/util';
 import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, DYN_IFRAME, PLAIN_TEXT} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import * as l10n from '../lib/l10n';
@@ -14,6 +14,75 @@ l10n.register([
 ]);
 
 l10n.mapToLocal();
+
+const encryptContainerCSS = `
+.m-encrypt-container {
+  font-family: sans-serif;
+  display: inline-flex;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 24px;
+  padding: 6px;
+  margin-left: auto;
+}
+
+.m-encrypt-container.active {
+  box-shadow: 0 0 0 3px rgba(227,0,72,0.25);
+}
+
+.m-encrypt-container .m-encrypt-button:hover span,
+.m-encrypt-container.active .m-encrypt-button span {
+  max-width: 250px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  transition: max-width 0.25s ease-in-out, margin 0s;
+}
+
+.m-encrypt-container a {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.m-encrypt-container .m-encrypt-button {
+  display: flex;
+  align-items: center;
+}
+
+.m-encrypt-container .m-encrypt-button span {
+  max-width: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-left: 0;
+  margin-right: 0;
+  font-size: 16px;
+  font-weight: 500;
+  transition: margin 0s 0.25s, max-width 0.25s ease-in-out;
+}
+
+.m-encrypt-container .m-encrypt-close {
+  padding: 8px;
+}
+
+.m-encrypt-container .m-encrypt-close .icon-close {
+  font-family: inherit !important;
+  display: flex;
+  align-items: center;
+}
+
+.m-encrypt-container .m-encrypt-close .icon-close::before {
+  display: inline-block;
+  font-size: 16px;
+  height: 14px;
+  width: 14px;
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 6.1534l3.2028-3.4164a.75.75 0 0 1 1.0944 1.026L8.028 7.25l3.269 3.487a.75.75 0 1 1-1.0943 1.026L7 8.3466 3.7972 11.763a.75.75 0 0 1-1.0944-1.026L5.972 7.25 2.7028 3.763a.75.75 0 0 1 1.0944-1.026L7 6.1534z' fill='%239e9e9e' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.m-encrypt-container .m-encrypt-close:hover .icon-close::before {
+  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 6.1534l3.2028-3.4164a.75.75 0 0 1 1.0944 1.026L8.028 7.25l3.269 3.487a.75.75 0 1 1-1.0943 1.026L7 8.3466 3.7972 11.763a.75.75 0 0 1-1.0944-1.026L5.972 7.25 2.7028 3.763a.75.75 0 0 1 1.0944-1.026L7 6.1534z' fill='%23757575' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+`;
 
 export default class EncryptFrame {
   constructor() {
@@ -85,31 +154,37 @@ export default class EncryptFrame {
     this.eFrame = document.createElement('div');
     this.eFrame.id = `eFrame-${this.id}`;
     this.eFrame.classList.add('m-encrypt-frame');
-    this.eFrame.innerHTML = `<div class="m-encrypt-container"><a id="editorBtn" class="m-encrypt-button"><svg width="32px" heigh="32px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" r="16" fill="#FF004F"/><path d="M15.995 28.667c-3.39 0-6.57-1.311-8.955-3.691-2.387-2.383-3.704-5.567-3.707-8.966a12.628 12.628 0 0 1 .592-3.836l.007-.028c.087-.306.194-.6.318-.875.022-.055.047-.116.073-.176.11-.251.545-1.115 1.588-1.77.943-.593 1.77-.644 1.866-.648.228-.027.464-.04.699-.04 1.07 0 2.015.423 2.662 1.194.492.587.76 1.307.78 2.097a4.321 4.321 0 0 1 1.959-.481c1.07 0 2.016.424 2.662 1.194.039.046.076.094.113.142.859-.852 1.993-1.336 3.14-1.336 1.07 0 2.015.424 2.662 1.194.656.782.913 1.81.722 2.893l-.672 3.807c-.09.513.017.982.301 1.321.274.327.696.507 1.187.507 1.482 0 2.003-1.08 2.345-2.246.293-1.033.428-2.107.401-3.191a10.675 10.675 0 0 0-3.219-7.387 10.683 10.683 0 0 0-7.445-3.086H16c-2.14 0-4.209.63-5.982 1.825a.97.97 0 0 1-.544.167.958.958 0 0 1-.729-.335L8.74 6.91a.96.96 0 0 1 .196-1.418 12.585 12.585 0 0 1 7.317-2.156 12.604 12.604 0 0 1 8.65 3.67 12.601 12.601 0 0 1 3.758 8.612 12.664 12.664 0 0 1-.41 3.606h.001l-.043.158-.019.063a12.57 12.57 0 0 1-.4 1.187c-.079.187-.518 1.143-1.599 1.822-.935.588-1.673.618-1.76.62a4.89 4.89 0 0 1-.439.02c-1.07 0-2.016-.424-2.662-1.194-.656-.783-.913-1.81-.722-2.893l.672-3.808c.09-.512-.017-.982-.301-1.32-.274-.327-.696-.507-1.187-.507-1.166 0-2.325.99-2.531 2.162l-.735 3.998a.528.528 0 0 1-.52.432h-.883a.527.527 0 0 1-.52-.623l.762-4.144c.09-.51-.017-.98-.3-1.319-.275-.326-.697-.506-1.188-.506-1.165 0-2.324.99-2.531 2.162l-.734 3.998a.528.528 0 0 1-.52.432H9.21a.526.526 0 0 1-.52-.623l.764-4.159.512-2.799c.09-.509-.018-.976-.302-1.315-.274-.327-.696-.507-1.187-.507-1.21 0-1.989.465-2.454 1.463a10.662 10.662 0 0 0-.755 4.408c.108 2.737 1.266 5.313 3.26 7.252 1.995 1.939 4.603 3.024 7.343 3.057H16c2.266 0 4.435-.7 6.272-2.026a.942.942 0 0 1 .555-.18.962.962 0 0 1 .565 1.743 12.571 12.571 0 0 1-7.397 2.389" fill="#FFF2F6"/></g></svg><span>${l10n.map.encrypt_frame_btn_label}</span></a><a class="m-encrypt-close"><span class="icon-close"></span></a></div>`;
+    this.eFrameShadow = this.eFrame.attachShadow({mode: 'open'});
+    const encryptContainerStyle = document.createElement('style');
+    encryptContainerStyle.textContent = encryptContainerCSS;
+    this.eFrameShadow.append(encryptContainerStyle);
+    const encryptContainer = `<div class="m-encrypt-container"><a id="editorBtn" class="m-encrypt-button"><svg width="32px" heigh="32px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><circle cx="16" cy="16" r="16" fill="#FF004F"/><path d="M15.995 28.667c-3.39 0-6.57-1.311-8.955-3.691-2.387-2.383-3.704-5.567-3.707-8.966a12.628 12.628 0 0 1 .592-3.836l.007-.028c.087-.306.194-.6.318-.875.022-.055.047-.116.073-.176.11-.251.545-1.115 1.588-1.77.943-.593 1.77-.644 1.866-.648.228-.027.464-.04.699-.04 1.07 0 2.015.423 2.662 1.194.492.587.76 1.307.78 2.097a4.321 4.321 0 0 1 1.959-.481c1.07 0 2.016.424 2.662 1.194.039.046.076.094.113.142.859-.852 1.993-1.336 3.14-1.336 1.07 0 2.015.424 2.662 1.194.656.782.913 1.81.722 2.893l-.672 3.807c-.09.513.017.982.301 1.321.274.327.696.507 1.187.507 1.482 0 2.003-1.08 2.345-2.246.293-1.033.428-2.107.401-3.191a10.675 10.675 0 0 0-3.219-7.387 10.683 10.683 0 0 0-7.445-3.086H16c-2.14 0-4.209.63-5.982 1.825a.97.97 0 0 1-.544.167.958.958 0 0 1-.729-.335L8.74 6.91a.96.96 0 0 1 .196-1.418 12.585 12.585 0 0 1 7.317-2.156 12.604 12.604 0 0 1 8.65 3.67 12.601 12.601 0 0 1 3.758 8.612 12.664 12.664 0 0 1-.41 3.606h.001l-.043.158-.019.063a12.57 12.57 0 0 1-.4 1.187c-.079.187-.518 1.143-1.599 1.822-.935.588-1.673.618-1.76.62a4.89 4.89 0 0 1-.439.02c-1.07 0-2.016-.424-2.662-1.194-.656-.783-.913-1.81-.722-2.893l.672-3.808c.09-.512-.017-.982-.301-1.32-.274-.327-.696-.507-1.187-.507-1.166 0-2.325.99-2.531 2.162l-.735 3.998a.528.528 0 0 1-.52.432h-.883a.527.527 0 0 1-.52-.623l.762-4.144c.09-.51-.017-.98-.3-1.319-.275-.326-.697-.506-1.188-.506-1.165 0-2.324.99-2.531 2.162l-.734 3.998a.528.528 0 0 1-.52.432H9.21a.526.526 0 0 1-.52-.623l.764-4.159.512-2.799c.09-.509-.018-.976-.302-1.315-.274-.327-.696-.507-1.187-.507-1.21 0-1.989.465-2.454 1.463a10.662 10.662 0 0 0-.755 4.408c.108 2.737 1.266 5.313 3.26 7.252 1.995 1.939 4.603 3.024 7.343 3.057H16c2.266 0 4.435-.7 6.272-2.026a.942.942 0 0 1 .555-.18.962.962 0 0 1 .565 1.743 12.571 12.571 0 0 1-7.397 2.389" fill="#FFF2F6"/></g></svg><span>${l10n.map.encrypt_frame_btn_label}</span></a><a class="m-encrypt-close"><span class="icon-close"></span></a></div>`;
+    this.eFrameShadow.append(parseHTML(encryptContainer));
     this.editElement.parentNode.insertBefore(this.eFrame, this.editElement.nextSibling);
     window.addEventListener('resize', this.setFrameDim);
     // to react on position changes of edit element, e.g. click on CC or BCC in GMail
-    this.eFrame.querySelector('.m-encrypt-close').addEventListener('click', this.closeFrame.bind(this));
-    this.eFrame.querySelector('#editorBtn').addEventListener('click', this.onEditorButton.bind(this));
+    this.eFrameShadow.querySelector('.m-encrypt-close').addEventListener('click', this.closeFrame.bind(this, false));
+    this.eFrameShadow.querySelector('#editorBtn').addEventListener('click', this.onEditorButton.bind(this));
+
     this.normalizeButtons();
     this.eFrame.classList.add('m-show');
     this.emailTextElement.addEventListener('keypress', this.handleKeypress);
   }
 
   normalizeButtons() {
-    this.eFrame.querySelector('.m-encrypt-container').classList.remove('active');
+    this.eFrameShadow.querySelector('.m-encrypt-container').classList.remove('active');
     this.setFrameDim();
   }
 
   onEditorButton(ev) {
     this.emailTextElement.removeEventListener('keypress', this.handleKeypress);
-    this.eFrame.querySelector('.m-encrypt-container').classList.add('active');
+    this.eFrameShadow.querySelector('.m-encrypt-container').classList.add('active');
     this.showMailEditor();
     ev.stopPropagation();
   }
 
   onMailEditorClose() {
-    this.eFrame.querySelector('.m-encrypt-container').classList.remove('active');
+    this.eFrameShadow.querySelector('.m-encrypt-container').classList.remove('active');
   }
 
   closeFrame(finalClose, ev) {
@@ -124,7 +199,7 @@ export default class EncryptFrame {
         this.editElement.dataset[FRAME_STATUS] = FRAME_DETACHED;
       }
     }, 300);
-    if (ev) {
+    if (ev instanceof Event) {
       ev.stopPropagation();
     }
   }

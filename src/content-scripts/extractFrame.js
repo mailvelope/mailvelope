@@ -99,7 +99,7 @@ export default class ExtractFrame {
         this.pgpElement.dataset[FRAME_STATUS] = FRAME_DETACHED;
       }
     }, 300);
-    if (ev) {
+    if (ev instanceof Event) {
       ev.stopPropagation();
     }
   }

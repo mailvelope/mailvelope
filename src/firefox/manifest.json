@@ -2,7 +2,7 @@
   "applications": {
     "gecko": {
       "id": "jid1-AQqSMBYb0a8ADg@jetpack",
-      "strict_min_version": "60.0"
+      "strict_min_version": "63.0"
     }
   },
   "name": "__MSG_ext_name__",
