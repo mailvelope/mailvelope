@@ -143,21 +143,9 @@
     "description": "File/text decrypting navigation: Home.",
     "message": "Entschlüsseln"
   },
-  "decrypt_no_popup_error": {
-    "message": "Die Nachricht darf nur in einem getrennten Fenster dargestellt werden!",
-    "description": "Component should be displayed in popup window!"
-  },
-  "decrypt_popup_copy": {
-    "description": "Copy decrypted message to clipboard.",
-    "message": "In die Zwischenablage kopieren"
-  },
-  "decrypt_popup_header": {
-    "description": "Header of decrypt popup.",
-    "message": "Nachricht"
-  },
-  "decrypt_popup_title": {
-    "description": "Title of decrypt popup.",
-    "message": "Entschlüsselte Nachricht"
+  "decrypt_open_viewer_btn_title": {
+    "description": "Title of open message viewer icon button.",
+    "message": "In Mailvelope Viewer öffnen"
   },
   "decrypt_signer_label": {
     "description": "Label for signature line in decrypted message",

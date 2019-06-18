@@ -46,7 +46,9 @@ export default class DecryptController extends sub.SubController {
   async onDframeDisplayPopup() {
     this.decryptPopup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
     this.decryptPopup.addRemoveListener(() => {
-      this.ports.dFrame.emit('dialog-cancel');
+      if (this.ports.dFrame) {
+        this.ports.dFrame.emit('dialog-cancel');
+      }
       this.decryptPopup = null;
     });
   }
@@ -136,10 +138,10 @@ export default class DecryptController extends sub.SubController {
       openPopup,
       beforePasswordRequest
     });
-    triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     if (this.decryptPopup) {
-      this.ports.dDialog.emit('hide-pwd-dialog');
+      ports.dDialog.emit('hide-pwd-dialog');
     }
+    triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     return unlockedKey.key;
   }
 }

@@ -143,21 +143,9 @@
     "description": "File/text decrypting navigation: Home.",
     "message": "Decrypt"
   },
-  "decrypt_no_popup_error": {
-    "message": "The message should be displayed in a separate window!",
-    "description": "Component should be displayed in popup window!"
-  },
-  "decrypt_popup_copy": {
-    "description": "Copy decrypted message to clipboard.",
-    "message": "Copy to Clipboard"
-  },
-  "decrypt_popup_header": {
-    "description": "Header of decrypt popup.",
-    "message": "Message"
-  },
-  "decrypt_popup_title": {
-    "description": "Title of decrypt popup.",
-    "message": "Decrypted Message"
+  "decrypt_open_viewer_btn_title": {
+    "description": "Title of open message viewer icon button.",
+    "message": "Open in Mailvelope viewer"
   },
   "decrypt_signer_label": {
     "description": "Label for signature line in decrypted message",

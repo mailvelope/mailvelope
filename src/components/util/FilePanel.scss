@@ -21,7 +21,7 @@
       align-items: center;
       cursor: default;
       line-height: 1;
-      img {
+      > img {
         margin-right: -0.875rem;
         z-index: 1;
         + .file-extension {

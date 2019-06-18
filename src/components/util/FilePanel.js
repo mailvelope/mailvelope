@@ -12,11 +12,12 @@ import {extractFileExtension, extractFileNameWithoutExt} from '../../lib/file';
 import './FilePanel.scss';
 
 l10n.register([
+  'decrypt_open_viewer_btn_title',
   'editor_remove_upload',
-  'key_export_dialog_copy_to_clipboard',
+  'file_invalid_signed',
   'file_not_signed',
   'file_signed',
-  'file_invalid_signed'
+  'key_export_dialog_copy_to_clipboard'
 ]);
 
 export class FileUploadPanel extends React.Component {
@@ -85,11 +86,14 @@ function FileDownloadElement({file, onClick, onCopyToClipboard}) {
         <span className="file-extension">{fileExt}</span>
         <span className="file-name">{fileName}</span>
         <span className="icon icon-download"></span>
-        {(fileExt === 'txt' || fileName.endsWith('.txt')) &&
+        {file.onShowPopup &&
+          <button type="button" className="icon-btn ml-1" title={l10n.map.decrypt_open_viewer_btn_title} onClick={e => { e.preventDefault(); file.onShowPopup(); }}><img src="../../img/Mailvelope/logo_signet.svg" width="14" height="14" /></button>
+        }
+        {file.content &&
           <button type="button" className="icon-btn ml-1" title={l10n.map.key_export_dialog_copy_to_clipboard} onClick={e => { e.preventDefault(); onCopyToClipboard(file.content); }}><span className="icon icon-copy"></span></button>
         }
       </a>
-      {fileExt === 'txt' &&  <textarea className="form-control" value={file.content} rows={6} spellCheck="false" autoComplete="off" readOnly />}
+      {file.content &&  <textarea className="form-control" value={file.content} rows={6} spellCheck="false" autoComplete="off" readOnly />}
       {file.signer && <Alert className="mt-2 mb-0 align-self-start" type={file.signer.type}>{file.signer.label}</Alert>}
     </div>
   );

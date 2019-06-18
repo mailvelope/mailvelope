@@ -148,6 +148,7 @@ export default class Encrypt extends React.Component {
   encryptFiles(plainFiles, recipients) {
     return Promise.all(plainFiles.map(async plainFile => {
       try {
+        const fileExt = fileLib.extractFileExtension(plainFile.name);
         const encrypted = await port.send('encrypt-file', {
           plainFile,
           keyringId: this.state.keyringId,
@@ -155,7 +156,7 @@ export default class Encrypt extends React.Component {
           signingKeyFpr: this.state.signingKey ? this.state.signingKey.fingerprint : '',
           uiLogSource: 'security_log_encrypt_ui',
           noCache: false,
-          armor: false
+          armor: fileExt === 'txt'
         });
         this.setState(prevState => ({encrypted: [...prevState.encrypted, this.createFileObject({content: encrypted, filename: plainFile.name, mimeType: 'application/octet-stream'})]}));
       } catch (error) {
@@ -165,6 +166,8 @@ export default class Encrypt extends React.Component {
   }
 
   createFileObject({content, filename, mimeType}) {
+    // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
+    mimeType = 'application/octet-stream';
     const file = {id: getHash()};
     if (fileLib.extractFileExtension(filename) === 'txt') {
       file.name = `${filename}.asc`;
@@ -172,8 +175,6 @@ export default class Encrypt extends React.Component {
     } else {
       file.name = `${filename}.gpg`;
     }
-    // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
-    mimeType = 'application/octet-stream';
     const blob = new Blob([str2ab(content)], {type: mimeType});
     file.objectURL = window.URL.createObjectURL(blob);
     return file;

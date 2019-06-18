@@ -97,7 +97,7 @@ export default class Decrypt extends React.Component {
         uiLogSource: 'security_log_decrypt_ui',
       });
       const signer = await this.getSignerDetails(signatures, keyringId);
-      this.setState(prevState => ({decrypted: [...prevState.decrypted, this.createFileObject({content, filename: 'text.txt', signer, mimeType: 'text/plain'})]}));
+      this.setState(prevState => ({decrypted: [...prevState.decrypted, this.createFileObject({content, armored: message, filename: 'text.txt', signer, mimeType: 'text/plain'})]}));
     } catch (error) {
       this.setErrorNotification(error);
     }
@@ -150,20 +150,25 @@ export default class Decrypt extends React.Component {
     }
   }
 
-  createFileObject({content, filename, signer, mimeType}) {
+  createFileObject({content, filename, signer, mimeType, armored}) {
     const file = {
       id: getHash(),
       name: filename,
       signer,
     };
-    if (fileLib.extractFileExtension(filename) === 'txt') {
-      file.content = content;
+    if (armored) {
+      file.onShowPopup = () => this.handleOpenDecryptMessagePopup(armored);
     }
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     mimeType = 'application/octet-stream';
     const blob = new Blob([str2ab(content)], {type: mimeType});
     file.objectURL = window.URL.createObjectURL(blob);
     return file;
+  }
+
+  async handleOpenDecryptMessagePopup(armored) {
+    await port.send('decrypt-message-init');
+    port.emit('decrypt-message-popup', {armored, keyringId: this.state.keyringId});
   }
 
   handleAddFile(files) {

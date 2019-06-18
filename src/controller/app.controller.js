@@ -33,6 +33,8 @@ export default class AppController extends sub.SubController {
     this.on('set-prefs', this.updatePreferences);
     this.on('decrypt-file', this.decryptFile);
     this.on('decrypt-message', this.decryptMessage);
+    this.on('decrypt-message-init', this.initDecryptMessage);
+    this.on('decrypt-message-popup', this.openPopupDecryptMessage);
     this.on('encrypt-message', this.encryptMessage);
     this.on('encrypt-file', this.encryptFile);
     this.on('getWatchList', prefs.getWatchList);
@@ -292,6 +294,16 @@ export default class AppController extends sub.SubController {
       return result;
     };
     return decryptMessage(options);
+  }
+
+  initDecryptMessage() {
+    this.decryptMessageCtrl = sub.factory.get('decryptCont');
+    return this.decryptMessageCtrl.id;
+  }
+
+  async openPopupDecryptMessage({armored, keyringId}) {
+    await this.decryptMessageCtrl.onDframeDisplayPopup();
+    this.decryptMessageCtrl.on('decrypt-message-init', () => this.decryptMessageCtrl.onSetArmored({data: armored, keyringId, options: {}}));
   }
 
   async readArmoredKeys({armoredKeys}) {
