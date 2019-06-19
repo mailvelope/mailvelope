@@ -25,89 +25,105 @@ function plugins() {
   ];
 }
 
+function css(loader = 'style-loader') {
+  return [
+    {
+      test: /\.css$/,
+      use: [{
+        loader
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          url: false
+        }
+      }]
+    },
+  ];
+}
+
 function scss(loader = 'style-loader', css = false) {
-  return {
-    rules: [
-      {
-        test: css ? /\.(css|scss)$/ : /\.scss$/,
-        use: [{
-          loader,
-        }, {
-          loader: 'css-loader',
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            plugins: () =>
-              [
-                require('autoprefixer')
-              ]
-          }
-        }, {
-          loader: 'sass-loader', // compiles Sass to CSS
-          // Apply the JSON importer via sass-loader's options.
-          options: {
-            importer: jsonImporter()
-          }
-        }]
-      },
-      {
-        test: /\.svg$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.woff2$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'res/fonts/'
-          }
-        }]
-      },
-      {
-        test: /\.png$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'img/'
-          }
-        }]
-      }
-    ]
-  };
+  return [
+    {
+      test: css ? /\.(css|scss)$/ : /\.scss$/,
+      use: [{
+        loader,
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'postcss-loader',
+        options: {
+          plugins: () =>
+            [
+              require('autoprefixer')
+            ]
+        }
+      }, {
+        loader: 'sass-loader', // compiles Sass to CSS
+        // Apply the JSON importer via sass-loader's options.
+        options: {
+          importer: jsonImporter()
+        }
+      }]
+    },
+    {
+      test: /\.svg$/,
+      loader: 'file-loader'
+    },
+    {
+      test: /\.woff2$/,
+      use: [{
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'res/fonts/'
+        }
+      }]
+    },
+    {
+      test: /\.png$/,
+      use: [{
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'img/'
+        }
+      }]
+    }
+  ];
 }
 
 function react() {
-  const {rules: scssRules} = scss();
-  return {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          babelrc: false,
-          cacheDirectory: true,
-          presets: ['@babel/react'],
-          plugins: []
-        }
-      },
-      {
-        test: /\.css$/,
-        use: [{
-          loader: 'style-loader'
-        },
+  return [
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      loader: 'babel-loader',
+      options: {
+        babelrc: false,
+        cacheDirectory: true,
+        presets: ['@babel/react'],
+        plugins: []
+      }
+    }
+  ];
+}
+
+function replaceVersion(test, version) {
+  return [
+    {
+      test,
+      use: [
         {
-          loader: 'css-loader',
+          loader: 'string-replace-loader',
           options: {
-            url: false
+            search: '@@mvelo_version',
+            replace: version
           }
-        }]
-      },
-      ...scssRules,
-    ]
-  };
+        }
+      ]
+    }
+  ];
 }
 
 function resolve() {
@@ -116,24 +132,7 @@ function resolve() {
   };
 }
 
-function replaceVersion(test, version) {
-  const rule = {
-    test,
-    use: [
-      {
-        loader: 'string-replace-loader',
-        options: {
-          search: '@@mvelo_version',
-          replace: version
-        }
-      }
-    ]
-  };
-  return rule;
-}
-
 exports.prod = prod;
 exports.plugins = plugins;
-exports.module = {scss, react};
+exports.module = {css, scss, react, replaceVersion};
 exports.resolve = resolve;
-exports.replaceVersion = replaceVersion;

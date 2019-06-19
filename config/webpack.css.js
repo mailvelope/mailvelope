@@ -25,7 +25,9 @@ exports.prod = {
       publicPath: './src'
     })
   ],
-  module: common.module.scss(MiniCssExtractPlugin.loader, true)
+  module: {
+    rules: [...common.module.scss(MiniCssExtractPlugin.loader, true)]
+  }
 };
 
 exports.dev = {

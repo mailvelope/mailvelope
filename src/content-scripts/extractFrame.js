@@ -3,10 +3,12 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash, normalizeArmored} from '../lib/util';
+import {getHash, normalizeArmored, parseHTML} from '../lib/util';
 import {LARGE_FRAME, FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import {currentProvider} from './main';
+
+import encryptContainerCSS from './extractFrame.css';
 
 export default class ExtractFrame {
   constructor() {
@@ -35,6 +37,8 @@ export default class ExtractFrame {
     // set container element
     this.pgpElement = document.createElement('div');
     this.pgpElement.classList.add('m-extract-wrapper');
+    this.pgpElement.style.display = 'inline-block';
+    this.pgpElement.style.position = 'relative';
     // set status to attached
     this.pgpElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
     // store frame obj in pgpText tag
@@ -50,7 +54,8 @@ export default class ExtractFrame {
   renderFrame() {
     this.eFrame = document.createElement('div');
     this.eFrame.id = `eFrame-${this.id}`;
-    this.eFrame.innerHTML = '<a class="m-frame-close">×</a>';
+    const closeButton = '<a class="m-frame-close">×</a>';
+    this.eFrame.append(parseHTML(closeButton));
     this.eFrame.classList.add('m-extract-frame', 'm-cursor');
     this.pgpElement.append(this.eFrame);
     if (this.pgpRange.getBoundingClientRect().height > LARGE_FRAME) {
@@ -58,6 +63,13 @@ export default class ExtractFrame {
     }
     this.eFrame.addEventListener('click', this.clickHandler);
     this.eFrame.querySelector('.m-frame-close').addEventListener('click', this.closeFrame.bind(this, false));
+    const shadowRootElem = document.createElement('div');
+    this.pgpElement.append(shadowRootElem);
+    const eFrameShadow = shadowRootElem.attachShadow({mode: 'open'});
+    const encryptContainerStyle = document.createElement('style');
+    encryptContainerStyle.textContent = encryptContainerCSS;
+    eFrameShadow.append(encryptContainerStyle);
+    eFrameShadow.append(this.eFrame);
     window.addEventListener('resize', this.setFrameDim);
     this.domIntersectionObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {

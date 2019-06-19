@@ -25,7 +25,7 @@ const prod = {
   output,
   resolve,
   module: {
-    rules: [common.replaceVersion(/defaults\.json$/, pjson.version)],
+    rules: [...common.module.replaceVersion(/defaults\.json$/, pjson.version)],
     noParse: /openpgp\.js$/
   }
 };
@@ -35,7 +35,7 @@ const dev = {
   mode: 'development',
   devtool: 'inline-cheap-module-source-map',
   module: {
-    rules: [common.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`)],
+    rules: [...common.module.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`)],
     noParse: /openpgp\.js$/
   }
 };

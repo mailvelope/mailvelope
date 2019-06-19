@@ -1,0 +1,109 @@
+.m-extract-frame {
+  background-position: center center, center center;
+  background-image: none, none;
+  transition: visibility 0.3s 0s, opacity 0.3s ease-out, background-position 0.5s ease, height 0.3s linear;
+  background-color: rgba(254,251,243,.8);
+  background-repeat: no-repeat;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  position: absolute;
+  z-index: 11;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  text-align: left;
+}
+
+.m-extract-frame.m-decrypt {
+  top: 0;
+  background-image: url('../img/mail_locked_96.png'), none;
+}
+
+.m-extract-frame.m-verify {
+  bottom: 0;
+  background-image: url('../img/mail_signed_96.png'), none;
+  background-size: 80px, 80px;
+}
+
+.m-extract-frame.m-import {
+  top: 0;
+  background-image: url('../img/key-icon-blue96.png'), none;
+}
+
+.m-extract-frame.m-open {
+  background-position: 20px center, center center;
+  background-size: 80px, 48px;
+}
+
+.m-extract-frame.m-large.m-open {
+  background-position: 20px 140px, center 156px;
+}
+
+.m-extract-frame.m-open.m-decrypt {
+  background-image: url('../img/mail_open_96.png'), none;
+}
+
+.m-extract-frame.m-open.m-import {
+  background-image: url('../img/key-icon-blue96.png'), url('../img/loading.gif');
+}
+
+.m-extract-frame.m-open.m-import.m-ok {
+  background-image: url('../img/key-icon-blue96.png'), url('../img/ok48.png');
+}
+
+.m-extract-frame.m-large {
+  background-position: center 140px, center 156px;
+}
+
+.m-extract-frame.m-large.m-open {
+  background-position: 20px 140px, center 156px;
+}
+
+.m-decrypt.m-cursor {
+  cursor: url('../img/key-24.png'), auto;
+}
+
+.m-verify.m-cursor {
+  cursor: url('../img/verify-24.png'), auto;
+}
+
+.m-import.m-cursor {
+  cursor: url('../img/edit_add-22.png'), auto;
+}
+
+.m-extract-frame .m-frame-dialog {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.m-extract-frame.m-show,
+.m-extract-frame .m-frame-dialog.m-show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.m-frame-close {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  position: relative;
+  right: 3px;
+  z-index: 1;
+  text-decoration: none !important;
+  font-family: arial, sans-serif;
+}
+
+.m-frame-close:hover {
+  color: #000000;
+  opacity: 0.4;
+  cursor: pointer !important;
+  text-decoration: none !important;
+}

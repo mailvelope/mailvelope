@@ -8,15 +8,12 @@ import {matchPattern2RegExString, sortAndDeDup} from './util';
 import browser from 'webextension-polyfill';
 import {prefs, getWatchList} from '../modules/prefs';
 
-// framestyles as string
-let framestyles = '';
 // watchlist match patterns as regex for URL
 let watchlistRegex;
 
 export async function initScriptInjection() {
   try {
     watchlistRegex = [];
-    await loadFramestyles();
     const filterURL = await getWatchListFilterURLs();
     const matchPatterns = filterURL.map(({schemes, host}) => `${schemes.includes('http') ? '*' : 'https'}://${host}/*`);
     const originAndPathFilter = {url: filterURL.map(({schemes, host}) => {
@@ -34,17 +31,6 @@ export async function initScriptInjection() {
   } catch (e) {
     console.log('mailvelope initScriptInjection', e);
   }
-}
-
-function loadFramestyles() {
-  // load framestyles and replace path
-  if (framestyles === '') {
-    return mvelo.data.load('content-scripts/framestyles.css').then(framestylesCSS => {
-      // replace relative paths in url('/') with absolute extension paths
-      framestyles = framestylesCSS.replace(/url\('\//g, `url('${browser.runtime.getURL('')}`);
-    });
-  }
-  return Promise.resolve();
 }
 
 async function getWatchListFilterURLs() {
@@ -101,7 +87,7 @@ async function injectOpenTabs(filterURL) {
       }
       browser.tabs.executeScript(tab.id, {file: 'content-scripts/cs-mailvelope.js', frameId: frame.frameId})
       .catch(() => {});
-      browser.tabs.insertCSS(tab.id, {code: framestyles, frameId: frame.frameId})
+      browser.tabs.insertCSS(tab.id, {frameId: frame.frameId})
       .catch(() => {});
     }
   }
@@ -114,6 +100,6 @@ function watchListNavigationHandler(details) {
   }
   browser.tabs.executeScript(details.tabId, {file: 'content-scripts/cs-mailvelope.js', frameId: details.frameId})
   .catch(() => {});
-  browser.tabs.insertCSS(details.tabId, {code: framestyles, frameId: details.frameId})
+  browser.tabs.insertCSS(details.tabId, {frameId: details.frameId})
   .catch(() => {});
 }

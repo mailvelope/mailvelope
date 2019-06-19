@@ -83,6 +83,7 @@
     "sinon": "^7.3.2",
     "string-replace-loader": "^2.1.1",
     "style-loader": "^0.23.1",
+    "to-string-loader": "^1.1.5",
     "web-ext": "^3.0.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1"

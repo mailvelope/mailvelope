@@ -21,7 +21,9 @@ function prod(pathname, filename) {
     },
     resolve: common.resolve(),
     externals,
-    module: common.module.react()
+    module: {
+      rules: [...common.module.react(), ...common.module.css(), ...common.module.scss()]
+    }
   };
 }
 
