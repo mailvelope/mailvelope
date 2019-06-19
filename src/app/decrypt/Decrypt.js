@@ -94,7 +94,7 @@ export default class Decrypt extends React.Component {
       const {data: content, signatures, keyringId} = await port.send('decrypt-message', {
         armored: message,
         keyringId: this.state.keyringId,
-        uiLogSource: 'security_log_decrypt_ui',
+        uiLogSource: 'security_log_decrypt_ui'
       });
       const signer = await this.getSignerDetails(signatures, keyringId);
       this.setState(prevState => ({decrypted: [...prevState.decrypted, this.createFileObject({content, armored: message, filename: 'text.txt', signer, mimeType: 'text/plain'})]}));
@@ -106,7 +106,10 @@ export default class Decrypt extends React.Component {
   decryptFiles(encryptedFiles) {
     return Promise.all(encryptedFiles.map(async encryptedFile => {
       try {
-        const {data: content, filename, signatures, keyringId} = await port.send('decrypt-file', {encryptedFile});
+        const {data: content, filename, signatures, keyringId} = await port.send('decrypt-file', {
+          encryptedFile,
+          uiLogSource: 'security_log_decrypt_ui'
+        });
         const signer = await this.getSignerDetails(signatures, keyringId);
         this.setState(prevState => ({decrypted: [...prevState.decrypted, this.createFileObject({content, filename, signer, mimeType: 'application/octet-stream'})]}));
       } catch (error) {

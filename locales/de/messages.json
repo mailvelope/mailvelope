@@ -1653,6 +1653,14 @@
     "description": "",
     "message": "Kopierereignis im Dialog"
   },
+  "security_log_decryption_operation": {
+    "description": "",
+    "message": "Nachricht wurde entschlüsselt mit: $1"
+  },
+  "security_log_decrypt_ui": {
+    "description": "",
+    "message": "Entschlüsseln"
+  },
   "security_log_dialog_cancel": {
     "description": "",
     "message": "Klickereignis auf Abbruchs im Dialog"
@@ -1671,7 +1679,7 @@
   },
   "security_log_editor": {
     "description": "Message editor container as an event source",
-    "message": "PGP-Editor"
+    "message": "Mailvelope-Editor"
   },
   "security_log_email_viewer": {
     "description": "Email decryption container as an event source",
@@ -1680,6 +1688,10 @@
   "security_log_encrypt_dialog": {
     "description": "Encrypt dialog as an event source",
     "message": "Verschlüsseln Dialog"
+  },
+  "security_log_encrypt_ui": {
+    "description": "",
+    "message": "Verschlüsseln"
   },
   "security_log_encrypt_form": {
     "description": "Encrypt form as an event source",
@@ -1764,6 +1776,10 @@
   "security_log_verify_dialog": {
     "description": "Verify dialog as an event source",
     "message": "Verifizieren Dialog"
+  },
+  "security_log_viewer": {
+    "description": "Message viewer as an event source",
+    "message": "Mailvelope-Viewer"
   },
   "security_openpgp_header": {
     "description": "OpenPGP settings header",

@@ -276,7 +276,8 @@ export default class EditorController extends sub.SubController {
         armored,
         keyringId: this.keyringId,
         unlockKey,
-        selfSigned: Boolean(this.options.armoredDraft)
+        selfSigned: Boolean(this.options.armoredDraft),
+        uiLogSource: 'security_log_editor'
       });
       const options = this.options;
       const ports = this.ports;

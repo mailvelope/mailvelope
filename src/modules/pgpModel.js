@@ -46,7 +46,7 @@ export function initOpenPGP() {
  * @param  {Boolean} options.selfSigned - message is self signed (decrypt email draft scenario)
  * @return {Promise<Object>} - decryption result {data: String, signatures: Array}
  */
-export async function decryptMessage({armored, keyringId, unlockKey, senderAddress, selfSigned}) {
+export async function decryptMessage({armored, keyringId, unlockKey, senderAddress, selfSigned, uiLogSource}) {
   const message = await readMessage({armoredText: armored});
   const encryptionKeyIds = message.getEncryptionKeyIds();
   const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
@@ -55,6 +55,7 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
   }
   try {
     let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey: options => unlockKey({message, ...options}), senderAddress, selfSigned, encryptionKeyIds});
+    await logDecryption(uiLogSource, keyring, encryptionKeyIds);
     // collect fingerprints or keyIds of signatures
     const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyId);
     // sync public keys for the signatures
@@ -160,6 +161,20 @@ async function logEncryption(source, keyring, keyFprs) {
       return userId;
     }));
     uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')], false);
+  }
+}
+
+/**
+ * Log decryption operation
+ * @param  {String} source - source that triggered encryption operation
+ * @param {KeyringBase} keyring
+ * @param  {Array<String>} keyIds - ids of used keys
+ */
+async function logDecryption(source, keyring, keyIds) {
+  if (source) {
+    const key = keyring.getPrivateKeyByIds(keyIds);
+    const {userId} = await getUserInfo(key, false);
+    uiLog.push(source, 'security_log_decryption_operation', [userId], false);
   }
 }
 
@@ -401,7 +416,7 @@ export async function encryptFile({plainFile, keyringId, unlockKey, encryptionKe
  * @param  {Function} unlockKey - callback to unlock key
  * @return {Object<name, content>} - content as JS binary string
  */
-export async function decryptFile(encryptedFile, unlockKey) {
+export async function decryptFile({encryptedFile, unlockKey, uiLogSource}) {
   let armoredText;
   let binary;
   try {
@@ -418,6 +433,7 @@ export async function decryptFile(encryptedFile, unlockKey) {
       throw noKeyFoundError(encryptionKeyIds);
     }
     const result = await keyring.getPgpBackend().decrypt({base64: dataURL2base64(encryptedFile.content), message, keyring, unlockKey: options => unlockKey({message, ...options}), encryptionKeyIds, format: 'binary'});
+    await logDecryption(uiLogSource, keyring, encryptionKeyIds);
     if (!result.filename) {
       result.filename = encryptedFile.name.slice(0, -4);
     }

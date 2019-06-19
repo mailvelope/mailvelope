@@ -76,7 +76,8 @@ export default class DecryptController extends sub.SubController {
         armored,
         keyringId,
         unlockKey: this.unlockKey.bind(this),
-        senderAddress: this.options.senderAddress
+        senderAddress: this.options.senderAddress,
+        uiLogSource: 'security_log_viewer'
       });
       const ports = this.ports;
       const handlers = {

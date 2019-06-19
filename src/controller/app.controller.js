@@ -278,13 +278,13 @@ export default class AppController extends sub.SubController {
     return encryptFile(options);
   }
 
-  decryptFile({encryptedFile}) {
-    const unlockKey = async options => {
+  decryptFile(options) {
+    options.unlockKey = async options => {
       options.reason = 'PWD_DIALOG_REASON_DECRYPT';
       const result = await this.unlockKey(options);
       return result;
     };
-    return decryptFile(encryptedFile, unlockKey);
+    return decryptFile(options);
   }
 
   decryptMessage(options) {
