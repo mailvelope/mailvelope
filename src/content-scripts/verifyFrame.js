@@ -5,7 +5,14 @@
 
 import {DISPLAY_INLINE, DISPLAY_POPUP} from '../lib/constants';
 import ExtractFrame from './extractFrame';
+import * as l10n from '../lib/l10n';
 import {prefs} from './main';
+
+l10n.register([
+  'verify_frame_help_text'
+]);
+
+l10n.mapToLocal();
 
 const PGP_SIG_HEADER = /-----BEGIN\sPGP\sSIGNATURE/;
 
@@ -41,8 +48,14 @@ export default class VerifyFrame extends ExtractFrame {
 
   renderFrame() {
     super.renderFrame();
+    const para = document.createElement('p');
+    para.textContent = l10n.map.verify_frame_help_text;
+    this.eFrame.append(para);
     this.eFrame.classList.add('m-verify');
     this.eFrame.classList.remove('m-large');
+    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
+      this.inlineDialog();
+    }
   }
 
   registerEventListener() {
@@ -53,9 +66,7 @@ export default class VerifyFrame extends ExtractFrame {
 
   clickHandler(ev) {
     super.clickHandler(undefined, ev);
-    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
-      this.inlineDialog();
-    } else if (prefs.security.display_decrypted == DISPLAY_POPUP) {
+    if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
     }
   }
@@ -79,17 +90,10 @@ export default class VerifyFrame extends ExtractFrame {
 
   removeDialog() {
     // check if dialog is active
-    if (!this.vDialog && !this.vPopup) {
+    if (!this.vPopup) {
       return;
     }
-    if (prefs.security.display_decrypted === DISPLAY_INLINE) {
-      this.vDialog.classList.remove('m-show');
-      // removal triggers disconnect event
-      this.vDialog.remove();
-      this.vDialog = null;
-    } else {
-      this.vPopup = false;
-    }
+    this.vPopup = false;
     this.eFrame.classList.add('m-cursor');
     this.eFrame.classList.remove('m-open');
     this.eFrame.addEventListener('click', this.clickHandler);

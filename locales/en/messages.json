@@ -131,6 +131,10 @@
     "description": "Header of file decryption error on decrypt result page.",
     "message": "Decryption of file $1 not possible!"
   },
+  "decrypt_frame_help_text": {
+    "description": "Help text on decrypt frame.",
+    "message": "Click to decrypt!"
+  },
   "decrypt_header": {
     "description": "Header of file/text decrypt page.",
     "message": "Decrypt data"
@@ -146,6 +150,10 @@
   "decrypt_open_viewer_btn_title": {
     "description": "Title of open message viewer icon button.",
     "message": "Open in Mailvelope viewer"
+  },
+  "decrypt_show_message_btn": {
+    "description": "Show messsage button label in decrypt message.",
+    "message": "Show message"
   },
   "decrypt_signer_label": {
     "description": "Label for signature line in decrypted message",
@@ -519,6 +527,10 @@
     "description": "Header warning.",
     "message": "Warning!"
   },
+  "import_frame_help_text": {
+    "description": "Help text on import frame.",
+    "message": "Click to import key!"
+  },  
   "install_landing_page_hint": {
     "description": "Install landing page getting started hint",
     "message": "Click here, to open the extension."
@@ -1950,6 +1962,10 @@
   "verify_error": {
     "description": "Error during verification process.",
     "message": "Could not verify this message: $1"
+  },
+  "verify_frame_help_text": {
+    "description": "Help text on verify frame.",
+    "message": "Click to verify signature!"
   },
   "waiting_dialog_decryption_failed": {
     "description": "Error message in the waiting dialog after failing to decrypt a message",

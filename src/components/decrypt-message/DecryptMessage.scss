@@ -16,6 +16,30 @@
     }
   }
 
+  .pwdLock.modal-content {
+    position: relative;
+    background-color: $white;
+    background-image: linear-gradient(to bottom, $white, $white 50%, $gray-300 50%, $white);
+    background-size: 100% 48px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    img {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%,-50%,0);
+    }
+    .m-spinner-inline, button {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%,-50%,0);
+      margin-top: 70px;
+    }
+  }  
+
   .modal-content {
     background-color: transparent;
     .modal-header {

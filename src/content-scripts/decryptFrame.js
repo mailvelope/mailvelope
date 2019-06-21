@@ -5,9 +5,16 @@
 
 import {DISPLAY_INLINE, DISPLAY_POPUP} from '../lib/constants';
 import {deDup} from '../lib/util';
+import * as l10n from '../lib/l10n';
 import {prefs} from './main';
 
 import ExtractFrame from './extractFrame';
+
+l10n.register([
+  'decrypt_frame_help_text'
+]);
+
+l10n.mapToLocal();
 
 export default class DecryptFrame extends ExtractFrame {
   constructor() {
@@ -20,7 +27,13 @@ export default class DecryptFrame extends ExtractFrame {
 
   renderFrame() {
     super.renderFrame();
+    const para = document.createElement('p');
+    para.textContent = l10n.map.decrypt_frame_help_text;
+    this.eFrame.append(para);
     this.eFrame.classList.add('m-decrypt');
+    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
+      this.inlineDialog();
+    }
   }
 
   registerEventListener() {
@@ -42,9 +55,7 @@ export default class DecryptFrame extends ExtractFrame {
 
   clickHandler(ev) {
     super.clickHandler(undefined, ev);
-    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
-      this.inlineDialog();
-    } else if (prefs.security.display_decrypted == DISPLAY_POPUP) {
+    if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
     }
   }
@@ -68,17 +79,10 @@ export default class DecryptFrame extends ExtractFrame {
 
   removeDialog() {
     // check if dialog is active
-    if (!this.dDialog && !this.dPopup) {
+    if (!this.dPopup) {
       return;
     }
-    if (prefs.security.display_decrypted === DISPLAY_INLINE) {
-      this.dDialog.classList.remove('m-show');
-      // removal triggers disconnect event
-      this.dDialog.remove();
-      this.dDialog = null;
-    } else {
-      this.dPopup = false;
-    }
+    this.dPopup = false;
     this.eFrame.classList.add('m-cursor');
     this.toggleIcon();
     this.eFrame.addEventListener('click', this.clickHandler);

@@ -25,6 +25,7 @@ l10n.register([
   'decrypt_digital_signature',
   'decrypt_digital_signature_failure',
   'decrypt_digital_signature_null',
+  'decrypt_show_message_btn',
   'decrypt_signer_label',
   'security_background_button_title'
 ]);
@@ -40,6 +41,7 @@ export default class DecryptMessage extends React.Component {
       files: [],
       error: null,
       showError: false,
+      pwdLock: false,
       pwdDialog: null,
       terminate: false
     };
@@ -55,6 +57,7 @@ export default class DecryptMessage extends React.Component {
     this.port.on('add-decrypted-attachment', this.onDecryptedAttachment);
     this.port.on('signature-verification', this.onSignatureVerification);
     this.port.on('error-message', this.showErrorMsg);
+    this.port.on('show-password-required', this.onShowPwdRequired);
     this.port.on('show-pwd-dialog', this.onShowPwdDialog);
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('terminate', this.onTerminate);
@@ -72,13 +75,17 @@ export default class DecryptMessage extends React.Component {
     this.setState({pwdDialog: null, waiting: true});
   }
 
+  onShowPwdRequired() {
+    this.setState({pwdLock: true, waiting: false});
+  }
+
   onVerifiedMessage(msg) {
     this.onSignatureVerification(msg);
     this.setState({message: encodeHTML(msg.message), waiting: false});
   }
 
   onDecryptedMessage({message}) {
-    this.setState({message, waiting: false});
+    this.setState({message, waiting: false, pwdLock: false});
   }
 
   onDecryptedAttachment({attachment}) {
@@ -112,11 +119,6 @@ export default class DecryptMessage extends React.Component {
     this.setState({signer});
   }
 
-  onClickSignature() {
-    this.logUserInput('security_log_signature_modal_open');
-    this.setState({showSig: true});
-  }
-
   handleClickFile() {
     this.logUserInput('security_log_attachment_download');
   }
@@ -145,8 +147,8 @@ export default class DecryptMessage extends React.Component {
     this.setState({showError: false});
   }
 
-  handleSignatureModalHide() {
-    this.logUserInput('security_log_signature_modal_close');
+  handleDecrypt() {
+    this.setState({waiting: true}, () => this.port.emit('decrypt-message'));
   }
 
   signatureStatus() {
@@ -176,40 +178,50 @@ export default class DecryptMessage extends React.Component {
   render() {
     return (
       <SecurityBG className={`decrypt-msg ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
-        {this.state.waiting && <Spinner style={{margin: '160px auto 0'}} />}
         <div className="modal d-block" style={{zIndex: 1035}}>
           <div className="modal-dialog h-100 mw-100 m-0">
-            <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
-              {this.state.signer && (
-                <div className="modal-header flex-column border-0 flex-shrink-0">
-                  <div className="signature d-flex align-items-center justify-content-start flex-wrap w-100">
-                    <label className="mb-0 mr-3">{l10n.map.decrypt_signer_label}</label>
-                    <Alert type="info" className="my-2 mr-auto flex-shrink-1">
-                      <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
-                      <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
-                    </Alert>
-                    {this.signatureStatus()}
-                  </div>
-                  {this.props.embedded && this.state.files.length > 0  && (
-                    <div className="files d-flex justify-content-start align-items-center">
-                      <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
-                      <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className="modal-body overflow-auto">
-                <div className="plain-text w-100 h-100">
-                  <ContentSandbox value={this.state.message} />
-                </div>
+            {!this.state.message ? (
+              <div className="pwdLock modal-content overflow-hidden shadow-lg border-0 h-100">
+                <img src="../../img/Mailvelope/logo_signet.svg" />
+                {this.state.pwdLock ? (
+                  <button type="button" onClick={() => this.handleDecrypt()} className="btn btn-primary" disabled={this.state.showError}>{l10n.map.decrypt_show_message_btn}</button>
+                ) : (
+                  <Spinner />
+                )}
               </div>
-              {!this.props.embedded && this.state.files.length > 0  && (
-                <div className="modal-footer justify-content-start flex-shrink-0">
-                  <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
-                  <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+            ) : (
+              <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
+                {this.state.signer && (
+                  <div className="modal-header flex-column border-0 flex-shrink-0">
+                    <div className="signature d-flex align-items-center justify-content-start flex-wrap w-100">
+                      <label className="mb-0 mr-3">{l10n.map.decrypt_signer_label}</label>
+                      <Alert type="info" className="my-2 mr-auto flex-shrink-1">
+                        <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
+                        <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
+                      </Alert>
+                      {this.signatureStatus()}
+                    </div>
+                    {this.props.embedded && this.state.files.length > 0  && (
+                      <div className="files d-flex justify-content-start align-items-center">
+                        <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
+                        <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div className="modal-body overflow-auto">
+                  <div className="plain-text w-100 h-100">
+                    <ContentSandbox value={this.state.message} />
+                  </div>
                 </div>
-              )}
-            </div>
+                {!this.props.embedded && this.state.files.length > 0  && (
+                  <div className="modal-footer justify-content-start flex-shrink-0">
+                    <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
+                    <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
         {this.state.pwdDialog && <iframe className="decrypt-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}

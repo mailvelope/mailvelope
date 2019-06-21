@@ -8,10 +8,12 @@ import * as l10n from '../lib/l10n';
 import {getHash, mapError} from '../lib/util';
 import {DISPLAY_INLINE} from '../lib/constants';
 import {prefs} from '../modules/prefs';
+import {getKeyringWithPrivKey} from '../modules/keyring';
 import * as model from '../modules/pgpModel';
 import {parseMessage} from '../modules/mime';
-import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
+import {isCached} from '../modules/pwdCache';
+import * as sub from './sub.controller';
 import {triggerSync} from './sync.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
 
@@ -22,12 +24,14 @@ export default class DecryptController extends sub.SubController {
       this.mainType = 'decryptCont';
       this.id = getHash();
     }
+    this.armored = null;
     this.decryptPopup = null;
     this.options = {};
     this.keyringId = getPreferredKeyringId();
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
     this.on('decrypt-message-init', this.onDecryptMessageInit);
+    this.on('decrypt-message', () => this.decrypt(this.armored, this.keyringId));
     this.on('dframe-display-popup', this.onDframeDisplayPopup);
     this.on('set-armored', this.onSetArmored);
     this.on('decrypt-inline-user-input', msg => uiLog.push(msg.source, msg.type));
@@ -53,12 +57,35 @@ export default class DecryptController extends sub.SubController {
     });
   }
 
-  onSetArmored(msg) {
+  async onSetArmored(msg) {
     this.options = msg.options;
     if (msg.keyringId) {
       this.keyringId = msg.keyringId;
     }
-    this.decrypt(msg.data, this.keyringId);
+    this.armored = msg.data;
+    if (!this.ports.dFrame || this.decryptPopup || await this.canUnlockKey(this.armored, this.keyringId)) {
+      this.decrypt(this.armored, this.keyringId);
+    } else {
+      this.ports.dDialog.emit('show-password-required');
+    }
+  }
+
+  async canUnlockKey(armoredText, keyringId) {
+    try {
+      const message = await model.readMessage({armoredText});
+      const encryptionKeyIds = message.getEncryptionKeyIds();
+      const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
+      if (!keyring) {
+        throw model.noKeyFoundError(encryptionKeyIds);
+      }
+      const key = keyring.getPrivateKeyByIds(encryptionKeyIds);
+      const isKeyCached = isCached(key.primaryKey.getFingerprint());
+      return isKeyCached;
+    } catch (error) {
+      if (this.ports.dDialog) {
+        this.ports.dDialog.emit('error-message', {error: error.message});
+      }
+    }
   }
 
   dialogCancel() {

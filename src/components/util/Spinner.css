@@ -45,12 +45,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .m-spinner-inline {
   margin: 60px auto 60px;
-  width: 70px;
-  text-align: center;
 }
 
 .m-spinner-fullscreen .symbol, .m-spinner-inline .symbol {
-  width: 54px;
+  display: flex;
+  justify-content: space-between;
+  width: 60px;
 }
 
 .m-spinner-fullscreen .symbol > div, .m-spinner-inline .symbol > div {

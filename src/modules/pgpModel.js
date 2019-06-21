@@ -84,7 +84,7 @@ async function addSigningKeyDetails(signature, keyring) {
   return signature;
 }
 
-function noKeyFoundError(encryptionKeyIds) {
+export function noKeyFoundError(encryptionKeyIds) {
   const keyId = encryptionKeyIds[0].toHex();
   let errorMsg = l10n.get('message_no_keys', [keyId.toUpperCase()]);
   for (let i = 1; i < encryptionKeyIds.length; i++) {
