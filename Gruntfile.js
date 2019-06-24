@@ -140,7 +140,6 @@ module.exports = function(grunt) {
             'app/app.html',
             'components/**/*.html',
             'components/recovery-sheet/assets/**/*',
-            'content-scripts/*.css',
             'img/{*,Mailvelope/*,security/*}',
             'lib/{constants,EventHandler,jquery.ext,l10n,util,svg-file-parser}.js',
           ],

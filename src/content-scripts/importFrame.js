@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2016 Mailvelope GmbH
+ * Copyright (C) 2013-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -27,11 +27,6 @@ export default class ImportFrame extends ExtractFrame {
   }
 
   clickHandler(ev) {
-    // super.clickHandler(() => {
-    //   console.log(this.getPGPMessage());
-    //   this.port.emit('imframe-armored-key', {data: this.getPGPMessage()});
-    //   this.eFrame.classList.add('m-ok');
-    // }, ev);
     super.clickHandler(undefined, ev);
     this.port.emit('imframe-armored-key', {data: this.getPGPMessage()});
   }

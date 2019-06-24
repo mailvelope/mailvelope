@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013-2016 Mailvelope GmbH
+ * Copyright (C) 2013-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -34,17 +34,21 @@ export default class ExtractFrame {
 
   init(pgpRange) {
     this.pgpRange = pgpRange;
-    // set container element
-    this.pgpElement = document.createElement('div');
-    this.pgpElement.classList.add('m-extract-wrapper');
-    this.pgpElement.style.display = 'inline-block';
-    this.pgpElement.style.position = 'relative';
+    // check if wrapper element already exists
+    if (this.pgpRange.commonAncestorContainer.classList.contains('m-extract-wrapper')) {
+      this.pgpElement = this.pgpRange.commonAncestorContainer;
+    } else {
+      // create container element
+      this.pgpElement = document.createElement('div');
+      this.pgpElement.classList.add('m-extract-wrapper');
+      this.pgpElement.style.display = 'inline-block';
+      this.pgpElement.style.position = 'relative';
+      this.pgpElement.append(this.pgpRange.extractContents());
+      this.pgpRange.insertNode(this.pgpElement);
+      this.pgpRange.selectNodeContents(this.pgpElement);
+    }
     // set status to attached
     this.pgpElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
-    // store frame obj in pgpText tag
-    this.pgpElement.append(this.pgpRange.extractContents());
-    this.pgpRange.insertNode(this.pgpElement);
-    this.pgpRange.selectNodeContents(this.pgpElement);
   }
 
   establishConnection() {

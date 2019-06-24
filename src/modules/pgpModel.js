@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012-2017 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -39,6 +39,7 @@ export function initOpenPGP() {
 
 /**
  * Decrypt armored PGP message
+ * @param  {openppg.message.Message} options.message - optional PGP message object
  * @param  {String} options.armored - armored PGP message
  * @param  {String} options.keyringId
  * @param  {Function} options.unlockKey - callback to unlock key
@@ -46,8 +47,8 @@ export function initOpenPGP() {
  * @param  {Boolean} options.selfSigned - message is self signed (decrypt email draft scenario)
  * @return {Promise<Object>} - decryption result {data: String, signatures: Array}
  */
-export async function decryptMessage({armored, keyringId, unlockKey, senderAddress, selfSigned, uiLogSource}) {
-  const message = await readMessage({armoredText: armored});
+export async function decryptMessage({message, armored, keyringId, unlockKey, senderAddress, selfSigned, uiLogSource}) {
+  message = message ? message : await readMessage({armoredText: armored});
   const encryptionKeyIds = message.getEncryptionKeyIds();
   const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
   if (!keyring) {

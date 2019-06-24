@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012-2018 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -41,7 +41,6 @@ export default class DecryptMessage extends React.Component {
       files: [],
       error: null,
       showError: false,
-      pwdLock: false,
       pwdDialog: null,
       terminate: false
     };
@@ -68,15 +67,15 @@ export default class DecryptMessage extends React.Component {
   }
 
   onShowPwdDialog(msg) {
-    this.setState({pwdDialog: msg, waiting: false, error: null});
+    this.setState({pwdDialog: msg, error: null});
   }
 
   onHidePwdDialog() {
-    this.setState({pwdDialog: null, waiting: true});
+    this.setState({pwdDialog: null});
   }
 
   onShowPwdRequired() {
-    this.setState({pwdLock: true, waiting: false});
+    this.setState({waiting: false});
   }
 
   onVerifiedMessage(msg) {
@@ -85,7 +84,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onDecryptedMessage({message}) {
-    this.setState({message, waiting: false, pwdLock: false});
+    this.setState({message, waiting: false});
   }
 
   onDecryptedAttachment({attachment}) {
@@ -183,10 +182,10 @@ export default class DecryptMessage extends React.Component {
             {!this.state.message ? (
               <div className="pwdLock modal-content overflow-hidden shadow-lg border-0 h-100">
                 <img src="../../img/Mailvelope/logo_signet.svg" />
-                {this.state.pwdLock ? (
-                  <button type="button" onClick={() => this.handleDecrypt()} className="btn btn-primary" disabled={this.state.showError}>{l10n.map.decrypt_show_message_btn}</button>
-                ) : (
+                {this.state.waiting ? (
                   <Spinner />
+                ) : (
+                  <button type="button" onClick={() => this.handleDecrypt()} className="btn btn-primary" disabled={this.state.showError}>{l10n.map.decrypt_show_message_btn}</button>
                 )}
               </div>
             ) : (

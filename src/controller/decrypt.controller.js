@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015-2017 Mailvelope GmbH
+ * Copyright (C) 2015-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -25,6 +25,7 @@ export default class DecryptController extends sub.SubController {
       this.id = getHash();
     }
     this.armored = null;
+    this.message = null;
     this.decryptPopup = null;
     this.options = {};
     this.keyringId = getPreferredKeyringId();
@@ -72,8 +73,8 @@ export default class DecryptController extends sub.SubController {
 
   async canUnlockKey(armoredText, keyringId) {
     try {
-      const message = await model.readMessage({armoredText});
-      const encryptionKeyIds = message.getEncryptionKeyIds();
+      this.message = await model.readMessage({armoredText});
+      const encryptionKeyIds = this.message.getEncryptionKeyIds();
       const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
       if (!keyring) {
         throw model.noKeyFoundError(encryptionKeyIds);
@@ -100,6 +101,7 @@ export default class DecryptController extends sub.SubController {
   async decrypt(armored, keyringId) {
     try {
       const {data, signatures} = await model.decryptMessage({
+        message: this.message,
         armored,
         keyringId,
         unlockKey: this.unlockKey.bind(this),

@@ -1,9 +1,9 @@
 /**
- * Copyright (C) 2012-2016 Mailvelope GmbH
+ * Copyright (C) 2012-2019 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash, normalizeArmored, encodeHTML, decodeHTML, parseHTML} from '../lib/util';
+import {getHash, normalizeArmored, encodeHTML, parseHTML} from '../lib/util';
 import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, PLAIN_TEXT} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import * as l10n from '../lib/l10n';
@@ -147,22 +147,6 @@ export default class EncryptFrame {
 
   getRecipients() {
     return this.currentProvider.getRecipients(this.editElement);
-  }
-
-  html2text(html) {
-    const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(html, 'text/html');
-    // replace anchors
-    for (const anchor of htmlDoc.querySelectorAll('a')) {
-      anchor.replaceWith(`${anchor.textContent} (${anchor.href})`);
-    }
-    html = htmlDoc.innerHTML;
-    html = html.replace(/(<(br|ul|ol)>)/g, '\n'); // replace <br>,<ol>,<ul> with new line
-    html = html.replace(/<\/(div|p|li)>/g, '\n'); // replace </div>, </p> or </li> tags with new line
-    html = html.replace(/<li>/g, '- ');
-    html = html.replace(/<(.+?)>/g, ''); // remove tags
-    html = html.replace(/\n{3,}/g, '\n\n'); // compress new line
-    return decodeHTML(html); // decode
   }
 
   getEmailText(type) {

@@ -14,7 +14,6 @@
   overflow: hidden;
 }
 
-
 .m-extract-frame.m-verify::before,
 .m-extract-frame.m-import::before,
 .m-extract-frame.m-decrypt::before {
@@ -61,19 +60,6 @@
   cursor: pointer;
 }
 
-/*
-.m-decrypt.m-cursor {
-  cursor: url('../img/verify-24.png'), auto;
-}
-
-.m-verify.m-cursor {
-  cursor: url('../img/verify-24.png'), auto;
-}
-
-.m-import.m-cursor {
-  cursor: url('../img/edit_add-22.png'), auto;
-}
-*/
 .m-extract-frame .m-frame-dialog {
   position: absolute;
   height: 100%;
