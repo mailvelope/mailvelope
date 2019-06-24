@@ -21,7 +21,6 @@ import {RecipientInput} from './components/RecipientInput';
 import BlurWarning from './components/BlurWarning';
 import SecurityBG from '../util/SecurityBG';
 import FileUpload from '../util/FileUpload';
-import Modal from '../util/Modal';
 import Toast from '../util/Toast';
 import Spinner from '../util/Spinner';
 import Terminate from '../util/Terminate';
@@ -58,7 +57,8 @@ export default class Editor extends React.Component {
       publicKeys: [],
       recipients: [],
       encryptDisabled: true,
-      waiting: false,
+      waiting: true,
+      processing: false,
       error: null,
       showError: false,
       pwdDialog: null,
@@ -124,7 +124,7 @@ export default class Editor extends React.Component {
 
   handlePlainTextLoad() {
     // emit event to backend that editor has initialized
-    this.port.emit('editor-load');
+    this.setState({waiting: false}, () => this.port.emit('editor-load'));
   }
 
   /**
@@ -145,11 +145,11 @@ export default class Editor extends React.Component {
   }
 
   showWaitingModal() {
-    this.setState({waiting: true});
+    this.setState({processing: true});
   }
 
   hideWaitingModal() {
-    this.setState({waiting: false});
+    this.setState({processing: false});
   }
 
   /**
@@ -333,50 +333,59 @@ export default class Editor extends React.Component {
   render() {
     return (
       <SecurityBG className={`editor ${this.state.embedded ? 'embedded' : ''}`} port={this.port}>
-        <div className="modal d-block" style={{zIndex: 1035}}>
+        <div className="modal d-block">
           <div className="modal-dialog h-100 mw-100 m-0">
             <div className="modal-content shadow-lg overflow-auto border-0 h-100">
-              <div className="modal-body p-4">
-                <div className="editor d-flex flex-column align-content-center h-100">
-                  {!this.state.embedded &&
-                    <div className="mb-3">
-                      <label>{l10n.map.editor_label_recipient}</label>
-                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
-                        onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
-                        onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
-                      />
-                    </div>
-                  }
-                  <div className="editor-body d-flex flex-column flex-grow-1">
-                    <label>{l10n.map.editor_label_message}</label>
-                    <div className="flex-grow-1" style={{margin: '-0.2rem'}}>
-                      <div className="plain-text w-100 h-100 overflow-hidden">
-                        <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
-                          onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
-                          ref={node => this.plainText = node}
-                        />
+              {this.state.processing ? (
+                <div className="modal-body d-flex flex-column align-content-center justify-content-center">
+                  <Spinner delay={0} style={{margin: '20px auto'}} />
+                  <p className="text-center">{l10n.map.waiting_dialog_prepare_email}&hellip;</p>
+                </div>
+              ) : (
+                <>
+                  <div className="modal-body p-4">
+                    <div className="editor d-flex flex-column align-content-center h-100">
+                      {!this.state.embedded &&
+                        <div className="mb-3">
+                          <label>{l10n.map.editor_label_recipient}</label>
+                          <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
+                            onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+                            onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
+                          />
+                        </div>
+                      }
+                      <div className="editor-body d-flex flex-column flex-grow-1">
+                        <label>{l10n.map.editor_label_message}</label>
+                        <div className="flex-grow-1" style={{margin: '-0.2rem'}}>
+                          <div className="plain-text w-100 h-100 overflow-hidden">
+                            <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
+                              onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
+                              ref={node => this.plainText = node}
+                            />
+                          </div>
+                        </div>
                       </div>
+                      {this.state.embedded && (
+                        <div className="mt-3">
+                          <label>{l10n.map.editor_label_attachments}</label>
+                          <FileUpload files={this.state.files} onClickUpload={() => this.logUserInput('security_log_add_attachment')} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddAttachment(files)} />
+                        </div>
+                      )}
                     </div>
                   </div>
-                  {this.state.embedded && (
-                    <div className="mt-3">
-                      <label>{l10n.map.editor_label_attachments}</label>
-                      <FileUpload files={this.state.files} onClickUpload={() => this.logUserInput('security_log_add_attachment')} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddAttachment(files)} />
+                  {!this.state.embedded && (
+                    <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
+                      <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
+                        privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
+                        onCancel={() => this.handleCancel()}
+                        onSignOnly={() => this.handleSign()}
+                        onEncrypt={() => this.handleEncrypt()}
+                        onChangeSignKey={value => this.handleChangeSignKey(value)}
+                        onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
+                      />
                     </div>
                   )}
-                </div>
-              </div>
-              {!this.state.embedded && (
-                <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
-                  <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
-                    privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
-                    onCancel={() => this.handleCancel()}
-                    onSignOnly={() => this.handleSign()}
-                    onEncrypt={() => this.handleEncrypt()}
-                    onChangeSignKey={value => this.handleChangeSignKey(value)}
-                    onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
-                  />
-                </div>
+                </>
               )}
             </div>
           </div>
@@ -388,12 +397,6 @@ export default class Editor extends React.Component {
             {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
           </>
         )}
-        <Modal isOpen={this.state.waiting} className="waiting-modal" hideHeader={true} hideFooter={true} keyboard={false} onShow={() => this.blurWarning && this.blurWarning.startBlurValid}>
-          <div>
-            <Spinner style={{margin: '10px auto'}} />
-            <p className="text-center">{l10n.map.waiting_dialog_prepare_email}&hellip;</p>
-          </div>
-        </Modal>
         {this.state.error &&
           <div className="toastWrapper">
             <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.toggleError()} type="error" transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.toggleError(4000); }}}>
@@ -402,6 +405,7 @@ export default class Editor extends React.Component {
           </div>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
+        {this.state.waiting && <Spinner fullscreen={true} delay={0} />}
         {this.state.terminate && <Terminate />}
       </SecurityBG>
     );

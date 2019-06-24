@@ -9,6 +9,7 @@
 
   .modal {
     padding: 2.75rem;
+    z-index: 1035;
   }
 
   &.embedded {
@@ -30,8 +31,8 @@
   }
 
   .editor-popup-pwd-dialog {
-    width: 462px;
-    height: 488px;
+    width: 580px;
+    height: 480px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -52,6 +53,10 @@
     transform:translateX(-50%);
   }
   
+  .m-spinner-fullscreen {
+    z-index: 1045;
+  }
+
 }
 
 
