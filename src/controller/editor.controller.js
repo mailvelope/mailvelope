@@ -298,7 +298,7 @@ export default class EditorController extends sub.SubController {
         }
       };
       if (this.options.armoredDraft) {
-        if (!(signatures && signatures[0].valid)) {
+        if (!(signatures && signatures.length === 1 && signatures[0].valid)) {
           throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
       }

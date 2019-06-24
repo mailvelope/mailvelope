@@ -11,15 +11,30 @@ import {gpgme} from '../lib/browser.runtime';
  * Decrypt message
  * @param  {String} [armored] - armored PGP message
  * @param {String} [base64] - PGP message as base64 string
+ * @param {String} [format] - default is 'utf8', other value: 'binary'
+ * @param {Boolean} [selfSigned] - message is signed by user, restore draft scenario
+ * @param {KeyringBase} [keyring] - keyring used for decryption
+ * @param  {Array<openpgp.Keyid>} [encryptionKeyIds] - message encrypted for keyIds
  * @return {Object}
  */
-export async function decrypt({armored, base64, format}) {
+export async function decrypt({armored, base64, format, selfSigned, keyring, encryptionKeyIds}) {
   let {data, signatures, file_name, format: resultFormat} = await gpgme.decrypt({
     data: armored || base64,
     base64: Boolean(base64),
     expect: format === 'binary' ? 'base64' : null
   });
   signatures = mapSignatures(signatures);
+  if (selfSigned) {
+    const privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
+    signatures = signatures.filter(sig => {
+      if (sig.fingerprint) {
+        return sig.fingerprint === privateKey.primaryKey.getFingerprint();
+      }
+      if (sig.keyId) {
+        return sig.keyId === privateKey.primaryKey.getKeyId().toHex();
+      }
+    });
+  }
   if (resultFormat === 'base64') {
     data = window.atob(data);
   }
