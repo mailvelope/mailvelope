@@ -226,58 +226,56 @@ export default class Decrypt extends React.Component {
       <>
         <div className="decrypt jumbotron">
           <section className="card">
-            <div className="card-body">
-              {this.state.initializing ? (
-                <Spinner delay={0} />
-              ) : (
-                <>
-                  {this.state.decrypted.length > 0 &&
-                    <nav aria-label="breadcrumb">
-                      <ol className="breadcrumb bg-transparent p-0">
-                        <li className="breadcrumb-item"><a onClick={() => this.handleBack()}><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.decrypt_header}</a></li>
-                      </ol>
-                    </nav>
-                  }
-                  <div className="card-title d-flex flex-wrap align-items-center w-100">
-                    <h1 className="flex-shrink-0">{!this.state.decrypted.length ? l10n.map.decrypt_header : l10n.map.decrypt_header_success}</h1>
-                    <div className="ml-auto flex-shrink-0">
-                      {!this.state.decrypted.length &&
-                        <button type="button" disabled={this.state.files.length === 0 && this.state.message === ''} onClick={() => this.handleDecrypt()} className="btn btn-primary">{l10n.map.text_decrypt_button}</button>
-                      }
-                      {this.state.decrypted.length > 1 &&
-                        <button type="button" onClick={this.handleDownloadAll} className="btn btn-primary">{l10n.map.encrypt_download_all_button}</button>
-                      }
-                    </div>
+            {this.state.initializing ? (
+              <Spinner delay={0} />
+            ) : (
+              <div className="card-body">
+                {this.state.decrypted.length > 0 &&
+                  <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb bg-transparent p-0">
+                      <li className="breadcrumb-item"><a onClick={() => this.handleBack()}><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.decrypt_header}</a></li>
+                    </ol>
+                  </nav>
+                }
+                <div className="card-title d-flex flex-wrap align-items-center w-100">
+                  <h1 className="flex-shrink-0">{!this.state.decrypted.length ? l10n.map.decrypt_header : l10n.map.decrypt_header_success}</h1>
+                  <div className="ml-auto flex-shrink-0">
+                    {!this.state.decrypted.length &&
+                      <button type="button" disabled={this.state.files.length === 0 && this.state.message === ''} onClick={() => this.handleDecrypt()} className="btn btn-primary">{l10n.map.text_decrypt_button}</button>
+                    }
+                    {this.state.decrypted.length > 1 &&
+                      <button type="button" onClick={this.handleDownloadAll} className="btn btn-primary">{l10n.map.encrypt_download_all_button}</button>
+                    }
                   </div>
-                  <div className={this.state.decrypted.length ? 'd-none' : ''}>
-                    <div className="form-group mb-5">
-                      <label>{l10n.map.editor_label_attachments}</label>
-                      <FileUpload files={this.state.files} filter={['.asc', '.gpg']} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddFile(files)} />
-                    </div>
-                    <div className="form-group">
-                      {!this.state.showTextInput ? (
-                        <div className="d-flex justify-content-center">
-                          <button type="button" onClick={() => this.setState({showTextInput: true})} className="btn btn-secondary">{l10n.map.decrypt_text_decryption_btn}</button>
-                        </div>
-                      ) : (
-                        <>
-                          <label>{l10n.map.decrypt_text_area_label}</label>
-                          <textarea className="form-control mb-0" value={this.state.message} onChange={event => this.setState({message: event.target.value})} rows={8} autoFocus spellCheck="false" autoComplete="off" />
-                        </>
-                      )}
-                    </div>
+                </div>
+                <div className={this.state.decrypted.length ? 'd-none' : ''}>
+                  <div className="form-group mb-5">
+                    <label>{l10n.map.editor_label_attachments}</label>
+                    <FileUpload files={this.state.files} filter={['.asc', '.gpg']} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddFile(files)} />
                   </div>
-                  <div className={this.state.decrypted.length ? '' : 'd-none'}>
-                    <div className="form-group mb-0">
-                      <label>Entschlüsselte Dateien</label>
-                      <div ref={ref => this.fileDownloadElements = ref}>
-                        <FileDownloadPanel className="d-inline-flex flex-column align-items-start" files={this.state.decrypted} onCopyToClipboard={this.handleCopyToClipboard} />
+                  <div className="form-group">
+                    {!this.state.showTextInput ? (
+                      <div className="d-flex justify-content-center">
+                        <button type="button" onClick={() => this.setState({showTextInput: true})} className="btn btn-secondary">{l10n.map.decrypt_text_decryption_btn}</button>
                       </div>
+                    ) : (
+                      <>
+                        <label>{l10n.map.decrypt_text_area_label}</label>
+                        <textarea className="form-control mb-0" value={this.state.message} onChange={event => this.setState({message: event.target.value})} rows={8} autoFocus spellCheck="false" autoComplete="off" />
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className={this.state.decrypted.length ? '' : 'd-none'}>
+                  <div className="form-group mb-0">
+                    <label>Entschlüsselte Dateien</label>
+                    <div ref={ref => this.fileDownloadElements = ref}>
+                      <FileDownloadPanel className="d-inline-flex flex-column align-items-start" files={this.state.decrypted} onCopyToClipboard={this.handleCopyToClipboard} />
                     </div>
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </div>
+            )}
             {this.state.waiting && <Spinner delay={0} fullscreen={true} />}
           </section>
         </div>

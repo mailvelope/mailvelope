@@ -241,90 +241,88 @@ export default class Encrypt extends React.Component {
       <>
         <div className="encrypt jumbotron">
           <section className="card">
-            <div className="card-body">
-              {this.state.initializing ? (
-                <Spinner delay={0} />
-              ) : (
-                <>
-                  {this.state.encrypted.length > 0 &&
-                    <nav aria-label="breadcrumb">
-                      <ol className="breadcrumb bg-transparent p-0">
-                        <li className="breadcrumb-item"><a onClick={() => this.handleBack()}><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.encrypt_header}</a></li>
-                      </ol>
-                    </nav>
-                  }
-                  <div className="card-title d-flex flex-wrap align-items-center w-100">
-                    <h1 className="flex-shrink-0">{!this.state.encrypted.length ? l10n.map.encrypt_header : l10n.map.encrypt_header_success}</h1>
-                    <div className="ml-auto flex-shrink-0">
-                      {!this.state.encrypted.length &&
-                        <button type="button" disabled={this.state.recipients.length === 0 || (this.state.files.length === 0 && this.state.message === '')} onClick={() => this.handleEncrypt()} className="btn btn-primary">{l10n.map.editor_encrypt_button}</button>
-                      }
-                      {this.state.encrypted.length > 1 &&
-                        <button type="button" onClick={this.handleDownloadAll} className="btn btn-primary">{l10n.map.encrypt_download_all_button}</button>
-                      }
-                    </div>
+            {this.state.initializing ? (
+              <Spinner delay={0} />
+            ) : (
+              <div className="card-body">
+                {this.state.encrypted.length > 0 &&
+                  <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb bg-transparent p-0">
+                      <li className="breadcrumb-item"><a onClick={() => this.handleBack()}><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.encrypt_header}</a></li>
+                    </ol>
+                  </nav>
+                }
+                <div className="card-title d-flex flex-wrap align-items-center w-100">
+                  <h1 className="flex-shrink-0">{!this.state.encrypted.length ? l10n.map.encrypt_header : l10n.map.encrypt_header_success}</h1>
+                  <div className="ml-auto flex-shrink-0">
+                    {!this.state.encrypted.length &&
+                      <button type="button" disabled={this.state.recipients.length === 0 || (this.state.files.length === 0 && this.state.message === '')} onClick={() => this.handleEncrypt()} className="btn btn-primary">{l10n.map.editor_encrypt_button}</button>
+                    }
+                    {this.state.encrypted.length > 1 &&
+                      <button type="button" onClick={this.handleDownloadAll} className="btn btn-primary">{l10n.map.encrypt_download_all_button}</button>
+                    }
                   </div>
-                  <div className={this.state.encrypted.length ? 'd-none' : ''}>
-                    <div className="form-group">
-                      <label>{l10n.map.editor_label_recipient}</label>
-                      <RecipientInput keys={this.state.keys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
-                        onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
-                        onAutoLocate={recipient => this.handleAutoLocate(recipient)}
-                      />
-                    </div>
-                    <div className="form-group mb-5">
-                      <Alert className="mb-0">
-                        <div className="d-flex align-items-center">
-                          <span className="flex-shrink-1 mr-4">{this.state.signingKey ? l10n.get('encrypt_signer_info', [this.state.signingKey.email]) : l10n.map.encrypt_no_signer_info}</span>
-                          <div className="btn-bar flex-md-shrink-0 flex-grow-1">
-                            <button type="button" onClick={this.handleChangeSigningKey} className="btn btn-secondary mb-md-0">{l10n.map.change_link}</button>
-                            {this.state.signingKey && <button type="button" onClick={() => this.setState({signingKey: null})} className="btn btn-secondary mb-md-0">{l10n.map.encrypt_remove_signer_btn}</button>}
-                          </div>
-                        </div>
-                      </Alert>
-                    </div>
-                    <div className="form-group mb-5">
-                      <label>{l10n.map.editor_label_attachments}</label>
-                      <FileUpload files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddFile(files)} />
-                    </div>
-                    <div className="form-group">
-                      {!this.state.showTextInput ? (
-                        <div className="d-flex justify-content-center">
-                          <button type="button" onClick={() => this.setState({showTextInput: true})} className="btn btn-secondary">{l10n.map.encrypt_text_encryption_btn}</button>
-                        </div>
-                      ) : (
-                        <>
-                          <label>{l10n.map.editor_label_message}</label>
-                          <div style={{margin: '-0.2rem'}}>
-                            <div className="plain-text w-100 h-100 overflow-hidden">
-                              <PlainText ref={node => this.plainText = node} defaultValue={this.state.defaultPlainText} onChange={() => this.setState({message: this.plainText.getValue()})} />
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
+                </div>
+                <div className={this.state.encrypted.length ? 'd-none' : ''}>
+                  <div className="form-group">
+                    <label>{l10n.map.editor_label_recipient}</label>
+                    <RecipientInput keys={this.state.keys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
+                      onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+                      onAutoLocate={recipient => this.handleAutoLocate(recipient)}
+                    />
                   </div>
-                  <div className={this.state.encrypted.length ? '' : 'd-none'}>
-                    <dl className="row">
-                      <dt className="col-sm-4 col-md-3 col-lg-2 mb-2 text-nowrap">{l10n.map.encrypt_encrypted_for_label}</dt>
-                      <dd className="col-sm-8 col-md-9 col-lg-10">{(this.state.recipients.map(recipient => recipient.email)).join(', ')}</dd>
-                      {this.state.signingKey && (
-                        <>
-                          <dt className="col-sm-4 col-md-3 col-lg-2 mb-2 text-nowrap">{l10n.map.encrypt_signed_as_label}</dt>
-                          <dd className="col-sm-8 col-md-9 col-lg-10">{`${this.state.signingKey.name} (${this.state.signingKey.email})`}</dd>
-                        </>
-                      )}
-                    </dl>
-                    <div className="form-group mb-0">
-                      <label>{l10n.map.encrypt_encrypted_files_label}</label>
-                      <div ref={ref => this.fileDownloadElements = ref}>
-                        <FileDownloadPanel className="d-inline-flex flex-column align-items-start" files={this.state.encrypted} onCopyToClipboard={this.handleCopyToClipboard} />
+                  <div className="form-group mb-5">
+                    <Alert className="mb-0">
+                      <div className="d-flex align-items-center">
+                        <span className="flex-shrink-1 mr-4">{this.state.signingKey ? l10n.get('encrypt_signer_info', [this.state.signingKey.email]) : l10n.map.encrypt_no_signer_info}</span>
+                        <div className="btn-bar flex-md-shrink-0 flex-grow-1">
+                          <button type="button" onClick={this.handleChangeSigningKey} className="btn btn-secondary mb-md-0">{l10n.map.change_link}</button>
+                          {this.state.signingKey && <button type="button" onClick={() => this.setState({signingKey: null})} className="btn btn-secondary mb-md-0">{l10n.map.encrypt_remove_signer_btn}</button>}
+                        </div>
                       </div>
+                    </Alert>
+                  </div>
+                  <div className="form-group mb-5">
+                    <label>{l10n.map.editor_label_attachments}</label>
+                    <FileUpload files={this.state.files} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddFile(files)} />
+                  </div>
+                  <div className="form-group">
+                    {!this.state.showTextInput ? (
+                      <div className="d-flex justify-content-center">
+                        <button type="button" onClick={() => this.setState({showTextInput: true})} className="btn btn-secondary">{l10n.map.encrypt_text_encryption_btn}</button>
+                      </div>
+                    ) : (
+                      <>
+                        <label>{l10n.map.editor_label_message}</label>
+                        <div style={{margin: '-0.2rem'}}>
+                          <div className="plain-text w-100 h-100 overflow-hidden">
+                            <PlainText ref={node => this.plainText = node} defaultValue={this.state.defaultPlainText} onChange={() => this.setState({message: this.plainText.getValue()})} />
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className={this.state.encrypted.length ? '' : 'd-none'}>
+                  <dl className="row">
+                    <dt className="col-sm-4 col-md-3 col-lg-2 mb-2 text-nowrap">{l10n.map.encrypt_encrypted_for_label}</dt>
+                    <dd className="col-sm-8 col-md-9 col-lg-10">{(this.state.recipients.map(recipient => recipient.email)).join(', ')}</dd>
+                    {this.state.signingKey && (
+                      <>
+                        <dt className="col-sm-4 col-md-3 col-lg-2 mb-2 text-nowrap">{l10n.map.encrypt_signed_as_label}</dt>
+                        <dd className="col-sm-8 col-md-9 col-lg-10">{`${this.state.signingKey.name} (${this.state.signingKey.email})`}</dd>
+                      </>
+                    )}
+                  </dl>
+                  <div className="form-group mb-0">
+                    <label>{l10n.map.encrypt_encrypted_files_label}</label>
+                    <div ref={ref => this.fileDownloadElements = ref}>
+                      <FileDownloadPanel className="d-inline-flex flex-column align-items-start" files={this.state.encrypted} onCopyToClipboard={this.handleCopyToClipboard} />
                     </div>
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </div>
+            )}
             {this.state.waiting && <Spinner delay={0} fullscreen={true} />}
           </section>
           <Modal isOpen={this.state.showSigningKeyModal} toggle={() => this.setState(prevState => ({showSigningKeyModal: !prevState.showSigningKeyModal}))} title={l10n.map.encrypt_change_signer_dialog_title} hideFooter={true}>
