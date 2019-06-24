@@ -54,6 +54,7 @@ export default class Editor extends React.Component {
       defaultKey: false,
       privKeys: [],
       defaultPlainText: '',
+      plainText: '',
       publicKeys: [],
       recipients: [],
       encryptDisabled: true,
@@ -71,8 +72,6 @@ export default class Editor extends React.Component {
     // flag to control time slice for input logging
     this.logTextareaInput = true;
     this.registerEventListeners();
-    // ref to PlainText component
-    this.plainText = null;
     // ref to blur warning
     this.blurWarning = null;
   }
@@ -82,7 +81,7 @@ export default class Editor extends React.Component {
   }
 
   registerEventListeners() {
-    this.port.on('set-text', ({text}) => this.setState({defaultPlainText: text}));
+    this.port.on('set-text', ({text}) => this.setState({defaultPlainText: text, plainText: text}));
     this.port.on('set-init-data', this.onSetInitData);
     this.port.on('set-embedded-mode', this.onSetEmbeddedMode);
     this.port.on('set-attachment', this.onSetAttachment);
@@ -104,6 +103,7 @@ export default class Editor extends React.Component {
   onSetInitData({text = '', signMsg, defaultKeyFpr, privKeys = []}) {
     this.setState({
       defaultPlainText: text,
+      plainText: text,
       signMsg: Boolean(signMsg),
       signKey: defaultKeyFpr,
       defaultKey: Boolean(defaultKeyFpr),
@@ -207,7 +207,7 @@ export default class Editor extends React.Component {
    */
   sendPlainText(action, noCache, draft) {
     this.port.emit('editor-plaintext', {
-      message: this.plainText.getValue(),
+      message: this.state.plainText,
       keys: this.state.recipients.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
       attachments: this.state.files,
       action,
@@ -217,7 +217,8 @@ export default class Editor extends React.Component {
     });
   }
 
-  handleTextChange() {
+  handleTextChange(value) {
+    this.setState({plainText: value});
     this.blurWarning && this.blurWarning.startBlurWarnInterval();
     this.logTextInput();
   }
@@ -324,9 +325,9 @@ export default class Editor extends React.Component {
     }
   }
 
-  toggleError(timeout = 0) {
+  hideError(timeout = 0) {
     setTimeout(() => {
-      this.setState(prevState => ({showError: !prevState.showError}));
+      this.setState({showError: false});
     }, timeout);
   }
 
@@ -358,9 +359,8 @@ export default class Editor extends React.Component {
                         <label>{l10n.map.editor_label_message}</label>
                         <div className="flex-grow-1" style={{margin: '-0.2rem'}}>
                           <div className="plain-text w-100 h-100 overflow-hidden">
-                            <PlainText defaultValue={this.state.defaultPlainText} onChange={() => this.handleTextChange()}
+                            <PlainText defaultValue={this.state.defaultPlainText} onChange={value => this.handleTextChange(value)}
                               onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
-                              ref={node => this.plainText = node}
                             />
                           </div>
                         </div>
@@ -376,7 +376,7 @@ export default class Editor extends React.Component {
                   {!this.state.embedded && (
                     <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
                       <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
-                        privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled}
+                        privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
                         onCancel={() => this.handleCancel()}
                         onSignOnly={() => this.handleSign()}
                         onEncrypt={() => this.handleEncrypt()}
@@ -399,7 +399,7 @@ export default class Editor extends React.Component {
         )}
         {this.state.error &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.toggleError()} type="error" transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.toggleError(4000); }}}>
+            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.hideError()} type="error" transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.hideError(4000); }}}>
               {this.state.error.message}
             </Toast>
           </div>
