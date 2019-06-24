@@ -95,6 +95,8 @@ export default class DecryptController extends sub.SubController {
     if (this.decryptPopup) {
       this.decryptPopup.close();
       this.decryptPopup = null;
+    } else {
+      this.ports.dDialog.emit('show-password-required');
     }
   }
 
