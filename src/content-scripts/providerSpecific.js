@@ -9,6 +9,7 @@
  */
 
 import {sequential, isVisible} from '../lib/util';
+import {goog} from '../modules/closure-library/closure/goog/emailaddress';
 
 let providerMap = null;
 
@@ -79,20 +80,21 @@ class Gmail {
    * Parse recipients from the Gmail Webmail interface
    * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
-  async getRecipients() {
-    return getAttr(document.querySelectorAll('.oL.aDm span[email], .vR span[email]'), 'email');
+  async getRecipients(editElement) {
+    return getAttr(editElement.closest('.I5').querySelectorAll('.oL.aDm span[email], .vR span[email]'), 'email');
   }
 
   /**
    * Set the recipients in the Gmail Webmail editor.
    */
-  setRecipients({recipients = []}) {
+  setRecipients({recipients = [], editElement}) {
+    const containerElement = editElement.closest('.I5');
     // find the relevant elements in the Gmail interface
-    const displayArea = document.querySelector('.aoD.hl'); // email display only area
-    const tagRemove = document.querySelectorAll('.fX .vR .vM'); // email tags remove button
-    const input = document.querySelectorAll('.fX .vO'); // the actual recipient email address text input (a textarea)
-    const subject = document.querySelector('.aoT'); // subject field
-    const editor = document.querySelector('.aO7 .Am'); // editor
+    const displayArea = containerElement.querySelector('.aoD.hl'); // email display only area
+    const tagRemove = containerElement.querySelectorAll('.fX .vR .vM'); // email tags remove button
+    const input = containerElement.querySelectorAll('.fX .vO'); // the actual recipient email address text input (a textarea)
+    const subject = containerElement.querySelector('.aoT'); // subject field
+    const editor = containerElement.querySelector('.aO7 .Am'); // editor
     input.forEach(element => element.value = '');
     setFocus(displayArea)
     .then(() => {
@@ -132,28 +134,36 @@ class Yahoo {
    * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
   async getRecipients() {
-    return getAttr(document.querySelectorAll('.compose-header span[data-address]'), 'data-address');
+    const recipientElements = document.querySelectorAll('.compose-header [data-test-id="container-to"] [data-test-id="pill"]');
+    return getAttr(recipientElements, 'title');
   }
 
   /**
    * Set the recipients in the Yahoo Webmail editor.
    */
   setRecipients({recipients = []}) {
-    // remove existing recipients
-    document.querySelectorAll('.compose-header li.hLozenge').forEach(element => element.remove());
-    // enter address text into input
-    const text = joinEmail(recipients);
-    const input = document.querySelector('.compose-header #to .recipient-input input');
-    if (input) {
-      input.value = text;
-    }
+    const input = document.querySelector('.compose-header [data-test-id="container-to"] ul.pill-list > li.pill-container input.input-to');
+    const inputValue = joinEmail(recipients);
+    setReactValue(input, inputValue);
     // trigger change event by switching focus
     setFocus(input)
     .then(() => {
-      const subject = document.querySelector('#subject-field');
+      const subject = document.querySelector('[data-test-id="compose-subject"]');
       // set focus to subject field, or to compose area in the reply case
-      setFocus(isVisible(subject) ? subject : document.querySelector('.compose-message .cm-rtetext'));
+      setFocus(isVisible(subject) ? subject : document.querySelector('[id="editor-container"] > [data-test-id="rte"]'));
     });
+
+    // remove existing recipients afterwards
+    setTimeout(() => {
+      document.querySelectorAll('.compose-header [data-test-id="container-to"] ul.pill-list > li:not(.pill-container)').forEach(element => {
+        const dataElement = element.querySelector('[data-test-id="pill"]');
+        const emailAddress = goog.format.EmailAddress.parse(dataElement.getAttribute('title'));
+        if (emailAddress.isValid() && !recipients.find(({email}) => email === emailAddress.getAddress())) {
+          element.click();
+          element.querySelector('.pill-close button').click();
+        }
+      });
+    }, 250);
   }
 
   /**
@@ -162,11 +172,12 @@ class Yahoo {
    * @return {Promise.<Array>}   sender object in the form { email: 'jon@example.com' }
    */
   async getSender(emailElement) {
-    const emailArea = emailElement.closest('.thread-item');
+    const emailArea = emailElement.closest('.message-view');
     if (!emailArea) {
       return [];
     }
-    return getAttr(emailArea.querySelectorAll('.thread-item-header .contents > .hcard-mailto span[data-address]'), 'data-address');
+    const senderElements = emailArea.querySelectorAll('header [data-test-id="message-from"] [data-test-id="email-pill"]:first-of-type > span > span');
+    return getText(senderElements);
   }
 }
 
@@ -176,11 +187,15 @@ class Yahoo {
 
 class Outlook {
   getRecipients(editElement) {
-    // get compose area
-    const composeArea = editElement.closest('.conductorContent');
-    // find personas in compose are
-    const personas = composeArea.querySelectorAll('.PersonaPaneLauncher');
-    return sequential(this.extractPersona.bind(this), Array.from(personas));
+    return new Promise(resolve => {
+      // get compose area
+      const composeArea = editElement.closest('[role="main"]');
+      // find personas in compose are
+      const personas = composeArea.querySelectorAll('[data-selection-index] .lpc-hoverTarget');
+      setTimeout(() => {
+        resolve(sequential(this.extractPersona.bind(this), Array.from(personas)));
+      }, 500);
+    });
   }
 
   waitForPersonaCard(action) {
@@ -195,8 +210,8 @@ class Outlook {
           observer.disconnect();
           // wait in interval for popup content to render
           const searchInterval = setInterval(() => {
-            const personaCard = addedNode.getElementsByClassName('groupPivotPersonaCard');
-            if (personaCard.length && personaCard.textContent.match(HAS_EMAIL)) {
+            const personaCard = addedNode.querySelector('[data-log-name="Email"] button');
+            if (personaCard && personaCard.textContent.match(HAS_EMAIL)) {
               clearInterval(searchInterval);
               // still more time required to complete render
               setTimeout(() => resolve({personaCard, addedNode}), 200);
@@ -227,23 +242,42 @@ class Outlook {
 
   setRecipients({recipients = [], editElement}) {
     // get compose area
-    const composeArea = editElement.closest('.conductorContent');
+    const composeArea = editElement.closest('[role="main"]');
     // remove existing recipients
-    composeArea.querySelectorAll('.PersonaPaneLauncher button').forEach(element => element.click());
+    setTimeout(() => {
+      composeArea.querySelectorAll('[data-selection-index] button[class*=removeWellItemButton]').forEach(element => element.click());
+    }, 250);
     // enter address text into input
-    const text = joinEmail(recipients);
-    const input = composeArea.querySelector('[role="heading"] form input');
-    setFocus(input)
-    .then(() => input.value = text);
+    const input = composeArea.querySelector('.ms-BasePicker-input');
+    sequential(this.setRecipient.bind(this), recipients.map(({email}) => ({email, input}))).then(() => input.blur());
   }
 
-  getSender(emailElement) {
-    const emailArea = emailElement.closest('.ShowReferenceAttachmentsLinks');
-    if (!emailArea) {
-      return [];
-    }
-    const persona = emailArea.querySelector('.PersonaPaneLauncher');
-    return this.extractPersona(persona);
+  setRecipient({email, input}) {
+    return new Promise(resolve => {
+      setReactValue(input, email);
+      const keyEnter = new KeyboardEvent('keydown', {
+        bubbles: true,
+        cancelable: true,
+        key: 'Enter',
+        keyCode: 13
+      });
+      setTimeout(() => {
+        resolve([input.dispatchEvent(keyEnter)]);
+      }, 500);
+    });
+  }
+
+  async getSender(emailElement) {
+    return new Promise(resolve => {
+      const emailArea = emailElement.closest('.item-part, .item-reading-pane');
+      if (!emailArea) {
+        resolve([]);
+      }
+      setTimeout(() => {
+        const senderElement = emailArea.querySelector('.item-header-actions > div .lpc-hoverTarget div span');
+        resolve(getText([senderElement]));
+      }, 500);
+    });
   }
 }
 
@@ -251,7 +285,6 @@ class Outlook {
  * DOM API util funtions
  */
 
-const IS_EMAIL = /^[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}$/;
 const HAS_EMAIL = /[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,63}/;
 
 /**
@@ -260,17 +293,13 @@ const HAS_EMAIL = /[+a-zA-Z0-9_.!#$%&'*\/=?^`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-
  * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function getText(elements) {
-  return parseEmail(elements, element => {
-    // consider only direct text nodes of elements
-    const clone = element.cloneNode(false);
-    return clone.textContent;
-  });
+  return parseEmail(elements, element => element.textContent);
 }
 
 /**
  * Filter a certain attribute of a list of elements for email addresses.
  * @param  {NodeList<HTMLElement>} elements - A list of elements to iteralte over
- * @param  {String} attrName - The element's attribute name to query by
+ * @param  {String} attrName - The optional element's attribute name to query by
  * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
  */
 function getAttr(elements, attrName) {
@@ -290,6 +319,17 @@ function setFocus(element) {
   });
 }
 
+function setReactValue(input, value) {
+  input.focus();
+  input.value = value;
+  const event = new Event('input', {bubbles: true});
+  const tracker = input._valueTracker;
+  if (tracker) {
+    tracker.setValue('');
+  }
+  input.dispatchEvent(event);
+}
+
 /**
  * Extract emails from list of elements
  * @param  {NodeList<HTMLElement>} elements - A list of jQuery elements to iteralte over
@@ -300,8 +340,9 @@ function parseEmail(elements, extract) {
   const emails = [];
   for (const element of elements) {
     const value = extract(element);
-    if (IS_EMAIL.test(value)) {
-      emails.push(value);
+    const emailAddress = goog.format.EmailAddress.parse(value);
+    if (emailAddress.isValid()) {
+      emails.push(emailAddress.getAddress());
     }
   }
   return toRecipients(emails);
