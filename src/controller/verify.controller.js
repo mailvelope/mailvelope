@@ -14,8 +14,10 @@ export default class VerifyController extends SubController {
     super(port);
     this.keyringId = getPreferredKeyringId();
     this.verifyPopup = null;
+    this.armored = null;
     // register event handlers
     this.on('decrypt-message-init', this.onVerifyInit);
+    this.on('decrypt-message', () => this.onArmoredMessage({data: this.armored}));
     this.on('decrypt-dialog-cancel', this.onCancel);
     this.on('decrypt-inline-user-input', msg => uiLog.push(msg.source, msg.type));
     this.on('vframe-display-popup', this.onDisplayPopup);
@@ -34,9 +36,10 @@ export default class VerifyController extends SubController {
     });
   }
 
-  async onArmoredMessage(msg) {
+  async onArmoredMessage({data}) {
+    this.armored = data;
     try {
-      const {data, signatures} = await verifyMessage({armored: msg.data, keyringId: this.keyringId});
+      const {data, signatures} = await verifyMessage({armored: this.armored, keyringId: this.keyringId});
       this.ports.dDialog.emit('verified-message', {
         message: data,
         signers: signatures
