@@ -41,24 +41,26 @@ export default class SecurityLog extends React.Component {
       <div id="securityLog">
         <h2 className="mb-4">{l10n.map.settings_security_log}</h2>
         <p>{l10n.map.security_log_text}</p>
-        <table className="table table-hover table-custom mb-0">
-          <thead>
-            <tr>
-              <th>{l10n.map.security_log_timestamp}</th>
-              <th className="w-25">{l10n.map.security_log_source}</th>
-              <th className="w-50">{l10n.map.security_log_action}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.secLog.map(log =>
-              <tr key={log.timestamp}>
-                <td title={log.timestamp}>{new Date(log.timestamp).toLocaleTimeString()}</td>
-                <td>{log.sourcei18n}</td>
-                <td>{log.typei18n}</td>
+        <div className="table-responsive">
+          <table className="table table-hover table-custom mb-0">
+            <thead>
+              <tr>
+                <th>{l10n.map.security_log_timestamp}</th>
+                <th className="w-25">{l10n.map.security_log_source}</th>
+                <th className="w-50">{l10n.map.security_log_action}</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.secLog.map(log =>
+                <tr key={log.timestamp}>
+                  <td title={log.timestamp}>{new Date(log.timestamp).toLocaleTimeString()}</td>
+                  <td>{log.sourcei18n}</td>
+                  <td>{log.typei18n}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

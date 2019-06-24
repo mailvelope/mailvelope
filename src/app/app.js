@@ -17,13 +17,13 @@
 
 import React from 'react';
 import {Route, Redirect, Link} from 'react-router-dom';
+import {Collapse} from 'reactstrap';
 import * as l10n from '../lib/l10n';
 import {APP_TOP_FRAME_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import {NavLink} from './util/util';
 import SecurityBG from '../components/util/SecurityBG';
 import Terminate from '../components/util/Terminate';
-
 import Dashboard from './dashboard/Dashboard';
 import Keyring from './keyring/Keyring';
 import Encrypt from './encrypt/Encrypt';
@@ -70,10 +70,12 @@ export class App extends React.Component {
     this.state = {
       prefs: null, // global preferences
       gnupg: false, // GnuPG installed
+      collapse: false,
       terminate: false,
       version: '' // Mailvelope version
     };
     this.handleChangePrefs = this.handleChangePrefs.bind(this);
+    this.toggleNavbar = this.toggleNavbar.bind(this);
   }
 
   getId(query) {
@@ -111,6 +113,10 @@ export class App extends React.Component {
     });
   }
 
+  toggleNavbar() {
+    this.setState(state => ({collapse: !state.collapse}));
+  }
+
   render() {
     return (
       <SecurityBG port={port}>
@@ -122,10 +128,10 @@ export class App extends React.Component {
             <Link to="/dashboard" className="navbar-brand">
               <img src="../img/Mailvelope/logo.svg" width="175" height="32" className="d-inline-block align-top" alt="" />
             </Link>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button className="navbar-toggler" type="button" onClick={this.toggleNavbar} aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <Collapse isOpen={this.state.collapse} className="navbar-collapse">
               <ul className="navbar-nav mr-auto">
                 <NavLink to="/keyring">{l10n.map.keyring_header}</NavLink>
                 <NavLink to="/encrypt">{l10n.map.encrypt_home}</NavLink>
@@ -135,7 +141,7 @@ export class App extends React.Component {
               <ul className="navbar-nav">
                 <li className="nav-item"><a className="nav-link" href="https://www.mailvelope.com/help" target="_blank" rel="noreferrer noopener" tabIndex="0"><span className="icon icon-help d-none d-md-inline" aria-hidden="true"></span><span className="d-md-none">{l10n.map.options_docu}</span></a></li>
               </ul>
-            </div>
+            </Collapse>
           </div>
         </nav>
         <main className="container" role="main">
