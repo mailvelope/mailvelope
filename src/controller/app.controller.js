@@ -8,7 +8,7 @@ import {PromiseQueue, getHash} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
-import {mapKeys, parseUserId, getLastModifiedDate} from '../modules/key';
+import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey} from '../modules/key';
 import {initOpenPGP, decryptFile, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData, getDefaultKeyFpr} from '../modules/keyring';
 import {delete as deletePwdCache, get as getKeyPwdFromCache, unlock as unlockKey} from '../modules/pwdCache';
@@ -261,12 +261,20 @@ export default class AppController extends sub.SubController {
       return;
     }
     for (const armoredKey of armoredKeys) {
-      const key = await openpgpKey.readArmored(armoredKey);
-      if (!key.err) {
-        keys.push(key.keys[0]);
-      } else {
+      const pgpKey = await openpgpKey.readArmored(armoredKey);
+      if (pgpKey.err) {
         invalidCounter++;
-        console.log(`Error parsing armored PGP key: ${key.err}`);
+        console.log(`Error parsing armored PGP key: ${pgpKey.err}`);
+        continue;
+      }
+      for (const key of pgpKey.keys) {
+        const saniKey = await sanitizeKey(key);
+        if (!saniKey) {
+          invalidCounter++;
+          console.log(`No valid user ID found in key: ${key.primaryKey.getFingerprint()}`);
+          continue;
+        }
+        keys.push(saniKey);
       }
     }
     let mappedKeys = await mapKeys(keys);

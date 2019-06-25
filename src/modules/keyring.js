@@ -6,6 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../lib/constants';
 import {wait, filterAsync, toArray, MvError} from '../lib/util';
+import {sanitizeKey} from './key';
 import KeyringLocal from './KeyringLocal';
 import KeyStoreLocal from './KeyStoreLocal';
 import KeyringGPG from './KeyringGPG';
@@ -98,6 +99,9 @@ export async function init() {
   await Promise.all(keyringIds.map(async keyringId => {
     try {
       await buildKeyring(keyringId);
+      if (keyringId !== GNUPG_KEYRING_ID) {
+        await sanitizeKeyring(keyringId);
+      }
     } catch (e) {
       // could not build keyring, remove from keyring attributes
       await keyringAttr.delete(keyringId);
@@ -181,6 +185,21 @@ async function preVerifyKeys() {
       await wait(20);
     }
   }
+}
+
+/**
+ * Sanitize all the keys in the keyring (discard invalid user IDs and sub keys)
+ * @param  {String} keyringId
+ */
+async function sanitizeKeyring(keyringId) {
+  if (keyringAttr.get(keyringId, 'sanitized')) {
+    return;
+  }
+  const keyring = keyringMap.get(keyringId);
+  keyring.keystore.publicKeys.keys = await filterAsync(keyring.keystore.publicKeys.keys, sanitizeKey);
+  keyring.keystore.privateKeys.keys = await filterAsync(keyring.keystore.privateKeys.keys, sanitizeKey);
+  await keyring.keystore.store();
+  await keyringAttr.set(keyringId, {sanitized: true});
 }
 
 /**

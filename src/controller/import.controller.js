@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import {getHash, MvError} from '../lib/util';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
-import {mapKeys, cloneKey, parseUserId} from '../modules/key';
+import {mapKeys, cloneKey, parseUserId, sanitizeKey} from '../modules/key';
 import * as openpgp from 'openpgp';
 import * as uiLog from '../modules/uiLog';
 import {getLastModifiedDate} from '../modules/key';
@@ -86,12 +86,12 @@ export default class ImportController extends sub.SubController {
       this.key = this.keys.keys[0];
       if (this.keys.keys.length > 1) {
         console.log('Multiple keys detected during key import, only first key is imported.');
-        // only import first key in armored block
-        this.armored = this.key.armor();
       }
-      if (await this.key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid) {
+      this.key = await sanitizeKey(this.key);
+      if (!this.key || await this.key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid) {
         throw new Error('Key is invalid.');
       }
+      this.armored = this.key.armor();
       // collect key details
       [this.keyDetails] = await mapKeys(this.keys.keys);
       if (this.keyDetails.type === 'private') {

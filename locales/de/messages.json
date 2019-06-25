@@ -599,6 +599,10 @@
     "message": "Importfehler.",
     "description": "Import error alert."
   },
+  "key_import_error_no_uid": {
+    "description": "Import error no user id found.",
+    "message": "Keine gültige Nutzer ID gefunden in Schlüssel $1"
+  },
   "key_import_exception": {
     "message": "Während der Verarbeitung der Schlüssel ist ein Ausnahmefall aufgetreten",
     "description": "Import error alert."

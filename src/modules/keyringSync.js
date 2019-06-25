@@ -20,13 +20,17 @@ export class KeyringSync {
 
   activate() {
     if (!this.data) {
-      this.data = {
-        eTag: '',
-        changeLog: {},
-        modified: false
-      };
+      this.clear();
     }
     return this.save();
+  }
+
+  clear() {
+    this.data = {
+      eTag: '',
+      changeLog: {},
+      modified: false
+    };
   }
 
   add(keyFpr, type) {

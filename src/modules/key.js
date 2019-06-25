@@ -337,3 +337,41 @@ export function filterUserIdsByEmail(key, email) {
   key.users = key.users.filter(user => user.userId.email.toLowerCase() === email.toLowerCase());
   return key;
 }
+
+/**
+ * Filter out invalid keys and user IDs
+ * @param  {openpgp.key.Key} key - key to be sanitized
+ * @return {openpgp.key.Key|null}       the sanitized key or null if is invalid (expired and revoked keys are still considered as valid)
+ */
+export async function sanitizeKey(key) {
+  // filter out users with no or invalid self certificate
+  const users = [];
+  for (const user of key.users) {
+    try {
+      const status = await user.verify(key.primaryKey);
+      if (status === openpgp.enums.keyStatus.no_self_cert ||
+          status === openpgp.enums.keyStatus.invalid) {
+        continue;
+      }
+      users.push(user);
+    } catch (e) {}
+  }
+  key.users = users;
+  // discard key without users
+  if (!key.users.length) {
+    return null;
+  }
+  // filter out sub keys with no or invalid binding signature
+  const subKeys = [];
+  for (const subKey of key.subKeys) {
+    try {
+      const status = await subKey.verify(key.primaryKey);
+      if (status === openpgp.enums.keyStatus.invalid) {
+        continue;
+      }
+      subKeys.push(subKey);
+    } catch (e) {}
+  }
+  key.subKeys = subKeys;
+  return key;
+}

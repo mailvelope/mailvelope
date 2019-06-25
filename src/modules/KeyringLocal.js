@@ -4,7 +4,7 @@
  */
 
 import * as openpgp from 'openpgp';
-import {getUserInfo, checkKeyId} from './key';
+import {getUserInfo, checkKeyId, sanitizeKey} from './key';
 import KeyringBase from './KeyringBase';
 import * as l10n from '../lib/l10n';
 import * as keyringSync from './keyringSync';
@@ -82,8 +82,15 @@ export default class KeyringLocal extends KeyringBase {
     if (!result.some(message => message.type === 'success')) {
       return result;
     }
-    await this.keystore.store();
-    await this.sync.commit();
+    try {
+      await this.keystore.store();
+      await this.sync.commit();
+    } catch (e) {
+      console.log('keystore.store() failed:', e);
+      this.sync.clear();
+      result.length = 0;
+      result.push({type: 'error', message: e.message});
+    }
     // if no default key in the keyring set, then first found private key will be set as default for the keyring
     if (!await this.hasDefaultKey() && this.keystore.privateKeys.keys.length > 0) {
       await this.setDefaultKey(this.keystore.privateKeys.keys[0].primaryKey.getFingerprint());
@@ -109,6 +116,13 @@ export default class KeyringLocal extends KeyringBase {
       const fingerprint = pubKey.primaryKey.getFingerprint();
       let key = this.keystore.getKeysForId(fingerprint);
       const keyId = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
+      pubKey = await sanitizeKey(pubKey);
+      if (!pubKey) {
+        return result.push({
+          type: 'error',
+          message: l10n.get('key_import_error_no_uid', [keyId])
+        });
+      }
       if (key) {
         key = key[0];
         await key.update(pubKey);
@@ -149,6 +163,13 @@ export default class KeyringLocal extends KeyringBase {
       const fingerprint = privKey.primaryKey.getFingerprint();
       let key = this.keystore.getKeysForId(fingerprint);
       const keyId = privKey.primaryKey.getKeyId().toHex().toUpperCase();
+      privKey = await sanitizeKey(privKey);
+      if (!privKey) {
+        return result.push({
+          type: 'error',
+          message: l10n.get('key_import_error_no_uid', [keyId])
+        });
+      }
       if (key) {
         key = key[0];
         if (key.isPublic()) {
