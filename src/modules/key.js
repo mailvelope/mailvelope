@@ -237,17 +237,20 @@ export async function mapUsers(users = [], toKey, keyring, key) {
  * @return {openpgp.key.Key}
  */
 export async function minifyKey(key, userId) {
-  const uid = await key.getPrimaryUser(null, userId);
-  if (!uid || !uid.user) { return null; }
+  const {user: user} = await key.getPrimaryUser(undefined, userId);
+  if (!user) {
+    return null;
+  }
   const signSubkey = await key.getSigningKey();
   const encSubkey = await key.getEncryptionKey();
   const p = new openpgp.packet.List();
   p.push(key.primaryKey);
-  p.concat(uid.user.toPacketlist());
+  p.push(user.userId || user.userAttribute);
+  p.concat(user.selfCertifications);
   if (key !== signSubkey) {
     p.concat(signSubkey.toPacketlist());
   }
-  if (key !== encSubkey) {
+  if (key !== encSubkey && signSubkey !== encSubkey) {
     p.concat(encSubkey.toPacketlist());
   }
 
