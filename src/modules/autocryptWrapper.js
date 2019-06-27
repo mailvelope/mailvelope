@@ -8,7 +8,7 @@ import {MvError} from '../lib/util';
 import Autocrypt from 'autocrypt';
 import {prefs} from './prefs';
 import {goog} from './closure-library/closure/goog/emailaddress';
-export {stringify, parse} from 'autocrypt';
+export {parse} from 'autocrypt';
 
 export const name = 'AC';
 const stores = new Map();
@@ -20,6 +20,14 @@ const stores = new Map();
 */
 export function isEnabled() {
   return prefs.keyserver.autocrypt_lookup === true;
+}
+
+export function stringify({keydata, addr}) {
+  if (keydata.startsWith('-----')) {
+    return Autocrypt.stringify({keydata: keydataFromArmored(keydata), addr});
+  } else {
+    return Autocrypt.stringify({keydata, addr});
+  }
 }
 
 async function autocrypt(id) {
@@ -141,4 +149,12 @@ export class Store {
     this.map.forEach((value, key) => all[key] = value);
     return all;
   }
+}
+
+function keydataFromArmored(armored) {
+  // An empty line marks the end of the headers
+  const start = armored.search(/\r?\n\r?\n/);
+  // The checksum is on a new line starting with '='
+  const end = armored.search(/\n=/, start);
+  return armored.slice(start, end).trim();
 }

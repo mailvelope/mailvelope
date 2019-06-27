@@ -87,14 +87,17 @@ export default class ApiController extends sub.SubController {
   }
 
   async additionalHeadersForOutgoing({headers, keyringId}) {
-    const emailAddr = headers['from'];
+    const emailAddr = headers.from;
     if (autocrypt.isEnabled()) {
-      const full = await this.exportOwnPubKey({keyringId, emailAddr});
-      const {keys: [key]} = await openpgp.key.readArmored(full);
+      const keyMap = await keyringById(keyringId).getKeyByAddress(emailAddr, {pub: false, priv: true, sort: true});
+      const keys = keyMap[emailAddr];
+      if (!keys) {
+        throw new MvError('No key pair found for this email address.', 'NO_KEY_FOR_ADDRESS');
+      }
+      const key = keys[0];
       const minimal = await minifyKey(key, {email: emailAddr});
       const armored = minimal.armor();
-      const keydata = armored.split('\r\n').slice(3, -3).join('');
-      return {autocrypt: autocrypt.stringify({keydata, addr: emailAddr})};
+      return {autocrypt: autocrypt.stringify({keydata: armored, addr: emailAddr})};
     } else {
       return {};
     }

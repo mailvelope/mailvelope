@@ -6,7 +6,7 @@ import * as openpgp from 'openpgp';
 import testKeys from 'Fixtures/keys';
 
 describe('Test basic autocrypt wrapper functionality', () => {
-  const keydata = testKeys.api_test_pub.split('\n').slice(2, 17).join();
+  const keydata = testKeys.api_test_pub.split('\n').slice(2, 17).join('');
   const addr = 'test@mailvelope.com';
   const headers = {
     autocrypt: autocrypt.stringify({keydata, addr}),
@@ -85,6 +85,14 @@ describe('Test basic autocrypt wrapper functionality', () => {
       const other = await autocrypt.lookup(addr, 'other');
       expect(result).to.not.exist;
       expect(other).to.not.exist;
+    });
+  });
+
+  describe('stringify extension', () => {
+    it('handles full armored keys just fine', () => {
+      const from_plain_keydata = autocrypt.stringify({keydata, addr});
+      const from_armored_key = autocrypt.stringify({keydata: testKeys.api_test_pub, addr});
+      expect(from_armored_key).to.eql(from_plain_keydata);
     });
   });
 });
