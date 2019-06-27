@@ -1,9 +1,7 @@
 language: node_js
 node_js:
   - node
-cache:
-  directories:
-  - node_modules
+cache: npm
 before_install:
 - npm install -g grunt-cli
 install:
