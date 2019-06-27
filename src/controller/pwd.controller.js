@@ -99,7 +99,7 @@ export default class PwdController extends SubController {
     if (typeof this.options.openPopup == 'undefined') {
       this.options.openPopup = true;
     }
-    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getFingerprint());
+    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getFingerprint(), options.message);
     if (cacheEntry && !options.noCache) {
       return Promise.resolve(cacheEntry);
     } else {

@@ -55,12 +55,16 @@ function update() {
  * @param  {String} primaryKeyFpr - primary key fingerprint
  * @return {Object} - password of key, if available unlocked key
  */
-export function get(primaryKeyFpr) {
+export function get(primaryKeyFpr, message) {
   if (cache.has(primaryKeyFpr)) {
     const entry = cache.get(primaryKeyFpr);
-    entry.operations--;
-    entry.tlOperations --;
-    if (entry.operations && entry.tlOperations) {
+    let operations = 1;
+    if (message) {
+      operations += getReservedOperations({key: entry.key, message});
+    }
+    entry.operations -= operations;
+    entry.tlOperations -= operations;
+    if (Math.max(0, entry.operations) && Math.max(0, entry.tlOperations)) {
       return {
         password: entry.password,
         key: entry.key
