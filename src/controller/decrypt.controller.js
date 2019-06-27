@@ -120,12 +120,13 @@ export default class DecryptController extends sub.SubController {
     this.ports.dPopup && this.ports.dPopup.emit('show-message');
   }
 
-  async unlockKey({key}) {
+  async unlockKey({key, message}) {
     const pwdControl = sub.factory.get('pwdDialog');
     const openPopup = this.ports.decryptCont || prefs.security.display_decrypted == DISPLAY_INLINE;
     const beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({
       key,
+      message,
       reason: 'PWD_DIALOG_REASON_DECRYPT',
       openPopup,
       beforePasswordRequest

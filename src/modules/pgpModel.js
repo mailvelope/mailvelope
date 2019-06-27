@@ -54,7 +54,7 @@ export async function decryptMessage({armored, keyringId, unlockKey, senderAddre
     throw noKeyFoundError(encryptionKeyIds);
   }
   try {
-    let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey, senderAddress, selfSigned, encryptionKeyIds});
+    let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey: options => unlockKey({message, ...options}), senderAddress, selfSigned, encryptionKeyIds});
     // collect fingerprints or keyIds of signatures
     const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyId);
     // sync public keys for the signatures
@@ -414,7 +414,7 @@ export async function decryptFile(encryptedFile, unlockKey) {
     if (!keyring) {
       throw noKeyFoundError(encryptionKeyIds);
     }
-    const result = await keyring.getPgpBackend().decrypt({base64: dataURL2base64(encryptedFile.content), message, keyring, unlockKey, encryptionKeyIds, format: 'binary'});
+    const result = await keyring.getPgpBackend().decrypt({base64: dataURL2base64(encryptedFile.content), message, keyring, unlockKey: options => unlockKey({message, ...options}), encryptionKeyIds, format: 'binary'});
     if (!result.filename) {
       result.filename = encryptedFile.name.slice(0, -4);
     }

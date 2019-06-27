@@ -15,6 +15,10 @@ let active;
 let timeout;
 // max. number of operations per key
 const RATE_LIMIT = 1000;
+// time limit in minutes
+const TIME_LIMIT = 1;
+// max. nuber of operations in time limit
+const TIME_LIMIT_RATE = 100;
 
 export function init() {
   active = prefs.prefs.security.password_cache;
@@ -29,11 +33,17 @@ function clearTimeouts() {
   cache.forEach(entry => clearTimeout(entry.timer));
 }
 
+function clearIntervals() {
+  // clear interval functions
+  cache.forEach(entry => clearInterval(entry.tlTimer));
+}
+
 function update() {
   if (active != prefs.prefs.security.password_cache ||
       timeout != prefs.prefs.security.password_timeout) {
     // init cache
     clearTimeouts();
+    clearIntervals();
     cache.clear();
     active = prefs.prefs.security.password_cache;
     timeout = prefs.prefs.security.password_timeout;
@@ -49,14 +59,15 @@ export function get(primaryKeyFpr) {
   if (cache.has(primaryKeyFpr)) {
     const entry = cache.get(primaryKeyFpr);
     entry.operations--;
-    if (entry.operations) {
+    entry.tlOperations --;
+    if (entry.operations && entry.tlOperations) {
       return {
         password: entry.password,
         key: entry.key
       };
     } else {
       // number of allowed operations exhausted
-      cache.delete(primaryKeyFpr);
+      deleteEntry(primaryKeyFpr);
     }
   }
 }
@@ -75,6 +86,8 @@ export function isCached(primaryKeyFpr) {
  * @param  {String} primaryKeyFpr - primary key fingerprint
  */
 function deleteEntry(primaryKeyFpr) {
+  clearTimeouts();
+  clearIntervals();
   cache.delete(primaryKeyFpr);
 }
 
@@ -86,19 +99,35 @@ export {deleteEntry as delete};
  * @param {String}          [password] - password
  * @param {Number}          [cacheTime] - timeout in minutes
  */
-export function set({key, password, cacheTime}) {
+export function set({key, password, cacheTime, reservedOperations = 0}) {
   // primary key fingerprint is main key of cache
   const primaryKeyFpr = key.primaryKey.getFingerprint();
   if (!cache.has(primaryKeyFpr)) {
     const newEntry = {key, password};
     // clear after timeout
     newEntry.timer = setTimeout(() => {
-      cache.delete(primaryKeyFpr);
+      deleteEntry(primaryKeyFpr);
     }, (cacheTime || timeout) * 60 * 1000);
     // set max. number of operations
-    newEntry.operations = RATE_LIMIT;
+    newEntry.operations = Math.max(0, RATE_LIMIT - reservedOperations);
+    // clear after time limit rate has been reached
+    newEntry.tlOperations =  Math.max(0, TIME_LIMIT_RATE - reservedOperations);
+    newEntry.tlTimer = setInterval(() => {
+      newEntry.tlOperations = TIME_LIMIT_RATE;
+    }, TIME_LIMIT * 60 * 1000);
     cache.set(primaryKeyFpr, newEntry);
   }
+}
+
+/**
+ * Get number of decryptable session keys
+ * @param {openpgp.key.Key} key - private key, expected unlocked
+ * @param {openpgp.message.Message} message -  message with encrypted session keys
+ * @return {Number} return the number of decryptable session keys
+ */
+function getReservedOperations({key, message}) {
+  const pkESKeyPacketlist = message.packets.filterByTag(openpgp.enums.packet.publicKeyEncryptedSessionKey);
+  return pkESKeyPacketlist.filter(keyPacket => key.getKeys().map(({keyPacket: {keyid}}) => keyid.toHex()).includes(keyPacket.publicKeyId.toHex())).length;
 }
 
 /**
@@ -108,13 +137,17 @@ export function set({key, password, cacheTime}) {
  * @param {String}          password - password to unlock key
  * @return {Promise<openpgp.key.Key, Error>} return the unlocked key
  */
-export async function unlock({key, password}) {
-  key = await unlockKey(key, password);
+export async function unlock({key, password, message}) {
+  const unlockedKey = await unlockKey(key, password);
+  const options = {key: unlockedKey};
+  if (message) {
+    options.reservedOperations = getReservedOperations({key: unlockedKey, message});
+  }
   if (active) {
     // set unlocked key in cache
-    set({key});
+    set(options);
   }
-  return key;
+  return unlockedKey;
 }
 
 async function unlockKey(privKey, passwd) {

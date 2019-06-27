@@ -314,8 +314,8 @@ export default class AppController extends sub.SubController {
     this.decryptTextCtrl.decrypt(armored, MAIN_KEYRING_ID);
   }
 
-  async unlockKey({key, reason = ''}) {
-    const privKey = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [{key, reason}]);
+  async unlockKey(options) {
+    const privKey = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [options]);
     return privKey.key;
   }
 }
