@@ -64,7 +64,10 @@ export function get(primaryKeyFpr, message) {
     }
     entry.operations -= operations;
     entry.tlOperations -= operations;
-    if (Math.max(0, entry.operations) && Math.max(0, entry.tlOperations)) {
+    if (!Math.max(0, entry.tlOperations)) {
+      return;
+    }
+    if (Math.max(0, entry.operations)) {
       return {
         password: entry.password,
         key: entry.key
@@ -106,21 +109,27 @@ export {deleteEntry as delete};
 export function set({key, password, cacheTime, reservedOperations = 0}) {
   // primary key fingerprint is main key of cache
   const primaryKeyFpr = key.primaryKey.getFingerprint();
-  if (!cache.has(primaryKeyFpr)) {
-    const newEntry = {key, password};
+  let entry;
+  if (cache.has(primaryKeyFpr)) {
+    entry = cache.get(primaryKeyFpr);
+    // update remaining number of operations
+    entry.operations -= reservedOperations;
+    clearInterval(entry.tlTimer);
+  } else {
+    entry = {key, password};
     // clear after timeout
-    newEntry.timer = setTimeout(() => {
+    entry.timer = setTimeout(() => {
       deleteEntry(primaryKeyFpr);
     }, (cacheTime || timeout) * 60 * 1000);
     // set max. number of operations
-    newEntry.operations = Math.max(0, RATE_LIMIT - reservedOperations);
-    // clear after time limit rate has been reached
-    newEntry.tlOperations =  Math.max(0, TIME_LIMIT_RATE - reservedOperations);
-    newEntry.tlTimer = setInterval(() => {
-      newEntry.tlOperations = TIME_LIMIT_RATE;
-    }, TIME_LIMIT * 60 * 1000);
-    cache.set(primaryKeyFpr, newEntry);
+    entry.operations = Math.max(0, RATE_LIMIT - reservedOperations);
   }
+  // clear after time limit rate has been reached
+  entry.tlOperations =  Math.max(0, TIME_LIMIT_RATE - reservedOperations);
+  entry.tlTimer = setInterval(() => {
+    entry.tlOperations = TIME_LIMIT_RATE;
+  }, TIME_LIMIT * 60 * 1000);
+  cache.set(primaryKeyFpr, entry);
 }
 
 /**
