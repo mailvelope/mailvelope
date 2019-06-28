@@ -71,6 +71,10 @@ factory.repo = new Map();
 
 factory.get = function(type, port) {
   verifyCreatePermission(type, port);
+  const existingController = getByMainType(type)[0];
+  if (existingController && existingController.persistent) {
+    return existingController;
+  }
   const contrConstructor = factory.repo.get(type);
   const subContr = new contrConstructor(port);
   if (!port && !subContr.id) {
@@ -78,7 +82,6 @@ factory.get = function(type, port) {
   }
   if (subContr.singleton) {
     // there should be only one instance for this type, new instance overwrites old
-    const existingController = getByMainType(type)[0];
     if (existingController) {
       controllers.delete(existingController.id);
     }
@@ -151,7 +154,7 @@ export function removePort(port) {
 }
 
 function removeId(id, port) {
-  const del = controllers.has(id) && controllers.get(id).removePort(port);
+  const del = controllers.has(id) && !controllers.get(id).persistent && controllers.get(id).removePort(port);
   if (del) {
     // last port removed from controller, delete controller
     controllers.delete(id);

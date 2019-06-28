@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {PromiseQueue, getHash} from '../lib/util';
+import {getHash} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
@@ -19,8 +19,6 @@ import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 import * as mveloKeyServer from '../modules/mveloKeyServer';
 import * as autocryptWrapper from '../modules/autocryptWrapper';
-
-const unlockQueue = new PromiseQueue();
 
 export default class AppController extends sub.SubController {
   constructor(port) {
@@ -315,7 +313,8 @@ export default class AppController extends sub.SubController {
   }
 
   async unlockKey(options) {
-    const privKey = await unlockQueue.push(sub.factory.get('pwdDialog'), 'unlockKey', [options]);
-    return privKey.key;
+    const pwdControl = sub.factory.get('pwdDialog');
+    const {key} = await pwdControl.unlockKey(options);
+    return key;
   }
 }

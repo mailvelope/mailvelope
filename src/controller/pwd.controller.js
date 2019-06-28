@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as l10n from '../lib/l10n';
-import {getHash, MvError} from '../lib/util';
+import {PromiseQueue, getHash, MvError} from '../lib/util';
 import * as prefs from '../modules/prefs';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
@@ -18,9 +18,12 @@ export default class PwdController extends SubController {
       throw new Error('Do not instantiate PwdController with a port');
     }
     super(null);
+    this.persistent = true;
     this.mainType = 'pwdDialog';
     this.id = getHash();
+    this.queue = new PromiseQueue();
     this.pwdPopup = null;
+    this.receivedPortMsg = false;
     this.options = null;
     this.resolve = null;
     this.reject = null;
@@ -53,6 +56,7 @@ export default class PwdController extends SubController {
     })
     .then(() => pwdCache.unlock(this.options))
     .then(key => {
+      this.receivedPortMsg = true;
       this.closePopup();
       this.resolve({key, password: this.options.password});
     })
@@ -70,6 +74,7 @@ export default class PwdController extends SubController {
   }
 
   onCancel() {
+    this.receivedPortMsg = true;
     this.closePopup();
     this.reject(new MvError(l10n.get('pwd_dialog_cancel'), 'PWD_DIALOG_CANCEL'));
   }
@@ -79,6 +84,11 @@ export default class PwdController extends SubController {
       this.pwdPopup.close();
       this.pwdPopup = null;
     }
+  }
+
+  async unlockKey(options) {
+    const result = await this.queue.push(this, 'unlock', [options]);
+    return result;
   }
 
   /**
@@ -91,7 +101,7 @@ export default class PwdController extends SubController {
    * @param {Boolean} [options.noCache] - bypass cache
    * @return {Promise<Object, Error>} - resolves with unlocked key and password {key: openpgp.key.Key, password: String}
    */
-  unlockKey(options) {
+  unlock(options) {
     this.options = options;
     if (typeof options.reason == 'undefined') {
       this.options.reason = '';
@@ -117,14 +127,18 @@ export default class PwdController extends SubController {
           this.options.beforePasswordRequest(this.id);
         }
         if (this.options.openPopup) {
-          mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 488})
-          .then(popup => {
-            this.pwdPopup = popup;
-            popup.addRemoveListener(() => {
-              this.pwdPopup = null;
-              this.onCancel();
-            });
-          });
+          setTimeout(
+            () => mvelo.windows.openPopup(`components/enter-password/pwdDialog.html?id=${this.id}`, {width: 470, height: 488})
+            .then(popup => {
+              this.receivedPortMsg = false;
+              this.pwdPopup = popup;
+              popup.addRemoveListener(() => {
+                if (!this.receivedPortMsg) {
+                  this.pwdPopup = null;
+                  this.onCancel();
+                }
+              });
+            }), 50);
         }
         this.resolve = resolve;
         this.reject = reject;
