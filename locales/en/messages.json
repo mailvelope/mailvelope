@@ -131,6 +131,10 @@
     "description": "Caption digital signature",
     "message": "Digital signature could not be identified"
   },
+  "decrypt_no_popup_error": {
+    "message": "The message should be displayed in a separate window!",
+    "description": "Component should be displayed in popup window!"
+  },
   "decrypt_popup_copy": {
     "description": "Copy decrypted message to clipboard.",
     "message": "Copy to Clipboard"

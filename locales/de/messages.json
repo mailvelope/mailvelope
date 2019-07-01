@@ -131,6 +131,10 @@
     "message": "Digitale Unterschrift nicht erkannt",
     "description": "Caption digital signature"
   },
+  "decrypt_no_popup_error": {
+    "message": "Die Nachricht darf nur in einem getrennten Fenster dargestellt werden!",
+    "description": "Component should be displayed in popup window!"
+  },
   "decrypt_popup_copy": {
     "message": "In die Zwischenablage kopieren",
     "description": "Copy decrypted message to clipboard."

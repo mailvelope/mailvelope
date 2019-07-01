@@ -4,6 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import * as l10n from '../lib/l10n';
 import {getHash, mapError} from '../lib/util';
 import {DISPLAY_INLINE} from '../lib/constants';
 import {prefs} from '../modules/prefs';
@@ -33,9 +34,13 @@ export default class DecryptController extends sub.SubController {
   }
 
   onDecryptMessageInit() {
-    const port = this.ports.dFrame || this.ports.decryptCont;
-    // get armored message
-    port && port.emit('get-armored');
+    if (this.mainType === 'dFrame' && (!this.ports.dPopup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
+      this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
+    } else {
+      const port = this.ports.dFrame || this.ports.decryptCont;
+      // get armored message
+      port && port.emit('get-armored');
+    }
   }
 
   async onDframeDisplayPopup() {
@@ -122,7 +127,7 @@ export default class DecryptController extends sub.SubController {
 
   async unlockKey({key, message}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = this.ports.decryptCont || prefs.security.display_decrypted == DISPLAY_INLINE;
+    const openPopup = this.ports.decryptCont || (!this.ports.dPopup && this.ports.dDialog) || prefs.security.display_decrypted == DISPLAY_INLINE;
     const beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({
       key,
