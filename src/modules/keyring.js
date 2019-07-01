@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../lib/constants';
 import {wait, filterAsync, toArray, MvError} from '../lib/util';
-import {sanitizeKey} from './key';
+import {sanitizeKey, verifyForAddress} from './key';
 import KeyringLocal from './KeyringLocal';
 import KeyStoreLocal from './KeyStoreLocal';
 import KeyringGPG from './KeyringGPG';
@@ -331,9 +331,11 @@ export async function getKeyData({keyringId, allUsers = true}) {
  * Query keys in all keyrings by email address
  * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
  * @param  {Array<String>|String} emails
+ * @param {Boolean} [validForEncrypt] - verify keys for encryption
+ * @param {Boolean} [verifyUser] - verify user IDs
  * @return {Object} - map in the form {address: [key1, key2, ..]}
  */
-export async function getKeyByAddress(keyringId, emails) {
+export async function getKeyByAddress(keyringId, emails, {validForEncrypt = true, verifyUser = true} = {}) {
   const result = Object.create(null);
   emails = toArray(emails);
   const keyrings = getPreferredKeyringQueue(keyringId);
@@ -342,6 +344,9 @@ export async function getKeyByAddress(keyringId, emails) {
     for (const keyring of keyrings) {
       const keys = keyring.keystore.getForAddress(email);
       for (const key of keys) {
+        if (verifyUser && !await verifyForAddress(key, email)) {
+          continue;
+        }
         // check if key already exists in result list
         const keyIndex = allKeys.findIndex(element => equalKey(element, key));
         if (keyIndex === -1) {
@@ -357,8 +362,10 @@ export async function getKeyByAddress(keyringId, emails) {
         }
       }
     }
-    // filter out all invalid keys
-    allKeys = await filterAsync(allKeys, key => isValidEncryptionKey(key, keyringId));
+    if (validForEncrypt) {
+      // filter out all invalid keys
+      allKeys = await filterAsync(allKeys, key => isValidEncryptionKey(key, keyringId));
+    }
     if (allKeys.length) {
       result[email] = allKeys;
     } else {

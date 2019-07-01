@@ -11,13 +11,17 @@ import {isKeyPseudoRevoked} from './trustKey';
 /**
  * Get primary or first available user id, email and name of key
  * @param  {openpgp.Key} key
- * @param  {Boolean} [validityCheck=true] - only return valid user ids, e.g. for expired keys you would want to set to false to still get a result
+ * @param  {Boolean} [allowInvalid=false] - allow invalid user IDs, e.g. for expired keys you would want to set to false to still get a result
+ * @param  {Boolean} [strict=false] - only the valid primary user is considered, otherwise null is returned
  * @return {Object<userId, email, content>}
  */
-export async function getUserInfo(key, validityCheck = true) {
+export async function getUserInfo(key, {allowInvalid = false, strict = false} = {}) {
   let primaryUser = await key.getPrimaryUser();
   primaryUser = primaryUser ? primaryUser.user : null;
-  if (!primaryUser && !validityCheck) {
+  if (!primaryUser && strict) {
+    return null;
+  }
+  if (!primaryUser && allowInvalid) {
     // take first available user with user ID
     primaryUser = key.users.find(user => user.userId);
   }
@@ -75,7 +79,7 @@ export async function mapKeys(keys) {
     uiKey.fingerprint = key.primaryKey.getFingerprint();
     // primary user
     try {
-      const userInfo = await getUserInfo(key, false);
+      const userInfo = await getUserInfo(key, {allowInvalid: true});
       uiKey = {...uiKey, ...userInfo};
       uiKey.exDate = await key.getExpirationTime();
       if (uiKey.exDate === Infinity) {
@@ -374,4 +378,27 @@ export async function sanitizeKey(key) {
   }
   key.subKeys = subKeys;
   return key;
+}
+
+export async function verifyForAddress(key, email) {
+  email = email.toLowerCase();
+  for (const keyUser of key.users) {
+    try {
+      const userId = keyUser.userId;
+      if (!userId) {
+        continue;
+      }
+      const user = {userId: userId.userid, name: userId.name, email: userId.email};
+      parseUserId(user);
+      if (email !== user.email.toLowerCase()) {
+        continue;
+      }
+      const status = await keyUser.verify(key.primaryKey);
+      if (status !== openpgp.enums.keyStatus.valid) {
+        continue;
+      }
+      return true;
+    } catch (e) {}
+  }
+  return false;
 }

@@ -156,7 +156,7 @@ async function logEncryption(source, keyring, keyFprs) {
   if (source) {
     const keys = keyring.getKeysByFprs(keyFprs);
     const recipients = await Promise.all(keys.map(async key => {
-      const {userId} = await getUserInfo(key, false);
+      const {userId} = await getUserInfo(key, {allowInvalid: true});
       return userId;
     }));
     uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')], false);

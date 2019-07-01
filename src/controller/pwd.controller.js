@@ -33,7 +33,7 @@ export default class PwdController extends SubController {
 
   async onPwdDialogInit() {
     // pass over keyId and userId to dialog
-    const {userId} = await getUserInfo(this.options.key, false);
+    const {userId} = await getUserInfo(this.options.key, {allowInvalid: true});
     this.ports.pwdDialog.emit('set-init-data', {
       userId,
       keyId: this.options.key.primaryKey.getKeyId().toHex().toUpperCase(),

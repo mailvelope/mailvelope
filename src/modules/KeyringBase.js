@@ -6,7 +6,7 @@
 import {filterAsync, toArray, MvError} from '../lib/util';
 import * as openpgp from 'openpgp';
 import {getKeyringAttr} from './keyring';
-import {mapKeys, mapSubKeys, mapUsers, parseUserId, getUserInfo, isValidEncryptionKey, sortKeysByCreationDate} from './key';
+import {mapKeys, mapSubKeys, mapUsers, parseUserId, getUserInfo, isValidEncryptionKey, sortKeysByCreationDate, verifyForAddress} from './key';
 import * as trustKey from './trustKey';
 import {upload as mveloKeyServerUpload} from './mveloKeyServer';
 
@@ -86,7 +86,7 @@ export default class KeyringBase {
     const result = [];
     for (const key of this.keystore.getAllKeys()) {
       try {
-        if (await key.verifyPrimaryKey() === openpgp.enums.keyStatus.invalid ||
+        if (await key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
             await trustKey.isKeyPseudoRevoked(this.id, key)) {
           continue;
         }
@@ -115,7 +115,10 @@ export default class KeyringBase {
           }
         } else {
           // only consider primary user
-          const user = await getUserInfo(key);
+          const user = await getUserInfo(key, {strict: true});
+          if (!user) {
+            continue;
+          }
           keyData.users = [user];
         }
         result.push(keyData);
@@ -132,34 +135,42 @@ export default class KeyringBase {
    * @param  {Boolean} [options.pub = true] - query for public keys
    * @param  {Bolean} [options.priv = true] - query for private keys
    * @param  {Boolean} [options.sort = false] - sort results by key creation date and default key status
-   * @param  {Boolean} [options.valid = true] - result keys are verified
+   * @param  {Boolean} [options.validForEncrypt = true] - result keys are valid for encryption operations
    * @param  {openpgp.Keyid} [options.keyId] - filter result by key Id
+   * @param  {Boolean} [options.verifyUser = true] - verify user IDs
    * @return {Object} - map in the form {address: [key1, key2, ..]}
    */
-  async getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, valid = true, keyId} = {}) {
+  async getKeyByAddress(emailAddr, {pub = true, priv = true, sort = false, validForEncrypt = true, keyId, verifyUser = true} = {}) {
     const result = Object.create(null);
     const emailArray = toArray(emailAddr);
     for (const email of emailArray) {
       result[email] = [];
+      let keys = [];
       if (pub) {
-        result[email] = result[email].concat(this.keystore.publicKeys.getForAddress(email));
+        keys = keys.concat(this.keystore.publicKeys.getForAddress(email));
       }
       if (priv) {
-        result[email] = result[email].concat(this.keystore.privateKeys.getForAddress(email));
+        keys = keys.concat(this.keystore.privateKeys.getForAddress(email));
       }
-      if (valid) {
-        result[email] = await filterAsync(result[email], key => isValidEncryptionKey(key, this.id));
+      if (validForEncrypt) {
+        keys = await filterAsync(keys, key => isValidEncryptionKey(key, this.id));
+      }
+      if (verifyUser) {
+        keys = await filterAsync(keys, key => verifyForAddress(key, email));
       }
       if (keyId) {
-        result[email] = result[email].filter(key => key.getKeys(keyId).length);
+        keys = keys.filter(key => key.getKeys(keyId).length);
       }
-      if (!result[email].length) {
+      if (!keys.length) {
         result[email] = false;
-      } else if (sort) {
+        continue;
+      }
+      if (sort) {
         // sort by key creation date and default key status
         const defaultKeyFpr = await this.getDefaultKeyFpr();
-        sortKeysByCreationDate(result[email], defaultKeyFpr);
+        sortKeysByCreationDate(keys, defaultKeyFpr);
       }
+      result[email] = keys;
     }
     return result;
   }
