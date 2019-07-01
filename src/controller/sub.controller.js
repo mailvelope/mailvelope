@@ -75,7 +75,7 @@ factory.get = function(type, port) {
   if (existingController && existingController.persistent) {
     return existingController;
   }
-  const contrConstructor = factory.repo.get(type);
+  const {contrConstructor} = factory.repo.get(type);
   const subContr = new contrConstructor(port);
   if (!port && !subContr.id) {
     throw new Error('Subcontroller instantiated without port requires id.');
@@ -90,11 +90,11 @@ factory.get = function(type, port) {
   return subContr;
 };
 
-factory.register = function(type, contrConstructor) {
+factory.register = function(type, contrConstructor, allowedSecondaryTypes) {
   if (factory.repo.has(type)) {
     throw new Error('Subcontroller class already registered.');
   } else {
-    factory.repo.set(type, contrConstructor);
+    factory.repo.set(type, {contrConstructor, allowedSecondaryTypes});
   }
 };
 
@@ -133,10 +133,21 @@ export function parseViewName(viewName) {
   return {type: pair[0], id: pair[1]};
 }
 
+function verifyConnectPermission(type, sender) {
+  if (type === sender.type) {
+    return;
+  }
+  const {allowedSecondaryTypes} = factory.repo.get(type);
+  if (!allowedSecondaryTypes.includes(sender.type)) {
+    throw new Error('View type not allowed to connect to controller.');
+  }
+}
+
 export function addPort(port) {
   const sender = parseViewName(port.name);
   const subContr = controllers.get(sender.id);
   if (subContr) {
+    verifyConnectPermission(subContr.mainType, sender);
     subContr.addPort(port);
   } else {
     try {

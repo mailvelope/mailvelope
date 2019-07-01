@@ -23,25 +23,25 @@ import ApiController from './api.controller';
  * Register controllers for component types. Only the components that first connect to the controller
  * need to be registered, all subsequent components that are created will connect by unique controller id.
  */
-sub.factory.register('dFrame',              DecryptController);
-sub.factory.register('decryptCont',         DecryptController);
-sub.factory.register('eFrame',              EncryptController);
-sub.factory.register('imFrame',             ImportController);
-sub.factory.register('importKeyDialog',     ImportController);
-sub.factory.register('mainCS',              MainCsController);
-sub.factory.register('vFrame',              VerifyController);
-sub.factory.register('pwdDialog',           PwdController);
-sub.factory.register('editor',              EditorController);
-sub.factory.register('editorCont',          EditorController);
-sub.factory.register('syncHandler',         SyncController);
-sub.factory.register('keyGenCont',          PrivateKeyController);
-sub.factory.register('keyBackupCont',       PrivateKeyController);
-sub.factory.register('restoreBackupCont',   PrivateKeyController);
-sub.factory.register('app',                 AppController);
-sub.factory.register('appCont',             AppController);
-sub.factory.register('menu',                MenuController);
-sub.factory.register('encryptedFormCont',   EncryptedFormController);
-sub.factory.register('api',   ApiController);
+sub.factory.register('dFrame',              DecryptController,       ['dDialog', 'dPopup']);
+sub.factory.register('decryptCont',         DecryptController,       ['dDialog']);
+sub.factory.register('eFrame',              EncryptController,       []);
+sub.factory.register('imFrame',             ImportController,        []);
+sub.factory.register('importKeyDialog',     ImportController,        ['dDialog']);
+sub.factory.register('mainCS',              MainCsController,        []);
+sub.factory.register('vFrame',              VerifyController,        ['vDialog']);
+sub.factory.register('pwdDialog',           PwdController,           []);
+sub.factory.register('editor',              EditorController,        []);
+sub.factory.register('editorCont',          EditorController,        ['editor']);
+sub.factory.register('syncHandler',         SyncController,          []);
+sub.factory.register('keyGenCont',          PrivateKeyController,    ['keyGenDialog']);
+sub.factory.register('keyBackupCont',       PrivateKeyController,    ['keyBackupDialog', 'backupCodeWindow']);
+sub.factory.register('restoreBackupCont',   PrivateKeyController,    ['restoreBackupDialog']);
+sub.factory.register('app',                 AppController,           []);
+sub.factory.register('appCont',             AppController,           ['app']);
+sub.factory.register('menu',                MenuController,          []);
+sub.factory.register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
+sub.factory.register('api',   ApiController,                         []);
 
 export function initController() {
   // store incoming connections by name and id
