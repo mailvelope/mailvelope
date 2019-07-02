@@ -151,7 +151,7 @@ export default class PrivateKeyController extends sub.SubController {
         reason: 'PWD_DIALOG_REASON_CREATE_BACKUP'
       });
       sync.triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
-      this.keyBackup = await createPrivateKeyBackup(unlockedKey.key, unlockedKey.password);
+      this.keyBackup = await createPrivateKeyBackup(defaultKey, unlockedKey.password);
       await sync.getByKeyring(this.keyringId).backup({backup: this.keyBackup.message});
       let page = 'recoverySheet';
       switch (this.host) {
