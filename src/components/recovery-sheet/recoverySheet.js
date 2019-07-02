@@ -71,7 +71,7 @@ export default class RecoverySheet extends React.Component {
   }
 
   setBackupCode(code) {
-    new QRCode(this.qrCode, { // eslint-disable-line no-undef
+    new QRCode(this.qrCode, {// eslint-disable-line no-undef
       text: code,
       width: 175,
       height: 175,

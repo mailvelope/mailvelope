@@ -30,6 +30,7 @@
     /* possible errors */
     "no-console": 0,
     "no-empty": ["error", { "allowEmptyCatch": true }], // disallow empty block statements
+    "require-atomic-updates": 0, // disallow assignments that can lead to race conditions due to usage of await or yield
     /* best practices */
     "curly": 2, // enforce consistent brace style for all control statements
     "no-return-await": 2, // disallows unnecessary return await

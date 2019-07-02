@@ -149,10 +149,10 @@ export default class KeyGrid extends React.Component {
         </div>
         <div className="form-group btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
           <div className="btn-bar">
-            <Link className="btn btn-secondary" to='/keyring/generate' replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
+            <Link className="btn btn-secondary" to="/keyring/generate" replace tabIndex="0" title={l10n.map.keygrid_generate_title}>
               <span className="icon icon-add" aria-hidden="true"></span> {l10n.map.key_gen_generate}
             </Link>
-            <Link className="btn btn-secondary" to='/keyring/import' replace tabIndex="0" title={l10n.map.keygrid_import_title}>
+            <Link className="btn btn-secondary" to="/keyring/import" replace tabIndex="0" title={l10n.map.keygrid_import_title}>
               <span className="icon icon-download" aria-hidden="true"></span> {l10n.map.form_import}
             </Link>
             <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-secondary" title={l10n.map.keygrid_export_title}>

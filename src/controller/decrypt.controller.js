@@ -171,7 +171,7 @@ export default class DecryptController extends sub.SubController {
       beforePasswordRequest
     });
     if (this.decryptPopup) {
-      ports.dDialog.emit('hide-pwd-dialog');
+      this.ports.dDialog.emit('hide-pwd-dialog');
     }
     triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     return unlockedKey.key;

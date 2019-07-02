@@ -60,12 +60,12 @@ export default class Settings extends React.Component {
                   </div>
                 </div>
                 <div className="col-lg-9">
-                  <Route path='/settings/general' component={General} />
-                  <Route path='/settings/watchlist' component={WatchList} />
-                  <Route path='/settings/security' render={() => <Security onSetNotification={this.handleSetNotification} />} />
-                  <Route path='/settings/security-background' component={SecurityBackground} />
-                  <Route path='/settings/security-log' component={SecurityLog} />
-                  <Route path='/settings/key-server' render={() => <KeyServer prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} onSetNotification={this.handleSetNotification} />} />
+                  <Route path="/settings/general" component={General} />
+                  <Route path="/settings/watchlist" component={WatchList} />
+                  <Route path="/settings/security" render={() => <Security onSetNotification={this.handleSetNotification} />} />
+                  <Route path="/settings/security-background" component={SecurityBackground} />
+                  <Route path="/settings/security-log" component={SecurityLog} />
+                  <Route path="/settings/key-server" render={() => <KeyServer prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} onSetNotification={this.handleSetNotification} />} />
                 </div>
               </div>
             </div>

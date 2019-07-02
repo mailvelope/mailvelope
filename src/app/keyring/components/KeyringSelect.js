@@ -122,7 +122,7 @@ export default class KeyringSelect extends React.Component {
               const keyringName = this.getKeyringName(keyringId);
               const keyringEmail = this.getKeyringEmail(keyringId);
               return (
-                <Link key={index} to='/keyring' onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item text-decoration-none px-2 d-flex align-items-center" role="menuitem">
+                <Link key={index} to="/keyring" onClick={() => this.props.onChange(keyringId)} tabIndex="0" className="dropdown-item text-decoration-none px-2 d-flex align-items-center" role="menuitem">
                   <img src={this.getKeyringThumbnail(keyringId)} style={{objectFit: 'contain', width: '32px', height: 'auto', maxHeight: '32px'}} />
                   <div className="ml-2 flex-grow-1 d-inline-block mr-auto">
                     <h5 className="d-block mb-1">{keyringName}</h5>

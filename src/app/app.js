@@ -146,11 +146,11 @@ export class App extends React.Component {
         </nav>
         <main className="container" role="main">
           <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
-            <Route path='/dashboard' component={Dashboard} />
-            <Route path='/keyring' render={() => <Keyring prefs={this.state.prefs} />} />
-            <Route path='/encrypt' component={Encrypt} />
-            <Route path='/decrypt' component={Decrypt} />
-            <Route path='/settings' render={() => <Settings prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/keyring" render={() => <Keyring prefs={this.state.prefs} />} />
+            <Route path="/encrypt" component={Encrypt} />
+            <Route path="/decrypt" component={Decrypt} />
+            <Route path="/settings" render={() => <Settings prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
           </AppOptions.Provider>
         </main>
         <footer className="container">

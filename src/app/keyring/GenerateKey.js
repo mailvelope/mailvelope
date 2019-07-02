@@ -136,7 +136,7 @@ export default class GenerateKey extends React.Component {
       <div className={`card-body ${this.state.generating ? 'busy' : ''}`}>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb bg-transparent p-0">
-            <li className="breadcrumb-item"><Link to='/keyring' replace tabIndex="0"><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
+            <li className="breadcrumb-item"><Link to="/keyring" replace tabIndex="0"><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
           </ol>
         </nav>
         <div className="card-title d-flex flex-wrap align-items-center">
