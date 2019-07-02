@@ -1,0 +1,71 @@
+/**
+ * Copyright (C) 2018-2019 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+@import "../../res/styles/_required";
+
+/* Absolute Center Spinner */
+.m-spinner-fullscreen {
+  position: absolute;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.m-spinner-fullscreen:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.m-spinner-inline {
+  display: flex;
+  justify-content: center;
+  margin: 60px auto 60px;
+}
+
+.m-spinner-fullscreen .symbol, .m-spinner-inline .symbol {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 40px;
+  height: 40px;
+}
+
+.m-spinner-fullscreen .symbol > div, .m-spinner-inline .symbol > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: $primary;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: bouncedelay 2.0s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  animation-fill-mode: both;
+}
+
+.m-spinner-fullscreen .symbol .bounce2, .m-spinner-inline .symbol .bounce2 {
+  animation-delay: -1.0s;
+}
+
+@keyframes bouncedelay {
+ 0%, 100% {
+   transform: scale(0.0);
+ } 50% {
+   transform: scale(1.0);
+ }
+}
