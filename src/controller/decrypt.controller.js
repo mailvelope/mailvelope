@@ -39,7 +39,7 @@ export default class DecryptController extends sub.SubController {
   }
 
   onDecryptMessageInit() {
-    if (this.mainType === 'dFrame' && (!this.ports.dPopup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
+    if (this.mainType === 'dFrame' && (!this.decryptPopup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
       this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
     } else {
       const port = this.ports.dFrame || this.ports.decryptCont;
@@ -156,13 +156,12 @@ export default class DecryptController extends sub.SubController {
         this.ports.decryptCont.emit('error-message', {error: err});
       }
     }
-    this.ports.dPopup && this.ports.dPopup.emit('show-message');
   }
 
   async unlockKey({key, message}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = this.ports.decryptCont || (!this.ports.dPopup && this.ports.dDialog) || prefs.security.display_decrypted == DISPLAY_INLINE;
-    const beforePasswordRequest = id => this.ports.dPopup && this.ports.dPopup.emit('show-pwd-dialog', {id});
+    const openPopup = this.ports.decryptCont || (!this.decryptPopup && this.ports.dDialog) || prefs.security.display_decrypted == DISPLAY_INLINE;
+    const beforePasswordRequest = id => this.decryptPopup && this.ports.dDialog.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({
       key,
       message,

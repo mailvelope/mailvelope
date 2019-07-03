@@ -23,13 +23,13 @@ import ApiController from './api.controller';
  * Register controllers for component types. Only the components that first connect to the controller
  * need to be registered, all subsequent components that are created will connect by unique controller id.
  */
-sub.factory.register('dFrame',              DecryptController,       ['dDialog', 'dPopup']);
+sub.factory.register('dFrame',              DecryptController,       ['dDialog']);
 sub.factory.register('decryptCont',         DecryptController,       ['dDialog']);
 sub.factory.register('eFrame',              EncryptController,       []);
 sub.factory.register('imFrame',             ImportController,        []);
 sub.factory.register('importKeyDialog',     ImportController,        ['dDialog']);
 sub.factory.register('mainCS',              MainCsController,        []);
-sub.factory.register('vFrame',              VerifyController,        ['vDialog']);
+sub.factory.register('vFrame',              VerifyController,        ['vDialog', 'dDialog']);
 sub.factory.register('pwdDialog',           PwdController,           []);
 sub.factory.register('editor',              EditorController,        []);
 sub.factory.register('editorCont',          EditorController,        ['editor']);
