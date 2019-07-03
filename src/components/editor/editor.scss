@@ -14,12 +14,15 @@
 
   &.embedded {
     .modal {
-      padding: 1rem;
+      padding: 2.75rem;
+      label {
+        display: none;
+      }
     }
   }
 
   .modal-content {
-    background-color: rgba($white, 0.8);
+    background-color: rgba($white, 1);
   }
 
   .editor-body .plain-text iframe {

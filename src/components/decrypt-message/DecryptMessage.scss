@@ -12,7 +12,7 @@
 
   &.embedded {
     .modal {
-      padding: 1rem;
+      padding: 2.75rem;
     }
   }
 
@@ -43,7 +43,7 @@
   .modal-content {
     background-color: transparent;
     .modal-header {
-      background-color: rgba($white, 0.6);
+      background-color: rgba($white, 1);
       padding: 1rem 1.5rem;
       .signature:not(:only-child) {
         margin-bottom: 0.75rem;
@@ -53,7 +53,7 @@
       }
     }
     .modal-body {
-      background-color: rgba($white, 0.8);
+      background-color: rgba($white, 1);
       padding: 1rem 1.5rem;
       .plain-text iframe {
         width: 100%;
@@ -69,6 +69,9 @@
     .modal-footer {
       background-color: rgba($white, 0.6);
       padding: 1rem 1.5rem;
+      .alert-info {
+        background-color: rgba(theme-color-level('info', $alert-bg-level), 0.6);
+      }
     }
   }
 

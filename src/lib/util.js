@@ -217,7 +217,7 @@ export async function getSecurityBackground(port) {
 async function generateSecurityBGSVG({bgIcon}) {
   const svgTemplateUrl = 'img/security/template.svg';
   const {documentElement: svgTemplate} = await parseSVG(svgTemplateUrl);
-  const tileWidth = 800;
+  const tileWidth = 640;
   svgTemplate.setAttribute('width', tileWidth);
   svgTemplate.setAttribute('style', 'fill-opacity: .215');
   const svgBgIconUrl = `img/security/${bgIcon}.svg`;

@@ -170,7 +170,7 @@ export default class DecryptMessage extends React.Component {
         labelText = l10n.map.decrypt_digital_signature_null;
     }
     return (
-      <span className={`${labelClass} text-nowrap`}><span className={`icon icon-marker text-${labelClass}`} aria-hidden="true"></span> {labelText}</span>
+      <span className={`${labelClass} text-nowrap mr-3`}><span className={`icon icon-marker text-${labelClass}`} aria-hidden="true"></span> {labelText}</span>
     );
   }
 
@@ -190,22 +190,11 @@ export default class DecryptMessage extends React.Component {
               </div>
             ) : (
               <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
-                {this.state.signer && (
-                  <div className="modal-header flex-column border-0 flex-shrink-0">
-                    <div className="signature d-flex align-items-center justify-content-start flex-wrap w-100">
-                      <label className="mb-0 mr-3">{l10n.map.decrypt_signer_label}</label>
-                      <Alert type="info" className="my-2 mr-auto flex-shrink-1">
-                        <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
-                        <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
-                      </Alert>
-                      {this.signatureStatus()}
+                {this.state.files.length > 0 && (
+                  <div className="modal-header border-0 flex-shrink-0">
+                    <div className="files d-flex justify-content-start">
+                      <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
                     </div>
-                    {this.props.embedded && this.state.files.length > 0  && (
-                      <div className="files d-flex justify-content-start align-items-center">
-                        <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
-                        <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
-                      </div>
-                    )}
                   </div>
                 )}
                 <div className="modal-body overflow-auto">
@@ -213,10 +202,15 @@ export default class DecryptMessage extends React.Component {
                     <ContentSandbox value={this.state.message} />
                   </div>
                 </div>
-                {!this.props.embedded && this.state.files.length > 0  && (
+                {this.state.signer && (
                   <div className="modal-footer justify-content-start flex-shrink-0">
-                    <label className="mb-0 mr-3 mb-3">{l10n.map.decrypt_attachment_label}</label>
-                    <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
+                    <div className="signature d-flex align-items-center justify-content-start flex-wrap w-100">
+                      {this.signatureStatus()}
+                      <Alert type="info" className="my-2 flex-shrink-1">
+                        <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
+                        <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
+                      </Alert>
+                    </div>
                   </div>
                 )}
               </div>
