@@ -667,6 +667,10 @@
     "description": "Wait dialog info message",
     "message": "Please wait, key generation can take up to several minutes depending on various factors, such as the key size."
   },
+  "key_import_bulk_success": {
+    "description": "Import success message for more than 5 keys",
+    "message": "Keys successfully imported/updated!"
+  },
   "key_import_contacts_import_btn": {
     "description": "Contact import button label on key import page.",
     "message": "Import contacts"
@@ -690,6 +694,10 @@
   "key_import_error_no_uid": {
     "description": "Import error no user id found.",
     "message": "No valid user ID found in key $1"
+  },
+  "key_import_error_parse": {
+    "description": "Import parse error.",
+    "message": "Error reading armored PGP key: $1"
   },
   "key_import_exception": {
     "description": "Import error alert.",
@@ -733,7 +741,7 @@
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
-    "message": "Key could not be imported due to errors."
+    "message": "A key could not be imported due to errors."
   },
   "key_import_number_of_failed_plural": {
     "description": "Error message with number of failed imports.",

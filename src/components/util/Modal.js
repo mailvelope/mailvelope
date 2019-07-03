@@ -48,7 +48,7 @@ Modal.propTypes = {
   header: PropTypes.element,
   headerClass: PropTypes.string,
   footer: PropTypes.element,
-  children: PropTypes.element,
+  children: PropTypes.node,
   onHide: PropTypes.func,
   onShow: PropTypes.func,
   onOk: PropTypes.func,

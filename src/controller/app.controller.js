@@ -308,25 +308,25 @@ export default class AppController extends sub.SubController {
 
   async readArmoredKeys({armoredKeys}) {
     const keys = [];
-    let invalidCounter = 0;
+    const validArmoreds = [];
+    const errors = [];
     if (!armoredKeys.length) {
       return;
     }
     for (const armoredKey of armoredKeys) {
-      const pgpKey = await openpgpKey.readArmored(armoredKey);
+      const pgpKey = await openpgpKey.readArmored(armoredKey.armored);
       if (pgpKey.err) {
-        invalidCounter++;
-        console.log(`Error parsing armored PGP key: ${pgpKey.err}`);
+        errors.push({msg: pgpKey.err[0].message, code: 'KEY_IMPORT_ERROR_PARSE'});
         continue;
       }
       for (const key of pgpKey.keys) {
         const saniKey = await sanitizeKey(key);
         if (!saniKey) {
-          invalidCounter++;
-          console.log(`No valid user ID found in key: ${key.primaryKey.getFingerprint()}`);
+          errors.push({msg: key.primaryKey.getFingerprint().toUpperCase(), code: 'KEY_IMPORT_ERROR_NO_UID'});
           continue;
         }
         keys.push(saniKey);
+        validArmoreds.push(armoredKey);
       }
     }
     let mappedKeys = await mapKeys(keys);
@@ -345,7 +345,7 @@ export default class AppController extends sub.SubController {
       mappedKey.users = users;
       return mappedKey;
     }));
-    return {keys: mappedKeys, invalid: invalidCounter};
+    return {keys: mappedKeys, errors, armoreds: validArmoreds};
   }
 
   async autoLocate({email, keyringId}) {

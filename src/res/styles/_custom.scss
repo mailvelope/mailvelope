@@ -255,7 +255,7 @@ nav {
   }
 
   .navbar-nav {
-    &.navbar-tabs {
+    &.navbar-tabs {      
       @include media-breakpoint-up(sm) {
         flex-direction: row;
         .nav-item {
@@ -273,6 +273,7 @@ nav {
         font-weight: 400;
         color: $gray-900;
         position: relative;
+        cursor: pointer;
         &:not(:last-child) {
           @include media-breakpoint-up(md) {
             margin-right: 1rem;
