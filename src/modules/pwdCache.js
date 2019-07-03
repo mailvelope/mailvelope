@@ -140,7 +140,8 @@ export function set({key, password, cacheTime, reservedOperations = 0}) {
  */
 function getReservedOperations({key, message}) {
   const pkESKeyPacketlist = message.packets.filterByTag(openpgp.enums.packet.publicKeyEncryptedSessionKey);
-  return pkESKeyPacketlist.filter(keyPacket => key.getKeys().map(({keyPacket: {keyid}}) => keyid.toHex()).includes(keyPacket.publicKeyId.toHex())).length;
+  const keyIdsHex = key.getKeys().map(({keyPacket}) => keyPacket.getKeyId().toHex());
+  return pkESKeyPacketlist.filter(keyPacket => keyIdsHex.includes(keyPacket.publicKeyId.toHex())).length;
 }
 
 /**
