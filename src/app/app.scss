@@ -15,11 +15,19 @@ body {
 nav {
   &.navbar {
     box-shadow: $box-shadow-lg;
+    padding: 0;
+    .feature-banner {
+      border: 1px solid rgba($turquoise, 0.05);
+      background-color: rgba($turquoise, 0.1);
+    }
   }
 }
 
 main {
   padding-top: 7.5rem;
+  &.featured {
+    padding-top: 11.5rem;
+  }
   > .jumbotron {
     padding: map-get($spacers, 2);
     margin-bottom: 1.5rem;

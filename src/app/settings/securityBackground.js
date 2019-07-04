@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
 
@@ -59,10 +60,11 @@ export default class SecurityBackground extends React.Component {
     const update = {
       security: {
         bgIcon: this.state.bgIcon,
-        bgColor: this.state.bgColor
+        bgColor: this.state.bgColor,
+        personalized: true
       }
     };
-    await port.send('set-prefs', {prefs: update});
+    await this.props.onChangePrefs(update);
     port.emit('security-background-update');
     this.setState({modified: false});
   }
@@ -115,3 +117,7 @@ export default class SecurityBackground extends React.Component {
     );
   }
 }
+
+SecurityBackground.propTypes = {
+  onChangePrefs: PropTypes.func.isRequired
+};

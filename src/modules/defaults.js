@@ -16,6 +16,7 @@ function initSecurityBgnd(prefs) {
   prefs.security.bgIcon = securityBGArr[getSecureRandom(0, securityBGArr.length - 1)][0];
   const securityColorArr = Object.keys(securityColors);
   prefs.security.bgColor = securityColorArr[getSecureRandom(0, securityColorArr.length - 1)];
+  prefs.security.personalized = false;
 }
 
 export function init() {

@@ -359,6 +359,14 @@
     "description": "Name of the extension.",
     "message": "Mailvelope"
   },
+  "feature_banner_new_security_background_text": {
+    "description": "Text of feature banner for new security background.",
+    "message": "Make Mailvelope even more secure by personalizing your security background."    
+  },
+  "feature_banner_new_security_background_btn": {
+    "description": "Button text of feature banner for new security background.",
+    "message": "Personalize now"    
+  },
   "file_invalid_signed": {
     "description": "Text of signer field of file element.",
     "message": "Signature is invalid"

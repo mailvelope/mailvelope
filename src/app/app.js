@@ -16,7 +16,8 @@
  */
 
 import React from 'react';
-import {Route, Redirect, Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {withRouter, Route, Redirect, Link} from 'react-router-dom';
 import {Collapse} from 'reactstrap';
 import * as l10n from '../lib/l10n';
 import {APP_TOP_FRAME_ID} from '../lib/constants';
@@ -35,6 +36,8 @@ import './app.scss';
 l10n.register([
   'decrypt_home',
   'encrypt_home',
+  'feature_banner_new_security_background_btn',
+  'feature_banner_new_security_background_text',
   'keyring_display_keys',
   'keyring_generate_key',
   'keyring_header',
@@ -57,7 +60,7 @@ export let port; // EventHandler
 
 export const AppOptions = React.createContext({gnupg: false});
 
-export class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     const query = new URLSearchParams(document.location.search);
@@ -123,8 +126,8 @@ export class App extends React.Component {
         <Route exact path="/" render={() => <Redirect to="/keyring" />} />
         <Route exact path="/encryption" render={() => <Redirect to="/encryption/file-encrypt" />} />
         <Route exact path="/settings" render={() => <Redirect to="/settings/general" />} />
-        <nav className="navbar fixed-top navbar-expand-md navbar-light bg-white py-3">
-          <div className="container">
+        <nav className="navbar flex-column fixed-top navbar-expand-md navbar-light bg-white">
+          <div className="container p-3">
             <Link to="/dashboard" className="navbar-brand">
               <img src="../img/Mailvelope/logo.svg" width="175" height="32" className="d-inline-block align-top" alt="" />
             </Link>
@@ -143,8 +146,9 @@ export class App extends React.Component {
               </ul>
             </Collapse>
           </div>
+          {(this.state.prefs && !this.state.prefs.security.personalized && this.props.location.pathname !== '/settings/security-background') && <div className="feature-banner d-flex align-items-center justify-content-center align-self-stretch p-3"><span className="mr-3">{l10n.map.feature_banner_new_security_background_text}</span><Link to="/settings/security-background" className="btn btn-sm btn-primary">{l10n.map.feature_banner_new_security_background_btn}</Link></div>}
         </nav>
-        <main className="container" role="main">
+        <main className={`container ${(this.state.prefs && !this.state.prefs.security.personalized && this.props.location.pathname !== '/settings/security-background') ? 'featured' : ''}`} role="main">
           <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/keyring" render={() => <Keyring prefs={this.state.prefs} />} />
@@ -164,6 +168,12 @@ export class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  location: PropTypes.object
+};
+
+export default withRouter(App);
 
 /**
  * Retrieve slot ID from query parameter and get slot data from background
