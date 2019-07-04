@@ -38,7 +38,6 @@
 .m-encrypt-container.active .m-encrypt-button span {
   max-width: 250px;
   margin-left: 0.5rem;
-  margin-right: 0.5rem;
   transition: max-width 0.25s ease-in-out, margin 0s;
 }
 
@@ -64,8 +63,24 @@
   transition: margin 0s 0.25s, max-width 0.25s ease-in-out;
 }
 
-.m-encrypt-container .m-encrypt-close {
-  padding: 8px;
+.m-encrypt-container button.m-encrypt-close {
+  padding: 6px;
+  border-radius: 100%;
+  border: 0;
+  background-color: transparent;
+  margin-left: 0.5rem;
+}
+
+.m-encrypt-container button.m-encrypt-close:focus {
+  outline: none;
+}
+
+.m-encrypt-container button.m-encrypt-close:hover {
+  background-color: #ebebeb;
+}
+
+.m-encrypt-container button.m-encrypt-close:active {
+  background-color: #dbdbdb;
 }
 
 .m-encrypt-container .m-encrypt-close .icon-close {
@@ -76,12 +91,7 @@
 
 .m-encrypt-container .m-encrypt-close .icon-close::before {
   display: inline-block;
-  font-size: 16px;
   height: 14px;
   width: 14px;
-  content: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 6.1534l3.2028-3.4164a.75.75 0 0 1 1.0944 1.026L8.028 7.25l3.269 3.487a.75.75 0 1 1-1.0943 1.026L7 8.3466 3.7972 11.763a.75.75 0 0 1-1.0944-1.026L5.972 7.25 2.7028 3.763a.75.75 0 0 1 1.0944-1.026L7 6.1534z' fill='%239e9e9e' fill-rule='evenodd'/%3E%3C/svg%3E");
-}
-
-.m-encrypt-container .m-encrypt-close:hover .icon-close::before {
   content: url("data:image/svg+xml,%3Csvg viewBox='0 0 14 14' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 6.1534l3.2028-3.4164a.75.75 0 0 1 1.0944 1.026L8.028 7.25l3.269 3.487a.75.75 0 1 1-1.0943 1.026L7 8.3466 3.7972 11.763a.75.75 0 0 1-1.0944-1.026L5.972 7.25 2.7028 3.763a.75.75 0 0 1 1.0944-1.026L7 6.1534z' fill='%23757575' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
