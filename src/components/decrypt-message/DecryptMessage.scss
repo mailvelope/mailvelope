@@ -23,6 +23,9 @@
     background-size: 100% 48px;
     background-position: center center;
     background-repeat: no-repeat;
+    &.cursor {
+      cursor: pointer;
+    }
     img {
       position: absolute;
       width: 64px;
@@ -31,13 +34,18 @@
       top: 50%;
       transform: translate3d(-50%,-50%,0);
     }
-    .m-spinner-inline, button {
+    .m-spinner-inline, > p {
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate3d(-50%,-50%,0);
       margin-top: 70px;
     }
+    > p {
+      font-size: $font-size-lg;
+      font-weight: 500;
+    }
+
   }  
 
   .modal-content {

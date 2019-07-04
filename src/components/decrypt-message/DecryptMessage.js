@@ -147,7 +147,9 @@ export default class DecryptMessage extends React.Component {
   }
 
   handleDecrypt() {
-    this.setState({waiting: true}, () => this.port.emit('decrypt-message'));
+    if (!this.state.showError && !this.state.waiting) {
+      this.setState({waiting: true}, () => this.port.emit('decrypt-message'));
+    }
   }
 
   signatureStatus() {
@@ -180,12 +182,12 @@ export default class DecryptMessage extends React.Component {
         <div className="modal d-block" style={{zIndex: 1035}}>
           <div className="modal-dialog h-100 mw-100 m-0">
             {!this.state.message ? (
-              <div className="pwdLock modal-content overflow-hidden shadow-lg border-0 h-100">
+              <div className={`pwdLock modal-content overflow-hidden shadow-lg border-0 h-100 ${(!this.state.showError && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
                 <img src="../../img/Mailvelope/logo_signet.svg" />
                 {this.state.waiting ? (
                   <Spinner />
                 ) : (
-                  <button type="button" onClick={() => this.handleDecrypt()} className="btn btn-primary" disabled={this.state.showError}>{l10n.map.decrypt_show_message_btn}</button>
+                  <p className={this.state.showError ? 'text-muted' : ''}>{l10n.map.decrypt_show_message_btn}</p>
                 )}
               </div>
             ) : (
