@@ -29,7 +29,7 @@ export default class MenuController extends sub.SubController {
         this.addToWatchList();
         break;
       case 'options':
-        this.openApp('/dashboard');
+        this.openApp('/settings');
         break;
       case 'manage-keys':
         this.openApp('/keyring');
