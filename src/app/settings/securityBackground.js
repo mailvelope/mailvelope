@@ -72,10 +72,6 @@ export default class SecurityBackground extends React.Component {
     this.setState({modified: false});
   }
 
-  getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
-  }
-
   render() {
     return (
       <div id="securityBackground">
@@ -101,9 +97,9 @@ export default class SecurityBackground extends React.Component {
             </p>
             <div>
               <div id="securityBgContainer" className="d-flex flex-wrap">
-                {Object.values(securityColors).map(value =>
-                  <a key={this.getKeyByValue(securityColors, value)} className={`securityBgLink ${this.getKeyByValue(securityColors, this.state.bgColor) === this.getKeyByValue(securityColors, value) ? 'active' : ''}`} tabIndex="0" onClick={() => this.handleClickColorIcon(value)}>
-                    <div className={`securityBgItem color ${this.getKeyByValue(securityColors, value)}`}>
+                {Object.keys(securityColors).map(index =>
+                  <a key={index} className={`securityBgLink ${this.state.bgColor === index ? 'active' : ''}`} tabIndex="0" onClick={() => this.handleClickColorIcon(index)}>
+                    <div className={`securityBgItem color ${index}`}>
                     </div>
                   </a>
                 )}

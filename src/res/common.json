@@ -26,10 +26,25 @@
     "whale": "bgWhale"
   },
   "securityColors": {
-    "petrol": "#caebdd",
-    "corn": "#faebae",
-    "salmon": "#f7cab5",
-    "lavender": "#d9caeb",
-    "sky": "#cadaeb"
+    "petrol": {
+      "bg": "#caebdd",
+      "icon": "#85c9af"
+    },
+    "corn": {
+      "bg": "#faebae",
+      "icon": "#e3d18b"
+    },
+    "salmon": {
+      "bg": "#f7cab5",
+      "icon": "#e0a98e"
+    },
+    "lavender": {
+      "bg": "#d9caeb",
+      "icon": "#baa7d9"
+    },
+    "sky": {
+      "bg": "#cadaeb",
+      "icon": "#90b5da"
+    }
   }
 }

@@ -127,7 +127,7 @@ export default class PasswordDialog extends React.Component {
       <SecurityBG port={this.port}>
         <div className="modal d-block" style={{padding: '2.75rem'}}>
           <div className="modal-dialog h-100 mw-100 m-0">
-            <div className="modal-content shadow-lg border-0 h-100" style={{backgroundColor: 'rgba(255,255,255,0.8)'}}>
+            <div className="modal-content shadow-lg border-0 h-100" style={{backgroundColor: 'rgba(255,255,255,1)'}}>
               {this.state.waiting ? (
                 <Spinner style={{margin: 'auto auto'}} />
               ) : (

@@ -4,6 +4,7 @@
  */
 
 import {SECURE_COLORS} from '../lib/constants.js';
+import {securityColors} from '../res/common.json';
 import parseSVG from '../lib/svg-file-parser.js';
 
 export class MvError extends Error {
@@ -210,18 +211,22 @@ export function generateSecurityBackground({width, height, scaling = 1, angle = 
 export async function getSecurityBackground(port) {
   const background = await port.send('get-security-background');
   const image = background.bgIcon ? (await generateSecurityBGSVG(background)).outerHTML : generateSecurityBackground(background);
-  const color = background.bgColor ? background.bgColor : background.color;
+  const color = background.bgColor ? securityColors[background.bgColor].bg : background.color;
   return {image: `url(data:image/svg+xml;base64,${btoa(image)})`, color};
 }
 
-async function generateSecurityBGSVG({bgIcon}) {
+async function generateSecurityBGSVG({bgIcon, bgColor}) {
   const svgTemplateUrl = 'img/security/template.svg';
   const {documentElement: svgTemplate} = await parseSVG(svgTemplateUrl);
   const tileWidth = 640;
   svgTemplate.setAttribute('width', tileWidth);
-  svgTemplate.setAttribute('style', 'fill-opacity: .215');
+  svgTemplate.getElementById('template').setAttribute('fill', securityColors[bgColor].icon);
   const svgBgIconUrl = `img/security/${bgIcon}.svg`;
   const {documentElement: svgBgIcon} = await parseSVG(svgBgIconUrl);
+  const paths = svgBgIcon.getElementsByTagName('path');
+  for (const path of paths) {
+    path.style.fill = securityColors[bgColor].icon;
+  }
   const placeholders = svgTemplate.querySelectorAll('.icon');
   for (const placeholderElem of placeholders) {
     const gElem = placeholderElem.querySelector('g:last-child');
