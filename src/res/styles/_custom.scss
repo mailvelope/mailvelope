@@ -648,10 +648,13 @@ nav {
 
 
 // custom badges
+.badge {
+  font-family: $headings-font-family;
+}
 
 @each $color, $value in $theme-colors {
   .badge-#{$color} {
-    @include badge-variant-custom(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), $body-color);
+    @include badge-variant-custom(theme-color($color), theme-color-level($color, 5), color-yiq(theme-color($color)));
   }
 }
 
