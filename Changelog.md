@@ -1,6 +1,19 @@
 Mailvelope Changelog
 ====================
 
+v3.3.0
+-------
+__July 4, 2019__
+
+  * [Security] New key import UI that displays all imported user IDs and requires additional confirmation step (CVE-2019-9150)
+  * [Security] Fix insufficient key equality checks when importing keys via the client-API
+  * [Security] Fix self signature check for armoredDraft option when using GnuPG keyring. Sign and encrypt operations should always require user interaction (CVE-2019-9149).
+  * [Security] Add missing message and key validity checks (CVE-2019-9148)
+  * [Security] Improve counter of private key operations to increase resistance against time-based side-channel attacks
+  * Improve GPG detection on startup
+  * [Security] Fix issue with the private key restore mechanism, that stores unlocked private keys inside the encrypted recovery message
+  * Support for Autocrypt headers in client-API
+
 v3.2.0
 -------
 __May 15, 2019__
@@ -25,7 +38,7 @@ __Mar 11, 2019__
   * Key UI: set new expiration date for key
   * Make links in decrypted messages clickable
   * Add checkbox to security settings to allow to hide header in armored message
-  * [Security] Fix control mechanism to let components only be created in authorized domains
+  * [Security] Fix control mechanism to let components only be created in authorized domains (CVE-2019-9147)
   * [Security] Fix OK badge on browser action icon that signals user interaction
   * Various fixes and refactoring
   * Update OpenPGP.js to 4.4.9

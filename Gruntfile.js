@@ -148,7 +148,7 @@ module.exports = function(grunt) {
           src: [
             'app/app.html',
             'components/**/*.html',
-            'components/{decrypt-popup,enter-password,generate-key,import-key,key-backup,recovery-sheet,restore-backup,verify-inline,verify-popup}/**/*',
+            'components/{decrypt-popup,enter-password,generate-key,key-backup,recovery-sheet,restore-backup,verify-inline,verify-popup}/**/*',
             'content-scripts/*.css',
             'img/*',
             'lib/{constants,EventHandler,jquery.ext,l10n,util}.js',
