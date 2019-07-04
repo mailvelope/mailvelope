@@ -9,7 +9,7 @@ import gpgmejs from 'gpgmejs';
 
 export let gpgme = null;
 
-const GPGME_INIT_TIMEOUT = 1000;
+const GPGME_INIT_TIMEOUT = 3000;
 
 /**
  * Initialize browser runtime features.
@@ -27,7 +27,7 @@ export async function initNativeMessaging() {
   try {
     gpgme = await gpgmejs.init({timeout: GPGME_INIT_TIMEOUT});
   } catch (e) {
-    console.log('GPGME is not available.', e.message);
+    console.log('GPGME is not available.', e.code);
   }
 }
 
