@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v3.3.1
+-------
+__July 5, 2019__
+
+  * Fix race condition when importing keys that can lead to key pairs being imported as separate public and private key
+
 v3.3.0
 -------
 __July 4, 2019__
