@@ -3,16 +3,16 @@ import React from 'react';
 import {expect, sinon, mount} from 'test';
 import EventHandler from 'lib/EventHandler';
 import * as l10n from 'lib/l10n';
-import EditorFooter from 'components/editor/components/EditorFooter';
+import EditorModalFooter from 'components/editor/components/EditorModalFooter';
 import PlainText from 'components/editor/components/PlainText';
 import Editor from 'components/editor/editor';
 
-$.fx.off = true;
 l10n.mapToLocal();
 
 describe('Editor tests', () => {
   const sandbox = sinon.createSandbox();
 
+  const RecipientInputMock = () => <div />;
   const mockPort = () => {
     const portMock = {
       _events: {
@@ -35,8 +35,6 @@ describe('Editor tests', () => {
   const setup = propOverrides => {
     const props = {
       id: 'editor-test',
-      embedded: true,
-      recipientInput: false,
       ...propOverrides
     };
 
@@ -50,11 +48,14 @@ describe('Editor tests', () => {
   };
 
   beforeEach(() => {
+    Editor.__Rewire__('RecipientInput', RecipientInputMock);
     mockPort();
   });
 
   afterEach(() => {
     sandbox.restore();
+    /* eslint-disable-next-line no-undef */
+    __rewire_reset_all__();
   });
 
   it('should render', () => {
@@ -77,18 +78,21 @@ describe('Editor tests', () => {
       expect(plainText.props().defaultValue).to.equal('This is a sample text!');
     });
 
-    it('should show editor in modal when not embedded', () => {
-      const {wrapper} = setup({embedded: false});
-      wrapper.instance();
-      expect(wrapper.find('.modal').exists()).to.equal(true);
-    });
-
-    it('should show error modal when decrypt failed', () => {
+    it('should show editor in embedded mode', () => {
       const {wrapper} = setup();
       const component = wrapper.instance();
+      component.onSetEmbeddedMode({embedded: true});
+      wrapper.update();
+      expect(wrapper.find('.embedded').exists()).to.equal(true);
+    });
+
+    it('should show error notification when decrypt failed', () => {
+      const {wrapper} = setup();
+      const component = wrapper.instance();
+      component.hideError = () => false;
       component.onDecryptFailed({error: {message: 'Error message!'}});
       wrapper.update();
-      expect(wrapper.find('Modal Alert').props().children).to.equal('Error message!');
+      expect(wrapper.find('Toast').first().props().children).to.equal('Error message!');
     });
 
     /* test shows side effects and has to be fixed */
@@ -107,7 +111,7 @@ describe('Editor tests', () => {
       //   this.onload({target: {result: files[0]}});
       // });
 
-      const footer = wrapper.find(EditorFooter);
+      const footer = wrapper.find(EditorModalFooter);
       footer.find('input').simulate('change', {target: {files}});
 
       expect(spy.calledTwice).to.equal(true);

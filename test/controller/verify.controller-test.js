@@ -31,7 +31,7 @@ describe('Verify controller unit tests', () => {
       VerifyController.__Rewire__('verifyMessage', () => Promise.resolve({data: 'cba', signatures: ['a', 'b', 'c']}));
       const emitStub = sandbox.stub();
       ctrl.ports = {
-        vDialog: {
+        dDialog: {
           emit: emitStub
         }
       };

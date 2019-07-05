@@ -21,8 +21,8 @@ describe('Editor controller unit tests', () => {
   });
 
   describe('Check event handlers', () => {
-    it('should handle recipients', () => {
-      expect(ctrl._handlers.get('editor-init')).to.exist;
+    it('should handle load', () => {
+      expect(ctrl._handlers.get('editor-load')).to.exist;
     });
   });
 

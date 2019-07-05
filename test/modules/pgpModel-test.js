@@ -194,15 +194,18 @@ S8Xz
 
       const armored = await encryptFile({
         plainFile: file,
+        keyringId: MAIN_KEYRING_ID,
         encryptionKeyFprs: ['81364f6680a600b292bec5980c02c51f4af1a165', '3bfa0e474542751cc25777842e760c1d2b6c7a8d'],
         armor: true
       });
       const decrypted = await decryptFile(
         {
-          content: `data:text/plain;base64,${window.btoa(armored)}`,
-          name: 'sampleFile.txt'
-        },
-        ({key}) => unlock({key, password: '1234'})
+          encryptedFile: {
+            content: `data:text/plain;base64,${window.btoa(armored)}`,
+            name: 'sampleFile.txt'
+          },
+          unlockKey: ({key}) => unlock({key, password: '1234'})
+        }
       );
       expect(decrypted.data).to.equal(data);
     });

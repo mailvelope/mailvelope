@@ -5,7 +5,6 @@ import * as l10n from 'lib/l10n';
 import EventHandler from 'lib/EventHandler';
 import Spinner from 'components/util/Spinner';
 import ContentSandbox from 'components/decrypt-message/components/ContentSandbox';
-import SignatureModal from 'components/decrypt-message/components/SignatureModal';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';
 
 l10n.mapToLocal();
@@ -113,7 +112,6 @@ describe('Decrypt Message tests', () => {
     });
 
     it('should show the sandbox iframe with the decrypted message', () => {
-      const spy = sandbox.spy(ContentSandbox.prototype, 'setContent');
       const {wrapper} = setup();
       const component = wrapper.instance();
       const message = 'This is an encrypted message!';
@@ -122,15 +120,12 @@ describe('Decrypt Message tests', () => {
       };
       component.onDecryptedMessage(event);
       wrapper.update();
-
       expect(wrapper.state('message')).to.equal(message);
-
       const contentSandbox = wrapper.find(ContentSandbox);
       expect(wrapper.find(ContentSandbox).prop('value')).to.equal(message);
       expect(contentSandbox.find('iframe').exists()).to.equal(true);
-      expect(spy.withArgs('This is an encrypted message!').calledOnce).to.equal(true);
     });
-    it('should show singature modal when clicked on signature button', () => {
+    it('should show singature in footer when signature available', () => {
       const {wrapper} = setup();
       const component = wrapper.instance();
       const message = 'This is an encrypted message!';
@@ -141,10 +136,9 @@ describe('Decrypt Message tests', () => {
       wrapper.update();
       component.onSignatureVerification({signers: signaturesFixture});
       wrapper.update();
-      wrapper.find('#sigBtn').first().simulate('click');
-      expect(wrapper.state().showSig).to.equal(true);
-      const signatureModal = wrapper.find(SignatureModal);
-      expect(signatureModal.exists()).to.equal(true);
+      expect(wrapper.state().signer.valid).to.equal(true);
+      const signatureFooter = wrapper.find('.modal-footer');
+      expect(signatureFooter.exists()).to.equal(true);
     });
   });
 });

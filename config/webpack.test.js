@@ -29,7 +29,7 @@ conf.output = {
   devtoolModuleFilenameTemplate: '[namespace]/[resource-path]?[loaders]'
 };
 
-conf.module = common.module.react();
+conf.module = {rules: [...common.module.react(), ...common.module.css(), ...common.module.scss()]};
 conf.module.rules[0].options.plugins.push('babel-plugin-rewire');
 conf.module.rules.push(
   {

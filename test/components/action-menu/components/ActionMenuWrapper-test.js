@@ -3,8 +3,6 @@ import React from 'react';
 import {expect, sinon, mount} from 'test';
 import EventHandler from 'lib/EventHandler';
 import ActionMenuBase from 'components/action-menu/components/ActionMenuBase';
-import ActionMenuAdvanced from 'components/action-menu/components/ActionMenuAdvanced';
-import ActionMenuAnimated from 'components/action-menu/components/ActionMenuAnimated';
 import ActionMenuWrapper from 'components/action-menu/components/ActionMenuWrapper';
 
 // disable all jquery animations
@@ -69,12 +67,6 @@ describe('Action Menu tests', () => {
         const component = wrapper.instance();
         expect(component.port._events.send).to.include.members(['get-is-setup-done']);
 
-        const actionMenuAdvanced = wrapper.find(ActionMenuAdvanced);
-        actionMenuAdvanced.find('.header a').simulate('click');
-
-        const actionMenuAnimated = wrapper.find(ActionMenuAnimated);
-        expect(actionMenuAnimated.find('.action-menu-container-slide')).to.have.style('margin-left', '0px');
-
         const actionMenuBase = wrapper.find(ActionMenuBase);
         actionMenuBase.find('a#manage-keys').simulate('click');
 
@@ -83,37 +75,5 @@ describe('Action Menu tests', () => {
         expect(component.port._events.emit).to.include.members(['browser-action']);
       });
     });
-
-    describe('Advanced Option Menu', () => {
-      it('should show on click on advance options in base menu', () => {
-        const spy = sandbox.spy(ActionMenuAnimated.prototype, 'showAdvancedOptions');
-        const {wrapper} = setup();
-        const component = wrapper.instance();
-        expect(component.port._events.send).to.include.members(['get-is-setup-done']);
-
-        const actionMenuBase = wrapper.find(ActionMenuBase);
-        actionMenuBase.find('.footer a').simulate('click');
-
-        expect(spy.calledOnce).to.equal(true);
-
-        const actionMenuAnimated = wrapper.find(ActionMenuAnimated);
-        expect(actionMenuAnimated.find('.action-menu-container-slide')).to.have.style('margin-left', '-230px');
-      });
-
-      it('should emit browser action on click', () => {
-        const spy = sandbox.spy(ActionMenuWrapper.prototype, 'onMenuItemClick');
-        const {wrapper} = setup();
-        const component = wrapper.instance();
-        expect(component.port._events.send).to.include.members(['get-is-setup-done']);
-
-        const actionMenuAdvanced = wrapper.find(ActionMenuAdvanced);
-        actionMenuAdvanced.find('a#email-providers').simulate('click');
-
-        expect(spy.calledOnce).to.equal(true);
-        expect(spy.getCall(0).args[0].target.id).to.equal('email-providers');
-        expect(component.port._events.emit).to.include.members(['browser-action']);
-      });
-    });
   });
 });
-

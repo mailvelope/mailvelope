@@ -35,7 +35,6 @@ describe('Key server settings unit tests', () => {
         mvelo_tofu_lookup: true,
         wkd_lookup: true,
         autocrypt_lookup: true,
-        alert: null,
         modified: false,
         previousPrefs: props.prefs
       });
@@ -58,7 +57,6 @@ describe('Key server settings unit tests', () => {
         hkp_base_url: 'https://keyserver.ubuntu.com',
         modified: true,
         valid_base_url: true,
-        alert: null
       }).calledOnce).to.be.true;
     });
   });

@@ -89,8 +89,8 @@ describe('KeyringLocal unit tests', () => {
       expect(keys['madita@mailvelope.com'].length).to.equal(1);
     });
     it('should get keys by email address', async () => {
-      const keys = await keyRing.getKeyByAddress(['madita.b@mailvelope.com', 'test@mailvelope.com']);
-      expect(keys['madita.b@mailvelope.com'].length).to.equal(1);
+      const keys = await keyRing.getKeyByAddress(['madita.bernstein@gmail.com', 'test@mailvelope.com']);
+      expect(keys['madita.bernstein@gmail.com'].length).to.equal(1);
       expect(keys['test@mailvelope.com'].length).to.equal(2);
     });
   });

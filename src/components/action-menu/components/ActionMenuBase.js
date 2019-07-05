@@ -22,7 +22,7 @@ l10n.register([
   'action_menu_activate_current_tab'
 ]);
 
-export default function ActionMenuAnimated(props) {
+export default function ActionMenuBase(props) {
   return (
     <>
       <div className="action-menu-content list-group list-group-flush" role="menu" aria-label={l10n.map.action_menu_primary_menu_aria_label}>
@@ -51,7 +51,7 @@ export default function ActionMenuAnimated(props) {
   );
 }
 
-ActionMenuAnimated.propTypes = {
+ActionMenuBase.propTypes = {
   onMenuItemClickHandler: PropTypes.func
 };
 

@@ -20,7 +20,7 @@ describe('Key unit test', () => {
     });
     it('should return first available user id when there is no valid user id on this key and validity check set to false', async () => {
       key.getPrimaryUser = () => null;
-      const {userId} = await getUserInfo(key, false);
+      const {userId} = await getUserInfo(key, {allowInvalid: true});
       expect(userId).to.equal(key.users[0].userId.userid);
     });
   });

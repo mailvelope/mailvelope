@@ -9,7 +9,6 @@
  */
 
 import * as l10n from '../../lib/l10n';
-import Alert from '../../components/util/Alert';
 import {port} from '../app';
 
 import React from 'react';
@@ -57,7 +56,6 @@ function initialState({prefs}) {
     mvelo_tofu_lookup,
     wkd_lookup,
     autocrypt_lookup,
-    alert: null,
     modified: false,
     previousPrefs: prefs
   };
@@ -182,9 +180,6 @@ export default class KeyServer extends React.Component {
               <input className="custom-control-input" type="checkbox" id="keyserverAutocryptLookup" name="autocrypt_lookup" checked={this.state.autocrypt_lookup} onChange={this.handleCheck} />
               <label className="custom-control-label" htmlFor="keyserverAutocryptLookup"><span>{l10n.map.keyserver_autocrypt_lookup}</span>. <a href="https://autocrypt.org" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
             </div>
-          </div>
-          <div className="form-group mb-4">
-            {this.state.alert && <Alert header={this.state.alert.header} type={this.state.alert.type}>{this.state.alert.message}</Alert>}
           </div>
           <div className="btn-bar">
             <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
