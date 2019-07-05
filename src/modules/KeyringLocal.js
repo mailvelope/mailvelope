@@ -64,7 +64,7 @@ export default class KeyringLocal extends KeyringBase {
     // sort, public keys first
     armoredKeys = armoredKeys.sort((a, b) => b.type.localeCompare(a.type));
     // import
-    await Promise.all(armoredKeys.map(async key => {
+    for (const key of armoredKeys) {
       try {
         if (key.type === 'public') {
           result.push(...await this.importPublicKey(key.armored, this.keystore));
@@ -77,7 +77,7 @@ export default class KeyringLocal extends KeyringBase {
           message: l10n.get('key_import_unable', [e])
         });
       }
-    }));
+    }
     // exit if no import succeeded
     if (!result.some(message => message.type === 'success')) {
       return result;
@@ -102,15 +102,15 @@ export default class KeyringLocal extends KeyringBase {
     const result = [];
     const imported = await openpgp.key.readArmored(armored);
     if (imported.err) {
-      imported.err.forEach(error => {
+      for (const error of imported.err) {
         console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
           message: l10n.get('key_import_public_read', [error.message])
         });
-      });
+      }
     }
-    await Promise.all(imported.keys.map(async pubKey => {
+    for (let pubKey of imported.keys) {
       // check for existing keys
       checkKeyId(pubKey, this.keystore);
       const fingerprint = pubKey.primaryKey.getFingerprint();
@@ -141,7 +141,7 @@ export default class KeyringLocal extends KeyringBase {
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }
-    }));
+    }
     return result;
   }
 
@@ -149,15 +149,15 @@ export default class KeyringLocal extends KeyringBase {
     const result = [];
     const imported = await openpgp.key.readArmored(armored);
     if (imported.err) {
-      imported.err.forEach(error => {
+      for (const error of imported.err) {
         console.log('Error on key.readArmored', error);
         result.push({
           type: 'error',
           message: l10n.get('key_import_private_read', [error.message])
         });
-      });
+      }
     }
-    await Promise.all(imported.keys.map(async privKey => {
+    for (let privKey of imported.keys) {
       // check for existing keys
       checkKeyId(privKey, this.keystore);
       const fingerprint = privKey.primaryKey.getFingerprint();
@@ -200,7 +200,7 @@ export default class KeyringLocal extends KeyringBase {
         });
         this.sync.add(fingerprint, keyringSync.INSERT);
       }
-    }));
+    }
     return result;
   }
 
