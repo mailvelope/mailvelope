@@ -251,11 +251,17 @@ describe('Key unit test', () => {
   });
 
   describe('filterUserIdsByEmail', () => {
-    it('should return public key from private key', async () => {
+    it('should filter user by e-mail', async () => {
       const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const {users} = filterUserIdsByEmail(key, 'madita@mailvelope.com');
       expect(users.length).to.equal(1);
       expect(users[0].userId.name).to.equal('Madita Bernstone');
+    });
+    it('should filter out user attributes', async () => {
+      const {keys: [key]} = await openpgp.key.readArmored(testKeys.wiktor_pub);
+      const {users} = filterUserIdsByEmail(key, 'wiktor@metacode.biz');
+      expect(users.length).to.equal(1);
+      expect(users[0].userId.email).to.equal('wiktor@metacode.biz');
     });
   });
 });
