@@ -371,7 +371,8 @@ export function toPublic(key) {
  * @return {openpgp.key.Key} The key with only matching userIds
  */
 export function filterUserIdsByEmail(key, email) {
-  key.users = key.users.filter(user => user.userId.email.toLowerCase() === email.toLowerCase());
+  key.users = key.users.filter(user => user.userId &&
+    user.userId.email.toLowerCase() === email.toLowerCase());
   return key;
 }
 
