@@ -6,6 +6,7 @@ import johnd_pub from './keys/john_doe_pub.asc';
 import johnd_prv from './keys/john_doe_prv.asc';
 import gordonf_pub from './keys/gordon_freeman_pub.asc';
 import maxp_pub from './keys/max_payne_pub.asc';
+import wiktor_pub from './keys/wiktor_pub.asc';
 
 export default {
   api_test_pub,
@@ -15,5 +16,6 @@ export default {
   johnd_pub,
   johnd_prv,
   gordonf_pub,
-  maxp_pub
+  maxp_pub,
+  wiktor_pub
 };
