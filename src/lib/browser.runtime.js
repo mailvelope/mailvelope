@@ -48,13 +48,13 @@ function registerRuntimeHandler() {
 
 /**
  * Open the install landing page.
- * The landing page shouldn't start for the sites that are using the mailvelope API.
+ * The landing page shouldn't start for the sites that have the prevent_landingpage flag set.
  */
 async function openInstallLandingPage() {
-  // retrieve all the sites that use the mailvelope API.
+  // retrieve all the sites that have the prevent_landingpage flag.
   const filteredSitesPatterns = defaults.watch_list.reduce((result, site) => {
-    site.active && site.frames && site.frames.forEach(frame => {
-      frame.scan && frame.api && result.push(`*://${frame.frame}/*`);
+    site.active && site.prevent_landingpage && site.frames && site.frames.forEach(frame => {
+      frame.scan && result.push(`*://${frame.frame}/*`);
     });
     return result;
   }, []);

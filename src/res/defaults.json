@@ -5,6 +5,7 @@
       "active": true,
       "site": "GMX",
       "https_only": true,
+      "prevent_landingpage": true,
       "frames": [
         {
           "scan": true,
@@ -37,6 +38,7 @@
       "active": true,
       "site": "WEB.DE",
       "https_only": true,
+      "prevent_landingpage": true,
       "frames": [
         {
           "scan": true,
