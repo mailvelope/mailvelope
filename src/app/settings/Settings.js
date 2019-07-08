@@ -10,11 +10,11 @@ import {NavPill} from '../util/util';
 import * as l10n from '../../lib/l10n';
 import Notifications from '../../components/util/Notifications';
 
-import General from './general';
+import General from './General';
 import Security from './Security';
 import SecurityBackground from './SecurityBackground';
-import WatchList from './watchList';
-import SecurityLog from './securityLog';
+import WatchList from './WatchList';
+import SecurityLog from './SecurityLog';
 import KeyServer from './keyserver';
 
 l10n.register([
