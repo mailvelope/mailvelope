@@ -193,7 +193,7 @@ export default class EncryptFrame {
     } else {
       // element is contenteditable or RTE
       msg = `<pre>${encodeHTML(msg)}</pre>`;
-      this.emailTextElement.innerHTML = msg;
+      this.emailTextElement.append(parseHTML(msg));
     }
     // trigger input event
     const inputEvent = document.createEvent('HTMLEvents');
