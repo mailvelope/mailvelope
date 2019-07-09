@@ -147,6 +147,18 @@ button.icon-btn {
   }
 }
 
+  /**
+   * Set custom link color in decrypt message and encrypted form sandbox component
+   */
+  #content, #root {
+    a {
+      color: $dark-cyan;
+      &:hover {
+        color: darken($dark-cyan, 15%);
+      }
+    }
+  }
+
 /* old custom classes still in use */
 
 .termination {
