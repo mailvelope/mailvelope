@@ -10,6 +10,7 @@ import {KeyringOptions} from './KeyringOptions';
 import Spinner from '../../components/util/Spinner';
 import KeyExport from './components/KeyExport';
 import Modal from '../../components/util/Modal';
+import Alert from '../../components/util/Alert';
 import SimpleDialog from '../../components/util/SimpleDialog';
 import KeyringSelect from './components/KeyringSelect';
 import {Redirect, Link} from 'react-router-dom';
@@ -99,8 +100,8 @@ export default class KeyGrid extends React.Component {
   }
 
   deleteKeyEntry() {
-    const key = this.props.keys.find(key => key.fingerprint === this.state.activeKey);
-    this.setState({showDeleteKeyModal: false}, () => this.props.onDeleteKey(key.fingerprint, key.type));
+    const key = this.props.keys.find(key => key.keyId === this.state.activeKey);
+    this.setState({showDeleteKeyModal: false, activeKey: null}, () => this.props.onDeleteKey(key.fingerprint, key.type));
   }
 
   deleteKeyring() {
@@ -133,6 +134,16 @@ export default class KeyGrid extends React.Component {
       all,
       type
     }});
+  }
+
+  getKeyDetails() {
+    const activeKeyDetails = this.props.keys.find(key => key.keyId === this.state.activeKey);
+    return (
+      <Alert type="info" className="mb-4 flex-shrink-1">
+        <span className={`icon icon-${activeKeyDetails.type === 'public' ? 'key' : 'key-pair'} mr-1`} style={{fontSize: '1.25rem'}}></span>
+        <span style={{fontSize: '1rem', fontWeight: 500}}>{activeKeyDetails.name}</span> {`<${activeKeyDetails.email}> #${activeKeyDetails.keyId}`}
+      </Alert>
+    );
   }
 
   render() {
@@ -198,7 +209,7 @@ export default class KeyGrid extends React.Component {
                   <td className="monospaced">{key.crDate.substr(0, 10)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
-                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => { e.stopPropagation(); this.setState({showDeleteKeyModal: true, activeKey: key.fingerprint}); }} className="btn btn-secondary keyDeleteBtn"><span className="icon icon-delete" aria-hidden="true"></span></button>}
+                      {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => { e.stopPropagation(); this.setState({showDeleteKeyModal: true, activeKey: key.keyId}); }} className="btn btn-secondary keyDeleteBtn"><span className="icon icon-delete" aria-hidden="true"></span></button>}
                       <span className="icon icon-arrow-right" aria-hidden="true"></span>
                     </div>
                   </td>
@@ -214,10 +225,12 @@ export default class KeyGrid extends React.Component {
           toggle={() => this.setState(prevState => ({showDeleteKeyModal: !prevState.showDeleteKeyModal}))}
           onHide={() => this.setState({activeKey: null})}
           title={l10n.map.key_remove_dialog_title}
-          message={l10n.map.keygrid_delete_confirmation}
           onOk={this.deleteKeyEntry}
           onCancel={() => this.setState({showDeleteKeyModal: false})}
-        />
+        >
+          <p className="mb-2">{l10n.map.keygrid_delete_confirmation}</p>
+          {this.state.activeKey && this.getKeyDetails()}
+        </SimpleDialog>
         <SimpleDialog
           isOpen={this.state.showDeleteKeyringModal}
           toggle={() => this.setState(prevState => ({showDeleteKeyringModal: !prevState.showDeleteKeyringModal}))}

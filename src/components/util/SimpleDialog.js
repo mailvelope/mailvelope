@@ -15,7 +15,7 @@ l10n.register([
 
 export default function SimpleDialog(props) {
   return (
-    <Modal isOpen={props.isOpen} toggle={props.toggle} size="small" title={props.title} hideFooter={true} onHide={props.onHide}>
+    <Modal isOpen={props.isOpen} toggle={props.toggle} size={props.size} title={props.title} hideFooter={true} onHide={props.onHide}>
       <div>
         {props.message && <p>{props.message}</p>}
         {props.children}
@@ -41,4 +41,9 @@ SimpleDialog.propTypes = {
   onOk: PropTypes.func,
   title: PropTypes.string,
   toggle: PropTypes.func,
+  size: PropTypes.oneOf(['small', 'medium', 'large'])
+};
+
+SimpleDialog.defaultProps = {
+  size: 'small',
 };
