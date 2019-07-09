@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
+import {LARGE_FRAME} from '../../lib/constants';
 import {encodeHTML, getHash, str2ab} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
 import ContentSandbox from './components/ContentSandbox';
@@ -42,12 +43,17 @@ export default class DecryptMessage extends React.Component {
       error: null,
       showError: false,
       pwdDialog: null,
-      terminate: false
+      terminate: false,
+      large: false
     };
     this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
     this.registerEventListeners();
     // emit event to backend that editor has initialized
     this.port.emit('decrypt-message-init');
+  }
+
+  componentDidMount() {
+    this.setState({large: this.element.clientHeight > LARGE_FRAME ? true : false});
   }
 
   registerEventListeners() {
@@ -180,9 +186,9 @@ export default class DecryptMessage extends React.Component {
     return (
       <SecurityBG className={`decrypt-msg ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
         <div className="modal d-block" style={{zIndex: 1035}}>
-          <div className="modal-dialog h-100 mw-100 m-0">
+          <div ref={node => this.element = node} className="modal-dialog h-100 mw-100 m-0">
             {!this.state.message ? (
-              <div className={`pwdLock modal-content overflow-hidden shadow-lg border-0 h-100 ${(!this.state.showError && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
+              <div className={`locked ${this.state.large ? 'large' : ''} modal-content overflow-hidden shadow-lg border-0 h-100 ${(!this.state.showError && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
                 <img src="../../img/Mailvelope/logo_signet.svg" />
                 {this.state.waiting ? (
                   <Spinner />

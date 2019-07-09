@@ -16,7 +16,7 @@
     }
   }
 
-  .pwdLock.modal-content {
+  .locked.modal-content {
     position: relative;
     background-color: $white;
     background-image: linear-gradient(to bottom, $white, $white 50%, $gray-300 50%, $white);
@@ -47,6 +47,13 @@
     }
 
   }  
+
+  .large.locked.modal-content {
+    background-position: center 150px;
+    img, .m-spinner-inline, > p {
+      top: 174px;
+    }
+  }
 
   .modal-content {
     background-color: transparent;
