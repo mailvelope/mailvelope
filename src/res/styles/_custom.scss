@@ -286,11 +286,6 @@ nav {
         color: $gray-900;
         position: relative;
         cursor: pointer;
-        &:not(:last-child) {
-          @include media-breakpoint-up(md) {
-            margin-right: 1rem;
-          }          
-        }
 
         &::after {
           content:' ';
@@ -305,6 +300,14 @@ nav {
         
         &:hover {
             color: $black;
+        }
+      }
+
+      &:not(:last-child) {
+        .nav-link {
+          @include media-breakpoint-up(md) {
+            margin-right: 1rem;
+          }          
         }
       }
 
