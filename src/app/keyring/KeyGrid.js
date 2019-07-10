@@ -50,11 +50,12 @@ export default class KeyGrid extends React.Component {
       activeKey: keyId ? keyId : null,
       activeKeyring: null,
       keyringBackup: null,
+      action: '',
       showExportModal: false,
       showDeleteKeyModal: false,
       showDeleteKeyringModal: false
     };
-    this.deleteKeyEntry = this.deleteKeyEntry.bind(this);
+    this.onHiddenModal = this.onHiddenModal.bind(this);
     this.deleteKeyring = this.deleteKeyring.bind(this);
   }
 
@@ -99,9 +100,16 @@ export default class KeyGrid extends React.Component {
     this.setState({selectedKey: index});
   }
 
+  onHiddenModal() {
+    if (this.state.action === 'deleteKey') {
+      this.deleteKeyEntry();
+    }
+    this.setState({showDeleteKeyModal: false, activeKey: null, action: ''});
+  }
+
   deleteKeyEntry() {
     const key = this.props.keys.find(key => key.keyId === this.state.activeKey);
-    this.setState({showDeleteKeyModal: false, activeKey: null}, () => this.props.onDeleteKey(key.fingerprint, key.type));
+    this.props.onDeleteKey(key.fingerprint, key.type);
   }
 
   deleteKeyring() {
@@ -223,9 +231,9 @@ export default class KeyGrid extends React.Component {
         <SimpleDialog
           isOpen={this.state.showDeleteKeyModal}
           toggle={() => this.setState(prevState => ({showDeleteKeyModal: !prevState.showDeleteKeyModal}))}
-          onHide={() => this.setState({activeKey: null})}
+          onHide={this.onHiddenModal}
           title={l10n.map.key_remove_dialog_title}
-          onOk={this.deleteKeyEntry}
+          onOk={() => this.setState({action: 'deleteKey', showDeleteKeyModal: false})}
           onCancel={() => this.setState({showDeleteKeyModal: false})}
         >
           <p className="mb-2">{l10n.map.keygrid_delete_confirmation}</p>
