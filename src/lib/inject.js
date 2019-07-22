@@ -4,7 +4,8 @@
  */
 
 import mvelo from './lib-mvelo';
-import {matchPattern2RegExString, sortAndDeDup} from './util';
+import * as sub from '../controller/sub.controller';
+import {str2bool, matchPattern2RegExString, sortAndDeDup} from './util';
 import browser from 'webextension-polyfill';
 import {prefs, getWatchList} from '../modules/prefs';
 
@@ -102,4 +103,31 @@ function watchListNavigationHandler(details) {
   .catch(() => {});
   browser.tabs.insertCSS(details.tabId, {frameId: details.frameId})
   .catch(() => {});
+}
+
+export function initAuthRequestApi() {
+  browser.webNavigation.onBeforeNavigate.addListener(
+    authRequest,
+    {url: [
+      {urlMatches: `^https:\/\/${matchPattern2RegExString('api.mailvelope.com/authorize-domain')}/.*`}
+    ]}
+  );
+}
+
+async function authRequest({tabId, url}) {
+  const tab = await browser.tabs.get(tabId);
+  const match = watchlistRegex.some(urlRegex => urlRegex.test(tab.url));
+  if (match) {
+    return;
+  }
+  const tmpApiUrl = new URL(url);
+  const api = str2bool(tmpApiUrl.searchParams.get('api') || false);
+  const targetUrl = new URL(tab.url);
+  let hostname = targetUrl.hostname;
+  const protocol = targetUrl.protocol;
+  if (hostname.startsWith('www.')) {
+    hostname = hostname.substr(4);
+  }
+  const authDomainCtrl = sub.factory.get('authDomainCont');
+  authDomainCtrl.setFrame({hostname, protocol, api, tabId});
 }

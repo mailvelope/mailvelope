@@ -19,7 +19,7 @@ import {initBrowserRuntime, initNativeMessaging} from './lib/browser.runtime';
 import {init as initModel} from './modules/pgpModel';
 import {init as initKeyring} from './modules/keyring';
 import {initController} from './controller/main.controller';
-import {initScriptInjection} from './lib/inject';
+import {initScriptInjection, initAuthRequestApi} from './lib/inject';
 
 async function main() {
   initBrowserRuntime();
@@ -28,6 +28,7 @@ async function main() {
   await initNativeMessaging();
   await initKeyring();
   initScriptInjection();
+  initAuthRequestApi();
 }
 
 main();

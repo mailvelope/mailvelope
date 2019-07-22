@@ -226,22 +226,22 @@ mvelo.windows.popupMap = new mvelo.windows.PopupMap();
  * @param  {[type]} options.height  height of the window
  * @return {BrowserWindow}
  */
-mvelo.windows.openPopup = function(url, {width, height} = {}) {
-  let activeTab;
-  return browser.windows.getCurrent({populate: true})
-  .then(currentWindow => {
-    if (currentWindow.id === browser.windows.WINDOW_ID_NONE) {
-      throw new Error('Browser window does not exist');
-    }
-    activeTab = currentWindow.tabs.find(tab => tab.active);
-    if (window.navigator.platform.indexOf('Win') >= 0 && height) {
-      height += 36;
-    }
-    const top = height && parseInt(currentWindow.top + (currentWindow.height - height) / 2);
-    const left = width && parseInt(currentWindow.left + (currentWindow.width - width) / 2);
-    return browser.windows.create({url, width, height, top, left, type: 'popup'});
-  })
-  .then(popup => new this.BrowserWindow({popup, openerTabId: activeTab.id}));
+mvelo.windows.openPopup = async function(url, {width, height} = {}, tabId) {
+  const currentWindow = await browser.windows.getCurrent({populate: true});
+  if (currentWindow.id === browser.windows.WINDOW_ID_NONE) {
+    throw new Error('Browser window does not exist');
+  }
+  if (!tabId) {
+    const activeTab = currentWindow.tabs.find(tab => tab.active);
+    tabId = activeTab.id;
+  }
+  if (window.navigator.platform.indexOf('Win') >= 0 && height) {
+    height += 36;
+  }
+  const top = height && parseInt(currentWindow.top + (currentWindow.height - height) / 2);
+  const left = width && parseInt(currentWindow.left + (currentWindow.width - width) / 2);
+  const popup = await browser.windows.create({url, width, height, top, left, type: 'popup'});
+  return new this.BrowserWindow({popup, openerTabId: tabId});
 };
 
 mvelo.windows.BrowserWindow = class {
@@ -258,6 +258,7 @@ mvelo.windows.BrowserWindow = class {
     this._windowRemovedHandler = this._windowRemovedHandler.bind(this);
     browser.tabs.onActivated.addListener(this._tabActivatedChangeHandler);
     browser.windows.onRemoved.addListener(this._windowRemovedHandler);
+    browser.tabs.update(openerTabId, {active: true});
   }
 
   activate() {

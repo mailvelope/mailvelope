@@ -87,6 +87,18 @@
     "description": "Alert header of category warning.",
     "message": "Mindestens ein Domänen-Übereinstimmungsmuster wird benötigt."
   },
+  "auth_domain_headline": {
+    "description": "Headline of authorize domain dialog.",
+    "message": "Domain Authorisieren"
+  },
+  "auth_domain_description": {
+    "description": "Description in authorize domain dialog",
+    "message": "Möchten Sie die Nutzung von Mailvelope für die Domain $1 erlauben?"
+  },
+  "auth_domain_api_label": {
+    "description": "Label for API allowed info",
+    "message": "API erlaubt"
+  },
   "change_link": {
     "description": "Navigation link to change this setting.",
     "message": "Ändern"

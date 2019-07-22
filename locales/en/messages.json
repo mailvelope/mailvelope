@@ -87,6 +87,18 @@
     "description": "Alert header of category warning.",
     "message": "At least one domain match pattern is needed."
   },
+  "auth_domain_headline": {
+    "description": "Headline of authorize domain dialog.",
+    "message": "Authorize domain"
+  },
+  "auth_domain_description": {
+    "description": "Description in authorize domain dialog",
+    "message": "Would you like to allow the use of Mailvelope for the domain $1?"
+  },
+  "auth_domain_api_label": {
+    "description": "Label for API allowed info",
+    "message": "Allow API"
+  },
   "change_link": {
     "description": "Navigation link to change this setting.",
     "message": "Change"

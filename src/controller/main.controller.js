@@ -18,6 +18,7 @@ import AppController from './app.controller';
 import MenuController from './menu.controller';
 import EncryptedFormController from './encryptedForm.controller';
 import ApiController from './api.controller';
+import AuthDomainController from './authDomain.controller';
 
 /**
  * Register controllers for component types. Only the components that first connect to the controller
@@ -41,12 +42,13 @@ sub.factory.register('app',                 AppController,           []);
 sub.factory.register('appCont',             AppController,           ['app']);
 sub.factory.register('menu',                MenuController,          []);
 sub.factory.register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
-sub.factory.register('api',   ApiController,                         []);
+sub.factory.register('api',                 ApiController,           []);
+sub.factory.register('authDomainCont',      AuthDomainController,    ['authDomainDialog']);
 
 export function initController() {
   // store incoming connections by name and id
   chrome.runtime.onConnect.addListener(port => {
-    //console.log('ConnectionManager: onConnect:', port);
+    // console.log('ConnectionManager: onConnect:', port);
     sub.addPort(port);
     // update active ports on disconnect
     port.onDisconnect.addListener(sub.removePort);
