@@ -26,7 +26,7 @@ export default function ActionMenuBase(props) {
   return (
     <>
       <div className="action-menu-content list-group list-group-flush" role="menu" aria-label={l10n.map.action_menu_primary_menu_aria_label}>
-        <a className="action-menu-item list-group-item list-group-item-action" id="options" role="menuitem" onClick={props.onMenuItemClickHandler}>
+        <a className="action-menu-item list-group-item list-group-item-action" id="dashboard" role="menuitem" onClick={props.onMenuItemClickHandler}>
           <div className="action-menu-item-title d-flex align-items-center"><img src="../../img/Mailvelope/dashboard.svg" role="presentation" /> <strong>{l10n.map.action_menu_dashboard_label}</strong></div>
           <p>{l10n.map.action_menu_dashboard_description}</p>
         </a>

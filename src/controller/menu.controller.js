@@ -28,6 +28,9 @@ export default class MenuController extends sub.SubController {
       case 'activate-tab':
         this.addToWatchList();
         break;
+      case 'dashboard':
+        this.openApp('/dashboard');
+        break;
       case 'options':
         this.openApp('/settings');
         break;
