@@ -384,8 +384,9 @@ export async function getKeyByAddress(keyringId, emails, {validForEncrypt = true
  */
 function getPreferredKeyringQueue(keyringId) {
   const keyrings = [];
+  const hasGpgKeyring = keyringMap.has(GNUPG_KEYRING_ID);
   // use gnupg keyring if available and preferred
-  if (gpgme && prefs.general.prefer_gnupg) {
+  if (hasGpgKeyring && prefs.general.prefer_gnupg) {
     keyrings.push(keyringMap.get(GNUPG_KEYRING_ID));
   }
   // next, if requested keyring is API keyring then use that
@@ -395,7 +396,7 @@ function getPreferredKeyringQueue(keyringId) {
   // always use the main keyring
   keyrings.push(keyringMap.get(MAIN_KEYRING_ID));
   // if gnupg keyring is available but not preferred, we put at the end of the queue
-  if (gpgme && !prefs.general.prefer_gnupg) {
+  if (hasGpgKeyring && !prefs.general.prefer_gnupg) {
     keyrings.push(keyringMap.get(GNUPG_KEYRING_ID));
   }
   return keyrings;
@@ -414,7 +415,7 @@ export function getKeyringWithPrivKey(keyIds, keyringId, noCache) {
   let keyrings;
   if (!keyringId) {
     keyrings = getAll();
-    if (gpgme) {
+    if (keyringMap.has(GNUPG_KEYRING_ID)) {
       // sort keyrings according to preference
       keyrings.sort(compareKeyringsByPreference);
     }
@@ -528,7 +529,7 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
  */
 export function getPreferredKeyringId() {
   // return gnupg keyring if available, preferred and has valid private key
-  if (gpgme && prefs.general.prefer_gnupg) {
+  if (keyringMap.has(GNUPG_KEYRING_ID) && prefs.general.prefer_gnupg) {
     const gpgKeyring = keyringMap.get(GNUPG_KEYRING_ID);
     // directly access keystore property to avoid async method
     if (gpgKeyring.keystore.defaultKeyFpr) {
