@@ -104,6 +104,7 @@ export default class Editor extends React.Component {
     this.setState({
       defaultPlainText: text,
       plainText: text,
+      files: [],
       signMsg: Boolean(signMsg),
       signKey: defaultKeyFpr,
       defaultKey: Boolean(defaultKeyFpr),
