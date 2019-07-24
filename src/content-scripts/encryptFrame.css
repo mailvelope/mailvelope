@@ -58,7 +58,7 @@
   overflow: hidden;
   margin-left: 0;
   margin-right: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   transition: margin 0s 0.25s, max-width 0.25s ease-in-out;
 }
