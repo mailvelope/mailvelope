@@ -170,15 +170,15 @@ export default class KeyServer extends React.Component {
           <div className="form-group">
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="keyserverTOFULookup" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} />
-              <label className="custom-control-label" htmlFor="keyserverTOFULookup"><span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+              <label className="custom-control-label" htmlFor="keyserverTOFULookup"><span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://www.mailvelope.com/faq#key_server" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
             </div>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="keyserverWKDLookup" name="wkd_lookup" checked={this.state.wkd_lookup} onChange={this.handleCheck} />
-              <label className="custom-control-label" htmlFor="keyserverWKDLookup"><span>{l10n.map.keyserver_wkd_lookup}</span>. <a href="https://wiki.gnupg.org/WKD" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+              <label className="custom-control-label" htmlFor="keyserverWKDLookup"><span>{l10n.map.keyserver_wkd_lookup}</span>. <a href="https://www.mailvelope.com/faq#web_key_directory" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
             </div>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" type="checkbox" id="keyserverAutocryptLookup" name="autocrypt_lookup" checked={this.state.autocrypt_lookup} onChange={this.handleCheck} />
-              <label className="custom-control-label" htmlFor="keyserverAutocryptLookup"><span>{l10n.map.keyserver_autocrypt_lookup}</span>. <a href="https://autocrypt.org" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+              <label className="custom-control-label" htmlFor="keyserverAutocryptLookup"><span>{l10n.map.keyserver_autocrypt_lookup}</span>. <a href="https://www.mailvelope.com/faq#autocrypt" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
             </div>
           </div>
           <div className="btn-bar">
