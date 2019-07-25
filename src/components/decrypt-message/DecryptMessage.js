@@ -187,16 +187,7 @@ export default class DecryptMessage extends React.Component {
       <SecurityBG className={`decrypt-msg ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
         <div className="modal d-block" style={{zIndex: 1035}}>
           <div ref={node => this.element = node} className="modal-dialog h-100 mw-100 m-0">
-            {!this.state.message ? (
-              <div className={`locked ${this.state.large ? 'large' : ''} modal-content overflow-hidden shadow-lg border-0 h-100 ${(!this.state.showError && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
-                <img src="../../img/Mailvelope/logo_signet.svg" />
-                {this.state.waiting ? (
-                  <Spinner />
-                ) : (
-                  <p className={this.state.showError ? 'text-muted' : ''}>{l10n.map.decrypt_show_message_btn}</p>
-                )}
-              </div>
-            ) : (
+            {(this.state.message || this.state.files.length) ? (
               <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
                 {this.state.files.length > 0 && (
                   <div className="modal-header border-0 flex-shrink-0">
@@ -220,6 +211,15 @@ export default class DecryptMessage extends React.Component {
                       </Alert>
                     </div>
                   </div>
+                )}
+              </div>
+            ) : (
+              <div className={`locked ${this.state.large ? 'large' : ''} modal-content overflow-hidden shadow-lg border-0 h-100 ${(!this.state.showError && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
+                <img src="../../img/Mailvelope/logo_signet.svg" />
+                {this.state.waiting ? (
+                  <Spinner />
+                ) : (
+                  <p className={this.state.showError ? 'text-muted' : ''}>{l10n.map.decrypt_show_message_btn}</p>
                 )}
               </div>
             )}
