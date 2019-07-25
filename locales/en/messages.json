@@ -1987,10 +1987,6 @@
     "description": "Error message in the waiting dialog after failing to decrypt a message",
     "message": "Decryption failed!"
   },
-  "waiting_dialog_prepare_email": {
-    "description": "Message in the waiting dialog for quoting email",
-    "message": "Preparing your message"
-  },
   "watchlist_command_create": {
     "description": "Create entry in watchlist.",
     "message": "Add new entry"

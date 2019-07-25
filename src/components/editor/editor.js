@@ -37,7 +37,6 @@ l10n.register([
   'editor_label_recipient',
   'editor_label_message',
   'editor_label_attachments',
-  'waiting_dialog_prepare_email',
   'upload_quota_warning_headline',
   'security_background_button_title',
   'editor_header',
@@ -59,7 +58,6 @@ export default class Editor extends React.Component {
       recipients: [],
       encryptDisabled: true,
       waiting: true,
-      processing: false,
       error: null,
       showError: false,
       pwdDialog: null,
@@ -146,11 +144,11 @@ export default class Editor extends React.Component {
   }
 
   showWaitingModal() {
-    this.setState({processing: true});
+    this.setState({waiting: true});
   }
 
   hideWaitingModal() {
-    this.setState({processing: false});
+    this.setState({waiting: false});
   }
 
   /**
@@ -338,55 +336,46 @@ export default class Editor extends React.Component {
         <div className="modal d-block">
           <div className="modal-dialog h-100 mw-100 m-0">
             <div className="modal-content shadow-lg overflow-auto border-0 h-100">
-              {this.state.processing ? (
-                <div className="modal-body d-flex flex-column align-content-center justify-content-center">
-                  <Spinner delay={0} style={{margin: '20px auto'}} />
-                  <p className="text-center">{l10n.map.waiting_dialog_prepare_email}&hellip;</p>
-                </div>
-              ) : (
-                <>
-                  <div className="modal-body p-4">
-                    <div className="editor d-flex flex-column align-content-center h-100">
-                      {!this.state.embedded &&
-                        <div className="mb-3">
-                          <label>{l10n.map.editor_label_recipient}</label>
-                          <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
-                            onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
-                            onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
-                          />
-                        </div>
-                      }
-                      <div className="editor-body d-flex flex-column flex-grow-1">
-                        <label>{l10n.map.editor_label_message}</label>
-                        <div className="flex-grow-1" style={{margin: '-0.2rem'}}>
-                          <div className="plain-text w-100 h-100 overflow-hidden">
-                            <PlainText defaultValue={this.state.defaultPlainText} onChange={value => this.handleTextChange(value)}
-                              onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      {this.state.embedded && (
-                        <div className="mt-3">
-                          <label>{l10n.map.editor_label_attachments}</label>
-                          <FileUpload files={this.state.files} onClickUpload={() => this.logUserInput('security_log_add_attachment')} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddAttachment(files)} />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {!this.state.embedded && (
-                    <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
-                      <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
-                        privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
-                        onCancel={() => this.handleCancel()}
-                        onSignOnly={() => this.handleSign()}
-                        onEncrypt={() => this.handleEncrypt()}
-                        onChangeSignKey={value => this.handleChangeSignKey(value)}
-                        onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
+              <div className="modal-body p-4">
+                <div className="editor d-flex flex-column align-content-center h-100">
+                  {!this.state.embedded &&
+                    <div className="mb-3">
+                      <label>{l10n.map.editor_label_recipient}</label>
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
+                        onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+                        onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
                       />
                     </div>
+                  }
+                  <div className="editor-body d-flex flex-column flex-grow-1">
+                    <label>{l10n.map.editor_label_message}</label>
+                    <div className="flex-grow-1" style={{margin: '-0.2rem'}}>
+                      <div className="plain-text w-100 h-100 overflow-hidden">
+                        <PlainText defaultValue={this.state.defaultPlainText} onChange={value => this.handleTextChange(value)}
+                          onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {this.state.embedded && (
+                    <div className="mt-3">
+                      <label>{l10n.map.editor_label_attachments}</label>
+                      <FileUpload files={this.state.files} onClickUpload={() => this.logUserInput('security_log_add_attachment')} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddAttachment(files)} />
+                    </div>
                   )}
-                </>
+                </div>
+              </div>
+              {!this.state.embedded && (
+                <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
+                  <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
+                    privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
+                    onCancel={() => this.handleCancel()}
+                    onSignOnly={() => this.handleSign()}
+                    onEncrypt={() => this.handleEncrypt()}
+                    onChangeSignKey={value => this.handleChangeSignKey(value)}
+                    onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
+                  />
+                </div>
               )}
             </div>
           </div>

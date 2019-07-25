@@ -1985,10 +1985,6 @@
     "description": "Error message in the waiting dialog after failing to decrypt a message",
     "message": "Entschlüsselung fehlgeschlagen!"
   },
-  "waiting_dialog_prepare_email": {
-    "description": "Message in the waiting dialog for quoting email",
-    "message": "Nachricht wird vorbereitet"
-  },
   "watchlist_command_create": {
     "description": "Create entry in watchlist.",
     "message": "Neuen Eintrag hinzufügen"
