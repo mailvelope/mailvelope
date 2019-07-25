@@ -35,7 +35,7 @@ sub.factory.register('editor',              EditorController,        []);
 sub.factory.register('editorCont',          EditorController,        ['editor']);
 sub.factory.register('syncHandler',         SyncController,          []);
 sub.factory.register('keyGenCont',          PrivateKeyController,    ['keyGenDialog']);
-sub.factory.register('keyBackupCont',       PrivateKeyController,    ['keyBackupDialog', 'backupCodeWindow']);
+sub.factory.register('keyBackupCont',       PrivateKeyController,    ['keyBackupDialog', 'backupCodeWindow', 'recoverySheet']);
 sub.factory.register('restoreBackupCont',   PrivateKeyController,    ['restoreBackupDialog']);
 sub.factory.register('app',                 AppController,           []);
 sub.factory.register('appCont',             AppController,           ['app']);

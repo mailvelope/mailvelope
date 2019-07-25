@@ -144,7 +144,7 @@ function verifyConnectPermission(type, sender) {
   }
   const {allowedSecondaryTypes} = factory.repo.get(type);
   if (!allowedSecondaryTypes.includes(sender.type)) {
-    throw new Error('View type not allowed to connect to controller.');
+    throw new Error(`View type ${sender.type} not allowed to connect to controller.`);
   }
 }
 
