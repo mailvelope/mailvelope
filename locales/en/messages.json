@@ -113,7 +113,7 @@
   },
   "decrypt_attachment_label": {
     "description": "Label for attachments in decrypted message",
-    "message": "Attachements"
+    "message": "Attachments"
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
@@ -165,7 +165,7 @@
   },
   "decrypt_text_decryption_btn": {
     "description": "Text decryption button label on decrypt page.",
-    "message": "Do you also want to decode a text?"
+    "message": "Do you also want to decrypt a text?"
   },
   "decrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
@@ -305,11 +305,11 @@
   },
   "encrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Encryption of file $1 not possible!"    
+    "message": "Encryption of file $1 not possible!"
   },
   "encrypt_frame_btn_label": {
     "description": "Text on expanded editor button of editable email area",
-    "message": "Write secure email" 
+    "message": "Write secure email"
   },
   "encrypt_header": {
     "description": "Header of file/text encrypt page.",
@@ -361,11 +361,11 @@
   },
   "feature_banner_new_security_background_text": {
     "description": "Text of feature banner for new security background.",
-    "message": "Make Mailvelope even more secure by personalizing your security background."    
+    "message": "Make Mailvelope even more secure by personalizing your security background."
   },
   "feature_banner_new_security_background_btn": {
     "description": "Button text of feature banner for new security background.",
-    "message": "Personalize now"    
+    "message": "Personalize now"
   },
   "file_invalid_signed": {
     "description": "Text of signer field of file element.",
@@ -538,7 +538,7 @@
   "import_frame_help_text": {
     "description": "Help text on import frame.",
     "message": "Click to import key!"
-  },  
+  },
   "install_landing_page_hint": {
     "description": "Install landing page getting started hint",
     "message": "Click here, to open the extension."
