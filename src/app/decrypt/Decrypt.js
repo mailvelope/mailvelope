@@ -12,7 +12,7 @@ import FileUpload from '../../components/util/FileUpload';
 import {GNUPG_KEYRING_ID, MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
 import * as fileLib from '../../lib/file';
 import {FileDownloadPanel} from '../../components/util/FilePanel';
-import {getHash, str2ab} from '../../lib/util';
+import {normalizeArmored, getHash, str2ab} from '../../lib/util';
 
 import './Decrypt.scss';
 
@@ -91,8 +91,9 @@ export default class Decrypt extends React.Component {
 
   async decryptMessage(message) {
     try {
+      const armored = normalizeArmored(message, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
       const {data: content, signatures, keyringId} = await port.send('decrypt-message', {
-        armored: message,
+        armored,
         keyringId: this.state.keyringId,
         uiLogSource: 'security_log_decrypt_ui'
       });
