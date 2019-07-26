@@ -179,19 +179,30 @@ function findPGPRanges() {
       treeWalker.currentNode.ownerDocument.designMode === 'on') {
       continue;
     }
-    const isPGPBegin = PGP_HEADER.test(treeWalker.currentNode.textContent);
+    const isPGPBegin = PGP_HEADER.exec(treeWalker.currentNode.textContent);
     if (isPGPBegin) {
       currPGPBegin = treeWalker.currentNode;
-      if (!PGP_FOOTER.test(treeWalker.currentNode.textContent)) {
+      const isPGPEnd = PGP_FOOTER.exec(treeWalker.currentNode.textContent);
+      if (!isPGPEnd || isPGPBegin.index > isPGPEnd.index) {
         continue;
       }
     }
-    if (currPGPBegin) {
+    if (currPGPBegin && getMessageType(currPGPBegin.textContent) === getMessageType(treeWalker.currentNode.textContent)) {
       const pgpEnd = treeWalker.currentNode;
       const range = pgpEnd.ownerDocument.createRange();
       range.setStartBefore(currPGPBegin);
       range.setEndAfter(pgpEnd);
-      rangeList.push(range);
+      const commonParentContainer = range.commonAncestorContainer;
+      let depth = 0;
+      let currParent = pgpEnd.parentElement;
+      while (currParent.parentElement && depth < 3) {
+        if (currParent === commonParentContainer) {
+          rangeList.push(range);
+          break;
+        }
+        currParent = currParent.parentElement;
+        depth ++;
+      }
     }
   }
   return rangeList;
@@ -199,7 +210,7 @@ function findPGPRanges() {
 
 function findEditable() {
   // find textareas and elements with contenteditable attribute, filter out <body>
-  let editable = Array.from(document.querySelectorAll('[contenteditable], textarea')).filter(isVisible).filter(element => element.tagName.toLowerCase() !== 'body');
+  let editable = Array.from(document.querySelectorAll('[contenteditable="true"], textarea')).filter(isVisible).filter(element => element.tagName.toLowerCase() !== 'body');
   const iframes = Array.from(document.getElementsByTagName('iframe')).filter(isVisible);
   const dynFrames = [];
   const origFrames = [];
@@ -218,12 +229,12 @@ function findEditable() {
     // mark body as 'inside iframe'
     .dataset[DYN_IFRAME] = true;
     // document of iframe in design mode or contenteditable set on the body
-    if (content.designMode === 'on' || content.querySelector('body[contenteditable]')) {
+    if (content.designMode === 'on' || content.querySelector('body[contenteditable="true"]')) {
       // add iframe to editable elements
       editable.push(dynFrame);
     } else {
       // editable elements inside iframe
-      const editblElem = Array.from(content.querySelectorAll('[contenteditable], textarea')).filter(isVisible);
+      const editblElem = Array.from(content.querySelectorAll('[contenteditable="true"], textarea')).filter(isVisible);
       editable.push(...editblElem);
     }
   }
@@ -236,7 +247,7 @@ function findEditable() {
     }
     try {
       const content = origFrame.contentDocument;
-      if (content.designMode === 'on' || content.querySelector('body[contenteditable]')) {
+      if (content.designMode === 'on' || content.querySelector('body[contenteditable="true"]')) {
         editable.push(origFrame);
       }
     } catch (e) {}
@@ -247,13 +258,15 @@ function findEditable() {
 }
 
 export function getMessageType(armored) {
-  if (/END\sPGP\sMESSAGE/.test(armored)) {
+  if (/(BEGIN|END)\sPGP\sMESSAGE/.test(armored)) {
     return PGP_MESSAGE;
+  } else if (/BEGIN\sPGP\sSIGNED\sMESSAGE/.test(armored)) {
+    return PGP_SIGNATURE;
   } else if (/END\sPGP\sSIGNATURE/.test(armored)) {
     return PGP_SIGNATURE;
-  } else if (/END\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
+  } else if (/(BEGIN|END)\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
     return PGP_PUBLIC_KEY;
-  } else if (/END\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
+  } else if (/(BEGIN|END)\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
     return PGP_PRIVATE_KEY;
   }
 }

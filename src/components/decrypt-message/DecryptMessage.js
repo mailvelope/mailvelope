@@ -190,7 +190,7 @@ export default class DecryptMessage extends React.Component {
             {(this.state.message || this.state.files.length) ? (
               <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
                 {this.state.files.length > 0 && (
-                  <div className="modal-header border-0 flex-shrink-0">
+                  <div className="modal-header flex-shrink-0">
                     <div className="files d-flex justify-content-start">
                       <FileDownloadPanel files={this.state.files} onClickFile={() => this.handleClickFile()} />
                     </div>

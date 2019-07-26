@@ -192,6 +192,10 @@ export default class EncryptFrame {
       this.emailTextElement.value = msg;
     } else {
       // element is contenteditable or RTE
+      // clear element first
+      while (this.emailTextElement.firstChild) {
+        this.emailTextElement.removeChild(this.emailTextElement.firstChild);
+      }
       msg = `<pre>${encodeHTML(msg)}</pre>`;
       this.emailTextElement.append(parseHTML(msg));
     }

@@ -53,9 +53,6 @@ export default class VerifyFrame extends ExtractFrame {
     this.eFrame.append(para);
     this.eFrame.classList.add('m-verify');
     this.eFrame.classList.remove('m-large');
-    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
-      this.inlineDialog();
-    }
   }
 
   registerEventListener() {
@@ -68,6 +65,13 @@ export default class VerifyFrame extends ExtractFrame {
     super.clickHandler(undefined, ev);
     if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
+    }
+  }
+
+  onShow() {
+    super.onShow();
+    if (prefs.security.display_decrypted == DISPLAY_INLINE && !this.vDialog) {
+      this.inlineDialog();
     }
   }
 

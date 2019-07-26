@@ -275,6 +275,9 @@ class Outlook {
       }
       setTimeout(() => {
         const senderElement = emailArea.querySelector('.item-header-actions > div .lpc-hoverTarget div span');
+        if (!senderElement) {
+          resolve([]);
+        }
         resolve(getText([senderElement]));
       }, 500);
     });

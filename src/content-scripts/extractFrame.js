@@ -77,13 +77,11 @@ export default class ExtractFrame {
     window.addEventListener('resize', this.setFrameDim);
     this.domIntersectionObserver = new IntersectionObserver(entries => {
       for (const entry of entries) {
-        if (entry.intersectionRatio > 0) {
-          this.setFrameDim();
-          this.eFrame.classList.remove('m-show');
-          this.eFrame.classList.add('m-show');
+        if (entry.intersectionRatio > 0  && entry.boundingClientRect.height > 72) {
+          this.onShow();
         }
       }
-    }, {root: this.pgpElement.parentNode});
+    }, {root: null});
     this.domIntersectionObserver.observe(this.pgpElement);
   }
 
@@ -100,6 +98,12 @@ export default class ExtractFrame {
     if (ev) {
       ev.stopPropagation();
     }
+  }
+
+  onShow() {
+    this.setFrameDim();
+    this.eFrame.classList.remove('m-show');
+    this.eFrame.classList.add('m-show');
   }
 
   closeFrame(finalClose, ev) {

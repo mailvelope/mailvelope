@@ -31,9 +31,6 @@ export default class DecryptFrame extends ExtractFrame {
     para.textContent = l10n.map.decrypt_frame_help_text;
     this.eFrame.append(para);
     this.eFrame.classList.add('m-decrypt');
-    if (prefs.security.display_decrypted == DISPLAY_INLINE) {
-      this.inlineDialog();
-    }
   }
 
   registerEventListener() {
@@ -57,6 +54,13 @@ export default class DecryptFrame extends ExtractFrame {
     super.clickHandler(undefined, ev);
     if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
+    }
+  }
+
+  onShow() {
+    super.onShow();
+    if (prefs.security.display_decrypted == DISPLAY_INLINE && !this.dDialog) {
+      this.inlineDialog();
     }
   }
 
