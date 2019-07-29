@@ -70,13 +70,13 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
 }
 
 /**
- * Add signing key details to signature. Only if fingerprint is available.
+ * Add signing key details to signature.
  * @param {Object} signature
  * @param {KeyringBase} keyring
  */
 async function addSigningKeyDetails(signature, keyring) {
-  if (signature.valid !== null && signature.fingerprint) {
-    const signingKey = keyring.keystore.getKeysForId(signature.fingerprint, true);
+  if (signature.valid !== null) {
+    const signingKey = keyring.keystore.getKeysForId(signature.fingerprint || signature.keyId, true);
     if (!signingKey) {
       return;
     }
