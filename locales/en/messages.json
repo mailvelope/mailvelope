@@ -65,7 +65,7 @@
   },
   "action_menu_setup_start_label": {
     "description": "Start button label",
-    "message": "Let's start"
+    "message": "Let's start!"
   },
   "alert_header_error": {
     "description": "Alert header of category error.",
@@ -129,7 +129,7 @@
   },
   "decrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Decryption of file $1 not possible!"
+    "message": "Decryption of file $1 is not possible!"
   },
   "decrypt_frame_help_text": {
     "description": "Help text on decrypt frame.",
@@ -169,7 +169,7 @@
   },
   "decrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Decryption of the text not possible!"
+    "message": "Decryption of the text is not possible!"
   },
   "dialog_cancel_btn": {
     "description": "Dialog cancel button label",
@@ -305,7 +305,7 @@
   },
   "encrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Encryption of file $1 not possible!"
+    "message": "Encryption of file $1 is not possible!"
   },
   "encrypt_frame_btn_label": {
     "description": "Text on expanded editor button of editable email area",
@@ -345,7 +345,7 @@
   },
   "encrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Encryption of the text not possible!"
+    "message": "Encryption of the text is not possible!"
   },
   "encrypt_upload_file_warning_too_big": {
     "description": ".",
@@ -1161,7 +1161,7 @@
   },
   "keyring_confirm_deletion": {
     "description": "Confirmation message prompted when a keyring is deleted",
-    "message": "Do you want to remove the keyring with ID: $1?"
+    "message": "Do you want to delete the keyring with ID: $1?"
   },
   "keyring_confirm_keys": {
     "description": "Tab of keyring to import keys.",
@@ -1217,7 +1217,7 @@
   },
   "keyring_remove_dialog_title": {
     "description": "Title of delete keyring dialog.",
-    "message": "Remove keyring"
+    "message": "Delete keyring"
   },
   "keyring_setup": {
     "description": "Setup keyring for mail provider.",
@@ -1429,7 +1429,7 @@
   },
   "recovery_sheet_backup_server": {
     "description": "",
-    "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope."
+    "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner."
   },
   "recovery_sheet_be_aware": {
     "description": "Label",

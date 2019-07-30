@@ -65,7 +65,7 @@
   },
   "action_menu_setup_start_label": {
     "description": "Start button label",
-    "message": "Los geht's"
+    "message": "Los geht's!"
   },
   "alert_header_error": {
     "description": "Alert header of category error.",
@@ -129,7 +129,7 @@
   },
   "decrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Entschlüsselung der Datei $1 nicht möglich!"
+    "message": "Entschlüsselung der Datei $1 ist nicht möglich!"
   },
   "decrypt_frame_help_text": {
     "description": "Help text on decrypt frame.",
@@ -169,7 +169,7 @@
   },
   "decrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Entschlüsselung des Textes nicht möglich!"
+    "message": "Entschlüsselung des Textes ist nicht möglich!"
   },
   "dialog_cancel_btn": {
     "description": "Dialog cancel button label",
@@ -305,11 +305,11 @@
   },
   "encrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Verschlüsselung der Datei $1 nicht möglich!"
+    "message": "Verschlüsselung der Datei $1 ist nicht möglich!"
   },
   "encrypt_frame_btn_label": {
     "description": "Text on expanded editor button of editable email area",
-    "message": "Sichere Email schreiben" 
+    "message": "Sichere Email schreiben"
   },
   "encrypt_header": {
     "description": "Header of file/text encrypt page.",
@@ -345,7 +345,7 @@
   },
   "encrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Verschlüsselung des Textes nicht möglich!"
+    "message": "Verschlüsselung des Textes ist nicht möglich!"
   },
   "encrypt_upload_file_warning_too_big": {
     "description": ".",
@@ -361,11 +361,11 @@
   },
   "feature_banner_new_security_background_text": {
     "description": "Text of feature banner for new security background.",
-    "message": "Machen Sie Mailvelope noch sicherer, indem Sie ihren Sicherheitshintergrund personalisieren."    
+    "message": "Machen Sie Mailvelope noch sicherer, indem Sie ihren Sicherheitshintergrund personalisieren."
   },
   "feature_banner_new_security_background_btn": {
     "description": "Button text of feature banner for new security background.",
-    "message": "Jetzt personalisieren"    
+    "message": "Jetzt personalisieren"
   },
   "file_invalid_signed": {
     "description": "Text of signer field of file element.",
@@ -538,7 +538,7 @@
   "import_frame_help_text": {
     "description": "Help text on import frame.",
     "message": "Zum Importieren des Schlüssels hier klicken!"
-  },  
+  },
   "install_landing_page_hint": {
     "description": "Install landing page getting started hint",
     "message": "Hier klicken, um die Erweiterung zu öffnen."
