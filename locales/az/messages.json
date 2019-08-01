@@ -1,4 +1,76 @@
 {
+    "action_menu_activate_current_tab": {
+        "message": "Authorize this domain",
+        "description": "Activate on current tab shortcut in the action menu"
+    },
+    "action_menu_all_options": {
+        "message": "Bütün seçimlər",
+        "description": "All options link in the action menu"
+    },
+    "action_menu_configure_mailvelope": {
+        "message": "<0>Başlamaq üçün Mailvelop-u</0>quraşdır!",
+        "description": "Configure Mailvelope label in the action menu"
+    },
+    "action_menu_dashboard_description": {
+        "message": "Display all configuration options.",
+        "description": "Dashboard description in the action menu"
+    },
+    "action_menu_dashboard_label": {
+        "message": "İdarəçi paneli",
+        "description": "Dashboard label in the action menu"
+    },
+    "action_menu_file_encryption_description": {
+        "message": "Encrypt one or multiple files.",
+        "description": "File encryption description in the action menu"
+    },
+    "action_menu_file_encryption_label": {
+        "message": "File encryption",
+        "description": "File encryption label in the action menu"
+    },
+    "action_menu_help": {
+        "message": "Yardım",
+        "description": "Online help shortcut."
+    },
+    "action_menu_keyring_description": {
+        "message": "Manage public and private keys.",
+        "description": "Keyring description in the action menu"
+    },
+    "action_menu_keyring_label": {
+        "message": "Keyring",
+        "description": "Keyring label in the action menu"
+    },
+    "action_menu_primary_menu_aria_label": {
+        "message": "Mailvelope əsas menyusu",
+        "description": "Accessibility, aria label of the primary menu"
+    },
+    "action_menu_reload_extension_scripts": {
+        "message": "Reload Mailvelope",
+        "description": "Reload extension scripts shortcut in the action menu"
+    },
+    "action_menu_review_security_logs_description": {
+        "message": "Review security relevant user actions.",
+        "description": "Review security logs description in the action menu"
+    },
+    "action_menu_review_security_logs_label": {
+        "message": "Security log",
+        "description": "Review security logs label in the action menu"
+    },
+    "action_menu_setup_menu_aria_label": {
+        "message": "Mailvelope quraşdırma menyusu",
+        "description": "Accessibility, aria label of the setup menu"
+    },
+    "action_menu_setup_new_bg_description": {
+        "message": "The last update of Mailvelope requires you to reconfigure your security background.",
+        "description": "Configure new security bg description text in the action menu"
+    },
+    "action_menu_setup_start_label": {
+        "message": "Let's start!",
+        "description": "Start button label"
+    },
+    "alert_header_error": {
+        "message": "Xəta!",
+        "description": "Alert header of category error."
+    },
     "alert_header_success": {
         "message": "Uğurlu!",
         "description": "Alert header of category success."
@@ -23,84 +95,12 @@
         "message": "Açıq mətni oxumaq alınmadı:$1",
         "description": "Cleartext message read error message: $1: error message."
     },
-    "action_menu_activate_current_tab": {
-        "message": "Mövcud bölümdə aktivləşdir",
-        "description": "Activate on current tab shortcut in the action menu"
-    },
-    "action_menu_advanced_menu_aria_label": {
-        "message": "Mailvelope təkmilləşdirilmiş menyusu",
-        "description": "Accessibility, aria label of the advanced menu"
-    },
-    "action_menu_advanced_options": {
-        "message": "Təkmilləşdirilmiş Seçimlər",
-        "description": "Advanced options link in the action menu"
-    },
-    "action_menu_all_options": {
-        "message": "Bütün seçimlər",
-        "description": "All options link in the action menu"
-    },
-    "action_menu_back": {
-        "message": "Geri",
-        "description": "Back link in the action menu"
-    },
-    "action_menu_configure_mailvelope": {
-        "message": "<0>Başlamaq üçün Mailvelop-u</0>quraşdır!",
-        "description": "Configure Mailvelope label in the action menu"
-    },
-    "action_menu_dashboard": {
-        "message": "<0>İdarəçi paneli: </0>bütün quraşdırma seçimlərini gözdən keçir.",
-        "description": "Dashboard label in the action menu"
-    },
-    "action_menu_edit_security_settings": {
-        "message": "Təhlükəsizlik qurğularını dəyiş",
-        "description": "Edit security settings shortcut in the action menu"
-    },
-    "action_menu_file_encryption": {
-        "message": "<0>Fayl şifrələmə: </0> bir və ya daha çox faylı şifrələ ",
-        "description": "File encryption label in the action menu"
-    },
-    "action_menu_keyring": {
-        "message": "<0>Açar üzüyü: </0>ictimai və məxfi açarları idarə et.",
-        "description": "Keyring label in the action menu"
-    },
-    "action_menu_manage_domains": {
-        "message": "Təsdiq edilmiş domenləri idarə edin",
-        "description": "Manage domains shortcut in the action menu"
-    },
-    "action_menu_more_options": {
-        "message": "Daha çox seçim",
-        "description": "More options link in the action menu (setup state)"
-    },
-    "action_menu_help": {
-        "message": "Yardım",
-        "description": "Online help shortcut."
-    },
-    "action_menu_primary_menu_aria_label": {
-        "message": "Mailvelope əsas menyusu",
-        "description": "Accessibility, aria label of the primary menu"
-    },
-    "action_menu_reload_extension_scripts": {
-        "message": "Genişlənmə kodlarını yenidən yüklə",
-        "description": "Reload extension scripts shortcut in the action menu"
-    },
-    "action_menu_review_security_logs": {
-        "message": "Təhlükəsizlik girişlərinə baxış",
-        "description": "Review security logs shortcut in the action menu"
-    },
-    "action_menu_setup_menu_aria_label": {
-        "message": "Mailvelope quraşdırma menyusu",
-        "description": "Accessibility, aria label of the setup menu"
-    },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Faylları şifrələ və deŞifrələ",
+        "message": "Şifrələmə",
         "description": "Dashboard encrypt decrypt files link"
     },
-    "dashboard_link_help": {
-        "message": "Yardım",
-        "description": "Dashboard help link"
-    },
     "dashboard_link_manage_domains": {
-        "message": "Təsdiq edilmiş domenləri idarə edin",
+        "message": "Authorized domains",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
@@ -108,12 +108,12 @@
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Təhlükəsizilik girişlərinə bax",
+        "message": "Security logs",
         "description": "Dashboard view security logs link"
     },
-    "dashboard_title": {
-        "message": "İdarəçi paneli",
-        "description": "Dashboard view header"
+    "decrypt_attachment_label": {
+        "message": "Qoşmalar",
+        "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
         "message": "Digitally signed",
@@ -127,25 +127,69 @@
         "message": "Rəqəmsal imza müəyyən edilə bilmədi",
         "description": "Caption digital signature"
     },
-    "decrypt_popup_copy": {
-        "message": "Mübadilə Buferinə kopyala",
-        "description": "Copy decrypted message to clipboard."
+    "decrypt_file_error_header": {
+        "message": "Decryption of file $1 is not possible!",
+        "description": "Header of file decryption error on decrypt result page."
     },
-    "decrypt_popup_header": {
-        "message": "İsmarıc",
-        "description": "Header of decrypt popup."
+    "decrypt_frame_help_text": {
+        "message": "Click to decrypt!",
+        "description": "Help text on decrypt frame."
     },
-    "decrypt_popup_title": {
-        "message": "DeŞifrələnmiş İsmarıc",
-        "description": "Title of decrypt popup."
+    "decrypt_header": {
+        "message": "Decrypt data",
+        "description": "Header of file/text decrypt page."
     },
-    "dialog_keyid_label": {
-        "message": "Açar sayı:",
-        "description": "Label for key ID."
+    "decrypt_header_success": {
+        "message": "Decryption successful",
+        "description": "Header of file/text decrypt result page."
+    },
+    "decrypt_home": {
+        "message": "DeŞifrələ",
+        "description": "File/text decrypting navigation: Home."
+    },
+    "decrypt_open_viewer_btn_title": {
+        "message": "Open in Mailvelope viewer",
+        "description": "Title of open message viewer icon button."
+    },
+    "decrypt_show_message_btn": {
+        "message": "Show message",
+        "description": "Show messsage button label in decrypt message."
+    },
+    "decrypt_signer_label": {
+        "message": "Sender",
+        "description": "Label for signature line in decrypted message"
+    },
+    "decrypt_text_area_label": {
+        "message": "Text to decrypt",
+        "description": "Label of textarea to paste armored block in on decrypt page."
+    },
+    "decrypt_text_decryption_btn": {
+        "message": "Do you also want to decrypt a text?",
+        "description": "Text decryption button label on decrypt page."
+    },
+    "decrypt_text_error_header": {
+        "message": "Decryption of the text is not possible!",
+        "description": "Header of text decryption error on decrypt result page."
+    },
+    "dialog_cancel_btn": {
+        "message": "Ləğv et",
+        "description": "Dialog cancel button label"
+    },
+    "dialog_no_btn": {
+        "message": "Xeyr",
+        "description": "Dialog no button label"
     },
     "dialog_popup_close": {
         "message": "Bağla",
         "description": "Close decrypt popup."
+    },
+    "dialog_save_btn": {
+        "message": "Yadda saxla",
+        "description": "Dialog save button label"
+    },
+    "dialog_yes_btn": {
+        "message": "Bəli",
+        "description": "Dialog yes button label"
     },
     "digital_signature_status_false": {
         "message": "Yanlış imza",
@@ -176,8 +220,28 @@
         "description": ""
     },
     "editor_header": {
-        "message": "Email yaz",
+        "message": "Compose Secure Email",
         "description": "Header of editor popup."
+    },
+    "editor_key_not_found": {
+        "message": "Açar tapılmadı!",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "editor_key_not_found_msg": {
+        "message": "Bütün qəbuledicilərin şifrələmək üçün PGP açarına ehtiyacı var. İsmarıcı istənilən halda imzalaya bilərsən.",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "editor_label_attachments": {
+        "message": "Qoşmalar",
+        "description": "Label for attachments select/drop area."
+    },
+    "editor_label_message": {
+        "message": "İsmarıc",
+        "description": "Label for message textarea."
+    },
+    "editor_label_recipient": {
+        "message": "Qəbul edən",
+        "description": "Label for recipient input."
     },
     "editor_link_file_encryption": {
         "message": "Faylları şifrələ",
@@ -211,65 +275,81 @@
         "message": "Ötür",
         "description": "Transfer button of editor popup."
     },
-    "editor_label_add_recipient": {
-        "message": "Qəbuledicini əlavə et",
-        "description": "Label for recipient text input."
+    "encrypt_change_signer_dialog_signer_label": {
+        "message": "Select signature",
+        "description": "Label for signer select of change signer dialog."
     },
-    "editor_key_not_found": {
-        "message": "Açar tapılmadı!",
-        "description": "Warning for when a recipient key was not found."
-    },
-    "editor_key_not_found_msg": {
-        "message": "Bütün qəbuledicilərin şifrələmək üçün PGP açarına ehtiyacı var. İsmarıcı istənilən halda imzalaya bilərsən.",
-        "description": "Warning for when a recipient key was not found."
-    },
-    "encrypt_dialog_add": {
-        "message": "Əlavə et",
-        "description": "Max 6 character."
-    },
-    "encrypt_dialog_header": {
-        "message": "Şifrələ:",
-        "description": "Header of encrypt dialog."
+    "encrypt_change_signer_dialog_title": {
+        "message": "Change signature",
+        "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
         "message": "Qəbuledicini əlavə et.",
         "description": "Error message if no recipient selected."
     },
-    "encrypt_dialog_subheader": {
-        "message": "İnsanlar:",
-        "description": "Subheader of encrypt dialog."
-    },
     "encrypt_download_all_button": {
-        "message": "Hamısını saxla",
+        "message": "Download all",
         "description": "Button to download all files"
     },
-    "encrypt_download_file_button": {
-        "message": "Faylı yadda saxlamaq üçün kliklə",
-        "description": "Download icon"
+    "encrypt_encrypted_files_label": {
+        "message": "Encrypted files",
+        "description": "Encrypted files label on encrypt success page."
     },
-    "encrypt_download_file_title": {
-        "message": "Faylları saxla",
-        "description": "Title of download area"
+    "encrypt_encrypted_for_label": {
+        "message": "Encrypted for",
+        "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
         "message": "İsmarışı şifrələmək alınmadı: $1",
         "description": "Error during encryption process."
     },
-    "encrypt_file_selection": {
-        "message": "Fayl seçimi",
-        "description": "File upload selection"
+    "encrypt_file_error_header": {
+        "message": "Encryption of file $1 is not possible!",
+        "description": "Header of file decryption error on decrypt result page."
     },
-    "encrypt_upload_file_help": {
-        "message": "Faylların heç biri # # MB-dan böyük ola bilməz.",
-        "description": "Help text"
+    "encrypt_frame_btn_label": {
+        "message": "Write secure email",
+        "description": "Text on expanded editor button of editable email area"
+    },
+    "encrypt_header": {
+        "message": "Encrypt data",
+        "description": "Header of file/text encrypt page."
+    },
+    "encrypt_header_success": {
+        "message": "Encryption successful",
+        "description": "Header of file/text encrypt result page."
+    },
+    "encrypt_home": {
+        "message": "Şifrələ",
+        "description": "File/text encrypting navigation: Home."
+    },
+    "encrypt_no_signer_info": {
+        "message": "Encrypted data is not signed",
+        "description": "No signer info text on encrypt page."
+    },
+    "encrypt_remove_signer_btn": {
+        "message": "Remove signature",
+        "description": "Remove signer button label on encrypt page."
+    },
+    "encrypt_signed_as_label": {
+        "message": "Tərəfindən imzalanıb",
+        "description": "Signed as label on encrypt success page."
+    },
+    "encrypt_signer_info": {
+        "message": "Encrypted data is signed with your key ($1)",
+        "description": "Signer info text on encrypt page."
+    },
+    "encrypt_text_encryption_btn": {
+        "message": "Do you also want to encrypt a text?",
+        "description": "Text encryption button label on encrypt page."
+    },
+    "encrypt_text_error_header": {
+        "message": "Encryption of the text is not possible!",
+        "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
         "message": "Fayllardan biri çox böyükdür.",
         "description": "."
-    },
-    "encrypting_home": {
-        "message": "Şifrələmə",
-        "description": "File encryption top navigation."
     },
     "ext_description": {
         "message": "Email təqdimatçısını ikitərəfli şifrələmə ilə genişləndir. OpenPGP standartına dayanan email ünsiyyətinin təhlükəsizliyini təmin et.",
@@ -279,21 +359,29 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "file_decrypting": {
-        "message": "Faylın deŞifrələnməsi",
-        "description": ""
+    "feature_banner_new_security_background_text": {
+        "message": "Make Mailvelope even more secure by personalizing your security background.",
+        "description": "Text of feature banner for new security background."
     },
-    "file_encrypt_armored_output": {
-        "message": "Mətn formatında (ASCII-Armor) fayla şifrələmək",
-        "description": ""
+    "feature_banner_new_security_background_btn": {
+        "message": "Personalize now",
+        "description": "Button text of feature banner for new security background."
     },
-    "file_encrypting": {
-        "message": "Faylın şifrələnməsi",
-        "description": ""
+    "file_invalid_signed": {
+        "message": "Signature is invalid",
+        "description": "Text of signer field of file element."
+    },
+    "file_not_signed": {
+        "message": "File not signed",
+        "description": "Text of signer field of file element."
     },
     "file_read_error": {
         "message": "Bu faylı deŞifrələmək olmadı: $1",
         "description": ""
+    },
+    "file_signed": {
+        "message": "File signed by $1",
+        "description": "Text of signer field of file element."
     },
     "form_back": {
         "message": "Geri",
@@ -339,10 +427,6 @@
         "message": "Şifrələnmiş məlumatlar səhifəyə qaytarılacaq.",
         "description": "Behavior when no action is specified in form"
     },
-    "form_sign_error_no_default_key": {
-        "message": "Formanın tərkibini imzalamaq üçün fərdi açar mövcud deyildir. Yenisini yaratmaq üçün, lütfən daxil et.",
-        "description": "Error message when trying to sign and no primary key is found"
-    },
     "form_forward": {
         "message": "Yönləndir",
         "description": "Forward form button."
@@ -375,6 +459,10 @@
         "message": "Saxla",
         "description": "Save form button."
     },
+    "form_sign_error_no_default_key": {
+        "message": "Formanın tərkibini imzalamaq üçün fərdi açar mövcud deyildir. Yenisini yaratmaq üçün, lütfən daxil et.",
+        "description": "Error message when trying to sign and no primary key is found"
+    },
     "form_submit": {
         "message": "Göndər",
         "description": "Submit form button."
@@ -386,6 +474,22 @@
     "form_yes": {
         "message": "Bəli",
         "description": "Yes form button."
+    },
+    "general_default_key_always": {
+        "message": "Hər zaman mənim başlanğıc açarımı qəbul edənlərin siyahısına əlavə et. (Bu sənə imkan verir ki, göndərilən emailləri deşifrələyə biləsən)",
+        "description": "Label for default private key option."
+    },
+    "general_default_key_auto_sign": {
+        "message": "Would you like to sign all your emails?",
+        "description": "Label for default private key option."
+    },
+    "general_default_key_auto_sign_link": {
+        "message": "Change settings here",
+        "description": "Test for auto sign link."
+    },
+    "general_default_key_no_sign_option": {
+        "message": "Not signed",
+        "description": "Label for not sign option in sign key select."
     },
     "general_gnupg_check_availability": {
         "message": "Mövcudluğu yoxlamağa icazə verin",
@@ -419,14 +523,6 @@
         "message": "Qeyd: ictimai açarlar mövcud açar halqaları arasında sinxronlaşdırılır. Fərdi açarların mövcudluğundan asılı olaraq Mailvelope üstün şifrələmə kataloq parametrlərini yenidən təyin edə bilər.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
-    "general_default_key_always": {
-        "message": "Hər zaman mənim başlanğıc açarımı qəbul edənlərin siyahısına əlavə et. (Bu sənə imkan verir ki, göndərilən emailləri deşifrələyə biləsən)",
-        "description": "Label for default private key option."
-    },
-    "general_default_key_auto_sign": {
-        "message": "Bütün ismarıcları standart açarla imzala",
-        "description": "Label for default private key option."
-    },
     "gnupg_connection": {
         "message": "GnuPG bağlantı",
         "description": "Header that shows that GnuPG is available on the system."
@@ -439,49 +535,53 @@
         "message": "Xəbərdarlıq!",
         "description": "Header warning."
     },
-    "install_landing_page_getting_started": {
-        "message": "Quraşdırma ilə başlamaq üçün brauzerinin alətlər panelində Mailvelope işarəsini <0></0> kliklə. ",
-        "description": "Install landing page getting started message"
+    "import_frame_help_text": {
+        "message": "Click to import key!",
+        "description": "Help text on import frame."
     },
-    "install_landing_page_help": {
-        "message": "Daha ətraflı məlumat üçün <0>onlayn yardıma</0> göz at.",
-        "description": "Install landing page help message"
+    "install_landing_page_hint": {
+        "message": "Click here, to open the extension.",
+        "description": "Install landing page getting started hint"
     },
-    "install_landing_page_welcome": {
-        "message": "Mailvelope-a xoş gəldin!",
-        "description": "Install landing page welcome message"
+    "invalid_default_key": {
+        "message": "Açar şifrələmə və imzalanma əməliyyatları üçün etibarlı deyil",
+        "description": "Tootip for set as default key button"
     },
-    "keyserver_hkp_url": {
-        "message": "HKP açar severi",
-        "description": "HKP key server option: url."
+    "key_default_active_btn_title": {
+        "message": "Bu açar başlanğıc açar kimi təyin edilib",
+        "description": "Title for active default key button"
     },
-    "keyserver_additionals_label": {
-        "message": "Əlavə açar mənbələri",
-        "description": "Label for configuration of additional key sources"
+    "key_default_disabled_btn_title": {
+        "message": "Açar xətalıdır və başlanğıc açar kimi təyin edilə bilməz",
+        "description": "Title for disabled (invalid) default key button"
     },
-    "keyserver_tofu_lookup": {
-        "message": "Mailvelope açar serveri istifadə edin",
-        "description": "Enable Mailvelope Key Server Auto Lookup"
+    "key_default_inactive_btn_title": {
+        "message": "Başlanğıc açar kimi təyin et",
+        "description": "Title for inactive default key button"
     },
-    "keyserver_wkd_lookup": {
-        "message": "Query keys from the recipients email provider (Web Key Directory)",
-        "description": "Enable Web Key Directory Auto Lookup"
+    "key_export_btn": {
+        "message": "İxrac",
+        "description": "Export key button label"
     },
-    "keyserver_autocrypt_lookup": {
-        "message": "Gələn emailin Avtokript başlığından açarları istifadə et",
-        "description": "Enable Looking Up Keys Via Autocrypt"
-    },
-    "keyserver_url_warning": {
-        "message": "Açar serverinin URL-i aşağıdakı formata malik olmalıdır: http(s)://keys.example.com",
-        "description": "HKP key server url warning."
-    },
-    "keyserver_url_error": {
-        "message": "Açar serverinə daxil olmaq mümkün deyil",
-        "description": "HKP key server URL error."
+    "key_export_btn_title": {
+        "message": "Açarı ixrac et",
+        "description": "Title for export key button"
     },
     "key_export_create_file": {
         "message": "Saxla",
         "description": "Download file button."
+    },
+    "key_export_dialog_copy_to_clipboard": {
+        "message": "Mübadilə Buferinə kopyala",
+        "description": "Copy to clipboard button label."
+    },
+    "key_export_dialog_question": {
+        "message": "İxrac etmək istədiyin açar hansıdır?",
+        "description": "Question in export private key dialog."
+    },
+    "key_export_dialog_title": {
+        "message": "Açarı ixrac et",
+        "description": "Title of export key dialog."
     },
     "key_export_filename": {
         "message": "Faylın adı",
@@ -563,6 +663,10 @@
         "message": "Yeni açar yaradıldı və açar üzüyünə idxal edildi.",
         "description": "Key generation success message"
     },
+    "key_gen_upload": {
+        "message": "İctimai açarı Mailvelope Açar Serverinə yüklə (istənilən vaxt silinəcə bilər)",
+        "description": "Upload key to Mailvelope key server checkbox"
+    },
     "key_gen_wait_header": {
         "message": "Açar yaradılması davam edir...",
         "description": "Wait dialog header"
@@ -571,20 +675,20 @@
         "message": "Lütfən gözləyin, açar yaradılması açarın ölçüsü kimi müxtəlif amillərdən asılı olaraq bir qədər vaxt ala bilər.",
         "description": "Wait dialog info message"
     },
-    "key_gen_upload": {
-        "message": "İctimai açarı Mailvelope Açar Serverinə yüklə (istənilən vaxt silinəcə bilər)",
-        "description": "Upload key to Mailvelope key server checkbox"
+    "key_import_bulk_success": {
+        "message": "Keys successfully imported/updated!",
+        "description": "Import success message for more than 5 keys"
     },
-    "learn_more_link": {
-        "message": "Daha ətraflı",
-        "description": "Text of a link to a learn-more resource"
+    "key_import_contacts_import_btn": {
+        "message": "Import contacts",
+        "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Qəbuledici ilə şifrəli ünsiyyəti aktivləşdirmək üçün təsdiqlə. ",
+        "message": "Confirm to enable encrypted communication with this recipient:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "Əlaqə şifrələnmiş ünsiyyətə əlavə olunsun?",
+        "message": "Confirm key",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
@@ -595,45 +699,29 @@
         "message": "İdxal xətası.",
         "description": "Import error alert."
     },
+    "key_import_error_no_uid": {
+        "message": "No valid user ID found in key $1",
+        "description": "Import error no user id found."
+    },
+    "key_import_error_parse": {
+        "message": "Error reading armored PGP key: $1",
+        "description": "Import parse error."
+    },
     "key_import_exception": {
         "message": "Açarları işləyərkən xəta baş verdi ",
         "description": "Import error alert."
     },
-    "key_import_extend_date": {
-        "message": "Yaradılıb:",
-        "description": ""
-    },
-    "key_import_extend_description": {
-        "message": "PGP barmaq izi əlaqənin PGP açarını unikal şəkildə müəyyən etmək üçün istifadə olunur.",
-        "description": "Key import dialog description."
-    },
-    "key_import_extend_fingerprint": {
-        "message": "PGP Barmaq izi:",
-        "description": ""
-    },
-    "key_import_extend_headline": {
-        "message": "Şifrələnmiş ünsiyyət haqqında əlavə məlumat:",
-        "description": "Key import dialog description."
-    },
-    "key_import_extend_hint": {
-        "message": "İşarə:",
-        "description": ""
-    },
-    "key_import_file": {
-        "message": "Açarı fayldan idxal et",
+    "key_import_file_label": {
+        "message": "Select files",
         "description": "File selection label."
     },
-    "key_import_file_select": {
-        "message": "İdxal etmək üçün açar mətn faylını seç ",
-        "description": "File selection button label."
+    "key_import_from_text_btn": {
+        "message": "Import key from clipboard",
+        "description": "Import keys from clipboard button label on key import page."
     },
-    "key_import_hkp_search": {
-        "message": "Açar axtarışı",
-        "description": ""
-    },
-    "key_import_hkp_search_public": {
-        "message": "Açar serverində ictimai açarları axtar.",
-        "description": ""
+    "key_import_from_text_label": {
+        "message": "Text from clipboard",
+        "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_hkp_search_btn": {
         "message": "Axtar",
@@ -641,6 +729,10 @@
     },
     "key_import_hkp_search_ph": {
         "message": "Ad, email ünvan və ya açar İD-sinə görə",
+        "description": ""
+    },
+    "key_import_hkp_search_public": {
+        "message": "Açar serverində ictimai açarları axtar.",
         "description": ""
     },
     "key_import_hkp_server": {
@@ -652,19 +744,15 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": " [CONTACT] ilə şifrəli ünsiyyət artıq mümkün deyil. Əlaqə yenidən dəvət etməlidir.",
+        "message": "Warning: Necessary data for encrypted communication has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you.",
         "description": ""
     },
-    "key_import_invalidated_headline": {
-        "message": "Diqqət: Şifrələnmiş ünsiyyət üçün zəruri məlumatların müddəti başa çatdı.  ",
-        "description": "Key import dialog header."
-    },
-    "key_import_multiple_keys": {
-        "message": "Mətn formatında bir və ya bir neçə açarı burada daxil et.",
-        "description": "Info message."
-    },
     "key_import_number_of_failed": {
-        "message": "Xəta səbəbilə daxil edilə bilməyən açar sayı: $1",
+        "message": "A key could not be imported due to errors.",
+        "description": "Error message with number of failed imports."
+    },
+    "key_import_number_of_failed_plural": {
+        "message": "$1 keys could not be imported due to errors.",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
@@ -697,7 +785,7 @@
     },
     "key_import_textarea": {
         "message": "Açarı mətn kimi idxal et",
-        "description": "Label"
+        "description": "Key import box."
     },
     "key_import_too_big": {
         "message": "İdxal etməyə çalışdığın açar mətni işlənmək üçün çox uzundur. Bunu kiçik hissələrdə etməyə çalış. ",
@@ -707,54 +795,6 @@
         "message": "Açarı istisna səbəbiylə idxal etmək mümkün olmadı: $1",
         "description": "Import error message: $1: error message."
     },
-    "key_recovery_failed": {
-        "message": "Yedəkdən açarı bərpa etmək alınmadı.",
-        "description": ""
-    },
-    "key_set_as_default": {
-        "message": "Standart olaraq quraşdırın",
-        "description": "Set as default key for the keyring button"
-    },
-    "key_remove_btn": {
-        "message": "Sil",
-        "description": "Remove key button label"
-    },
-    "key_export_btn": {
-        "message": "İxrac",
-        "description": "Export key button label"
-    },
-    "key_revoke_btn": {
-        "message": "Ləğv Et",
-        "description": "Revoke key button label"
-    },
-    "key_remove_btn_title": {
-        "message": "Açarı açar halqasından ləğv et",
-        "description": "Title for remove key button"
-    },
-    "key_export_btn_title": {
-        "message": "Açarı ixrac et",
-        "description": "Title for export key button"
-    },
-    "key_revoke_btn_title": {
-        "message": "Açarı ləğv et",
-        "description": "Title for revoke key button"
-    },
-    "key_default_active_btn_title": {
-        "message": "Bu açar başlanğıc açar kimi təyin edilib",
-        "description": "Title for active default key button"
-    },
-    "key_default_disabled_btn_title": {
-        "message": "Açar xətalıdır və başlanğıc açar kimi təyin edilə bilməz",
-        "description": "Title for disabled (invalid) default key button"
-    },
-    "key_default_inactive_btn_title": {
-        "message": "Başlanğıc açar kimi təyin et",
-        "description": "Title for inactive default key button"
-    },
-    "key_keyserver_sync": {
-        "message": "Mailvelope-un açar serverindəki məlumat ən son yenilənmiş formadadır.",
-        "description": "Key data is synchronized with the Mailvelope key server"
-    },
     "key_keyserver_mod": {
         "message": "Mailvelope-un açar serverindəki məlumat köhnəlmişdir.",
         "description": "Local key data differs from Mailvelope key server"
@@ -762,14 +802,6 @@
     "key_keyserver_not": {
         "message": "Bu açar Mailvelope-un açar serveri ilə sinxronlaşmayıb.",
         "description": "Key is not on the the Mailvelope server"
-    },
-    "key_keyserver_upload": {
-        "message": "Açarı Mailvelope-un açar serveri ilə sinxronlaşdırmaq üçün bütün istifadəçi adlarına təsdiq emaili göndərilmişdir.",
-        "description": "An upload request has been sent to the Mailvelope key server"
-    },
-    "key_keyserver_update": {
-        "message": "Açar məlumatı Mailvelope açar serverində yenilənmişdir.",
-        "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove": {
         "message": "Yekun olaraq Mailvelope açar serverindən silinməsi üçün təsdiq emaili bütün istifadəçi adlarına göndərilmişdir.",
@@ -779,221 +811,69 @@
         "message": "Bütün istifadəçi adlarını sil",
         "description": "Key server remove existing key button label"
     },
-    "key_keyserver_upload_btn": {
-        "message": "Sinxronlaşdır",
-        "description": "Key server upload button label"
+    "key_keyserver_resend_btn": {
+        "message": "Yenidən Göndər",
+        "description": "Key server send again button label"
+    },
+    "key_keyserver_sync": {
+        "message": "Mailvelope-un açar serverindəki məlumat ən son yenilənmiş formadadır.",
+        "description": "Key data is synchronized with the Mailvelope key server"
+    },
+    "key_keyserver_update": {
+        "message": "Açar məlumatı Mailvelope açar serverində yenilənmişdir.",
+        "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
         "message": "Yenilə",
         "description": "Key server update button label"
     },
-    "key_keyserver_resend_btn": {
-        "message": "Yenidən Göndər",
-        "description": "Key server send again button label"
+    "key_keyserver_upload": {
+        "message": "Açarı Mailvelope-un açar serveri ilə sinxronlaşdırmaq üçün bütün istifadəçi adlarına təsdiq emaili göndərilmişdir.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_upload_btn": {
+        "message": "Sinxronlaşdır",
+        "description": "Key server upload button label"
+    },
+    "key_recovery_failed": {
+        "message": "Yedəkdən açarı bərpa etmək alınmadı.",
+        "description": ""
+    },
+    "key_remove_btn": {
+        "message": "Sil",
+        "description": "Remove key button label"
+    },
+    "key_remove_btn_title": {
+        "message": "Açarı açar halqasından ləğv et",
+        "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
         "message": "Açarı sil",
         "description": "Title of delete key dialog."
     },
-    "key_export_dialog_title": {
-        "message": "Açarı ixrac et",
-        "description": "Title of export key dialog."
+    "key_revoke_btn": {
+        "message": "Ləğv Et",
+        "description": "Revoke key button label"
     },
-    "key_export_dialog_question": {
-        "message": "İxrac etmək istədiyin açar hansıdır?",
-        "description": "Question in export private key dialog."
-    },
-    "key_export_dialog_copy_to_clipboard": {
-        "message": "Mübadilə Buferinə kopyala",
-        "description": "Copy to clipboard button label."
-    },
-    "key_revoke_dialog_title": {
+    "key_revoke_btn_title": {
         "message": "Açarı ləğv et",
-        "description": "Title of revoke key dialog."
-    },
-    "key_revoke_dialog_description": {
-        "message": "Ləğv edilmənin davamı olaraq açar həmişəlik istifadəsiz qalacaqdır.",
-        "description": "Text of revoke key dialog."
+        "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
         "message": "Would you still like to revoke the key?",
         "description": "Confirmation question of revoke key dialog."
     },
-    "user_title": {
-        "message": "İstifadəçi adı",
-        "description": "Title of user page"
+    "key_revoke_dialog_description": {
+        "message": "Ləğv edilmənin davamı olaraq açar həmişəlik istifadəsiz qalacaqdır.",
+        "description": "Text of revoke key dialog."
     },
-    "user_create_title": {
-        "message": "İstifadəçi adı yarat",
-        "description": "Title of create user page"
+    "key_revoke_dialog_title": {
+        "message": "Açarı ləğv et",
+        "description": "Title of revoke key dialog."
     },
-    "user_create_btn": {
-        "message": "Yarat",
-        "description": "Create user button label"
-    },
-    "user_remove_btn": {
-        "message": "Sil",
-        "description": "Remove user button label"
-    },
-    "user_remove_btn_title": {
-        "message": "İstifadəçi adını sil",
-        "description": "Remove user button title"
-    },
-    "user_revoke_btn": {
-        "message": "Ləğv Et",
-        "description": "Revoke user button label"
-    },
-    "user_revoke_btn_title": {
-        "message": "İstifadəçi adını ləğv et",
-        "description": "Revoke user button title"
-    },
-    "user_remove_dialog_title": {
-        "message": "İstifadəçi adını sil",
-        "description": "Title of remove user dialog."
-    },
-    "user_remove_dialog_confirmation": {
-        "message": "Açardan bu istifadəçi adını silmək istəyirsən?",
-        "description": "Confirmation question in remove user dialog."
-    },
-    "user_remove_dialog_keyserver_warning": {
-        "message": "İstifadəçi adı eyni zamanda Mailvelope açar serverindən də silindi.",
-        "description": "Warning message, that key will be deleted from keyserver"
-    },
-    "user_revoke_dialog_title": {
-        "message": "İstifadəçi adını ləğv et",
-        "description": "Title of revoke user dialog."
-    },
-    "user_revoke_dialog_description": {
-        "message": "After revocation, the user ID for this key will permanently remain unusable.",
-        "description": "Description in revoke user dialog."
-    },
-    "user_revoke_dialog_confirmation": {
-        "message": "Hələ də ləğv etməkdə qərarlısan?",
-        "description": "Confirmation question in revoke user dialog."
-    },
-    "user_keyserver_sync": {
-        "message": "Bu istifadəçi adı Mailvelope-un açar serveri ilə sinxronlaşmayıb.",
-        "description": "User ID is synchronised with the Mailvelope key server"
-    },
-    "user_keyserver_unverified": {
-        "message": "Zəhmət olmasa bu istifadəçi adının Mailvelope-un açar serveri ilə sinxronlaşdırılmasını təsdiq et.",
-        "description": "User ID Mailvelope key server not verified"
-    },
-    "user_keyserver_not": {
-        "message": "İstifadəçi adı Mailvelope-un açar serveri ilə sinxronlaşdırılmamışdır.",
-        "description": "User ID is not synchronized with Mailvelope key server"
-    },
-    "user_keyserver_upload": {
-        "message": "Mailvelope serveri ilə sinxronlaşdırılması üçün təsdiq emaili $1 ünvanına göndərilmişdir.",
-        "description": "An upload request has been sent to the Mailvelope key server"
-    },
-    "user_keyserver_remove": {
-        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
-        "description": "A remove request has been sent to the Mailvelope key server"
-    },
-    "user_keyserver_remove_btn": {
-        "message": "İstifadəçi adını sil",
-        "description": "Remove user ID button label text"
-    },
-    "user_keyserver_resend_confirmation_btn": {
-        "message": "Təsdiqi yenidən göndər",
-        "description": "Resend confirmation button label text"
-    },
-    "usersignatures_title": {
-        "message": "Təsdiqləmə",
-        "description": "Title of signatures panel in user."
-    },
-    "nameaddrinput_error_name_empty": {
-        "message": "Please enter a name",
-        "description": "Error message for name input field."
-    },
-    "nameaddrinput_error_email_exists": {
-        "message": "The email address is already in use",
-        "description": "Error message for email input field."
-    },
-    "keyusers_title": {
-        "message": "Təyin edilmiş istifadəçi adları",
-        "description": "Title of the key users panel"
-    },
-    "keyusers_add_btn": {
-        "message": "Yenisini əlavə et",
-        "description": "Add user button label"
-    },
-    "keyusers_add_btn_title": {
-        "message": "Yeni istifadəçi adı əlavə et",
-        "description": "Add user button title"
-    },
-    "keyusers_keyserver": {
-        "message": "Açar serveri",
-        "description": "Label of key server column key users table"
-    },
-    "keyusers_keyserver_sync": {
-        "message": "sinxronlaşdırıldı",
-        "description": "User ID synchronized with key server label text"
-    },
-    "keyusers_keyserver_not": {
-        "message": "sinxronlaşdırılmadı",
-        "description": "User ID not synchronized with key server label text"
-    },
-    "keyusers_keyserver_unverified": {
-        "message": "təsdiq edilmədi",
-        "description": "User ID key server not verified label text"
-    },
-    "keydetails_title": {
-        "message": "Açarın detalları",
-        "description": "Title of the key details panel"
-    },
-    "keydetails_creation_date": {
-        "message": "Yaradılıb",
-        "description": "Creation date of a PGP key."
-    },
-    "keydetails_expiration_date": {
-        "message": "Vaxtı bitir",
-        "description": "Expiration date of a PGP key."
-    },
-    "keydetails_key_not_expire": {
-        "message": "heç vaxt",
-        "description": "Expiration date of a PGP key not set."
-    },
-    "keydetails_password": {
-        "message": "Şifrə",
-        "description": "Password of a PGP key."
-    },
-    "keydetails_change_exp_date_dialog_title": {
-        "message": "Son istifadə tarixini dəyiş",
-        "description": "Title of change expiration date dialog."
-    },
-    "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
-        "description": "Important note in change expiration date dialog."
-    },
-    "keydetails_change_pwd_dialog_title": {
-        "message": "Şifrəni dəyişin",
-        "description": "Title of change password dialog."
-    },
-    "keydetails_change_pwd_dialog_old": {
-        "message": "Köhnə şifrə",
-        "description": "Old password input label"
-    },
-    "dialog_cancel_btn": {
-        "message": "Ləğv et",
-        "description": "Dialog cancel button label"
-    },
-    "dialog_save_btn": {
-        "message": "Yadda saxla",
-        "description": "Dialog save button label"
-    },
-    "dialog_yes_btn": {
-        "message": "Bəli",
-        "description": "Dialog yes button label"
-    },
-    "dialog_no_btn": {
-        "message": "Xeyr",
-        "description": "Dialog no button label"
-    },
-    "invalid_default_key": {
-        "message": "Açar şifrələmə və imzalanma əməliyyatları üçün etibarlı deyil",
-        "description": "Tootip for set as default key button"
+    "key_set_as_default": {
+        "message": "Standart olaraq quraşdırın",
+        "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
         "message": "Açar yedəyinin yaradılması alınmadı.",
@@ -1032,11 +912,11 @@
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "Məlumat itirilərsə, onu bərpa etmək üçün.",
+        "message": "In order to restore it in case of data loss",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Digər ötürücüyə köçürmək üçün. ",
+        "message": "In order to transfer it to other devices",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
@@ -1047,32 +927,56 @@
         "message": "Yedək yaratmaq!",
         "description": ""
     },
-    "keygen_dialog_confirm": {
-        "message": "Təkrarla",
-        "description": ""
+    "keydetails_change_exp_date_dialog_note": {
+        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "description": "Important note in change expiration date dialog."
     },
-    "keygen_dialog_confirm_error_unequal": {
-        "message": "Girişləri bir daha yoxla.",
-        "description": ""
+    "keydetails_change_exp_date_dialog_title": {
+        "message": "Son istifadə tarixini dəyiş",
+        "description": "Title of change expiration date dialog."
     },
-    "keygen_dialog_confirm_success": {
-        "message": "Giriş etibarlıdır.",
-        "description": ""
+    "keydetails_change_pwd_dialog_old": {
+        "message": "Köhnə şifrə",
+        "description": "Old password input label"
     },
-    "keygen_dialog_password": {
-        "message": "Açar şifrəsi",
-        "description": ""
+    "keydetails_change_pwd_dialog_title": {
+        "message": "Şifrəni dəyişin",
+        "description": "Title of change password dialog."
+    },
+    "keydetails_creation_date": {
+        "message": "Yaradılıb",
+        "description": "Creation date of a PGP key."
+    },
+    "keydetails_expiration_date": {
+        "message": "Vaxtı bitir",
+        "description": "Expiration date of a PGP key."
+    },
+    "keydetails_key_not_expire": {
+        "message": "heç vaxt",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "keydetails_password": {
+        "message": "Şifrə",
+        "description": "Password of a PGP key."
+    },
+    "keydetails_title": {
+        "message": "Açarın detalları",
+        "description": "Title of the key details panel"
     },
     "keygen_dialog_password_placeholder": {
         "message": "min 4 işarə",
         "description": ""
     },
+    "keygen_dialog_password_error_length": {
+        "message": "Password requires at least $1 characters",
+        "description": ""
+    },
     "keygen_dialog_prolog": {
-        "message": "Şifrəli ünsiyyəti qorumaq üçün şifrə müəyyən et:",
+        "message": "Please assign a password for your key to protect your encrypted communication:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Şifrəli ünsiyyətin qurulması bir qədər vaxt ala bilər. Səyyahınız cavab verməyə bilər. Lütfən, səbrli olun.",
+        "message": "This process can take several minutes. Your browser may become unresponsive. Please be patient.",
         "description": ""
     },
     "keygen_waiting_headline": {
@@ -1098,6 +1002,10 @@
     "keygrid_default_key": {
         "message": "Standart açar",
         "description": "Default key in the keyring."
+    },
+    "keygrid_default_label": {
+        "message": "Standart",
+        "description": "Label for the default key"
     },
     "keygrid_delete": {
         "message": "Sil",
@@ -1131,13 +1039,13 @@
         "message": "Bu siyahıdakı bütün düymələri fayla ixrac et",
         "description": "Title for Export key button."
     },
-    "keygrid_import_title": {
-        "message": "Açar idxal edin",
-        "description": "Title for Import key button."
-    },
     "keygrid_generate_title": {
         "message": "Açar yaradın",
         "description": "Title for generate key button"
+    },
+    "keygrid_import_title": {
+        "message": "Açar idxal edin",
+        "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
         "message": "Yanlış istifadəçi adı",
@@ -1162,10 +1070,6 @@
     "keygrid_primary_key": {
         "message": "Əsas Açar",
         "description": "Main key in the PGP key."
-    },
-    "keygrid_default_label": {
-        "message": "Standart",
-        "description": "Label for the default key"
     },
     "keygrid_private_keys": {
         "message": "Məxfi açarlar",
@@ -1199,8 +1103,16 @@
         "message": "Filterlər",
         "description": "Key grid sort selector."
     },
+    "keygrid_status_expired": {
+        "message": "vaxtı keçib",
+        "description": "Validity status of a PGP key."
+    },
     "keygrid_status_invalid": {
         "message": "xətalı",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_revoked": {
+        "message": "ləğv edilib",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
@@ -1239,14 +1151,6 @@
         "message": "Status",
         "description": "Validity status of a PGP key."
     },
-    "keygrid_status_revoked": {
-        "message": "ləğv edilib",
-        "description": "Validity status of a PGP key."
-    },
-    "keygrid_status_expired": {
-        "message": "vaxtı keçib",
-        "description": "Validity status of a PGP key."
-    },
     "keyring_available_settings": {
         "message": "Mümkün parametrlərə bax:",
         "description": "Text introducing the availability of further settings."
@@ -1256,8 +1160,16 @@
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Açar üzüyü İD ilə silmək istəyirsən:$1?",
+        "message": "Do you want to delete the keyring with ID: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
+    },
+    "keyring_confirm_keys": {
+        "message": "Confirm key",
+        "description": "Tab of keyring to import keys."
+    },
+    "keyring_confirm_keys_plural": {
+        "message": "Confirm $1 keys",
+        "description": "Tab of keyring to import keys."
     },
     "keyring_display_keys": {
         "message": "Açarları göstər",
@@ -1275,9 +1187,17 @@
         "message": "Açar İdarəçiliyi",
         "description": "Header of the key ring."
     },
+    "keyring_import_description": {
+        "message": "You can add your contacts either as file or as text from the clipboard.",
+        "description": "Description of key import for import tab of keyring import."
+    },
     "keyring_import_keys": {
-        "message": "İdxal açarları",
+        "message": "Add Keys",
         "description": "Tab of keyring to import keys."
+    },
+    "keyring_import_search_description": {
+        "message": "Search on the key server for existing contacts.",
+        "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
         "message": "Əsas Açar Üzüyü",
@@ -1294,6 +1214,10 @@
     "keyring_public_private": {
         "message": "Açar cütləri",
         "description": "public and private key types"
+    },
+    "keyring_remove_dialog_title": {
+        "message": "Delete keyring",
+        "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
         "message": "Quraşdırma",
@@ -1323,6 +1247,66 @@
         "message": "Bu açar üzüyünün hələlik açar cütü yoxdur. ",
         "description": "Setup heading if no keypair available"
     },
+    "keyserver_additionals_label": {
+        "message": "Əlavə açar mənbələri",
+        "description": "Label for configuration of additional key sources"
+    },
+    "keyserver_autocrypt_lookup": {
+        "message": "Gələn emailin Avtokript başlığından açarları istifadə et",
+        "description": "Enable Looking Up Keys Via Autocrypt"
+    },
+    "keyserver_hkp_url": {
+        "message": "HKP açar severi",
+        "description": "HKP key server option: url."
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Mailvelope açar serveri istifadə edin",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
+    },
+    "keyserver_url_error": {
+        "message": "Açar serverinə daxil olmaq mümkün deyil",
+        "description": "HKP key server URL error."
+    },
+    "keyserver_url_warning": {
+        "message": "Açar serverinin URL-i aşağıdakı formata malik olmalıdır: http(s)://keys.example.com",
+        "description": "HKP key server url warning."
+    },
+    "keyserver_wkd_lookup": {
+        "message": "Query keys from the recipients email provider (Web Key Directory)",
+        "description": "Enable Web Key Directory Auto Lookup"
+    },
+    "keyusers_add_btn": {
+        "message": "Yenisini əlavə et",
+        "description": "Add user button label"
+    },
+    "keyusers_add_btn_title": {
+        "message": "Yeni istifadəçi adı əlavə et",
+        "description": "Add user button title"
+    },
+    "keyusers_keyserver": {
+        "message": "Açar serveri",
+        "description": "Label of key server column key users table"
+    },
+    "keyusers_keyserver_not": {
+        "message": "sinxronlaşdırılmadı",
+        "description": "User ID not synchronized with key server label text"
+    },
+    "keyusers_keyserver_sync": {
+        "message": "sinxronlaşdırıldı",
+        "description": "User ID synchronized with key server label text"
+    },
+    "keyusers_keyserver_unverified": {
+        "message": "təsdiq edilmədi",
+        "description": "User ID key server not verified label text"
+    },
+    "keyusers_title": {
+        "message": "Təyin edilmiş istifadəçi adları",
+        "description": "Title of the key users panel"
+    },
+    "learn_more_link": {
+        "message": "Daha ətraflı",
+        "description": "Text of a link to a learn-more resource"
+    },
     "message_no_keys": {
         "message": "Bu ismarıc üçün məxfi açar tapılmadı. Tələb olunan məxfi açar İD-ləri: $1",
         "description": "Decrypt error message."
@@ -1330,6 +1314,18 @@
     "message_read_error": {
         "message": "İsmarışı deŞifrələmək alınmadı:$1",
         "description": "Message read error message: $1: error message."
+    },
+    "nameaddrinput_error_email_exists": {
+        "message": "The email address is already in use",
+        "description": "Error message for email input field."
+    },
+    "nameaddrinput_error_name_empty": {
+        "message": "Please enter a name",
+        "description": "Error message for name input field."
+    },
+    "notification_text_copy_to_clipboard": {
+        "message": "Text has been copied to clipboard.",
+        "description": "Copy to clipboard toast message."
     },
     "options_about": {
         "message": "Haqqında",
@@ -1375,6 +1371,10 @@
         "message": "Şifrəni daxil et",
         "description": "Placeholder for password."
     },
+    "pwd_dialog_reason_add_user": {
+        "message": "İstifadəçi adı yaratmaq üçün lütfən açar şifrəni daxil et.",
+        "description": ""
+    },
     "pwd_dialog_reason_create_backup": {
         "message": "Bərpa siyahısı yaratmaq üçün açar şifrəni daxil et.",
         "description": ""
@@ -1391,16 +1391,8 @@
         "message": "Şifrəli ünsiyyət tənzimləmələrini yeniləmək üçün açar şifrəni daxil et.",
         "description": ""
     },
-    "pwd_dialog_reason_sign": {
-        "message": "Bu ismarıcı imzalamaq üçün açar şifrəni daxil et. ",
-        "description": ""
-    },
     "pwd_dialog_reason_revoke": {
         "message": "Bu açarı ləğv etmək üçün lütfən açar şifrəni daxil et.",
-        "description": ""
-    },
-    "pwd_dialog_reason_add_user": {
-        "message": "İstifadəçi adı yaratmaq üçün lütfən açar şifrəni daxil et.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
@@ -1409,6 +1401,10 @@
     },
     "pwd_dialog_reason_set_exdate": {
         "message": "Açar üçün son istifadə tarixini yeniləmək üçün lütfən açar şifrəni daxil et.",
+        "description": ""
+    },
+    "pwd_dialog_reason_sign": {
+        "message": "Bu ismarıcı imzalamaq üçün açar şifrəni daxil et. ",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1428,11 +1424,11 @@
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Məlumatlarını yalnız öz kompüterində yerli olaraq saxlamaq istəyirsənsə, bu seçimi [BRAND]  hesabının şifrəli ünsiyyət seçimlərində tapa bilərsən.",
+        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your $1 account. ",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Şifrəli ünsiyyət (məsələn, açar şifrəsi) üçün vacib olan məlumatları geri qaytarmaq üçün məlumatlar təhlükəsizlik tərəfdaşımız Mailvelope tərəfindən [BRAND] serverlərimizdə şifrələnmiş saxlanacaq.",
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
@@ -1452,7 +1448,7 @@
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "[BRAND] ile şifreli ünsiyyətə aid məsləhətlər",
+        "message": "Hints for encrypted communication with $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
@@ -1460,7 +1456,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Encrypted communication with [BRAND] is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
+        "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1472,7 +1468,7 @@
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "[BRAND] hesabında daha ətraflı məlumat və tənzimləmə seçənəkləri tapa bilərsən",
+        "message": "You can find more information and setting options in your $1 account under",
         "description": ""
     },
     "recovery_sheet_header": {
@@ -1484,7 +1480,7 @@
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "[BRAND] hesabının şifrəli ünsiyyət tənzimləmələrində PGP vasitəsilə şifrələnmiş ünsiyyətdən istifadə etmək üçün əlavə əlaqələr dəvət etmə imkanın var. Uğurlu şəkildə dəvət olunmuş əlaqələr e-poçt ünvanının yanındakı asma işarəsi tərəfindən tanına bilər. ",
+        "message": "In your encrypted communication settings of your $1 account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. ",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
@@ -1492,7 +1488,7 @@
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "GMX-in PGP prosedurunu istifadə edən digər [BRAND] istifadəçiləri [BRAND] hesabının mərkəzi kataloqunda tapıla bilər. Əgər kataloqa hər hansı qeydiyyatı istəmirsinizsə, funksiyanı [BRAND] hesabındakı tənzimləmələrdə ləğv et.",
+        "message": "Other $1 users who are using the PGP procedure of GMX can be directly found in a central directory in your $1 account. If you do not want to have any entries in this directory, please deactivate this function in your $1 account settings.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
@@ -1611,32 +1607,20 @@
         "message": "Açar şifrən:",
         "description": ""
     },
-    "security_background_angle": {
-        "message": "Bucaq",
-        "description": "Angle"
-    },
     "security_background_button_title": {
         "message": "Təhlükəsizlik Məlumatı Mailvelope Seçimlərində nizamlana bilər",
         "description": "The tooltip text for the keylock button"
     },
-    "security_background_coloring": {
-        "message": "Rəng",
-        "description": "Coloring"
+    "security_background_color_text": {
+        "message": "2. Now choose a color that you like",
+        "description": "Security background select color text"
     },
-    "security_background_header": {
-        "message": "Təhlükəsizlik Məlumatı",
-        "description": "Security background header"
-    },
-    "security_background_preview": {
-        "message": "Görüntü",
-        "description": "Preview"
-    },
-    "security_background_scaling": {
-        "message": "Hesablama",
-        "description": "Scaling"
+    "security_background_icons_text": {
+        "message": "1. Choose an icon that you like",
+        "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Təhlükəsizlik məlumatı kənar veb səhifələr və tətbiqlərin istifadəçi interfeys manipulyasiyasının qarşısını almağa yardım edir. Təhlükəsizliyi artırmaq məqsədilə hazırlanmış Mailvelope məlumatını yarat və dəyiş. ",
+        "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data.",
         "description": "Security background text"
     },
     "security_cache_header": {
@@ -1671,10 +1655,6 @@
         "message": "Ayrı bir Mailvelope atlanan pəncərəsində.",
         "description": "Decrypted message display option"
     },
-    "security_openpgp_header": {
-        "message": "OpenPGP quraşdırmalar",
-        "description": "OpenPGP settings header"
-    },
     "security_hide_armored_head": {
         "message": "Hide Mailvelope version and comment in PGP messages.",
         "description": "Hide header infos in armored messages"
@@ -1703,6 +1683,14 @@
         "message": "Dialoq təsdiqləmə pəncərəsində kopyala",
         "description": ""
     },
+    "security_log_decryption_operation": {
+        "message": "Message has been decrypted with: $1",
+        "description": ""
+    },
+    "security_log_decrypt_ui": {
+        "message": "DeŞifrələ",
+        "description": ""
+    },
     "security_log_dialog_cancel": {
         "message": "Dialoqda ləğv etmək üçün kliklə",
         "description": ""
@@ -1720,7 +1708,7 @@
         "description": ""
     },
     "security_log_editor": {
-        "message": "PGP Redaktor",
+        "message": "Mailvelope Editor",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
@@ -1730,6 +1718,10 @@
     "security_log_encrypt_dialog": {
         "message": "Dialoqu şifrələ",
         "description": "Encrypt dialog as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "Şifrələ",
+        "description": ""
     },
     "security_log_encrypt_form": {
         "message": "Formaları şifrələ",
@@ -1815,6 +1807,14 @@
         "message": "Dialoqu Təsdiqlə",
         "description": "Verify dialog as an event source"
     },
+    "security_log_viewer": {
+        "message": "Mailvelope Viewer",
+        "description": "Message viewer as an event source"
+    },
+    "security_openpgp_header": {
+        "message": "OpenPGP quraşdırmalar",
+        "description": "OpenPGP settings header"
+    },
     "settings_backup": {
         "message": "Yedəkləmək",
         "description": "Tab allowing to backup and restore the settings."
@@ -1823,33 +1823,37 @@
         "message": "Ümumi",
         "description": "Tab of options to display general settings."
     },
+    "settings_keyserver": {
+        "message": "Açar Serveri",
+        "description": "Tab of options to display key server settings."
+    },
     "settings_security": {
         "message": "Təhlükəsizlik",
         "description": "Tab of options to display security settings."
     },
+    "settings_security_background": {
+        "message": "Təhlükəsizlik Məlumatı",
+        "description": "Security background header"
+    },
     "settings_security_log": {
         "message": "Təhlükəsizlik Girişi",
         "description": "Tab of options to display security log."
-    },
-    "settings_keyserver": {
-        "message": "Açar Serveri",
-        "description": "Tab of options to display key server settings."
     },
     "settings_watchlist": {
         "message": "Təsdiq edilmiş domenlər",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "İsmarıcı açarla imzala:",
-        "description": "Header of sign dialog."
+        "message": "Mesajı belə imzala:",
+        "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
         "message": "Bu ismarıcı imzalamaq alınmadı : $1",
         "description": "Error during signing process."
     },
-    "text_compose_header": {
-        "message": "İsmarıc yaz",
-        "description": "Text encryption feature header"
+    "signer_unknown": {
+        "message": "Tanınmayan",
+        "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
         "message": "DeŞifrələ",
@@ -1863,21 +1867,21 @@
         "message": "Mətn şifrələməsi",
         "description": "Navigation link to text encryption feature"
     },
-    "text_paste_armored_header": {
-        "message": "Şifrələnmiş PGP ismarıcını yapışdır",
-        "description": "Text decryption armored block header"
-    },
-    "text_result_header": {
-        "message": "Şifrələnmiş ismarıc",
-        "description": "Text encryption result header"
-    },
     "upload_aborting_warning": {
         "message": "Fayl yükləməsi ləğv olunacaq.",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Qoşma əlavə et",
+        "message": "Fayl əlavə et",
         "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "upload_drop": {
+        "message": "Drop the file in this area to attach it",
+        "description": "Text in file drop overlay area"
+    },
+    "upload_help": {
+        "message": "Drag file to this window or",
+        "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
         "message": "İcazə verilən qoşma həcmi:",
@@ -1887,29 +1891,101 @@
         "message": "Qoşma çox böyükdür",
         "description": ""
     },
+    "user_create_btn": {
+        "message": "Yarat",
+        "description": "Create user button label"
+    },
+    "user_create_title": {
+        "message": "İstifadəçi adı yarat",
+        "description": "Title of create user page"
+    },
+    "user_keyserver_not": {
+        "message": "İstifadəçi adı Mailvelope-un açar serveri ilə sinxronlaşdırılmamışdır.",
+        "description": "User ID is not synchronized with Mailvelope key server"
+    },
+    "user_keyserver_remove": {
+        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "description": "A remove request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove_btn": {
+        "message": "İstifadəçi adını sil",
+        "description": "Remove user ID button label text"
+    },
+    "user_keyserver_resend_confirmation_btn": {
+        "message": "Təsdiqi yenidən göndər",
+        "description": "Resend confirmation button label text"
+    },
+    "user_keyserver_sync": {
+        "message": "Bu istifadəçi adı Mailvelope-un açar serveri ilə sinxronlaşmayıb.",
+        "description": "User ID is synchronised with the Mailvelope key server"
+    },
+    "user_keyserver_unverified": {
+        "message": "Zəhmət olmasa bu istifadəçi adının Mailvelope-un açar serveri ilə sinxronlaşdırılmasını təsdiq et.",
+        "description": "User ID Mailvelope key server not verified"
+    },
+    "user_keyserver_upload": {
+        "message": "Mailvelope serveri ilə sinxronlaşdırılması üçün təsdiq emaili $1 ünvanına göndərilmişdir.",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "user_remove_btn": {
+        "message": "Sil",
+        "description": "Remove user button label"
+    },
+    "user_remove_btn_title": {
+        "message": "İstifadəçi adını sil",
+        "description": "Remove user button title"
+    },
+    "user_remove_dialog_confirmation": {
+        "message": "Açardan bu istifadəçi adını silmək istəyirsən?",
+        "description": "Confirmation question in remove user dialog."
+    },
+    "user_remove_dialog_keyserver_warning": {
+        "message": "İstifadəçi adı eyni zamanda Mailvelope açar serverindən də silindi.",
+        "description": "Warning message, that key will be deleted from keyserver"
+    },
+    "user_remove_dialog_title": {
+        "message": "İstifadəçi adını sil",
+        "description": "Title of remove user dialog."
+    },
+    "user_revoke_btn": {
+        "message": "Ləğv Et",
+        "description": "Revoke user button label"
+    },
+    "user_revoke_btn_title": {
+        "message": "İstifadəçi adını ləğv et",
+        "description": "Revoke user button title"
+    },
+    "user_revoke_dialog_confirmation": {
+        "message": "Hələ də ləğv etməkdə qərarlısan?",
+        "description": "Confirmation question in revoke user dialog."
+    },
+    "user_revoke_dialog_description": {
+        "message": "After revocation, the user ID for this key will permanently remain unusable.",
+        "description": "Description in revoke user dialog."
+    },
+    "user_revoke_dialog_title": {
+        "message": "İstifadəçi adını ləğv et",
+        "description": "Title of revoke user dialog."
+    },
+    "user_title": {
+        "message": "İstifadəçi adı",
+        "description": "Title of user page"
+    },
+    "usersignatures_title": {
+        "message": "Təsdiqləmə",
+        "description": "Title of signatures panel in user."
+    },
     "verify_error": {
         "message": "İsmarışı təsdiqləmək alınmadı: $1",
         "description": "Error during verification process."
     },
-    "verify_result_error": {
-        "message": "Etibarsız imza",
-        "description": "Verfiy signature error. Wrong signature of [userid]."
-    },
-    "verify_result_success": {
-        "message": "Tərəfindən imzalanıb",
-        "description": "Verfiy signature succeeded."
-    },
-    "verify_result_warning": {
-        "message": "Tanınmayan açarla qoşulub",
-        "description": "Verfiy signature warning."
+    "verify_frame_help_text": {
+        "message": "Click to verify signature!",
+        "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
         "message": "DeŞifrələmə xətalı oldu!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
-    },
-    "waiting_dialog_prepare_email": {
-        "message": "İsmarışınız hazırlanır",
-        "description": "Message in the waiting dialog for quoting email"
     },
     "watchlist_command_create": {
         "message": "Yeni məlumat əlavə et",
@@ -1931,6 +2007,10 @@
         "message": "Təsdiq edilmiş domen",
         "description": "Title of the watchlist editor dialog."
     },
+    "watchlist_remove_dialog_title": {
+        "message": "Remove domain",
+        "description": "Title of delete watchlist dialog."
+    },
     "watchlist_title_active": {
         "message": "Aktivdir",
         "description": "Entry in watchlist is active."
@@ -1938,6 +2018,10 @@
     "watchlist_title_frame": {
         "message": "Domen quruluşu",
         "description": "Web domain URL match pattern of site in watchlist."
+    },
+    "watchlist_title_https_only": {
+        "message": "yalnız HTTPS",
+        "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
         "message": "Aktivdir",
@@ -1947,10 +2031,6 @@
         "message": "Sayt",
         "description": "Site in watchlist."
     },
-    "watchlist_title_https_only": {
-        "message": "yalnız HTTPS",
-        "description": "Only allow URLs with HTTPS scheme in watchlist."
-    },
     "word_or": {
         "message": "və ya",
         "description": "Separate list of elements."
@@ -1958,9 +2038,5 @@
     "wrong_restore_code": {
         "message": "Yanlış bərpa kodu",
         "description": ""
-    },
-    "alert_header_error": {
-        "message": "Xəta!",
-        "description": "Alert header of category error."
     }
 }
