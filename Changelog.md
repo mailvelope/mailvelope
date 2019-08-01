@@ -1,6 +1,18 @@
 Mailvelope Changelog
 ====================
 
+v4.0.0
+-------
+__Aug 1, 2019__
+
+  * Refreshed Mailvelope branding: new design, new logo, new icons and fonts.
+  * Many revised UI components, integration of new UI concepts like toasts to replace alert messages.
+  * Revised mail provider integration: messages are automatically decrypted if private key password is cached, new animated Mailvelope editor button.
+  * New configurable security background with choice of 24 icons
+  * Remove jQuery dependency in content scripts
+  * Improve PGP message detection logic on host page
+  * New file encryption UI in app which supports signing
+
 v3.3.1
 -------
 __July 5, 2019__
