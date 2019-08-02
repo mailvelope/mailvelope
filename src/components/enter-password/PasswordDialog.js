@@ -144,7 +144,7 @@ export default class PasswordDialog extends React.Component {
                     </Alert>
                     {this.state.reason && <p>{this.state.reason}</p>}
                     <div className="form-group">
-                      <input ref={node => this.pwdInput = node} type="password" value={this.state.password} onPaste={e => this.onInputPaste(e.clipboardData.getData('Text'))} onChange={e => this.onInputPaste(e.target.value)} className={`form-control text-monospace ${this.state.showError ? 'is-invalid' : ''}`} />
+                      <input ref={node => this.pwdInput = node} type="password" value={this.state.password} onPaste={e => { e.preventDefault(); this.onInputPaste(e.clipboardData.getData('Text')); }} onChange={e => this.onInputPaste(e.target.value)} className={`form-control text-monospace ${this.state.showError ? 'is-invalid' : ''}`} />
                       <div className={this.state.showError ? 'invalid-feedback' : 'd-none'}>{l10n.map.pwd_dialog_wrong_pwd}</div>
                     </div>
                     <div>
