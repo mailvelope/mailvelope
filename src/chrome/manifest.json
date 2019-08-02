@@ -10,7 +10,10 @@
     "48": "img/Mailvelope/logo_signet_48.png",
     "64": "img/Mailvelope/logo_signet_64.png",
     "96": "img/Mailvelope/logo_signet_96.png",
-    "128": "img/Mailvelope/logo_signet_128.png"
+    "120": "img/Mailvelope/logo_signet_120.png",
+    "128": "img/Mailvelope/logo_signet_128.png",
+    "152": "img/Mailvelope/logo_signet_152.png",
+    "180": "img/Mailvelope/logo_signet_180.png"
   },
   "browser_action": {
     "default_icon": {
