@@ -6,7 +6,7 @@
   "manifest_version": 2,
   "minimum_chrome_version": "60",
   "icons": {
-    "16": "img/Mailvelope/logo_signet_16.png",
+    "32": "img/Mailvelope/logo_signet_32.png",
     "48": "img/Mailvelope/logo_signet_48.png",
     "64": "img/Mailvelope/logo_signet_64.png",
     "96": "img/Mailvelope/logo_signet_96.png",

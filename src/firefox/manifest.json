@@ -11,15 +11,20 @@
   "homepage_url":"https://www.mailvelope.com",
   "manifest_version": 2,
   "icons": {
-    "16": "img/Mailvelope/logo_signet.svg",
-    "48": "img/Mailvelope/logo_signet.svg",
-    "64": "img/Mailvelope/logo_signet.svg",
-    "96": "img/Mailvelope/logo_signet.svg",
-    "128": "img/Mailvelope/logo_signet.svg"
+    "32": "img/Mailvelope/logo_signet_32.png",
+    "48": "img/Mailvelope/logo_signet_48.png",
+    "64": "img/Mailvelope/logo_signet_64.png",
+    "96": "img/Mailvelope/logo_signet_96.png",
+    "128": "img/Mailvelope/logo_signet_128.png"
   },
   "browser_action": {
     "browser_style": false,
-    "default_icon": "img/Mailvelope/logo_signet.svg",
+    "default_icon": {
+      "16": "img/Mailvelope/logo_signet_16.png",
+      "24": "img/Mailvelope/logo_signet_24.png",
+      "32": "img/Mailvelope/logo_signet_32.png",
+      "48": "img/Mailvelope/logo_signet_48.png"
+    },
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/action-menu/actionMenu.html"
   },
