@@ -16,7 +16,7 @@ Mailvelope is available in the Chrome Web Store:
 https://chrome.google.com/webstore/detail/kajibbejlbohfaggdiogboambcijhkke
 
 For Firefox you can get it from addons.mozilla.org:
-https://addons.mozilla.org/de/firefox/addon/mailvelope/
+https://addons.mozilla.org/en/firefox/addon/mailvelope/
 
 Or check the [releases](https://github.com/mailvelope/mailvelope/releases) section for latest builds of Firefox and Chrome installation packages.
 
