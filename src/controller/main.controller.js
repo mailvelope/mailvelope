@@ -27,6 +27,7 @@ import AuthDomainController from './authDomain.controller';
 sub.factory.register('dFrame',              DecryptController,       ['dDialog']);
 sub.factory.register('decryptCont',         DecryptController,       ['dDialog']);
 sub.factory.register('eFrame',              EncryptController,       []);
+sub.factory.register('gmailInt',            EncryptController,       []);
 sub.factory.register('imFrame',             ImportController,        []);
 sub.factory.register('importKeyDialog',     ImportController,        ['dDialog']);
 sub.factory.register('mainCS',              MainCsController,        []);

@@ -10,13 +10,16 @@
 
 import {sequential, isVisible} from '../lib/util';
 import {goog} from '../modules/closure-library/closure/goog/emailaddress';
+import GmailIntegration from './gmailIntegration';
 
 let providerMap = null;
+let prefs = null;
 
 /**
  * Initializes the map of provider specific modules.
  */
-export function init() {
+export function init(preferences) {
+  prefs = preferences;
   providerMap = new Map();
   providerMap.set('mail.google.com', new Gmail());
   providerMap.set('mail.yahoo.com', new Yahoo());
@@ -76,6 +79,15 @@ class Default {
 //
 
 class Gmail {
+  constructor() {
+    if (prefs.provider.gmail_integration) {
+      console.log('instantiating new integration class for Gmail');
+      this.integration = new GmailIntegration();
+      this.integration.init();
+      console.log(this.integration);
+    }
+  }
+
   /**
    * Parse recipients from the Gmail Webmail interface
    * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }

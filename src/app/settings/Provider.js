@@ -8,12 +8,15 @@ import {Link} from 'react-router-dom';
 import {port} from '../app';
 import {matchPattern2RegExString} from '../../lib/util';
 import * as l10n from '../../lib/l10n';
+import Trans from '../../components/util/Trans';
 import Alert from '../../components/util/Alert';
 
 l10n.register([
   'form_cancel',
   'form_save',
+  'header_warning',
   'provider_gmail_integration',
+  'provider_gmail_integration_warning',
   'settings_provider'
 ]);
 
@@ -91,11 +94,13 @@ export default class Provider extends React.Component {
               <label className="custom-control-label" htmlFor="gmail_integration"><span>{l10n.map.provider_gmail_integration}</span></label>
             </div>
             {!this.state.gmail && (
-              <Alert className="mt-2" type="warning" header="Achtung!">
-                <span>Gmail ist mit dem Suchmuster <strong>{GMAIL_MATCH_PATTERN}</strong> nicht autorisiert. Bitte prüfen Sie die Einstellungen in </span>
-                <Link to="/settings/watchlist">
-                  {l10n.map.dashboard_link_manage_domains}
-                </Link>
+              <Alert className="mt-2" type="warning" header={l10n.map.header_warning}>
+                <div>
+                  <Trans id={l10n.map.provider_gmail_integration_warning} components={[
+                    <strong key="0">{GMAIL_MATCH_PATTERN}</strong>,
+                    <Link key="1" to="/settings/watchlist">{l10n.map.dashboard_link_manage_domains}</Link>
+                  ]} />
+                </div>
               </Alert>
             )}
           </div>

@@ -1349,6 +1349,14 @@
     "description": "Label for Gmail integration option.",
     "message": "Gmail-Integration aktivieren"
   },
+  "provider_gmail_integration_warning": {
+    "description": "Warning message, when Gmail is not authorized",
+    "message": "Gmail ist mit dem Suchmuster <0></0> nicht autorisiert. Bitte Prüfen Sie die Einstellungen in <1></1>."
+  },
+  "provider_gmail_secure_reply_btn": {
+    "description": "Secure reply button title/tooltip",
+    "message": "Sicher antworten"
+  },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",
     "message": "Passwort temporär merken"

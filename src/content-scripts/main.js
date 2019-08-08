@@ -57,7 +57,7 @@ function init(preferences, watchlist) {
     clientAPI.init();
   } else {
     // non-api case ... use provider specific content scripts
-    providers.init();
+    providers.init(prefs);
     currentProvider = providers.get(host);
     // turn on DOM scan
     on();
@@ -109,14 +109,14 @@ function on() {
     if (scanThrottle) {
       hasMutated = true;
     } else {
-      document.dispatchEvent(mutateEvent);
       scanDOM();
+      document.dispatchEvent(mutateEvent);
       scanThrottle = window.setTimeout(() => {
         scanThrottle = null;
         if (hasMutated) {
           hasMutated = false;
-          document.dispatchEvent(mutateEvent);
           scanDOM();
+          document.dispatchEvent(mutateEvent);
         }
       }, OBSERVER_THROTTLE);
     }
@@ -316,7 +316,7 @@ function attachEncryptFrame(elements) {
   });
 }
 
-function isAttached(element) {
+export function isAttached(element) {
   const status = element.dataset[FRAME_STATUS];
   switch (status) {
     case FRAME_ATTACHED:
