@@ -31,6 +31,9 @@ export async function update(obj) {
   if (obj.keyserver) {
     Object.assign(prefs.keyserver, obj.keyserver);
   }
+  if (obj.provider) {
+    Object.assign(prefs.provider, obj.provider);
+  }
   // notifiy update handlers
   updateHandlers.forEach(fn => {
     fn();

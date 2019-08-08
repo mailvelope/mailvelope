@@ -279,6 +279,9 @@
       "auto_sign_msg": false,
       "prefer_gnupg": true
     },
+    "provider": {
+      "gmail_integration": true
+    },
     "keyserver": {
       "hkp_base_url": "https://keyserver.ubuntu.com",
       "hkp_server_list": [

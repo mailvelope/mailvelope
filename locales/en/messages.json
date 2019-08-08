@@ -1347,6 +1347,10 @@
     "description": "Indicates if a keyring is preferred",
     "message": "preferred"
   },
+  "provider_gmail_integration"  : {
+    "description": "Label for Gmail integration option.",
+    "message": "Activate Gmail integration"
+  },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",
     "message": "Remember password temporarily"
@@ -1818,6 +1822,10 @@
   "settings_keyserver": {
     "description": "Tab of options to display key server settings.",
     "message": "Key Server"
+  },
+  "settings_provider": {
+    "description": "Tab of options to display provider settings.",
+    "message": "Mail Provider spezific"
   },
   "settings_security": {
     "description": "Tab of options to display security settings.",

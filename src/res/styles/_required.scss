@@ -110,6 +110,7 @@ $custom-control-indicator-border-color: $input-border-color;
 
 // indicator input + select
 $custom-control-indicator-checked-bg: $component-active-bg;
+$custom-control-indicator-checked-disabled-bg:  rgba($turquoise, .5) !default;
 $custom-control-indicator-checked-border-color: mix($black, $custom-control-indicator-checked-bg, 16%);
 $custom-control-indicator-checked-box-shadow: inset 0 -1px 0 $custom-control-indicator-checked-border-color;
 $custom-control-indicator-focus-box-shadow: $custom-control-indicator-checked-box-shadow;
