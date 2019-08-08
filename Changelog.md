@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v4.0.1
+-------
+__Aug 8, 2019__
+
+  * Fix pasting password from clipboard in password and key generate dialogs
+  * Fix import keys with key attribute packets from keys.mailvelope.com and WKD
+  * Improve scaling of logo
+
 v4.0.0
 -------
 __Aug 1, 2019__
