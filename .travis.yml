@@ -5,7 +5,7 @@ cache: npm
 before_install:
 - npm install -g grunt-cli
 install:
-- npm install
+- npm ci
 jobs:
   include:
   - name: grunt
