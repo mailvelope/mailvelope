@@ -56,7 +56,7 @@ export default class DefinePassword extends React.Component {
       <div>
         <div className="form-group">
           <label htmlFor="password" className={this.props.hideLabels ? 'sr-only' : ''}>{l10n.map.key_gen_pwd}</label>
-          <input ref={pwdInput => this.pwdInput = pwdInput} value={this.props.value} onChange={this.props.onChange} onPaste={e => this.props.onChange({target: {type: 'password', id: 'password', value: e.clipboardData.getData('Text')}})} type="password" className={`form-control ${this.props.errors.password ? ' is-invalid' : ''} text-monospace`} id="password" disabled={this.props.disabled} placeholder={this.props.hideLabels ? l10n.map.key_gen_pwd : ''} />
+          <input ref={pwdInput => this.pwdInput = pwdInput} value={this.props.value} onChange={this.props.onChange} onPaste={e => { e.preventDefault(); this.props.onChange({target: {type: 'password', id: 'password', value: e.clipboardData.getData('Text')}}); }} type="password" className={`form-control ${this.props.errors.password ? ' is-invalid' : ''} text-monospace`} id="password" disabled={this.props.disabled} placeholder={this.props.hideLabels ? l10n.map.key_gen_pwd : ''} />
           {this.props.errors.password && <div className="invalid-feedback">{this.props.errors.password.message !== '' ? this.props.errors.password.message : l10n.map.key_gen_pwd_empty}</div>}
         </div>
         <div className="form-group">
