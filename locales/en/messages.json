@@ -1429,7 +1429,7 @@
   },
   "recovery_sheet_backup_server": {
     "description": "",
-    "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner."
+    "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope."
   },
   "recovery_sheet_be_aware": {
     "description": "Label",
