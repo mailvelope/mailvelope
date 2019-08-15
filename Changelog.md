@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v4.1.0
+-------
+__Aug 15, 2019__
+
+  * Further fixes of character duplication when pasting password from clipboard in password input fields
+  * The keyring.openSettings method supports now direct navigation to the default key
+
 v4.0.1
 -------
 __Aug 8, 2019__
