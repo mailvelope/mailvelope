@@ -1,0 +1,2042 @@
+{
+  "action_menu_activate_current_tab": {
+    "description": "Activate on current tab shortcut in the action menu",
+    "message": "Godkend dette domæne"
+  },
+  "action_menu_all_options": {
+    "description": "All options link in the action menu",
+    "message": "Alle indstillinger"
+  },
+  "action_menu_configure_mailvelope": {
+    "description": "Configure Mailvelope label in the action menu",
+    "message": "<0>Opsæt Mailvelope</0> for at komme i gang!"
+  },
+  "action_menu_dashboard_description": {
+    "description": "Dashboard description in the action menu",
+    "message": "Vis alle konfigurationsmuligheder."
+  },
+  "action_menu_dashboard_label": {
+    "description": "Dashboard label in the action menu",
+    "message": "Dashboard"
+  },
+  "action_menu_file_encryption_description": {
+    "description": "File encryption description in the action menu",
+    "message": "Krypter en eller flere filer."
+  },
+  "action_menu_file_encryption_label": {
+    "description": "File encryption label in the action menu",
+    "message": "Fil kryptering"
+  },
+  "action_menu_help": {
+    "description": "Online help shortcut.",
+    "message": "Hjælp"
+  },
+  "action_menu_keyring_description": {
+    "description": "Keyring description in the action menu",
+    "message": "Administrer offentlige og private krypteringsnøgler."
+  },
+  "action_menu_keyring_label": {
+    "description": "Keyring label in the action menu",
+    "message": "Nøglering"
+  },
+  "action_menu_primary_menu_aria_label": {
+    "description": "Accessibility, aria label of the primary menu",
+    "message": "Mailvelope primær menu"
+  },
+  "action_menu_reload_extension_scripts": {
+    "description": "Reload extension scripts shortcut in the action menu",
+    "message": "Genindlæs Mailvelope"
+  },
+  "action_menu_review_security_logs_description": {
+    "description": "Review security logs description in the action menu",
+    "message": "Gennemgå sikkerhedsrelevante brugerhandlinger."
+  },
+  "action_menu_review_security_logs_label": {
+    "description": "Review security logs label in the action menu",
+    "message": "Sikkerhedslog"
+  },
+  "action_menu_setup_menu_aria_label": {
+    "description": "Accessibility, aria label of the setup menu",
+    "message": "Mailvelope opsætningsmenu"
+  },
+  "action_menu_setup_new_bg_description": {
+    "description": "Configure new security bg description text in the action menu",
+    "message": "Den sidste opdatering af Mailvelope kræver, at du konfigurerer din sikkerhedsbaggrund igen."
+  },
+  "action_menu_setup_start_label": {
+    "description": "Start button label",
+    "message": "Lad os starte!"
+  },
+  "alert_header_error": {
+    "description": "Alert header of category error.",
+    "message": "Fejl!"
+  },
+  "alert_header_success": {
+    "description": "Alert header of category success.",
+    "message": "Succes!"
+  },
+  "alert_header_warning": {
+    "description": "Alert header of category warning.",
+    "message": "Advarsel!"
+  },
+  "alert_invalid_domainmatchpattern_warning": {
+    "description": "Alert header of category warning.",
+    "message": "Domæne match-mønster skal begynde med '*.'."
+  },
+  "alert_no_domainmatchpattern_warning": {
+    "description": "Alert header of category warning.",
+    "message": "Mindst ét domæne match-mønster er nødvendigt."
+  },
+  "change_link": {
+    "description": "Navigation link to change this setting.",
+    "message": "Ændre"
+  },
+  "cleartext_read_error": {
+    "description": "Cleartext message read error message: $1: error message.",
+    "message": "Kunne ikke læse denne klartekst besked: $1"
+  },
+  "dashboard_link_encrypt_decrypt_files": {
+    "description": "Dashboard encrypt decrypt files link",
+    "message": "Kryptering"
+  },
+  "dashboard_link_manage_domains": {
+    "description": "Dashboard manage domains link",
+    "message": "Godkendte domæner"
+  },
+  "dashboard_link_manage_keys": {
+    "description": "Dashboard manage keys link",
+    "message": "Administrer nøgler"
+  },
+  "dashboard_link_view_security_log": {
+    "description": "Dashboard view security logs link",
+    "message": "Sikkerhedslogs"
+  },
+  "decrypt_attachment_label": {
+    "description": "Label for attachments in decrypted message",
+    "message": "Vedhæftede filer"
+  },
+  "decrypt_digital_signature": {
+    "description": "Caption digital signature",
+    "message": "Digitalt signeret"
+  },
+  "decrypt_digital_signature_failure": {
+    "description": "Caption digital signature",
+    "message": "Ugyldig digital signatur"
+  },
+  "decrypt_digital_signature_null": {
+    "description": "Caption digital signature",
+    "message": "Digital signatur kunne ikke identificeres"
+  },
+  "decrypt_file_error_header": {
+    "description": "Header of file decryption error on decrypt result page.",
+    "message": "Dekryptering af fil $1 er ikke muligt!"
+  },
+  "decrypt_frame_help_text": {
+    "description": "Help text on decrypt frame.",
+    "message": "Klik for at dekryptere!"
+  },
+  "decrypt_header": {
+    "description": "Header of file/text decrypt page.",
+    "message": "Dekrypter data"
+  },
+  "decrypt_header_success": {
+    "description": "Header of file/text decrypt result page.",
+    "message": "Dekryptering er succesfuld"
+  },
+  "decrypt_home": {
+    "description": "File/text decrypting navigation: Home.",
+    "message": "Dekryptér"
+  },
+  "decrypt_open_viewer_btn_title": {
+    "description": "Title of open message viewer icon button.",
+    "message": "Åben i Mailvelope fremviser"
+  },
+  "decrypt_show_message_btn": {
+    "description": "Show messsage button label in decrypt message.",
+    "message": "Vis besked"
+  },
+  "decrypt_signer_label": {
+    "description": "Label for signature line in decrypted message",
+    "message": "Afsender"
+  },
+  "decrypt_text_area_label": {
+    "description": "Label of textarea to paste armored block in on decrypt page.",
+    "message": "Tekst, der skal dekrypteres"
+  },
+  "decrypt_text_decryption_btn": {
+    "description": "Text decryption button label on decrypt page.",
+    "message": "Vil du også dekryptere en tekst?"
+  },
+  "decrypt_text_error_header": {
+    "description": "Header of text decryption error on decrypt result page.",
+    "message": "Dekryptering af teksten er ikke mulig!"
+  },
+  "dialog_cancel_btn": {
+    "description": "Dialog cancel button label",
+    "message": "Annullere"
+  },
+  "dialog_no_btn": {
+    "description": "Dialog no button label",
+    "message": "Nej"
+  },
+  "dialog_popup_close": {
+    "description": "Close decrypt popup.",
+    "message": "Luk"
+  },
+  "dialog_save_btn": {
+    "description": "Dialog save button label",
+    "message": "Gem"
+  },
+  "dialog_yes_btn": {
+    "description": "Dialog yes button label",
+    "message": "Ja"
+  },
+  "digital_signature_status_false": {
+    "description": "",
+    "message": "Ugyldig signatur"
+  },
+  "digital_signature_status_null": {
+    "description": "",
+    "message": "Signaturen kan ikke verificeres"
+  },
+  "digital_signature_status_null_description": {
+    "description": "",
+    "message": "Kontakten med den digitale signatur er endnu ikke bekræftet for krypteret kommunikation. Spørg kontaktpersonen om en invitation."
+  },
+  "digital_signature_status_true": {
+    "description": "",
+    "message": "Signaturen er gyldig"
+  },
+  "editor_blur_warn": {
+    "description": "Warning for lost focus.",
+    "message": "Advarsel: Teksteditoren har mistet fokus."
+  },
+  "editor_encrypt_button": {
+    "description": "Encrypt button.",
+    "message": "Krypter"
+  },
+  "editor_error_header": {
+    "description": "",
+    "message": "Fejl"
+  },
+  "editor_header": {
+    "description": "Header of editor popup.",
+    "message": "Skriv sikker e-mail"
+  },
+  "editor_key_not_found": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "Krypteringsnøgle ikke fundet!"
+  },
+  "editor_key_not_found_msg": {
+    "description": "Warning for when a recipient key was not found.",
+    "message": "Alle modtagere skal have en PGP-nøgle for at kryptere. Du kan dog stadig underskrive beskeden."
+  },
+  "editor_label_attachments": {
+    "description": "Label for attachments select/drop area.",
+    "message": "Vedhæftede filer"
+  },
+  "editor_label_message": {
+    "description": "Label for message textarea.",
+    "message": "Meddelelse"
+  },
+  "editor_label_recipient": {
+    "description": "Label for recipient input.",
+    "message": "Modtager"
+  },
+  "editor_link_file_encryption": {
+    "description": "Navigation link to file encryption",
+    "message": "Krypter filer"
+  },
+  "editor_no_default_key_caption_long": {
+    "description": "",
+    "message": "E-mail kan ikke underskrives digitalt, fordi standardnøglen mangler"
+  },
+  "editor_no_default_key_caption_short": {
+    "description": "",
+    "message": "E-mail kan ikke underskrives digitalt"
+  },
+  "editor_remove_upload": {
+    "description": "Remove uploaded attachment",
+    "message": "Fjern"
+  },
+  "editor_sign_button": {
+    "description": "Sign button.",
+    "message": "Kun underskriv"
+  },
+  "editor_sign_caption_long": {
+    "description": "",
+    "message": "Når e-mailen sendes, underskrives den også digitalt"
+  },
+  "editor_sign_caption_short": {
+    "description": "",
+    "message": "E-mail underskrives digitalt"
+  },
+  "editor_transfer": {
+    "description": "Transfer button of editor popup.",
+    "message": "Overfør"
+  },
+  "encrypt_change_signer_dialog_signer_label": {
+    "description": "Label for signer select of change signer dialog.",
+    "message": "Vælg underskrift"
+  },
+  "encrypt_change_signer_dialog_title": {
+    "description": "Titel of change signer dialog.",
+    "message": "Skift underskrift"
+  },
+  "encrypt_dialog_no_recipient": {
+    "description": "Error message if no recipient selected.",
+    "message": "Tilføj venligst en modtager."
+  },
+  "encrypt_download_all_button": {
+    "description": "Button to download all files",
+    "message": "Download alle"
+  },
+  "encrypt_encrypted_files_label": {
+    "description": "Encrypted files label on encrypt success page.",
+    "message": "Krypterede filer"
+  },
+  "encrypt_encrypted_for_label": {
+    "description": "Encrypted for label on encrypt success page.",
+    "message": "Krypteret til"
+  },
+  "encrypt_error": {
+    "description": "Error during encryption process.",
+    "message": "Kunne ikke kryptere denne meddelelse: $1"
+  },
+  "encrypt_file_error_header": {
+    "description": "Header of file decryption error on decrypt result page.",
+    "message": "Kryptering af fil $1 er ikke muligt!"
+  },
+  "encrypt_frame_btn_label": {
+    "description": "Text on expanded editor button of editable email area",
+    "message": "Skriv sikker e-mail"
+  },
+  "encrypt_header": {
+    "description": "Header of file/text encrypt page.",
+    "message": "Krypter data"
+  },
+  "encrypt_header_success": {
+    "description": "Header of file/text encrypt result page.",
+    "message": "Kryptering er vellykket"
+  },
+  "encrypt_home": {
+    "description": "File/text encrypting navigation: Home.",
+    "message": "Krypter"
+  },
+  "encrypt_no_signer_info": {
+    "description": "No signer info text on encrypt page.",
+    "message": "Krypterede data er ikke underskrevet"
+  },
+  "encrypt_remove_signer_btn": {
+    "description": "Remove signer button label on encrypt page.",
+    "message": "Fjern signatur"
+  },
+  "encrypt_signed_as_label": {
+    "description": "Signed as label on encrypt success page.",
+    "message": "Underskrevet af"
+  },
+  "encrypt_signer_info": {
+    "description": "Signer info text on encrypt page.",
+    "message": "Krypterede data underskrives med din nøgle ($1)"
+  },
+  "encrypt_text_encryption_btn": {
+    "description": "Text encryption button label on encrypt page.",
+    "message": "Vil du også kryptere en tekst?"
+  },
+  "encrypt_text_error_header": {
+    "description": "Header of text decryption error on decrypt result page.",
+    "message": "Kryptering af teksten er ikke mulig!"
+  },
+  "encrypt_upload_file_warning_too_big": {
+    "description": ".",
+    "message": "En af filerne er for stor."
+  },
+  "ext_description": {
+    "description": "Description of the extension.",
+    "message": "Forbedr din e-mail-udbyder med ende-til-ende-kryptering. Sikker e-mail-kommunikation baseret på OpenPGP-standarden."
+  },
+  "ext_name": {
+    "description": "Name of the extension.",
+    "message": "Mailvelope"
+  },
+  "feature_banner_new_security_background_text": {
+    "description": "Text of feature banner for new security background.",
+    "message": "Gør Mailvelope endnu mere sikker ved at tilpasse din sikkerhedsbaggrund."
+  },
+  "feature_banner_new_security_background_btn": {
+    "description": "Button text of feature banner for new security background.",
+    "message": "Tilpas nu"
+  },
+  "file_invalid_signed": {
+    "description": "Text of signer field of file element.",
+    "message": "Underskriften er ugyldig"
+  },
+  "file_not_signed": {
+    "description": "Text of signer field of file element.",
+    "message": "Filen er ikke underskrevet"
+  },
+  "file_read_error": {
+    "description": "",
+    "message": "Denne fil kunne ikke dekrypteres: $1"
+  },
+  "file_signed": {
+    "description": "Text of signer field of file element.",
+    "message": "Fil underskrevet af $1"
+  },
+  "form_back": {
+    "description": "Back form button.",
+    "message": "Tilbage"
+  },
+  "form_busy": {
+    "description": "Form in busy state.",
+    "message": "Bearbejder"
+  },
+  "form_cancel": {
+    "description": "Cancel form button.",
+    "message": "Annullere"
+  },
+  "form_clear": {
+    "description": "Clear form button.",
+    "message": "Ryd"
+  },
+  "form_close": {
+    "description": "Close form button.",
+    "message": "Luk"
+  },
+  "form_confirm": {
+    "description": "Confirm form button.",
+    "message": "Bekræft"
+  },
+  "form_continue": {
+    "description": "Continue form button.",
+    "message": "Fortsæt"
+  },
+  "form_definition_error_no_recipient_key": {
+    "description": "Error message when recipient key is not in keyring",
+    "message": "Ingen gyldig krypteringsnøgle til modtageradressen."
+  },
+  "form_definition_error_signature_invalid": {
+    "description": "Error message when the form signature is not valid",
+    "message": "Formsignaturen er ikke gyldig."
+  },
+  "form_destination": {
+    "description": "URL the form data will be sent to",
+    "message": "Destination"
+  },
+  "form_destination_default": {
+    "description": "Behavior when no action is specified in form",
+    "message": "De krypterede data vil blive returneret til siden."
+  },
+  "form_forward": {
+    "description": "Forward form button.",
+    "message": "Vidersend"
+  },
+  "form_import": {
+    "description": "Import form button.",
+    "message": "Importer"
+  },
+  "form_loading": {
+    "description": "Waiting modal when form is loading.",
+    "message": "Indlæser formular"
+  },
+  "form_next": {
+    "description": "Next form button.",
+    "message": "Næste"
+  },
+  "form_no": {
+    "description": "No form button.",
+    "message": "Nej"
+  },
+  "form_ok": {
+    "description": "Ok form button.",
+    "message": "OK"
+  },
+  "form_recipient": {
+    "description": "The email for which the form will be encrypted for",
+    "message": "Modtager"
+  },
+  "form_save": {
+    "description": "Save form button.",
+    "message": "Gem"
+  },
+  "form_sign_error_no_default_key": {
+    "description": "Error message when trying to sign and no primary key is found",
+    "message": "Der er ingen privat nøgle tilgængelig i nøglering til at underskrive formular indholdet. Importer eller opret en."
+  },
+  "form_submit": {
+    "description": "Submit form button.",
+    "message": "Send"
+  },
+  "form_undo": {
+    "description": "Undo form button.",
+    "message": "Fortryd"
+  },
+  "form_yes": {
+    "description": "Yes form button.",
+    "message": "Ja"
+  },
+  "general_default_key_always": {
+    "description": "Label for default private key option.",
+    "message": "Tilføj altid min standard nøgle til listen over modtagere. (Dette giver dig mulighed for at dekryptere sendte mails)"
+  },
+  "general_default_key_auto_sign": {
+    "description": "Label for default private key option.",
+    "message": "Vil du underskrive alle dine e-mails?"
+  },
+  "general_default_key_auto_sign_link": {
+    "description": "Test for auto sign link.",
+    "message": "Skift indstillinger her"
+  },
+  "general_default_key_no_sign_option": {
+    "description": "Label for not sign option in sign key select.",
+    "message": "Ikke underskrevet"
+  },
+  "general_gnupg_check_availability": {
+    "description": "Button label to check availability of GnuPG",
+    "message": "Tillad os at kontrollere tilgængeligheden"
+  },
+  "general_gnupg_installed_question": {
+    "description": "Status message with available user options",
+    "message": "Har du GnuPG installeret? Hvis ikke <0>Download her</0>. For at kontrollere tilgængeligheden igen <1>Genstart Mailvelope</1>"
+  },
+  "general_gnupg_not_available": {
+    "description": "Indicator if GnuPG is not available",
+    "message": "GnuPG er ikke tilgængelig"
+  },
+  "general_gnupg_prefer": {
+    "description": "Question if user prefers to use GnuPG",
+    "message": "Foretrækker du at bruge GnuPG?"
+  },
+  "general_openpgp_current": {
+    "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG",
+    "message": "Du bruger i øjeblikket"
+  },
+  "general_openpgp_prefer": {
+    "description": "Label for OpenPGP backend selection.",
+    "message": "Hvilken krypteringsbackend foretrækker du?"
+  },
+  "general_openpgp_preferences": {
+    "description": "Headline for OpenPGP settings.",
+    "message": "OpenPGP Indstillinger"
+  },
+  "general_prefer_gnupg_note": {
+    "description": "Help text for GnuPG as the preferred OpenPGP backend option.",
+    "message": "Bemærk: offentlige nøgler synkroniseres mellem tilgængelige nøgleringe. Afhængig af tilgængeligheden af private nøgler kan Mailvelope tilsidesætte den foretrukne indstilling for krypteringsbibliotek."
+  },
+  "gnupg_connection": {
+    "description": "Header that shows that GnuPG is available on the system.",
+    "message": "GnuPG forbindelse"
+  },
+  "gnupg_error_unusable_pub_key": {
+    "description": "",
+    "message": "Kontroller, om følgende offentlige nøgler er tilgængelige i din GnuPG-nøglering og at de er gyldige: $1"
+  },
+  "header_warning": {
+    "description": "Header warning.",
+    "message": "Advarsel!"
+  },
+  "import_frame_help_text": {
+    "description": "Help text on import frame.",
+    "message": "Klik for at importere nøglen!"
+  },
+  "install_landing_page_hint": {
+    "description": "Install landing page getting started hint",
+    "message": "Klik her for at åbne udvidelsen."
+  },
+  "invalid_default_key": {
+    "description": "Tootip for set as default key button",
+    "message": "Nøglen er ikke gyldig til kryptering og signering"
+  },
+  "key_default_active_btn_title": {
+    "description": "Title for active default key button",
+    "message": "Nøglen er indstillet som standard nøgle"
+  },
+  "key_default_disabled_btn_title": {
+    "description": "Title for disabled (invalid) default key button",
+    "message": "Nøglen er ugyldig og kan ikke indstilles som standard nøgle"
+  },
+  "key_default_inactive_btn_title": {
+    "description": "Title for inactive default key button",
+    "message": "Indstil nøglen som standard nøgle"
+  },
+  "key_export_btn": {
+    "description": "Export key button label",
+    "message": "Eksporter"
+  },
+  "key_export_btn_title": {
+    "description": "Title for export key button",
+    "message": "Eksporter nøgle"
+  },
+  "key_export_create_file": {
+    "description": "Download file button.",
+    "message": "Gem"
+  },
+  "key_export_dialog_copy_to_clipboard": {
+    "description": "Copy to clipboard button label.",
+    "message": "Kopier til udklipsholder"
+  },
+  "key_export_dialog_question": {
+    "description": "Question in export private key dialog.",
+    "message": "Hvilken nøgle ønsker du at eksportere?"
+  },
+  "key_export_dialog_title": {
+    "description": "Title of export key dialog.",
+    "message": "Eksporter nøgle"
+  },
+  "key_export_filename": {
+    "description": "Label of filename input.",
+    "message": "Filnavn"
+  },
+  "key_export_header": {
+    "description": "Export key dialog header.",
+    "message": "Eksporter nøgle"
+  },
+  "key_export_warning_private": {
+    "description": "Key export warning.",
+    "message": "Denne fil indeholder også private nøgler. Opbevar filen på et sikkert sted og del den ikke med andre."
+  },
+  "key_gen_advanced_btn": {
+    "description": "Advanced key generation settings.",
+    "message": "Avanceret"
+  },
+  "key_gen_another": {
+    "description": "Key import button",
+    "message": "Generer en anden..."
+  },
+  "key_gen_demail": {
+    "description": "De-Mail address name.",
+    "message": "De-Mail Adresse"
+  },
+  "key_gen_error": {
+    "description": "Key generation error message",
+    "message": "Fejl under generering af nøgle."
+  },
+  "key_gen_experimental": {
+    "description": "A key algorithm is flagged as experimental",
+    "message": "eksperimentel"
+  },
+  "key_gen_expiration": {
+    "description": "Key expiration date",
+    "message": "Nøgle udløbsdato"
+  },
+  "key_gen_future_default": {
+    "description": "Key generation algorithm, the future supported standard.",
+    "message": "Fremtidig standard"
+  },
+  "key_gen_generate": {
+    "description": "Key generate button label",
+    "message": "Generer"
+  },
+  "key_gen_invalid_email": {
+    "description": "Error message.",
+    "message": "Ugyldig e-mail-adresse"
+  },
+  "key_gen_key_size": {
+    "description": "Advanced key generation settings: Key size",
+    "message": "Nøglestørrelse"
+  },
+  "key_gen_name_help": {
+    "description": "Help text for name field.",
+    "message": "Fulde navn nøgle ejeren"
+  },
+  "key_gen_pwd": {
+    "description": "Label for passphrase input field",
+    "message": "Indtast adgangskode"
+  },
+  "key_gen_pwd_empty": {
+    "description": "Passphrase input field status",
+    "message": "Adgangskodefeltet er tomt"
+  },
+  "key_gen_pwd_match": {
+    "description": "Passphrase input field status",
+    "message": "Adgangskoderne matcher"
+  },
+  "key_gen_pwd_reenter": {
+    "description": "Label for passphrase input field",
+    "message": "Genindtast kodeord"
+  },
+  "key_gen_pwd_unequal": {
+    "description": "Passphrase input field status",
+    "message": "Adgangskoderne stemmer ikke overens"
+  },
+  "key_gen_success": {
+    "description": "Key generation success message",
+    "message": "Ny nøgle genereret og importeret til nøgleringen"
+  },
+  "key_gen_upload": {
+    "description": "Upload key to Mailvelope key server checkbox",
+    "message": "Upload offentlig nøgle til Mailvelope Key Server (kan slettes når som helst)"
+  },
+  "key_gen_wait_header": {
+    "description": "Wait dialog header",
+    "message": "Nøgle generering i gang..."
+  },
+  "key_gen_wait_info": {
+    "description": "Wait dialog info message",
+    "message": "Vent venligst, generering af nøgler kan tage op til flere minutter afhængigt af forskellige faktorer, såsom nøglestørrelse."
+  },
+  "key_import_bulk_success": {
+    "description": "Import success message for more than 5 keys",
+    "message": "Nøgler succesfuldt importeret/opdateret!"
+  },
+  "key_import_contacts_import_btn": {
+    "description": "Contact import button label on key import page.",
+    "message": "Importer kontakter"
+  },
+  "key_import_default_description": {
+    "description": "Key import dialog description.",
+    "message": "Bekræft for at aktivere krypteret kommunikation med denne modtager:"
+  },
+  "key_import_default_headline": {
+    "description": "Key import dialog header.",
+    "message": "Bekræft nøgle"
+  },
+  "key_import_dialog_header": {
+    "description": "Key import dialog header.",
+    "message": "Tilføj nøgle til nøgleringen"
+  },
+  "key_import_error": {
+    "description": "Import error alert.",
+    "message": "Importfejl."
+  },
+  "key_import_error_no_uid": {
+    "description": "Import error no user id found.",
+    "message": "Der blev ikke fundet et gyldigt bruger-id i nøglen $1"
+  },
+  "key_import_error_parse": {
+    "description": "Import parse error.",
+    "message": "Fejl ved læsning af den armeret PGP-nøgle: $1"
+  },
+  "key_import_exception": {
+    "description": "Import error alert.",
+    "message": "Der opstod en fejl under behandling af nøglerne"
+  },
+  "key_import_file_label": {
+    "description": "File selection label.",
+    "message": "Vælg filer"
+  },
+  "key_import_from_text_btn": {
+    "description": "Import keys from clipboard button label on key import page.",
+    "message": "Importer nøgle fra udklipsholder"
+  },
+  "key_import_from_text_label": {
+    "description": "Import keys from clipboard textarea label on key import page.",
+    "message": "Tekst fra udklipsholder"
+  },
+  "key_import_hkp_search_btn": {
+    "decryption": "Key search input button.",
+    "message": "Søg"
+  },
+  "key_import_hkp_search_ph": {
+    "decryption": "Key search input place holder.",
+    "message": "Efter navn, e-mail-adresse eller nøgle-ID"
+  },
+  "key_import_hkp_search_public": {
+    "decryption": "Key search input.",
+    "message": "Søg efter offentlige nøgler på nøgleserveren."
+  },
+  "key_import_hkp_server": {
+    "decryption": "Key search server label.",
+    "message": "Nøgleserver"
+  },
+  "key_import_invalid_text": {
+    "description": "Import error alert.",
+    "message": "Ingen gyldig nøgletekst fundet"
+  },
+  "key_import_invalidated_description": {
+    "description": "",
+    "message": "Advarsel: Nødvendige data for krypteret kommunikation er udløbet. Krypteret kommunikation med $1 er ikke længere mulig. Kontakten skal invitere dig igen."
+  },
+  "key_import_number_of_failed": {
+    "description": "Error message with number of failed imports.",
+    "message": "En nøgle kunne ikke importeres på grund af fejl."
+  },
+  "key_import_number_of_failed_plural": {
+    "description": "Error message with number of failed imports.",
+    "message": "$1 nøgler kunne ikke importeres på grund af fejl."
+  },
+  "key_import_private_exists": {
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Privat nøgeldel, der matcher den eksisterende offentlige nøgle $1 fra bruger $2 importeret til nøglering"
+  },
+  "key_import_private_read": {
+    "description": "Import error message. $1: error message",
+    "message": "Kan ikke læse en privat nøgle: $1"
+  },
+  "key_import_private_success": {
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Privat nøgle $1 fra bruger $2 importeret til nøglering"
+  },
+  "key_import_private_update": {
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Opdaterede privat nøgle $1 fra bruger $2"
+  },
+  "key_import_public_read": {
+    "description": "Import error message. $1: error message",
+    "message": "Kan ikke læse en offentlig nøgle: $1"
+  },
+  "key_import_public_success": {
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Offentlig nøgle $1 for bruger $2 importeret til nøglering"
+  },
+  "key_import_public_update": {
+    "description": "Import success message: $1: keyid, $2: userid.",
+    "message": "Opdateret offentlig nøgle $1 for bruger $2"
+  },
+  "key_import_textarea": {
+    "description": "Key import box.",
+    "message": "Importer nøgle som tekst"
+  },
+  "key_import_too_big": {
+    "description": "Import error alert.",
+    "message": "Den nøgle tekst, du prøvede at importere, er for lang til at håndtere. Prøv at gøre det i mindre dele."
+  },
+  "key_import_unable": {
+    "description": "Import error message: $1: error message.",
+    "message": "Kan ikke importere en nøgle på grund af fejl: $1"
+  },
+  "key_keyserver_mod": {
+    "description": "Local key data differs from Mailvelope key server",
+    "message": "Nøgledataene på Mailvelope-nøgleserveren er ikke længere opdateret."
+  },
+  "key_keyserver_not": {
+    "description": "Key is not on the the Mailvelope server",
+    "message": "Nøglen er ikke synkroniseret med Mailvelope-nøgleserveren."
+  },
+  "key_keyserver_remove": {
+    "description": "A deletion request has been sent to the Mailvelope key server",
+    "message": "Der blev sendt en bekræftelses-e-mail til alle bruger-ID'er til endelig fjernelse fra Mailvelope-nøgleserveren."
+  },
+  "key_keyserver_remove_btn": {
+    "description": "Key server remove existing key button label",
+    "message": "Fjern alle bruger-id'er"
+  },
+  "key_keyserver_resend_btn": {
+    "description": "Key server send again button label",
+    "message": "Send igen"
+  },
+  "key_keyserver_sync": {
+    "description": "Key data is synchronized with the Mailvelope key server",
+    "message": "Nøgledataene på Mailvelope-nøgleserveren er opdateret."
+  },
+  "key_keyserver_update": {
+    "description": "An update request has been sent to the Mailvelope key server",
+    "message": "Nøgledataene er blevet opdateret på Mailvelope-nøgleserveren."
+  },
+  "key_keyserver_update_btn": {
+    "description": "Key server update button label",
+    "message": "Opdatering"
+  },
+  "key_keyserver_upload": {
+    "description": "An upload request has been sent to the Mailvelope key server",
+    "message": "For at synkronisere nøglen med Mailvelope-nøgleserveren blev der sendt en bekræftelses-e-mail til alle bruger-id'er."
+  },
+  "key_keyserver_upload_btn": {
+    "description": "Key server upload button label",
+    "message": "Synkroniser"
+  },
+  "key_recovery_failed": {
+    "description": "",
+    "message": "Gendannelse af nøglen fra sikkerhedskopien mislykkedes."
+  },
+  "key_remove_btn": {
+    "description": "Remove key button label",
+    "message": "Fjern"
+  },
+  "key_remove_btn_title": {
+    "description": "Title for remove key button",
+    "message": "Fjern nøglen fra nøglering"
+  },
+  "key_remove_dialog_title": {
+    "description": "Title of delete key dialog.",
+    "message": "Fjern nøgle"
+  },
+  "key_revoke_btn": {
+    "description": "Revoke key button label",
+    "message": "Tilbagekald"
+  },
+  "key_revoke_btn_title": {
+    "description": "Title for revoke key button",
+    "message": "Tilbagekald nøgle"
+  },
+  "key_revoke_dialog_confirm": {
+    "description": "Confirmation question of revoke key dialog.",
+    "message": "Vil du stadig tilbagekalde nøglen?"
+  },
+  "key_revoke_dialog_description": {
+    "description": "Text of revoke key dialog.",
+    "message": "Ved tilbagekaldelse forbliver nøglen permanent ubrugelig."
+  },
+  "key_revoke_dialog_title": {
+    "description": "Title of revoke key dialog.",
+    "message": "Tilbagekald nøglen"
+  },
+  "key_set_as_default": {
+    "description": "Set as default key for the keyring button",
+    "message": "Indstil som standard"
+  },
+  "keybackup_failed": {
+    "description": "",
+    "message": "Oprettelse af nøgle-sikkerhedskopi mislykkedes."
+  },
+  "keybackup_restore_dialog_button": {
+    "description": "",
+    "message": "Gendan sikkerhedskopi"
+  },
+  "keybackup_restore_dialog_description": {
+    "description": "",
+    "message": "Opret her et nyt gendannelsesark, hvis:"
+  },
+  "keybackup_restore_dialog_headline": {
+    "description": "",
+    "message": "Anbefaling: Opret en sikkerhedskopi"
+  },
+  "keybackup_restore_dialog_list_1": {
+    "description": "",
+    "message": "Du mistede gendannelsesarket."
+  },
+  "keybackup_restore_dialog_list_2": {
+    "description": "",
+    "message": "Et nyt gendannelsesark skal oprettes af sikkerhedsmæssige årsager."
+  },
+  "keybackup_setup_dialog_button": {
+    "description": "",
+    "message": "Opret en sikkerhedskopi"
+  },
+  "keybackup_setup_dialog_description": {
+    "description": "",
+    "message": "Backupen er påkrævet for at sikre, at din krypterede kommunikation er:"
+  },
+  "keybackup_setup_dialog_headline": {
+    "description": "",
+    "message": "Anbefaling: Opret en sikkerhedskopi"
+  },
+  "keybackup_setup_dialog_list_1": {
+    "description": "In order to restore your encrypted communication in case of data loss.",
+    "message": "For at gendanne den i tilfælde af datatab"
+  },
+  "keybackup_setup_dialog_list_2": {
+    "description": "In order to transfer your encrypted communication to other devices.",
+    "message": "For at overføre den til andre enheder"
+  },
+  "keybackup_waiting_description": {
+    "description": "",
+    "message": "Der udarbejdes et dokument med din gendannelseskode."
+  },
+  "keybackup_waiting_headline": {
+    "description": "",
+    "message": "Opretter backup!"
+  },
+  "keydetails_change_exp_date_dialog_note": {
+    "description": "Important note in change expiration date dialog.",
+    "message": "Udløbsdatoen ændres også for alle undernøgler. Ugyldige undernøgler eller undernøgler, der allerede er udløbet, forbliver upåvirket."
+  },
+  "keydetails_change_exp_date_dialog_title": {
+    "description": "Title of change expiration date dialog.",
+    "message": "Skift udløbsdato"
+  },
+  "keydetails_change_pwd_dialog_old": {
+    "description": "Old password input label",
+    "message": "Gammel adgangskode"
+  },
+  "keydetails_change_pwd_dialog_title": {
+    "description": "Title of change password dialog.",
+    "message": "Skift adgangskode"
+  },
+  "keydetails_creation_date": {
+    "description": "Creation date of a PGP key.",
+    "message": "Oprettet"
+  },
+  "keydetails_expiration_date": {
+    "description": "Expiration date of a PGP key.",
+    "message": "Udløber"
+  },
+  "keydetails_key_not_expire": {
+    "description": "Expiration date of a PGP key not set.",
+    "message": "aldrig"
+  },
+  "keydetails_password": {
+    "description": "Password of a PGP key.",
+    "message": "Adgangskode"
+  },
+  "keydetails_title": {
+    "description": "Title of the key details panel",
+    "message": "Nøgle detaljer"
+  },
+  "keygen_dialog_password_placeholder": {
+    "description": "",
+    "message": "min. 4 tegn"
+  },
+  "keygen_dialog_password_error_length": {
+    "description": "",
+    "message": "Adgangskode kræver mindst $1 tegn"
+  },
+  "keygen_dialog_prolog": {
+    "description": "",
+    "message": "Venligst lav en adgangskode til din nøgle for at beskytte din krypteret kommunikation:"
+  },
+  "keygen_waiting_description": {
+    "description": "",
+    "message": "Denne proces kan tage flere minutter. Din browser kan være blokeret. Vær tålmodig."
+  },
+  "keygen_waiting_headline": {
+    "description": "",
+    "message": "Opsætter krypteret kommunikation"
+  },
+  "keygrid_algorithm": {
+    "description": "Public-key algorithm of a PGP key.",
+    "message": "Algoritme"
+  },
+  "keygrid_all_keys": {
+    "description": "Selection of key type.",
+    "message": "Alle"
+  },
+  "keygrid_creation_date": {
+    "description": "Creation date of a PGP key.",
+    "message": "Oprettelsesdato"
+  },
+  "keygrid_creation_date_short": {
+    "description": "Short creation date of a PGP key. Max. width: 90px",
+    "message": "Oprettet"
+  },
+  "keygrid_default_key": {
+    "description": "Default key in the keyring.",
+    "message": "Standardnøgle"
+  },
+  "keygrid_default_label": {
+    "description": "Label for the default key",
+    "message": "Standard"
+  },
+  "keygrid_delete": {
+    "description": "Max. 6 characters.",
+    "message": "Slet"
+  },
+  "keygrid_delete_confirmation": {
+    "description": "Delete confirmation dialog.",
+    "message": "Er du sikker på, at du vil fjerne denne nøgle?"
+  },
+  "keygrid_display_all_keys": {
+    "description": "Export key menu.",
+    "message": "Vis alle nøgler"
+  },
+  "keygrid_display_priv_key": {
+    "description": "Export key menu.",
+    "message": "Vis private nøgler"
+  },
+  "keygrid_display_pub_key": {
+    "description": "Export key menu.",
+    "message": "Vis offtentlig nøgle"
+  },
+  "keygrid_expiration_date": {
+    "description": "Expiration date of a PGP key.",
+    "message": "Udløbsdato"
+  },
+  "keygrid_export": {
+    "description": "Export key.",
+    "message": "Eksporter"
+  },
+  "keygrid_export_title": {
+    "description": "Title for Export key button.",
+    "message": "Eksporter alle nøgler på denne liste til en fil"
+  },
+  "keygrid_generate_title": {
+    "description": "Title for generate key button",
+    "message": "Opreet en nøgle"
+  },
+  "keygrid_import_title": {
+    "description": "Title for Import key button.",
+    "message": "Importer en nøgle"
+  },
+  "keygrid_invalid_userid": {
+    "description": "User ID invalid.",
+    "message": "Ugyldigt bruger ID"
+  },
+  "keygrid_key_fingerprint": {
+    "description": "Unique string identifier for a PGP key.",
+    "message": "PGP Fingeraftryk"
+  },
+  "keygrid_key_length": {
+    "description": "Key length of a PGP key.",
+    "message": "Længde"
+  },
+  "keygrid_key_not_expire": {
+    "description": "Expiration date of a PGP key not set.",
+    "message": "Denne nøgle udløber ikke"
+  },
+  "keygrid_keyid": {
+    "description": "Key ID of a PGP key.",
+    "message": "Nøgle ID"
+  },
+  "keygrid_primary_key": {
+    "description": "Main key in the PGP key.",
+    "message": "Primære Key"
+  },
+  "keygrid_private_keys": {
+    "description": "Selection of key type.",
+    "message": "Private Nøgler"
+  },
+  "keygrid_public_keys": {
+    "description": "Selection of key type.",
+    "message": "offentlige Nøgler"
+  },
+  "keygrid_refresh": {
+    "description": "Refresh keygrid component.",
+    "message": "Opdater"
+  },
+  "keygrid_refresh_title": {
+    "description": "Title for button to refresh keygrid component.",
+    "message": "Genindlæs nøglering"
+  },
+  "keygrid_send_pub_key": {
+    "description": "Export key menu.",
+    "message": "Send offentlig nøgle via e-mail"
+  },
+  "keygrid_signer_name": {
+    "description": "User ID of signer.",
+    "message": "Underskriver"
+  },
+  "keygrid_signer_unknown": {
+    "description": "Key of signer not available.",
+    "message": "Ukendt underskriver"
+  },
+  "keygrid_sort_type": {
+    "description": "Key grid sort selector.",
+    "message": "Filtre"
+  },
+  "keygrid_status_expired": {
+    "description": "Validity status of a PGP key.",
+    "message": "udløbet"
+  },
+  "keygrid_status_invalid": {
+    "description": "Validity status of a PGP key.",
+    "message": "ugyldig"
+  },
+  "keygrid_status_revoked": {
+    "description": "Validity status of a PGP key.",
+    "message": "tilbagekaldt"
+  },
+  "keygrid_status_valid": {
+    "description": "Validity status of a PGP key.",
+    "message": "gyldig"
+  },
+  "keygrid_subkey": {
+    "description": "Subkey of a PGP key.",
+    "message": "Undernøgle"
+  },
+  "keygrid_subkeys": {
+    "description": "Subkeys of a PGP key.",
+    "message": "undernøgler"
+  },
+  "keygrid_user_email": {
+    "description": "Email address in User ID of a PGP key.",
+    "message": "Email"
+  },
+  "keygrid_user_ids": {
+    "description": "User IDs of a PGP key.",
+    "message": "Bruger ID'er"
+  },
+  "keygrid_user_name": {
+    "description": "Name in User ID of a PGP key.",
+    "message": "Navn"
+  },
+  "keygrid_user_primary": {
+    "description": "Primary status of User ID of a PGP key",
+    "message": "Primære"
+  },
+  "keygrid_userid_signatures": {
+    "description": "Signatures on User ID of a PGP key.",
+    "message": "Underskrifter"
+  },
+  "keygrid_validity_status": {
+    "description": "Validity status of a PGP key.",
+    "message": "Status"
+  },
+  "keyring_available_settings": {
+    "description": "Text introducing the availability of further settings.",
+    "message": "Se tilgængelige indstillinger:"
+  },
+  "keyring_backup": {
+    "description": "Title of keyring backup view",
+    "message": "Nøglering backup"
+  },
+  "keyring_confirm_deletion": {
+    "description": "Confirmation message prompted when a keyring is deleted",
+    "message": "Vil du slette nøgleringen med ID: $1?"
+  },
+  "keyring_confirm_keys": {
+    "description": "Tab of keyring to import keys.",
+    "message": "Bekræft nøgle"
+  },
+  "keyring_confirm_keys_plural": {
+    "description": "Tab of keyring to import keys.",
+    "message": "Bekræft $1 nøgler"
+  },
+  "keyring_display_keys": {
+    "description": "Tab of keyring to display keys.",
+    "message": "Vis Nøgler"
+  },
+  "keyring_export_keys": {
+    "description": "Tab of keyring to export keys.",
+    "message": "Eksporter Nøglering"
+  },
+  "keyring_generate_key": {
+    "description": "Tab of keyring to generate key.",
+    "message": "Opret Nøgle"
+  },
+  "keyring_header": {
+    "description": "Header of the key ring.",
+    "message": "Nøgle Administration"
+  },
+  "keyring_import_description": {
+    "description": "Description of key import for import tab of keyring import.",
+    "message": "Du kan tilføje dine kontakter enten som fil eller som tekst fra udklipsholderen."
+  },
+  "keyring_import_keys": {
+    "description": "Tab of keyring to import keys.",
+    "message": "Tilføj Nøgler"
+  },
+  "keyring_import_search_description": {
+    "description": "Description of key search for search tab of keyring import.",
+    "message": "Søg på nøgleserveren efter eksisterende kontakter."
+  },
+  "keyring_main": {
+    "description": "Label for the main keyring",
+    "message": "Primære Nøglering"
+  },
+  "keyring_private": {
+    "description": "private key type",
+    "message": "Privat"
+  },
+  "keyring_public": {
+    "description": "public key type",
+    "message": "Offentlig"
+  },
+  "keyring_public_private": {
+    "description": "public and private key types",
+    "message": "Nøglepar"
+  },
+  "keyring_remove_dialog_title": {
+    "description": "Title of delete keyring dialog.",
+    "message": "Slet nøglering"
+  },
+  "keyring_setup": {
+    "description": "Setup keyring for mail provider.",
+    "message": "Opsætning"
+  },
+  "keyring_setup_generate_key": {
+    "description": "Generate key",
+    "message": "Opret nøgle"
+  },
+  "keyring_setup_generate_key_explanation": {
+    "description": "Generate key",
+    "message": "Hvis du bruger denne udvidelse for første gang, og hvis du ikke har et nøglepar endnu, bør du generere en nu."
+  },
+  "keyring_setup_import_key": {
+    "description": "Import key",
+    "message": "Importer Nøgle"
+  },
+  "keyring_setup_import_key_explanation": {
+    "description": "Import key",
+    "message": "Har du allerede et nøglepar på en anden enhed? Du kan importere dine eksisterende nøgler. Eksporter nøgleparret fra den anden enhed og importer dem derefter her."
+  },
+  "keyring_setup_no_keypair": {
+    "description": "Setup text if no keypair available",
+    "message": "Der kræves et nøglepar for at kryptere og dekryptere meddelelser såvel som at invitere dine kontakter til end-to-end krypteret kommunikation."
+  },
+  "keyring_setup_no_keypair_heading": {
+    "description": "Setup heading if no keypair available",
+    "message": "Denne nøglering indeholder endnu ikke et nøglepar."
+  },
+  "keyserver_additionals_label": {
+    "description": "Label for configuration of additional key sources",
+    "message": "Yderligere nøglekilder"
+  },
+  "keyserver_autocrypt_lookup": {
+    "description": "Enable Looking Up Keys Via Autocrypt",
+    "message": "Brug nøgler fra Autocrypt-headers fra indgående email"
+  },
+  "keyserver_hkp_url": {
+    "description": "HKP key server option: url.",
+    "message": "HKP nøgle server"
+  },
+  "keyserver_tofu_lookup": {
+    "description": "Enable Mailvelope Key Server Auto Lookup",
+    "message": "Brug Mailvelope nøgleserveren"
+  },
+  "keyserver_url_error": {
+    "description": "HKP key server URL error.",
+    "message": "Nøgleserveren kan ikke kontaktes"
+  },
+  "keyserver_url_warning": {
+    "description": "HKP key server url warning.",
+    "message": "URL til nøgleserveren skal have følgende format: http(s)://keys.example.com"
+  },
+  "keyserver_wkd_lookup": {
+    "description": "Enable Web Key Directory Auto Lookup",
+    "message": "Forespørg nøgler fra modtagerens e-mail-udbyder (Web Key Directory)"
+  },
+  "keyusers_add_btn": {
+    "description": "Add user button label",
+    "message": "Tilføj ny"
+  },
+  "keyusers_add_btn_title": {
+    "description": "Add user button title",
+    "message": "Tilføj ny bruger ID"
+  },
+  "keyusers_keyserver": {
+    "description": "Label of key server column key users table",
+    "message": "Nøgle server"
+  },
+  "keyusers_keyserver_not": {
+    "description": "User ID not synchronized with key server label text",
+    "message": "ikke synkroniseret"
+  },
+  "keyusers_keyserver_sync": {
+    "description": "User ID synchronized with key server label text",
+    "message": "synkroniseret"
+  },
+  "keyusers_keyserver_unverified": {
+    "description": "User ID key server not verified label text",
+    "message": "ubekræftet"
+  },
+  "keyusers_title": {
+    "description": "Title of the key users panel",
+    "message": "Tildelte bruger-id'er"
+  },
+  "learn_more_link": {
+    "description": "Text of a link to a learn-more resource",
+    "message": "Lær mere"
+  },
+  "message_no_keys": {
+    "description": "Decrypt error message.",
+    "message": "Der blev ikke fundet nogen privat nøgle til denne meddelelse. Påkrævede private nøgle-id'er: $1"
+  },
+  "message_read_error": {
+    "description": "Message read error message: $1: error message.",
+    "message": "Denne meddelelse kunne ikke dekrypteres: $1"
+  },
+  "nameaddrinput_error_email_exists": {
+    "description": "Error message for email input field.",
+    "message": "E-mail-adressen er allerede i brug"
+  },
+  "nameaddrinput_error_name_empty": {
+    "description": "Error message for name input field.",
+    "message": "Indtast et navn"
+  },
+  "notification_text_copy_to_clipboard": {
+    "description": "Copy to clipboard toast message.",
+    "message": "Teksten er blevet kopieret til udklipsholderen."
+  },
+  "options_about": {
+    "description": "Options navigation: About.",
+    "message": "Om"
+  },
+  "options_docu": {
+    "description": "Options navigation: Documentation.",
+    "message": "Dokumentation"
+  },
+  "options_home": {
+    "description": "Options navigation: Home.",
+    "message": "Valgmuligheder"
+  },
+  "options_settings": {
+    "description": "Options header: Settings.",
+    "message": "Indstillinger"
+  },
+  "options_title": {
+    "description": "Title of options page.",
+    "message": "Mailvelope Indstillinger"
+  },
+  "preferred": {
+    "description": "Indicates if a keyring is preferred",
+    "message": "foretrukket"
+  },
+  "pwd_dialog_cache_pwd": {
+    "description": "Checkbox label for remembering of the password.",
+    "message": "Husk adgangskode midlertidigt"
+  },
+  "pwd_dialog_cancel": {
+    "description": "User canceled key unlock dialog.",
+    "message": "Oplåsning af nøgler blev annulleret."
+  },
+  "pwd_dialog_header": {
+    "description": "Header of the password dialog.",
+    "message": "Indtast nøgle adgangskode"
+  },
+  "pwd_dialog_keyid_tooltip": {
+    "description": "Tooltip explaining the key id.",
+    "message": "ID for din nøgle"
+  },
+  "pwd_dialog_pwd_please": {
+    "description": "Placeholder for password.",
+    "message": "Indtast venligst dit kodeord"
+  },
+  "pwd_dialog_reason_add_user": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at oprette bruger-ID."
+  },
+  "pwd_dialog_reason_create_backup": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at oprette et gendannelsesark."
+  },
+  "pwd_dialog_reason_create_draft": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at oprette et udkast."
+  },
+  "pwd_dialog_reason_decrypt": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at dekryptere denne besked."
+  },
+  "pwd_dialog_reason_editor": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at opdater indstillinger for krypteret kommunikation."
+  },
+  "pwd_dialog_reason_revoke": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at tilbagekalde denne nøgle."
+  },
+  "pwd_dialog_reason_revoke_user": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for tilbagekalde bruger-ID."
+  },
+  "pwd_dialog_reason_set_exdate": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at sætte en ny udløbsdato for nøglen."
+  },
+  "pwd_dialog_reason_sign": {
+    "description": "",
+    "message": "Indtast din nøgle-adgangskode for at underskrive denne meddelelse."
+  },
+  "pwd_dialog_title": {
+    "description": "Title of the password dialog.",
+    "message": "Indtast et kodeord | Mailvelope"
+  },
+  "pwd_dialog_userid": {
+    "description": "Label for user ID.",
+    "message": "Bruger ID:"
+  },
+  "pwd_dialog_wrong_pwd": {
+    "description": "Password error message.",
+    "message": "Forkert kodeord"
+  },
+  "recovery_sheet_backup_data": {
+    "description": "",
+    "message": "Sikkerhedskopi af dine data"
+  },
+  "recovery_sheet_backup_local": {
+    "description": "",
+    "message": "Hvis du udelukkende vil gemme dine data lokalt på din computer, finder du denne mulighed i de krypterede kommunikationsindstillinger på din $1 konto. "
+  },
+  "recovery_sheet_backup_server": {
+    "description": "",
+    "message": "For at sikkerhedskopiere de data, der er vigtige for krypteret kommunikation (f.eks. Nøgle-kode), gemmes dataene krypteret på vores servere af Mailvelope, vores sikkerhedspartner."
+  },
+  "recovery_sheet_be_aware": {
+    "description": "Label",
+    "message": "Vær opmærksom på"
+  },
+  "recovery_sheet_check_settings": {
+    "description": "",
+    "message": "Kontroller indstillingerne på din konto under:"
+  },
+  "recovery_sheet_creation_date": {
+    "description": "Label for recovery sheet creation date",
+    "message": "Oprettelsesdato:"
+  },
+  "recovery_sheet_data_lost": {
+    "description": "",
+    "message": "Uden en sikkerhedskopi kan dine krypterede meddelelser ikke dekrypteres igen, i tilfælde af at du mister dit nøgle-kodeord eller problemer med browserudvidelsen!"
+  },
+  "recovery_sheet_encryption_note": {
+    "description": "Sub title",
+    "message": "Tips for krypteret kommunikation med $1"
+  },
+  "recovery_sheet_enter_code": {
+    "description": "Label for navigation path",
+    "message": "For installation på andre computere skal du indtaste gendannelseskoden i indstillingerne under:"
+  },
+  "recovery_sheet_explain_pgp": {
+    "description": "",
+    "message": "Krypteret kommunikation med $1 er en PGP-baseret procedure. Det giver dig mulighed for at sende krypterede e-mails og samtidig sikre, at kun du og modtageren er i stand til at læse dem."
+  },
+  "recovery_sheet_extension_problems": {
+    "description": "List item",
+    "message": "på grund af problemer med browserudvidelsen"
+  },
+  "recovery_sheet_forgot_password": {
+    "description": "List item",
+    "message": "fordi du har glemt adgangskoden til din nøgle"
+  },
+  "recovery_sheet_further_info": {
+    "description": "",
+    "message": "Du kan finde flere oplysninger og indstillinger i dit $1 konto under"
+  },
+  "recovery_sheet_header": {
+    "description": "Title of recovery sheet.",
+    "message": "Vigtig information!"
+  },
+  "recovery_sheet_in_general": {
+    "description": "Label",
+    "message": "Generelt er det vigtigt"
+  },
+  "recovery_sheet_invite_contacts": {
+    "description": "",
+    "message": "I dine krypterede kommunikationsindstillinger på din $1 konto, har du muligheden for at invitere yderligere kontakter til at bruge krypteret kommunikation via PGP. Kontakter, der allerede er inviteret med succes, kan genkendes ved hængelåsikonet ved siden af e-mail-adressen. "
+  },
+  "recovery_sheet_keep_safe": {
+    "description": "",
+    "message": "Opbevar en udskrift af dette dokument på et sikkert sted, og sørg for, at ingen andre har adgang til gendannelseskoden."
+  },
+  "recovery_sheet_key_server": {
+    "description": "",
+    "message": "Andre $1 brugere, der bruger PGP-proceduren fra GMX kan findes direkte i et centralt bibliotek i din $1 konto. Hvis du ikke vil have nogen poster i dette bibliotek, skal du deaktivere denne funktion i din $1 konto indstillinger."
+  },
+  "recovery_sheet_mobile_devices": {
+    "description": "",
+    "message": "På mobile enheder"
+  },
+  "recovery_sheet_not_working": {
+    "description": "Label for list",
+    "message": "Hvis din krypterede kommunikation ikke længere fungerer, f.eks.:"
+  },
+  "recovery_sheet_other_computer": {
+    "description": "",
+    "message": "På en anden computer"
+  },
+  "recovery_sheet_other_contacts": {
+    "description": "",
+    "message": "Krypteret kommunikation med andre kontakter"
+  },
+  "recovery_sheet_other_devices": {
+    "description": "Sub title",
+    "message": "Krypteret kommunikation på andre enheder"
+  },
+  "recovery_sheet_other_devices_setup": {
+    "description": "",
+    "message": "Opsætning af krypteret kommunikation på andre enheder"
+  },
+  "recovery_sheet_other_problems": {
+    "description": "List item",
+    "message": "af andre årsager"
+  },
+  "recovery_sheet_pgp_compat": {
+    "description": "",
+    "message": "Du kan kommunikere sikkert med andre kontakter, hvis de også bruger krypteret kommunikation (PGP)."
+  },
+  "recovery_sheet_print_block": {
+    "description": "Sub title of recovery sheet.",
+    "message": "Opbevar dette dokument et sikkert sted!"
+  },
+  "recovery_sheet_print_button": {
+    "description": "",
+    "message": "Print"
+  },
+  "recovery_sheet_print_notice": {
+    "description": "Sub title of recovery sheet.",
+    "message": "Udskriv dette dokument og opbevar det på et sikkert sted!"
+  },
+  "recovery_sheet_provider_communication": {
+    "description": "",
+    "message": "Krypteret kommunikation"
+  },
+  "recovery_sheet_provider_inbox": {
+    "description": "",
+    "message": "Indbakke"
+  },
+  "recovery_sheet_provider_security": {
+    "description": "",
+    "message": "Sikkerhed"
+  },
+  "recovery_sheet_provider_settings": {
+    "description": "",
+    "message": "Indstillinger"
+  },
+  "recovery_sheet_qr_code": {
+    "description": "",
+    "message": "Scan QR-koden med din mobile enhed."
+  },
+  "recovery_sheet_recommendation": {
+    "description": "",
+    "message": "Anbefaling"
+  },
+  "recovery_sheet_recover_data": {
+    "description": "Sub title",
+    "message": "Gendannelse af data"
+  },
+  "recovery_sheet_recovery_code": {
+    "description": "",
+    "message": "Gendannelseskode"
+  },
+  "recovery_sheet_subtitle_receipt": {
+    "description": "Sub title of recovery sheet.",
+    "message": "Gendannelsesark for krypteret kommunikation"
+  },
+  "recovery_sheet_subtitle_recover": {
+    "description": "Sub title",
+    "message": "Gendan krypteret kommunikation"
+  },
+  "recovery_sheet_trusted_contacts": {
+    "description": "",
+    "message": "Med GMX kontakter kan du være sikker på, at de viste brugere faktisk er gyldige brugere. Du bør dog altid kontrollere identiteten af kontakter med en e-mail-adresse fra en anden e-mail-udbyder."
+  },
+  "recovery_sheet_unknown_third": {
+    "description": "",
+    "message": "Konfigurer kun krypteret kommunikation på sikre enheder, som fremmede ikke kan få adgang til."
+  },
+  "recovery_sheet_unlock_backup": {
+    "description": "",
+    "message": "Sikkerhedskopien af dine data kan kun dekrypteres ved hjælp af gendannelseskoden på dette gendannelsesark."
+  },
+  "reload_tab": {
+    "description": "Info message.",
+    "message": "Genindlæs de aktive sider igen, så indstillingerne træder i kraft."
+  },
+  "restore_backup_dialog_button": {
+    "description": "",
+    "message": "Bekræft"
+  },
+  "restore_backup_dialog_headline": {
+    "description": "",
+    "message": "Indtast din gendannelseskode:"
+  },
+  "restore_password_dialog_button": {
+    "description": "",
+    "message": "Vis"
+  },
+  "restore_password_dialog_headline": {
+    "description": "",
+    "message": "Dit nøgle-kodeord:"
+  },
+  "security_background_button_title": {
+    "description": "The tooltip text for the keylock button",
+    "message": "Sikkerhedsbaggrunden kan justeres i Mailvelope Indstillinger"
+  },
+  "security_background_color_text": {
+    "description": "Security background select color text",
+    "message": "2. Vælg nu en farve, du kan lide"
+  },
+  "security_background_icons_text": {
+    "description": "Security background select icon text",
+    "message": "1. Vælg et ikon, du kan lide"
+  },
+  "security_background_text": {
+    "description": "Security background text",
+    "message": "Din sikkerhedsbaggrund vises bag hver krypteret e-mail. For at gøre det virkelig sikkert, skal du tilpasse det. Sådan sikrer du, at ingen er i stand til at rekonstruere Mailvelope-interface for at få adgang til dine personlige data."
+  },
+  "security_cache_header": {
+    "description": "Password cache header",
+    "message": "Husk adgangskoder til denne browsersession."
+  },
+  "security_cache_help": {
+    "description": "Help text for cache time.",
+    "message": "Skal være et tal mellem 1-999"
+  },
+  "security_cache_off": {
+    "description": "Don't store password.",
+    "message": "Nej."
+  },
+  "security_cache_on": {
+    "description": "Store password in memory for $1 minutes.",
+    "message": "Ja, husk for"
+  },
+  "security_cache_time": {
+    "description": "Store password in memory for $1 minutes.",
+    "message": "minutter."
+  },
+  "security_display_decrypted": {
+    "description": "Label for display options",
+    "message": "Hvor vises dekrypterede meddelelser?"
+  },
+  "security_display_inline": {
+    "description": "Decrypted message display option",
+    "message": "På e-mail-udbyderens side."
+  },
+  "security_display_popup": {
+    "description": "Decrypted message display option",
+    "message": "I en separat Mailvelope popup."
+  },
+  "security_hide_armored_head": {
+    "description": "Hide header infos in armored messages",
+    "message": "Skjul Mailvelope version og kommentar i PGP beskeder."
+  },
+  "security_log_action": {
+    "description": "Title of the action column of the security log table.",
+    "message": "Handling"
+  },
+  "security_log_add_attachment": {
+    "description": "A click on the attachment upload button as an event type",
+    "message": "Klik på knappen Tilføj vedhæftet fil"
+  },
+  "security_log_attachment_download": {
+    "description": "Attachment downloaded as an event source",
+    "message": "Vedhæftet fil downloadet"
+  },
+  "security_log_backup_create": {
+    "description": "",
+    "message": "Klik for at oprette sikkerhedskopip"
+  },
+  "security_log_backup_restore": {
+    "description": "",
+    "message": "Klik for at gendanne sikkerhedskopi"
+  },
+  "security_log_content_copy": {
+    "description": "",
+    "message": "Kopiér verificer dialog"
+  },
+  "security_log_decryption_operation": {
+    "description": "",
+    "message": "Beskeden er dekrypteret med: $1"
+  },
+  "security_log_decrypt_ui": {
+    "description": "",
+    "message": "Dekryptér"
+  },
+  "security_log_dialog_cancel": {
+    "description": "",
+    "message": "Klik for at annullere som dialog"
+  },
+  "security_log_dialog_encrypt": {
+    "description": "",
+    "message": "Klik for at kryptere som dialog"
+  },
+  "security_log_dialog_ok": {
+    "description": "",
+    "message": "Klik for at bekræfte som dialog"
+  },
+  "security_log_dialog_sign": {
+    "description": "",
+    "message": "Klik for at underskrive som dialog"
+  },
+  "security_log_editor": {
+    "description": "Message editor container as an event source",
+    "message": "Mailvelope Editor"
+  },
+  "security_log_email_viewer": {
+    "description": "Email decryption container as an event source",
+    "message": "Dekrypteret PGP E-mail"
+  },
+  "security_log_encrypt_dialog": {
+    "description": "Encrypt dialog as an event source",
+    "message": "Krypter Dialog"
+  },
+  "security_log_encrypt_ui": {
+    "description": "",
+    "message": "Krypter"
+  },
+  "security_log_encrypt_form": {
+    "description": "Encrypt form as an event source",
+    "message": "Krypter form"
+  },
+  "security_log_encryption_operation": {
+    "description": "",
+    "message": "Beskeden er krypteret til: $1"
+  },
+  "security_log_import_dialog": {
+    "description": "Key import dialog as an event source",
+    "message": "Importere Dialog"
+  },
+  "security_log_key_backup": {
+    "description": "Message keybackup container as an event source",
+    "message": "Nøglesikkerhedskopi"
+  },
+  "security_log_key_generator": {
+    "description": "Key generator container as an event source",
+    "message": "Nøglegenerator"
+  },
+  "security_log_password_click": {
+    "description": "",
+    "message": "Klik i adgangskodialogen"
+  },
+  "security_log_password_dialog": {
+    "description": "Password dialog as an event source",
+    "message": "Kodeord Dialog"
+  },
+  "security_log_password_input": {
+    "description": "",
+    "message": "Input i dialogboksen adgangskode"
+  },
+  "security_log_remove_attachment": {
+    "description": "A click on the attachment remove button as event type",
+    "message": "Vedhæftet fil fjernet"
+  },
+  "security_log_restore_backup_click": {
+    "description": "",
+    "message": "Klik i gendan backup-dialog"
+  },
+  "security_log_sign_operation": {
+    "description": "",
+    "message": "Meddelelsen er underskrevet med nøglen: $1"
+  },
+  "security_log_signature_modal_close": {
+    "description": "",
+    "message": "Klik for at lukke dialogboksen signatur"
+  },
+  "security_log_signature_modal_open": {
+    "description": "",
+    "message": "Klik for at åbne dialogboksen signatur"
+  },
+  "security_log_source": {
+    "description": "Title of the source column of the security log table.",
+    "message": "Kilde"
+  },
+  "security_log_text": {
+    "description": "Text explaining the purpose of the security log",
+    "message": "Sikkerhedsloggen viser brugerhandlinger i alle komponenter i Mailvelope."
+  },
+  "security_log_text_input": {
+    "description": "User clicked in text area",
+    "message": "Input i tekstfelt"
+  },
+  "security_log_textarea_click": {
+    "description": "User clicked in text area",
+    "message": "Klik i tekstområde"
+  },
+  "security_log_textarea_input": {
+    "description": "User clicked in text area",
+    "message": "Input i tekstområde"
+  },
+  "security_log_textarea_select": {
+    "description": "Selection of the text area as an event type",
+    "message": "Valg i tekstområde"
+  },
+  "security_log_timestamp": {
+    "description": "Title of the timestamp column of the security log table.",
+    "message": "Tidsstempel"
+  },
+  "security_log_verify_dialog": {
+    "description": "Verify dialog as an event source",
+    "message": "Bekræft dialog"
+  },
+  "security_log_viewer": {
+    "description": "Message viewer as an event source",
+    "message": "Mailvelope Fremviser"
+  },
+  "security_openpgp_header": {
+    "description": "OpenPGP settings header",
+    "message": "OpenPGP indstillinger"
+  },
+  "settings_backup": {
+    "description": "Tab allowing to backup and restore the settings.",
+    "message": "Backup"
+  },
+  "settings_general": {
+    "description": "Tab of options to display general settings.",
+    "message": "Generel"
+  },
+  "settings_keyserver": {
+    "description": "Tab of options to display key server settings.",
+    "message": "Nøgleserver"
+  },
+  "settings_security": {
+    "description": "Tab of options to display security settings.",
+    "message": "Sikkerhed"
+  },
+  "settings_security_background": {
+    "description": "Security background header",
+    "message": "Sikkerhedsbaggrund"
+  },
+  "settings_security_log": {
+    "description": "Tab of options to display security log.",
+    "message": "Sikkerhedslog"
+  },
+  "settings_watchlist": {
+    "description": "Tab of options to display list of authorized domains.",
+    "message": "Autoriserede domæner"
+  },
+  "sign_dialog_header": {
+    "description": "Header of sign dialog. Choose the person you want to sign the message with.",
+    "message": "Underskriv besked som:"
+  },
+  "sign_error": {
+    "description": "Error during signing process.",
+    "message": "Kunne ikke underskrive denne meddelelse: $1"
+  },
+  "signer_unknown": {
+    "description": "Name of unknown signer.",
+    "message": "Ukendt"
+  },
+  "text_decrypt_button": {
+    "description": "Button label for decrypting the message",
+    "message": "Dekryptér"
+  },
+  "text_decrypting": {
+    "description": "Navigation link to text decryption feature",
+    "message": "Tekstdekryptering"
+  },
+  "text_encrypting": {
+    "description": "Navigation link to text encryption feature",
+    "message": "Tekstkryptering"
+  },
+  "upload_aborting_warning": {
+    "description": "A warning for the aborting of the file upload.",
+    "message": "Fil upload vil blive afbrudt."
+  },
+  "upload_attachment": {
+    "description": "Text in the upload attachment button of the message editor dialog",
+    "message": "Tilføj fil"
+  },
+  "upload_drop": {
+    "description": "Text in file drop overlay area",
+    "message": "Slip filen i dette område for at vedhæfte den"
+  },
+  "upload_help": {
+    "description": "Text in file upload area. Sentence continues with: Upload File (Button).",
+    "message": "Træk fil til dette vindue eller"
+  },
+  "upload_quota_exceeded_warning": {
+    "description": "A warning shown when the attachments upload quota is exceeded.",
+    "message": "Tilladt vedhæftet fil størrelse:"
+  },
+  "upload_quota_warning_headline": {
+    "description": "",
+    "message": "Vedhæftningen er for stor"
+  },
+  "user_create_btn": {
+    "description": "Create user button label",
+    "message": "Opret"
+  },
+  "user_create_title": {
+    "description": "Title of create user page",
+    "message": "Opret bruger-id"
+  },
+  "user_keyserver_not": {
+    "description": "User ID is not synchronized with Mailvelope key server",
+    "message": "Bruger-ID'et er ikke synkroniseret med Mailvelope nøgleserveren."
+  },
+  "user_keyserver_remove": {
+    "description": "A remove request has been sent to the Mailvelope key server",
+    "message": "For endelig fjernelse fra Mailvelope nøgleserveren blev en e-mail med bekræftelse sendt til $1."
+  },
+  "user_keyserver_remove_btn": {
+    "description": "Remove user ID button label text",
+    "message": "Fjern bruger-ID"
+  },
+  "user_keyserver_resend_confirmation_btn": {
+    "description": "Resend confirmation button label text",
+    "message": "Gensend bekræftelse"
+  },
+  "user_keyserver_sync": {
+    "description": "User ID is synchronised with the Mailvelope key server",
+    "message": "Bruger-ID'et er synkroniseret med Mailvelope-nøgleserveren."
+  },
+  "user_keyserver_unverified": {
+    "description": "User ID Mailvelope key server not verified",
+    "message": "Bekræft bruger-ID for at synkronisere det med serverens Mailvelope nøgle."
+  },
+  "user_keyserver_upload": {
+    "description": "An upload request has been sent to the Mailvelope key server",
+    "message": "For at synkronisere med Mailvelope-serveren blev der sendt en bekræftelses-e-mail til $1."
+  },
+  "user_remove_btn": {
+    "description": "Remove user button label",
+    "message": "Fjern"
+  },
+  "user_remove_btn_title": {
+    "description": "Remove user button title",
+    "message": "Fjern bruger-ID"
+  },
+  "user_remove_dialog_confirmation": {
+    "description": "Confirmation question in remove user dialog.",
+    "message": "Vil du fjerne dette bruger-id fra din nøgle?"
+  },
+  "user_remove_dialog_keyserver_warning": {
+    "description": "Warning message, that key will be deleted from keyserver",
+    "message": "Bruger-ID fjernes også fra Mailvelope-nøgleserveren."
+  },
+  "user_remove_dialog_title": {
+    "description": "Title of remove user dialog.",
+    "message": "Fjern bruger-ID"
+  },
+  "user_revoke_btn": {
+    "description": "Revoke user button label",
+    "message": "Tilbagekald"
+  },
+  "user_revoke_btn_title": {
+    "description": "Revoke user button title",
+    "message": "Tilbagekald bruger-id"
+  },
+  "user_revoke_dialog_confirmation": {
+    "description": "Confirmation question in revoke user dialog.",
+    "message": "Ønsker du stadig at tilbagekalde?"
+  },
+  "user_revoke_dialog_description": {
+    "description": "Description in revoke user dialog.",
+    "message": "Efter tilbagekaldelse forbliver bruger-ID'et for denne nøgle permanent ubrugelig."
+  },
+  "user_revoke_dialog_title": {
+    "description": "Title of revoke user dialog.",
+    "message": "Tilbagekald bruger-ID"
+  },
+  "user_title": {
+    "description": "Title of user page",
+    "message": "Bruger-ID"
+  },
+  "usersignatures_title": {
+    "description": "Title of signatures panel in user.",
+    "message": "Verificeringer"
+  },
+  "verify_error": {
+    "description": "Error during verification process.",
+    "message": "Kunne ikke bekræfte denne meddelelse: $1"
+  },
+  "verify_frame_help_text": {
+    "description": "Help text on verify frame.",
+    "message": "Klik for at bekræfte underskrift!"
+  },
+  "waiting_dialog_decryption_failed": {
+    "description": "Error message in the waiting dialog after failing to decrypt a message",
+    "message": "Dekryptering mislykkedes!"
+  },
+  "watchlist_command_create": {
+    "description": "Create entry in watchlist.",
+    "message": "Tilføj ny post"
+  },
+  "watchlist_command_edit": {
+    "description": "Edit entry in watchlist.",
+    "message": "Rediger"
+  },
+  "watchlist_delete_confirmation": {
+    "description": "Message in the watchlist delete confirmation dialog.",
+    "message": "Ønsker du virkelig at fjerne denne side fra listen over godkendte domæner?"
+  },
+  "watchlist_expose_api": {
+    "description": "Expose API to Webmailer.",
+    "message": "API"
+  },
+  "watchlist_record_title": {
+    "description": "Title of the watchlist editor dialog.",
+    "message": "Godkendt domæne"
+  },
+  "watchlist_remove_dialog_title": {
+    "description": "Title of delete watchlist dialog.",
+    "message": "Fjern domæne"
+  },
+  "watchlist_title_active": {
+    "description": "Entry in watchlist is active.",
+    "message": "Aktiveret"
+  },
+  "watchlist_title_frame": {
+    "description": "Web domain URL match pattern of site in watchlist.",
+    "message": "Domæne match-mønster"
+  },
+  "watchlist_title_https_only": {
+    "description": "Only allow URLs with HTTPS scheme in watchlist.",
+    "message": "HTTPS-påkrævet"
+  },
+  "watchlist_title_scan": {
+    "description": "Scan status of site in watchlist.",
+    "message": "Aktiveret"
+  },
+  "watchlist_title_site": {
+    "description": "Site in watchlist.",
+    "message": "Side"
+  },
+  "word_or": {
+    "description": "Separate list of elements.",
+    "message": "eller"
+  },
+  "wrong_restore_code": {
+    "description": "",
+    "message": "Ugyldig gendannelseskode"
+  }
+}
