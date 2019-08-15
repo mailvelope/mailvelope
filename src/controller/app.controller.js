@@ -10,6 +10,7 @@ import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
 import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey} from '../modules/key';
 import * as keyRegistry from '../modules/keyRegistry';
+import {unauthorize} from '../modules/gmail';
 import {initOpenPGP, decryptFile, encryptMessage, decryptMessage, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData, getDefaultKeyFpr} from '../modules/keyring';
 import {delete as deletePwdCache, get as getKeyPwdFromCache, unlock as unlockKey} from '../modules/pwdCache';
@@ -71,6 +72,8 @@ export default class AppController extends sub.SubController {
     this.on('auto-locate', this.autoLocate);
     this.on('get-default-key-fpr', ({keyringId}) => getDefaultKeyFpr(keyringId));
     this.on('get-signing-keys', ({keyringId}) => keyringById(keyringId).getValidSigningKeys());
+    this.on('get-oauth-tokens', this.getOAuthTokens);
+    this.on('remove-oauth-token', this.removeOAuthToken);
   }
 
   async updatePreferences(options) {
@@ -359,5 +362,13 @@ export default class AppController extends sub.SubController {
     const pwdControl = sub.factory.get('pwdDialog');
     const {key} = await pwdControl.unlockKey(options);
     return key;
+  }
+
+  async getOAuthTokens({provider}) {
+    return mvelo.storage.get(`mvelo.oauth.${provider}`);
+  }
+
+  async removeOAuthToken({email}) {
+    return unauthorize(email);
   }
 }

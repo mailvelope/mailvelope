@@ -28,6 +28,7 @@ export default class Provider extends React.Component {
     this.state = {
       gmail: false,
       gmail_integration: false,
+      gmail_authorized_emails: [],
       watchList: null,
       modified: false,
     };
@@ -48,6 +49,7 @@ export default class Provider extends React.Component {
       gmail_integration: provider.gmail_integration,
       modified: false
     });
+    await this.loadAuthorisations();
   }
 
   async verifyHost(host) {
@@ -59,9 +61,24 @@ export default class Provider extends React.Component {
     return match;
   }
 
+  async loadAuthorisations() {
+    let gmailOAuthTokens = await port.send('get-oauth-tokens', {provider: 'gmail'});
+    if (gmailOAuthTokens) {
+      gmailOAuthTokens = Object.keys(gmailOAuthTokens).map(key => ({...gmailOAuthTokens[key], email: key}));
+    } else {
+      gmailOAuthTokens = [];
+    }
+    this.setState({gmail_authorized_emails: gmailOAuthTokens});
+  }
+
   async loadWatchList() {
     const watchList = await port.send('getWatchList');
     this.setState({watchList});
+  }
+
+  async removeAuthorisation(email) {
+    await port.send('remove-oauth-token', {provider: 'gmail', email});
+    await this.loadAuthorisations();
   }
 
   handleCheck({target}) {
@@ -103,6 +120,29 @@ export default class Provider extends React.Component {
                 </div>
               </Alert>
             )}
+            <p className="lead mt-3">Authorisierungen</p>
+            <div className="table-responsive">
+              <table className="table table-hover table-custom mb-0">
+                <thead>
+                  <tr>
+                    <th>E-Mail</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.gmail_authorized_emails.map((entry, index) =>
+                    <tr key={index}>
+                      <td>{entry.email}</td>
+                      <td className="text-center">
+                        <div className="actions">
+                          <button type="button" onClick={e => { e.stopPropagation(); this.removeAuthorisation(entry.email); }} className="btn btn-secondary">Authorisierung aufheben</button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="btn-bar">
             <button type="button" onClick={this.handleSave} className="btn btn-primary" disabled={!this.state.modified}>{l10n.map.form_save}</button>

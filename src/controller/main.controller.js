@@ -19,6 +19,7 @@ import MenuController from './menu.controller';
 import EncryptedFormController from './encryptedForm.controller';
 import ApiController from './api.controller';
 import AuthDomainController from './authDomain.controller';
+import GmailController from './gmail.controller';
 
 /**
  * Register controllers for component types. Only the components that first connect to the controller
@@ -27,7 +28,7 @@ import AuthDomainController from './authDomain.controller';
 sub.factory.register('dFrame',              DecryptController,       ['dDialog']);
 sub.factory.register('decryptCont',         DecryptController,       ['dDialog']);
 sub.factory.register('eFrame',              EncryptController,       []);
-sub.factory.register('gmailInt',            EncryptController,       []);
+sub.factory.register('gmailInt',            GmailController,         []);
 sub.factory.register('imFrame',             ImportController,        []);
 sub.factory.register('importKeyDialog',     ImportController,        ['dDialog']);
 sub.factory.register('mainCS',              MainCsController,        []);

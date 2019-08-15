@@ -30,9 +30,23 @@ export default class GmailIntegration {
   }
 
   init() {
-    this.attachEditorBtn();
     this.establishConnection();
     this.registerEventListener();
+    this.attachEditorBtn();
+  }
+
+  establishConnection() {
+    this.port = EventHandler.connect(`gmailInt-${this.id}`, this);
+    this.port.onDisconnect.addListener(this.removeElements.bind(this, false));
+  }
+
+  registerEventListener() {
+    // attach event handlers
+    document.addEventListener('mailvelope-observe', this.updateElements.bind(this, false));
+    // this.port.on('get-recipients', this.getRecipients);
+    // this.port.on('set-mv-editor-output', this.setEditorOutput);
+    // this.port.on('destroy', this.closeFrame.bind(this, true));
+    // this.port.on('mail-mv-editor-close', this.onMailEditorClose);
   }
 
   attachEditorBtn() {
@@ -183,6 +197,7 @@ export default class GmailIntegration {
       const dlUrl = attachment.getAttribute('download_url');
       if (dlUrl && regex.test(dlUrl)) {
         console.log('fetching attachment: ', decodeURI(dlUrl.match(new RegExp(':(.*?):'))[1]));
+        // this.port.emit('gmail-get-message', {msgId, email: 'martin@mailvelope.com'});
       }
     }
   }
@@ -198,22 +213,9 @@ export default class GmailIntegration {
     console.log(`set status ${FRAME_DETACHED}`);
   }
 
-  establishConnection() {
-    this.port = EventHandler.connect(`gmailInt-${this.id}`, this);
-    this.port.onDisconnect.addListener(this.removeElements.bind(this, false));
-  }
-
-  registerEventListener() {
-    // attach event handlers
-    document.addEventListener('mailvelope-observe', this.updateElements.bind(this, false));
-    // this.port.on('get-recipients', this.getRecipients);
-    // this.port.on('set-mv-editor-output', this.setEditorOutput);
-    // this.port.on('destroy', this.closeFrame.bind(this, true));
-    // this.port.on('mail-mv-editor-close', this.onMailEditorClose);
-  }
-
   onEditorButton(ev) {
     console.log('opening editor');
+    this.port.emit('gmail-get-message', {msgId: '16c84c545ba8d95a', email: 'martin@mailvelope.com'});
     // this.emailTextElement.removeEventListener('keypress', this.handleKeypress);
     // this.eFrame.querySelector('.m-encrypt-container').classList.add('active');
     // this.showMailEditor();
