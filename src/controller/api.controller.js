@@ -142,8 +142,15 @@ export default class ApiController extends sub.SubController {
     }
   }
 
-  openSettings({keyringId = MAIN_KEYRING_ID}) {
-    const hash = `?krid=${encodeURIComponent(keyringId)}#/settings`;
-    mvelo.tabs.loadAppTab(hash);
+  async openSettings({keyringId = MAIN_KEYRING_ID, options = {}}) {
+    let fragment;
+    const krid = `?krid=${encodeURIComponent(keyringId)}`;
+    if (options.showDefaultKey) {
+      const defaultKeyFpr = await keyringById(keyringId).getDefaultKeyFpr();
+      fragment = `#/keyring/key/${defaultKeyFpr}`;
+    } else {
+      fragment = '#/settings';
+    }
+    mvelo.tabs.loadAppTab(`${krid}${fragment}`);
   }
 }

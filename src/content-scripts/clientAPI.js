@@ -161,8 +161,8 @@ async function settingsContainer({selector, keyringId, options = {}}) {
   return container.create();
 }
 
-function openSettings({keyringId}) {
-  return controllerPort.send('open-settings', {keyringId});
+function openSettings({keyringId, options}) {
+  return controllerPort.send('open-settings', {keyringId, options});
 }
 
 function keyGenContainer({selector, keyringId, options = {}}) {

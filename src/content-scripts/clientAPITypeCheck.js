@@ -50,7 +50,8 @@ const optionsTypes = {
   email: 'string',
   fullName: 'string',
   keepAttachments: 'boolean',
-  armoredDraft: 'string'
+  armoredDraft: 'string',
+  showDefaultKey: 'boolean'
 };
 
 export function checkTypes(data) {

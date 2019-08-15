@@ -499,11 +499,17 @@ class Keyring {
   }
 
   /**
+   * @typedef {Object} OpenSettingsOptions
+   * @param {Boolean} showDefaultKey (default: false)
+   */
+
+  /**
    * Open the extension settings in a new browser tab
+   * @param {OpenSettingsOptions} [options]
    * @returns {Promise.<undefined, Error>}
    */
-  openSettings() {
-    return send('open-settings', {identifier: this.identifier});
+  openSettings(options) {
+    return send('open-settings', {identifier: this.identifier, options});
   }
 }
 
