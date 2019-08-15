@@ -8,7 +8,7 @@
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Mailvelopeを設定</0> でスタート！",
+        "message": "まずは<0>Mailvelopeの設定</0>から",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
@@ -60,11 +60,11 @@
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "Mailvelopeをアップデートしたため、背景模様の再設定が必要になります",
+        "message": "Mailvelopeをアップデートしたため、背景マークの再設定が必要になります",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Let's start!",
+        "message": "さあ始めましょう",
         "description": "Start button label"
     },
     "alert_header_error": {
@@ -116,11 +116,11 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "デジタル署名",
+        "message": "デジタル署名済み",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "無効なデジタル署名",
+        "message": "無効な署名",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
@@ -128,7 +128,7 @@
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
-        "message": "Decryption of file $1 is not possible!",
+        "message": "ファイル $1 の復号は不可能です。",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
@@ -148,7 +148,7 @@
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Mailvelopeビューアーで開く",
+        "message": "Mailvelopeビューアで開く",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
@@ -164,11 +164,11 @@
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "テクストを復号したいですか？",
+        "message": "テキストを復号しますか？",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Decryption of the text is not possible!",
+        "message": "このテキストの復号は不可能です。",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
@@ -220,7 +220,7 @@
         "description": ""
     },
     "editor_header": {
-        "message": "安全なメールを書く",
+        "message": "暗号メールを書く",
         "description": "Header of editor popup."
     },
     "editor_key_not_found": {
@@ -288,7 +288,7 @@
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "全てダウンロード",
+        "message": "一括ダウンロード",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
@@ -304,11 +304,11 @@
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Encryption of file $1 is not possible!",
+        "message": "ファイル $1 の暗号化は不可能です。",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "安全なメールを書く",
+        "message": "暗号メールを書く",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
@@ -336,15 +336,15 @@
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "データはあなたの鍵 ($1)で署名されています",
+        "message": "データはあなたの鍵（$1）で署名されています",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "テキストを暗号化したいですか？",
+        "message": "テキストを暗号化しますか？",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Encryption of the text is not possible!",
+        "message": "このテキストの暗号化は不可能です。",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
@@ -360,11 +360,11 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_text": {
-        "message": "背景模様を設定することで、Mailvelopeをさらに安全にできます\n",
+        "message": "背景マークを設定することで、Mailvelopeをさらに安全にできます。",
         "description": "Text of feature banner for new security background."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "背景模様の設定",
+        "message": "背景マークの設定",
         "description": "Button text of feature banner for new security background."
     },
     "file_invalid_signed": {
@@ -436,7 +436,7 @@
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "フォームを読み込んでします",
+        "message": "フォームを読み込んでいます",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
@@ -480,7 +480,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "全てのメールを署名しますか？",
+        "message": "すべてのメッセージを署名しますか？",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign_link": {
@@ -508,7 +508,7 @@
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "現在使用しているのは",
+        "message": "現在の暗号化エンジン:",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
@@ -604,7 +604,7 @@
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "Deメールアドレス",
+        "message": "De-Mailアドレス",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
@@ -628,7 +628,7 @@
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "無効なメールアドレス",
+        "message": "無効なアドレス",
         "description": "Error message."
     },
     "key_gen_key_size": {
@@ -864,7 +864,7 @@
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "無効化で、鍵は永久に使用できなくなります",
+        "message": "無効化すると、鍵は永久に使用できなくなります",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
@@ -924,7 +924,7 @@
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "バックアップを作成！",
+        "message": "バックアップを作成中",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
@@ -988,7 +988,7 @@
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "両方",
+        "message": "すべて",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
@@ -1148,7 +1148,7 @@
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "状況",
+        "message": "ステータス",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
@@ -1160,7 +1160,7 @@
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to delete the keyring with ID: $1?",
+        "message": "ID: $1 の鍵リングを本当に削除しますか？",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
@@ -1216,7 +1216,7 @@
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Delete keyring",
+        "message": "鍵リングの削除",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
@@ -1260,7 +1260,7 @@
         "description": "HKP key server option: url."
     },
     "keyserver_tofu_lookup": {
-        "message": "Mailvelope キーサーバーの使用",
+        "message": "Mailvelopeキーサーバーの使用",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_url_error": {
@@ -1272,7 +1272,7 @@
         "description": "HKP key server url warning."
     },
     "keyserver_wkd_lookup": {
-        "message": "受信者のメールサービスから鍵を検索する (Web Key Directory)",
+        "message": "受信者のメールサービスから鍵を検索する（Web Key Directory）",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
@@ -1300,7 +1300,7 @@
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "割り当てユーザーID",
+        "message": "割り当て済みユーザーID",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
@@ -1428,7 +1428,7 @@
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner.",
+        "message": "暗号通信に必要なデータ（鍵とパスワード）をバックアップするため、Mailvelopeのサーバーに暗号化されて保存されます。",
         "description": ""
     },
     "recovery_sheet_be_aware": {
@@ -1620,7 +1620,7 @@
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "背景模様は、第三者がなりすましサイトを作ることを防ぎます。自分だけの背景模様を設定して、安全性を高めてください。",
+        "message": "背景マークは、あなたの暗号メールの背景に常に表示されます。自分だけの背景模様を設定して、第三者があなたに成りすまして暗号メールを作ることを防いでください。",
         "description": "Security background text"
     },
     "security_cache_header": {
@@ -1808,7 +1808,7 @@
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "Mailvelopeビューアー",
+        "message": "Mailvelopeビューア",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {

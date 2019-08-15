@@ -360,7 +360,7 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Rendez Mailvelope encore plus sécurisé en personnalisant votre arrière-plan de sécurité.",
+        "message": "Rendez Mailvelope encore plus sécurisée en personnalisant votre arrière-plan de sécurité.",
         "description": "Text of feature banner for new security background."
     },
     "feature_banner_new_security_background_btn": {
@@ -664,7 +664,7 @@
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "Téléverser la clé publique vers le serveur de clé de Mailvelope (peut être supprimée en tout temps)",
+        "message": "Téléverser la clé publique vers le serveur de clé de Mailvelope (elle peut être supprimée en tout temps)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
@@ -1228,7 +1228,7 @@
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Si vous utilisez cette extension pour la première fois et n’avez pas encore de biclé (ensemble de deux clés), veuillez en générer une maintenant.",
+        "message": "Si vous utilisez cette extension pour la première fois et n’avez pas encore de biclé (paire de clés), veuillez en générer une maintenant.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
