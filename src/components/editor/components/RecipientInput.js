@@ -140,6 +140,9 @@ export class RecipientInputCtrl {
     }
     // lookup key in local cache
     recipient.key = this.getKey(recipient);
+    if (recipient.key) {
+      recipient.fingerprint = recipient.key.fingerprint;
+    }
     if (recipient.key || recipient.checkedServer) {
       // color tag only if a local key was found, or after server lookup
       this.colorTag(recipient);
