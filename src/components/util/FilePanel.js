@@ -81,8 +81,8 @@ function FileDownloadElement({file, onClick, onCopyToClipboard}) {
   const fileName = extractFileNameWithoutExt(file.name);
   return (
     <div className="file-element">
-      <a className="file-header" onClick={onClick} title={file.name} download={file.name} href={file.objectURL}>
-        {(fileExt === 'asc' || fileExt === 'gpg') && <img src="../../img/Mailvelope/logo_signet.svg" width="28" height="28" />}
+      <a className="file-header" onClick={onClick} title={file.name} download={file.name} href={file.objectURL || '#'}>
+        {(fileExt === 'asc' || fileExt === 'gpg' || fileExt === 'pgp') && <img src="../../img/Mailvelope/logo_signet.svg" width="28" height="28" />}
         <span className="file-extension">{fileExt}</span>
         <span className="file-name">{fileName}</span>
         <span className="icon icon-download"></span>

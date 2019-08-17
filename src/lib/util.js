@@ -202,6 +202,11 @@ export function str2bool(value) {
   return value;
 }
 
+export function base64DecodeUrl(str) {
+  str = (`${str}===`).slice(0, str.length + (str.length % 4));
+  return str.replace(/-/g, '+').replace(/_/g, '/');
+}
+
 export function dataURL2str(dataURL) {
   const base64 = dataURL2base64(dataURL);
   return window.atob(base64);

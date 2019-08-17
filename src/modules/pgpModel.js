@@ -421,6 +421,7 @@ export async function decryptFile({encryptedFile, unlockKey, uiLogSource}) {
   let armoredText;
   let binary;
   try {
+    console.log(encryptedFile);
     const content = dataURL2str(encryptedFile.content);
     if (/^-----BEGIN PGP MESSAGE-----/.test(content)) {
       armoredText = content;

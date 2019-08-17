@@ -24,14 +24,17 @@ export default class GmailController extends sub.SubController {
       this.mainType = 'gmailInt';
       this.id = getHash();
     }
+    this.userEmail;
     this.armored = null;
     this.message = null;
     this.decryptPopup = null;
     this.options = {};
     this.keyringId = getPreferredKeyringId();
     // register event handlers
+    // this.on('set-user-email', ({userEmail}) => this.userEmail = userEmail);
     this.on('gmail-get-message', this.getMessage);
     this.on('gmail-unauthorize', this.unauthorize);
+    this.on('set-encrypted-attachments', this.setEncAttachments);
     // this.on('decrypt-message-init', this.onDecryptMessageInit);
     // this.on('decrypt-message', () => this.decrypt(this.armored, this.keyringId));
     // this.on('dframe-display-popup', this.onDframeDisplayPopup);
@@ -49,6 +52,12 @@ export default class GmailController extends sub.SubController {
     gmail.unauthorize();
     // const token = await gmail.getMessage(msgId);
     // console.log(token);
+  }
+
+  setEncAttachments({controllerId, userEmail, msgId, encAttFileNames}) {
+    const normalizedControllerId = controllerId.split('-')[1];
+    const decryptContr = sub.getById(normalizedControllerId);
+    decryptContr.onSetEncAttachements({userEmail, msgId, encAttFileNames});
   }
 
   // onDecryptMessageInit() {

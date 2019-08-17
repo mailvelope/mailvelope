@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import browser from 'webextension-polyfill';
-import {matchPattern2RegExString, getHash} from '../lib/util';
+import {matchPattern2RegExString, getHash, base64DecodeUrl} from '../lib/util';
 
 const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
@@ -33,9 +33,31 @@ export async function getMessage({msgId, email}) {
     `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?key=${API_KEY}`,
     init
   );
-  console.log(response);
-  const data = await response.json();
-  console.log(data);
+  return response.json();
+}
+
+export async function getAttachment({email, msgId, fileName}) {
+  console.log('get attachement: ', fileName);
+  const msg = await getMessage({msgId, email});
+  console.log(msg);
+  const {body: {attachmentId}, mimeType} = msg.payload.parts.find(part => part.filename === fileName);
+  const scopes = [...DEFAULT_SCOPES, 'https://www.googleapis.com/auth/gmail.readonly'];
+  const accessToken = await getAccessToken(email, scopes);
+  const init = {
+    method: 'GET',
+    async: true,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Accept': 'application/json'
+    },
+    'contentType': 'json'
+  };
+  const response = await fetch(
+    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}/attachments/${attachmentId}?key=${API_KEY}`,
+    init
+  );
+  const {data, size} = await response.json();
+  return {data: `data:${mimeType};base64,${base64DecodeUrl(data)}`, size, mimeType};
 }
 
 async function getAccessToken(email, scopes) {
@@ -45,7 +67,7 @@ async function getAccessToken(email, scopes) {
   if (storedTokens && Object.keys(storedTokens).includes(email) && scopes.every(scope => storedTokens[email].scope.split(' ').includes(scope))) {
     console.log('Token found: ', storedTokens[email]);
     const storedToken = storedTokens[email];
-    if (checkTokenValidity(storedToken)) {
+    if (checkStoredToken(storedToken)) {
       console.log('Token valid! Returning...');
       return storedToken.access_token;
     }
@@ -63,7 +85,7 @@ async function getAccessToken(email, scopes) {
   return authorize(email, scopes);
 }
 
-function checkTokenValidity(storedToken) {
+function checkStoredToken(storedToken) {
   return storedToken.access_token && (storedToken.access_token_exp  >= new Date().getTime());
 }
 

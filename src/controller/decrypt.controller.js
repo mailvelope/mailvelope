@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as l10n from '../lib/l10n';
-import {getHash, mapError} from '../lib/util';
+import {getHash, mapError, dataURL2str} from '../lib/util';
 import {DISPLAY_INLINE} from '../lib/constants';
 import {prefs} from '../modules/prefs';
 import {getKeyringWithPrivKey} from '../modules/keyring';
@@ -13,6 +13,7 @@ import * as model from '../modules/pgpModel';
 import {parseMessage} from '../modules/mime';
 import * as uiLog from '../modules/uiLog';
 import {isCached} from '../modules/pwdCache';
+import {getAttachment} from '../modules/gmail';
 import * as sub from './sub.controller';
 import {triggerSync} from './sync.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
@@ -35,25 +36,29 @@ export default class DecryptController extends sub.SubController {
     this.on('decrypt-message', () => this.decrypt(this.armored, this.keyringId));
     this.on('dframe-display-popup', this.onDframeDisplayPopup);
     this.on('set-armored', this.onSetArmored);
+    this.on('set-encrypted-attachments', this.onSetEncAttachements);
     this.on('decrypt-inline-user-input', msg => uiLog.push(msg.source, msg.type));
+    this.on('download-enc-attachment', this.onDownloadEncAttachment);
   }
 
   onDecryptMessageInit() {
-    if (this.mainType === 'dFrame' && (!this.decryptPopup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
+    if ((this.mainType === 'dFrame' || this.mainType === 'dAttFrame') && (!this.decryptPopup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
       this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
     } else {
       const port = this.ports.dFrame || this.ports.decryptCont;
       // get armored message
       port && port.emit('get-armored');
+      if (this.ports.dAttFrame) {
+        this.ports.dAttFrame.emit('get-attachments');
+      }
     }
   }
 
   async onDframeDisplayPopup() {
     this.decryptPopup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
     this.decryptPopup.addRemoveListener(() => {
-      if (this.ports.dFrame) {
-        this.ports.dFrame.emit('dialog-cancel');
-      }
+      const port = this.ports.dFrame || this.ports.dAttFrame;
+      port && port.emit('dialog-cancel');
       this.decryptPopup = null;
     });
   }
@@ -68,6 +73,35 @@ export default class DecryptController extends sub.SubController {
       this.decrypt(this.armored, this.keyringId);
     } else {
       this.ports.dDialog.emit('show-password-required');
+    }
+  }
+
+  async onSetEncAttachements({userEmail, msgId, encAttFileNames}) {
+    this.userEmail = userEmail;
+    this.msgId = msgId;
+    const pgpMimeIndex = encAttFileNames.indexOf('encrypted.asc');
+    if (pgpMimeIndex !== -1) {
+      const [pgpMimeFileName] = encAttFileNames.splice(pgpMimeIndex, 1);
+      const {data} = await getAttachment({fileName: pgpMimeFileName, email: this.userEmail, msgId: this.msgId});
+      const armored = dataURL2str(data);
+      console.log(armored);
+      await this.decrypt(armored, this.keyringId);
+    }
+    this.encAttFileNames = encAttFileNames;
+    this.ports.dDialog.emit('set-enc-attachments', {encAtts: encAttFileNames});
+  }
+
+  async onDownloadEncAttachment({fileName}) {
+    const {data} = await getAttachment({fileName, email: this.userEmail, msgId: this.msgId});
+    try {
+      const attachment = await model.decryptFile({
+        encryptedFile: {content: data, name: fileName},
+        unlockKey: this.unlockKey.bind(this),
+        uiLogSource: 'security_log_viewer'
+      });
+      this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
+    } catch (error) {
+      this.ports.dDialog.emit('error-message', {error: error.message});
     }
   }
 
@@ -91,8 +125,9 @@ export default class DecryptController extends sub.SubController {
 
   dialogCancel() {
     // forward event to decrypt frame
-    if (this.ports.dFrame) {
-      this.ports.dFrame.emit('dialog-cancel');
+    const port = this.ports.dFrame || this.ports.dAttFrame;
+    if (port) {
+      port.emit('dialog-cancel');
     }
     if (this.decryptPopup) {
       this.decryptPopup.close();

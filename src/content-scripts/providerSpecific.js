@@ -84,7 +84,6 @@ class Gmail {
       console.log('instantiating new integration class for Gmail');
       this.integration = new GmailIntegration();
       this.integration.init();
-      console.log(this.integration);
     }
   }
 

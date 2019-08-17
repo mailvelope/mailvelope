@@ -42,6 +42,7 @@ export default class DecryptMessage extends React.Component {
       showSig: false,
       waiting: true,
       files: [],
+      encFiles: [],
       error: null,
       showError: false,
       pwdDialog: null,
@@ -69,6 +70,7 @@ export default class DecryptMessage extends React.Component {
     this.port.on('show-pwd-dialog', this.onShowPwdDialog);
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('terminate', this.onTerminate);
+    this.port.on('set-enc-attachments', this.onEncAttachments);
   }
 
   onTerminate() {
@@ -101,15 +103,19 @@ export default class DecryptMessage extends React.Component {
       id: getHash(),
       name: attachment.filename
     };
-    const content = str2ab(attachment.content);
+    const content = str2ab(attachment.content || attachment.data);
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     attachment.mimeType = 'application/octet-stream';
     const blob = new Blob([content], {type: attachment.mimeType});
     file.objectURL = window.URL.createObjectURL(blob);
-    this.setState(prevState => ({
-      files: [...prevState.files, file],
-      waiting: false
-    }));
+    this.setState(prevState => {
+      prevState.encFiles.splice(prevState.encFiles.findIndex(({name}) => name === attachment.encFileName), 1);
+      return {
+        files: [...prevState.files, file],
+        encFiles: [...prevState.encFiles],
+        waiting: false
+      };
+    });
   }
 
   onSignatureVerification({signers}) {
@@ -125,6 +131,16 @@ export default class DecryptMessage extends React.Component {
       signer = invalidSig[0];
     }
     this.setState({signer});
+  }
+
+  onEncAttachments({encAtts}) {
+    this.setState({encFiles: encAtts.map((filename, index) => ({id: index, name: filename}))});
+  }
+
+  handleClickEncFile(e) {
+    e.preventDefault();
+    const fileName = e.currentTarget.getAttribute('download');
+    this.setState({waiting: true}, () => this.port.emit('download-enc-attachment', {fileName}));
   }
 
   handleClickFile() {
@@ -211,7 +227,7 @@ export default class DecryptMessage extends React.Component {
       <SecurityBG className={`decrypt-msg ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
         <div className="modal d-block" style={{zIndex: 1035}}>
           <div ref={node => this.element = node} className="modal-dialog h-100 mw-100 m-0">
-            {(this.state.message || this.state.files.length) ? (
+            {(this.state.message || this.state.files.length || this.state.encFiles.length) ? (
               <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
                 {this.state.files.length > 0 && (
                   <div className="modal-header flex-shrink-0">
@@ -221,7 +237,12 @@ export default class DecryptMessage extends React.Component {
                   </div>
                 )}
                 <div className="modal-body overflow-auto">
-                  <div className="plain-text w-100 h-100">
+                  {this.state.encFiles.length > 0 && (
+                    <div className="files d-flex justify-content-start">
+                      <FileDownloadPanel files={this.state.encFiles} onClickFile={e => this.handleClickEncFile(e)} />
+                    </div>
+                  )}
+                  <div className="plain-text align-self-stretch">
                     <ContentSandbox value={this.state.message} />
                   </div>
                 </div>

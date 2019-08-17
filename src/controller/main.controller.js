@@ -26,6 +26,7 @@ import GmailController from './gmail.controller';
  * need to be registered, all subsequent components that are created will connect by unique controller id.
  */
 sub.factory.register('dFrame',              DecryptController,       ['dDialog']);
+sub.factory.register('dAttFrame',           DecryptController,       ['dDialog']);
 sub.factory.register('decryptCont',         DecryptController,       ['dDialog']);
 sub.factory.register('eFrame',              EncryptController,       []);
 sub.factory.register('gmailInt',            GmailController,         []);
