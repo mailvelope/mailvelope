@@ -45,7 +45,7 @@ export default class GmailIntegration {
   registerEventListener() {
     // attach event handlers
     document.addEventListener('mailvelope-observe', this.updateElements.bind(this, false));
-    // this.port.on('get-recipients', this.getRecipients);
+    this.port.on('get-user-email', this.getGmailUser);
     // this.port.on('set-mv-editor-output', this.setEditorOutput);
     // this.port.on('destroy', this.closeFrame.bind(this, true));
     // this.port.on('mail-mv-editor-close', this.onMailEditorClose);
@@ -151,18 +151,6 @@ export default class GmailIntegration {
       }
     }
   }
-
-  // attachDecryptAttFrame(msgId) {
-  //   console.log('Attaching new frame to message: ', msgId);
-  //   const msgElem = document.querySelector(`[data-message-id="${msgId}"]`);
-  //   if (!msgElem) {
-  //     return;
-  //   }
-  //   const containerElem = msgElem.querySelector('.a3s.aXjCH');
-  //   const dAttFrame = new DecryptAttFrame();
-  //   dAttFrame.attachTo(containerElem);
-  //   return dAttFrame;
-  // }
 
   attachMsgBtns(msgId) {
     console.log('Gmail integration: adding mailvelope ui elemnts to message: ', msgId);
@@ -282,10 +270,26 @@ export default class GmailIntegration {
 
   onEditorButton(ev) {
     console.log('opening editor');
-    this.port.emit('gmail-get-message', {msgId: '16c84c545ba8d95a', email: 'martin@mailvelope.com'});
+    this.openEditor();
+    // this.port.emit('gmail-get-message', {msgId: '16c84c545ba8d95a', email: 'martin@mailvelope.com'});
     // this.emailTextElement.removeEventListener('keypress', this.handleKeypress);
     // this.eFrame.querySelector('.m-encrypt-container').classList.add('active');
     // this.showMailEditor();
     ev.stopPropagation();
+  }
+
+  openEditor() {
+    const options = {integration: true};
+    // const emailContent = this.getEmailText(this.editorType == PLAIN_TEXT ? 'text' : 'html');
+    // if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {
+    //   try {
+    //     options.quotedMail = normalizeArmored(emailContent, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
+    //   } catch (e) {
+    //     options.text = emailContent;
+    //   }
+    // } else {
+    //   options.text = emailContent;
+    // }
+    this.port.emit('open-editor', options);
   }
 }

@@ -36,6 +36,7 @@ export default class EditorController extends sub.SubController {
     this.pwdControl = null;
     this.pgpMIME = false;
     this.options = {};
+    this.integration = false;
 
     // register event handlers
     this.on('editor-mount', this.onEditorMount);
@@ -54,7 +55,10 @@ export default class EditorController extends sub.SubController {
   }
 
   onEditorMount() {
-    this.ports.editor.emit('set-embedded-mode', {embedded: Boolean(this.ports.editorCont)});
+    this.ports.editor.emit('set-mode', {
+      embedded: Boolean(this.ports.editorCont),
+      integration: this.integration
+    });
   }
 
   async onEditorLoad() {
@@ -220,9 +224,14 @@ export default class EditorController extends sub.SubController {
   encrypt(options) {
     this.options = options;
     this.options.privKeys = true; // send private keys for signing key selection to editor
+    let height = 680;
+    if (this.options.integration) {
+      this.integration = this.options.integration;
+      height = 740;
+    }
     return new Promise((resolve, reject) => {
       this.encryptPromise = {resolve, reject};
-      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height: 680})
+      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height})
       .then(popup => {
         this.editorPopup = popup;
         popup.addRemoveListener(() => this.onEditorCancel());
@@ -335,7 +344,7 @@ export default class EditorController extends sub.SubController {
         this.editorPopup.close();
         this.editorPopup = null;
       }
-      this.transferEncrypted({armored, keys: options.keys});
+      this.transferEncrypted({armored, subject: options.subject, keys: options.keys, pgpMime: options.attachments.length > 0});
     } catch (err) {
       if (this.editorPopup && err.code === 'PWD_DIALOG_CANCEL') {
         // popup case
@@ -474,12 +483,12 @@ export default class EditorController extends sub.SubController {
    * @param  {String} options.armored   The encrypted/signed message
    * @param  {Array}  options.keys      The keys used to encrypt the message
    */
-  transferEncrypted({armored, keys = []}) {
+  transferEncrypted({armored, subject, keys = [], pgpMime}) {
     if (this.ports.editorCont) {
       this.ports.editorCont.emit('encrypted-message', {message: armored});
     } else {
       const recipients = keys.map(key => ({name: key.name, email: key.email}));
-      this.encryptPromise.resolve({armored, recipients});
+      this.encryptPromise.resolve({armored, subject, recipients, pgpMime});
     }
   }
 

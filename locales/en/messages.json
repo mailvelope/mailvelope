@@ -239,6 +239,10 @@
     "description": "Label for recipient input.",
     "message": "Recipient"
   },
+  "editor_label_subject": {
+    "description": "Label for subject text input.",
+    "message": "Subject"
+  },
   "editor_link_file_encryption": {
     "description": "Navigation link to file encryption",
     "message": "Encrypt files"

@@ -37,6 +37,7 @@ l10n.register([
   'editor_label_recipient',
   'editor_label_message',
   'editor_label_attachments',
+  'editor_label_subject',
   'upload_quota_warning_headline',
   'security_background_button_title',
   'editor_header',
@@ -56,6 +57,7 @@ export default class Editor extends React.Component {
       plainText: '',
       publicKeys: [],
       recipients: [],
+      subject: '',
       encryptDisabled: true,
       waiting: true,
       error: null,
@@ -63,7 +65,8 @@ export default class Editor extends React.Component {
       pwdDialog: null,
       files: [],
       terminate: false,
-      embedded: false
+      embedded: false,
+      integration: false
     };
 
     this.port = EventHandler.connect(`editor-${this.props.id}`, this);
@@ -81,7 +84,7 @@ export default class Editor extends React.Component {
   registerEventListeners() {
     this.port.on('set-text', ({text}) => this.setState({defaultPlainText: text, plainText: text}));
     this.port.on('set-init-data', this.onSetInitData);
-    this.port.on('set-embedded-mode', this.onSetEmbeddedMode);
+    this.port.on('set-mode', this.onSetMode);
     this.port.on('set-attachment', this.onSetAttachment);
     this.port.on('decrypt-in-progress', this.showWaitingModal);
     this.port.on('encrypt-in-progress', this.showWaitingModal);
@@ -110,11 +113,12 @@ export default class Editor extends React.Component {
     });
   }
 
-  onSetEmbeddedMode({embedded}) {
-    this.setState({embedded});
-    if (embedded) {
+  onSetMode(args) {
+    const {event, ...modes} = args;
+    if (Object.entries(modes).some(entry => entry[1])) {
       this.fileUpload = new fileLib.FileUpload();
     }
+    this.setState({...modes});
   }
 
   onTerminate() {
@@ -184,7 +188,7 @@ export default class Editor extends React.Component {
   /**
    * Is called when the user clicks the encrypt button.
    */
-  handleEncrypt() {
+  handleOk() {
     this.logUserInput('security_log_dialog_encrypt');
     this.sendPlainText('encrypt');
   }
@@ -207,6 +211,7 @@ export default class Editor extends React.Component {
   sendPlainText(action, noCache, draft) {
     this.port.emit('editor-plaintext', {
       message: this.state.plainText,
+      subject: this.state.subject,
       keys: this.state.recipients.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
       attachments: this.state.files,
       action,
@@ -347,6 +352,12 @@ export default class Editor extends React.Component {
                       />
                     </div>
                   }
+                  {this.state.integration &&
+                    <div className="mb-3">
+                      <label>{l10n.map.editor_label_subject}</label>
+                      <input type="text" value={this.state.subject} className="form-control" id="subject" onChange={e => this.setState({subject: e.target.value})} />
+                    </div>
+                  }
                   <div className="editor-body d-flex flex-column flex-grow-1">
                     <label>{l10n.map.editor_label_message}</label>
                     <div className="flex-grow-1" style={{margin: '-0.2rem'}}>
@@ -357,7 +368,7 @@ export default class Editor extends React.Component {
                       </div>
                     </div>
                   </div>
-                  {this.state.embedded && (
+                  {(this.state.embedded || this.state.integration) && (
                     <div className="mt-3">
                       <label>{l10n.map.editor_label_attachments}</label>
                       <FileUpload files={this.state.files} onClickUpload={() => this.logUserInput('security_log_add_attachment')} onRemoveFile={id => this.handleRemoveFile(id)} onChangeFileInput={files => this.handleAddAttachment(files)} />
@@ -369,9 +380,10 @@ export default class Editor extends React.Component {
                 <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
                   <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
                     privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
+                    integration = {this.state.integration}
                     onCancel={() => this.handleCancel()}
                     onSignOnly={() => this.handleSign()}
-                    onEncrypt={() => this.handleEncrypt()}
+                    onOk={() => this.handleOk()}
                     onChangeSignKey={value => this.handleChangeSignKey(value)}
                     onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
                   />

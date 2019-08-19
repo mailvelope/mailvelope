@@ -12,6 +12,7 @@ import './EditorModalFooter.scss';
 
 l10n.register([
   'form_cancel',
+  'form_submit',
   'editor_sign_button',
   'editor_encrypt_button',
   'options_home',
@@ -65,8 +66,8 @@ export default class EditorModalFooter extends React.Component {
             <button type="button" onClick={this.props.onCancel} className="btn btn-secondary">
               <span>{l10n.map.form_cancel}</span>
             </button>
-            <button type="button" onClick={this.props.onEncrypt} className="btn btn-primary" disabled={this.props.encryptDisabled}>
-              <span>{l10n.map.editor_encrypt_button}</span>
+            <button type="button" onClick={this.props.onOk} className="btn btn-primary" disabled={this.props.encryptDisabled}>
+              <span>{this.props.integration ? l10n.map.form_submit : l10n.map.editor_encrypt_button}</span>
             </button>
           </div>
         </div>
@@ -78,12 +79,13 @@ export default class EditorModalFooter extends React.Component {
 EditorModalFooter.propTypes = {
   onCancel: PropTypes.func, // click on cancel button
   onSignOnly: PropTypes.func, // click on sign only button
-  onEncrypt: PropTypes.func, // click on encrypt button
+  onOk: PropTypes.func, // click on encrypt button
   encryptDisabled: PropTypes.bool, // encrypt action disabled
   signMsg: PropTypes.bool, // sign message indicator
   signKey: PropTypes.string, // sign key id
   privKeys: PropTypes.array, // list of private keys for signing
   onChangeSignKey: PropTypes.func, // user selects new key
-  onClickSignSetting: PropTypes.func // click on navigation link
+  onClickSignSetting: PropTypes.func, // click on navigation link
+  integration: PropTypes.bool
 };
 

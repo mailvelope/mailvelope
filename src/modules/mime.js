@@ -141,3 +141,50 @@ export function buildMail({message, attachments, quota, pgpMIME}) {
   }
   return composedMessage;
 }
+
+export function buildPGPMail({armored, sender, to, subject, quota}) {
+  let quotaSize = 0;
+  const mainMessage = new MimeBuilder('multipart/encrypted; protocol="application/pgp-encrypted";')
+  .addHeader({
+    from: sender,
+    to: to.join(', '),
+    subject
+  });
+  const mainContent = 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)';
+  mainMessage.setContent(mainContent);
+  quotaSize += byteCount(mainContent);
+  const pgpHeader = new MimeBuilder('application/pgp-encrypted')
+  .setHeader({'content-description': 'PGP/MIME version identification'});
+  const pgpHeaderContent = 'Version: 1';
+  pgpHeader.setContent(pgpHeaderContent);
+  quotaSize += byteCount(pgpHeaderContent);
+  mainMessage.appendChild(pgpHeader);
+  const pgpArmored = new MimeBuilder('application/octet-stream; name="encrypted.asc"')
+  .setHeader({
+    'content-description': 'OpenPGP encrypted message',
+    'content-disposition': 'inline; filename="encrypted.asc"'
+  })
+  .setContent(armored);
+  quotaSize += byteCount(armored);
+  mainMessage.appendChild(pgpArmored);
+  if (quota && (quotaSize > quota)) {
+    throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
+  }
+  return mainMessage.build();
+}
+
+export function buildTextMail({armored, sender, to, subject, quota}) {
+  let quotaSize = 0;
+  const mainMessage = new MimeBuilder('text/plain')
+  .addHeader({
+    from: sender,
+    to: to.join(', '),
+    subject
+  });
+  mainMessage.setContent(armored);
+  quotaSize += byteCount(armored);
+  if (quota && (quotaSize > quota)) {
+    throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
+  }
+  return mainMessage.build();
+}

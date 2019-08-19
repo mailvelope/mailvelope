@@ -5,13 +5,14 @@
 
 import mvelo from '../lib/lib-mvelo';
 import browser from 'webextension-polyfill';
-import {matchPattern2RegExString, getHash, base64DecodeUrl} from '../lib/util';
+import {matchPattern2RegExString, getHash, base64DecodeUrl, byteCount} from '../lib/util';
 
 const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
 const GOOGLE_OAUTH_STORE = 'mvelo.oauth.gmail';
 const DEFAULT_SCOPES = ['https://www.googleapis.com/auth/userinfo.email'];
 const API_KEY = 'AIzaSyDmDlrIRgj3YEtLm-o4rA8qXG8b17bWfIs';
+export const MAIL_QUOTA = 25000000;
 
 export async function getMessage({msgId, email}) {
   console.log('Fetching message: ', msgId);
@@ -58,6 +59,28 @@ export async function getAttachment({email, msgId, fileName}) {
   );
   const {data, size} = await response.json();
   return {data: `data:${mimeType};base64,${base64DecodeUrl(data)}`, size, mimeType};
+}
+
+export async function sendMessage({email, message}) {
+  const scopes = [...DEFAULT_SCOPES, 'https://www.googleapis.com/auth/gmail.send'];
+  const accessToken = await getAccessToken(email, scopes);
+  // const base64EncodedMessage = btoa(message);
+  const init = {
+    method: 'POST',
+    async: true,
+    body: message, //encodeURI(base64EncodedMessage),
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'message/rfc822',
+      'Content-Length': byteCount(message),
+      'Authorization': `Bearer ${accessToken}`,
+    }
+  };
+  const result = await fetch(
+    `https://www.googleapis.com/upload/gmail/v1/users/${email}/messages/send?uploadType=media`,
+    init
+  );
+  return result.json();
 }
 
 async function getAccessToken(email, scopes) {
@@ -128,6 +151,7 @@ async function getAuthCode(email, scopes) {
   url += `&redirect_uri=${encodeURIComponent(redirectURL)}`;
   url += `&scope=${encodeURIComponent(scopes.join(' '))}`;
   url += '&access_type=offline';
+  url += '&include_granted_scopes=true';
   url += `&login_hint=${encodeURIComponent(email)}`;
   url += `&state=${encodeURIComponent(state)}`;
   const authPopup = await mvelo.windows.openPopup(url, {width: 500, height: 650});
