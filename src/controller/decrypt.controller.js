@@ -91,7 +91,9 @@ export default class DecryptController extends sub.SubController {
 
   dialogCancel() {
     // forward event to decrypt frame
-    this.ports.dFrame.emit('dialog-cancel');
+    if (this.ports.dFrame) {
+      this.ports.dFrame.emit('dialog-cancel');
+    }
     if (this.decryptPopup) {
       this.decryptPopup.close();
       this.decryptPopup = null;
@@ -160,7 +162,7 @@ export default class DecryptController extends sub.SubController {
 
   async unlockKey({key, message}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = this.ports.decryptCont || (!this.decryptPopup && this.ports.dDialog) || prefs.security.display_decrypted == DISPLAY_INLINE;
+    const openPopup = this.ports.decryptCont || (!this.decryptPopup && this.ports.dDialog);
     const beforePasswordRequest = id => this.decryptPopup && this.ports.dDialog.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({
       key,
