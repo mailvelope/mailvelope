@@ -9,7 +9,7 @@
     display: inline-flex;
     flex-direction: column;
     padding: 0.45rem 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     background-color: $white;
     box-shadow: $box-shadow-sm;
     border-radius: $border-radius-sm;
@@ -67,7 +67,7 @@
       resize: none;
       @include media-breakpoint-up(sm) {
         min-width: 405px;
-      } 
+      }
       @include media-breakpoint-up(md) {
         min-width: 585px;
       }

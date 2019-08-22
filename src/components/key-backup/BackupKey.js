@@ -76,7 +76,7 @@ export default class BackupKey extends React.Component {
   render() {
     return (
       <SecurityBG port={this.port}>
-        <div className="modal d-block" style={{padding: '2.75rem'}}>
+        <div className="modal d-block" style={{padding: '2rem'}}>
           <div className="modal-dialog d-flex align-items-center h-100 mw-100 m-0">
             <div className="modal-content shadow-lg border-0" style={{backgroundColor: 'rgba(255,255,255,1)'}}>
               <div className="modal-body d-flex flex-column overflow-auto p-4">

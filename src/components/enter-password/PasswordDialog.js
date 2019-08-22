@@ -15,7 +15,6 @@ import Alert from '../util/Alert';
 l10n.register([
   'pwd_dialog_header',
   'pwd_dialog_pwd_please',
-  'pwd_dialog_keyid_tooltip',
   'pwd_dialog_reason_decrypt',
   'pwd_dialog_reason_sign',
   'pwd_dialog_reason_revoke',

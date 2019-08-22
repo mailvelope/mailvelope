@@ -12,7 +12,13 @@
 
   &.embedded {
     .modal {
-      padding: 2.75rem;
+      padding: 2rem;
+      .modal-header, .modal-body {
+         padding: 1rem 1.25rem;
+      }
+      .modal-footer {
+        padding: 0.75rem 1.25rem;
+      }
     }
   }
 
@@ -46,7 +52,7 @@
       font-weight: 500;
     }
 
-  }  
+  }
 
   .large.locked.modal-content {
     background-position: center 150px;
@@ -61,10 +67,10 @@
       background-color: rgba($white, 1);
       padding: 1.5rem 1.5rem 1.25rem 1.5rem;
       .signature:not(:only-child) {
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
       }
       .files {
-        margin-bottom: -0.75rem;
+        margin-bottom: -0.5rem;
       }
     }
     .modal-body {
@@ -83,14 +89,14 @@
 
     .modal-footer {
       background-color: rgba($white, 0.6);
-      padding: 1rem 1.5rem;
+      padding: 0.75rem 1.5rem;
       .alert-info {
         background-color: rgba(theme-color-level('info', $alert-bg-level), 0.6);
       }
     }
   }
 
-  .decrypt-popup-pwd-dialog {  
+  .decrypt-popup-pwd-dialog {
     position: absolute;
     width: 580px;
     height: 480px;

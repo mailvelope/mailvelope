@@ -117,15 +117,15 @@
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
-    "message": "Digitally signed"
+    "message": "Signed"
   },
   "decrypt_digital_signature_failure": {
     "description": "Caption digital signature",
-    "message": "Invalid digital signature"
+    "message": "Invalid signature"
   },
   "decrypt_digital_signature_null": {
     "description": "Caption digital signature",
-    "message": "Digital signature could not be identified"
+    "message": "Signature could not be identified"
   },
   "decrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
@@ -1362,10 +1362,6 @@
   "pwd_dialog_header": {
     "description": "Header of the password dialog.",
     "message": "Enter key password"
-  },
-  "pwd_dialog_keyid_tooltip": {
-    "description": "Tooltip explaining the key id.",
-    "message": "The ID of your key"
   },
   "pwd_dialog_pwd_please": {
     "description": "Placeholder for password.",

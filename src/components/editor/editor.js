@@ -336,7 +336,7 @@ export default class Editor extends React.Component {
         <div className="modal d-block">
           <div className="modal-dialog h-100 mw-100 m-0">
             <div className="modal-content shadow-lg overflow-auto border-0 h-100">
-              <div className="modal-body p-4">
+              <div className="modal-body">
                 <div className="editor d-flex flex-column align-content-center h-100">
                   {!this.state.embedded &&
                     <div className="mb-3">
@@ -350,7 +350,7 @@ export default class Editor extends React.Component {
                   <div className="editor-body d-flex flex-column flex-grow-1">
                     <label>{l10n.map.editor_label_message}</label>
                     <div className="flex-grow-1" style={{margin: '-0.2rem'}}>
-                      <div className="plain-text w-100 h-100 overflow-hidden">
+                      <div className="plain-text w-100 h-100">
                         <PlainText defaultValue={this.state.defaultPlainText} onChange={value => this.handleTextChange(value)}
                           onBlur={() => this.blurWarning && this.blurWarning.onBlur()} onMouseUp={element => this.handleTextMouseUp(element)} onLoad={() => this.handlePlainTextLoad()}
                         />

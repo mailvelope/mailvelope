@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 /**
  * Alert
  */
-export default function Alert({className, header, children: message, type}) {
+export default function Alert({className, id, header, children: message, type}) {
   return (
-    <div className={`alert alert-${type} fade show ${className || ''}`} role="alert">
+    <div id={id} className={`alert alert-${type} fade show ${className || ''}`} role="alert">
       {header && <strong>{`${header} `}</strong>}
       {message}
     </div>
@@ -20,6 +20,7 @@ export default function Alert({className, header, children: message, type}) {
 
 Alert.propTypes = {
   className: PropTypes.string,
+  id: PropTypes.string,
   header: PropTypes.string,
   children: PropTypes.node.isRequired,
   type: PropTypes.oneOf(['success', 'info', 'warning', 'danger']),

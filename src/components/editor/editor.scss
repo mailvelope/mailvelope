@@ -14,15 +14,21 @@
 
   &.embedded {
     .modal {
-      padding: 2.75rem;
+      padding: 2rem;
       label {
         display: none;
+      }
+      .modal-body {
+        padding: 1.25rem;
       }
     }
   }
 
   .modal-content {
     background-color: rgba($white, 1);
+    .modal-body {
+      padding: 1.5rem 1.5rem 1.25rem 1.5rem;
+    }
   }
 
   .editor-body .plain-text iframe {
@@ -55,7 +61,7 @@
     left: 50%;
     transform:translateX(-50%);
   }
-  
+
   .m-spinner-fullscreen {
     z-index: 1045;
   }
