@@ -127,7 +127,7 @@ export default class PrivateKeyController extends sub.SubController {
         }, 10000); // trigger timeout after 10s
       }
     }).catch(err => {
-      this.ports.keyGenCont.emit('generate-done', {error: err});
+      this.ports.keyGenCont.emit('generate-done', {error: mapError(err)});
     });
   }
 
@@ -197,9 +197,9 @@ export default class PrivateKeyController extends sub.SubController {
       sync.triggerSync({keyringId: this.keyringId, key: backup.key, password: backup.password});
     })
     .catch(err => {
-      this.ports.restoreBackupDialog.emit('error-message', {error: err});
+      this.ports.restoreBackupDialog.emit('error-message', {error: mapError(err)});
       if (err.code !== 'WRONG_RESTORE_CODE') {
-        this.ports.restoreBackupCont.emit('restore-backup-done', {error: err});
+        this.ports.restoreBackupCont.emit('restore-backup-done', {error: mapError(err)});
       }
     });
   }

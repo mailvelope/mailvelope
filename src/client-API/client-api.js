@@ -553,7 +553,7 @@ class Generator {
         confirm.then(() => {
           emit('generator-generate-confirm', {generatorId: this.generatorId});
         }).catch(e => {
-          emit('generator-generate-reject', {generatorId: this.generatorId, error: e});
+          emit('generator-generate-reject', {generatorId: this.generatorId, error: objError(e)});
         });
       }
       return armored;
@@ -662,10 +662,7 @@ function handleSyncEvent({type, id, data}) {
     if (!error) {
       error = new Error('Unknown Error');
     }
-    if (error instanceof Error || typeof error === 'string') {
-      error = {message: error.message || String(error)};
-    }
-    emit('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: type, error, id});
+    emit('sync-handler-done', {syncHandlerId: syncHandler.syncHandlerId, syncType: type, error: objError(error), id});
   });
 }
 
@@ -715,6 +712,13 @@ function getHash() {
 function mapError(obj) {
   const error = new Error(obj.message);
   error.code = obj.code;
+  return error;
+}
+
+function objError(error) {
+  if (error instanceof Error || typeof error === 'string') {
+    error = {message: error.message || String(error)};
+  }
   return error;
 }
 
