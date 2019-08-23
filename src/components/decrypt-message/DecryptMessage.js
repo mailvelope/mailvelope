@@ -181,18 +181,18 @@ export default class DecryptMessage extends React.Component {
         labelText = l10n.map.decrypt_digital_signature_null;
     }
     return (
-      <>
+      <div className={`signature d-flex align-items-center justify-content-start ${this.props.embedded ? '' : 'flex-wrap'} w-100`}>
         <span className={`${labelClass} text-nowrap mr-3 my-1`}><span className={`icon icon-marker text-${labelClass}`} aria-hidden="true"></span> {labelText}</span>
         {this.props.embedded ?
           (
             <>
-              <Alert id="SignatureDetails" type="info" className="my-1 px-2 flex-shrink-1">
+              <Alert id="SignatureDetails" type="info" className="my-1 px-2 flex-shrink-1 text-truncate">
                 <span href="#" id="SignatureDetails">
                   <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
-                  <strong>{this.state.signer.keyDetails.email}</strong>
+                  <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}>`}
                 </span>
               </Alert>
-              <Tooltip placement="auto" isOpen={this.state.signatureToolTipOpen} container={this.element.firstChild} target="SignatureDetails" autohide={false} toggle={() => this.setState(prevState => ({signatureToolTipOpen: !prevState.signatureToolTipOpen}))}>
+              <Tooltip innerClassName="text-left" placement="auto-end" isOpen={this.state.signatureToolTipOpen} container={this.element.firstChild} target="SignatureDetails" autohide={false} toggle={() => this.setState(prevState => ({signatureToolTipOpen: !prevState.signatureToolTipOpen}))}>
                 <span><strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}>`}<br /> {`${l10n.map.keygrid_keyid} #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}</span>
               </Tooltip>
             </>
@@ -202,7 +202,7 @@ export default class DecryptMessage extends React.Component {
               <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
             </Alert>
           )}
-      </>
+      </div>
     );
   }
 
@@ -227,9 +227,7 @@ export default class DecryptMessage extends React.Component {
                 </div>
                 {this.state.signer && (
                   <div className="modal-footer justify-content-start flex-shrink-0">
-                    <div className="signature d-flex align-items-center justify-content-start flex-wrap w-100">
-                      {this.signatureStatus()}
-                    </div>
+                    {this.signatureStatus()}
                   </div>
                 )}
               </div>

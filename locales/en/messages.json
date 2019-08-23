@@ -191,22 +191,6 @@
     "description": "Dialog yes button label",
     "message": "Yes"
   },
-  "digital_signature_status_false": {
-    "description": "",
-    "message": "Invalid signature"
-  },
-  "digital_signature_status_null": {
-    "description": "",
-    "message": "Signature cannot be verified"
-  },
-  "digital_signature_status_null_description": {
-    "description": "",
-    "message": "The contact of the digital signature has not yet been confirmed for encrypted communication. Please ask the contact for an invitation."
-  },
-  "digital_signature_status_true": {
-    "description": "",
-    "message": "Signature is valid"
-  },
   "editor_blur_warn": {
     "description": "Warning for lost focus.",
     "message": "Warning: Text editor lost focus."

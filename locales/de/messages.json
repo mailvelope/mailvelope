@@ -191,22 +191,6 @@
     "description": "Dialog yes button label",
     "message": "Ja"
   },
-  "digital_signature_status_false": {
-    "description": "",
-    "message": "Unterschrift ist fehlerhaft"
-  },
-  "digital_signature_status_null": {
-    "description": "",
-    "message": "Unterschrift kann nicht überprüft werden"
-  },
-  "digital_signature_status_null_description": {
-    "description": "",
-    "message": "Der Kontakt der digitalen Unterschrift wurde noch nicht zur verschlüsselten Kommunikation bestätigt. Fordern Sie ihren Kontakt auf Sie einzuladen."
-  },
-  "digital_signature_status_true": {
-    "description": "",
-    "message": "Unterschrift ist valide"
-  },
   "editor_blur_warn": {
     "description": "Warning for lost focus.",
     "message": "Achtung: Texteditor hat den Fokus verloren."
