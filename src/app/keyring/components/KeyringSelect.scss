@@ -1,0 +1,26 @@
+/**
+ * Copyright (C) 2019 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+@import "../../../res/styles/_required";
+
+#keyringSelect {
+  h5, p {
+    color: $dropdown-color;
+  }
+
+  .dropdown-menu {
+    a {
+      button {
+        visibility: hidden;
+      }
+      &:hover {
+        button {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+}

@@ -10,6 +10,7 @@ import {Dropdown, DropdownToggle, DropdownMenu} from 'reactstrap';
 import {KEYRING_DELIMITER, MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../../../lib/constants';
 import * as l10n from '../../../lib/l10n';
 import {port} from '../../app';
+import './KeyringSelect.scss';
 
 l10n.register([
   'keyring_main',
@@ -128,7 +129,7 @@ export default class KeyringSelect extends React.Component {
                     <h5 className="d-block mb-1">{keyringName}</h5>
                     <p className="d-block mb-0 small">{keyringEmail}</p>
                   </div>
-                  {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID &&
+                  {keyringId !== MAIN_KEYRING_ID && keyringId !== GNUPG_KEYRING_ID && this.props.onDelete &&
                     <button type="button" onClick={e => { e.preventDefault(); e.stopPropagation(); this.props.onDelete(keyringId, keyringName); }} className="btn btn-secondary mx-2">
                       <span className="icon icon-delete" aria-hidden="true"></span>
                     </button>
@@ -150,7 +151,7 @@ KeyringSelect.propTypes = {
   keyringAttr: PropTypes.object,
   prefs: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func
 };
 
 KeyringSelect.defaultProps = {

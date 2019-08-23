@@ -7,6 +7,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as l10n from '../../lib/l10n';
+import {KeyringOptions} from './KeyringOptions';
+import KeyringSelect from './components/KeyringSelect';
 
 l10n.register([
   'general_openpgp_preferences',
@@ -23,10 +25,16 @@ l10n.register([
   'keyring_setup_import_key'
 ]);
 
-export default function KeyringSetup({hasPrivateKey}) {
+export default function KeyringSetup({hasPrivateKey, keyringAttr, onChangeKeyring, prefs}) {
+  const context = React.useContext(KeyringOptions);
   return (
     <div className="card-body">
-      <h2 className="card-title">{l10n.map.keyring_setup}</h2>
+      <div className="card-title d-flex flex-wrap align-items-center">
+        <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_setup}</h1>
+        <div className="flex-shrink-0">
+          <KeyringSelect keyringId={context.keyringId} keyringAttr={keyringAttr} onChange={onChangeKeyring} prefs={prefs} />
+        </div>
+      </div>
       <form className="form">
         <p className={`alert alert-warning keyring_setup_message ${hasPrivateKey ? '' : 'active'}`}>
           <strong>{l10n.map.keyring_setup_no_keypair_heading}</strong><br />
@@ -52,5 +60,8 @@ export default function KeyringSetup({hasPrivateKey}) {
 }
 
 KeyringSetup.propTypes = {
-  hasPrivateKey: PropTypes.bool
+  hasPrivateKey: PropTypes.bool,
+  keyringAttr: PropTypes.object,
+  prefs: PropTypes.object,
+  onChangeKeyring: PropTypes.func.isRequired
 };
