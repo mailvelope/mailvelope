@@ -12,7 +12,7 @@ import FileUpload from '../../components/util/FileUpload';
 import {GNUPG_KEYRING_ID, MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
 import * as fileLib from '../../lib/file';
 import {FileDownloadPanel} from '../../components/util/FilePanel';
-import {normalizeArmored, getHash, str2ab} from '../../lib/util';
+import {normalizeArmored, getHash, str2ab, encodeUtf8} from '../../lib/util';
 
 import './Decrypt.scss';
 
@@ -92,11 +92,12 @@ export default class Decrypt extends React.Component {
   async decryptMessage(message) {
     try {
       const armored = normalizeArmored(message, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
-      const {data: content, signatures, keyringId} = await port.send('decrypt-message', {
+      const {data, signatures, keyringId} = await port.send('decrypt-message', {
         armored,
         keyringId: this.state.keyringId,
         uiLogSource: 'security_log_decrypt_ui'
       });
+      const content = encodeUtf8(data);
       const signer = await this.getSignerDetails(signatures, keyringId);
       this.setState(prevState => ({decrypted: [...prevState.decrypted, this.createFileObject({content, armored: message, filename: 'text.txt', signer, mimeType: 'text/plain'})]}));
     } catch (error) {
@@ -165,7 +166,7 @@ export default class Decrypt extends React.Component {
     }
     // set MIME type fix to application/octet-stream as other types can be exploited in Chrome
     mimeType = 'application/octet-stream';
-    const blob = new Blob([str2ab(content)], {type: mimeType});
+    const blob = new Blob([typeof content === 'string' ? str2ab(content) : content], {type: mimeType});
     file.objectURL = window.URL.createObjectURL(blob);
     return file;
   }

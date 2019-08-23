@@ -103,6 +103,16 @@ function decodeQuotedPrint(armored) {
 }
 
 /**
+ * Encode UTF-8 string
+ * @param  {String} str
+ * @return {Uint8Array}
+ */
+export function encodeUtf8(str) {
+  const encoder = new TextEncoder('utf-8');
+  return encoder.encode(str);
+}
+
+/**
  * Normalize PGP armored message
  * @param  {String} msg
  * @param  {Regex} typeRegex - filter message with this Regex
