@@ -56,10 +56,11 @@ export default class GmailController extends sub.SubController {
         predefinedText: options.text,
         quotedMail: options.quotedMail,
         quotedMailIndent: !this.editorContentModified,
-        getRecipients: options.getRecipients
+        getRecipients: options.getRecipients,
+        userEmail: options.userEmail
       });
-        // send email via gapi
-      const userEmail = await this.getUserEmail();
+      // send email via gapi
+      const userEmail = options.userEmail;
       const to = recipients.map(r => r.email);
       const quota = gmail.MAIL_QUOTA;
       let message;
@@ -83,10 +84,6 @@ export default class GmailController extends sub.SubController {
       }
       console.log(err);
     }
-  }
-
-  getUserEmail() {
-    return this.send('get-user-email');
   }
 
   setEncAttachments({controllerId, userEmail, msgId, encAttFileNames}) {

@@ -13,7 +13,7 @@ import * as model from '../modules/pgpModel';
 import {parseMessage} from '../modules/mime';
 import * as uiLog from '../modules/uiLog';
 import {isCached} from '../modules/pwdCache';
-import {getAttachment} from '../modules/gmail';
+import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
 import {triggerSync} from './sync.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
@@ -27,7 +27,8 @@ export default class DecryptController extends sub.SubController {
     }
     this.armored = null;
     this.message = null;
-    this.decryptPopup = null;
+    this.encFileDlQueue = [];
+    this.popup = null;
     this.options = {};
     this.keyringId = getPreferredKeyringId();
     // register event handlers
@@ -41,8 +42,12 @@ export default class DecryptController extends sub.SubController {
     this.on('download-enc-attachment', this.onDownloadEncAttachment);
   }
 
-  onDecryptMessageInit() {
-    if ((this.mainType === 'dFrame' || this.mainType === 'dAttFrame') && (!this.decryptPopup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
+  async onDecryptMessageInit() {
+    if (!this.popup) {
+      const {id} = await mvelo.tabs.getActive();
+      this.tabId = id;
+    }
+    if ((this.mainType === 'dFrame' || this.mainType === 'dAttFrame') && (!this.popup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
       this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
     } else {
       const port = this.ports.dFrame || this.ports.decryptCont;
@@ -55,11 +60,11 @@ export default class DecryptController extends sub.SubController {
   }
 
   async onDframeDisplayPopup() {
-    this.decryptPopup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
-    this.decryptPopup.addRemoveListener(() => {
+    this.popup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
+    this.popup.addRemoveListener(() => {
       const port = this.ports.dFrame || this.ports.dAttFrame;
       port && port.emit('dialog-cancel');
-      this.decryptPopup = null;
+      this.popup = null;
     });
   }
 
@@ -69,40 +74,99 @@ export default class DecryptController extends sub.SubController {
       this.keyringId = msg.keyringId;
     }
     this.armored = msg.data;
-    if (!this.ports.dFrame || this.decryptPopup || await this.canUnlockKey(this.armored, this.keyringId)) {
+    if (!this.ports.dFrame || this.popup || await this.canUnlockKey(this.armored, this.keyringId)) {
       this.decrypt(this.armored, this.keyringId);
     } else {
       this.ports.dDialog.emit('show-password-required');
     }
   }
 
+  async onAuthorize() {
+    const accessToken = await gmail.authorize(this.userEmail, gmail.GMAIL_SCOPE_READONLY);
+    if (accessToken) {
+      if (this.encFileDlQueue.length) {
+        for (const fileName of this.encFileDlQueue) {
+          this.onDownloadEncAttachment({fileName});
+        }
+      }
+      this.activateComponent();
+      return true;
+    }
+  }
+
+  activateComponent() {
+    if (this.popup) {
+      this.popup.activate();
+    } else {
+      mvelo.tabs.activate({id: this.tabId});
+    }
+  }
+
   async onSetEncAttachements({userEmail, msgId, encAttFileNames}) {
     this.userEmail = userEmail;
     this.msgId = msgId;
-    const pgpMimeIndex = encAttFileNames.indexOf('encrypted.asc');
-    if (pgpMimeIndex !== -1) {
-      const [pgpMimeFileName] = encAttFileNames.splice(pgpMimeIndex, 1);
-      const {data} = await getAttachment({fileName: pgpMimeFileName, email: this.userEmail, msgId: this.msgId});
-      const armored = dataURL2str(data);
-      console.log(armored);
-      await this.decrypt(armored, this.keyringId);
+    // auto start encryption of PGP/MIME attachment
+    if (encAttFileNames.includes('encrypted.asc')) {
+      const [pgpMimeFileName] = encAttFileNames.splice(encAttFileNames.indexOf('encrypted.asc'), 1);
+      await this.displayPGPMimeAttachment(userEmail, msgId, pgpMimeFileName);
     }
     this.encAttFileNames = encAttFileNames;
     this.ports.dDialog.emit('set-enc-attachments', {encAtts: encAttFileNames});
   }
 
-  async onDownloadEncAttachment({fileName}) {
-    const {data} = await getAttachment({fileName, email: this.userEmail, msgId: this.msgId});
-    try {
-      const attachment = await model.decryptFile({
-        encryptedFile: {content: data, name: fileName},
-        unlockKey: this.unlockKey.bind(this),
-        uiLogSource: 'security_log_viewer'
-      });
-      this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
-    } catch (error) {
-      this.ports.dDialog.emit('error-message', {error: error.message});
+  async displayPGPMimeAttachment(userEmail, msgId, fileName) {
+    const scope = gmail.GMAIL_SCOPE_READONLY;
+    const accessToken = await gmail.getAccessToken(userEmail, scope);
+    if (!accessToken) {
+      if (!this.encFileDlQueue.includes(fileName)) {
+        this.encFileDlQueue.push(fileName);
+      }
+      this.openAuthorizeDialog(scope);
+    } else {
+      const {data} = await gmail.getAttachment({fileName, email: this.userEmail, msgId: this.msgId, accessToken});
+      const armored = dataURL2str(data);
+      this.armored = armored;
+      await this.decrypt(armored, this.keyringId);
     }
+  }
+
+  async onDownloadEncAttachment({fileName}) {
+    const inQeue = this.encFileDlQueue.includes(fileName);
+    // remove error modal and show spinner when continuing attachment decryption
+    if (inQeue) {
+      this.ports.dDialog.emit('waiting');
+    }
+    if (fileName === 'encrypted.asc') {
+      return this.displayPGPMimeAttachment(this.userEmail, this.msgId, fileName);
+    }
+    const scope = gmail.GMAIL_SCOPE_READONLY;
+    const accessToken = await gmail.getAccessToken(this.userEmail, scope);
+    if (!accessToken) {
+      if (!inQeue) {
+        this.encFileDlQueue.push(fileName);
+      }
+      this.openAuthorizeDialog(scope);
+    } else {
+      const {data} = await gmail.getAttachment({fileName, email: this.userEmail, msgId: this.msgId, accessToken});
+      try {
+        const attachment = await model.decryptFile({
+          encryptedFile: {content: data, name: fileName},
+          unlockKey: this.unlockKey.bind(this),
+          uiLogSource: 'security_log_viewer'
+        });
+        if (this.encFileDlQueue.includes(fileName)) {
+          this.encFileDlQueue.splice(this.encFileDlQueue.indexOf(fileName), 1);
+        }
+        this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
+      } catch (error) {
+        this.ports.dDialog.emit('error-message', {error: error.message});
+      }
+    }
+  }
+
+  openAuthorizeDialog(scope) {
+    this.ports.dDialog.emit('error-message', {error: 'Mailvelope ist zum Herunterladen von Anhängen nicht authorisiert!'});
+    gmail.openAuthorizeDialog({email: this.userEmail, scope, ctrlId: this.id});
   }
 
   async canUnlockKey(armoredText, keyringId) {
@@ -129,15 +193,18 @@ export default class DecryptController extends sub.SubController {
     if (port) {
       port.emit('dialog-cancel');
     }
-    if (this.decryptPopup) {
-      this.decryptPopup.close();
-      this.decryptPopup = null;
+    if (this.popup) {
+      this.popup.close();
+      this.popup = null;
     } else {
       this.ports.dDialog.emit('show-password-required');
     }
   }
 
   async decrypt(armored, keyringId) {
+    if (!armored && this.encFileDlQueue.includes('encrypted.asc')) {
+      return this.displayPGPMimeAttachment(this.userEmail, this.msgId, 'encrypted.asc');
+    }
     try {
       const {data, signatures} = await model.decryptMessage({
         message: this.message,
@@ -197,8 +264,8 @@ export default class DecryptController extends sub.SubController {
 
   async unlockKey({key, message}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = this.ports.decryptCont || (!this.decryptPopup && this.ports.dDialog);
-    const beforePasswordRequest = id => this.decryptPopup && this.ports.dDialog.emit('show-pwd-dialog', {id});
+    const openPopup = this.ports.decryptCont || (!this.popup && this.ports.dDialog);
+    const beforePasswordRequest = id => this.popup && this.ports.dDialog.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({
       key,
       message,
@@ -206,7 +273,7 @@ export default class DecryptController extends sub.SubController {
       openPopup,
       beforePasswordRequest
     });
-    if (this.decryptPopup) {
+    if (this.popup) {
       this.ports.dDialog.emit('hide-pwd-dialog');
     }
     triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});

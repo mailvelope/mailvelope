@@ -100,7 +100,7 @@ export default class GmailIntegration {
   }
 
   scanArmored() {
-    console.log('Gmail integration: scanning for armored messages...');
+    // console.log('Gmail integration: scanning for armored messages...');
     const msgs = document.querySelectorAll('[data-message-id]');
     const currentMsgs = [];
     for (const msgElem of msgs) {
@@ -114,6 +114,7 @@ export default class GmailIntegration {
       if (!mvFrame) {
         continue;
       }
+      console.log('Gmail: integration: found new armored message...');
       this.attachMsgBtns(msgId);
       const controllerId = mvFrame.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
       currentMsgs.push({msgId, att: [], controllerId});
@@ -122,7 +123,7 @@ export default class GmailIntegration {
   }
 
   scanEncAtt() {
-    console.log('Gmail integration: scanning for encrypted attachments...');
+    // console.log('Gmail integration: scanning for encrypted attachments...');
     const msgs = document.querySelectorAll('[data-message-id]');
     for (const msgElem of msgs) {
       const msgId = msgElem.dataset.messageId;
@@ -279,7 +280,10 @@ export default class GmailIntegration {
   }
 
   openEditor() {
-    const options = {integration: true};
+    const options = {
+      integration: true,
+      userEmail:   this.getGmailUser()
+    };
     // const emailContent = this.getEmailText(this.editorType == PLAIN_TEXT ? 'text' : 'html');
     // if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {
     //   try {

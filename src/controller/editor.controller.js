@@ -15,6 +15,7 @@ import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {parseMessage, buildMail} from '../modules/mime';
+import * as gmail from '../modules/gmail';
 import {triggerSync} from './sync.controller';
 import * as keyRegistry from '../modules/keyRegistry';
 import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys, getDefaultKeyFpr} from '../modules/keyring';
@@ -31,7 +32,7 @@ export default class EditorController extends sub.SubController {
     this.encryptPromise = null;
     this.encryptTimer = null;
     this.keyringId = null;
-    this.editorPopup = null;
+    this.popup = null;
     this.signKey = null;
     this.pwdControl = null;
     this.pgpMIME = false;
@@ -59,6 +60,44 @@ export default class EditorController extends sub.SubController {
       embedded: Boolean(this.ports.editorCont),
       integration: this.integration
     });
+    if (this.integration) {
+      this.checkAuthorization();
+    }
+  }
+
+  async checkAuthorization() {
+    const scope = gmail.GMAIL_SCOPE_SEND;
+    const accessToken = await gmail.getAccessToken(this.options.userEmail, scope);
+    if (!accessToken) {
+      this.openAuthorizeDialog(scope);
+    }
+  }
+
+  async onAuthorize() {
+    const accessToken = await gmail.authorize(this.options.userEmail, gmail.GMAIL_SCOPE_SEND);
+    if (accessToken) {
+      this.activateComponent();
+      this.ports.editor.emit('hide-error');
+      return true;
+    }
+  }
+
+  activateComponent() {
+    if (this.popup) {
+      this.popup.activate();
+    }
+  }
+
+  openAuthorizeDialog(scope) {
+    this.ports.editor.emit('error-message', {
+      error: {
+        code: 'AUTHORIZATION_REQUIRED',
+        message: 'Mailvelope ist zum Versenden von E-Mails nicht authorisiert!',
+        autoHide: false,
+        dismissable: false
+      }
+    });
+    gmail.openAuthorizeDialog({email: this.options.userEmail, scope, ctrlId: this.id});
   }
 
   async onEditorLoad() {
@@ -120,9 +159,9 @@ export default class EditorController extends sub.SubController {
   }
 
   onEditorCancel() {
-    if (this.editorPopup) {
-      this.editorPopup.close();
-      this.editorPopup = null;
+    if (this.popup) {
+      this.popup.close();
+      this.popup = null;
       this.encryptPromise.reject(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
     }
   }
@@ -233,7 +272,7 @@ export default class EditorController extends sub.SubController {
       this.encryptPromise = {resolve, reject};
       mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height})
       .then(popup => {
-        this.editorPopup = popup;
+        this.popup = popup;
         popup.addRemoveListener(() => this.onEditorCancel());
       });
     });
@@ -251,7 +290,7 @@ export default class EditorController extends sub.SubController {
   }
 
   activate() {
-    this.editorPopup.activate();
+    this.popup.activate();
   }
 
   /**
@@ -259,7 +298,7 @@ export default class EditorController extends sub.SubController {
    * @param  {String} armored
    */
   scheduleDecrypt(armored) {
-    if (armored.length > 400000 && !this.editorPopup) {
+    if (armored.length > 400000 && !this.popup) {
       // show spinner for large messages
       this.ports.editor.emit('decrypt-in-progress');
     }
@@ -276,7 +315,7 @@ export default class EditorController extends sub.SubController {
     try {
       const unlockKey = async options => {
         const result = await this.unlockKey(options);
-        if (this.editorPopup) {
+        if (this.popup) {
           this.ports.editor.emit('hide-pwd-dialog');
         }
         return result;
@@ -340,13 +379,13 @@ export default class EditorController extends sub.SubController {
     try {
       const armored = await this.signAndEncrypt(options);
       this.ports.editor.emit('encrypt-end');
-      if (this.editorPopup) {
-        this.editorPopup.close();
-        this.editorPopup = null;
+      if (this.popup) {
+        this.popup.close();
+        this.popup = null;
       }
       this.transferEncrypted({armored, subject: options.subject, keys: options.keys, pgpMime: options.attachments.length > 0});
     } catch (err) {
-      if (this.editorPopup && err.code === 'PWD_DIALOG_CANCEL') {
+      if (this.popup && err.code === 'PWD_DIALOG_CANCEL') {
         // popup case
         this.emit('hide-pwd-dialog');
         return;
@@ -494,8 +533,8 @@ export default class EditorController extends sub.SubController {
 
   async unlockKey({key, noCache, reason = 'PWD_DIALOG_REASON_DECRYPT', sync = true}) {
     const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = !this.editorPopup;
-    const beforePasswordRequest = id => this.editorPopup && this.ports.editor.emit('show-pwd-dialog', {id});
+    const openPopup = !this.popup;
+    const beforePasswordRequest = id => this.popup && this.ports.editor.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({key, reason, openPopup, noCache, beforePasswordRequest});
     this.encryptTimer = setTimeout(() => {
       this.ports.editor.emit('encrypt-in-progress');

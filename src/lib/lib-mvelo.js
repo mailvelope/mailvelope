@@ -262,6 +262,7 @@ mvelo.windows.BrowserWindow = class {
   }
 
   activate() {
+    browser.tabs.update(this.tabId, {active: true});
     browser.windows.update(this.id, {focused: true})
     .catch(() => {});
   }

@@ -47,8 +47,8 @@ export default class DecryptMessage extends React.Component {
       showError: false,
       pwdDialog: null,
       terminate: false,
-      large: false,
-      signatureToolTipOpen: false
+      signatureToolTipOpen: false,
+      large: false
     };
     this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
     this.registerEventListeners();
@@ -71,6 +71,7 @@ export default class DecryptMessage extends React.Component {
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('terminate', this.onTerminate);
     this.port.on('set-enc-attachments', this.onEncAttachments);
+    this.port.on('waiting', () => this.setState({showError: false, waiting: true}));
   }
 
   onTerminate() {
@@ -113,7 +114,8 @@ export default class DecryptMessage extends React.Component {
       return {
         files: [...prevState.files, file],
         encFiles: [...prevState.encFiles],
-        waiting: false
+        waiting: false,
+        showError: false
       };
     });
   }
@@ -134,7 +136,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onEncAttachments({encAtts}) {
-    this.setState({encFiles: encAtts.map((filename, index) => ({id: index, name: filename}))});
+    this.setState({encFiles: encAtts.map((filename, index) => ({id: index, name: filename})), waiting: false});
   }
 
   handleClickEncFile(e) {
@@ -168,7 +170,7 @@ export default class DecryptMessage extends React.Component {
 
   handleCancel() {
     this.port.emit('decrypt-dialog-cancel');
-    this.setState({showError: false});
+    this.setState({error: null});
   }
 
   handleDecrypt() {
@@ -238,7 +240,7 @@ export default class DecryptMessage extends React.Component {
                 )}
                 <div className="modal-body overflow-auto">
                   {this.state.encFiles.length > 0 && (
-                    <div className="files d-flex justify-content-start">
+                    <div className="files d-flex justify-content-start mb-2">
                       <FileDownloadPanel files={this.state.encFiles} onClickFile={e => this.handleClickEncFile(e)} />
                     </div>
                   )}
@@ -267,12 +269,13 @@ export default class DecryptMessage extends React.Component {
         {this.state.pwdDialog && <iframe className="decrypt-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
         {this.state.error &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} type="error" transition={{timeout: 150, unmountOnExit: true, onExited: () => this.handleCancel()}}>
+            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} type="error" transition={{timeout: 150, unmountOnExit: true, onExited: () => this.setState({error: null, waiting: false})}}>
               {this.state.error.message}
             </Toast>
           </div>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
+        {((this.state.message || this.state.files.length > 0 || this.state.encFiles.length > 0) && this.state.waiting) && <Spinner fullscreen={true} />}
         {this.state.terminate && <Terminate />}
       </SecurityBG>
     );

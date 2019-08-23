@@ -4,12 +4,15 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {port} from '../app';
+import {port, getAppDataSlot} from '../app';
 import {matchPattern2RegExString} from '../../lib/util';
 import * as l10n from '../../lib/l10n';
 import Trans from '../../components/util/Trans';
 import Alert from '../../components/util/Alert';
+import SimpleDialog from '../../components/util/SimpleDialog';
+import {GMAIL_SCOPE_READONLY, GMAIL_SCOPE_SEND} from '../../modules/gmail';
 
 l10n.register([
   'form_cancel',
@@ -38,7 +41,44 @@ export default class Provider extends React.Component {
   }
 
   componentDidMount() {
-    this.loadPrefs();
+    this.loadPrefs().then(() => {
+      if (/\/auth$/.test(this.props.location.pathname)) {
+        getAppDataSlot()
+        .then(data => this.openOAuthDialog(data));
+      }
+    });
+  }
+
+  openOAuthDialog({email, scope, ctrlId}) {
+    this.setState({showAuthModal: true, authMessage: this.getAuthMessage(email, scope), authModalCallback: async () => {
+      await port.send('authorize-gmail', {email, scope, ctrlId});
+      await this.loadAuthorisations();
+      this.setState({showAuthModal: false});
+    }, authModalClose: () => this.setState({showAuthModal: false}, () => port.emit('activate-component', {ctrlId}))});
+  }
+
+  getAuthMessage(email, scope) {
+    const textData = {
+      outro: `Wenn Sie diesen Dialog mit "ja" bestätigen, öffnet sich ein Google-Authorisierungsfenster. Wählen Sie den GMAIL Account für die E-Mail-Adresse ${email} und folgen Sie den Anweisungen.`
+    };
+    switch (scope) {
+      case GMAIL_SCOPE_READONLY:
+        textData.intro = `Damit verschlüsselte Anhänge für ${email} in GMAIL heruntergeladen und entschlüsselt werden können, muss Mailvelope für nachfolgende Berechtigungen authorsiert werden:`;
+        textData.grantType = 'Emails lesen';
+        break;
+      case GMAIL_SCOPE_SEND:
+        textData.intro = `Zum Versenden von verschlüsselten E-Mails für ${email} in GMAIL, muss Mailvelope für nachfolgende Berechtigungen authorsiert werden:`;
+        textData.grantType = 'Emails versenden';
+    }
+    return (
+      <>
+        <p>{textData.intro}</p>
+        <ul>
+          <li>{textData.grantType}</li>
+        </ul>
+        <p>{textData.outro}</p>
+      </>
+    );
   }
 
   async loadPrefs() {
@@ -149,7 +189,20 @@ export default class Provider extends React.Component {
             <button type="button" onClick={this.handleCancel} className="btn btn-secondary" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
           </div>
         </form>
+        <SimpleDialog
+          isOpen={this.state.showAuthModal}
+          toggle={() => this.setState(prevState => ({showAuthModal: !prevState.showAuthModal}))}
+          onHide={() => this.setState({authMessage: '', authModalCallback: null})}
+          size="medium"
+          title="Authorisierung erteilen"
+          onOk={this.state.authModalCallback}
+          onCancel={this.state.authModalClose}
+        >{this.state.authMessage}</SimpleDialog>
       </div>
     );
   }
 }
+
+Provider.propTypes = {
+  location: PropTypes.object
+};

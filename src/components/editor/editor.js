@@ -11,6 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Fade} from 'reactstrap';
 import * as l10n from '../../lib/l10n';
 import {str2ab} from '../../lib/util';
 import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
@@ -96,6 +97,7 @@ export default class Editor extends React.Component {
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('get-plaintext', this.getPlaintext);
     this.port.on('error-message', this.onErrorMessage);
+    this.port.on('hide-error', this.hideError);
     this.port.on('terminate', this.onTerminate);
     this.port.on('public-key-userids', this.onPublicKeyUserids);
     this.port.on('key-update', this.onKeyUpdate);
@@ -252,7 +254,10 @@ export default class Editor extends React.Component {
       error: {
         header: error.title || l10n.map.editor_error_header,
         message: error.message,
-        type: 'danger'
+        code: error.code,
+        type: 'danger',
+        autoHide: error.autoHide !== undefined ? error.autoHide : true,
+        dismissable: error.dismissable !== undefined ? error.dismissable : true
       },
       waiting: false,
       pwdDialog: null,
@@ -401,12 +406,12 @@ export default class Editor extends React.Component {
         )}
         {this.state.error &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.hideError()} type="error" transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.hideError(4000); }}}>
+            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={this.state.error.dismissable ? () => this.hideError() : undefined} type="error" transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.state.error.autoHide && this.hideError(4000); }}}>
               {this.state.error.message}
             </Toast>
           </div>
         }
-        {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
+        <Fade in={this.state.pwdDialog || (this.state.showError && !this.state.error.dismissable)} unmountOnExit={true} className="modal-backdrop" />
         {this.state.waiting && <Spinner fullscreen={true} delay={0} />}
         {this.state.terminate && <Terminate />}
       </SecurityBG>

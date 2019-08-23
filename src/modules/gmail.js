@@ -5,21 +5,23 @@
 
 import mvelo from '../lib/lib-mvelo';
 import browser from 'webextension-polyfill';
+import {setAppDataSlot} from '../controller/sub.controller';
 import {matchPattern2RegExString, getHash, base64DecodeUrl, byteCount} from '../lib/util';
 
 const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
 const GOOGLE_OAUTH_STORE = 'mvelo.oauth.gmail';
-const DEFAULT_SCOPES = ['https://www.googleapis.com/auth/userinfo.email'];
+const GMAIL_SCOPES_DEFAULT = ['https://www.googleapis.com/auth/userinfo.email'];
+export const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
+export const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
+
 const API_KEY = 'AIzaSyDmDlrIRgj3YEtLm-o4rA8qXG8b17bWfIs';
 export const MAIL_QUOTA = 25000000;
 
-export async function getMessage({msgId, email}) {
+export async function getMessage({msgId, email, accessToken}) {
   console.log('Fetching message: ', msgId);
-  const scopes = [...DEFAULT_SCOPES, 'https://www.googleapis.com/auth/gmail.readonly'];
-  const accessToken = await getAccessToken(email, scopes);
-  const tokenInfo = await getTokenInfo(accessToken, 'access');
-  console.log('Access token info: ', tokenInfo);
+  // const tokenInfo = await getTokenInfo(accessToken, 'access');
+  // console.log('Access token info: ', tokenInfo);
   console.log('Using access token: ', accessToken);
   const init = {
     method: 'GET',
@@ -37,13 +39,11 @@ export async function getMessage({msgId, email}) {
   return response.json();
 }
 
-export async function getAttachment({email, msgId, fileName}) {
+export async function getAttachment({email, msgId, fileName, accessToken}) {
   console.log('get attachement: ', fileName);
-  const msg = await getMessage({msgId, email});
+  const msg = await getMessage({msgId, email, accessToken});
   console.log(msg);
   const {body: {attachmentId}, mimeType} = msg.payload.parts.find(part => part.filename === fileName);
-  const scopes = [...DEFAULT_SCOPES, 'https://www.googleapis.com/auth/gmail.readonly'];
-  const accessToken = await getAccessToken(email, scopes);
   const init = {
     method: 'GET',
     async: true,
@@ -61,9 +61,7 @@ export async function getAttachment({email, msgId, fileName}) {
   return {data: `data:${mimeType};base64,${base64DecodeUrl(data)}`, size, mimeType};
 }
 
-export async function sendMessage({email, message}) {
-  const scopes = [...DEFAULT_SCOPES, 'https://www.googleapis.com/auth/gmail.send'];
-  const accessToken = await getAccessToken(email, scopes);
+export async function sendMessage({email, message, accessToken}) {
   // const base64EncodedMessage = btoa(message);
   const init = {
     method: 'POST',
@@ -83,7 +81,9 @@ export async function sendMessage({email, message}) {
   return result.json();
 }
 
-async function getAccessToken(email, scopes) {
+export async function getAccessToken(email, scope) {
+  console.log(email, scope);
+  const scopes = [...GMAIL_SCOPES_DEFAULT, scope];
   console.log('Getting access token...');
   const storedTokens = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
   console.log('Stored tokens: ', storedTokens);
@@ -105,15 +105,17 @@ async function getAccessToken(email, scopes) {
     }
   }
   console.log('New authorisation required!');
-  return authorize(email, scopes);
+  return;
+  // return authorize(email, scopes);
 }
 
 function checkStoredToken(storedToken) {
   return storedToken.access_token && (storedToken.access_token_exp  >= new Date().getTime());
 }
 
-async function authorize(email, scopes) {
+export async function authorize(email, scope) {
   try {
+    const scopes = [...GMAIL_SCOPES_DEFAULT, scope];
     const authCode = await getAuthCode(email, scopes);
     console.log('Authorisation code retrieved: ', authCode);
     const token = await getAuthTokens(authCode);
@@ -128,6 +130,12 @@ async function authorize(email, scopes) {
   } catch (e) {
     console.error(e.message);
   }
+}
+
+export async function openAuthorizeDialog({email, scope, ctrlId}) {
+  const slotId = getHash();
+  setAppDataSlot(slotId, {email, scope, ctrlId});
+  mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
 }
 
 export async function unauthorize(email) {
@@ -158,7 +166,7 @@ async function getAuthCode(email, scopes) {
   const originAndPathMatches = `^${matchPattern2RegExString(GOOGLE_API_HOST)}/.*`;
   return new Promise((resolve, reject) => {
     try {
-      browser.webNavigation.onDOMContentLoaded.addListener(({tabId, url}) => {
+      browser.webNavigation.onDOMContentLoaded.addListener(function handler({tabId, url}) {
         chrome.tabs.get(tabId, tab => {
           if (tab.windowId === authPopup.id) {
             if (/\/approval\//.test(url)) {
@@ -169,6 +177,7 @@ async function getAuthCode(email, scopes) {
               } else {
                 throw new Error('Wrong state parameter!');
               }
+              browser.webNavigation.onDOMContentLoaded.removeListener(handler);
             }
           }
         });
@@ -217,7 +226,7 @@ async function getRrefeshToken(refresh_token) {
   return result.json();
 }
 
-async function getTokenInfo(token, type = 'id') {
+export async function getTokenInfo(token, type = 'id') {
   let url = 'https://www.googleapis.com/oauth2/v3/tokeninfo';
   url += `?${type}_token=${encodeURIComponent(token)}`;
   const result = await fetch(url, {
