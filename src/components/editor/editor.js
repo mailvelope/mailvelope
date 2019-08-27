@@ -411,7 +411,7 @@ export default class Editor extends React.Component {
             </Toast>
           </div>
         }
-        <Fade in={this.state.pwdDialog || (this.state.showError && !this.state.error.dismissable)} unmountOnExit={true} className="modal-backdrop" />
+        <Fade in={this.state.pwdDialog !== null || (this.state.showError && !this.state.error.dismissable)} unmountOnExit={true} className="modal-backdrop" />
         {this.state.waiting && <Spinner fullscreen={true} delay={0} />}
         {this.state.terminate && <Terminate />}
       </SecurityBG>

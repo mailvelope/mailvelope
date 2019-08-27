@@ -5,13 +5,13 @@
 
 // import mvelo from '../lib/lib-mvelo';
 // import * as l10n from '../lib/l10n';
-import {getHash} from '../lib/util';
+import {getHash, mapError} from '../lib/util';
 // import {DISPLAY_INLINE} from '../lib/constants';
 // import {prefs} from '../modules/prefs';
 // import {getKeyringWithPrivKey} from '../modules/keyring';
 // import * as model from '../modules/pgpModel';
 import * as gmail from '../modules/gmail';
-import {buildPGPMail, buildTextMail} from '../modules/mime';
+import {buildMailWithHeader} from '../modules/mime';
 
 // import * as uiLog from '../modules/uiLog';
 // import {isCached} from '../modules/pwdCache';
@@ -46,12 +46,12 @@ export default class GmailController extends sub.SubController {
    */
   async onOpenEditor(options) {
     if (this.editorControl) {
-      this.editorControl.activate();
+      this.editorControl.activateComponent();
       return;
     }
     this.editorControl = sub.factory.get('editor');
     try {
-      const {armored, subject, recipients, pgpMime} = await this.editorControl.encrypt({
+      const {armored, encFiles, subject, recipients} = await this.editorControl.encrypt({
         integration: options.integration,
         predefinedText: options.text,
         quotedMail: options.quotedMail,
@@ -63,26 +63,27 @@ export default class GmailController extends sub.SubController {
       const userEmail = options.userEmail;
       const to = recipients.map(r => r.email);
       const quota = gmail.MAIL_QUOTA;
-      let message;
-      if (pgpMime) {
-        message = buildPGPMail({armored, subject, sender: userEmail, to, quota});
-      } else {
-        message = buildTextMail({armored, subject, sender: userEmail, to, quota});
+      const message = buildMailWithHeader({message: armored, attachments: encFiles, subject, sender: userEmail, to, quota});
+      if (message === null) {
+        throw new Error('MIME building failed.');
       }
       console.log(message);
-      gmail.sendMessage({email: userEmail, message})
-      .then(result => {
+      const accessToken = await gmail.getAccessToken(userEmail, gmail.GMAIL_SCOPE_SEND);
+      if (!accessToken) {
+        this.editorControl.openAuthorizeDialog(gmail.GMAIL_SCOPE_SEND);
+      } else {
+        const result = await gmail.sendMessage({email: userEmail, message, accessToken});
         console.log(result);
-      });
-      this.editorContentModified = true;
-      this.editorControl = null;
+        this.editorContentModified = true;
+        this.editorControl = null;
+      }
     } catch (err) {
       if (err.code == 'EDITOR_DIALOG_CANCEL') {
         this.editorControl = null;
-        this.emit('mail-editor-close');
+        // this.emit('mail-editor-close');
         return;
       }
-      console.log(err);
+      this.editorControl.ports.editor.emit('error-message', {error: mapError(err)});
     }
   }
 

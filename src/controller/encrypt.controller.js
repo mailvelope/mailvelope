@@ -26,7 +26,7 @@ export default class EncryptController extends sub.SubController {
    */
   onEncryptFrameDisplayEditor(options) {
     if (this.editorControl) {
-      this.editorControl.activate();
+      this.editorControl.activateComponent();
       return;
     }
     this.editorControl = sub.factory.get('editor');

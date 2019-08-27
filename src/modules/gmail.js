@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import browser from 'webextension-polyfill';
 import {setAppDataSlot} from '../controller/sub.controller';
-import {matchPattern2RegExString, getHash, base64DecodeUrl, byteCount} from '../lib/util';
+import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount} from '../lib/util';
 
 const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
@@ -40,9 +40,8 @@ export async function getMessage({msgId, email, accessToken}) {
 }
 
 export async function getAttachment({email, msgId, fileName, accessToken}) {
-  console.log('get attachement: ', fileName);
+  console.log('get attachment: ', fileName);
   const msg = await getMessage({msgId, email, accessToken});
-  console.log(msg);
   const {body: {attachmentId}, mimeType} = msg.payload.parts.find(part => part.filename === fileName);
   const init = {
     method: 'GET',
@@ -62,11 +61,10 @@ export async function getAttachment({email, msgId, fileName, accessToken}) {
 }
 
 export async function sendMessage({email, message, accessToken}) {
-  // const base64EncodedMessage = btoa(message);
   const init = {
     method: 'POST',
     async: true,
-    body: message, //encodeURI(base64EncodedMessage),
+    body: message,
     mode: 'cors',
     headers: {
       'Content-Type': 'message/rfc822',
@@ -81,10 +79,30 @@ export async function sendMessage({email, message, accessToken}) {
   return result.json();
 }
 
+export async function sendMessageMeta({email, message, accessToken}) {
+  const data = {
+    raw: base64EncodeUrl(btoa(message))
+  };
+  const init = {
+    method: 'POST',
+    async: true,
+    body: JSON.stringify(data),
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': `Bearer ${accessToken}`,
+    }
+  };
+  const result = await fetch(
+    ` https://www.googleapis.com/gmail/v1/users/${email}/messages/send`,
+    init
+  );
+  return result.json();
+}
+
 export async function getAccessToken(email, scope) {
-  console.log(email, scope);
   const scopes = [...GMAIL_SCOPES_DEFAULT, scope];
-  console.log('Getting access token...');
+  console.log('Getting access token for: ', email, scope);
   const storedTokens = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
   console.log('Stored tokens: ', storedTokens);
   if (storedTokens && Object.keys(storedTokens).includes(email) && scopes.every(scope => storedTokens[email].scope.split(' ').includes(scope))) {
@@ -114,22 +132,22 @@ function checkStoredToken(storedToken) {
 }
 
 export async function authorize(email, scope) {
-  try {
-    const scopes = [...GMAIL_SCOPES_DEFAULT, scope];
-    const authCode = await getAuthCode(email, scopes);
-    console.log('Authorisation code retrieved: ', authCode);
-    const token = await getAuthTokens(authCode);
-    console.log('Authorisation tokens retrieved: ', token);
-    const id = parseJwt(token.id_token);
-    console.log('Id token info: ', id);
-    if (id.iss === GOOGLE_API_HOST && id.aud === CLIENT_ID && id.email === email && id.exp >= (new Date().getTime() / 1000)) {
-      await storeToken(email, token);
-      console.log('Token info stored for: ', email);
-      return token.access_token;
-    }
-  } catch (e) {
-    console.error(e.message);
+  const scopes = [...GMAIL_SCOPES_DEFAULT, scope];
+  const authCode = await getAuthCode(email, scopes);
+  if (!authCode) {
+    throw new Error('Authorisation failed!');
   }
+  console.log('Authorisation code retrieved: ', authCode);
+  const token = await getAuthTokens(authCode);
+  console.log('Authorisation tokens retrieved: ', token);
+  const id = parseJwt(token.id_token);
+  console.log('Id token info: ', id);
+  if (id.iss === GOOGLE_API_HOST && id.aud === CLIENT_ID && id.email === email && id.exp >= (new Date().getTime() / 1000)) {
+    await storeToken(email, token);
+    console.log('Token info stored for: ', email);
+    return token.access_token;
+  }
+  return;
 }
 
 export async function openAuthorizeDialog({email, scope, ctrlId}) {

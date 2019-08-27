@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {html2text, encodeHTML, ab2str, byteCount, MvError} from '../lib/util';
+import {html2text, encodeHTML, ab2str, byteCount, MvError, getHash} from '../lib/util';
 import * as mailreader from '../lib/mail-reader';
 import MimeBuilder from 'emailjs-mime-builder';
 
@@ -183,6 +183,43 @@ export function buildTextMail({armored, sender, to, subject, quota}) {
   });
   mainMessage.setContent(armored);
   quotaSize += byteCount(armored);
+  if (quota && (quotaSize > quota)) {
+    throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
+  }
+  return mainMessage.build();
+}
+
+export function buildMailWithHeader({message, attachments, sender, to, subject, quota}) {
+  const mainMessage = new MimeBuilder('multipart/mixed')
+  .addHeader({
+    from: sender,
+    to: to.join(', '),
+    subject
+  });
+  let quotaSize = 0;
+  if (message) {
+    quotaSize += byteCount(message);
+    const textMime = new MimeBuilder('text/plain')
+    .setHeader({'content-transfer-encoding': 'quoted-printable'})
+    .setContent(message);
+    mainMessage.appendChild(textMime);
+  }
+  if (attachments && attachments.length > 0) {
+    for (const attachment of attachments) {
+      quotaSize += attachment.size;
+      const id = `mv_${getHash()}`;
+      const attachmentMime = new MimeBuilder('multipart/mixed')
+      .createChild(null, {filename: attachment.name})
+      .setHeader({
+        'content-transfer-encoding': 'base64',
+        'content-disposition': 'attachment',
+        'X-Attachment-Id': id,
+        'Content-ID': `<${id}>`
+      })
+      .setContent(attachment.content);
+      mainMessage.appendChild(attachmentMime);
+    }
+  }
   if (quota && (quotaSize > quota)) {
     throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
   }

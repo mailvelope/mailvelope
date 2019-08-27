@@ -9,7 +9,8 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getHash, deDup, sortAndDeDup, mapError, MvError} from '../lib/util';
+import {getHash, deDup, sortAndDeDup, mapError, MvError, byteCount} from '../lib/util';
+import {extractFileExtension} from '../lib/file';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
@@ -74,12 +75,22 @@ export default class EditorController extends sub.SubController {
   }
 
   async onAuthorize() {
-    const accessToken = await gmail.authorize(this.options.userEmail, gmail.GMAIL_SCOPE_SEND);
-    if (accessToken) {
+    try {
+      await gmail.authorize(this.options.userEmail, gmail.GMAIL_SCOPE_SEND);
       this.activateComponent();
       this.ports.editor.emit('hide-error');
-      return true;
+    } catch (e) {
+      this.activateComponent();
+      this.ports.editor.emit('error-message', {
+        error: {
+          code: 'AUTHORIZATION_FAILED',
+          message: e.message,
+          autoHide: false,
+          dismissable: false
+        }
+      });
     }
+    return Promise.resolve();
   }
 
   activateComponent() {
@@ -289,10 +300,6 @@ export default class EditorController extends sub.SubController {
     });
   }
 
-  activate() {
-    this.popup.activate();
-  }
-
   /**
    * A encrypted message will be decrypted and shown in the editor
    * @param  {String} armored
@@ -377,13 +384,13 @@ export default class EditorController extends sub.SubController {
   async onEditorPlaintext(options) {
     options.keys = options.keys || [];
     try {
-      const armored = await this.signAndEncrypt(options);
+      const {armored, encFiles} = await this.signAndEncrypt(options);
       this.ports.editor.emit('encrypt-end');
       if (this.popup) {
         this.popup.close();
         this.popup = null;
       }
-      this.transferEncrypted({armored, subject: options.subject, keys: options.keys, pgpMime: options.attachments.length > 0});
+      this.transferEncrypted({armored, encFiles, subject: options.subject, keys: options.keys});
     } catch (err) {
       if (this.popup && err.code === 'PWD_DIALOG_CANCEL') {
         // popup case
@@ -414,8 +421,34 @@ export default class EditorController extends sub.SubController {
    */
   async signAndEncrypt(options) {
     if (options.action === 'encrypt') {
-      let data = null;
+      console.log('start encryption...');
+      const noCache = options.noCache;
+      const keyFprs = await this.getPublicKeyFprs(options.keys);
+      let signKeyFpr;
+      let unlockKey;
+      if (options.signMsg) {
+        signKeyFpr = options.signKey;
+        if (!signKeyFpr) {
+          const defaultKeyFpr = await getDefaultKeyFpr(this.keyringId);
+          signKeyFpr = defaultKeyFpr;
+        }
+        if (!signKeyFpr) {
+          throw new MvError('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
+        }
+        unlockKey = async options => {
+          options.noCache = noCache;
+          options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+          options.sync = !prefs.security.password_cache;
+          return this.unlockKey(options);
+        };
+      }
+      let data;
+      let files = [];
+      let encFiles = [];
       options.pgpMIME = this.pgpMIME;
+      if (this.integration && !this.pgpMIME) {
+        ({attachments: files, ...options} = options);
+      }
       try {
         data = buildMail(options);
       } catch (error) {
@@ -426,60 +459,66 @@ export default class EditorController extends sub.SubController {
       if (data === null) {
         throw new MvError('MIME building failed.');
       }
-      const keyFprs = await this.getPublicKeyFprs(options.keys);
-      if (options.signMsg) {
-        return this.signAndEncryptMessage({
-          data,
+      const armored = await this.encryptMessage({
+        data,
+        keyFprs,
+        signKeyFpr,
+        unlockKey,
+        noCache
+      });
+      if (!this.pgpMIME && files.length) {
+        encFiles = await this.encryptFiles({
+          files,
           keyFprs,
-          signKeyFpr: options.signKeyFpr,
-          noCache: options.noCache
-        });
-      } else {
-        return this.encryptMessage({
-          data,
-          keyFprs
+          signKeyFpr,
+          unlockKey,
+          noCache
         });
       }
+      console.log(encFiles);
+      console.log('end encryption...');
+      return {armored, encFiles};
     } else if (options.action === 'sign') {
-      return this.signMessage({
+      const armored = await this.signMessage({
         data: options.message,
         signKeyFpr: this.signKeyFpr
       });
+      return {armored};
     }
   }
 
-  /**
-   * Sign and encrypt message
-   * @param {String} data - message content
-   * @param {Array<String>} keyFprs - encryption keys fingerprint
-   * @param {String} signKeyFpr - signing key fingerprint
-   * @param {Boolean} noCache - do not use password cache, user interaction required
-   * @return {Promise<String>} - message as armored block
-   */
-  async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
-    if (!signKeyFpr) {
-      const defaultKeyFpr = await getDefaultKeyFpr(this.keyringId);
-      signKeyFpr = defaultKeyFpr;
-    }
-    if (!signKeyFpr) {
-      throw new MvError('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
-    }
-    const unlockKey = async options => {
-      options.noCache = noCache;
-      options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
-      options.sync = !prefs.security.password_cache;
-      return this.unlockKey(options);
-    };
-    return model.encryptMessage({
-      data,
-      keyringId: this.keyringId,
-      unlockKey,
-      encryptionKeyFprs: keyFprs,
-      signingKeyFpr: signKeyFpr,
-      uiLogSource: 'security_log_editor',
-      noCache
-    });
-  }
+  // /**
+  //  * Sign and encrypt message
+  //  * @param {String} data - message content
+  //  * @param {Array<String>} keyFprs - encryption keys fingerprint
+  //  * @param {String} signKeyFpr - signing key fingerprint
+  //  * @param {Boolean} noCache - do not use password cache, user interaction required
+  //  * @return {Promise<String>} - message as armored block
+  //  */
+  // async signAndEncryptMessage({data, signKeyFpr, keyFprs, noCache}) {
+  //   if (!signKeyFpr) {
+  //     const defaultKeyFpr = await getDefaultKeyFpr(this.keyringId);
+  //     signKeyFpr = defaultKeyFpr;
+  //   }
+  //   if (!signKeyFpr) {
+  //     throw new MvError('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
+  //   }
+  //   const unlockKey = async options => {
+  //     options.noCache = noCache;
+  //     options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+  //     options.sync = !prefs.security.password_cache;
+  //     return this.unlockKey(options);
+  //   };
+  //   return model.encryptMessage({
+  //     data,
+  //     keyringId: this.keyringId,
+  //     unlockKey,
+  //     encryptionKeyFprs: keyFprs,
+  //     signingKeyFpr: signKeyFpr,
+  //     uiLogSource: 'security_log_editor',
+  //     noCache
+  //   });
+  // }
 
   /**
    * Encrypt only message
@@ -487,7 +526,7 @@ export default class EditorController extends sub.SubController {
    * @param {Array<String>} keyFprs - encryption keys fingerprint
    * @return {Promise<String>} - message as armored block
    */
-  encryptMessage({data, keyFprs}) {
+  encryptMessage({data, keyFprs, signKeyFpr, unlockKey, noCache}) {
     this.encryptTimer = setTimeout(() => {
       this.ports.editor.emit('encrypt-in-progress');
     }, 800);
@@ -495,8 +534,32 @@ export default class EditorController extends sub.SubController {
       data,
       keyringId: this.keyringId,
       encryptionKeyFprs: keyFprs,
+      signingKeyFpr: signKeyFpr,
+      unlockKey,
+      noCache,
       uiLogSource: 'security_log_editor'
     });
+  }
+
+  encryptFiles({files, keyFprs, signKeyFpr, unlockKey, noCache}) {
+    this.encryptTimer = setTimeout(() => {
+      this.ports.editor.emit('encrypt-in-progress');
+    }, 800);
+    return Promise.all(files.map(async file => {
+      const fileExt = extractFileExtension(file.name);
+      const encrypted = await model.encryptFile({
+        plainFile: file,
+        armor: fileExt === 'txt',
+        keyringId: this.keyringId,
+        encryptionKeyFprs: keyFprs,
+        signingKeyFpr: signKeyFpr,
+        unlockKey,
+        noCache,
+        uiLogSource: 'security_log_editor'
+      });
+      const base64encoded = btoa(encrypted);
+      return {content: `data:application/octet-stream;base64,${base64encoded}`, size: byteCount(base64encoded), name: fileExt === 'txt' ? `${file.name}.asc` : `${file.name}.gpg`};
+    }));
   }
 
   /**
@@ -522,12 +585,12 @@ export default class EditorController extends sub.SubController {
    * @param  {String} options.armored   The encrypted/signed message
    * @param  {Array}  options.keys      The keys used to encrypt the message
    */
-  transferEncrypted({armored, subject, keys = [], pgpMime}) {
+  transferEncrypted({armored, encFiles, subject, keys = []}) {
     if (this.ports.editorCont) {
       this.ports.editorCont.emit('encrypted-message', {message: armored});
     } else {
       const recipients = keys.map(key => ({name: key.name, email: key.email}));
-      this.encryptPromise.resolve({armored, subject, recipients, pgpMime});
+      this.encryptPromise.resolve({armored, encFiles, subject, recipients});
     }
   }
 
