@@ -1,6 +1,21 @@
 Mailvelope Changelog
 ====================
 
+v4.1.1
+-------
+__Aug 28, 2019__
+
+  * Fix error messages on restore backup dialog
+  * Fix bug in the editor recipient input field when terminating email address with space key
+  * Hide bit length selector in in advanced key generation options where not appropriate
+  * Fix duplicate password popup for Mailvelope viewer in the app decrypt UI
+  * Optimize styling of embedded components for small dimensions
+  * Allow to switch keyrings in the keyring setup UI
+  * Fix encoding of file objects when decrypting armored message in app
+  * Add support for Experimental Web Platform features with DOMPurify returning TrustedHTML
+  * Add Mailvelope title to editor and password dialog
+  * Fix line wrapping of cleartext signed messages
+
 v4.1.0
 -------
 __Aug 15, 2019__
