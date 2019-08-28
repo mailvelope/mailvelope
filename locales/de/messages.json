@@ -1361,6 +1361,14 @@
     "description": "Secure reply button title/tooltip",
     "message": "Sicher antworten"
   },
+  "provider_gmail_secure_replyAll_btn": {
+    "description": "Secure reply all button title/tooltip",
+    "message": "Allen sicher antworten"
+  },
+  "provider_gmail_secure_forward_btn": {
+    "description": "Secure forward button title/tooltip",
+    "message": "Sicher weiterleiten"
+  },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",
     "message": "Passwort temporär merken"

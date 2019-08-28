@@ -3,10 +3,12 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
 import browser from 'webextension-polyfill';
+import {goog} from './closure-library/closure/goog/emailaddress';
+import mvelo from '../lib/lib-mvelo';
+import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {setAppDataSlot} from '../controller/sub.controller';
-import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount} from '../lib/util';
+import {buildMailWithHeader} from './mime';
 
 const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
@@ -18,7 +20,7 @@ export const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
 const API_KEY = 'AIzaSyDmDlrIRgj3YEtLm-o4rA8qXG8b17bWfIs';
 export const MAIL_QUOTA = 25000000;
 
-export async function getMessage({msgId, email, accessToken}) {
+export async function getMessage({msgId, email, accessToken, format = 'full'}) {
   console.log('Fetching message: ', msgId);
   // const tokenInfo = await getTokenInfo(accessToken, 'access');
   // console.log('Access token info: ', tokenInfo);
@@ -33,16 +35,20 @@ export async function getMessage({msgId, email, accessToken}) {
     'contentType': 'json'
   };
   const response = await fetch(
-    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?key=${API_KEY}`,
+    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?format=${format}&key=${API_KEY}`,
     init
   );
-  return response.json();
+  const json = await response.json();
+  console.log(json);
+  return json;
 }
 
-export async function getAttachment({email, msgId, fileName, accessToken}) {
-  console.log('get attachment: ', fileName);
-  const msg = await getMessage({msgId, email, accessToken});
-  const {body: {attachmentId}, mimeType} = msg.payload.parts.find(part => part.filename === fileName);
+export async function getAttachment({email, msgId, attachmentId, fileName, accessToken}) {
+  console.log('get attachment: ', attachmentId || fileName);
+  if (!attachmentId) {
+    const msg = await getMessage({msgId, email, accessToken});
+    ({body: {attachmentId}} = msg.payload.parts.find(part => part.filename === fileName));
+  }
   const init = {
     method: 'GET',
     async: true,
@@ -57,7 +63,7 @@ export async function getAttachment({email, msgId, fileName, accessToken}) {
     init
   );
   const {data, size} = await response.json();
-  return {data: `data:${mimeType};base64,${base64DecodeUrl(data)}`, size, mimeType};
+  return {data: `data:application/octet-stream;base64,${base64DecodeUrl(data)}`, size, mimeType: 'application/octet-stream'};
 }
 
 export async function sendMessage({email, message, accessToken}) {
@@ -79,10 +85,13 @@ export async function sendMessage({email, message, accessToken}) {
   return result.json();
 }
 
-export async function sendMessageMeta({email, message, accessToken}) {
+export async function sendMessageMeta({email, message, threadId, accessToken}) {
   const data = {
     raw: base64EncodeUrl(btoa(message))
   };
+  if (threadId) {
+    data.threadId = threadId;
+  }
   const init = {
     method: 'POST',
     async: true,
@@ -297,4 +306,63 @@ function parseJwt(token) {
     `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`
   ).join(''));
   return JSON.parse(jsonPayload);
+}
+
+export function extractMailHeader(payload, name) {
+  const header = payload.headers.find(header => header.name === name);
+  if (header) {
+    return header.value;
+  }
+  return '';
+}
+
+export async function extractMailBody({payload, userEmail, msgId, accessToken, type = 'text/plain'}) {
+  if (/^multipart\/encrypted/i.test(payload.mimeType) && payload.parts && payload.parts[1]) {
+    const attachmentId = payload.parts[1].body.attachmentId;
+    const {data: attachment} = await getAttachment({email: userEmail, msgId, attachmentId, accessToken});
+    return dataURL2str(attachment);
+  }
+  if (/^multipart\/signed/i.test(payload.mimeType) && payload.parts && payload.parts[1]) {
+    if (/^application\/pgp-signature/i.test(payload.parts[1].mimeType)) {
+      return atob(base64DecodeUrl(getMailPartBody(payload.parts[0])));
+    }
+  }
+  return atob(base64DecodeUrl(getMailPartBody([payload], type)));
+}
+
+export function getMailAttachments({payload, userEmail, msgId, accessToken}) {
+  return Promise.all(payload.parts.filter(({body: {attachmentId}}) => attachmentId).map(async part => {
+    const filename = part.filename;
+    const attachment = await getAttachment({email: userEmail, msgId, attachmentId: part.body.attachmentId, filename, accessToken});
+    return {filename: decodeURI(filename), ...attachment};
+  }));
+}
+
+export function getMailPartBody(parts, mimeType = 'text/plain') {
+  for (const part of parts) {
+    if (!part.parts) {
+      if (part.mimeType === mimeType) {
+        return part.body.data;
+      }
+    } else {
+      return getMailPartBody(part.parts);
+    }
+  }
+  return '';
+}
+
+export function extractMailFromAddress(address) {
+  const emailAddress = goog.format.EmailAddress.parse(address);
+  if (emailAddress.isValid()) {
+    return emailAddress.getAddress();
+  }
+  return '';
+}
+
+export function buildMail({message, attachments, subject, sender, to, cc}) {
+  const mail = buildMailWithHeader({message, attachments, subject, sender, to, cc, quota: MAIL_QUOTA});
+  if (mail === null) {
+    throw new Error('MIME building failed.');
+  }
+  return mail;
 }

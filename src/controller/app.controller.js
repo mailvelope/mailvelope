@@ -374,9 +374,9 @@ export default class AppController extends sub.SubController {
     return gmail.unauthorize(email);
   }
 
-  async authorizeGmail({ctrlId}) {
+  async authorizeGmail({email, scope, ctrlId}) {
     const ctrl = sub.getById(ctrlId);
-    return ctrl.onAuthorize();
+    return ctrl.onAuthorize({email, scope});
   }
 
   activateComponent({ctrlId}) {

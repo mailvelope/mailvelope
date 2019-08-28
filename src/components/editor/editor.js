@@ -103,10 +103,11 @@ export default class Editor extends React.Component {
     this.port.on('key-update', this.onKeyUpdate);
   }
 
-  onSetInitData({text = '', signMsg, defaultKeyFpr, privKeys = []}) {
+  onSetInitData({text = '', signMsg, subject, defaultKeyFpr, privKeys = []}) {
     this.setState({
       defaultPlainText: text,
       plainText: text,
+      subject,
       files: [],
       signMsg: Boolean(signMsg),
       signKey: defaultKeyFpr,
@@ -315,6 +316,7 @@ export default class Editor extends React.Component {
   }
 
   onSetAttachment({attachment}) {
+    console.log(attachment);
     const buffer = str2ab(attachment.content);
     const blob = new Blob([buffer], {type: attachment.mimeType});
     const file = new File([blob], attachment.filename, {type: attachment.mimeType});

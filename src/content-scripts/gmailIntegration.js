@@ -13,6 +13,8 @@ import DecryptAttFrame from './decryptAttFrame';
 l10n.register([
   'encrypt_frame_btn_label',
   'provider_gmail_secure_reply_btn',
+  'provider_gmail_secure_replyAll_btn',
+  'provider_gmail_secure_forward_btn'
 ]);
 
 export default class GmailIntegration {
@@ -168,7 +170,7 @@ export default class GmailIntegration {
     secureReplyBtn.setAttribute('tabindex', 0);
     secureReplyBtn.setAttribute('role', 'button');
     secureReplyBtn.setAttribute('aria-label', l10n.map.provider_gmail_secure_reply_btn);
-    secureReplyBtn.addEventListener('click', () => console.log('opening editor reply to msg id', msgId));
+    secureReplyBtn.addEventListener('click', ev => this.onReplyButton(ev, msgId));
     const secureReplyBtnShadowRootElem = document.createElement('div');
     secureReplyBtnShadowRootElem.style.display = 'inline-flex';
     actionBtnsTopRoot.prepend(secureReplyBtnShadowRootElem);
@@ -182,31 +184,15 @@ export default class GmailIntegration {
     const menuBtn = actionBtnsTopRoot.querySelector('.T-I-Js-Gs.aap.T-I-awG');
     menuBtn.addEventListener('click', () => {
       const menuPopover = document.querySelector('.b7.J-M[role="menu"]');
-      // add secure replay menu item
-      let menuItemReplyShadowRootElem = menuPopover.querySelector('[data-mv-menu-item="reply"]');
-      let secureReplyMenuItemShadow;
-      if (!menuItemReplyShadowRootElem) {
-        menuItemReplyShadowRootElem = document.createElement('div');
-        menuItemReplyShadowRootElem.dataset.mvMenuItem = 'reply';
-        menuItemReplyShadowRootElem.setAttribute('role', 'menuitem');
-        menuPopover.prepend(menuItemReplyShadowRootElem);
-        const secureReplyMenuItem = document.createElement('div');
-        secureReplyMenuItem.classList.add('mv-menu-item', 'mv-menu-item-reply');
-        secureReplyMenuItem.textContent = l10n.map.provider_gmail_secure_reply_btn;
-        secureReplyMenuItemShadow = menuItemReplyShadowRootElem.attachShadow({mode: 'open'});
-        const secureReplyMenuItemStyle = document.createElement('style');
-        secureReplyMenuItemStyle.textContent = gmailIntegrationCsss;
-        secureReplyMenuItemShadow.append(secureReplyMenuItemStyle);
-        secureReplyMenuItemShadow.append(secureReplyMenuItem);
-      } else {
-        secureReplyMenuItemShadow = menuItemReplyShadowRootElem.shadowRoot;
+      // add secure reply menu item
+      this.addMenuBtn('reply', menuPopover, null, ev => this.onReplyButton(ev, msgId));
+      const replyMenuItem = menuPopover.querySelector('[role="menuitem"][id="r2"]');
+      if (replyMenuItem.style.display !== 'none') {
+        // add reply-all menu item
+        this.addMenuBtn('replyAll', menuPopover, replyMenuItem, ev => this.onReplyButton(ev, msgId, true));
       }
-      secureReplyMenuItemShadow.lastChild.addEventListener('click', function _func(ev) {
-        console.log('opening editor reply to msg id', msgId);
-        menuBtn.blur();
-        ev.target.removeEventListener('click', _func);
-      });
-    }, true);
+      this.addMenuBtn('forward', menuPopover, menuPopover.querySelector('[role="menuitem"][id="r3"]'), ev => this.onForwardButton(ev, msgId));
+    }, {capture: true});
 
     // add bottom buttons
     const actionBtnsBottom = msgElem.parentElement.querySelectorAll('span.ams[role="link"]');
@@ -227,7 +213,7 @@ export default class GmailIntegration {
       const secureReplyActionBtnBottom = document.createElement('span');
       secureReplyActionBtnBottom.classList.add('mv-action-btn-bottom', 'mv-action-btn-bottom-reply');
       secureReplyActionBtnBottom.textContent = l10n.map.provider_gmail_secure_reply_btn;
-      secureReplyActionBtnBottom.addEventListener('click', () => console.log('opening editor reply to msg id', msgId));
+      secureReplyActionBtnBottom.addEventListener('click', ev => this.onReplyButton(ev, msgId));
 
       actionBtnsBottomElem.append(secureReplyActionBtnBottom);
 
@@ -237,6 +223,30 @@ export default class GmailIntegration {
       actionBtnsBottomShadow.append(actionBtnsBottomStyle);
       actionBtnsBottomShadow.append(actionBtnsBottomElem);
     }
+  }
+
+  addMenuBtn(name, container, beforeElem, clickHandler) {
+    let menuItemReplyShadowRootElem = container.querySelector(`[data-mv-menu-item="${name}"]`);
+    let secureReplyMenuItemShadow;
+    if (!menuItemReplyShadowRootElem) {
+      menuItemReplyShadowRootElem = document.createElement('div');
+      menuItemReplyShadowRootElem.dataset.mvMenuItem = name;
+      menuItemReplyShadowRootElem.setAttribute('role', 'menuitem');
+      container.insertBefore(menuItemReplyShadowRootElem, beforeElem || container.firstChild);
+      const secureReplyMenuItem = document.createElement('div');
+      secureReplyMenuItem.classList.add('mv-menu-item', `mv-menu-item-${name}`);
+      secureReplyMenuItem.textContent = l10n.map[`provider_gmail_secure_${name}_btn`];
+      secureReplyMenuItemShadow = menuItemReplyShadowRootElem.attachShadow({mode: 'open'});
+      const secureReplyMenuItemStyle = document.createElement('style');
+      secureReplyMenuItemStyle.textContent = gmailIntegrationCsss;
+      secureReplyMenuItemShadow.append(secureReplyMenuItemStyle);
+      secureReplyMenuItemShadow.append(secureReplyMenuItem);
+    } else {
+      secureReplyMenuItemShadow = menuItemReplyShadowRootElem.shadowRoot;
+      const cloned = secureReplyMenuItemShadow.lastChild.cloneNode(true);
+      secureReplyMenuItemShadow.replaceChild(cloned, secureReplyMenuItemShadow.lastChild);
+    }
+    secureReplyMenuItemShadow.lastChild.addEventListener('click', clickHandler, {once: true});
   }
 
   getEncryptedAttachments(msgId) {
@@ -279,10 +289,19 @@ export default class GmailIntegration {
     ev.stopPropagation();
   }
 
+  onReplyButton(ev, msgId, all = false) {
+    this.port.emit('secure-reply', {msgId: this.getMsgLegacyId(msgId), all, userEmail: this.getGmailUser()});
+    ev.stopPropagation();
+  }
+
+  onForwardButton(ev, msgId) {
+    this.port.emit('secure-forward', {msgId: this.getMsgLegacyId(msgId), userEmail: this.getGmailUser()});
+    ev.stopPropagation();
+  }
+
   openEditor() {
     const options = {
-      integration: true,
-      userEmail:   this.getGmailUser()
+      userEmail: this.getGmailUser()
     };
     // const emailContent = this.getEmailText(this.editorType == PLAIN_TEXT ? 'text' : 'html');
     // if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {

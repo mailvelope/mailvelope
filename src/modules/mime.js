@@ -142,14 +142,18 @@ export function buildMail({message, attachments, quota, pgpMIME}) {
   return composedMessage;
 }
 
-export function buildPGPMail({armored, sender, to, subject, quota}) {
+export function buildPGPMail({armored, sender, to, cc, subject, quota}) {
   let quotaSize = 0;
-  const mainMessage = new MimeBuilder('multipart/encrypted; protocol="application/pgp-encrypted";')
-  .addHeader({
+  const mainMessage = new MimeBuilder('multipart/encrypted; protocol="application/pgp-encrypted";');
+  const headers = {
     from: sender,
     to: to.join(', '),
     subject
-  });
+  };
+  if (cc) {
+    headers.cc = cc.join(', ');
+  }
+  mainMessage.addHeader(headers);
   const mainContent = 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)';
   mainMessage.setContent(mainContent);
   quotaSize += byteCount(mainContent);
