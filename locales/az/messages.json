@@ -116,15 +116,15 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "Digitally signed",
+        "message": "Signed",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Yanlış rəqəmsal imza",
+        "message": "Yanlış imza",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Rəqəmsal imza müəyyən edilə bilmədi",
+        "message": "Signature could not be identified",
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
@@ -190,22 +190,6 @@
     "dialog_yes_btn": {
         "message": "Bəli",
         "description": "Dialog yes button label"
-    },
-    "digital_signature_status_false": {
-        "message": "Yanlış imza",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "İmza təsdiqlənə bilməz",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "Şifərli ünsiyyət üçün rəqəmsal imza əlaqəsi hələ təsdiqlənməyib. Dəvət üçün müraciət et.",
-        "description": ""
-    },
-    "digital_signature_status_true": {
-        "message": "İmza etibarlıdır",
-        "description": ""
     },
     "editor_blur_warn": {
         "message": "Diqqət: Mətn redaktoru fokusunu itirib. ",
@@ -1363,10 +1347,6 @@
         "message": "Açar şifrəsini daxil et",
         "description": "Header of the password dialog."
     },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "Açarınızın İD-si",
-        "description": "Tooltip explaining the key id."
-    },
     "pwd_dialog_pwd_please": {
         "message": "Şifrəni daxil et",
         "description": "Placeholder for password."
@@ -1428,7 +1408,7 @@
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner.",
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {

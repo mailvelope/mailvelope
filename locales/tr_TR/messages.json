@@ -1,342 +1,342 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "Авторизовать этот домен",
+        "message": "Bu etki alanına izin ver",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
-        "message": "Все функции",
+        "message": "Tüm seçenekler",
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Настройте Mailvelope</0>и вперед!",
+        "message": "Başlamak için <0>Mailvelope uygulamasını yapılandırın</0>!",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Показать все варианты настроек.",
+        "message": "Tüm yapılandırma seçeneklerini görüntüler.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
-        "message": "Панель приборов",
+        "message": "Pano",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_file_encryption_description": {
-        "message": "Зашифровать один или несколько файлов.",
+        "message": "Bir ya da bir kaç dosyayı şifreler.",
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "Шифрование файла",
+        "message": "Dosya şifreleme",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
-        "message": "Помощь",
+        "message": "Yardım",
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "Управление открытыми и закрытыми ключами.",
+        "message": "Herkese açık ve kişisel anahtarları yönetir.",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "Ключи",
+        "message": "Anahtarlık",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Главное меню Mailvelope",
+        "message": "Mailvelope ana menüsü",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Перезапуск Mailvelope",
+        "message": "Mailvelope Uygulamasını Yeniden Yükle",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Просмотр действий пользователя, связанных с безопасностью.",
+        "message": "Güvenlik ile ilgili kullanıcı işlemlerini gözden geçirin.",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "Журнал безопасности",
+        "message": "Güvenlik günlüğü",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Меню настроек Mailvelope",
+        "message": "Mailvelope kurulum menüsü",
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "Последнее обновление Mailvelope требует перенастройки безопасного фона.",
+        "message": "Son Mailvelope güncellemesi nedeniyle güvenlik arka planınızı yeniden yapılandırmanız gerekiyor.",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Let's start!",
+        "message": "Haydi başlayalım!",
         "description": "Start button label"
     },
     "alert_header_error": {
-        "message": "Ошибка!",
+        "message": "Hata!",
         "description": "Alert header of category error."
     },
     "alert_header_success": {
-        "message": "Успешно!",
+        "message": "Tamam!",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "Внимание!",
+        "message": "Uyarı!",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Маска домена должна начинаться с '*.'.",
+        "message": "Etki alanı eşleşme kalıbı '*.' ile başlamalıdır.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "Нужно указать хотя бы одну маску домена.",
+        "message": "En az bir etki alanı eşleşme kalıbı gereklidir.",
         "description": "Alert header of category warning."
     },
     "change_link": {
-        "message": "Изменить",
+        "message": "Değiştir",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Невозможно прочитать это расшифрованное сообщение: $1",
+        "message": "Şu açık metin iletisi okunamadı: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Шифрование",
+        "message": "Şİfreleme",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_manage_domains": {
-        "message": "Авторизованные домены",
+        "message": "İzin verilmiş etki alanları",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Управление ключами",
+        "message": "Anahtar yönetimi",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Журналы ошибок",
+        "message": "Güvenlik günlükleri",
         "description": "Dashboard view security logs link"
     },
     "decrypt_attachment_label": {
-        "message": "Вложения",
+        "message": "Ek dosyalar",
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "Подписанный",
+        "message": "İmzalanmış",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Некорректная подпись",
+        "message": "İmza geçersiz",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Signature could not be identified",
+        "message": "İmzanın kimliği belirlenemedi",
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
-        "message": "Decryption of file $1 is not possible!",
+        "message": "$1 dosyasının şifresi çözülemez!",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Нажмите для расшифровки!",
+        "message": "Şifreyi çözmek için tıklayın!",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "Расшифровка данных",
+        "message": "Verilerin şifresini çöz",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "Успешно расшифровано",
+        "message": "Şifre çözüldü",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
-        "message": "Расшифровать",
+        "message": "Şifreyi çöz",
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Открыть в просмотрщике Mailvelope",
+        "message": "Mailvelope görüntüleyicide aç",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "Показать сообщение",
+        "message": "İletiyi görüntüle",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Отправитель",
+        "message": "Gönderen",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "Текст для расшифровки",
+        "message": "Şifresi çözülecek metin",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Вы также хотите расшифровать текст?",
+        "message": "Ayrıca bir metnin de şifresini çözmek ister misiniz?",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Decryption of the text is not possible!",
+        "message": "Metinin şifresi çözülemiyor!",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
-        "message": "Отмена",
+        "message": "İptal",
         "description": "Dialog cancel button label"
     },
     "dialog_no_btn": {
-        "message": "нет",
+        "message": "Hayır",
         "description": "Dialog no button label"
     },
     "dialog_popup_close": {
-        "message": "Закрыть",
+        "message": "Kapat",
         "description": "Close decrypt popup."
     },
     "dialog_save_btn": {
-        "message": "Сохранить",
+        "message": "Kaydet",
         "description": "Dialog save button label"
     },
     "dialog_yes_btn": {
-        "message": "Да.",
+        "message": "Evet",
         "description": "Dialog yes button label"
     },
     "editor_blur_warn": {
-        "message": "Внимание: ошибка текстового редактора.",
+        "message": "Uyarı: Metin düzenleyici odağı kaybetti.",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "Зашифровать",
+        "message": "Şifrele",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "Ошибка",
+        "message": "Hata",
         "description": ""
     },
     "editor_header": {
-        "message": "Создание зашифрованного письма",
+        "message": "Güvenli E-posta Oluştur",
         "description": "Header of editor popup."
     },
     "editor_key_not_found": {
-        "message": "Ключ не найден!",
+        "message": "Anahtar bulunamadı!",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Чтобы зашифровать сообщение, у вас должен быть PGP-ключ каждого адресата. Тем не менее, вы можете подписать сообщение.",
+        "message": "Şifreleme için tüm alıcıların bir PGP anahtarı olmalıdır. Gene de iletiyi imzalayabilirsiniz.",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
-        "message": "Вложения",
+        "message": "Ek dosyalar",
         "description": "Label for attachments select/drop area."
     },
     "editor_label_message": {
-        "message": "Сообщение",
+        "message": "İleti",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "Получатель",
+        "message": "Alıcı",
         "description": "Label for recipient input."
     },
     "editor_link_file_encryption": {
-        "message": "Зашифровать файлы",
+        "message": "Dosyaları şifrele",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "Отсутствует основной ключ. Цифровая подпись невозможна.",
+        "message": "Varsayılan anahtar eksik olduğundan e-posta sayısal olarak imzalanamadı",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "Сообщение не может быть подписано",
+        "message": "E-posta sayısal olarak imzalanamadı",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "Удалить",
+        "message": "Kaldır",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "Только подпись",
+        "message": "Yalnız İmzala",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "Отправленные сообщения будут снабжены цифровой подписью",
+        "message": "E-posta gönderildiğinde, sayısal olarak da imzalanır",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "Сообщение будет снабжено цифровой подписью",
+        "message": "E-posta sayısal olarak imzalanacak",
         "description": ""
     },
     "editor_transfer": {
-        "message": "Отправить",
+        "message": "Aktar",
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "Выбор подписи",
+        "message": "İmzayı seçin",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "Изменение подписи",
+        "message": "İmzayı değiştir",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Пожалуйста, добавьте адресата.",
+        "message": "Lütfen bir alıcı ekleyin.",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "Скачать все",
+        "message": "Tümünü indir",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "Расшифрованные файлы",
+        "message": "Şifrelenmiş dosyalar",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Зашифровано для",
+        "message": "Şunun için şifrelenmiş",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "Невозможно зашифровать это сообщение: $1",
+        "message": "Bu ileti şifrelenemedi: $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Encryption of file $1 is not possible!",
+        "message": "$1 dosyası şifrelenemedi!",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Написать защищенное письмо",
+        "message": "Güvenli e-posta yazın",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "Шифрование данных",
+        "message": "Verileri şifrele",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "Успешно зашифровано",
+        "message": "Şifrelendi",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
-        "message": "Зашифровать",
+        "message": "Şifrele",
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "Зашифрованные данные не подписаны",
+        "message": "Şifrelenmiş veriler imzalanmamış",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "Удаление подписи",
+        "message": "İmzayı kaldır",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
-        "message": "Подписано:",
+        "message": "İmzalayan",
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "Зашифрованные данные подписаны вашим ключом ($1)",
+        "message": "Şifrelenmiş veriler anahtarınız ($1) ile imzalandı",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Хотите ли вы также зашифровать текст?",
+        "message": "Ayrıca bir metni de şifrelemek ister misiniz?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Encryption of the text is not possible!",
+        "message": "Metin şifrelenemez!",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "Один из файлов слишком велик.",
+        "message": "Dosyalardan biri çok büyük.",
         "description": "."
     },
     "ext_description": {
-        "message": "Добавьте к e-mail сквозное шифрование. Безопасная электронная почта по стандарту OpenPGP.",
+        "message": "E-posta hizmetinize uçtan uca şifreleme ekleyin. Güvenli e-posta iletişimi OpenPGP standartı üzerine geliştirilmiştir.",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -344,1639 +344,1639 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Сделайте Mailvelope еще безопаснее: настройте безопасный фон.",
+        "message": "Güvenlik arka planınızı kişiselleştirerek Mailvelope uygulamasını daha da güvenli hale getirebilirsiniz.",
         "description": "Text of feature banner for new security background."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Персонализируйте",
+        "message": "Şimdi kişiselleştir",
         "description": "Button text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "Ошибка подписи",
+        "message": "İmza geçersiz",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "Файл не подписан",
+        "message": "Dosya imzalanmadı",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
-        "message": "Ошибка расшифровки файла: $1",
+        "message": "Şu dosyanın şifresi çözülemedi: $1",
         "description": ""
     },
     "file_signed": {
-        "message": "Файл подписан $1",
+        "message": "Dosya $1 tarafından imzalanmış",
         "description": "Text of signer field of file element."
     },
     "form_back": {
-        "message": "Назад",
+        "message": "Geri",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "Обработка",
+        "message": "İşleniyor",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "Отмена",
+        "message": "İptal",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "Очистить",
+        "message": "Temizle",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "Закрыть",
+        "message": "Kapat",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "Подтвердить",
+        "message": "Onayla",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "Продолжить",
+        "message": "Devam Et",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "Нет подходящего ключа для адресата.",
+        "message": "Alıcı adresi için geçerli bir şifreleme anahtarı yok.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "Ошибка формы подписи.",
+        "message": "Form imzası geçersiz.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "Назначение",
+        "message": "Hedef",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "Зашифрованные данные появятся на этой странице.",
+        "message": "Şifrelenmiş veriler sayfaya geri getirilecek. ",
         "description": "Behavior when no action is specified in form"
     },
     "form_forward": {
-        "message": "Переслать",
+        "message": "İlet",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "Импорт",
+        "message": "İçe Aktar",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Загрузка формы",
+        "message": "Form yükleniyor",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "Далее",
+        "message": "Sonraki",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "Нет",
+        "message": "Hayır",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "OK",
+        "message": "Tamam",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "Получатель",
+        "message": "Alıcı",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "Сохранить",
+        "message": "Kaydet",
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "В связке ключей отсутствует закрытый ключ для подписывания формы. Пожалуйста, импортируйте или создайте ключ.",
+        "message": "Anahtarlıkta form içeriğini imzalayacak bir kişisel anahtar bulunamadı. Lütfen var olan bir kişisel anahtarı içe aktarın ya da yeni bir tane oluşturun.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "Отправить",
+        "message": "Onayla",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "Отменить действие",
+        "message": "Geri Al",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "Да",
+        "message": "Evet",
         "description": "Yes form button."
     },
     "general_default_key_always": {
-        "message": "Всегда дополнительно шифровать сообщение моим ключом. (Это позволит вам расшифровывать отправленные письма).",
+        "message": "Varsayılan anahtarım her zaman alıcı listesine eklensin (Böylece gönderilmiş e-postaların şifresini çözebilirsiniz). ",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Вы хотите подписывать все сообщения?",
+        "message": "Tüm e-postalarınız imzalansın mı?",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign_link": {
-        "message": "Изменение настроек",
+        "message": "Ayarları buradan değiştirin",
         "description": "Test for auto sign link."
     },
     "general_default_key_no_sign_option": {
-        "message": "Не подписано",
+        "message": "İmzalanmamış",
         "description": "Label for not sign option in sign key select."
     },
     "general_gnupg_check_availability": {
-        "message": "Позволить нам проверять доступность",
+        "message": "Kullanılabilirliği denetlememize izin verin",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "У вас установлена программа GnuPG? Если нет, <0>скачайте ее отсюда</0>. Чтобы снова проверить доступность программы, <1>перезапустите Mailvelope</1>",
+        "message": "GnuPG kurulu mu? Değilse <0>buradan indirin</0>. Kullanılabilirliğin yeniden denetlenmesi için <1>Mailvelope uygulamasını yeniden başlatın</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "Программа GnuPG недоступна",
+        "message": "GnuPG kullanılamıyor",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "Предпочитаете GnuPG?",
+        "message": "GnuPG kullanmak ister misiniz?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "Сейчас вы используете",
+        "message": "Şu anda kullandığınız",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Какое средство шифрования предпочитаете?",
+        "message": "Hangi arka plan şifreleme alt yapısını kullanmak istersiniz?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
-        "message": "Настройки OpenPGP",
+        "message": "OpenPGP Ayarları",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Обратите внимание: открытые ключи синхронизируются между связками ключей. В зависимости от доступности закрытых ключей Mailvelope может действовать иначе, чем определено в настройках приоритета библиотек шифрования.",
+        "message": "Not: Herkese açık anahtarlar kullanılabilen anahtarlıklar üzerinde eşitlenir. Kişisel anahtarlarınızın kullanılabilirliğine göre Mailvelope yeğlenen şifreleme kitaplığı ayarlarını değiştirebilir.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gnupg_connection": {
-        "message": "Обнаружена программа GnuPG",
+        "message": "GnuPG bağlantısı",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Пожалуйста, убедитесь, что в вашей связке GnuPG есть следующие действующие ключи: $1",
+        "message": "Lütfen şu herkese açık anahtarların GnuPG anahtarlığınızda bulunduğundan ve geçerli olduğundan emin olun: $1",
         "description": ""
     },
     "header_warning": {
-        "message": "Внимание!",
+        "message": "Uyarı!",
         "description": "Header warning."
     },
     "import_frame_help_text": {
-        "message": "Нажмите для импорта ключа!",
+        "message": "Anahtarı içe aktarmak için tıklayın!",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
-        "message": "Нажмите для открытия расширения.",
+        "message": "Uygulamayı açmak için buraya tıklayın.",
         "description": "Install landing page getting started hint"
     },
     "invalid_default_key": {
-        "message": "Ошибка ключа для шифрования и подписи",
+        "message": "Anahtar şifreleme ve imzalama işlemleri için geçerli değil",
         "description": "Tootip for set as default key button"
     },
     "key_default_active_btn_title": {
-        "message": "Ключ помечен как основной",
+        "message": "Anahtar varsayılan anahtar olarak atandı",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "Ключ неверен и не может быть основным",
+        "message": "Anahtar geçersiz olduğundan varsayılan anahtar olarak atanamaz",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Пометить ключ как основной",
+        "message": "Anahtarı varsayılan olarak ata",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
-        "message": "Экспорт",
+        "message": "Dışa Aktar",
         "description": "Export key button label"
     },
     "key_export_btn_title": {
-        "message": "Экспортировать ключ",
+        "message": "Anahtarı dışa aktar",
         "description": "Title for export key button"
     },
     "key_export_create_file": {
-        "message": "Сохранить",
+        "message": "Kaydet",
         "description": "Download file button."
     },
     "key_export_dialog_copy_to_clipboard": {
-        "message": "Скопировать в буфер обмена",
+        "message": "Panoya kopyala",
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Какой ключ вы хотите экспортировать?",
+        "message": "Hangi anahtarı dışa aktarmak istiyorsunuz?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
-        "message": "Экспортировать ключ",
+        "message": "Anahtarı dışa aktar",
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "Имя файла",
+        "message": "Dosya adı",
         "description": "Label of filename input."
     },
     "key_export_header": {
-        "message": "Экспортировать ключ",
+        "message": "Anahtarı Dışa Aktar",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "В этом файле содержатся также закрытые ключи. Храните файл в надежном месте, не давайте к нему доступ другим людям.",
+        "message": "Bu dosyada ayrıca kişisel anahtarlar bulunur. Anahtarı güvenli bir yerde saklayın ve hiç  kimse ile paylaşmayın.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Дополнительно",
+        "message": "Gelişmiş",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "Создать другой...",
+        "message": "Başka bir anahtar üret...",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "Адрес De-Mail",
+        "message": "De-Mail Adresi",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "Ошибка создания ключа.",
+        "message": "Anahtar oluşturulurken sorun çıktı.",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "экспериментальное",
+        "message": "deneme aşamasında",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "Ключ истекает",
+        "message": "Anahtar son kullanma tarihi",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "По умолчанию в будущем",
+        "message": "Gelecek Varsayılan",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "Создать",
+        "message": "Üret",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "Ошибка адреса e-mail",
+        "message": "E-posta adresi geçersiz",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "Длина ключа",
+        "message": "Anahtar boyutu",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "Полное имя владельца ключа",
+        "message": "Anahtar sahibinin tam adı",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "Введите пароль",
+        "message": "Parolayı Yazın",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "В поле пароля ничего нет",
+        "message": "Parola alanı boş",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "Пароли совпадают",
+        "message": "Parola ile onayı aynı",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "Повторите пароль",
+        "message": "Parolayı Yeniden Yazın",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "Пароли не совпадают",
+        "message": "Parola ile onayı aynı değil",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "Новый ключ создан и импортирован в связку ключей",
+        "message": "Yeni anahtar üretildi ve anahtarlığa eklendi",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "Загрузить открытый ключ на сервер ключей Mailvelope (можно удалить в любое время)",
+        "message": "Herkese açık anahtarı Mailvelope Anahtar Sunucusuna yükleyin (istendiği zaman silinebilir)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
-        "message": "Создание ключа...",
+        "message": "Anahtar üretiliyor...",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Пожалуйста, подождите. Создание ключа может потребовать нескольких минут. Время зависит от разных факторов, например, длины ключа.",
+        "message": "Lütfen bekleyin. Anahtarın üretilmesi anahtar boyutu gibi değişik etmenlere göre bir kaç dakika sürebilir.",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Ключ успешно импортирован/обновлен!",
+        "message": "Anahtarlar içe aktarıldı ya da güncellendi!",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Импорт контактов",
+        "message": "Kişileri içe aktar",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Подтвердите зашифрованные коммуникации с этим человеком:",
+        "message": "Bu alıcı ile şifreli iletişim kurmak istediğinizi onaylayın:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "Подтвердить ключ",
+        "message": "Anahtarı onayla",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "Добавить ключ в связку ключей",
+        "message": "Anahtarlığa ekle",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "Ошибка импорта.",
+        "message": "İçe Aktarma Sorunu.",
         "description": "Import error alert."
     },
     "key_import_error_no_uid": {
-        "message": "В ключе $1 нет ID пользователя",
+        "message": "$1 anahtarında geçerli bir kullanıcı kimliği bulunamadı",
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Ошибка чтения защищенного PGP-ключа: $1",
+        "message": "Güçlendirilmiş PGP anahtarı okunurken sorun çıktı: $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "Ошибка при работе с ключами",
+        "message": "Anahtarlar işlenirken bir sorun çıktı",
         "description": "Import error alert."
     },
     "key_import_file_label": {
-        "message": "Выбор файлов",
+        "message": "Dosyaları seçin",
         "description": "File selection label."
     },
     "key_import_from_text_btn": {
-        "message": "Импорт ключа из буфера",
+        "message": "Anahtarı panodan içe aktar",
         "description": "Import keys from clipboard button label on key import page."
     },
     "key_import_from_text_label": {
-        "message": "Текст из буфера",
+        "message": "Panodan metin",
         "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_hkp_search_btn": {
-        "message": "Поиск",
+        "message": "Arama",
         "description": ""
     },
     "key_import_hkp_search_ph": {
-        "message": "По имени, e-mail или ID ключа",
+        "message": "Ada, e-posta adresine ya da anahtar koduna göre",
         "description": ""
     },
     "key_import_hkp_search_public": {
-        "message": "Поиск открытых ключей на сервере ключей",
+        "message": "Anahtar sunucusundaki herkese açık anahtarları arayın.",
         "description": ""
     },
     "key_import_hkp_server": {
-        "message": "Сервер ключей",
+        "message": "Anahtar sunucusu",
         "description": ""
     },
     "key_import_invalid_text": {
-        "message": "Не найден текст действующего ключа",
+        "message": "Geçerli bir anahtar metni bulunamadı",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Внимание: истек срок важных данных для шифрования. Шифрованная связь с $1 невозможна. Этот человек должен снова пригласить вас.",
+        "message": "Uyarı: Şifreli iletişim için gereken verilerin kullanım süresi dolmuş. Bu nedenle $1 ile şifreli iletişim kurulamaz. Kişinin sizi yeniden davet etmesi gerekiyor.",
         "description": ""
     },
     "key_import_number_of_failed": {
-        "message": "Ошибка импорта ключа.",
+        "message": "Bir anahtar bazı sorunlar nedeniyle içe aktarılamadı.",
         "description": "Error message with number of failed imports."
     },
     "key_import_number_of_failed_plural": {
-        "message": "Ошибка импорта ключей ($1).",
+        "message": "$1 anahtar bazı sorunlar nedeniyle içe aktarılamadı.",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "Закрытый ключ, соответствующий открытому ключу $1 пользователя $2, импортирован в связку ключей",
+        "message": "$2 kullanıcısının $1 var olan herkese açık anahtarı ile eşleşen kişisel anahtar bölümü  anahtarlık içine aktarıldı",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "Ошибка чтения закрытого ключа: $1",
+        "message": "Kişisel anahtar okunurken sorun çıktı: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "Закрытый ключ $1 пользователя $2 импортирован в связку ключей",
+        "message": "$2 kullanıcısının $1 kişisel anahtarı anahtarlık içine aktarıldı",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "Обновлен закрытый ключ $1 пользователя $2",
+        "message": "$2 kullanıcısının $1 kişisel anahtarı güncellendi",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "Ошибка чтения открытого ключа: $1",
+        "message": "Herkese açık anahtar okunamadı: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "Открытый ключ $1 пользователя $2 импортирован в связку ключей",
+        "message": "$2 kullanıcısının $1 herkese açık anahtarı anahtarlık içine aktarıldı",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "Открытый ключ $1 пользователя $2 обновлен",
+        "message": "$2 kullanıcısının $1 herkese açık anahtarı güncellendi",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_textarea": {
-        "message": "Импортировать ключ как текст",
+        "message": "Anahtarı metin olarak içe aktar",
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "Текст слишком велик для импорта. Попробуйте импортировать по частям.",
+        "message": "İçe aktarmak istediğiniz anahtar metni işlenemeyecek kadar uzun. Bu işlemi daha küçük metin parçaları ile yapmayı deneyin.",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "Ошибка импорта ключа: $1",
+        "message": "Bir sorun nedeniyle bir anahtar içe aktarılamadı: $1",
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "Данные ключей на сервере Mailvelope более не актуальны.",
+        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri artık güncel değil.",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "Ключ не синхронизирован с сервером ключей Mailvelope.",
+        "message": "Anahtar Mailvelope anahtar sunucusu ile eşitlenmemiş.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "Для окончательного удаления ключа с сервера ключей Mailvelope по всем пользовательским ID было разослано подтверждающее письмо.",
+        "message": "Mailvelope anahtar sunucusundan tüm kullanıcı kimliklerine son silme onayı için bir e-posta gönderildi. ",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Удалить все пользовательские ID",
+        "message": "Tüm kullanıcı kimliklerini sil",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "Отправить снова",
+        "message": "Yeniden gönder",
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "Данные ключей на сервере ключей Mailvelope актуальны.",
+        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri güncel.",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "Данные ключей на сервере ключей Mailvelope были обновлены.",
+        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri güncellenmiş.",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
-        "message": "Обновление",
+        "message": "Güncelle",
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "Чтобы синхронизировать ключ с сервером ключей Mailvelope, по всем пользовательским ID разослано подтверждающее письмо.",
+        "message": "Anahtarın Mailvelope anahtar sunucusu ile eşitlenmesi için tüm kullanıcı kimliklerine bir onay e-postası gönderildi.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
-        "message": "Синхронизировать",
+        "message": "Eşitle",
         "description": "Key server upload button label"
     },
     "key_recovery_failed": {
-        "message": "Не получилось восстановить ключ из резервной копии.",
+        "message": "Anahtar yedekten geri yüklenemedi.",
         "description": ""
     },
     "key_remove_btn": {
-        "message": "Убрать",
+        "message": "Sil",
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "Удалить ключ из связки",
+        "message": "Anahtarı anahtarlıktan sil",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
-        "message": "Удалить ключ",
+        "message": "Anahtarı sil",
         "description": "Title of delete key dialog."
     },
     "key_revoke_btn": {
-        "message": "Отозвать",
+        "message": "Geçersiz kıl",
         "description": "Revoke key button label"
     },
     "key_revoke_btn_title": {
-        "message": "Отозвать ключ",
+        "message": "Anahtarı geçersiz kıl",
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Вы все еще хотите отозвать ключ?",
+        "message": "Anahtarı geçersiz kılmak istediğinize emin misiniz?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "После отзыва ключ уже никогда нельзя будет использовать.",
+        "message": "Geçersiz kılınan anahtarlar bir daha kullanılamaz.",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
-        "message": "Отозвать ключ",
+        "message": "Anahtarı geçersiz kıl",
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "Сделать основным",
+        "message": "Varsayılan Olarak Ata",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
-        "message": "Ошибка создания резервной копии.",
+        "message": "Anahtar yedeği oluşturulamadı.",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "Восстановить из резервной копии",
+        "message": "Yedeği geri yükle",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Создайте новый лист восстановления, если:",
+        "message": "Şu durumda buradan yeni bir kurtarma sayfası hazırlayın:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Совет: создайте резервную копию",
+        "message": "Önerilen: Bir yedek oluşturun",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "Вы потеряли свой лист восстановления.",
+        "message": "Kurtarma sayfasını kaybettiyseniz.",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "Новый лист восстановления нужен по соображениям безопасности.",
+        "message": "Güvenlik nedeniyle yeni bir kurtarma sayfası oluşturmalısınız.",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "Создать резервную копию",
+        "message": "Bir yedek oluşturun",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "Резервная копия нужна для вашей зашифрованной переписки:",
+        "message": "Yedekleme ile şifreli iletişiminiz için şundan emin olunur:",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "Совет: настройте резервную копию",
+        "message": "Öneri: Bir yedek kurulumu yapın",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "Для восстановления в случае потери данных",
+        "message": "Veri kaybı olması durumunda geri yükleyebilmek için",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Для передачи на другие устройства",
+        "message": "Başka aygıtlara aktarmak için",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "Готовится документ с вашим кодом восстановления.",
+        "message": "Kurtarma kodunuzun bulunduğu bir belge hazırlanıyor.",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "Создание резервной копии",
+        "message": "Yedek oluşturuluyor!",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "Дата истечения будет изменена также для всех подключей. Изменения не коснутся истекших и неработающих ключей.",
+        "message": "Tüm alt anahtarların da son kullanma tarihi değiştirildi. Geçersiz alt anahtarlar ya da süresi zaten dolmuş olan alt anahtarlar bu değişiklikten etkilenmez.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "Изменить дату окончания срока действия",
+        "message": "Son kullanma tarihini değiştir",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "Прежний пароль",
+        "message": "Eski parola",
         "description": "Old password input label"
     },
     "keydetails_change_pwd_dialog_title": {
-        "message": "Изменить пароль",
+        "message": "Parolayı değiştir",
         "description": "Title of change password dialog."
     },
     "keydetails_creation_date": {
-        "message": "Создан",
+        "message": "Oluşturulma",
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "Истекает",
+        "message": "Son kullanma",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "никогда",
+        "message": "asla",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
-        "message": "пароль",
+        "message": "Parola",
         "description": "Password of a PGP key."
     },
     "keydetails_title": {
-        "message": "Детальная информация о ключе",
+        "message": "Anahtar ayrıntıları",
         "description": "Title of the key details panel"
     },
     "keygen_dialog_password_placeholder": {
-        "message": "минимум 4 знака",
+        "message": "en az 4 karakter",
         "description": ""
     },
     "keygen_dialog_password_error_length": {
-        "message": "В пароле должно быть не меньше $1 знаков",
+        "message": "Parola en az $1 karakter uzunluğunda olmalıdır",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Пожалуйста, придумайте пароль для своего ключа, чтобы защитить шифрованную переписку:",
+        "message": "Lütfen şifreli iletişiminizi korumak için anahtarınıza bir parola atayın:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Иногда на это требуется несколько минут. Браузер может перестать отвечать. Пожалуйста, немного терпения.",
+        "message": "Bu işlem birkaç dakika sürebilir. Bu sırada web tarayıcınız yanıt vermeyi durdurabilir. Lütfen sabırla bekleyin.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "Настройка шифрованной переписки",
+        "message": "Şifreli iletişim kuruluyor",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "Алгоритм",
+        "message": "Algoritma",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "Все",
+        "message": "Tümü",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "Cоздан",
+        "message": "Oluşturulma Tarihi",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "Создан",
+        "message": "Oluşturulma",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Основной ключ",
+        "message": "Varsayılan anahtar",
         "description": "Default key in the keyring."
     },
     "keygrid_default_label": {
-        "message": "По умолчанию",
+        "message": "Varsayılan",
         "description": "Label for the default key"
     },
     "keygrid_delete": {
-        "message": "Удал.",
+        "message": "Sil",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "Действительно удалить этот ключ?",
+        "message": "Bu anahtarı silmek istediğinize emin misiniz?",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "Показать все ключи",
+        "message": "Tüm anahtarları görüntüle",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "Показать закрытый ключ",
+        "message": "Kişisel Anahtarı Görüntüle",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "Показать открытый ключ",
+        "message": "Herkese açık anahtarı görüntüle",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "Истекает",
+        "message": "Son Kullanma Tarihi",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "Экспорт",
+        "message": "Dışa Aktar",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "Экспортировать все ключи из списка в файл",
+        "message": "Bu listedeki tüm anahtarları bir dosyaya aktarır",
         "description": "Title for Export key button."
     },
     "keygrid_generate_title": {
-        "message": "Создать ключ",
+        "message": "Bir anahtar üretir",
         "description": "Title for generate key button"
     },
     "keygrid_import_title": {
-        "message": "Импортировать ключ",
+        "message": "Bir anahtarı içe aktarır",
         "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
-        "message": "Ошибка ID пользователя",
+        "message": "Kullanıcı kimliği geçersiz",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "Отпечаток",
+        "message": "PGP Parmak İzi",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "Длина",
+        "message": "Uzunluk",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "Этот ключ не ограничен по времени",
+        "message": "Bu anahtarın son kullanma tarihi yok",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "ID ключа",
+        "message": "Anahtar Kodu",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
-        "message": "Ключ",
+        "message": "Ana Anahtar",
         "description": "Main key in the PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Закрытые ключи",
+        "message": "Kişisel Anahtarlar",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "Открытые ключи",
+        "message": "Herkese Açık Anahtarlar",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "Обновить",
+        "message": "Yenile",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Перезагрузить связку ключей",
+        "message": "Anahtarlığı yeniden yükler",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "Отправить открытый ключ по e-mail",
+        "message": "Herkese açık anahtarı e-posta ile gönder",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "Подписант",
+        "message": "İmzalayan",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "Неизвестный подписант",
+        "message": "İmzalayan bilinmiyor",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "Фильтры",
+        "message": "Süzgeçler",
         "description": "Key grid sort selector."
     },
     "keygrid_status_expired": {
-        "message": "просрочен",
+        "message": "süresi geçmiş",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_invalid": {
-        "message": "недействующий",
+        "message": "geçersiz",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_revoked": {
-        "message": "отозван",
+        "message": "geçersiz kılınmış",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "действующий",
+        "message": "geçerli",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Подключ",
+        "message": "Alt anahtar",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "Подключи",
+        "message": "Alt anahtarlar",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "E-mail",
+        "message": "E-posta",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "ID пользователя",
+        "message": "Kullanıcı kimlikleri",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "Имя",
+        "message": "Ad",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "Основной",
+        "message": "Birincil",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
-        "message": "Подписи",
+        "message": "İmzalar",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "Статус",
+        "message": "Durum",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "См. настройки:",
+        "message": "Kullanılabilecek ayarları şurada görebilirsiniz:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "Резервная копия связки ключей",
+        "message": "Anahtarlık yedeği",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to delete the keyring with ID: $1?",
+        "message": "$1 kodlu anahtarlığı silmek istediğinize emin misiniz?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Подтвердить ключ",
+        "message": "Anahtarı onayla",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Подтвердите ключи ($1)",
+        "message": "$1 anahtarı onayla",
         "description": "Tab of keyring to import keys."
     },
     "keyring_display_keys": {
-        "message": "Показать ключи",
+        "message": "Anahtarları Görüntüle",
         "description": "Tab of keyring to display keys."
     },
     "keyring_export_keys": {
-        "message": "Экспортировать связку ключей",
+        "message": "Anahtarlığı Dışa Aktar",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "Создать ключ",
+        "message": "Anahtar Üret",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "Управление ключами",
+        "message": "Anahtar Yönetimi",
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Можете добавить свои контакты в виде файла или текста из буфера.",
+        "message": "Kişilerinizi dosya ile ya da panodan yapıştırarak  ekleyebilirsiniz.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Добавить ключи",
+        "message": "Anahtar Ekle",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Можно искать контакты на сервере ключей.",
+        "message": "Var olan kişiler için anahtar sunucusunda arama yapabilirsiniz.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
-        "message": "Основная связка ключей",
+        "message": "Ana Anahtarlık",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "Закрытый",
+        "message": "Kişisel",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "Открытый",
+        "message": "Herkese açık",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "Пары ключей",
+        "message": "Anahtar Çiftleri",
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Delete keyring",
+        "message": "Anahtarlığı sil",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
-        "message": "Настройки",
+        "message": "Kurulum",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "Создать ключ",
+        "message": "Anahtar üret",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Если вы используете наше расширение впервые и у вас еще нет пары ключей, пожалуйста, создайте эту пару сейчас.",
+        "message": "Bu eklentiyi ilk kez kullanıyorsanız ve bir anahtar çiftiniz yoksa lütfen bir tane üretin.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "Импорт ключа",
+        "message": "Anahtarı İçe Aktar",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "У вас уже есть пара ключей на другом устройстве? Вы можете импортировать эти ключи. Просто экспортируйте ключи на другом устройстве, а затем импортируйте их здесь.",
+        "message": "Zaten başka bir aygıt üzerinde kullandığınız bir anahtar çiftiniz varsa bu anahtarları içe aktarabilirsiniz. Anahtar çiftini diğer aygıt üzerinden dışa aktardıktan sonra buradan içe aktarın.",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Пара ключей нужна для шифрования и расшифровки сообщений, а также чтобы предложить вашим адресатам шифровать переписку.",
+        "message": "İletileri şifreleyip çözmek ve kişileri uçtan uca şifreli iletişim kullanmaya çağırmak için bir anahtar çifti gereklidir. ",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "В связке ключей пока нет парных ключей.",
+        "message": "Bu anahtarlıkta henüz bir anahtar çifti bulunmuyor.",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "Дополнительные источники ключей",
+        "message": "Ek anahtar kaynakları",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Использовать ключи из заголовков Autocrypt входящих писем",
+        "message": "Gelen e-postanın Autocrypt üst bilgisindeki anahtarlar kullanılsın",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_hkp_url": {
-        "message": "Сервер ключей HKP",
+        "message": "HKP anahtar sunucusu",
         "description": "HKP key server option: url."
     },
     "keyserver_tofu_lookup": {
-        "message": "Использовать сервер ключей Mailvelope",
+        "message": "Mailvelope anahtar sunucusu kullanılsın",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_url_error": {
-        "message": "Ошибка доступа к серверу ключей",
+        "message": "Anahtar sunucusuna erişilemiyor",
         "description": "HKP key server URL error."
     },
     "keyserver_url_warning": {
-        "message": "Формат адреса сервера ключей: http(s)://keys.example.com",
+        "message": "Anahtar sunucusunun adresi şu biçimde olmalıdır: http(s)://keys.ornek.com",
         "description": "HKP key server url warning."
     },
     "keyserver_wkd_lookup": {
-        "message": "Запросить ключи у почтового провайдера получателя (Web Key Directory)",
+        "message": "Anahtarlar alıcının e-posta hizmeti sağlayıcısı tarafından sorulsun (Web Anahtar Dizini)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
-        "message": "Добавить новый",
+        "message": "Yeni ekle",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Добавить новый ID пользователя",
+        "message": "Yeni bir kullanıcı kimliği ekle",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
-        "message": "Сервер ключей",
+        "message": "Anahtar sunucusu",
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "не синхронизировано",
+        "message": "eşitlenmemiş",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
-        "message": "синхронизировано",
+        "message": "eşitlenmiş",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "не подтверждено",
+        "message": "doğrulanmamış",
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "Пользовательские ID",
+        "message": "Atanmış kullanıcı kimlikleri",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
-        "message": "Узнать больше",
+        "message": "Ayrıntılı bilgi alın",
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "Не найден закрытый ключ для этого сообщения. Требуется закрытый ключ с ID: $1",
+        "message": "Bu ileti için bir kişisel anahtar bulunamadı. Gerekli kişisel anahtar kodları: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Ошибка расшифровки сообщения: $1",
+        "message": "Bu iletinin şifresi çözülemedi: $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "Адрес уже используется",
+        "message": "E-posta adresi zaten kullanılmış",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Пожалуйста, укажите имя",
+        "message": "Lütfen bir ad yazın",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
-        "message": "Текст скопирован в буфер.",
+        "message": "Metin panoya kopyalandı.",
         "description": "Copy to clipboard toast message."
     },
     "options_about": {
-        "message": "О программе",
+        "message": "Hakkında",
         "description": "Options navigation: About."
     },
     "options_docu": {
-        "message": "Документация",
+        "message": "Belgeler",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "Настройки",
+        "message": "Seçenekler",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "Прочее",
+        "message": "Ayarlar",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "Настройки Mailvelope",
+        "message": "Mailvelope Ayarları",
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "предпочитаемый",
+        "message": "yeğlenen",
         "description": "Indicates if a keyring is preferred"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Временно запомнить пароль",
+        "message": "Parola geçici olarak hatırlansın",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "Действие с ключом отменено.",
+        "message": "Anahtarların kilidini açma işlemi iptal edildi.",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "Введите пароль ключа",
+        "message": "Anahtar parolasını yazın",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Пожалуйста, введите пароль",
+        "message": "Lütfen parolanızı yazın",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Для создания ID пользователя, пожалуйста, укажите пароль.",
+        "message": "Lütfen kullanıcı kimliğini oluşturmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Пожалуйста, введите свой пароль ключа, чтобы создать лист восстановления.",
+        "message": "Lütfen bir kurtarma sayfası oluşturmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "Чтобы сохранить черновик, введите пароль ключа.",
+        "message": "Taslağı kaydetmek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Для расшифровки сообщения введите пароль ключа",
+        "message": "Lütfen bu iletinin şifresini çözmek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Пожалуйста, введите пароль ключа для изменения настроек шифрованных коммуникаций.",
+        "message": "Lütfen şifreli iletişim ayarlarını güncellemek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Для отзыва этого ключа, пожалуйста, укажите пароль.",
+        "message": "Lütfen bu anahtarı geçersiz kılmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Для отзыва ID пользователя, пожалуйста, укажите пароль.",
+        "message": "Lütfen bu kullanıcı kimliğini geçersiz kılmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Для изменения срока действия ключа, пожалуйста, укажите пароль.",
+        "message": "Lütfen bu anahtarın son kullanma tarihini değiştirmek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Для подписи сообщения введите пароль ключа",
+        "message": "Lütfen bu iletiyi imzalamak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "Ввод пароля | Mailvelope",
+        "message": "Parolanızı yazın | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "ID польз.:",
+        "message": "Kullanıcı kimliği:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Неверный пароль",
+        "message": "Parola hatalı",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "Резервная копия ваших данных",
+        "message": "Verilerinizin yedekleyin",
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Чтобы сохранять данные только на своем компьютере, используйте опцию в настройках шифрования вашей учетной записи  ($1).",
+        "message": "Verilerinizi yerel olarak bilgisayarınıza da yedeklemek isterseniz bununla ilgili seçeneği $1 hesabınızın şifreli iletişim bölümünde bulabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Резервная копия данных, необходимых для шифрованной связи (например, пароля ключа), будет храниться в зашифрованном виде на сервере ($1)  нашего партнера Mailvelope.",
+        "message": "Şifreli iletişim için önemli veriler (anahtar parolası gibi) yedeklenirken, $1 sunucuları üzerine güvenlik iş ortağımız Mailvelope tarafından şifrelenerek kaydedilir. ",
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "Обратите внимание",
+        "message": "Lütfen unutmayın",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "пожалуйста, проверьте настройки своего аккаунта:",
+        "message": "Lütfen şuradaki hesap ayarlarınızı denetleyin:",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "Создан",
+        "message": "Oluşturulma tarihi:",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "без резервной копии вы не сможете прочесть однажды зашифрованные сообщения, если потеряли пароль ключа, а также в случае проблем с устройством или расширением браузера!",
+        "message": "Yedek almazsanız, anahtar parolanızı kaybetmeniz, aygıtınızın bozulması ya da web tarayıcı eklentisinde sorun çıkması gibi durumlarda şifrelenmiş iletilerinizin şifresini bir daha çözemezsiniz!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Советы по шифрованию коммуникаций ($1).",
+        "message": "$1 ile şifreli iletişim kullanmanın incelikleri",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "Для установки на другом компьютере введите код восстановления в настройках:",
+        "message": "Diğer bilgisayarlara kurarken şu bölümdeki ayarlarda bulunan kurtarma kodunu yazın:",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Связь с $1 зашифрована с использованием PGP. Вы можете отправлять шифрованные письма так, что лишь вы и адресаты сможете их прочесть.",
+        "message": "$1 ile şifreli iletişim PGP temeline göre geliştirilmiştir. Şifrelenmiş e-postalar göndermenizi ve alıcının iletiyi okuyabileceğinden emin olmanızı sağlar.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "из-за проблем с расширением браузера,",
+        "message": "web tarayıcı eklentisinde çıkabilecek sorunlar nedeniyle",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "потому что вы забыли пароль ключа,",
+        "message": "anahtarınızın parolasını unutmanız nedeniyle",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "Прочая информация и другие настройки доступны в вашей учетной записи $1",
+        "message": "$1 hesabınızın şu bölümünde ayrıntılı bilgi ve ayar seçenekleri bulabilirsiniz:",
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "Важная информация!",
+        "message": "Önemli bilgiler!",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "Как правило, это важно",
+        "message": "Genel olarak önemlidir",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "В настройках шифрования вашей учетной записи $1 вы можете пригласить других адресатов использовать связь с шифрованием PGP. Если адресат уже получал приглашение и все прошло нормально, рядом с email вы увидите значок замочка.",
+        "message": "$1 hesabınızın şifreli iletişim ayarlarında, başka kişileri PGP kullanarak şifreli iletişim kurmaya  çağırabilirsiniz. Daha önce çağrılmış kişiler e-posta adresinin yanındaki asma kilit simgesi ile anlaşılabilir.",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "распечатайте и сохраните документ в надежном месте, чтобы никто не узнал код восстановления.",
+        "message": "Bu belgeyi yazdırarak güvenli bir yerde saklayın ve kurtarma koduna başka hiç kimsenin erişemeyeceğinden emin olun.",
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "Других пользователей $1, которые используют PGP-шифрование GMX, можно увидеть в главной папке вашей учетной записи $1. Если вам это не нужно, можете отключить соответствующую функцию в настройках вашей учетной записи $1.",
+        "message": "GMX PGP yöntemini kullanan diğer $1 kullanıcı $1 hesabınızın merkez klasöründe bulunabilir. Bu klasörde herhangi bir kayıt bulunmasını istemiyorsanız, $1 hesabı ayarlarınızdan bu özelliği devre dışı bırakabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "На мобильных устройствах",
+        "message": "Mobil aygıtlarda",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Если шифрование сообщений больше не работает",
+        "message": "Şu örnekteki gibi şifreli iletişiminiz artık çalışmıyorsa:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "На другом компьютере",
+        "message": "Farklı bir bilgisayar üzerinde",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Зашифрованная переписка с другими адресатами",
+        "message": "Diğer kişiler ile şifreli iletişim",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "Зашифрованная переписка на других устройствах",
+        "message": "Diğer aygıtlarda şifreli ileitşim",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Настройка шифрованной переписки на других устройствах",
+        "message": "Diğer aygıtlar üzerine şifreli iletişim kurmak",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "по другим причинам,",
+        "message": "diğer nedenlerle",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "Вы можете безопасно общаться с адресатами, которые также используют PGP-шифрование переписки.",
+        "message": "Şifreli iletişim (PGP) kullanan başkaları varsa onlarla güvenli iletişim kurabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "Пожалуйста, сохраните этот документ в надежном месте!",
+        "message": "Lütfen bu belgeyi güvenli bir yerde saklayın!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "Печать",
+        "message": "Yazdır",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "Пожалуйста, распечатайте этот документ и сохраните его в надежном месте!",
+        "message": "Lütfen bu belgeyi yazdırıp güvenli bir yerde saklayın!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "Шифрованная переписка",
+        "message": "Şifreli iletişim",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "Входящие",
+        "message": "Gelen Kutusu",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "Безопасность",
+        "message": "Güvenlik",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "Настройки",
+        "message": "Ayarlar",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "Сканируйте QR-код с помощью своего мобильного устройства.",
+        "message": "QR kodu mobil aygıtınız ile tarayın.",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "Рекомендация",
+        "message": "Öneri",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "Восстановление данных",
+        "message": "Verileri kurtarmak",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "Код восстановления",
+        "message": "Kurtarma kodu",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Лист восстановления для зашифрованной переписки",
+        "message": "Şifreli iletişim kurtarma sayfası",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Восстановление зашифрованной переписки",
+        "message": "Şifreli iletişimi kurtar",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Если речь о пользователях GMX, вы можете быть уверены в их аутентичности. Если это пользователь какого-нибудь иного почтового сервиса, никогда не помешает проверить его личность.",
+        "message": "Görüntülenen GMX kişilerinin geçerli kullanıcılar olduğundan emin olabilirsiniz. Bununla birlikte her zaman kişilerin kimliğini başka bir e-posta hizmeti sağlayıcısının e-posta adresini kullanarak doğrulamalısınız.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "устанавливайте шифрование переписки только на безопасных устройствах, которые не могут оказаться в руках посторонних.",
+        "message": "Şifreli iletişimi yalnız başkalarının erişemeyeceği güvenli aygıtlar üzerine kurun.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "Резервную копию ваших данных можно расшифровать только с помощью кода восстановления на этом листе восстановления.",
+        "message": "Yedeklenmiş verilerinizin şifresi yalnız bu kurtarma sayfasındaki kurtarma kodu ile çözülebilir.",
         "description": ""
     },
     "reload_tab": {
-        "message": "Пожалуйста, перезагрузите соответствующие страницы, чтобы изменения вступили в силу.",
+        "message": "Lütfen ayarların etkili olması için ilgili sayfaları yeniden yükleyin.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "Подтвердить",
+        "message": "Onayla",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Пожалуйста, введите ваш код восстановления:",
+        "message": "Lütfen kurtarma kodunuzu yazın:",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "Показать",
+        "message": "Görüntüle",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "Пароль ключа:",
+        "message": "Anahtar parolanız:",
         "description": ""
     },
     "security_background_button_title": {
-        "message": "Безопасный фон можно изменить в настройках Mailvelope",
+        "message": "Güvenlik arka planı Mailvelope ayarları bölümünden yapılandırılabilir",
         "description": "The tooltip text for the keylock button"
     },
     "security_background_color_text": {
-        "message": "2. Теперь выберите цвет",
+        "message": "2. Şimdi beğendiğiniz bir renk seçin",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. Выберите понравившийся значок",
+        "message": "1. Beğendiğiniz bir simge seçin",
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Фон безопасности виден в каждом зашифрованном письме. Для пущей безопасности можно персонализировать этот фон. Таким образом вы можете гарантировать, что никто не подсунет вам фальшивый интерфейс Mailvelope для доступа к вашим персональным данным.",
+        "message": "Şifrelenmiş e-postalar güvenlik arka planı kullanılarak görüntülenir. Gerçekten güvenli kılmak için arka planı kişiselleştirmelisiniz. Böylece hiç kimsenin Mailvelope arayüzünü yeniden oluşturamayacağından ve kişisel verilerinize erişemeyeceğinden emin olursunuz. ",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "Запоминать пароли для сессии браузера",
+        "message": "Parolalar bu tarayıcı oturumu için anımsansın.",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "Число от 1 до 999",
+        "message": "1 ile 999 arasında bir sayı olmalıdır",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "Нет",
+        "message": "Hayır.",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "Да, сохранять в памяти на ",
+        "message": "Evet, şu kadar süreyle:",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "мин.",
+        "message": "dakika.",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Где показывать расшифрованные сообщения?",
+        "message": "Şifresi çözülen iletiler nerede görüntülensin?",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "На странице почтового сервиса",
+        "message": "E-posta hizmeti sağlayıcının sayfasında.",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "В отдельном всплывающем окне Mailvelope",
+        "message": "Ayrı bir Mailvelope açılan penceresinde.",
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "Скрыть в сообщениях PGP версию Mailvelope и комментарий.",
+        "message": "PGP iletilerinde Mailvelope sürümü ve açıklamalar görüntülenmesin.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
-        "message": "Действие",
+        "message": "İşlem",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "Нажата кнопка добавления вложения",
+        "message": "Dosya ekleme düğmesine tıklama",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "Вложение загружено",
+        "message": "Ek dosya indirme",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "Нажмите для создания резервной копии",
+        "message": "Yedekle üzerine tıklama",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Нажмите для восстановления из резервной копии",
+        "message": "Yedeği geri yükle üzerine tıklama",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "Копирование в диалоге проверки",
+        "message": "Doğrulama penceresinde kopyalama",
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "Сообщение расшифровано: $1",
+        "message": "İletinin şifresi $1 kullanılarak çözüldü",
         "description": ""
     },
     "security_log_decrypt_ui": {
-        "message": "Расшифровать",
+        "message": "Şifreyi Çöz",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "Нажатие для отмены в диалоге",
+        "message": "Pencerede iptal üzerine tıklandı",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "Нажатие кнопку шифрования",
+        "message": "Pencerede şifrele üzerine tıklandı",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "Подтверждение",
+        "message": "Pencerede onayla üzerine tıklandı",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Нажатие подписи в диалоге",
+        "message": "Pencerede oturum aç üzerine tıklandı",
         "description": ""
     },
     "security_log_editor": {
-        "message": "Редактор Mailvelope",
+        "message": "Mailvelope Düzenleyici",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "Расшифрованное PGP-сообщение",
+        "message": "PGP E-posta Şifresinin Çözülmesi",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "Диалог шифрования",
+        "message": "Şifreleme Penceresi",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_ui": {
-        "message": "Зашифровать",
+        "message": "Şifrele",
         "description": ""
     },
     "security_log_encrypt_form": {
-        "message": "Форма шифрования",
+        "message": "Şifreleme Formu",
         "description": "Encrypt form as an event source"
     },
     "security_log_encryption_operation": {
-        "message": "Сообщение зашифровано для: $1",
+        "message": "İleti $1 için şifrelenmiş",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "Диалог импорта",
+        "message": "İçe Aktarma Penceresi",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "Резервная копия ключа",
+        "message": "Anahtar Yedekleme",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "Создание ключей",
+        "message": "Anahtar Üretme",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "Нажатие в парольном диалоге",
+        "message": "Pencerede parola alanına tıklandı",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "Запрос пароля",
+        "message": "Parola Penceresi",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "Ввод пароля",
+        "message": "Pencerede parola alanına yazıldı",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "Вложение удалено",
+        "message": "Ek dosya silme",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "Нажмите для диалога восстановления из резервной копии",
+        "message": "Pencerede yedeği geri yükle üzerine tıklandı",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Сообщение подписано ключом $1",
+        "message": "İleti şu anahtar ile imzalandı: $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "Нажмите для закрытия диалога подписи",
+        "message": "İmza penceresini kapat üzerine tıklandı",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "Нажмите для открытия диалога подписи",
+        "message": "İmza penceresini aç üzerine tıklandı",
         "description": ""
     },
     "security_log_source": {
-        "message": "Объект",
+        "message": "Kaynak",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "Журнал безопасности содержит информацию о действиях пользователя во всех компонентах Mailvelope.",
+        "message": "Güvenlik günlüğünde tüm Mailvelope bileşenlerindeki kullanıcı işlemleri görülebilir",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "Вставка в текстовое поле",
+        "message": "Metin alanına yazıldı",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "Нажатие в текстовом поле",
+        "message": "Metin alanına tıklandı",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "Ввод данных в текстовое поле",
+        "message": "Metin alanına yazıldı",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "Выделение данных в текстовом поле",
+        "message": "Metin alanında seçim yapıldı",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "Время",
+        "message": "Zaman damgası",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "Диалог проверки",
+        "message": "Doğrulama Penceresi",
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "Просмотрщик Mailvelope",
+        "message": "Mailvelope Görüntüleyici",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {
-        "message": "Настройки OpenPGP",
+        "message": "OpenPGP ayarları",
         "description": "OpenPGP settings header"
     },
     "settings_backup": {
-        "message": "Резервная копия",
+        "message": "Yedekleme",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "Общие",
+        "message": "Genel",
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Сервер ключей",
+        "message": "Anahtar Sunucusu",
         "description": "Tab of options to display key server settings."
     },
     "settings_security": {
-        "message": "Безопасность",
+        "message": "Güvenlik",
         "description": "Tab of options to display security settings."
     },
     "settings_security_background": {
-        "message": "Безопасный фон",
+        "message": "Güvenlik Arka Planı",
         "description": "Security background header"
     },
     "settings_security_log": {
-        "message": "Журнал безопасности",
+        "message": "Güvenlik Günlüğü",
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "Настроенные домены",
+        "message": "İzin Verilen Etki Alanları",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Подписать сообщение как:",
+        "message": "İletiyi şu kimlikle imzala:",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "Ошибка подписи сообщения: $1",
+        "message": "Bu ileti imzalanamadı: $1 ",
         "description": "Error during signing process."
     },
     "signer_unknown": {
-        "message": "Неизвестно",
+        "message": "Bilinmiyor",
         "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
-        "message": "Расшифровать",
+        "message": "Şifreyi Çöz",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "Расшифровка текста",
+        "message": "Şifreli Metini Çözme",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "Шифрование текста",
+        "message": "Metin Şifreleme",
         "description": "Navigation link to text encryption feature"
     },
     "upload_aborting_warning": {
-        "message": "Закачка файла будет прервана.",
+        "message": "Dosya yükleme işleminden vazgeçildi.",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Добавить файл",
+        "message": "Dosya ekle",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
-        "message": "Перетащите файл в эту область, чтобы прикрепить",
+        "message": "Eklemek istediğiniz dosyayı sürükleyip bu alana bırakın",
         "description": "Text in file drop overlay area"
     },
     "upload_help": {
-        "message": "Перетащите файл в это окно или",
+        "message": "Dosyayı sürükleyip bu pencereye bırakın ya da",
         "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
-        "message": "Допустимый размер вложения:",
+        "message": "Eklenebilecek dosya boyutu:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "Слишком большое вложение",
+        "message": "Ek dosyanın boyutu çok büyük",
         "description": ""
     },
     "user_create_btn": {
-        "message": "Создать",
+        "message": "Oluştur",
         "description": "Create user button label"
     },
     "user_create_title": {
-        "message": "Создать ID пользователя",
+        "message": "Kullanıcı kimliği oluştur",
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "Пользовательский ID не синхронизирован с сервером ключей Mailvelope.",
+        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusu ile eşitlenmemiş.",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "Чтобы окончательно удалить сервер ключей Mailvelope, было выслано подтверждающее письмо ($1).",
+        "message": "Kullanıcı kodunu Mailvelope anahtar sunucusundan silmek için $1 adresine bir onay e-postası gönderildi.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "Удалить ID пользователя",
+        "message": "Kullanıcı kimliğini sil",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "Отправить подтверждение снова",
+        "message": "Onay e-postasını yeniden gönder",
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "Пользовательский ID синхронизирован с сервером ключей Mailvelope.",
+        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusu ile eşitlendi.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Пожалуйста, подтвердите намерение синхронизировать ID пользователя с сервером ключей Mailvelope.",
+        "message": "Lütfen Mailvelope anahtar sunucusu ile eşitlemek için kullanıcı kimliğini onaylayın.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "Чтобы синхронизировать ключ с сервером ключей Mailvelope, подтверждающее письмо было отправлено по адресу $1.",
+        "message": "Kullanıcı kodunu Mailvelope sunucusu ile eşitlemek için $1 adresine bir onay e-postası gönderildi.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
-        "message": "Убрать",
+        "message": "Sil",
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "Удалить ID пользователя",
+        "message": "Kullanıcı kimliğini sil",
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Хотите удалить этот пользовательский ID из вашего ключа?",
+        "message": "Bu kullanıcı kimliğini anahtarınızdan silmek istediğinize emin misiniz?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "ID пользователя также удален с сервера ключей Mailvelope.",
+        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusundan da silinecek.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
-        "message": "Удалить ID пользователя",
+        "message": "Kullanıcı kimliğini sil",
         "description": "Title of remove user dialog."
     },
     "user_revoke_btn": {
-        "message": "Отозвать",
+        "message": "Geçersiz kıl",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Отозвать ID пользователя",
+        "message": "Kullanıcı kimliğini geçersiz kıl",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "По-прежнему хотите отозвать?",
+        "message": "Geçersiz kılmak istediğinizden emin misiniz?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "После отзыва ID пользователя для этого ключа не будет работать.",
+        "message": "Geçersiz kılınan kullanıcı kimliği bu anahtar için bir daha kullanılamaz.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "Отозвать ID пользователя",
+        "message": "Kullanıcı kimliğini geçersiz kıl",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
-        "message": "ID пользователя",
+        "message": "Kullanıcı kimliği",
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "Подтверждения",
+        "message": "Doğrulamalar",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "Невозможно проверить это сообщение: $1",
+        "message": "Bu ileti doğrulanamadı: $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "Нажмите для проверки подписи!",
+        "message": "İmzayı doğrulamak için tıklayın!",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Ошибка расшифровки!",
+        "message": "Şifre çözülemedi!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {
-        "message": "Добавить",
+        "message": "Yeni kayıt ekle",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "Ред.",
+        "message": "Düzenle",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Действительно удалить этот сайт из списка настроенных доменов?",
+        "message": "Bu siteyi izin verilen etki alanları listesinden çıkarmak istediğinize emin misiniz?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -1984,39 +1984,39 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Настроенный домен",
+        "message": "İzin Verilmiş Etki Alanı",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_remove_dialog_title": {
-        "message": "Удаление домена",
+        "message": "Etki alanını sil",
         "description": "Title of delete watchlist dialog."
     },
     "watchlist_title_active": {
-        "message": "Включено",
+        "message": "Etkin",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "Домен",
+        "message": "Etki alanı biçimi",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "Только HTTPS",
+        "message": "Yalnız HTTPS",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "Включено",
+        "message": "Etkin",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "Сайт",
+        "message": "Site",
         "description": "Site in watchlist."
     },
     "word_or": {
-        "message": "или",
+        "message": "ya da ",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "Неверный код восстановления",
+        "message": "Kurtarma kodu geçersiz",
         "description": ""
     }
 }

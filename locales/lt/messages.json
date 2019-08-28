@@ -60,7 +60,7 @@
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "The last update of Mailvelope requires you to reconfigure your security background.",
+        "message": "Paskutinis Mailvelope atnaujinimas reikalauja, kad iš naujo sukonfigūruotumėte savo saugumo foną.",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
@@ -116,15 +116,15 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "Skaitmeniškai pasirašytas",
+        "message": "Pasirašytas",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Negaliojantis skaitmeninis parašas",
+        "message": "Parašas negalioja",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Nepavyko atpažinti skaitmeninio parašo",
+        "message": "Nepavyko atpažinti parašo",
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
@@ -190,22 +190,6 @@
     "dialog_yes_btn": {
         "message": "Taip",
         "description": "Dialog yes button label"
-    },
-    "digital_signature_status_false": {
-        "message": "Parašas negalioja",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "Parašas negali būti patikrintas",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "Skaitmeninio parašo kontaktas kol kas nebuvo patvirtintas šifruotam bendravimui. Paprašykite kontakto pakvietimo.",
-        "description": ""
-    },
-    "digital_signature_status_true": {
-        "message": "Parašas galioja",
-        "description": ""
     },
     "editor_blur_warn": {
         "message": "Įspėjimas: Tekstų redaktorius prarado fokusą.",
@@ -296,7 +280,7 @@
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Encrypted for",
+        "message": "Šifruota:",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
@@ -360,11 +344,11 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Make Mailvelope even more secure by personalizing your security background.",
+        "message": "Padarykite Mailvelope dar saugesnę, suasmenindami savo saugumo foną.",
         "description": "Text of feature banner for new security background."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Personalize now",
+        "message": "Suasmeninti dabar",
         "description": "Button text of feature banner for new security background."
     },
     "file_invalid_signed": {
@@ -480,15 +464,15 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Would you like to sign all your emails?",
+        "message": "Ar norėtumėte pasirašinėti visus savo el. laiškus?",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign_link": {
-        "message": "Change settings here",
+        "message": "Keisti nustatymus čia",
         "description": "Test for auto sign link."
     },
     "general_default_key_no_sign_option": {
-        "message": "Not signed",
+        "message": "Nepasirašytas",
         "description": "Label for not sign option in sign key select."
     },
     "general_gnupg_check_availability": {
@@ -680,7 +664,7 @@
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Import contacts",
+        "message": "Importuoti adresatus",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
@@ -704,7 +688,7 @@
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Error reading armored PGP key: $1",
+        "message": "Klaida skaitant šarvuotą PGP raktą: $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
@@ -744,7 +728,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Įspėjimas: Pasibaigė šifruotam bendravimui reikalingų duomenų galiojimo laikas. Šifruotas bendravimas su $1 daugiau nebeįmanomas. Kontaktas turi jus pakviesti iš naujo.",
+        "message": "Įspėjimas: Pasibaigė šifruotam bendravimui reikalingų duomenų galiojimo laikas. Šifruotas bendravimas su $1 daugiau nebeįmanomas. Adresatas turi jus pakviesti iš naujo.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -912,11 +896,11 @@
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "In order to restore it in case of data loss",
+        "message": "Galės būti atkurtas duomenų praradimo atveju",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "In order to transfer it to other devices",
+        "message": "Galės būti persiųstas į kitus įrenginius",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
@@ -972,11 +956,11 @@
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Please assign a password for your key to protect your encrypted communication:",
+        "message": "Norėdami apsaugoti savo šifruotą bendravimą, priskirkite savo raktui slaptažodį:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "This process can take several minutes. Your browser may become unresponsive. Please be patient.",
+        "message": "Šis procesas gali užimti kelias minutes. Jūsų naršyklė gali tapti nereaguojanti. Prašome būti kantriais.",
         "description": ""
     },
     "keygen_waiting_headline": {
@@ -1188,7 +1172,7 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Galite pridėti savo kontaktus arba kaip failą, arba kaip tekstą iš iškarpinės.",
+        "message": "Galite pridėti savo adresatus arba kaip failą, arba kaip tekstą iš iškarpinės.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
@@ -1196,7 +1180,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Ieškoti raktų serveryje esamų kontaktų.",
+        "message": "Ieškoti raktų serveryje esamų adresatų.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
@@ -1240,7 +1224,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Raktų pora yra reikalinga, norint šifruoti ir iššifruoti laiškus, o taip pat norint pakviesti savo draugus ištisinio perdavimo šifruotam bendravimui.",
+        "message": "Raktų pora yra reikalinga, norint šifruoti ir iššifruoti laiškus, o taip pat norint pakviesti savo adresatus ištisinio perdavimo šifruotam bendravimui.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
@@ -1363,10 +1347,6 @@
         "message": "Įveskite rakto slaptažodį",
         "description": "Header of the password dialog."
     },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "Jūsų rakto ID",
-        "description": "Tooltip explaining the key id."
-    },
     "pwd_dialog_pwd_please": {
         "message": "Prašome įvesti savo slaptažodį",
         "description": "Placeholder for password."
@@ -1424,11 +1404,11 @@
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your $1 account. ",
+        "message": "Jeigu norėtumėte išskirtinai įrašyti savo duomenis savo kompiuteryje, tuomet šią parinktį rasite savo $1 paskyros šifruoto bendravimo nustatymuose. ",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner.",
+        "message": "Norint padaryti šifruotam bendravimui svarbių duomenų (pvz., rakto slaptažodžio) atsarginę kopiją, mūsų saugumo partneris Mailvelope šifruotai įrašys duomenis mūsų $1 serveriuose.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
@@ -1448,7 +1428,7 @@
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Hints for encrypted communication with $1",
+        "message": "Šifruoto bendravimo patarimai, naudojant $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
@@ -1456,7 +1436,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
+        "message": "Šifruotas bendravimas su $1 yra PGP pagrįsta procedūra. Ji leidžia siųsti šifruotus el. laiškus ir tuo pačiu metu užtikrina, kad tik jūs ir laiško gavėjas galėtumėte perskaityti laiško turinį.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1480,7 +1460,7 @@
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "In your encrypted communication settings of your $1 account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. ",
+        "message": "Savo $1 paskyros šifruoto bendravimo nustatymuose turite galimybę pakviesti papildomus adresatus naudotis šifruotu bendravimu per PGP. Adresatai, kurie jau buvo sėkmingai pakviesti, gali būti atpažinti iš pakabinamos spynos piktogramos, esančios šalia jų el. pašto adreso. ",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
@@ -1488,7 +1468,7 @@
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "Other $1 users who are using the PGP procedure of GMX can be directly found in a central directory in your $1 account. If you do not want to have any entries in this directory, please deactivate this function in your $1 account settings.",
+        "message": "Kitus $1 naudotojus, besinaudojančius GMX PGP procedūra, galima rasti tiesiogiai $1 paskyros centriniame kataloge. Jeigu šiame kataloge nenorite turėti jokių įrašų, tuomet išjunkite šią funkciją savo $1 paskyros nustatymuose.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
@@ -1504,7 +1484,7 @@
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Šifruotas bendravimas su kitais kontaktais",
+        "message": "Šifruotas bendravimas su kitais adresatais",
         "description": ""
     },
     "recovery_sheet_other_devices": {
@@ -1520,7 +1500,7 @@
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "Jūs galite saugiai bendrauti su kitais kontaktais tuo atveju, jeigu jie taip pat naudoja šifruotą bendravimą (PGP).",
+        "message": "Jūs galite saugiai bendrauti su kitais adresatais tuo atveju, jeigu jie taip pat naudoja šifruotą bendravimą (PGP).",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -1576,7 +1556,7 @@
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Naudodami GMX kontaktus, galite būti tikri, kad rodomi naudotojai, iš tiesų, yra patvirtinti naudotojai. Kita vertus, visada turėtumėte patikrinti kontaktų, besinaudojančių kito el. pašto teikėjo adresu, tapatybę.",
+        "message": "Naudodami GMX adresatus, galite būti tikri, kad rodomi naudotojai, iš tiesų, yra patvirtinti naudotojai. Kita vertus, visada turėtumėte patikrinti adresatų, besinaudojančių kito el. pašto teikėjo adresu, tapatybę.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
@@ -1620,7 +1600,7 @@
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data.",
+        "message": "Jūsų saugumo fonas yra rodomas kiekvieno šifruoto laiško fone. Norėdami paversti jį saugiu, turėtumėti jį suasmeninti. Taip galėsite užtikrinti, kad niekas negalės atkurti ir imituoti Mailvelope sąsajos, kad pasiektų jūsų asmeninius duomenis.",
         "description": "Security background text"
     },
     "security_cache_header": {
@@ -1684,7 +1664,7 @@
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "Message has been decrypted with: $1",
+        "message": "Laiškas iššifruotas naudojant: $1",
         "description": ""
     },
     "security_log_decrypt_ui": {

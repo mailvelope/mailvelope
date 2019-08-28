@@ -116,15 +116,15 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "Digitally signed",
+        "message": "已簽屬",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "無效的數位簽署",
+        "message": "無效的簽署",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "無法識別數位簽署",
+        "message": "Signature could not be identified",
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
@@ -190,22 +190,6 @@
     "dialog_yes_btn": {
         "message": "是",
         "description": "Dialog yes button label"
-    },
-    "digital_signature_status_false": {
-        "message": "無效的簽署",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "簽署無法認證",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "數位簽署的聯絡人尚未確認此加密的通訊，請向聯絡人進行邀請",
-        "description": ""
-    },
-    "digital_signature_status_true": {
-        "message": "簽章有效",
-        "description": ""
     },
     "editor_blur_warn": {
         "message": "警告：文件編輯器失去焦點",
@@ -1363,10 +1347,6 @@
         "message": "輸入主密碼",
         "description": "Header of the password dialog."
     },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "密鑰的識別碼",
-        "description": "Tooltip explaining the key id."
-    },
     "pwd_dialog_pwd_please": {
         "message": "請輸入密碼",
         "description": "Placeholder for password."
@@ -1428,7 +1408,7 @@
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner.",
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {

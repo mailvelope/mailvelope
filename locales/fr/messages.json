@@ -116,15 +116,15 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "Signé numériquement",
+        "message": "Signé",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "La signature numérique est invalide",
+        "message": "La signature est invalide",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "La signature numérique n’a pas pu être identifiée",
+        "message": "La signature n’a pas pu être identifiée",
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
@@ -190,22 +190,6 @@
     "dialog_yes_btn": {
         "message": "Oui",
         "description": "Dialog yes button label"
-    },
-    "digital_signature_status_false": {
-        "message": "La signature est invalide",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "La signature ne peut pas être vérifiée",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "Le contact associé à la signature numérique n’as pas encore été confirmé pour des communications chiffrées. Veuillez demander une invitation au contact.",
-        "description": ""
-    },
-    "digital_signature_status_true": {
-        "message": "La signature est valide",
-        "description": ""
     },
     "editor_blur_warn": {
         "message": "Avertissent : l’éditeur de texte n’est plus à l’avant-plan.",
@@ -340,7 +324,7 @@
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Voulez-vous aussi chiffrer un texte ?",
+        "message": "Souhaitez-vous aussi chiffrer un texte ?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
@@ -1363,10 +1347,6 @@
         "message": "Saisir le mot de passe de la clé",
         "description": "Header of the password dialog."
     },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "L’ID de votre clé",
-        "description": "Tooltip explaining the key id."
-    },
     "pwd_dialog_pwd_please": {
         "message": "Veuillez saisir votre mot de passe",
         "description": "Placeholder for password."
@@ -1428,7 +1408,7 @@
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Pour sauvegarder les données nécessaires aux communications chiffrées (p. ex. le mot de passe de votre clé), les données seront enregistrées chiffrées sur nos serveurs par Mailvelope, notre partenaire de sécurité.",
+        "message": "Pour sauvegarder les données nécessaires aux communications chiffrées (p. ex. le mot de passe des clés), les données seront enregistrées chiffrées sur nos serveurs $1 par Mailvelope, notre partenaire de sécurité.",
         "description": ""
     },
     "recovery_sheet_be_aware": {

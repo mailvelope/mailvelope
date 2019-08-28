@@ -116,15 +116,15 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "Firmado digitalmente",
+        "message": "Firmado",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Firma digital inválida",
+        "message": "Firma no válida",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "La firma digital no pudo ser identificada",
+        "message": "Signature could not be identified",
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
@@ -190,22 +190,6 @@
     "dialog_yes_btn": {
         "message": "Sí",
         "description": "Dialog yes button label"
-    },
-    "digital_signature_status_false": {
-        "message": "Firma no válida",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "La firma no se puede verificar",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "El contacto de la firma digital no ha sido confirmado aún para comunicación cifrada. Pida una invitación al contacto.",
-        "description": ""
-    },
-    "digital_signature_status_true": {
-        "message": "La firma es válida",
-        "description": ""
     },
     "editor_blur_warn": {
         "message": "Advertencia: El editor de texto ha perdido el foco.",
@@ -1363,10 +1347,6 @@
         "message": "Introduzca la contraseña de la llave",
         "description": "Header of the password dialog."
     },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "La identificación de su llave",
-        "description": "Tooltip explaining the key id."
-    },
     "pwd_dialog_pwd_please": {
         "message": "Por favor introduzca su contraseña",
         "description": "Placeholder for password."
@@ -1428,7 +1408,7 @@
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner.",
+        "message": "Para hacer una copia de seguridad de los datos que son importantes para la comunicación cifrada (por ejemplo, contraseña de la llave), los mismos serán guardados cifrados en nuestros servidores $1 por nuestro socio de seguridad Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {

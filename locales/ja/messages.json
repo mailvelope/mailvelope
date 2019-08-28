@@ -116,7 +116,7 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "デジタル署名済み",
+        "message": "署名済",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
@@ -190,22 +190,6 @@
     "dialog_yes_btn": {
         "message": "はい",
         "description": "Dialog yes button label"
-    },
-    "digital_signature_status_false": {
-        "message": "無効な署名",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "署名は確認できません",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "署名者の身元は未確認です。相手を確認してください。",
-        "description": ""
-    },
-    "digital_signature_status_true": {
-        "message": "署名は有効です",
-        "description": ""
     },
     "editor_blur_warn": {
         "message": "警告：テキストエディタがフォーカスを失いました。",
@@ -1363,10 +1347,6 @@
         "message": "鍵のパスワードを入力",
         "description": "Header of the password dialog."
     },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "鍵のID",
-        "description": "Tooltip explaining the key id."
-    },
     "pwd_dialog_pwd_please": {
         "message": "パスワードを入力",
         "description": "Placeholder for password."
@@ -1428,7 +1408,7 @@
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "暗号通信に必要なデータ（鍵とパスワード）をバックアップするため、Mailvelopeのサーバーに暗号化されて保存されます。",
+        "message": "パスワードのような、暗号通信に必須のデータをバックアップするため、Mailvelopeの $1 サーバーに暗号化されて保存されます",
         "description": ""
     },
     "recovery_sheet_be_aware": {

@@ -116,15 +116,15 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_digital_signature": {
-        "message": "ลงลายเซ็นดิจิตอลแล้ว",
+        "message": "Signed",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "ลายเซ็นดิจิตอลไม่ถูกต้อง",
+        "message": "ลายเซ็นไม่ถูกต้อง",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "ไม่สามารถระบุลายเซ็นดิจิตอลได้",
+        "message": "Signature could not be identified",
         "description": "Caption digital signature"
     },
     "decrypt_file_error_header": {
@@ -190,22 +190,6 @@
     "dialog_yes_btn": {
         "message": "ใช่",
         "description": "Dialog yes button label"
-    },
-    "digital_signature_status_false": {
-        "message": "ลายเซ็นไม่ถูกต้อง",
-        "description": ""
-    },
-    "digital_signature_status_null": {
-        "message": "ลายเซ็นไม่สามารถยืนยันได้",
-        "description": ""
-    },
-    "digital_signature_status_null_description": {
-        "message": "ผู้ติดต่อของลายเซ็นดิจิทัลยังไม่ได้รับการยืนยันสำหรับการสื่อสารที่เข้ารหัสลับ กรุณาสอบถามผู้ติดต่อสำหรับคำเชิญ",
-        "description": ""
-    },
-    "digital_signature_status_true": {
-        "message": "ลายเซ็นถูกต้อง",
-        "description": ""
     },
     "editor_blur_warn": {
         "message": "คำเตือน Text editor โฟกัสอยู่ผิดตำแหน่ง",
@@ -1363,10 +1347,6 @@
         "message": "กรอกรหัสผ่านกุญแจ",
         "description": "Header of the password dialog."
     },
-    "pwd_dialog_keyid_tooltip": {
-        "message": "เลขประจำตัวของกุญแจคุณ",
-        "description": "Tooltip explaining the key id."
-    },
     "pwd_dialog_pwd_please": {
         "message": "กรุณากรอกรหัสผ่านของคุณ",
         "description": "Placeholder for password."
@@ -1428,7 +1408,7 @@
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our servers by Mailvelope, our security partner.",
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
