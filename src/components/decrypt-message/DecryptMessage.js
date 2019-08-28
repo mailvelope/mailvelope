@@ -89,7 +89,7 @@ export default class DecryptMessage extends React.Component {
 
   onVerifiedMessage(msg) {
     this.onSignatureVerification(msg);
-    this.setState({message: encodeHTML(msg.message), waiting: false});
+    this.setState({message: `<pre style="color: inherit; font-size: inherit;">${encodeHTML(msg.message)}</pre>`, waiting: false});
   }
 
   onDecryptedMessage({message}) {
