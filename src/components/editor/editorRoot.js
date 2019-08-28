@@ -30,7 +30,7 @@ function init() {
   if (query.quota && quota < maxFileUploadSize) {
     maxFileUploadSize = quota;
   }
-  addDocumentTitle(l10n.map.editor_header);
+  addDocumentTitle(`Mailvelope - ${l10n.map.editor_header}`);
   const root = document.createElement('div');
   ReactDOM.render(
     (<Editor id={id} maxFileUploadSize={maxFileUploadSize} />),
