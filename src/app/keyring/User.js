@@ -24,7 +24,6 @@ l10n.register([
   'key_keyserver_upload_btn',
   'keydetails_creation_date',
   'keydetails_expiration_date',
-  'keydetails_key_not_expire',
   'keygrid_user_email',
   'keygrid_user_name',
   'keygrid_validity_status',

@@ -194,7 +194,7 @@ export default class KeyDetails extends React.Component {
                   <dd className="col-md-8 col-xl-9">
                     {!this.context.gnupg && this.props.keyDetails.type !== 'public' && this.state.selectedKeyIdx === 0 ? (
                       <div className="input-group input-group-sm" style={{width: '155px'}}>
-                        <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : 'nie'} />
+                        <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : l10n.map.keydetails_key_not_expire} />
                         <div className="input-group-append">
                           <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
                         </div>
