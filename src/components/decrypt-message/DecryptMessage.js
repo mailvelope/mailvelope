@@ -41,6 +41,7 @@ export default class DecryptMessage extends React.Component {
       signer: null,
       showSig: false,
       waiting: true,
+      locked: false,
       files: [],
       encFiles: [],
       error: null,
@@ -87,7 +88,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onShowPwdRequired() {
-    this.setState({waiting: false});
+    this.setState({locked: true});
   }
 
   onVerifiedMessage(msg) {
@@ -96,7 +97,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onDecryptedMessage({message}) {
-    this.setState({message, waiting: false});
+    this.setState({message, waiting: false, locked: false});
   }
 
   onDecryptedAttachment({attachment}) {
@@ -157,6 +158,7 @@ export default class DecryptMessage extends React.Component {
         type: 'danger'
       },
       waiting: false,
+      locked: true,
       showError: true
     });
   }
@@ -229,7 +231,7 @@ export default class DecryptMessage extends React.Component {
       <SecurityBG className={`decrypt-msg ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
         <div className="modal d-block" style={{zIndex: 1035}}>
           <div ref={node => this.element = node} className="modal-dialog h-100 mw-100 m-0">
-            {(this.state.message || this.state.files.length || this.state.encFiles.length) ? (
+            {((this.state.message || this.state.files.length || this.state.encFiles.length) && !this.state.locked) ? (
               <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
                 {this.state.files.length > 0 && (
                   <div className="modal-header flex-shrink-0">
@@ -275,7 +277,7 @@ export default class DecryptMessage extends React.Component {
           </div>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
-        {((this.state.message || this.state.files.length > 0 || this.state.encFiles.length > 0) && this.state.waiting) && <Spinner fullscreen={true} />}
+        {((this.state.message || this.state.files.length > 0 || this.state.encFiles.length > 0) && this.state.waiting && !this.state.locked) && <Spinner fullscreen={true} />}
         {this.state.terminate && <Terminate />}
       </SecurityBG>
     );

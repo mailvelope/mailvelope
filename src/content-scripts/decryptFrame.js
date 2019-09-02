@@ -44,10 +44,16 @@ export default class DecryptFrame extends ExtractFrame {
     let sender = await this.getEmailSender();
     sender = sender.map(person => person.email);
     sender = deDup(sender);
-    this.port.emit('set-armored', {
-      data: this.getPGPMessage(),
-      options: {senderAddress: sender}
-    });
+    const armored = this.getPGPMessage();
+    if (this.currentProvider.integration) {
+      const {msgId, att} = this.currentProvider.integration.getMsgByControllerId(this.ctrlName);
+      this.port.emit('set-encrypted-attachments', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, armored, sender});
+    } else {
+      this.port.emit('set-armored', {
+        data: armored,
+        options: {senderAddress: sender}
+      });
+    }
   }
 
   clickHandler(ev) {

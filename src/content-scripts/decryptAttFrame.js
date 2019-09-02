@@ -47,6 +47,7 @@ export default class DecryptAttFrame extends ExtractFrame {
     para.textContent = l10n.map.decrypt_frame_help_text;
     this.eFrame.append(para);
     this.eFrame.classList.add('m-decrypt');
+    this.onShow();
   }
 
   registerEventListener() {
@@ -57,8 +58,8 @@ export default class DecryptAttFrame extends ExtractFrame {
   }
 
   onAttachments() {
-    const {msgId, att} = this.currentProvider.integration.getMsgByControllerId(this.ctrlName);
-    this.port.emit('set-encrypted-attachments', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, controllerId: this.ctrlName});
+    const {msgId, armored, sender, att} = this.currentProvider.integration.getMsgByControllerId(this.ctrlName);
+    this.port.emit('set-encrypted-attachments', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, armored, controllerId: this.ctrlName, sender});
   }
 
   clickHandler(ev) {

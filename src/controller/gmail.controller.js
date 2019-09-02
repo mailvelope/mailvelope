@@ -4,18 +4,9 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-// import * as l10n from '../lib/l10n';
-import {getHash, mapError} from '../lib/util';
-// import {DISPLAY_INLINE} from '../lib/constants';
-// import {prefs} from '../modules/prefs';
-// import {getKeyringWithPrivKey} from '../modules/keyring';
-// import * as model from '../modules/pgpModel';
+import {getHash, mapError, normalizeArmored} from '../lib/util';
 import * as gmail from '../modules/gmail';
-
-// import * as uiLog from '../modules/uiLog';
-// import {isCached} from '../modules/pwdCache';
 import * as sub from './sub.controller';
-// import {triggerSync} from './sync.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
 
 export default class GmailController extends sub.SubController {
@@ -33,6 +24,7 @@ export default class GmailController extends sub.SubController {
     this.on('secure-reply', this.onSecureReply);
     this.on('secure-forward', this.onSecureForward);
     this.on('set-encrypted-attachments', this.setEncAttachments);
+    this.on('clipped-msg-armored-check', this.onClippedMsgArmoredCheck);
   }
 
   activateComponent() {
@@ -64,8 +56,30 @@ export default class GmailController extends sub.SubController {
       subject: options.subject,
       getRecipients: () => options.recipients ? options.recipients.map(email => ({email})) : [],
       userEmail: options.userEmail,
-      attachments: options.attachments
+      attachments: options.attachments,
+      keepAttachments: options.keepAttachments || false
     });
+  }
+
+  async onClippedMsgArmoredCheck({msgId, userEmail}) {
+    const accessToken = await gmail.getAccessToken(userEmail, gmail.GMAIL_SCOPE_READONLY);
+    if (!accessToken) {
+      if (!this.tabId) {
+        const {id} = await mvelo.tabs.getActive();
+        this.tabId = id;
+      }
+      gmail.openAuthorizeDialog({email: userEmail, scope: gmail.GMAIL_SCOPE_READONLY, ctrlId: this.id});
+      return {error: 'WAITING_FOR_AUTHORIZATION'};
+    }
+    let armored = '';
+    let sender = '';
+    const {payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
+    const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
+    if (/BEGIN\sPGP\sMESSAGE/.test(messageText)) {
+      armored = normalizeArmored(messageText, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
+      sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
+    }
+    return {armored, sender};
   }
 
   async onOpenEditor(options) {
@@ -80,7 +94,7 @@ export default class GmailController extends sub.SubController {
         this.editorControl.openAuthorizeDialog(gmail.GMAIL_SCOPE_SEND);
       } else {
         const result = await gmail.sendMessage({email: userEmail, message: mail, accessToken});
-        console.log(result);
+        console.log('Mail sent: ', result);
         this.editorControl = null;
       }
     } catch (err) {
@@ -94,7 +108,6 @@ export default class GmailController extends sub.SubController {
   }
 
   async onSecureReply({msgId, all, userEmail}) {
-    console.log(all);
     const accessToken = await gmail.getAccessToken(userEmail, gmail.GMAIL_SCOPE_SEND);
     if (!accessToken) {
       if (!this.tabId) {
@@ -175,7 +188,8 @@ ${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(add
       quotedMail: messageText || '',
       quotedMailIndent: false,
       quotedMailHeader,
-      attachments
+      attachments,
+      keepAttachments: true
     };
     try {
       const {armored, encFiles, subject, recipients} = await this.openEditor(options);
@@ -205,8 +219,8 @@ ${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(add
   }
 
   setEncAttachments({controllerId, userEmail, msgId, encAttFileNames}) {
-    const normalizedControllerId = controllerId.split('-')[1];
-    const decryptContr = sub.getById(normalizedControllerId);
+    const {id} = sub.parseViewName(controllerId);
+    const decryptContr = sub.getById(id);
     decryptContr.onSetEncAttachements({userEmail, msgId, encAttFileNames});
   }
 }

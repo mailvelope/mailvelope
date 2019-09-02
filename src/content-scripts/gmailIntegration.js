@@ -20,22 +20,16 @@ l10n.register([
 export default class GmailIntegration {
   constructor() {
     this.id = getHash();
-    // this.editElement = null;
-    // this.eFrame = null;
     this.port = null;
     this.editorBtnRoot = null;
     this.editorBtn = null;
     this.selectedMsgs = [];
-    // this.emailTextElement = null;
-    // this.currentProvider = currentProvider;
-    // this.handleKeypress = this.handleKeypress.bind(this);
-    // this.setFrameDim = this.setFrameDim.bind(this);
+    this.userEmail = null;
   }
 
   init() {
     this.establishConnection();
     this.registerEventListener();
-    // this.port.emit('set-user-email', {userEmail: this.getGmailUser()});
     this.attachEditorBtn();
   }
 
@@ -46,16 +40,22 @@ export default class GmailIntegration {
 
   registerEventListener() {
     // attach event handlers
-    document.addEventListener('mailvelope-observe', this.updateElements.bind(this, false));
+    document.addEventListener('mailvelope-observe', async () => this.updateElements());
     this.port.on('get-user-email', this.getGmailUser);
-    // this.port.on('set-mv-editor-output', this.setEditorOutput);
-    // this.port.on('destroy', this.closeFrame.bind(this, true));
-    // this.port.on('mail-mv-editor-close', this.onMailEditorClose);
   }
 
   getGmailUser() {
     // console.log(document.getElementsByTagName('title')[0].innerText);
-    return document.getElementsByTagName('title')[0].innerText.match(/([a-zA-Z0-9._-]+@([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+)/gi)[0];
+    if (this.userEmail) {
+      return this.userEmail;
+    }
+    const titleElem = document.querySelector('title');
+    const match = titleElem.innerText.match(/([a-zA-Z0-9._-]+@([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+)/gi);
+    if (!match) {
+      return;
+    }
+    this.userEmail = match[0];
+    return this.userEmail;
   }
 
   getMsgLegacyId(msgId) {
@@ -75,7 +75,7 @@ export default class GmailIntegration {
     if (!this.editorBtnRoot || isAttached(this.editorBtnRoot)) {
       return;
     }
-    console.log('Gmail integration: attaching editor button...');
+    // console.log('Gmail integration: attaching editor button...');
     this.editorBtnRoot.style.overflow = 'hidden';
     const editorBtnContainer = this.editorBtnRoot.querySelector('.z0');
     this.editorBtn = document.createElement('div');
@@ -101,8 +101,8 @@ export default class GmailIntegration {
     this.editorBtnRoot.dataset[FRAME_STATUS] = FRAME_ATTACHED;
   }
 
-  scanArmored() {
-    // console.log('Gmail integration: scanning for armored messages...');
+  async scanArmored() {
+    console.log('Gmail integration: scanning for armored messages start...');
     const msgs = document.querySelectorAll('[data-message-id]');
     const currentMsgs = [];
     for (const msgElem of msgs) {
@@ -112,51 +112,66 @@ export default class GmailIntegration {
         currentMsgs.push(selected);
         continue;
       }
+      let msgData = {att: []};
       const mvFrame = msgElem.querySelector('[data-mvelo-frame]');
-      if (!mvFrame) {
-        continue;
+      if (mvFrame) {
+        const controllerId = mvFrame.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
+        msgData = {controllerId};
       }
-      console.log('Gmail: integration: found new armored message...');
-      this.attachMsgBtns(msgId);
-      const controllerId = mvFrame.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
-      currentMsgs.push({msgId, att: [], controllerId});
+      if (this.hasClipped(msgElem)) {
+        const {armored, sender, error} = await this.port.send('clipped-msg-armored-check', {userEmail: this.getGmailUser(), msgId: this.getMsgLegacyId(msgId)});
+        if (!error) {
+          msgData.armored = armored;
+          msgData.sender = sender;
+        } else {
+          msgData.error === error;
+        }
+      }
+      const encryptedAttachments = this.getEncryptedAttachments(msgElem);
+      if (encryptedAttachments.length) {
+        console.log(encryptedAttachments);
+        msgData.att = encryptedAttachments;
+      }
+      if (!msgData.controllerId && (msgData.armored || msgData.att.length)) {
+        const dAttFrame = new DecryptAttFrame();
+        msgData.controllerId = dAttFrame.ctrlName;
+        const containerElem = await msgElem.querySelector('.ii.gt');
+        const bodyElem = containerElem.querySelector('.a3s.aXjCH');
+        bodyElem.style.display = 'none';
+        dAttFrame.attachTo(containerElem);
+      }
+      if (msgData.controllerId || msgData.error) {
+        msgData.msgId = msgId;
+        currentMsgs.push(msgData);
+        this.attachMsgBtns(msgId);
+      }
     }
     this.selectedMsgs = [...currentMsgs];
+    console.log('Gmail integration: scanning for armored messages end.');
   }
 
-  scanEncAtt() {
-    // console.log('Gmail integration: scanning for encrypted attachments...');
-    const msgs = document.querySelectorAll('[data-message-id]');
-    for (const msgElem of msgs) {
-      const msgId = msgElem.dataset.messageId;
-      const selected = this.selectedMsgs.find(msg => msg.msgId === msgId);
-      if (selected && selected.att.length) {
-        continue;
-      }
-      const encryptedAttachments = this.getEncryptedAttachments(msgId);
-      if (!encryptedAttachments.length) {
-        continue;
-      }
-      console.log('Attachments found: ', encryptedAttachments);
-      if (!selected) {
-        console.log('Attaching new frame to message: ', msgId);
-        const dAttFrame = new DecryptAttFrame(this);
-        this.selectedMsgs.push({msgId, att: encryptedAttachments, controllerId: dAttFrame.ctrlName});
-        const containerElem = msgElem.querySelector('.a3s.aXjCH');
-        dAttFrame.attachTo(containerElem);
+  hasClipped(msgElem) {
+    const clipped = msgElem.querySelector('.iX a');
+    return clipped && clipped.href.includes('view=lg');
+  }
 
-        // const decrypAttFrame = this.attachDecryptAttFrame(msgId);
-        this.attachMsgBtns(msgId);
-      } else {
-        selected.att = encryptedAttachments;
-        console.log('Setting encrypted attachements via gmail.controller');
-        this.port.emit('set-encrypted-attachments', {userEmail: this.getGmailUser(), msgId: this.getMsgLegacyId(msgId), encAttFileNames: encryptedAttachments, controllerId: selected.controllerId});
+  getEncryptedAttachments(msgElem) {
+    // console.log('looking for encrypted attachments for: ', msgId);
+    const regex = /^(application\/octet-stream:.*\.(gpg|pgp)|text\/plain:.*\.asc):/;
+    const attachmentElems = msgElem.querySelectorAll('[download_url]');
+    const attachments = [];
+    for (const attachmentElem of attachmentElems) {
+      const dlUrl = attachmentElem.getAttribute('download_url');
+      if (dlUrl && regex.test(dlUrl)) {
+        // console.log('Found encrypted attachment: ', decodeURI(dlUrl.match(new RegExp(':(.*?):'))[1]));
+        attachments.push(decodeURI(dlUrl.match(new RegExp(':(.*?):'))[1]));
       }
     }
+    return attachments;
   }
 
   attachMsgBtns(msgId) {
-    console.log('Gmail integration: adding mailvelope ui elemnts to message: ', msgId);
+    // console.log('Gmail integration: adding mailvelope ui elemnts to message: ', msgId);
     const msgElem = document.querySelector(`[data-message-id="${msgId}"]`);
     if (!msgElem) {
       return;
@@ -249,29 +264,11 @@ export default class GmailIntegration {
     secureReplyMenuItemShadow.lastChild.addEventListener('click', clickHandler, {once: true});
   }
 
-  getEncryptedAttachments(msgId) {
-    console.log('looking for encrypted attachments for: ', msgId);
-    const msgElem = document.querySelector(`[data-message-id="${msgId}"]`);
-    if (!msgElem) {
-      return;
+  async updateElements() {
+    if (this.getGmailUser()) {
+      this.attachEditorBtn();
+      await this.scanArmored();
     }
-    const regex = /^(application\/octet-stream:.*\.(gpg|pgp)|text\/plain:.*\.asc):/;
-    const attachmentElems = msgElem.querySelectorAll('[download_url]');
-    const attachments = [];
-    for (const attachmentElem of attachmentElems) {
-      const dlUrl = attachmentElem.getAttribute('download_url');
-      if (dlUrl && regex.test(dlUrl)) {
-        console.log('Found encrypted attachment: ', decodeURI(dlUrl.match(new RegExp(':(.*?):'))[1]));
-        attachments.push(decodeURI(dlUrl.match(new RegExp(':(.*?):'))[1]));
-      }
-    }
-    return attachments;
-  }
-
-  updateElements() {
-    this.attachEditorBtn();
-    this.scanArmored();
-    this.scanEncAtt();
   }
 
   removeElements() {
@@ -280,12 +277,8 @@ export default class GmailIntegration {
   }
 
   onEditorButton(ev) {
-    console.log('opening editor');
+    // console.log('opening editor');
     this.openEditor();
-    // this.port.emit('gmail-get-message', {msgId: '16c84c545ba8d95a', email: 'martin@mailvelope.com'});
-    // this.emailTextElement.removeEventListener('keypress', this.handleKeypress);
-    // this.eFrame.querySelector('.m-encrypt-container').classList.add('active');
-    // this.showMailEditor();
     ev.stopPropagation();
   }
 
@@ -303,16 +296,6 @@ export default class GmailIntegration {
     const options = {
       userEmail: this.getGmailUser()
     };
-    // const emailContent = this.getEmailText(this.editorType == PLAIN_TEXT ? 'text' : 'html');
-    // if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {
-    //   try {
-    //     options.quotedMail = normalizeArmored(emailContent, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
-    //   } catch (e) {
-    //     options.text = emailContent;
-    //   }
-    // } else {
-    //   options.text = emailContent;
-    // }
     this.port.emit('open-editor', options);
   }
 }

@@ -44,8 +44,10 @@ export default class DecryptController extends sub.SubController {
 
   async onDecryptMessageInit() {
     if (!this.popup) {
-      const {id} = await mvelo.tabs.getActive();
-      this.tabId = id;
+      const tab = await mvelo.tabs.getActive();
+      if (tab) {
+        this.tabId = tab.id;
+      }
     }
     if ((this.mainType === 'dFrame' || this.mainType === 'dAttFrame') && (!this.popup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
       this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
@@ -102,13 +104,17 @@ export default class DecryptController extends sub.SubController {
     }
   }
 
-  async onSetEncAttachements({userEmail, msgId, encAttFileNames}) {
+  async onSetEncAttachements({userEmail, msgId, armored, sender, encAttFileNames}) {
     this.userEmail = userEmail;
     this.msgId = msgId;
-    // auto start encryption of PGP/MIME attachment
-    if (encAttFileNames.includes('encrypted.asc')) {
-      const [pgpMimeFileName] = encAttFileNames.splice(encAttFileNames.indexOf('encrypted.asc'), 1);
-      await this.displayPGPMimeAttachment(userEmail, msgId, pgpMimeFileName);
+    if (armored) {
+      await this.onSetArmored({data: armored, options: {senderAddress: sender}});
+    } else {
+      // auto start encryption of PGP/MIME attachment
+      if (encAttFileNames.includes('encrypted.asc')) {
+        const [pgpMimeFileName] = encAttFileNames.splice(encAttFileNames.indexOf('encrypted.asc'), 1);
+        await this.displayPGPMimeAttachment(userEmail, msgId, pgpMimeFileName);
+      }
     }
     this.encAttFileNames = encAttFileNames;
     this.ports.dDialog.emit('set-enc-attachments', {encAtts: encAttFileNames});

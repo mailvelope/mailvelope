@@ -39,7 +39,7 @@ export async function getMessage({msgId, email, accessToken, format = 'full'}) {
     init
   );
   const json = await response.json();
-  console.log(json);
+  console.log('Message fetched: ', json);
   return json;
 }
 
@@ -289,6 +289,7 @@ async function storeToken(email, token) {
   return mvelo.storage.set(GOOGLE_OAUTH_STORE, entry);
 }
 
+// will be replaced by URLSearchParams....
 function parseQuery(queryString) {
   const query = {};
   const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
@@ -330,8 +331,8 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
   return atob(base64DecodeUrl(getMailPartBody([payload], type)));
 }
 
-export function getMailAttachments({payload, userEmail, msgId, accessToken}) {
-  return Promise.all(payload.parts.filter(({body: {attachmentId}}) => attachmentId).map(async part => {
+export function getMailAttachments({payload, userEmail, msgId, exclude = ['encrypted.asc'], accessToken}) {
+  return Promise.all(payload.parts.filter(({body: {attachmentId}, filename}) => attachmentId && filename && !exclude.includes(filename)).map(async part => {
     const filename = part.filename;
     const attachment = await getAttachment({email: userEmail, msgId, attachmentId: part.body.attachmentId, filename, accessToken});
     return {filename: decodeURI(filename), ...attachment};

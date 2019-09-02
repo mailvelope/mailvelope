@@ -17,10 +17,9 @@ import EncryptFrame from './encryptFrame';
 const PGP_HEADER = /-----BEGIN\sPGP\s(SIGNED|MESSAGE|PUBLIC)/;
 const PGP_FOOTER = /END\sPGP\s(MESSAGE|SIGNATURE|PUBLIC KEY BLOCK)-----/;
 const MIN_EDIT_HEIGHT = 84;
-const OBSERVER_THROTTLE = 1000; // ms
+const OBSERVER_TIMEOUT = 250; // ms
 
 let domObserver = null;
-let scanThrottle = null;
 let port = null;
 let watchList = null;
 let clientApiActive = false;
@@ -104,22 +103,15 @@ function on() {
     return; // do not use DOM scan in case of clientAPI support
   }
   const mutateEvent = new CustomEvent('mailvelope-observe');
-  let hasMutated = false;
+  // let hasMutated = false;
+  let timeout = null;
+  const next = () => {
+    scanDOM();
+    document.dispatchEvent(mutateEvent);
+  };
   domObserver = new MutationObserver(() => {
-    if (scanThrottle) {
-      hasMutated = true;
-    } else {
-      scanDOM();
-      document.dispatchEvent(mutateEvent);
-      scanThrottle = window.setTimeout(() => {
-        scanThrottle = null;
-        if (hasMutated) {
-          hasMutated = false;
-          scanDOM();
-          document.dispatchEvent(mutateEvent);
-        }
-      }, OBSERVER_THROTTLE);
-    }
+    clearTimeout(timeout);
+    timeout = setTimeout(next, OBSERVER_TIMEOUT);
   });
   domObserver.observe(document.body, {subtree: true, childList: true});
   // start DOM scan
@@ -130,9 +122,9 @@ function off() {
   if (domObserver) {
     domObserver.disconnect();
   }
-  if (scanThrottle) {
-    window.clearInterval(scanThrottle);
-  }
+  // if (scanThrottle) {
+  //   window.clearInterval(scanThrottle);
+  // }
 }
 
 function scanDOM() {
