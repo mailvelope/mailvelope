@@ -9,6 +9,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import * as l10n from '../lib/l10n';
 import {getHash, deDup, sortAndDeDup, mapError, MvError, byteCount, normalizeArmored, dataURL2str} from '../lib/util';
 import {extractFileExtension} from '../lib/file';
 import {prefs} from '../modules/prefs';
@@ -39,7 +40,6 @@ export default class EditorController extends sub.SubController {
     this.pgpMIME = false;
     this.options = {};
     this.integration = false;
-
     // register event handlers
     this.on('editor-mount', this.onEditorMount);
     this.on('editor-load', this.onEditorLoad);
@@ -67,20 +67,18 @@ export default class EditorController extends sub.SubController {
   }
 
   async checkAuthorization() {
-    const scope = gmail.GMAIL_SCOPE_SEND;
-    const accessToken = await gmail.getAccessToken(this.options.userEmail, scope);
+    const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
+    const accessToken = await gmail.getAccessToken(this.options.userEmail, scopes);
     if (!accessToken) {
-      this.openAuthorizeDialog(scope);
+      this.openAuthorizeDialog(scopes);
     }
   }
 
   async onAuthorize() {
     try {
-      await gmail.authorize(this.options.userEmail, gmail.GMAIL_SCOPE_SEND);
-      this.activateComponent();
+      await gmail.authorize(this.options.userEmail, [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]);
       this.ports.editor.emit('hide-error');
     } catch (e) {
-      this.activateComponent();
       this.ports.editor.emit('error-message', {
         error: {
           code: 'AUTHORIZATION_FAILED',
@@ -90,7 +88,7 @@ export default class EditorController extends sub.SubController {
         }
       });
     }
-    return Promise.resolve();
+    this.activateComponent();
   }
 
   activateComponent() {
@@ -99,16 +97,16 @@ export default class EditorController extends sub.SubController {
     }
   }
 
-  openAuthorizeDialog(scope) {
+  openAuthorizeDialog(scopes) {
     this.ports.editor.emit('error-message', {
       error: {
         code: 'AUTHORIZATION_REQUIRED',
-        message: 'Mailvelope ist zum Versenden von E-Mails nicht authorisiert!',
+        message: l10n.get('gmail_integration_auth_error_send'),
         autoHide: false,
         dismissable: false
       }
     });
-    gmail.openAuthorizeDialog({email: this.options.userEmail, scope, ctrlId: this.id});
+    gmail.openAuthorizeDialog({email: this.options.userEmail, scopes, ctrlId: this.id});
   }
 
   async onEditorLoad() {
@@ -425,7 +423,6 @@ export default class EditorController extends sub.SubController {
     } catch (error) {
       this.ports.editor.emit('decrypt-failed', {error: mapError(error)});
     }
-    // clearTimeout(this.encryptTimer);
   }
 
   /**

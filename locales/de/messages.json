@@ -523,6 +523,14 @@
     "description": "Help text for GnuPG as the preferred OpenPGP backend option.",
     "message": "Hinweis: Öffentliche Schlüssel werden zwischen den verfügbaren Schlüsselringen synchronisiert. Mailvelope kann die Einstellung der bevorzugten Verschlüsselungsbibliothek je nach Verfügbarkeit von privaten Schlüsseln übersteuern."
   },
+  "gmail_integration_auth_error_download": {
+    "description": "Error message for components requiring authorisation of GMAIL integration",
+    "message": "Mailvelope ist nicht berechtigt, Anhänge herunterzuladen!"
+  },
+  "gmail_integration_auth_error_send": {
+    "description": "Error message for components requiring authorisation of GMAIL integration",
+    "message": "Mailvelope ist nicht berechtigt, E-Mails zu versenden!"
+  },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",
     "message": "GnuPG Anbindung"
@@ -1348,6 +1356,26 @@
   "preferred": {
     "description": "Indicates if a keyring is preferred",
     "message": "bevorzugt"
+  },
+  "provider_gmail_auth"  : {
+    "description": "Authorizations",
+    "message": "Berechtigungen"
+  },
+  "provider_gmail_auth_readonly"  : {
+    "description": "Readonly authorisation",
+    "message": "E-Mails lesen"
+  },
+  "provider_gmail_auth_send"  : {
+    "description": "Send authorisation",
+    "message": "E-Mails senden"
+  },
+  "provider_gmail_auth_dialog_intro"  : {
+    "description": "Intro text for GMAIL OAuth dialog.",
+    "message": "Um die GMAIL-Integration für $1 nutzen zu können, muss Mailvelope für nachfolgende Berechtigungen authorsiert werden:"
+  },
+  "provider_gmail_auth_dialog_outro"  : {
+    "description": "Outro text for GMAIL OAuth dialog.",
+    "message": "Wenn Sie diesen Dialog mit \"ja\" bestätigen, öffnet sich ein Google-Authorisierungsfenster. Wählen Sie Ihren GMAIL Account für die E-Mail-Adresse $1 und folgen Sie den Anweisungen."
   },
   "provider_gmail_integration"  : {
     "description": "Label for Gmail integration option.",

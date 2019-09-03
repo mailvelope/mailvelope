@@ -523,6 +523,14 @@
     "description": "Help text for GnuPG as the preferred OpenPGP backend option.",
     "message": "Note: public keys are synchronized between available keyrings. Depending on availability of private keys, Mailvelope can override the preferred encryption library setting."
   },
+  "gmail_integration_auth_error_download": {
+    "description": "Error message for components requiring authorisation of GMAIL integration",
+    "message": "Mailvelope is not authorized to download attachments!"
+  },
+  "gmail_integration_auth_error_send": {
+    "description": "Error message for components requiring authorisation of GMAIL integration",
+    "message": "Mailvelope is not authorized to send e-mails!"
+  },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",
     "message": "GnuPG connection"
@@ -1350,6 +1358,26 @@
   "preferred": {
     "description": "Indicates if a keyring is preferred",
     "message": "preferred"
+  },
+  "provider_gmail_auth"  : {
+    "description": "Authorizations",
+    "message": "Authorizations"
+  },
+  "provider_gmail_auth_readonly"  : {
+    "description": "Readonly authorisation",
+    "message": "read email"
+  },
+  "provider_gmail_auth_send"  : {
+    "description": "Send authorisation",
+    "message": "send email"
+  },
+  "provider_gmail_auth_dialog_intro"  : {
+    "description": "Intro text for GMAIL OAuth dialog.",
+    "message": "To use the GMAIL integration for $1, Mailvelope must be authorized for subsequent permissions:"
+  },
+  "provider_gmail_auth_dialog_outro"  : {
+    "description": "Outro text for GMAIL OAuth dialog.",
+    "message": "If you confirm this dialog with \"yes\", a Google authorization window opens. Select your GMAIL account for the email address $1 and follow the instructions."
   },
   "provider_gmail_integration"  : {
     "description": "Label for Gmail integration option.",

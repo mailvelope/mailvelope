@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getHash, mapError, normalizeArmored} from '../lib/util';
+import {getHash, mapError} from '../lib/util';
 import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
@@ -18,13 +18,12 @@ export default class GmailController extends sub.SubController {
     }
     this.editorControl = null;
     this.keyringId = getPreferredKeyringId();
+    this.currentAction = null;
     // register event handlers
     this.on('gmail-unauthorize', this.unauthorize);
     this.on('open-editor', this.onOpenEditor);
     this.on('secure-reply', this.onSecureReply);
     this.on('secure-forward', this.onSecureForward);
-    this.on('set-encrypted-attachments', this.setEncAttachments);
-    this.on('clipped-msg-armored-check', this.onClippedMsgArmoredCheck);
   }
 
   activateComponent() {
@@ -61,46 +60,23 @@ export default class GmailController extends sub.SubController {
     });
   }
 
-  async onClippedMsgArmoredCheck({msgId, userEmail}) {
-    const accessToken = await gmail.getAccessToken(userEmail, gmail.GMAIL_SCOPE_READONLY);
-    if (!accessToken) {
-      if (!this.tabId) {
-        const {id} = await mvelo.tabs.getActive();
-        this.tabId = id;
-      }
-      gmail.openAuthorizeDialog({email: userEmail, scope: gmail.GMAIL_SCOPE_READONLY, ctrlId: this.id});
-      return {error: 'WAITING_FOR_AUTHORIZATION'};
-    }
-    let armored = '';
-    let sender = '';
-    const {payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
-    const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
-    if (/BEGIN\sPGP\sMESSAGE/.test(messageText)) {
-      armored = normalizeArmored(messageText, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
-      sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
-    }
-    return {armored, sender};
-  }
-
   async onOpenEditor(options) {
     try {
       const {armored, encFiles, subject, recipients} = await this.openEditor(options);
-      // send email via gapi
+      // send email via GMAIL api
       const userEmail = options.userEmail;
       const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: recipients.map(({email}) => email)});
-      console.log(mail);
-      const accessToken = await gmail.getAccessToken(userEmail, gmail.GMAIL_SCOPE_SEND);
+      const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
+      const accessToken = await gmail.getAccessToken(userEmail, scopes);
       if (!accessToken) {
-        this.editorControl.openAuthorizeDialog(gmail.GMAIL_SCOPE_SEND);
+        this.editorControl.openAuthorizeDialog(scopes);
       } else {
-        const result = await gmail.sendMessage({email: userEmail, message: mail, accessToken});
-        console.log('Mail sent: ', result);
+        await gmail.sendMessage({email: userEmail, message: mail, accessToken});
         this.editorControl = null;
       }
     } catch (err) {
       if (err.code == 'EDITOR_DIALOG_CANCEL') {
         this.editorControl = null;
-        // this.emit('mail-editor-close');
         return;
       }
       this.editorControl.ports.editor.emit('error-message', {error: mapError(err)});
@@ -108,19 +84,20 @@ export default class GmailController extends sub.SubController {
   }
 
   async onSecureReply({msgId, all, userEmail}) {
-    const accessToken = await gmail.getAccessToken(userEmail, gmail.GMAIL_SCOPE_SEND);
+    const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
+    const accessToken = await gmail.getAccessToken(userEmail, scopes);
     if (!accessToken) {
       if (!this.tabId) {
         const {id} = await mvelo.tabs.getActive();
         this.tabId = id;
       }
-      gmail.openAuthorizeDialog({email: userEmail, scope: gmail.GMAIL_SCOPE_SEND, ctrlId: this.id});
+      this.currentAction = {type: 'reply', msgId, all, userEmail};
+      gmail.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
       return;
     }
-    const {threadId, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
+    const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
     const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
     const subject = gmail.extractMailHeader(payload, 'Subject');
-    // const messageId = this.extractMailHeader(payload, 'Message-Id');
     const recipientsTo = [];
     const recipientsCc = [];
     const sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
@@ -133,23 +110,22 @@ export default class GmailController extends sub.SubController {
         cc.map(address => gmail.extractMailFromAddress(address)).filter(email => email !== '').forEach(email => recipientsCc.push(email));
       }
     }
+    const quotedMailHeader = `On ${new Date(parseInt(internalDate, 10)).toUTCString()}, <${gmail.extractMailFromAddress(sender)}> wrote:`;
     const options = {
       userEmail,
-      subject,
+      subject: `Re: ${subject}`,
       recipients: [...recipientsTo, ...recipientsCc],
+      quotedMailHeader,
       quotedMail: messageText || '',
     };
     try {
       const {armored, encFiles, subject, recipients} = await this.openEditor(options);
       const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, to: recipients.filter(({email}) => recipientsTo.includes(email)).map(({email}) => email), cc: recipients.filter(({email}) => recipientsCc.includes(email)).map(({email}) => email)});
-      console.log(mail);
-      const result = await gmail.sendMessageMeta({email: userEmail, message: mail, threadId, accessToken});
-      console.log(result);
+      await gmail.sendMessageMeta({email: userEmail, message: mail, threadId, accessToken});
       this.editorControl = null;
     } catch (err) {
       if (err.code == 'EDITOR_DIALOG_CANCEL') {
         this.editorControl = null;
-        // this.emit('mail-editor-close');
         return;
       }
       this.editorControl.ports.editor.emit('error-message', {error: mapError(err)});
@@ -157,13 +133,15 @@ export default class GmailController extends sub.SubController {
   }
 
   async onSecureForward({msgId, userEmail}) {
-    const accessToken = await gmail.getAccessToken(userEmail, gmail.GMAIL_SCOPE_SEND);
+    const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
+    const accessToken = await gmail.getAccessToken(userEmail, scopes);
     if (!accessToken) {
       if (!this.tabId) {
         const {id} = await mvelo.tabs.getActive();
         this.tabId = id;
       }
-      gmail.openAuthorizeDialog({email: userEmail, scope: gmail.GMAIL_SCOPE_SEND, ctrlId: this.id});
+      this.currentAction = {type: 'forward', msgId, userEmail};
+      gmail.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
       return;
     }
     const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
@@ -181,10 +159,9 @@ To: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(address)}>`)
 ${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(address)}>`).join(', ')}`}
 `;
     const attachments = await gmail.getMailAttachments({payload, userEmail, msgId, accessToken});
-    console.log(attachments);
     const options = {
       userEmail,
-      subject,
+      subject: `Fwd: ${subject}`,
       quotedMail: messageText || '',
       quotedMailIndent: false,
       quotedMailHeader,
@@ -194,9 +171,7 @@ ${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(add
     try {
       const {armored, encFiles, subject, recipients} = await this.openEditor(options);
       const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, to: recipients.map(({email}) => email)});
-      console.log(mail);
-      const result = await gmail.sendMessageMeta({email: userEmail, message: mail, threadId, accessToken});
-      console.log(result);
+      await gmail.sendMessageMeta({email: userEmail, message: mail, threadId, accessToken});
       this.editorControl = null;
     } catch (err) {
       if (err.code == 'EDITOR_DIALOG_CANCEL') {
@@ -208,19 +183,20 @@ ${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(add
     }
   }
 
-  async onAuthorize({email, scope}) {
+  async onAuthorize({email, scopes}) {
     try {
-      await gmail.authorize(email, scope);
+      await gmail.authorize(email, scopes);
+      if (this.currentAction) {
+        if (this.currentAction.type === 'reply') {
+          this.onSecureReply(this.currentAction);
+        } else if (this.currentAction.type === 'forward') {
+          this.onSecureForward(this.currentAction);
+        }
+        this.currentAction = null;
+      }
     } catch (e) {
       console.log(e);
     }
     this.activateComponent();
-    return Promise.resolve();
-  }
-
-  setEncAttachments({controllerId, userEmail, msgId, encAttFileNames}) {
-    const {id} = sub.parseViewName(controllerId);
-    const decryptContr = sub.getById(id);
-    decryptContr.onSetEncAttachements({userEmail, msgId, encAttFileNames});
   }
 }

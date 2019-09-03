@@ -67,12 +67,13 @@ export default class DecryptMessage extends React.Component {
     this.port.on('add-decrypted-attachment', this.onDecryptedAttachment);
     this.port.on('signature-verification', this.onSignatureVerification);
     this.port.on('error-message', this.showErrorMsg);
+    this.port.on('hide-error-message', () => this.setState({error: null}));
     this.port.on('show-password-required', this.onShowPwdRequired);
     this.port.on('show-pwd-dialog', this.onShowPwdDialog);
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('terminate', this.onTerminate);
     this.port.on('set-enc-attachments', this.onEncAttachments);
-    this.port.on('waiting', () => this.setState({showError: false, waiting: true}));
+    this.port.on('waiting', ({waiting}) => this.setState({waiting}));
   }
 
   onTerminate() {
@@ -88,7 +89,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onShowPwdRequired() {
-    this.setState({locked: true});
+    this.setState({waiting: false, locked: true});
   }
 
   onVerifiedMessage(msg) {
@@ -97,7 +98,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onDecryptedMessage({message}) {
-    this.setState({message, waiting: false, locked: false});
+    this.setState({message, locked: false});
   }
 
   onDecryptedAttachment({attachment}) {
@@ -115,8 +116,7 @@ export default class DecryptMessage extends React.Component {
       return {
         files: [...prevState.files, file],
         encFiles: [...prevState.encFiles],
-        waiting: false,
-        showError: false
+        waiting: false
       };
     });
   }
@@ -137,7 +137,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onEncAttachments({encAtts}) {
-    this.setState({encFiles: encAtts.map((filename, index) => ({id: index, name: filename})), waiting: false});
+    this.setState({encFiles: encAtts.map((filename, index) => ({id: index, name: filename}))});
   }
 
   handleClickEncFile(e) {
@@ -157,8 +157,6 @@ export default class DecryptMessage extends React.Component {
         message: error,
         type: 'danger'
       },
-      waiting: false,
-      locked: true,
       showError: true
     });
   }
@@ -177,7 +175,11 @@ export default class DecryptMessage extends React.Component {
 
   handleDecrypt() {
     if (!this.state.showError && !this.state.waiting) {
-      this.setState({waiting: true}, () => this.port.emit('decrypt-message'));
+      if (this.state.message) {
+        this.setState({locked: false});
+      } else {
+        this.port.emit('decrypt-message');
+      }
     }
   }
 

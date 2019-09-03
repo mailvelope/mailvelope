@@ -13,6 +13,7 @@
   justify-content: center;
   border-radius: 100%;
   padding: 8px;
+  background-color: #fff;
   box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
   -webkit-transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
   transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
@@ -22,6 +23,9 @@
 .mv-editor-btn:focus .mv-editor-btn-content {
   box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 0 4px 8px 3px rgba(60,64,67,0.149);
   background-color: #fafafb;
+}
+.mv-editor-btn:active .mv-editor-btn-content {
+  background-color: #f1f3f4;
 }
 
 .mv-reply-btn-top {
@@ -101,15 +105,18 @@
   background-size: 20px;
 }
 
-.mv-menu-item-reply::before {
+.mv-menu-item-reply::before,
+.mv-action-btn-bottom-reply::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath fill='%23fff' d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/%3E%3C/svg%3E");
 }
 
-.mv-menu-item-replyAll::before {
+.mv-menu-item-replyAll::before,
+.mv-action-btn-bottom-replyAll::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='Ebene_1' viewBox='0 0 24 24'%3E%3Cstyle id='style2'%3E%3C/style%3E%3Ccircle id='circle4-6' cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath id='circle4' fill='%23fff' d='M7 4.5L.0273 11.4727a12 12 0 0 0-.0039.0507L7 18.5v-3l-4-4 4-4v-3zm6 0l-7 7 7 7v-4.0996c4.084 0 7.1548 1.0884 9.5098 3.3867a12 12 0 0 0 .6113-1.2988C21.6109 12.6357 18.5778 9.2968 13 8.5v-4z'/%3E%3C/svg%3E");
 }
 
-.mv-menu-item-forward::before {
+.mv-menu-item-forward::before,
+.mv-action-btn-bottom-forward::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath fill='%23fff' d='M12 8V4l8 8-8 8v-4H4V8h8z'/%3E%3C/svg%3E");
 }
 
@@ -176,8 +183,4 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: 20px;
-}
-
-.mv-action-btn-bottom-reply::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath fill='%23fff' d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/%3E%3C/svg%3E");
 }

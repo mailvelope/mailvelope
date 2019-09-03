@@ -19,7 +19,6 @@ export default class DecryptAttFrame extends ExtractFrame {
   constructor() {
     super();
     this.dDialog = null;
-    // decrypt popup active
     this.dPopup = false;
     this.ctrlName = `dAttFrame-${this.id}`;
   }
@@ -54,12 +53,12 @@ export default class DecryptAttFrame extends ExtractFrame {
     super.registerEventListener();
     this.port.on('remove-dialog', this.removeDialog);
     this.port.on('dialog-cancel', this.removeDialog);
-    this.port.on('get-attachments', this.onAttachments);
+    this.port.on('get-data', this.onData);
   }
 
-  onAttachments() {
-    const {msgId, armored, sender, att} = this.currentProvider.integration.getMsgByControllerId(this.ctrlName);
-    this.port.emit('set-encrypted-attachments', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, armored, controllerId: this.ctrlName, sender});
+  onData() {
+    const {msgId, clipped, armored, att} = this.currentProvider.integration.getMsgByControllerId(this.ctrlName);
+    this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, armored, clipped, controllerId: this.ctrlName});
   }
 
   clickHandler(ev) {
@@ -94,7 +93,6 @@ export default class DecryptAttFrame extends ExtractFrame {
   }
 
   removeDialog() {
-    // check if dialog is active
     if (!this.dPopup) {
       return;
     }
@@ -104,15 +102,17 @@ export default class DecryptAttFrame extends ExtractFrame {
     this.eFrame.addEventListener('click', this.clickHandler);
   }
 
+  closeFrame(finalClose, ev) {
+    super.closeFrame(finalClose, ev);
+    this.pgpElement.style.display = 'none';
+  }
+
   setFrameDim() {
     if (this.dDialog === null) {
-      const minWith = 400;
-      const minHeight = 300;
-      const {width: maxWidth, height: maxHeight} = this.pgpElement.parentElement.getBoundingClientRect();
-      const height = maxHeight > minHeight ? minHeight : maxHeight;
-      const width = maxWidth > minWith ? minWith : maxWidth;
+      const width = 500;
+      const height = 400;
       this.pgpElement.style.width = `${width}px`;
-      this.pgpElement.style.height = `${width}px`;
+      this.pgpElement.style.height = `${height}px`;
       this.eFrame.style.width = `${width}px`;
       this.eFrame.style.height = `${height}px`;
     } else {

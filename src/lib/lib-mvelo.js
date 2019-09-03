@@ -105,6 +105,7 @@ mvelo.tabs.create = function(url, complete) {
     }
     browser.tabs.create({url})
     .then(tab => {
+      browser.windows.update(tab.windowId, {focused: true});
       if (complete) {
         newTab = tab;
       } else {

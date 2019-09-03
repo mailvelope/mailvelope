@@ -6,6 +6,7 @@
 import browser from 'webextension-polyfill';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
+import {deDup} from '../lib/util';
 import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {setAppDataSlot} from '../controller/sub.controller';
 import {buildMailWithHeader} from './mime';
@@ -13,18 +14,15 @@ import {buildMailWithHeader} from './mime';
 const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
 const GOOGLE_OAUTH_STORE = 'mvelo.oauth.gmail';
-const GMAIL_SCOPES_DEFAULT = ['https://www.googleapis.com/auth/userinfo.email'];
+export const GMAIL_SCOPE_USER_EMAIL = 'https://www.googleapis.com/auth/userinfo.email';
 export const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 export const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
+const GMAIL_SCOPES_DEFAULT = [GMAIL_SCOPE_USER_EMAIL];
 
 const API_KEY = 'AIzaSyDmDlrIRgj3YEtLm-o4rA8qXG8b17bWfIs';
 export const MAIL_QUOTA = 25000000;
 
 export async function getMessage({msgId, email, accessToken, format = 'full'}) {
-  console.log('Fetching message: ', msgId);
-  // const tokenInfo = await getTokenInfo(accessToken, 'access');
-  // console.log('Access token info: ', tokenInfo);
-  console.log('Using access token: ', accessToken);
   const init = {
     method: 'GET',
     async: true,
@@ -38,13 +36,10 @@ export async function getMessage({msgId, email, accessToken, format = 'full'}) {
     `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?format=${format}&key=${API_KEY}`,
     init
   );
-  const json = await response.json();
-  console.log('Message fetched: ', json);
-  return json;
+  return response.json();
 }
 
 export async function getAttachment({email, msgId, attachmentId, fileName, accessToken}) {
-  console.log('get attachment: ', attachmentId || fileName);
   if (!attachmentId) {
     const msg = await getMessage({msgId, email, accessToken});
     ({body: {attachmentId}} = msg.payload.parts.find(part => part.filename === fileName));
@@ -109,64 +104,51 @@ export async function sendMessageMeta({email, message, threadId, accessToken}) {
   return result.json();
 }
 
-export async function getAccessToken(email, scope) {
-  const scopes = [...GMAIL_SCOPES_DEFAULT, scope];
-  console.log('Getting access token for: ', email, scope);
+export async function getAccessToken(email, scopes = []) {
+  scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   const storedTokens = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
-  console.log('Stored tokens: ', storedTokens);
   if (storedTokens && Object.keys(storedTokens).includes(email) && scopes.every(scope => storedTokens[email].scope.split(' ').includes(scope))) {
-    console.log('Token found: ', storedTokens[email]);
     const storedToken = storedTokens[email];
     if (checkStoredToken(storedToken)) {
-      console.log('Token valid! Returning...');
       return storedToken.access_token;
     }
     if (storedToken.refresh_token) {
-      console.log('Refreshing token...');
       const refreshedToken = await getRrefeshToken(storedToken.refresh_token);
       if (refreshedToken.access_token) {
-        console.log('Storing refreshed token: ', refreshedToken);
         await storeToken(email, refreshedToken);
         return refreshedToken.access_token;
       }
     }
   }
-  console.log('New authorisation required!');
   return;
-  // return authorize(email, scopes);
 }
 
 function checkStoredToken(storedToken) {
   return storedToken.access_token && (storedToken.access_token_exp  >= new Date().getTime());
 }
 
-export async function authorize(email, scope) {
-  const scopes = [...GMAIL_SCOPES_DEFAULT, scope];
+export async function authorize(email, scopes = []) {
+  scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   const authCode = await getAuthCode(email, scopes);
   if (!authCode) {
     throw new Error('Authorisation failed!');
   }
-  console.log('Authorisation code retrieved: ', authCode);
   const token = await getAuthTokens(authCode);
-  console.log('Authorisation tokens retrieved: ', token);
   const id = parseJwt(token.id_token);
-  console.log('Id token info: ', id);
   if (id.iss === GOOGLE_API_HOST && id.aud === CLIENT_ID && id.email === email && id.exp >= (new Date().getTime() / 1000)) {
     await storeToken(email, token);
-    console.log('Token info stored for: ', email);
     return token.access_token;
   }
   return;
 }
 
-export async function openAuthorizeDialog({email, scope, ctrlId}) {
+export async function openAuthorizeDialog({email, scopes, ctrlId}) {
   const slotId = getHash();
-  setAppDataSlot(slotId, {email, scope, ctrlId});
+  setAppDataSlot(slotId, {email, scopes, ctrlId});
   mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
 }
 
 export async function unauthorize(email) {
-  console.log('Unauthorizing email: ', email);
   const storedTokens = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
   if (!storedTokens || !storedTokens[email]) {
     return;
@@ -187,6 +169,7 @@ async function getAuthCode(email, scopes) {
   url += `&scope=${encodeURIComponent(scopes.join(' '))}`;
   url += '&access_type=offline';
   url += '&include_granted_scopes=true';
+  url += '&prompt=consent';
   url += `&login_hint=${encodeURIComponent(email)}`;
   url += `&state=${encodeURIComponent(state)}`;
   const authPopup = await mvelo.windows.openPopup(url, {width: 500, height: 650});
@@ -289,7 +272,6 @@ async function storeToken(email, token) {
   return mvelo.storage.set(GOOGLE_OAUTH_STORE, entry);
 }
 
-// will be replaced by URLSearchParams....
 function parseQuery(queryString) {
   const query = {};
   const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
@@ -328,6 +310,14 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
       return atob(base64DecodeUrl(getMailPartBody(payload.parts[0])));
     }
   }
+  const body = getMailPartBody([payload], type);
+  if (body.data) {
+    return atob(base64DecodeUrl(body.data));
+  }
+  if (body.attachmentId) {
+    const {data} = await this.getAttachment({email: userEmail, msgId, attachmentId: body.attachmentId, accessToken});
+    return dataURL2str(data);
+  }
   return atob(base64DecodeUrl(getMailPartBody([payload], type)));
 }
 
@@ -343,7 +333,7 @@ export function getMailPartBody(parts, mimeType = 'text/plain') {
   for (const part of parts) {
     if (!part.parts) {
       if (part.mimeType === mimeType) {
-        return part.body.data;
+        return part.body;
       }
     } else {
       return getMailPartBody(part.parts);

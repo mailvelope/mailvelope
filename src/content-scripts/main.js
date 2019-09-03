@@ -17,9 +17,10 @@ import EncryptFrame from './encryptFrame';
 const PGP_HEADER = /-----BEGIN\sPGP\s(SIGNED|MESSAGE|PUBLIC)/;
 const PGP_FOOTER = /END\sPGP\s(MESSAGE|SIGNATURE|PUBLIC KEY BLOCK)-----/;
 const MIN_EDIT_HEIGHT = 84;
-const OBSERVER_TIMEOUT = 250; // ms
+const OBSERVER_TIMEOUT = 300; // ms
 
 let domObserver = null;
+let clickHandler = null;
 let port = null;
 let watchList = null;
 let clientApiActive = false;
@@ -113,6 +114,11 @@ function on() {
     clearTimeout(timeout);
     timeout = setTimeout(next, OBSERVER_TIMEOUT);
   });
+  clickHandler = () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(next, OBSERVER_TIMEOUT);
+  };
+  document.addEventListener('click', clickHandler, {capture: true});
   domObserver.observe(document.body, {subtree: true, childList: true});
   // start DOM scan
   scanDOM();
@@ -122,9 +128,9 @@ function off() {
   if (domObserver) {
     domObserver.disconnect();
   }
-  // if (scanThrottle) {
-  //   window.clearInterval(scanThrottle);
-  // }
+  if (clickHandler) {
+    document.removeEventListener('click', clickHandler, true);
+  }
 }
 
 function scanDOM() {
@@ -137,13 +143,15 @@ function scanDOM() {
   } catch (e) {
     console.log('Detecting PGP messages failed: ', e);
   }
-  try {
-    const editables = findEditable();
-    if (editables.length !== 0) {
-      attachEncryptFrame(editables);
+  if (!currentProvider.integration) {
+    try {
+      const editables = findEditable();
+      if (editables.length !== 0) {
+        attachEncryptFrame(editables);
+      }
+    } catch (e) {
+      console.log('Detecting editor elements failed: ', e);
     }
-  } catch (e) {
-    console.log('Detecting editor elements failed: ', e);
   }
 }
 

@@ -81,7 +81,6 @@ class Default {
 class Gmail {
   constructor() {
     if (prefs.provider.gmail_integration) {
-      console.log('instantiating new integration class for Gmail');
       this.integration = new GmailIntegration();
       this.integration.init();
     }

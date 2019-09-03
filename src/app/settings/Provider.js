@@ -18,9 +18,13 @@ l10n.register([
   'form_cancel',
   'form_save',
   'header_warning',
+  'provider_gmail_auth',
+  'provider_gmail_auth_readonly',
+  'provider_gmail_auth_send',
   'provider_gmail_integration',
   'provider_gmail_integration_warning',
-  'settings_provider'
+  'settings_provider',
+  'keygrid_user_email'
 ]);
 
 const GMAIL_MATCH_PATTERN = '*.mail.google.com';
@@ -49,35 +53,46 @@ export default class Provider extends React.Component {
     });
   }
 
-  openOAuthDialog({email, scope, ctrlId}) {
-    this.setState({showAuthModal: true, authMessage: this.getAuthMessage(email, scope), authModalCallback: async () => {
-      await port.send('authorize-gmail', {email, scope, ctrlId});
+  openOAuthDialog({email, scopes, ctrlId}) {
+    this.setState({showAuthModal: true, authMessage: this.getAuthMessage(email, scopes), authModalCallback: async () => {
+      await port.send('authorize-gmail', {email, scopes, ctrlId});
       await this.loadAuthorisations();
       this.setState({showAuthModal: false});
     }, authModalClose: () => this.setState({showAuthModal: false}, () => port.emit('activate-component', {ctrlId}))});
   }
 
-  getAuthMessage(email, scope) {
-    const textData = {
-      outro: `Wenn Sie diesen Dialog mit "ja" bestätigen, öffnet sich ein Google-Authorisierungsfenster. Wählen Sie den GMAIL Account für die E-Mail-Adresse ${email} und folgen Sie den Anweisungen.`
-    };
-    switch (scope) {
+  getAuthText(authorisation) {
+    let text;
+    switch (authorisation) {
       case GMAIL_SCOPE_READONLY:
-        textData.intro = `Damit verschlüsselte Anhänge für ${email} in GMAIL heruntergeladen und entschlüsselt werden können, muss Mailvelope für nachfolgende Berechtigungen authorsiert werden:`;
-        textData.grantType = 'Emails lesen';
+        text = l10n.map.provider_gmail_auth_readonly;
         break;
       case GMAIL_SCOPE_SEND:
-        textData.intro = `Zum Versenden von verschlüsselten E-Mails für ${email} in GMAIL, muss Mailvelope für nachfolgende Berechtigungen authorsiert werden:`;
-        textData.grantType = 'Emails versenden';
+        text = l10n.map.provider_gmail_auth_send;
+        break;
+      default:
+        text = '';
     }
+    return text;
+  }
+
+  getAuthMessage(email, scopes) {
+    const textData = {
+      intro: l10n.get('provider_gmail_auth_dialog_intro', [email]),
+      outro: l10n.get('provider_gmail_auth_dialog_outro', [email])
+    };
     return (
-      <>
+      <React.Fragment>
         <p>{textData.intro}</p>
         <ul>
-          <li>{textData.grantType}</li>
+          {scopes.map((entry, index) =>
+            <li key={index}>
+              {this.getAuthText(entry)}
+            </li>
+          )}
         </ul>
         <p>{textData.outro}</p>
-      </>
+      </React.Fragment>
     );
   }
 
@@ -140,6 +155,7 @@ export default class Provider extends React.Component {
   }
 
   render() {
+    console.log(this.state.gmail_authorized_emails);
     return (
       <div id="provider">
         <h2 className="mb-4">{l10n.map.settings_provider}</h2>
@@ -165,7 +181,8 @@ export default class Provider extends React.Component {
               <table className="table table-hover table-custom mb-0">
                 <thead>
                   <tr>
-                    <th>E-Mail</th>
+                    <th>{l10n.map.keygrid_user_email}</th>
+                    <th>{l10n.map.provider_gmail_auth}</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -173,6 +190,7 @@ export default class Provider extends React.Component {
                   {this.state.gmail_authorized_emails.map((entry, index) =>
                     <tr key={index}>
                       <td>{entry.email}</td>
+                      <td>{entry.scope.split(' ').map(val => this.getAuthText(val)).filter(val => val !== '').join(', ')}</td>
                       <td className="text-center">
                         <div className="actions">
                           <button type="button" onClick={e => { e.stopPropagation(); this.removeAuthorisation(entry.email); }} className="btn btn-secondary">Authorisierung aufheben</button>
