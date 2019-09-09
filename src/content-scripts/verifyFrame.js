@@ -112,6 +112,8 @@ export default class VerifyFrame extends ExtractFrame {
       ({width} = this.pgpElement.parentElement.getBoundingClientRect());
       // less 1px border and 2 pixel box-shadow
       width -= 3;
+      this.vDialog.style.width = `${width}px`;
+      this.vDialog.style.height = `${height}px`;
     } else {
       ({height} = this.pgpSigRange.getBoundingClientRect());
       ({width} = this.pgpRange.getBoundingClientRect());
