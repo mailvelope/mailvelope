@@ -107,7 +107,9 @@ export default class DecryptFrame extends ExtractFrame {
       // less 1px border and 2 pixel box-shadow
       width -= 3;
       this.eFrame.style.width = `${width}px`;
-      this.eFrame.style.height = `${height}px`;
+      // set absolute dims for performance reasons
+      this.dDialog.style.width = `${width}px`;
+      this.dDialog.style.height = `${height}px`;
     }
   }
 }

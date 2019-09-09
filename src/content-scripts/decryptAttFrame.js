@@ -122,6 +122,9 @@ export default class DecryptAttFrame extends ExtractFrame {
       width -= 3;
       this.eFrame.style.width = `${width}px`;
       this.eFrame.style.height = `${height}px`;
+      // set absolute dims for performance reasons
+      this.dDialog.style.width = `${width}px`;
+      this.dDialog.style.height = `${height}px`;
     }
   }
 }
