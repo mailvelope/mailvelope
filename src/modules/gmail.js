@@ -322,6 +322,9 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
 }
 
 export function getMailAttachments({payload, userEmail, msgId, exclude = ['encrypted.asc'], accessToken}) {
+  if (!payload.parts) {
+    return [];
+  }
   return Promise.all(payload.parts.filter(({body: {attachmentId}, filename}) => attachmentId && filename && !exclude.includes(filename)).map(async part => {
     const filename = part.filename;
     const attachment = await getAttachment({email: userEmail, msgId, attachmentId: part.body.attachmentId, filename, accessToken});
