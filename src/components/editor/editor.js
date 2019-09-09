@@ -32,17 +32,19 @@ import './editor.scss';
 
 // register language strings
 l10n.register([
-  'waiting_dialog_decryption_failed',
-  'upload_quota_exceeded_warning',
   'editor_error_header',
-  'editor_label_recipient',
-  'editor_label_message',
-  'editor_label_attachments',
-  'editor_label_subject',
-  'upload_quota_warning_headline',
-  'security_background_button_title',
   'editor_header',
-  'form_ok'
+  'editor_label_attachments',
+  'editor_label_message',
+  'editor_label_recipient',
+  'editor_label_subject',
+  'form_ok',
+  'gmail_integration_auth_error_send',
+  'gmail_integration_sent_success',
+  'security_background_button_title',
+  'upload_quota_exceeded_warning',
+  'upload_quota_warning_headline',
+  'waiting_dialog_decryption_failed'
 ]);
 
 export default class Editor extends React.Component {
@@ -61,8 +63,8 @@ export default class Editor extends React.Component {
       subject: '',
       encryptDisabled: true,
       waiting: true,
-      error: null,
-      showError: false,
+      notification: null,
+      showNotification: false,
       pwdDialog: null,
       files: [],
       terminate: false,
@@ -97,7 +99,8 @@ export default class Editor extends React.Component {
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('get-plaintext', this.getPlaintext);
     this.port.on('error-message', this.onErrorMessage);
-    this.port.on('hide-error', this.hideError);
+    this.port.on('hide-notification', this.hideNotification);
+    this.port.on('show-notification', this.showNotification);
     this.port.on('terminate', this.onTerminate);
     this.port.on('public-key-userids', this.onPublicKeyUserids);
     this.port.on('key-update', this.onKeyUpdate);
@@ -175,7 +178,7 @@ export default class Editor extends React.Component {
    */
   handleCancel() {
     this.logUserInput('security_log_dialog_cancel');
-    this.port.emit('editor-cancel');
+    this.port.emit('editor-close', {cancel: true});
   }
 
   /**
@@ -250,19 +253,20 @@ export default class Editor extends React.Component {
     }
   }
 
-  showErrorModal(error) {
+  showNotification({title: header = '', message, type, autoHide = true, hideDelay = 4000, closeOnHide = false, dismissable = true}) {
     this.setState({
-      error: {
-        header: error.title || l10n.map.editor_error_header,
-        message: error.message,
-        code: error.code,
-        type: 'danger',
-        autoHide: error.autoHide !== undefined ? error.autoHide : true,
-        dismissable: error.dismissable !== undefined ? error.dismissable : true
+      notification: {
+        header,
+        message: l10n.map[message] ? l10n.map[message] : message,
+        type,
+        autoHide,
+        hideDelay,
+        closeOnHide,
+        dismissable
       },
       waiting: false,
       pwdDialog: null,
-      showError: true
+      showNotification: true
     });
   }
 
@@ -270,20 +274,22 @@ export default class Editor extends React.Component {
     const error = {
       title: l10n.map.waiting_dialog_decryption_failed,
       message: (msg.error) ? msg.error.message : l10n.map.waiting_dialog_decryption_failed,
-      type: 'danger'
+      type: 'error'
     };
-    this.showErrorModal(error);
+    this.showNotification(error);
   }
 
   onErrorMessage(msg) {
     if (msg.error.code === 'PWD_DIALOG_CANCEL') {
       return;
     }
-    this.showErrorModal(msg.error);
+    msg.error.type = 'error';
+    msg.error.title = msg.error.title || l10n.map.editor_error_header;
+    this.showNotification(msg.error);
   }
 
   onShowPwdDialog(msg) {
-    this.setState({pwdDialog: msg, waiting: false, error: null});
+    this.setState({pwdDialog: msg, waiting: false, notification: null});
   }
 
   onHidePwdDialog() {
@@ -300,7 +306,7 @@ export default class Editor extends React.Component {
         title: l10n.map.upload_quota_warning_headline,
         message: `${l10n.map.upload_quota_exceeded_warning} ${Math.floor(this.props.maxFileUploadSize / (1024 * 1024))}MB.`
       };
-      this.showErrorModal(error);
+      this.showNotification(error);
       return;
     }
     files.forEach(file => this.addAttachment(file));
@@ -336,9 +342,13 @@ export default class Editor extends React.Component {
     }
   }
 
-  hideError(timeout = 0) {
+  hideNotification(timeout = 0, closeEditor = false) {
     setTimeout(() => {
-      this.setState({showError: false});
+      if (closeEditor) {
+        this.port.emit('editor-close');
+      } else {
+        this.setState({showNotification: false});
+      }
     }, timeout);
   }
 
@@ -406,14 +416,14 @@ export default class Editor extends React.Component {
             {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
           </>
         )}
-        {this.state.error &&
+        {this.state.notification &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={this.state.error.dismissable ? () => this.hideError() : undefined} type="error" transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.state.error.autoHide && this.hideError(4000); }}}>
-              {this.state.error.message}
+            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.state.notification.autoHide && this.hideNotification(this.state.notification.hideDelay, this.state.notification.closeOnHide); }}}>
+              {this.state.notification.message}
             </Toast>
           </div>
         }
-        <Fade in={this.state.pwdDialog !== null || (this.state.showError && !this.state.error.dismissable)} unmountOnExit={true} className="modal-backdrop" />
+        <Fade in={this.state.pwdDialog !== null || (this.state.showNotification && !this.state.notification.dismissable)} unmountOnExit={true} className="modal-backdrop" />
         {this.state.waiting && <Spinner fullscreen={true} delay={0} />}
         {this.state.terminate && <Terminate />}
       </SecurityBG>

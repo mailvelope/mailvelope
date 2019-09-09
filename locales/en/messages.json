@@ -531,6 +531,10 @@
     "description": "Error message for components requiring authorisation of GMAIL integration",
     "message": "Mailvelope is not authorized to send e-mails!"
   },
+  "gmail_integration_sent_success": {
+    "description": "Email sent success notification",
+    "message": "The e-mail was sent successfully!"
+  },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",
     "message": "GnuPG connection"

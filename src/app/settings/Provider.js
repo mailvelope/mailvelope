@@ -155,7 +155,6 @@ export default class Provider extends React.Component {
   }
 
   render() {
-    console.log(this.state.gmail_authorized_emails);
     return (
       <div id="provider">
         <h2 className="mb-4">{l10n.map.settings_provider}</h2>

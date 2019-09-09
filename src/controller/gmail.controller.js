@@ -71,7 +71,26 @@ export default class GmailController extends sub.SubController {
       if (!accessToken) {
         this.editorControl.openAuthorizeDialog(scopes);
       } else {
-        await gmail.sendMessage({email: userEmail, message: mail, accessToken});
+        const {error} = await gmail.sendMessage({email: userEmail, message: mail, accessToken});
+        if (!error) {
+          this.editorControl.ports.editor.emit('show-notification', {
+            message: 'gmail_integration_sent_success',
+            type: 'success',
+            autoHide: true,
+            hideDelay: 2000,
+            closeOnHide: true,
+            dismissable: false
+          });
+        } else {
+          this.editorControl.ports.editor.emit('error-message', {
+            error: {
+              code: error.code,
+              message: error.message,
+              autoHide: false,
+              dismissable: false
+            }
+          });
+        }
         this.editorControl = null;
       }
     } catch (err) {

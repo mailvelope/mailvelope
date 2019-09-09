@@ -9,7 +9,6 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import * as l10n from '../lib/l10n';
 import {getHash, deDup, sortAndDeDup, mapError, MvError, byteCount, normalizeArmored, dataURL2str} from '../lib/util';
 import {extractFileExtension} from '../lib/file';
 import {prefs} from '../modules/prefs';
@@ -47,7 +46,7 @@ export default class EditorController extends sub.SubController {
     this.on('editor-user-input', this.onEditorUserInput);
     this.on('auto-locate', this.onAutoLocate);
     // standalone editor only
-    this.on('editor-cancel', this.onEditorCancel);
+    this.on('editor-close', this.onEditorClose);
     this.on('sign-only', this.onSignOnly);
     // API only
     this.on('editor-container-encrypt', this.onEditorContainerEncrypt);
@@ -77,7 +76,7 @@ export default class EditorController extends sub.SubController {
   async onAuthorize() {
     try {
       await gmail.authorize(this.options.userEmail, [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]);
-      this.ports.editor.emit('hide-error');
+      this.ports.editor.emit('hide-notification');
     } catch (e) {
       this.ports.editor.emit('error-message', {
         error: {
@@ -101,7 +100,7 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('error-message', {
       error: {
         code: 'AUTHORIZATION_REQUIRED',
-        message: l10n.get('gmail_integration_auth_error_send'),
+        message: 'gmail_integration_auth_error_send',
         autoHide: false,
         dismissable: false
       }
@@ -171,11 +170,13 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('set-init-data', data);
   }
 
-  onEditorCancel() {
+  onEditorClose({cancel = false}) {
     if (this.popup) {
       this.popup.close();
       this.popup = null;
-      this.encryptPromise.reject(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
+      if (cancel) {
+        this.encryptPromise.reject(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
+      }
     }
   }
 
@@ -286,19 +287,8 @@ export default class EditorController extends sub.SubController {
       mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height})
       .then(popup => {
         this.popup = popup;
-        popup.addRemoveListener(() => this.onEditorCancel());
+        popup.addRemoveListener(() => this.onEditorClose({cancel: true}));
       });
-    });
-  }
-
-  /**
-   * Encrypt operation called by app controller for encrypt text component
-   * @return {Promise<Object>} {armored}
-   */
-  encryptText() {
-    return new Promise((resolve, reject) => {
-      this.encryptPromise = {resolve, reject};
-      this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
     });
   }
 
@@ -440,9 +430,8 @@ export default class EditorController extends sub.SubController {
     try {
       const {armored, encFiles} = await this.signAndEncrypt(options);
       this.ports.editor.emit('encrypt-end');
-      if (this.popup) {
-        this.popup.close();
-        this.popup = null;
+      if (!this.integration) {
+        this.onEditorClose();
       }
       this.transferEncrypted({armored, encFiles, subject: options.subject, keys: options.keys});
     } catch (err) {
