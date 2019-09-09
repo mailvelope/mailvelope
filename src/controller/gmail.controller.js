@@ -60,18 +60,37 @@ export default class GmailController extends sub.SubController {
     });
   }
 
-  async onOpenEditor(options) {
+  async onOpenEditor(options, accessToken) {
     try {
+      options.recipientsTo = options.recipientsTo || [];
+      options.recipientsCc = options.recipientsCc || [];
+      options.recipients = [...options.recipientsTo, ...options.recipientsCc];
       const {armored, encFiles, subject, recipients} = await this.openEditor(options);
       // send email via GMAIL api
       const userEmail = options.userEmail;
-      const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: recipients.map(({email}) => email)});
+      let to = recipients.map(({email}) => email);
+      let cc = [];
+      if (options.recipientsCc.length) {
+        cc = to.filter(email => options.recipientsCc.includes(email));
+        to = to.filter(email => !cc.includes(email));
+      }
+      const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to, cc});
       const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-      const accessToken = await gmail.getAccessToken(userEmail, scopes);
+      if (!accessToken) {
+        accessToken = await gmail.getAccessToken(userEmail, scopes);
+      }
       if (!accessToken) {
         this.editorControl.openAuthorizeDialog(scopes);
       } else {
-        const {error} = await gmail.sendMessage({email: userEmail, message: mail, accessToken});
+        const sendOptions = {
+          email: userEmail,
+          message: mail,
+          accessToken
+        };
+        if (options.threadId) {
+          sendOptions.threadId = options.threadId;
+        }
+        const {error} = await gmail.sendMessageMeta(sendOptions);
         if (!error) {
           this.editorControl.ports.editor.emit('show-notification', {
             message: 'gmail_integration_sent_success',
@@ -133,22 +152,14 @@ export default class GmailController extends sub.SubController {
     const options = {
       userEmail,
       subject: `Re: ${subject}`,
-      recipients: [...recipientsTo, ...recipientsCc],
+      recipientsTo,
+      recipientsCc,
+      threadId,
+      // recipients: [...recipientsTo, ...recipientsCc],
       quotedMailHeader,
       quotedMail: messageText || '',
     };
-    try {
-      const {armored, encFiles, subject, recipients} = await this.openEditor(options);
-      const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, to: recipients.filter(({email}) => recipientsTo.includes(email)).map(({email}) => email), cc: recipients.filter(({email}) => recipientsCc.includes(email)).map(({email}) => email)});
-      await gmail.sendMessageMeta({email: userEmail, message: mail, threadId, accessToken});
-      this.editorControl = null;
-    } catch (err) {
-      if (err.code == 'EDITOR_DIALOG_CANCEL') {
-        this.editorControl = null;
-        return;
-      }
-      this.editorControl.ports.editor.emit('error-message', {error: mapError(err)});
-    }
+    this.onOpenEditor(options, accessToken);
   }
 
   async onSecureForward({msgId, userEmail}) {
@@ -181,25 +192,14 @@ ${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(add
     const options = {
       userEmail,
       subject: `Fwd: ${subject}`,
+      threadId,
       quotedMail: messageText || '',
       quotedMailIndent: false,
       quotedMailHeader,
       attachments,
       keepAttachments: true
     };
-    try {
-      const {armored, encFiles, subject, recipients} = await this.openEditor(options);
-      const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, to: recipients.map(({email}) => email)});
-      await gmail.sendMessageMeta({email: userEmail, message: mail, threadId, accessToken});
-      this.editorControl = null;
-    } catch (err) {
-      if (err.code == 'EDITOR_DIALOG_CANCEL') {
-        this.editorControl = null;
-        // this.emit('mail-editor-close');
-        return;
-      }
-      this.editorControl.ports.editor.emit('error-message', {error: mapError(err)});
-    }
+    this.onOpenEditor(options, accessToken);
   }
 
   async onAuthorize({email, scopes}) {
