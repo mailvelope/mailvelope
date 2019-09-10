@@ -60,7 +60,7 @@ export default class GmailController extends sub.SubController {
     });
   }
 
-  async onOpenEditor(options, accessToken) {
+  async onOpenEditor(options) {
     try {
       options.recipientsTo = options.recipientsTo || [];
       options.recipientsCc = options.recipientsCc || [];
@@ -76,9 +76,7 @@ export default class GmailController extends sub.SubController {
       }
       const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to, cc});
       const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-      if (!accessToken) {
-        accessToken = await gmail.getAccessToken(userEmail, scopes);
-      }
+      const accessToken = await gmail.getAccessToken(userEmail, scopes);
       if (!accessToken) {
         this.editorControl.openAuthorizeDialog(scopes);
       } else {
@@ -106,7 +104,7 @@ export default class GmailController extends sub.SubController {
               code: error.code,
               message: error.message,
               autoHide: false,
-              dismissable: false
+              dismissable: true
             }
           });
         }
@@ -159,7 +157,7 @@ export default class GmailController extends sub.SubController {
       quotedMailHeader,
       quotedMail: messageText || '',
     };
-    this.onOpenEditor(options, accessToken);
+    this.onOpenEditor(options);
   }
 
   async onSecureForward({msgId, userEmail}) {
@@ -199,7 +197,7 @@ ${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(add
       attachments,
       keepAttachments: true
     };
-    this.onOpenEditor(options, accessToken);
+    this.onOpenEditor(options);
   }
 
   async onAuthorize({email, scopes}) {
