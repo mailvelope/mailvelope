@@ -109,7 +109,7 @@ export default class GmailIntegration {
         continue;
       }
       const msgData = {};
-      const mvFrame = msgElem.querySelector('[data-mvelo-frame]');
+      const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
       if (mvFrame) {
         const controllerId = mvFrame.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
         msgData.controllerId = controllerId;

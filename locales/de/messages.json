@@ -239,6 +239,10 @@
     "description": "Label for recipient text input.",
     "message": "Empfänger"
   },
+  "editor_label_copy_recipient": {
+    "description": "Label for copy recipient text input.",
+    "message": "Cc"
+  },
   "editor_label_subject": {
     "description": "Label for subject text input.",
     "message": "Betreff"

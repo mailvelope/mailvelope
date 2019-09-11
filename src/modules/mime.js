@@ -150,7 +150,7 @@ export function buildPGPMail({armored, sender, to, cc, subject, quota}) {
     to: to.join(', '),
     subject
   };
-  if (cc) {
+  if (cc && cc.length) {
     headers.cc = cc.join(', ');
   }
   mainMessage.addHeader(headers);
@@ -177,14 +177,18 @@ export function buildPGPMail({armored, sender, to, cc, subject, quota}) {
   return mainMessage.build();
 }
 
-export function buildTextMail({armored, sender, to, subject, quota}) {
+export function buildTextMail({armored, sender, to, cc, subject, quota}) {
   let quotaSize = 0;
-  const mainMessage = new MimeBuilder('text/plain')
-  .addHeader({
+  const mainMessage = new MimeBuilder('text/plain');
+  const headers = {
     from: sender,
     to: to.join(', '),
     subject
-  });
+  };
+  if (cc && cc.length) {
+    headers.cc = cc.join(', ');
+  }
+  mainMessage.addHeader(headers);
   mainMessage.setContent(armored);
   quotaSize += byteCount(armored);
   if (quota && (quotaSize > quota)) {
@@ -193,13 +197,17 @@ export function buildTextMail({armored, sender, to, subject, quota}) {
   return mainMessage.build();
 }
 
-export function buildMailWithHeader({message, attachments, sender, to, subject, quota}) {
-  const mainMessage = new MimeBuilder('multipart/mixed')
-  .addHeader({
+export function buildMailWithHeader({message, attachments, sender, to, cc, subject, quota}) {
+  const mainMessage = new MimeBuilder('multipart/mixed');
+  const headers = {
     from: sender,
     to: to.join(', '),
     subject
-  });
+  };
+  if (cc && cc.length) {
+    headers.cc = cc.join(', ');
+  }
+  mainMessage.addHeader(headers);
   let quotaSize = 0;
   if (message) {
     quotaSize += byteCount(message);

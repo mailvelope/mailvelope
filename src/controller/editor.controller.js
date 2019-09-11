@@ -130,14 +130,17 @@ export default class EditorController extends sub.SubController {
    * Set the recipient data in the editor.
    * @param  {Array} recipients - a list of potential recipient from the webmail ui
    */
-  async setRecipientData(recipients) {
+  async setRecipientData({to, cc}) {
     // deduplicate email addresses
-    let emails = (recipients || []).map(recipient => recipient.email);
-    emails = deDup(emails); // just dedup, dont change order of user input
-    recipients = emails.map(e => ({email: e}));
+    let toEmails = (to || []).map(recipient => recipient.email);
+    toEmails = deDup(toEmails); // just dedup, dont change order of user input
+    to = toEmails.map(e => ({email: e}));
+    let ccEmails = (cc || []).map(recipient => recipient.email);
+    ccEmails = deDup(ccEmails); // just dedup, dont change order of user input
+    cc = ccEmails.map(e => ({email: e}));
     // get all public keys from required keyrings
     const keys = await getKeyData({keyringId: this.keyringId});
-    this.emit('public-key-userids', {keys, recipients});
+    this.emit('public-key-userids', {keys, to, cc});
   }
 
   async onEditorOptions(msg) {
@@ -170,7 +173,8 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('set-init-data', data);
   }
 
-  onEditorClose({cancel = false}) {
+  onEditorClose(option = {cancel: false}) {
+    const {cancel} = option;
     if (this.popup) {
       this.popup.close();
       this.popup = null;
@@ -419,21 +423,22 @@ export default class EditorController extends sub.SubController {
    * Receive plaintext from editor, initiate encryption
    * @param {String} options.action - 'sign' or 'encrypt'
    * @param {String} options.message - body of the message
-   * @param {String} options.keys - key data object (user id, key id, fingerprint, email and name)
+   * @param {Array} options.keysTo - [key data object (user id, key id, fingerprint, email and name)]
+   * @param {Array} options.keysCc - [key data object (user id, key id, fingerprint, email and name)]
    * @param {Array} options.attachments - file attachments
    * @param {Boolen} options.signMsg - indicator if (encrypted) message should be signed
    * @param {Array<String>} options.signKeyFpr - fingerprint of key to sign the message
    * @param {Boolean} options.noCache - do not use password cache, user interaction required
    */
   async onEditorPlaintext(options) {
-    options.keys = options.keys || [];
+    options.keys = [...options.keysTo, ...options.keysCc];
     try {
       const {armored, encFiles} = await this.signAndEncrypt(options);
       this.ports.editor.emit('encrypt-end');
       if (!this.integration) {
         this.onEditorClose();
       }
-      this.transferEncrypted({armored, encFiles, subject: options.subject, keys: options.keys});
+      this.transferEncrypted({armored, encFiles, subject: options.subject, to: options.keysTo, cc: options.keysCc});
     } catch (err) {
       if (this.popup && err.code === 'PWD_DIALOG_CANCEL') {
         // popup case
@@ -592,12 +597,13 @@ export default class EditorController extends sub.SubController {
    * @param  {String} options.armored   The encrypted/signed message
    * @param  {Array}  options.keys      The keys used to encrypt the message
    */
-  transferEncrypted({armored, encFiles, subject, keys = []}) {
+  transferEncrypted({armored, encFiles, subject, to, cc}) {
     if (this.ports.editorCont) {
       this.ports.editorCont.emit('encrypted-message', {message: armored});
     } else {
-      const recipients = keys.map(key => ({name: key.name, email: key.email}));
-      this.encryptPromise.resolve({armored, encFiles, subject, recipients});
+      to = to.map(key => ({name: key.name, email: key.email}));
+      cc = cc.map(key => ({name: key.name, email: key.email}));
+      this.encryptPromise.resolve({armored, encFiles, subject, to, cc});
     }
   }
 

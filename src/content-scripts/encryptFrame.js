@@ -174,14 +174,15 @@ export default class EncryptFrame {
    * Is called after encryption and injects ciphertext and recipient
    * email addresses into the webmail interface.
    * @param {String} options.text         The encrypted message body
-   * @param {Array}  options.recipients   The recipients to be added
+   * @param {Array}  options.to   The recipients to be added
+   * @param {Array}  options.cc   The copy recipients to be added (not yet supported)
    */
   setEditorOutput(options) {
     // set message body
     this.normalizeButtons();
     this.setMessage(options.text);
     // set recipient email addresses
-    this.currentProvider.setRecipients({recipients: options.recipients, editElement: this.editElement});
+    this.currentProvider.setRecipients({recipients: options.to, editElement: this.editElement});
   }
 
   /**

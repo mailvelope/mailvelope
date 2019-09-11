@@ -36,8 +36,8 @@ export default class EncryptController extends sub.SubController {
       quotedMailIndent: !this.editorContentModified,
       getRecipients: this.getRecipients.bind(this)
     })
-    .then(({armored, recipients}) => {
-      this.emit('set-editor-output', {text: armored, recipients});
+    .then(({armored, to, cc}) => {
+      this.emit('set-editor-output', {text: armored, to, cc});
       this.editorContentModified = true;
       this.editorControl = null;
     })
@@ -55,7 +55,8 @@ export default class EncryptController extends sub.SubController {
    * Get recipients from the encrypt frame
    * @return  {Promise<Array<Objects>>} - The recipient objects in the form: [{ email: 'jon@example.com' }]
    */
-  getRecipients() {
-    return this.send('get-recipients');
+  async getRecipients() {
+    const recipients = await this.send('get-recipients');
+    return {to: recipients, cc: []};
   }
 }

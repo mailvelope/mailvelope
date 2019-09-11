@@ -35,6 +35,7 @@ l10n.register([
   'editor_error_header',
   'editor_header',
   'editor_label_attachments',
+  'editor_label_copy_recipient',
   'editor_label_message',
   'editor_label_recipient',
   'editor_label_subject',
@@ -60,6 +61,8 @@ export default class Editor extends React.Component {
       plainText: '',
       publicKeys: [],
       recipients: [],
+      recipientsCc: [],
+      showRecipientsCc: false,
       subject: '',
       encryptDisabled: true,
       waiting: true,
@@ -141,8 +144,8 @@ export default class Editor extends React.Component {
    * @param {Array} options.keys         A list of all available public keys from the local keychain
    * @param {Array} options.recipients   recipients gather from the webmail ui
    */
-  onPublicKeyUserids({keys, recipients}) {
-    this.setState({publicKeys: keys, recipients});
+  onPublicKeyUserids({keys, to, cc}) {
+    this.setState({publicKeys: keys, recipients: to, recipientsCc: cc, showRecipientsCc: cc.length > 0});
   }
 
   /**
@@ -218,7 +221,8 @@ export default class Editor extends React.Component {
     this.port.emit('editor-plaintext', {
       message: this.state.plainText,
       subject: this.state.subject,
-      keys: this.state.recipients.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
+      keysTo: this.state.recipients.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
+      keysCc: this.state.recipientsCc.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
       attachments: this.state.files,
       action,
       signMsg: this.state.signMsg || draft, // draft is always signed
@@ -322,7 +326,6 @@ export default class Editor extends React.Component {
   }
 
   onSetAttachment({attachment}) {
-    console.log(attachment);
     const buffer = str2ab(attachment.content);
     const blob = new Blob([buffer], {type: attachment.mimeType});
     const file = new File([blob], attachment.filename, {type: attachment.mimeType});
@@ -360,21 +363,33 @@ export default class Editor extends React.Component {
             <div className="modal-content shadow-lg overflow-auto border-0 h-100">
               <div className="modal-body">
                 <div className="editor d-flex flex-column align-content-center h-100">
-                  {!this.state.embedded &&
+                  {!this.state.embedded && (
                     <div className="mb-3">
-                      <label>{l10n.map.editor_label_recipient}</label>
-                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
+                      <div className="d-flex">
+                        <label className="mr-auto">{l10n.map.editor_label_recipient}</label>
+                        {(!this.state.showRecipientsCc && this.state.integration) && <label><a href="#" role="button" className="text-reset" onClick={() => this.setState({showRecipientsCc: true})}>{l10n.map.editor_label_copy_recipient}</a></label>}
+                      </div>
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} encryptDisabled={this.state.encryptDisabled}
                         onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
                         onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
                       />
                     </div>
-                  }
-                  {this.state.integration &&
+                  )}
+                  {this.state.showRecipientsCc && (
+                    <div className="mb-3">
+                      <label className="mr-auto">{l10n.map.editor_label_copy_recipient}</label>
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipientsCc} encryptDisabled={this.state.encryptDisabled}
+                        onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+                        onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
+                      />
+                    </div>
+                  )}
+                  {this.state.integration && (
                     <div className="mb-3">
                       <label>{l10n.map.editor_label_subject}</label>
                       <input type="text" value={this.state.subject} className="form-control" id="subject" onChange={e => this.setState({subject: e.target.value})} />
                     </div>
-                  }
+                  )}
                   <div className="editor-body d-flex flex-column flex-grow-1">
                     <label>{l10n.map.editor_label_message}</label>
                     <div className="flex-grow-1" style={{margin: '-0.2rem'}}>

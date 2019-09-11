@@ -11,6 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {getHash} from '../../../lib/util';
 import * as l10n from '../../../lib/l10n';
 
 import './RecipientInput.scss';
@@ -34,6 +35,7 @@ let rInputCtrl = null;
 export class RecipientInput extends React.Component {
   constructor(props) {
     super(props);
+    this.id = getHash();
     // store props in global variable for Angular
     _props = props;
   }
@@ -49,7 +51,11 @@ export class RecipientInput extends React.Component {
     // attach ctrl to editor module
     angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);
     // bootstrap angular
-    angular.bootstrap(document.querySelector('.recipients-input'), ['recipientInput']);
+    angular.bootstrap(document.getElementById(this.id), ['recipientInput']);
+    if (_props.recipients.length) {
+      rInputCtrl.recipients = _props.recipients;
+      rInputCtrl.update();
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -71,10 +77,11 @@ export class RecipientInput extends React.Component {
       node.setAttribute('ng-class', "{'has-error': rInput.noEncrypt}");
     };
     return (
-      <div className="recipients-input" ref={node => node && contrAttr(node)}>
+      <div id={this.id} className="recipients-input" ref={node => node && contrAttr(node)}>
         <tags-input
           ng-model="rInput.recipients"
           type="email"
+          key-property="email"
           allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
           spellcheck="false"
           tabindex="0"

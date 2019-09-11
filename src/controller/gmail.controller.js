@@ -53,7 +53,10 @@ export default class GmailController extends sub.SubController {
       quotedMailIndent: options.quotedMailIndent === undefined ? true : options.quotedMailIndent,
       quotedMailHeader: options.quotedMailHeader,
       subject: options.subject,
-      getRecipients: () => options.recipients ? options.recipients.map(email => ({email})) : [],
+      getRecipients: () => ({
+        to: options.recipientsTo.map(email => ({email})),
+        cc: options.recipientsCc.map(email => ({email}))
+      }),
       userEmail: options.userEmail,
       attachments: options.attachments,
       keepAttachments: options.keepAttachments || false
@@ -64,17 +67,13 @@ export default class GmailController extends sub.SubController {
     try {
       options.recipientsTo = options.recipientsTo || [];
       options.recipientsCc = options.recipientsCc || [];
-      options.recipients = [...options.recipientsTo, ...options.recipientsCc];
-      const {armored, encFiles, subject, recipients} = await this.openEditor(options);
+      // options.recipients = [...options.recipientsTo, ...options.recipientsCc];
+      const {armored, encFiles, subject, to, cc} = await this.openEditor(options);
       // send email via GMAIL api
       const userEmail = options.userEmail;
-      let to = recipients.map(({email}) => email);
-      let cc = [];
-      if (options.recipientsCc.length) {
-        cc = to.filter(email => options.recipientsCc.includes(email));
-        to = to.filter(email => !cc.includes(email));
-      }
-      const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to, cc});
+      const toFormatted = to.map(({name, email}) => `${name} <${email}>`);
+      const ccFormatted = cc.map(({name, email}) => `${name} <${email}>`);
+      const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: toFormatted, cc: ccFormatted});
       const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
       const accessToken = await gmail.getAccessToken(userEmail, scopes);
       if (!accessToken) {
@@ -140,10 +139,10 @@ export default class GmailController extends sub.SubController {
     recipientsTo.push(sender);
     if (all) {
       const to = gmail.extractMailHeader(payload, 'To').split(',');
-      to.map(address => gmail.extractMailFromAddress(address)).filter(email => email !== '').forEach(email => recipientsTo.push(email));
+      to.map(address => gmail.extractMailFromAddress(address)).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsTo.push(email));
       const cc = gmail.extractMailHeader(payload, 'Cc').split(',');
       if (cc) {
-        cc.map(address => gmail.extractMailFromAddress(address)).filter(email => email !== '').forEach(email => recipientsCc.push(email));
+        cc.map(address => gmail.extractMailFromAddress(address)).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsCc.push(email));
       }
     }
     const quotedMailHeader = `On ${new Date(parseInt(internalDate, 10)).toUTCString()}, <${gmail.extractMailFromAddress(sender)}> wrote:`;
@@ -153,7 +152,6 @@ export default class GmailController extends sub.SubController {
       recipientsTo,
       recipientsCc,
       threadId,
-      // recipients: [...recipientsTo, ...recipientsCc],
       quotedMailHeader,
       quotedMail: messageText || '',
     };
