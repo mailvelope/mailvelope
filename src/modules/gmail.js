@@ -354,7 +354,7 @@ export function extractMailFromAddress(address) {
 }
 
 export function buildMail({message, attachments, subject, sender, to, cc}) {
-  const mail = buildMailWithHeader({message, attachments, subject, sender, to, cc, quota: MAIL_QUOTA});
+  const mail = buildMailWithHeader({message, attachments, subject, sender, to, cc, quota: MAIL_QUOTA, continuationEncode: false});
   if (mail === null) {
     throw new Error('MIME building failed.');
   }

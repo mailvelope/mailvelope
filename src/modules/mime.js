@@ -197,7 +197,7 @@ export function buildTextMail({armored, sender, to, cc, subject, quota}) {
   return mainMessage.build();
 }
 
-export function buildMailWithHeader({message, attachments, sender, to, cc, subject, quota}) {
+export function buildMailWithHeader({message, attachments, sender, to, cc, subject, quota, continuationEncode = true}) {
   const mainMessage = new MimeBuilder('multipart/mixed');
   const headers = {
     from: sender,
@@ -221,7 +221,7 @@ export function buildMailWithHeader({message, attachments, sender, to, cc, subje
       quotaSize += attachment.size;
       const id = `mv_${getHash()}`;
       const attachmentMime = new MimeBuilder('multipart/mixed')
-      .createChild(null, {filename: attachment.name})
+      .createChild(null, {filename: attachment.name, continuationEncode})
       .setHeader({
         'content-transfer-encoding': 'base64',
         'content-disposition': 'attachment',
