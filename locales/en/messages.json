@@ -1379,6 +1379,10 @@
     "description": "Send authorisation",
     "message": "send email"
   },
+  "provider_gmail_auth_dialog_title"  : {
+    "description": "Title of GMAIL OAuth dialog.",
+    "message": "Grant authorization"
+  },
   "provider_gmail_auth_dialog_intro"  : {
     "description": "Intro text for GMAIL OAuth dialog.",
     "message": "To use the GMAIL integration for $1, Mailvelope must be authorized for subsequent permissions:"

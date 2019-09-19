@@ -228,6 +228,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
   // filter out signatures not corresponding to keys of signer email
   signatures = signatures.filter(signature => signerKeyFprs.includes(signature.fingerprint));
+  signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
   return {signatures};
 }
 

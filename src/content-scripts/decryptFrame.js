@@ -45,9 +45,11 @@ export default class DecryptFrame extends ExtractFrame {
     sender = sender.map(person => person.email);
     sender = deDup(sender);
     const armored = this.getPGPMessage();
-    if (this.currentProvider.integration && this.currentProvider.integration.getMsgByControllerId(this.ctrlName)) {
-      const {msgId, att} = this.currentProvider.integration.getMsgByControllerId(this.ctrlName);
-      this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, armored, sender});
+    if (this.currentProvider.integration) {
+      const scannedMsg = this.currentProvider.integration.getMsgByControllerId(this.id);
+      if (scannedMsg) {
+        this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(scannedMsg.msgId), encAttFileNames: scannedMsg.att, armored, sender});
+      }
     } else {
       this.port.emit('set-armored', {
         data: armored,

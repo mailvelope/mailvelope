@@ -84,7 +84,7 @@ async function parseInline(rawText, handlers, encoding) {
 }
 
 // attribution: https://github.com/whiteout-io/mail-html5
-function filterBodyParts(bodyParts, type, result) {
+export function filterBodyParts(bodyParts, type, result) {
   result = result || [];
   bodyParts.forEach(part => {
     if (part.type === type) {

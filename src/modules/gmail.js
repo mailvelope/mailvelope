@@ -9,7 +9,8 @@ import mvelo from '../lib/lib-mvelo';
 import {deDup} from '../lib/util';
 import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {setAppDataSlot} from '../controller/sub.controller';
-import {buildMailWithHeader} from './mime';
+import {buildMailWithHeader, filterBodyParts} from './mime';
+import * as mailreader from '../lib/mail-reader';
 
 const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
@@ -305,12 +306,17 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
     const {data: attachment} = await getAttachment({email: userEmail, msgId, attachmentId, accessToken});
     return dataURL2str(attachment);
   }
+  let body;
   if (/^multipart\/signed/i.test(payload.mimeType) && payload.parts && payload.parts[1]) {
     if (/^application\/pgp-signature/i.test(payload.parts[1].mimeType)) {
-      return atob(base64DecodeUrl(getMailPartBody(payload.parts[0])));
+      body = getMailPartBody(payload.parts);
     }
+  } else {
+    body = getMailPartBody([payload], type);
   }
-  const body = getMailPartBody([payload], type);
+  if (!body) {
+    return '';
+  }
   if (body.data) {
     return atob(base64DecodeUrl(body.data));
   }
@@ -318,10 +324,23 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
     const {data} = await this.getAttachment({email: userEmail, msgId, attachmentId: body.attachmentId, accessToken});
     return dataURL2str(data);
   }
-  return atob(base64DecodeUrl(getMailPartBody([payload], type)));
 }
 
-export function getMailAttachments({payload, userEmail, msgId, exclude = ['encrypted.asc'], accessToken}) {
+export function extractSignedClearTextMultipart(rawEncoded) {
+  return new Promise(resolve => {
+    const raw = atob(base64DecodeUrl(rawEncoded));
+    mailreader.parse([{raw}], parsed => {
+      const [result] = filterBodyParts(parsed, 'signed');
+      if (result) {
+        const [{content: message}] = filterBodyParts([result], 'text');
+        resolve({signedMessage: result.signedMessage, message});
+      }
+    });
+    resolve();
+  });
+}
+
+export function getMailAttachments({payload, userEmail, msgId, exclude = ['encrypted.asc', 'signature.asc'], accessToken}) {
   if (!payload.parts) {
     return [];
   }

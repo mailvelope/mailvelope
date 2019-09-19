@@ -9,6 +9,7 @@ import * as l10n from '../lib/l10n';
 import gmailIntegrationCsss from './gmailIntegration.css';
 import {isAttached} from './main';
 import DecryptAttFrame from './decryptAttFrame';
+import {parseViewName} from '../controller/sub.controller';
 
 l10n.register([
   'encrypt_frame_btn_label',
@@ -23,7 +24,7 @@ export default class GmailIntegration {
     this.port = null;
     this.editorBtnRoot = null;
     this.editorBtn = null;
-    this.selectedMsgs = [];
+    this.selectedMsgs = null;
     this.userEmail = null;
   }
 
@@ -65,7 +66,12 @@ export default class GmailIntegration {
   }
 
   getMsgByControllerId(controllerId) {
-    return this.selectedMsgs.find(msg => msg.controllerId = controllerId);
+    for (const [, value] of this.selectedMsgs) {
+      if (value.controllerId === controllerId) {
+        return value;
+      }
+    }
+    return;
   }
 
   attachEditorBtn() {
@@ -100,19 +106,19 @@ export default class GmailIntegration {
 
   async scanArmored() {
     const msgs = document.querySelectorAll('[data-message-id]');
-    const currentMsgs = [];
+    const currentMsgs = new Map();
     for (const msgElem of msgs) {
       const msgId = msgElem.dataset.messageId;
-      const selected = this.selectedMsgs.find(msg => msg.msgId === msgId);
+      const selected = this.selectedMsgs && this.selectedMsgs.get(msgId);
+      const msgData = {};
       if (selected) {
-        currentMsgs.push(selected);
+        currentMsgs.set(msgId, selected);
         continue;
       }
-      const msgData = {};
       const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
       if (mvFrame) {
         const controllerId = mvFrame.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
-        msgData.controllerId = controllerId;
+        msgData.controllerId = parseViewName(controllerId).id;
       }
       if (this.hasClippedArmored(msgElem)) {
         msgData.clipped = true;
@@ -125,21 +131,22 @@ export default class GmailIntegration {
       }
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
         const dAttFrame = new DecryptAttFrame();
-        msgData.controllerId = dAttFrame.ctrlName;
+        msgData.controllerId = dAttFrame.id;
         const containerElem = await msgElem.querySelector('.ii.gt');
-        if (msgData.clipped) {
+        dAttFrame.attachTo(containerElem);
+        if (msgData.clipped || msgData.att.includes('signature.asc')) {
           const bodyElem = containerElem.querySelector('.a3s.aXjCH');
           bodyElem.style.display = 'none';
+          msgData.hiddenElem = bodyElem;
         }
-        dAttFrame.attachTo(containerElem);
       }
       if (msgData.controllerId) {
         msgData.msgId = msgId;
         this.attachMsgBtns(msgId, msgElem, msgData);
-        currentMsgs.push(msgData);
+        currentMsgs.set(msgId, msgData);
       }
     }
-    this.selectedMsgs = [...currentMsgs];
+    this.selectedMsgs = currentMsgs;
   }
 
   hasClippedArmored(msgElem) {
@@ -285,6 +292,13 @@ export default class GmailIntegration {
     if (this.getGmailUser()) {
       this.attachEditorBtn();
       await this.scanArmored();
+    }
+  }
+
+  onCloseFrame(controllerId) {
+    const message = this.getMsgByControllerId(controllerId);
+    if (message && message.hiddenElem) {
+      message.hiddenElem.style.display = 'block';
     }
   }
 

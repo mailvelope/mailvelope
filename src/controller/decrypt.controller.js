@@ -17,6 +17,7 @@ import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
 import {triggerSync} from './sync.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
+import {lookupKey} from './import.controller';
 
 export default class DecryptController extends sub.SubController {
   constructor(port) {
@@ -34,7 +35,7 @@ export default class DecryptController extends sub.SubController {
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
     this.on('decrypt-message-init', this.onDecryptMessageInit);
-    this.on('decrypt-message', () => this.decrypt(this.armored, this.keyringId));
+    this.on('decrypt-message', this.onDecrypt);
     this.on('dframe-display-popup', this.onDframeDisplayPopup);
     this.on('set-armored', this.onSetArmored);
     this.on('set-data', this.onSetData);
@@ -70,6 +71,14 @@ export default class DecryptController extends sub.SubController {
     });
   }
 
+  onDecrypt() {
+    if (this.armored) {
+      this.decrypt(this.armored, this.keyringId);
+    } else {
+      this.executeActionQueue();
+    }
+  }
+
   async onSetArmored(msg) {
     this.options = msg.options;
     if (msg.keyringId) {
@@ -87,23 +96,27 @@ export default class DecryptController extends sub.SubController {
     try {
       await gmail.authorize(this.userEmail, [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]);
       this.ports.dDialog.emit('hide-error-message');
-      if (this.actionQueue.length) {
-        for (const action of this.actionQueue) {
-          if (action.type === 'clipped') {
-            const result = await this.getClippedArmored(this.msgId, this.userEmail);
-            if (result) {
-              this.onSetArmored({data: result.armored, options: {senderAddress: result.sender}});
-            }
-          }
-          if (action.type === 'attachment') {
-            this.onDownloadEncAttachment({fileName: action.fileName});
-          }
-        }
-      }
+      this.executeActionQueue();
     } catch (e) {
       this.ports.dDialog.emit('error-message', {error: e.messageText});
     }
     this.activateComponent();
+  }
+
+  async executeActionQueue() {
+    if (this.actionQueue.length) {
+      for (const action of this.actionQueue) {
+        if (action.type === 'clipped') {
+          const result = await this.getClippedArmored(this.msgId, this.userEmail);
+          if (result) {
+            this.onSetArmored({data: result.armored, options: {senderAddress: result.sender}});
+          }
+        }
+        if (action.type === 'attachment') {
+          this.onDownloadEncAttachment({fileName: action.fileName});
+        }
+      }
+    }
   }
 
   activateComponent() {
@@ -128,8 +141,9 @@ export default class DecryptController extends sub.SubController {
       this.armored = armored;
       await this.onSetArmored({data: armored, options: {senderAddress: sender}});
     }
-    if (encAttFileNames.includes('encrypted.asc')) {
-      const [pgpMimeFileName] = encAttFileNames.splice(encAttFileNames.indexOf('encrypted.asc'), 1);
+    const [pgpAttachmens] = ['encrypted.asc', 'signature.asc'].filter(name => encAttFileNames.includes(name));
+    if (pgpAttachmens) {
+      const [pgpMimeFileName] = encAttFileNames.splice(encAttFileNames.indexOf(pgpAttachmens), 1);
       await this.onDownloadEncAttachment({fileName: pgpMimeFileName});
     }
     this.encAttFileNames = encAttFileNames;
@@ -178,10 +192,17 @@ export default class DecryptController extends sub.SubController {
     } else {
       const {data} = await gmail.getAttachment({fileName, email: this.userEmail, msgId: this.msgId, accessToken});
       try {
-        if (fileName === 'encrypted.asc') {
-          const armored = dataURL2str(data);
-          this.armored = armored;
-          await this.decrypt(armored, this.keyringId);
+        if (fileName === 'encrypted.asc' || fileName === 'signature.asc') {
+          this.armored = dataURL2str(data);
+          if (fileName === 'signature.asc') {
+            const {payload} = await gmail.getMessage({msgId: this.msgId, email: this.userEmail, accessToken, format: 'metadata'});
+            this.sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
+            const {raw} = await gmail.getMessage({msgId: this.msgId, email: this.userEmail, accessToken, format: 'raw'});
+            const {signedMessage, message} = await gmail.extractSignedClearTextMultipart(raw);
+            this.signedText = signedMessage;
+            this.plainText = message;
+          }
+          await this.decrypt(this.armored, this.keyringId);
         } else {
           const attachment = await model.decryptFile({
             encryptedFile: {content: data, name: fileName},
@@ -239,32 +260,46 @@ export default class DecryptController extends sub.SubController {
   async decrypt(armored, keyringId) {
     this.ports.dDialog.emit('waiting', {waiting: true});
     try {
-      const {data, signatures} = await model.decryptMessage({
-        message: this.message,
-        armored,
-        keyringId,
-        unlockKey: this.unlockKey.bind(this),
-        senderAddress: this.options.senderAddress,
-        uiLogSource: 'security_log_viewer'
-      });
-      const ports = this.ports;
-      const handlers = {
-        noEvent: true,
-        onMessage(msg) {
-          this.noEvent = false;
-          ports.dDialog.emit('decrypted-message', {message: msg});
-        },
-        onAttachment(attachment) {
-          this.noEvent = false;
-          ports.dDialog.emit('add-decrypted-attachment', {attachment});
+      if (/-----BEGIN\sPGP\sSIGNATURE/.test(armored)) {
+        const {signatures} = await model.verifyDetachedSignature({
+          plaintext: this.signedText,
+          signerEmail: this.sender,
+          detachedSignature: armored,
+          keyringId,
+          lookupKey: () => lookupKey({keyringId, email: this.sender})
+        });
+        this.ports.dDialog.emit('verified-message', {
+          message: this.plainText,
+          signers: signatures
+        });
+      } else {
+        const {data, signatures} = await model.decryptMessage({
+          message: this.message,
+          armored,
+          keyringId,
+          unlockKey: this.unlockKey.bind(this),
+          senderAddress: this.options.senderAddress,
+          uiLogSource: 'security_log_viewer'
+        });
+        const ports = this.ports;
+        const handlers = {
+          noEvent: true,
+          onMessage(msg) {
+            this.noEvent = false;
+            ports.dDialog.emit('decrypted-message', {message: msg});
+          },
+          onAttachment(attachment) {
+            this.noEvent = false;
+            ports.dDialog.emit('add-decrypted-attachment', {attachment});
+          }
+        };
+        if (this.ports.dDialog && signatures) {
+          this.ports.dDialog.emit('signature-verification', {signers: signatures});
         }
-      };
-      if (this.ports.dDialog && signatures) {
-        this.ports.dDialog.emit('signature-verification', {signers: signatures});
-      }
-      await parseMessage(data, handlers, 'html');
-      if (this.ports.decryptCont) {
-        this.ports.decryptCont.emit('decrypt-done');
+        await parseMessage(data, handlers, 'html');
+        if (this.ports.decryptCont) {
+          this.ports.decryptCont.emit('decrypt-done');
+        }
       }
     } catch (error) {
       if (error.code === 'PWD_DIALOG_CANCEL') {
