@@ -108,17 +108,19 @@ export default class GmailIntegration {
     const msgs = document.querySelectorAll('[data-message-id]');
     const currentMsgs = new Map();
     for (const msgElem of msgs) {
-      const msgId = msgElem.dataset.messageId;
-      const selected = this.selectedMsgs && this.selectedMsgs.get(msgId);
       const msgData = {};
+      const msgId = msgElem.dataset.messageId;
+      const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
+      const selected = this.selectedMsgs && this.selectedMsgs.get(msgId);
       if (selected) {
+        if (mvFrame) {
+          selected.controllerId = this.getControllerID(mvFrame);
+        }
         currentMsgs.set(msgId, selected);
         continue;
       }
-      const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
       if (mvFrame) {
-        const controllerId = mvFrame.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
-        msgData.controllerId = parseViewName(controllerId).id;
+        msgData.controllerId = this.getControllerID(mvFrame);
       }
       if (this.hasClippedArmored(msgElem)) {
         msgData.clipped = true;
@@ -147,6 +149,11 @@ export default class GmailIntegration {
       }
     }
     this.selectedMsgs = currentMsgs;
+  }
+
+  getControllerID(frameElem) {
+    const controllerId = frameElem.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
+    return parseViewName(controllerId).id;
   }
 
   hasClippedArmored(msgElem) {
