@@ -31,6 +31,7 @@ l10n.register([
   'decrypt_digital_signature_null',
   'decrypt_show_message_btn',
   'decrypt_signer_label',
+  'key_import_bulk_success',
   'keygrid_keyid',
   'security_background_button_title'
 ]);
@@ -47,8 +48,8 @@ export default class DecryptMessage extends React.Component {
       clearText: false,
       files: [],
       encFiles: [],
-      error: null,
-      showError: false,
+      notification: null,
+      showNotification: false,
       pwdDialog: null,
       terminate: false,
       signatureToolTipOpen: false,
@@ -69,8 +70,9 @@ export default class DecryptMessage extends React.Component {
     this.port.on('verified-message', this.onVerifiedMessage);
     this.port.on('add-decrypted-attachment', this.onDecryptedAttachment);
     this.port.on('signature-verification', this.onSignatureVerification);
-    this.port.on('error-message', this.showErrorMsg);
-    this.port.on('hide-error-message', () => this.setState({error: null}));
+    this.port.on('show-notification', this.showNotification);
+    this.port.on('error-message', this.onErrorMessage);
+    this.port.on('hide-error-message', () => this.setState({notification: null}));
     this.port.on('show-password-required', this.onShowPwdRequired);
     this.port.on('show-pwd-dialog', this.onShowPwdDialog);
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
@@ -84,7 +86,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onShowPwdDialog(msg) {
-    this.setState({pwdDialog: msg, error: null});
+    this.setState({pwdDialog: msg, notification: null});
   }
 
   onHidePwdDialog() {
@@ -156,14 +158,28 @@ export default class DecryptMessage extends React.Component {
     this.logUserInput('security_log_attachment_download');
   }
 
-  showErrorMsg({error}) {
+  showNotification({title: header = '', message, type, autoHide = true, hideDelay = 4000, dismissable = true}) {
     this.setState({
-      error: {
-        header: l10n.map.alert_header_error,
-        message: error,
-        type: 'danger'
+      notification: {
+        header,
+        message: l10n.map[message] ? l10n.map[message] : message,
+        type,
+        autoHide,
+        hideDelay,
+        dismissable
       },
-      showError: true
+      waiting: false,
+      pwdDialog: null,
+      showNotification: true
+    });
+  }
+
+  onErrorMessage({error}) {
+    this.showNotification({
+      type: 'error',
+      title: l10n.map.editor_error_header,
+      message: error,
+      autoHide: false
     });
   }
 
@@ -176,17 +192,23 @@ export default class DecryptMessage extends React.Component {
 
   handleCancel() {
     this.port.emit('decrypt-dialog-cancel');
-    this.setState({error: null});
+    this.setState({notification: null});
   }
 
   handleDecrypt() {
-    if (!this.state.showError && !this.state.waiting) {
+    if (!this.state.showNotification && !this.state.waiting) {
       if (this.state.message) {
         this.setState({locked: false});
       } else {
         this.port.emit('decrypt-message');
       }
     }
+  }
+
+  hideNotification(timeout = 0) {
+    setTimeout(() => {
+      this.setState({showNotification: false});
+    }, timeout);
   }
 
   signatureStatus() {
@@ -270,22 +292,22 @@ export default class DecryptMessage extends React.Component {
                 )}
               </div>
             ) : (
-              <div className={`locked ${this.state.large ? 'large' : ''} modal-content overflow-hidden shadow-lg border-0 h-100 ${(!this.state.showError && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
+              <div className={`locked ${this.state.large ? 'large' : ''} modal-content overflow-hidden shadow-lg border-0 h-100 ${(!this.state.showNotification && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
                 <img src="../../img/Mailvelope/logo_signet.svg" />
                 {this.state.waiting ? (
                   <Spinner />
                 ) : (
-                  <p className={this.state.showError ? 'text-muted' : ''}>{l10n.map.decrypt_show_message_btn}</p>
+                  <p className={this.state.showNotification ? 'text-muted' : ''}>{l10n.map.decrypt_show_message_btn}</p>
                 )}
               </div>
             )}
           </div>
         </div>
         {this.state.pwdDialog && <iframe className="decrypt-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
-        {this.state.error &&
+        {this.state.notification &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showError} header={this.state.error.header} toggle={() => this.setState(prevState => ({showError: !prevState.showError}))} type="error" transition={{timeout: 150, unmountOnExit: true, onExited: () => this.setState({error: null, waiting: false})}}>
-              {this.state.error.message}
+            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.state.notification.autoHide && this.hideNotification(this.state.notification.hideDelay); }}}>
+              {this.state.notification.message}
             </Toast>
           </div>
         }

@@ -196,9 +196,10 @@ export default class DecryptController extends sub.SubController {
       this.openAuthorizeDialog(scopes);
     } else {
       const {data} = await gmail.getAttachment({fileName, email: this.userEmail, msgId: this.msgId, accessToken});
+      const armored = dataURL2str(data);
       try {
         if (fileName === 'encrypted.asc' || fileName === 'signature.asc') {
-          this.armored = dataURL2str(data);
+          this.armored = armored;
           if (fileName === 'signature.asc') {
             const {payload} = await gmail.getMessage({msgId: this.msgId, email: this.userEmail, accessToken, format: 'metadata'});
             this.sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
@@ -208,6 +209,19 @@ export default class DecryptController extends sub.SubController {
             this.plainText = message;
           }
           await this.decrypt(this.armored, this.keyringId);
+        } else if (/-----BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
+          const importControl = sub.factory.get('importKeyDialog');
+          const result = await importControl.importKey(this.keyringId, armored);
+          if (result === 'IMPORTED' || result === 'UPDATED') {
+            this.ports.dDialog.emit('show-notification', {
+              message: 'key_import_bulk_success',
+              type: 'success',
+              autoHide: true,
+              hideDelay: 2000,
+              dismissable: false
+            });
+          }
+          this.ports.dDialog.emit('waiting', {waiting: false});
         } else {
           const attachment = await model.decryptFile({
             encryptedFile: {content: data, name: fileName},
