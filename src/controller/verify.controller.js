@@ -38,6 +38,7 @@ export default class VerifyController extends SubController {
 
   async onArmoredMessage({data}) {
     this.armored = data;
+    this.ports.dDialog.emit('waiting', {waiting: true});
     try {
       const {data, signatures} = await verifyMessage({armored: this.armored, keyringId: this.keyringId});
       this.ports.dDialog.emit('verified-message', {
@@ -47,6 +48,7 @@ export default class VerifyController extends SubController {
     } catch (e) {
       this.ports.dDialog.emit('error-message', {error: e.message});
     }
+    this.ports.dDialog.emit('waiting', {waiting: false});
   }
 
   onCancel() {

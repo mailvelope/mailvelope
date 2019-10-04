@@ -134,8 +134,11 @@ export default class GmailIntegration {
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
         const dAttFrame = new DecryptAttFrame();
         msgData.controllerId = dAttFrame.id;
-        const containerElem = await msgElem.querySelector('.ii.gt');
+        const containerElem = msgElem.querySelector('.ii.gt');
         dAttFrame.attachTo(containerElem);
+        if (msgData.att.length) {
+          msgData.clearText = this.getClearText(msgElem);
+        }
         if (msgData.clipped || msgData.att.includes('signature.asc')) {
           const bodyElem = containerElem.querySelector('.a3s.aXjCH');
           bodyElem.style.display = 'none';
@@ -163,6 +166,11 @@ export default class GmailIntegration {
       return /BEGIN\sPGP\sMESSAGE/.test(msgText);
     }
     return false;
+  }
+
+  getClearText(msgElem) {
+    const contentElem = msgElem.querySelectorAll('.ii.gt')[0];
+    return contentElem.innerText;
   }
 
   getEncryptedAttachments(msgElem) {

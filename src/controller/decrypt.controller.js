@@ -127,7 +127,7 @@ export default class DecryptController extends sub.SubController {
     }
   }
 
-  async onSetData({userEmail, msgId, sender, armored, clipped, encAttFileNames}) {
+  async onSetData({userEmail, msgId, sender, armored, clearText, clipped, encAttFileNames}) {
     this.userEmail = userEmail;
     this.msgId = msgId;
     if (clipped) {
@@ -139,8 +139,13 @@ export default class DecryptController extends sub.SubController {
     }
     if (armored) {
       this.armored = armored;
-      await this.onSetArmored({data: armored, options: {senderAddress: sender}});
+      await this.onSetArmored({data: this.armored, options: {senderAddress: sender}});
     }
+    if (clearText) {
+      this.clearText = clearText;
+      this.ports.dDialog.emit('decrypted-message', {message: this.clearText, clearText: true});
+    }
+
     const [pgpAttachmens] = ['encrypted.asc', 'signature.asc'].filter(name => encAttFileNames.includes(name));
     if (pgpAttachmens) {
       const [pgpMimeFileName] = encAttFileNames.splice(encAttFileNames.indexOf(pgpAttachmens), 1);
@@ -286,7 +291,7 @@ export default class DecryptController extends sub.SubController {
           noEvent: true,
           onMessage(msg) {
             this.noEvent = false;
-            ports.dDialog.emit('decrypted-message', {message: msg});
+            ports.dDialog.emit('decrypted-message', {message: msg, clearText: false});
           },
           onAttachment(attachment) {
             this.noEvent = false;

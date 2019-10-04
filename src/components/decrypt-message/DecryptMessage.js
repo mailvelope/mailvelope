@@ -23,7 +23,9 @@ import './DecryptMessage.scss';
 // register language strings
 l10n.register([
   'alert_header_error',
+  'alert_header_warning',
   'decrypt_attachment_label',
+  'decrypt_cleartext_warning',
   'decrypt_digital_signature',
   'decrypt_digital_signature_failure',
   'decrypt_digital_signature_null',
@@ -42,6 +44,7 @@ export default class DecryptMessage extends React.Component {
       showSig: false,
       waiting: true,
       locked: false,
+      clearText: false,
       files: [],
       encFiles: [],
       error: null,
@@ -92,13 +95,16 @@ export default class DecryptMessage extends React.Component {
     this.setState({waiting: false, locked: true});
   }
 
-  onVerifiedMessage(msg) {
-    this.onSignatureVerification(msg);
-    this.setState({message: `<pre style="color: inherit; font-size: inherit;">${encodeHTML(msg.message)}</pre>`, waiting: false});
+  onVerifiedMessage({message, signers}) {
+    this.onSignatureVerification({signers});
+    this.onDecryptedMessage({message, clearText: true});
   }
 
-  onDecryptedMessage({message}) {
-    this.setState({message, locked: false});
+  onDecryptedMessage({message, clearText}) {
+    if (clearText) {
+      message = `<pre style="color: inherit; font-size: inherit;">${encodeHTML(message)}</pre>`;
+    }
+    this.setState({message, clearText, locked: false});
   }
 
   onDecryptedAttachment({attachment}) {
@@ -247,6 +253,11 @@ export default class DecryptMessage extends React.Component {
                     <div className="files d-flex justify-content-start mb-2">
                       <FileDownloadPanel files={this.state.encFiles} onClickFile={e => this.handleClickEncFile(e)} />
                     </div>
+                  )}
+                  {this.state.clearText && (
+                    <Alert type="warning" className="align-self-start" header={l10n.map.alert_header_warning}>
+                      {l10n.map.decrypt_cleartext_warning}
+                    </Alert>
                   )}
                   <div className="plain-text align-self-stretch">
                     <ContentSandbox value={this.state.message} />

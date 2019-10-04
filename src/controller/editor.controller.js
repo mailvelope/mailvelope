@@ -474,7 +474,7 @@ export default class EditorController extends sub.SubController {
       let signKeyFpr;
       let unlockKey;
       if (options.signMsg) {
-        signKeyFpr = options.signKey;
+        signKeyFpr = options.signKeyFpr;
         if (!signKeyFpr) {
           const defaultKeyFpr = await getDefaultKeyFpr(this.keyringId);
           signKeyFpr = defaultKeyFpr;

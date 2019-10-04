@@ -57,8 +57,8 @@ export default class DecryptAttFrame extends ExtractFrame {
   }
 
   onData() {
-    const {msgId, clipped, armored, att} = this.currentProvider.integration.getMsgByControllerId(this.id);
-    this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, armored, clipped, controllerId: this.ctrlName});
+    const {msgId, clipped, armored, clearText, att} = this.currentProvider.integration.getMsgByControllerId(this.id);
+    this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId: this.currentProvider.integration.getMsgLegacyId(msgId), encAttFileNames: att, armored, clearText, clipped, controllerId: this.ctrlName});
   }
 
   clickHandler(ev) {
