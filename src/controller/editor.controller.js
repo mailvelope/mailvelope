@@ -314,10 +314,11 @@ export default class EditorController extends sub.SubController {
     const encrypted = [];
     const regex = /.*\.(gpg|pgp|asc)/;
     for (const attachment of attachments) {
-      if (regex.test(attachment.filename)) {
+      const content = dataURL2str(attachment.data);
+      if (regex.test(attachment.filename) && !/-----BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(content)) {
         encrypted.push(attachment);
       } else {
-        this.ports.editor.emit('set-attachment', {attachment: {content: dataURL2str(attachment.data), ...attachment}});
+        this.ports.editor.emit('set-attachment', {attachment: {content, ...attachment}});
       }
     }
     if (encrypted.length) {
@@ -357,6 +358,9 @@ export default class EditorController extends sub.SubController {
           uiLogSource: 'security_log_editor'
         }));
         data = decodeURIComponent(escape(data));
+      } else {
+        // clear text only
+        data = mvelo.util.sanitizeHTML(armored);
       }
       const options = this.options;
       const ports = this.ports;

@@ -364,12 +364,12 @@ export function getMailPartBody(parts, mimeType = 'text/plain') {
   return '';
 }
 
-export function extractMailFromAddress(address) {
+export function parseEmailAddress(address) {
   const emailAddress = goog.format.EmailAddress.parse(address);
-  if (emailAddress.isValid()) {
-    return emailAddress.getAddress();
+  if (!emailAddress.isValid()) {
+    throw new Error('Parsing email address failed.');
   }
-  return '';
+  return {email: emailAddress.getAddress(), name: emailAddress.getName()};
 }
 
 export function buildMail({message, attachments, subject, sender, to, cc}) {

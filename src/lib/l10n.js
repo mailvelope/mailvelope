@@ -25,3 +25,11 @@ export function set(ids) {
   register(ids);
   mapToLocal();
 }
+
+function getLanguage() {
+  return chrome.i18n.getUILanguage();
+}
+
+export function localizeDateTime(date, options = {}) {
+  return date.toLocaleDateString(getLanguage(), options);
+}

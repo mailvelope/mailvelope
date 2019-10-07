@@ -177,7 +177,7 @@ export default class DecryptController extends sub.SubController {
     const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
     if (/BEGIN\sPGP\sMESSAGE/.test(messageText)) {
       armored = normalizeArmored(messageText, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
-      sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
+      ({email: sender} = gmail.parseEmailAddress(gmail.extractMailHeader(payload, 'From')));
     }
     if (inQeue) {
       this.actionQueue.splice(this.actionQueue.findIndex(action => action.type === 'clipped'), 1);
@@ -202,7 +202,8 @@ export default class DecryptController extends sub.SubController {
           this.armored = armored;
           if (fileName === 'signature.asc') {
             const {payload} = await gmail.getMessage({msgId: this.msgId, email: this.userEmail, accessToken, format: 'metadata'});
-            this.sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
+            const {email} = gmail.parseEmailAddress(gmail.extractMailHeader(payload, 'From'));
+            this.sender = email;
             const {raw} = await gmail.getMessage({msgId: this.msgId, email: this.userEmail, accessToken, format: 'raw'});
             const {signedMessage, message} = await gmail.extractSignedClearTextMultipart(raw);
             this.signedText = signedMessage;

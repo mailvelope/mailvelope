@@ -85,7 +85,9 @@ function FileDownloadElement({file, onClick, onCopyToClipboard}) {
         {(fileExt === 'asc' || fileExt === 'gpg' || fileExt === 'pgp') && <img src="../../img/Mailvelope/logo_signet.svg" width="28" height="28" />}
         <span className="file-extension">{fileExt}</span>
         <span className="file-name">{fileName}</span>
-        <span className="icon icon-download"></span>
+        {file.objectURL &&
+          <span className="icon icon-download"></span>
+        }
         {file.onShowPopup &&
           <button type="button" className="icon-btn ml-1" title={l10n.map.decrypt_open_viewer_btn_title} onClick={e => { e.preventDefault(); file.onShowPopup(); }}><img src="../../img/Mailvelope/logo_signet.svg" width="14" height="14" /></button>
         }

@@ -539,6 +539,14 @@
     "description": "Error message for components requiring authorisation of GMAIL integration",
     "message": "Mailvelope ist nicht berechtigt, E-Mails zu versenden!"
   },
+  "gmail_integration_quoted_mail_header_reply": {
+    "description": "Header for quoted reply mail",
+    "message": "Am $1 schrieb $2:"
+  },
+  "gmail_integration_quoted_mail_header_forward": {
+    "description": "Header for forwarded mail",
+    "message": "---------- Weitergeleitete Nachricht ---------\nVon: $1\nDatum: $2\nBetreff: $3\nAn: $4"
+  },
   "gmail_integration_sent_success": {
     "description": "Email sent success notification",
     "message": "Die E-Mail wurde erfolgreich versandt!"

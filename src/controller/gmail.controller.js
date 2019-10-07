@@ -8,6 +8,7 @@ import {getHash, mapError} from '../lib/util';
 import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
+import * as l10n from '../lib/l10n';
 
 export default class GmailController extends sub.SubController {
   constructor(port) {
@@ -67,7 +68,6 @@ export default class GmailController extends sub.SubController {
     try {
       options.recipientsTo = options.recipientsTo || [];
       options.recipientsCc = options.recipientsCc || [];
-      // options.recipients = [...options.recipientsTo, ...options.recipientsCc];
       const {armored, encFiles, subject, to, cc} = await this.openEditor(options);
       // send email via GMAIL api
       const userEmail = options.userEmail;
@@ -135,17 +135,17 @@ export default class GmailController extends sub.SubController {
     const subject = gmail.extractMailHeader(payload, 'Subject');
     const recipientsTo = [];
     const recipientsCc = [];
-    const sender = gmail.extractMailFromAddress(gmail.extractMailHeader(payload, 'From'));
+    const {email: sender, name: senderName} = gmail.parseEmailAddress(gmail.extractMailHeader(payload, 'From'));
     recipientsTo.push(sender);
     if (all) {
       const to = gmail.extractMailHeader(payload, 'To').split(',');
-      to.map(address => gmail.extractMailFromAddress(address)).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsTo.push(email));
-      const cc = gmail.extractMailHeader(payload, 'Cc').split(',');
+      to.map(address => gmail.parseEmailAddress(address)['email']).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsTo.push(email));
+      const cc = gmail.extractMailHeader(payload, 'Cc');
       if (cc) {
-        cc.map(address => gmail.extractMailFromAddress(address)).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsCc.push(email));
+        cc.split(',').map(address => gmail.parseEmailAddress(address)['email']).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsCc.push(email));
       }
     }
-    const quotedMailHeader = `On ${new Date(parseInt(internalDate, 10)).toUTCString()}, <${gmail.extractMailFromAddress(sender)}> wrote:`;
+    const quotedMailHeader = l10n.get('gmail_integration_quoted_mail_header_reply', [l10n.localizeDateTime(new Date(parseInt(internalDate, 10)), {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}), `${senderName} <${sender}>`.trim()]);
     const options = {
       userEmail,
       subject: `Re: ${subject}`,
@@ -173,17 +173,14 @@ export default class GmailController extends sub.SubController {
     const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
     const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
     const subject = gmail.extractMailHeader(payload, 'Subject');
-    // const sentDate = this.extractMailHeader(payload, 'Date');
-    const sender = gmail.extractMailHeader(payload, 'From');
+    const {email: sender, name: senderName} = gmail.parseEmailAddress(gmail.extractMailHeader(payload, 'From'));
     const to = gmail.extractMailHeader(payload, 'To');
     const cc = gmail.extractMailHeader(payload, 'Cc');
-    const quotedMailHeader = `---------- Forwarded message ---------
-From: <${gmail.extractMailFromAddress(sender)}>
-Date: ${new Date(parseInt(internalDate, 10)).toUTCString()}
-Subject: ${subject}
-To: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(address)}>`).join(', ')}
-${cc && `Cc: ${to.split(',').map(address => `<${gmail.extractMailFromAddress(address)}>`).join(', ')}`}
-`;
+    let quotedMailHeader = l10n.get('gmail_integration_quoted_mail_header_forward', [`${senderName} <${sender}>`.trim(), l10n.localizeDateTime(new Date(parseInt(internalDate, 10)), {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}), subject, to.split(',').map(address => `${gmail.parseEmailAddress(address)['name']} <${gmail.parseEmailAddress(address)['email']}>`.trim()).join(', ')]);
+    if (cc) {
+      quotedMailHeader += `\n${l10n.get('editor_label_copy_recipient')}: ${cc.split(',').map(address => `${gmail.parseEmailAddress(address)['name']} <${gmail.parseEmailAddress(address)['email']}>`.trim()).join(', ')}`;
+    }
+    quotedMailHeader += '\n';
     const attachments = await gmail.getMailAttachments({payload, userEmail, msgId, accessToken});
     const options = {
       userEmail,
