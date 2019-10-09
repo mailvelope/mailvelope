@@ -160,7 +160,6 @@ export default class Provider extends React.Component {
         <h2 className="mb-4">{l10n.map.settings_provider}</h2>
         <form>
           <div className="form-group mb-4">
-            <h3>Gmail</h3>
             <div className="custom-control custom-checkbox">
               <input className="custom-control-input" disabled={!this.state.gmail} type="checkbox" id="gmail_integration" name="gmail_integration" checked={this.state.gmail_integration} onChange={this.handleCheck} />
               <label className="custom-control-label" htmlFor="gmail_integration"><span>{l10n.map.provider_gmail_integration}</span></label>

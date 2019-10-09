@@ -20,11 +20,12 @@ import Provider from './Provider';
 
 l10n.register([
   'settings_general',
-  'settings_watchlist',
+  'settings_keyserver',
+  'settings_provider',
   'settings_security',
   'settings_security_background',
   'settings_security_log',
-  'settings_keyserver',
+  'settings_watchlist'
 ]);
 
 export default class Settings extends React.Component {
@@ -52,10 +53,10 @@ export default class Settings extends React.Component {
                   <div role="navigation">
                     <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                       <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
-                      <NavPill to="/settings/provider">{l10n.map.settings_provider}</NavPill>
                       <NavPill to="/settings/watchlist">{l10n.map.settings_watchlist}</NavPill>
                       <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
                       <NavPill to="/settings/security-background">{l10n.map.settings_security_background}</NavPill>
+                      <NavPill to="/settings/provider">{l10n.map.settings_provider}</NavPill>
                       <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
                       <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
                     </div>
@@ -64,9 +65,9 @@ export default class Settings extends React.Component {
                 <div className="col-lg-9">
                   <Route path="/settings/general" component={General} />
                   <Route path="/settings/provider" component={Provider} />
-                  <Route path="/settings/watchlist" component={WatchList} />
                   <Route path="/settings/security" render={() => <Security onSetNotification={this.handleSetNotification} />} />
                   <Route path="/settings/security-background" render={() => <SecurityBackground prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} />} />
+                  <Route path="/settings/watchlist" component={WatchList} />
                   <Route path="/settings/security-log" component={SecurityLog} />
                   <Route path="/settings/key-server" render={() => <KeyServer prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} onSetNotification={this.handleSetNotification} />} />
                 </div>

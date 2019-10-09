@@ -1894,8 +1894,8 @@
     "message": "Schlüssel Server"
   },
   "settings_provider": {
-    "description": "Tab of options to display provider settings.",
-    "message": "Mail-Provider spezifisch"
+    "description": "Tab of options to display provider (Gmail) settings.",
+    "message": "Gmail"
   },
   "settings_security": {
     "description": "Tab of options to display security settings.",
