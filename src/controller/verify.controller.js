@@ -8,6 +8,7 @@ import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {verifyMessage} from '../modules/pgpModel';
 import {getPreferredKeyringId} from '../modules/keyring';
+import {lookupKey} from './import.controller';
 
 export default class VerifyController extends SubController {
   constructor(port) {
@@ -36,11 +37,16 @@ export default class VerifyController extends SubController {
     });
   }
 
-  async onArmoredMessage({data}) {
+  async onArmoredMessage({data, sender: [sender]}) {
     this.armored = data;
     this.ports.dDialog.emit('waiting', {waiting: true});
     try {
-      const {data, signatures} = await verifyMessage({armored: this.armored, keyringId: this.keyringId});
+      const {data, signatures} = await verifyMessage({
+        armored: this.armored,
+        keyringId: this.keyringId,
+        signerEmail: sender,
+        lookupKey: () => lookupKey({keyringId: this.keyringId, email: sender})
+      });
       this.ports.dDialog.emit('verified-message', {
         message: data,
         signers: signatures

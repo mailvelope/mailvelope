@@ -188,7 +188,7 @@ async function readCleartextMessage(armoredText) {
   }
 }
 
-export async function verifyMessage({armored, keyringId}) {
+export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}) {
   try {
     const message = await readCleartextMessage(armored);
     const signingKeyIds = message.getSigningKeyIds();
@@ -197,6 +197,9 @@ export async function verifyMessage({armored, keyringId}) {
     }
     const keyring = getPreferredKeyring(keyringId);
     await syncPublicKeys({keyring, keyIds: signingKeyIds, keyringId});
+    for (const signingKeyId of signingKeyIds) {
+      await acquireSigningKeys(signerEmail, signingKeyId, keyring, lookupKey);
+    }
     let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
     return {data, signatures};
@@ -214,15 +217,9 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   // sync keys to preferred keyring
   await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
   // get keys for signer email address from preffered keyring
-  let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId: issuerKeyId});
+  const signerKeys = await acquireSigningKeys(signerEmail, issuerKeyId, keyring, lookupKey);
   if (!signerKeys) {
-    // if no keys available, try key discovery mechanisms
-    await lookupKey();
-    // check again if key is now in keyring
-    ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId: issuerKeyId}));
-    if (!signerKeys) {
-      throw new MvError(l10n.get('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
-    }
+    throw new MvError(l10n.get('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
   }
   const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
   let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
@@ -230,6 +227,16 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   signatures = signatures.filter(signature => signerKeyFprs.includes(signature.fingerprint));
   signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
   return {signatures};
+}
+
+async function acquireSigningKeys(signerEmail, keyId, keyring, lookupKey) {
+  let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId});
+  if (!signerKeys) {
+    // if no keys available, try key discovery mechanisms
+    await lookupKey();
+    ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId}));
+  }
+  return signerKeys;
 }
 
 /**

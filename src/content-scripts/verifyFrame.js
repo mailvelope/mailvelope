@@ -6,6 +6,7 @@
 import {DISPLAY_INLINE, DISPLAY_POPUP} from '../lib/constants';
 import ExtractFrame from './extractFrame';
 import * as l10n from '../lib/l10n';
+import {deDup} from '../lib/util';
 import {prefs} from './main';
 
 l10n.register([
@@ -58,7 +59,7 @@ export default class VerifyFrame extends ExtractFrame {
   registerEventListener() {
     super.registerEventListener();
     this.port.on('remove-dialog', this.removeDialog);
-    this.port.on('armored-message', () => this.port.emit('vframe-armored-message', {data: this.getArmoredMessage()}));
+    this.port.on('armored-message', this.onArmoredMessage);
   }
 
   clickHandler(ev) {
@@ -66,6 +67,13 @@ export default class VerifyFrame extends ExtractFrame {
     if (prefs.security.display_decrypted == DISPLAY_POPUP) {
       this.popupDialog();
     }
+  }
+
+  async onArmoredMessage() {
+    let sender = await this.getEmailSender();
+    sender = sender.map(person => person.email);
+    sender = deDup(sender);
+    this.port.emit('vframe-armored-message', {data: this.getArmoredMessage(), sender});
   }
 
   onShow() {

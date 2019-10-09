@@ -203,7 +203,7 @@ export default class DecryptController extends sub.SubController {
           if (fileName === 'signature.asc') {
             const {payload} = await gmail.getMessage({msgId: this.msgId, email: this.userEmail, accessToken, format: 'metadata'});
             const {email} = gmail.parseEmailAddress(gmail.extractMailHeader(payload, 'From'));
-            this.sender = email;
+            this.options.senderAddress = email;
             const {raw} = await gmail.getMessage({msgId: this.msgId, email: this.userEmail, accessToken, format: 'raw'});
             const {signedMessage, message} = await gmail.extractSignedClearTextMultipart(raw);
             this.signedText = signedMessage;
@@ -283,10 +283,10 @@ export default class DecryptController extends sub.SubController {
       if (/-----BEGIN\sPGP\sSIGNATURE/.test(armored)) {
         const {signatures} = await model.verifyDetachedSignature({
           plaintext: this.signedText,
-          signerEmail: this.sender,
+          signerEmail: this.options.senderAddress,
           detachedSignature: armored,
           keyringId,
-          lookupKey: () => lookupKey({keyringId, email: this.sender})
+          lookupKey: () => lookupKey({keyringId, email: this.options.senderAddress})
         });
         this.ports.dDialog.emit('verified-message', {
           message: this.plainText,
