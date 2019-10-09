@@ -47,12 +47,15 @@ export function initOpenPGP() {
  * @param  {Boolean} options.selfSigned - message is self signed (decrypt email draft scenario)
  * @return {Promise<Object>} - decryption result {data: String, signatures: Array}
  */
-export async function decryptMessage({message, armored, keyringId, unlockKey, senderAddress, selfSigned, uiLogSource}) {
+export async function decryptMessage({message, armored, keyringId, unlockKey, senderAddress, selfSigned, uiLogSource, lookupKey}) {
   message = message ? message : await readMessage({armoredText: armored});
   const encryptionKeyIds = message.getEncryptionKeyIds();
   const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
   if (!keyring) {
     throw noKeyFoundError(encryptionKeyIds);
+  }
+  if (lookupKey) {
+    await acquireSigningKeys(senderAddress, keyring, lookupKey);
   }
   try {
     let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey: options => unlockKey({message, ...options}), senderAddress, selfSigned, encryptionKeyIds});
@@ -198,7 +201,7 @@ export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}
     const keyring = getPreferredKeyring(keyringId);
     await syncPublicKeys({keyring, keyIds: signingKeyIds, keyringId});
     for (const signingKeyId of signingKeyIds) {
-      await acquireSigningKeys(signerEmail, signingKeyId, keyring, lookupKey);
+      await acquireSigningKeys(signerEmail, keyring, lookupKey, signingKeyId);
     }
     let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
@@ -217,7 +220,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   // sync keys to preferred keyring
   await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
   // get keys for signer email address from preffered keyring
-  const signerKeys = await acquireSigningKeys(signerEmail, issuerKeyId, keyring, lookupKey);
+  const signerKeys = await acquireSigningKeys(signerEmail, keyring, lookupKey, issuerKeyId);
   if (!signerKeys) {
     throw new MvError(l10n.get('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
   }
@@ -229,7 +232,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   return {signatures};
 }
 
-async function acquireSigningKeys(signerEmail, keyId, keyring, lookupKey) {
+async function acquireSigningKeys(signerEmail, keyring, lookupKey, keyId) {
   let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId});
   if (!signerKeys) {
     // if no keys available, try key discovery mechanisms

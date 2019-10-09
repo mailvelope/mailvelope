@@ -139,7 +139,7 @@ export default class DecryptController extends sub.SubController {
     }
     if (armored) {
       this.armored = armored;
-      await this.onSetArmored({data: this.armored, options: {senderAddress: sender}});
+      await this.onSetArmored({data: this.armored, options: {senderAddress: sender[0]}});
     }
     if (clearText) {
       this.clearText = clearText;
@@ -299,7 +299,8 @@ export default class DecryptController extends sub.SubController {
           keyringId,
           unlockKey: this.unlockKey.bind(this),
           senderAddress: this.options.senderAddress,
-          uiLogSource: 'security_log_viewer'
+          uiLogSource: 'security_log_viewer',
+          lookupKey: () => lookupKey({keyringId, email: this.options.senderAddress})
         });
         const ports = this.ports;
         const handlers = {
