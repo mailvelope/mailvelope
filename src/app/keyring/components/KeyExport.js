@@ -17,7 +17,7 @@ l10n.register([
   'keygrid_all_keys',
   'key_export_filename',
   'key_export_create_file',
-  'header_warning',
+  'alert_header_warning',
   'key_export_warning_private',
   'key_export_dialog_copy_to_clipboard',
   'dialog_popup_close'
@@ -121,7 +121,7 @@ export default class KeyExport extends React.Component {
             }
             {
               this.state.type !== 'pub' &&
-              <Alert type="warning" header={l10n.map.header_warning}>
+              <Alert type="warning" header={l10n.map.alert_header_warning}>
                 {l10n.map.key_export_warning_private}
               </Alert>
             }

@@ -17,6 +17,7 @@ import Modal from '../../../components/util/Modal';
 import Alert from '../../../components/util/Alert';
 
 l10n.register([
+  'alert_header_warning',
   'change_link',
   'dialog_cancel_btn',
   'dialog_save_btn',
@@ -243,7 +244,7 @@ export default class KeyDetails extends React.Component {
             <div className="form-group">
               <DatePicker value={this.state.keyExpirationTime} onChange={moment => this.handleChange({target: {id: 'keyExpirationTime', value: moment}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} maxDate={moment('2080-12-31')} disabled={false} />
             </div>
-            <Alert type="warning" header={l10n.map.header_warning}>
+            <Alert type="warning" header={l10n.map.alert_header_warning}>
               {l10n.map.keydetails_change_exp_date_dialog_note}
             </Alert>
             <div className="row btn-bar">

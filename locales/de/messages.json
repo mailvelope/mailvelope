@@ -71,6 +71,10 @@
     "description": "Alert header of category error.",
     "message": "Fehler!"
   },
+  "alert_header_important": {
+    "description": "Alert header of category important.",
+    "message": "Wichtig!"
+  },
   "alert_header_success": {
     "description": "Alert header of category success.",
     "message": "Erfolg!"
@@ -558,10 +562,6 @@
   "gnupg_error_unusable_pub_key": {
     "description": "",
     "message": "Bitte überprüfen Sie ob die folgenden öffentlichen Schlüssel in ihrem GnuPG Schlüsselbund vorhanden und valide sind: $1"
-  },
-  "header_warning": {
-    "description": "Header warning.",
-    "message": "Achtung!"
   },
   "import_frame_help_text": {
     "description": "Help text on import frame.",
@@ -1395,15 +1395,19 @@
   },
   "provider_gmail_auth_dialog_intro"  : {
     "description": "Intro text for GMAIL OAuth dialog.",
-    "message": "Um die GMAIL-Integration für $1 nutzen zu können, muss Mailvelope für nachfolgende Berechtigungen authorsiert werden:"
+    "message": "Um die Gmail-Integration für <0></0> nutzen zu können, muss Mailvelope für nachfolgende Berechtigungen authorisiert werden:"
   },
   "provider_gmail_auth_dialog_outro"  : {
     "description": "Outro text for GMAIL OAuth dialog.",
-    "message": "Wenn Sie diesen Dialog mit \"ja\" bestätigen, öffnet sich ein Google-Authorisierungsfenster. Wählen Sie Ihren GMAIL Account für die E-Mail-Adresse $1 und folgen Sie den Anweisungen."
+    "message": "Wenn Sie diesen Dialog mit \"Ja\" bestätigen, öffnet sich ein Google-Authorisierungsfenster. Wählen Sie Ihren Gmail-Account für die E-Mail-Adresse <0></0> und folgen Sie den Anweisungen."
   },
   "provider_gmail_integration"  : {
     "description": "Label for Gmail integration option.",
     "message": "Gmail-Integration aktivieren"
+  },
+  "provider_gmail_integration_info": {
+    "description": "Info message for Gmail integration option",
+    "message": "Erfodert zusätzliche Berechtigungen, um die Integration für Ihren Gmail-Account nutzen zu können. Bei Bedarf werden Sie auf diese Seite weitergeleitet und ein Authorisierungs-Dialog wird angezeigt."
   },
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",

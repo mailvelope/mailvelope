@@ -71,6 +71,10 @@
     "description": "Alert header of category error.",
     "message": "Error!"
   },
+  "alert_header_important": {
+    "description": "Alert header of category important.",
+    "message": "Important!"
+  },
   "alert_header_success": {
     "description": "Alert header of category success.",
     "message": "Success!"
@@ -558,10 +562,6 @@
   "gnupg_error_unusable_pub_key": {
     "description": "",
     "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1"
-  },
-  "header_warning": {
-    "description": "Header warning.",
-    "message": "Warning!"
   },
   "import_frame_help_text": {
     "description": "Help text on import frame.",
@@ -1397,15 +1397,19 @@
   },
   "provider_gmail_auth_dialog_intro"  : {
     "description": "Intro text for GMAIL OAuth dialog.",
-    "message": "To use the GMAIL integration for $1, Mailvelope must be authorized for subsequent permissions:"
+    "message": "To use the Gmail integration for <0></0>, Mailvelope must be authorized for subsequent permissions:"
   },
   "provider_gmail_auth_dialog_outro"  : {
     "description": "Outro text for GMAIL OAuth dialog.",
-    "message": "If you confirm this dialog with \"yes\", a Google authorization window opens. Select your GMAIL account for the email address $1 and follow the instructions."
+    "message": "If you confirm this dialog with \"Yes\", a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions."
   },
   "provider_gmail_integration"  : {
     "description": "Label for Gmail integration option.",
     "message": "Activate Gmail integration"
+  },
+  "provider_gmail_integration_info": {
+    "description": "Info message for Gmail integration option",
+    "message": "Requires additional permissions to use the integration for your Gmail account. If necessary, you will be redirected to this page and an authorization dialog will be displayed."
   },
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",

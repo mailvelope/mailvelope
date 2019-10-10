@@ -20,6 +20,7 @@ import SimpleDialog from '../../components/util/SimpleDialog';
 import Alert from '../../components/util/Alert';
 
 l10n.register([
+  'alert_header_warning',
   'key_keyserver_resend_btn',
   'key_keyserver_upload_btn',
   'keydetails_creation_date',
@@ -351,7 +352,7 @@ export default class User extends React.Component {
         >
           <p>{l10n.map.user_remove_dialog_confirmation}</p>
           {this.state.user.remote &&
-            <Alert type="warning" header={l10n.map.header_warning}>
+            <Alert type="warning" header={l10n.map.alert_header_warning}>
               {l10n.map.user_remove_dialog_keyserver_warning}
             </Alert>
           }

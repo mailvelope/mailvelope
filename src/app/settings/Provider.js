@@ -17,14 +17,17 @@ import {GMAIL_SCOPE_READONLY, GMAIL_SCOPE_SEND} from '../../modules/gmail';
 l10n.register([
   'form_cancel',
   'form_save',
-  'header_warning',
+  'alert_header_important',
+  'alert_header_warning',
+  'keygrid_user_email',
   'provider_gmail_auth',
+  'provider_gmail_auth_dialog_intro',
+  'provider_gmail_auth_dialog_outro',
   'provider_gmail_auth_readonly',
   'provider_gmail_auth_send',
   'provider_gmail_integration',
   'provider_gmail_integration_warning',
-  'settings_provider',
-  'keygrid_user_email'
+  'settings_provider'
 ]);
 
 const GMAIL_MATCH_PATTERN = '*.mail.google.com';
@@ -78,8 +81,8 @@ export default class Provider extends React.Component {
 
   getAuthMessage(email, scopes) {
     const textData = {
-      intro: l10n.get('provider_gmail_auth_dialog_intro', [email]),
-      outro: l10n.get('provider_gmail_auth_dialog_outro', [email])
+      intro: <Trans id={l10n.map.provider_gmail_auth_dialog_intro} components={[<strong key="0">{email}</strong>]} />,
+      outro: <Trans id={l10n.map.provider_gmail_auth_dialog_outro} components={[<strong key="0">{email}</strong>]} />
     };
     return (
       <React.Fragment>
@@ -164,14 +167,16 @@ export default class Provider extends React.Component {
               <input className="custom-control-input" disabled={!this.state.gmail} type="checkbox" id="gmail_integration" name="gmail_integration" checked={this.state.gmail_integration} onChange={this.handleCheck} />
               <label className="custom-control-label" htmlFor="gmail_integration"><span>{l10n.map.provider_gmail_integration}</span></label>
             </div>
-            {!this.state.gmail && (
-              <Alert className="mt-2" type="warning" header={l10n.map.header_warning}>
-                <div>
-                  <Trans id={l10n.map.provider_gmail_integration_warning} components={[
-                    <strong key="0">{GMAIL_MATCH_PATTERN}</strong>,
-                    <Link key="1" to="/settings/watchlist">{l10n.map.dashboard_link_manage_domains}</Link>
-                  ]} />
-                </div>
+            {!this.state.gmail ? (
+              <Alert className="mt-2" type="warning" header={l10n.map.alert_header_warning}>
+                <Trans id={l10n.map.provider_gmail_integration_warning} components={[
+                  <strong key="0">{GMAIL_MATCH_PATTERN}</strong>,
+                  <Link key="1" to="/settings/watchlist">{l10n.map.dashboard_link_manage_domains}</Link>
+                ]} />
+              </Alert>
+            ) : (
+              <Alert className="mt-2" type="info" header={l10n.map.alert_header_important}>
+                Erfodert zusätzliche Berechtigungen, um die Integration für Ihren Gmail-Account nutzen zu können. Bei Bedarf werden Sie auf diese Seite weitergeleitet und ein Authorisierungs-Dialog wird angezeigt.
               </Alert>
             )}
             <p className="lead mt-3">Authorisierungen</p>
