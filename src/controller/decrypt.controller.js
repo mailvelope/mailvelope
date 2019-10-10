@@ -145,10 +145,9 @@ export default class DecryptController extends sub.SubController {
       this.clearText = clearText;
       this.ports.dDialog.emit('decrypted-message', {message: this.clearText, clearText: true});
     }
-
-    const [pgpAttachmens] = ['encrypted.asc', 'signature.asc'].filter(name => encAttFileNames.includes(name));
-    if (pgpAttachmens) {
-      const [pgpMimeFileName] = encAttFileNames.splice(encAttFileNames.indexOf(pgpAttachmens), 1);
+    const pgpMimeAttIndex = encAttFileNames.findIndex(fileName => fileName === 'encrypted.asc' || fileName === 'signature.asc');
+    if (pgpMimeAttIndex !== -1) {
+      const [pgpMimeFileName] = encAttFileNames.splice(pgpMimeAttIndex, 1);
       await this.onDownloadEncAttachment({fileName: pgpMimeFileName});
     }
     this.encAttFileNames = encAttFileNames;
