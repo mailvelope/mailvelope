@@ -276,7 +276,7 @@ export default class DecryptMessage extends React.Component {
                       <FileDownloadPanel files={this.state.encFiles} onClickFile={e => this.handleClickEncFile(e)} />
                     </div>
                   )}
-                  {this.state.clearText && (
+                  {this.state.message && this.state.clearText && (
                     <Alert type="warning" className="align-self-start" header={l10n.map.alert_header_warning}>
                       {l10n.map.decrypt_cleartext_warning}
                     </Alert>

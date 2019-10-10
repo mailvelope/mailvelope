@@ -169,8 +169,8 @@ export default class GmailIntegration {
   }
 
   getClearText(msgElem) {
-    const contentElem = msgElem.querySelectorAll('.ii.gt')[0];
-    return contentElem.innerText;
+    const {innerText} = msgElem.querySelectorAll('.ii.gt')[0];
+    return /\S/.test(innerText) ? innerText : '';
   }
 
   getEncryptedAttachments(msgElem) {
