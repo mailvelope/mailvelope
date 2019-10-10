@@ -117,6 +117,7 @@ export default class GmailIntegration {
           selected.controllerId = this.getControllerID(mvFrame);
         }
         currentMsgs.set(msgId, selected);
+        this.addBottomBtns(msgId, msgElem);
         continue;
       }
       if (mvFrame) {
@@ -234,34 +235,44 @@ export default class GmailIntegration {
     menuBtn.addEventListener('blur', msgData.menuBlurHandler, {capture: true});
 
     // add bottom buttons
-    const actionBtnsBottom = msgElem.parentElement.querySelectorAll('span.ams[role="link"]');
-    if (actionBtnsBottom.length) {
-      let parent;
-      let hasReplyAllBtn = false;
-      for (const btn of actionBtnsBottom) {
-        if (!parent) {
-          parent = btn.parentElement;
-        }
-        if (btn.classList.contains('bkI')) {
-          hasReplyAllBtn = true;
-        }
-        btn.style.display = 'none';
+    this.addBottomBtns(msgId, msgElem);
+  }
+
+  addBottomBtns(msgId, msgElem) {
+    const bottomBtnsContainer = msgElem.nextSibling;
+    if (bottomBtnsContainer) {
+      if (bottomBtnsContainer.querySelector('[data-mv-btns-bottom]')) {
+        return;
       }
-      const actionBtnsBottomShadowRootElem = document.createElement('div');
-      actionBtnsBottomShadowRootElem.dataset.mvBtnsBottom = FRAME_ATTACHED;
-      parent.prepend(actionBtnsBottomShadowRootElem);
-      const actionBtnsBottomElem = document.createElement('div');
-      actionBtnsBottomElem.classList.add('mv-action-btns-bottom');
-      this.addBottomBtn('reply', actionBtnsBottomElem, ev => this.onReplyButton(ev, msgId));
-      if (hasReplyAllBtn) {
-        this.addBottomBtn('replyAll', actionBtnsBottomElem, ev => this.onReplyButton(ev, msgId, true));
+      const actionBtnsBottom = bottomBtnsContainer.querySelectorAll('span.ams[role="link"]');
+      if (actionBtnsBottom.length) {
+        let parent;
+        let hasReplyAllBtn = false;
+        for (const btn of actionBtnsBottom) {
+          if (!parent) {
+            parent = btn.parentElement;
+          }
+          if (btn.classList.contains('bkI')) {
+            hasReplyAllBtn = true;
+          }
+          btn.style.display = 'none';
+        }
+        const actionBtnsBottomShadowRootElem = document.createElement('div');
+        actionBtnsBottomShadowRootElem.dataset.mvBtnsBottom = FRAME_ATTACHED;
+        parent.prepend(actionBtnsBottomShadowRootElem);
+        const actionBtnsBottomElem = document.createElement('div');
+        actionBtnsBottomElem.classList.add('mv-action-btns-bottom');
+        this.addBottomBtn('reply', actionBtnsBottomElem, ev => this.onReplyButton(ev, msgId));
+        if (hasReplyAllBtn) {
+          this.addBottomBtn('replyAll', actionBtnsBottomElem, ev => this.onReplyButton(ev, msgId, true));
+        }
+        this.addBottomBtn('forward', actionBtnsBottomElem, ev => this.onForwardButton(ev, msgId));
+        const actionBtnsBottomShadow = actionBtnsBottomShadowRootElem.attachShadow({mode: 'open'});
+        const actionBtnsBottomStyle = document.createElement('style');
+        actionBtnsBottomStyle.textContent = gmailIntegrationCsss;
+        actionBtnsBottomShadow.append(actionBtnsBottomStyle);
+        actionBtnsBottomShadow.append(actionBtnsBottomElem);
       }
-      this.addBottomBtn('forward', actionBtnsBottomElem, ev => this.onForwardButton(ev, msgId));
-      const actionBtnsBottomShadow = actionBtnsBottomShadowRootElem.attachShadow({mode: 'open'});
-      const actionBtnsBottomStyle = document.createElement('style');
-      actionBtnsBottomStyle.textContent = gmailIntegrationCsss;
-      actionBtnsBottomShadow.append(actionBtnsBottomStyle);
-      actionBtnsBottomShadow.append(actionBtnsBottomElem);
     }
   }
 
