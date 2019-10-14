@@ -21,7 +21,6 @@ export default class GmailController extends sub.SubController {
     this.keyringId = getPreferredKeyringId();
     this.currentAction = null;
     // register event handlers
-    this.on('gmail-unauthorize', this.unauthorize);
     this.on('open-editor', this.onOpenEditor);
     this.on('secure-reply', this.onSecureReply);
     this.on('secure-forward', this.onSecureForward);
@@ -29,10 +28,6 @@ export default class GmailController extends sub.SubController {
 
   activateComponent() {
     mvelo.tabs.activate({id: this.tabId});
-  }
-
-  unauthorize() {
-    gmail.unauthorize();
   }
 
   /**

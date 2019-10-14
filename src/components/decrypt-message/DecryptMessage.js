@@ -72,8 +72,8 @@ export default class DecryptMessage extends React.Component {
     this.port.on('signature-verification', this.onSignatureVerification);
     this.port.on('show-notification', this.showNotification);
     this.port.on('error-message', this.onErrorMessage);
-    this.port.on('hide-error-message', () => this.setState({notification: null}));
-    this.port.on('show-password-required', this.onShowPwdRequired);
+    this.port.on('hide-error-message', () => this.hideNotification());
+    this.port.on('lock', this.onLock);
     this.port.on('show-pwd-dialog', this.onShowPwdDialog);
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('terminate', this.onTerminate);
@@ -93,7 +93,7 @@ export default class DecryptMessage extends React.Component {
     this.setState({pwdDialog: null});
   }
 
-  onShowPwdRequired() {
+  onLock() {
     this.setState({waiting: false, locked: true});
   }
 
@@ -197,7 +197,7 @@ export default class DecryptMessage extends React.Component {
 
   handleDecrypt() {
     if (!this.state.showNotification && !this.state.waiting) {
-      if (this.state.message) {
+      if (this.state.message && !this.state.clearText) {
         this.setState({locked: false});
       } else {
         this.port.emit('decrypt-message');

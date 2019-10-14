@@ -23,7 +23,7 @@ const GMAIL_SCOPES_DEFAULT = [GMAIL_SCOPE_USER_EMAIL];
 const API_KEY = 'AIzaSyDmDlrIRgj3YEtLm-o4rA8qXG8b17bWfIs';
 export const MAIL_QUOTA = 25000000;
 
-export async function getMessage({msgId, email, accessToken, format = 'full'}) {
+export async function getMessage({msgId, email, accessToken, format = 'full', metaHeaders = []}) {
   const init = {
     method: 'GET',
     async: true,
@@ -34,10 +34,17 @@ export async function getMessage({msgId, email, accessToken, format = 'full'}) {
     'contentType': 'json'
   };
   const response = await fetch(
-    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?format=${format}&key=${API_KEY}`,
+    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?format=${format}${metaHeaders.map(header => `&metadataHeaders=${header}`).join('')}&key=${API_KEY}`,
     init
   );
   return response.json();
+}
+
+export async function getMessageMimeType({msgId, email, accessToken}) {
+  const {payload} = await getMessage({msgId, email, accessToken, format: 'metadata', metaHeaders: ['content-type']});
+  const contentType = extractMailHeader(payload, 'Content-Type');
+  const {protocol} = parseQuery(contentType, ';');
+  return {mimeType: payload.mimeType, protocol};
 }
 
 export async function getAttachment({email, msgId, attachmentId, fileName, accessToken}) {
@@ -139,8 +146,9 @@ export async function authorize(email, scopes = []) {
   if (id.iss === GOOGLE_API_HOST && id.aud === CLIENT_ID && id.email === email && id.exp >= (new Date().getTime() / 1000)) {
     await storeToken(email, token);
     return token.access_token;
+  } else {
+    throw new Error('JWT token invalid!');
   }
-  return;
 }
 
 export async function openAuthorizeDialog({email, scopes, ctrlId}) {
@@ -273,12 +281,12 @@ async function storeToken(email, token) {
   return mvelo.storage.set(GOOGLE_OAUTH_STORE, entry);
 }
 
-function parseQuery(queryString) {
+function parseQuery(queryString, separator = '&') {
   const query = {};
-  const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
+  const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split(separator);
   for (let i = 0; i < pairs.length; i++) {
     const pair = pairs[i].split('=');
-    query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+    query[decodeURIComponent(pair[0].trim())] = decodeURIComponent((pair[1] || '').replace(/^"(.+(?="$))"$/, '$1'));
   }
   return query;
 }
