@@ -541,7 +541,7 @@
   },
   "gmail_integration_auth_error_send": {
     "description": "Error message for components requiring authorisation of GMAIL integration",
-    "message": "Mailvelope is not authorized to send e-mails!"
+    "message": "Mailvelope is not authorized to send emails!"
   },
   "gmail_integration_quoted_mail_header_reply": {
     "description": "Header for quoted reply mail",
@@ -553,7 +553,7 @@
   },
   "gmail_integration_sent_success": {
     "description": "Email sent success notification",
-    "message": "The e-mail was sent successfully!"
+    "message": "The email was sent successfully!"
   },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",

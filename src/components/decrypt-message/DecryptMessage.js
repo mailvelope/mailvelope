@@ -119,14 +119,11 @@ export default class DecryptMessage extends React.Component {
     attachment.mimeType = 'application/octet-stream';
     const blob = new Blob([content], {type: attachment.mimeType});
     file.objectURL = window.URL.createObjectURL(blob);
-    this.setState(prevState => {
-      prevState.encFiles.splice(prevState.encFiles.findIndex(({name}) => name === attachment.encFileName), 1);
-      return {
-        files: [...prevState.files, file],
-        encFiles: [...prevState.encFiles],
-        waiting: false
-      };
-    });
+    this.setState(prevState => ({
+      files: [...prevState.files, file],
+      encFiles: prevState.encFiles.filter(({name}) => name !== attachment.encFileName),
+      waiting: false
+    }));
   }
 
   onSignatureVerification({signers}) {

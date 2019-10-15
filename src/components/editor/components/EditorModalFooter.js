@@ -86,6 +86,6 @@ EditorModalFooter.propTypes = {
   privKeys: PropTypes.array, // list of private keys for signing
   onChangeSignKey: PropTypes.func, // user selects new key
   onClickSignSetting: PropTypes.func, // click on navigation link
-  integration: PropTypes.bool
+  integration: PropTypes.bool // integration active indicator
 };
 

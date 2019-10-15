@@ -2,7 +2,6 @@
   "name": "__MSG_ext_name__",
   "version": "@@mvelo_version",
   "description": "__MSG_ext_description__",
-  "key": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbnDB4Mw1Jefz+0xUYOueKfFFxHfx340QBfK0g/f6C3xrlZEOj3dRRE9h/pBUVCP5khUVhKcwOkIm5YFs+mtBEr5D9ifhcEvymOmDziUjeQWcYXp9mJ77abSpj7TG/TrsVNHQ9nv/TZwk+mlg+QdT6PRb6cHZC9+MZnDiFn7A7nYbpoMWRNOlxgnk/uGIveDYqJDoGPU1CNl0VzuJwdDNok5xza7yKmwDulVmz2aoEckq9KzQ1HEOJReAuJ2wvDpFSRMImnFjjdG6avSwnNwTLpAjm3KAR5nlHR+8APd9YzYiWeLyKd18Hq75Hm/1f+MPklOoSrRhYDNVcHGvmBTjwIDAQAB-----END PUBLIC KEY-----",
   "homepage_url":"https://www.mailvelope.com",
   "manifest_version": 2,
   "minimum_chrome_version": "60",

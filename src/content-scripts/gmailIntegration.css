@@ -15,7 +15,6 @@
   padding: 8px;
   background-color: #fff;
   box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
-  -webkit-transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
   transition: box-shadow .08s linear,min-width .15s cubic-bezier(0.4,0.0,0.2,1);
 }
 
@@ -137,7 +136,6 @@
   outline: none;
   position: relative;
   z-index: 0;
-  -webkit-font-smoothing: antialiased;
   font-family: 'Google Sans',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
   font-size: .875rem;
   letter-spacing: .25px;
@@ -153,8 +151,6 @@
   box-shadow: inset 0 0 0 1px #dadce0;
   min-width: 104px;
   padding-left: 12px;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
   user-select: none;
   margin-right: 12px;
   text-decoration: none;

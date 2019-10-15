@@ -111,27 +111,20 @@ export default class GmailIntegration {
       const msgData = {};
       const msgId = msgElem.dataset.messageId;
       const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
+      if (mvFrame) {
+        msgData.controllerId =  this.getControllerID(mvFrame);
+      }
       const selected = this.selectedMsgs && this.selectedMsgs.get(msgId);
       if (selected) {
-        if (mvFrame) {
-          selected.controllerId = this.getControllerID(mvFrame);
-        }
+        selected.controllerId = msgData.controllerId || selected.controllerId;
         currentMsgs.set(msgId, selected);
         this.addBottomBtns(msgId, msgElem);
         continue;
       }
-      if (mvFrame) {
-        msgData.controllerId = this.getControllerID(mvFrame);
-      }
       if (this.hasClippedArmored(msgElem)) {
         msgData.clipped = true;
       }
-      const encryptedAttachments = this.getEncryptedAttachments(msgElem);
-      if (encryptedAttachments.length) {
-        msgData.att = encryptedAttachments;
-      } else {
-        msgData.att = [];
-      }
+      msgData.att = this.getEncryptedAttachments(msgElem);
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
         const dAttFrame = new DecryptAttFrame();
         msgData.controllerId = dAttFrame.id;
@@ -140,7 +133,7 @@ export default class GmailIntegration {
         if (msgData.att.length) {
           msgData.clearText = this.getClearText(msgElem);
         }
-        if (msgData.clipped || msgData.att.includes('signature.asc')) {
+        if (msgData.clipped || msgData.clearText) {
           const bodyElem = containerElem.querySelector('.a3s.aXjCH');
           bodyElem.style.display = 'none';
           msgData.hiddenElem = bodyElem;
@@ -175,19 +168,12 @@ export default class GmailIntegration {
   }
 
   getEncryptedAttachments(msgElem) {
-    // console.log('looking for encrypted attachments for: ', msgId);
-    // does not work in firefox
-    // const regex = /^(application\/octet-stream:.*\.(gpg|pgp)|text\/plain:.*\.asc):/;
-    // const attachmentElems = msgElem.querySelectorAll('[download_url]');
     const attachmentElems = msgElem.querySelectorAll('.zzV0ie');
     const regex = /.*\.(gpg|pgp|asc)/;
     const attachments = [];
     for (const attachmentElem of attachmentElems) {
-      // const dlUrl = attachmentElem.getAttribute('download_url');
       const fileName = attachmentElem.innerText;
       if (fileName && regex.test(fileName)) {
-        // console.log('Found encrypted attachment: ', decodeURI(dlUrl.match(new RegExp(':(.*?):'))[1]));
-        // attachments.push(decodeURI(dlUrl.match(new RegExp(':(.*?):'))[1]));
         attachments.push(fileName);
       }
     }
@@ -214,7 +200,7 @@ export default class GmailIntegration {
     secureReplyBtnShadow.append(secureReplyBtnStyle);
     secureReplyBtnShadow.append(secureReplyBtn);
 
-    // add menu items
+    // add menu items - TODO: improve click handler as it fails attaching the secure buttons to the menu in some rare cases
     const menuBtn = actionBtnsTopRoot.querySelector('.T-I-Js-Gs.aap.T-I-awG');
     menuBtn.dataset.mvMenuBtns = FRAME_ATTACHED;
     msgData.menuClickHandler = () => {

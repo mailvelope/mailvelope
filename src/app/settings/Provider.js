@@ -23,6 +23,7 @@ l10n.register([
   'provider_gmail_auth',
   'provider_gmail_auth_dialog_intro',
   'provider_gmail_auth_dialog_outro',
+  'provider_gmail_auth_dialog_title',
   'provider_gmail_auth_readonly',
   'provider_gmail_auth_send',
   'provider_gmail_integration',
@@ -36,7 +37,7 @@ export default class Provider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gmail: false,
+      gmail: false, // Gmail registered in authorized domains
       gmail_integration: false,
       gmail_authorized_emails: [],
       watchList: null,
@@ -167,14 +168,15 @@ export default class Provider extends React.Component {
               <input className="custom-control-input" disabled={!this.state.gmail} type="checkbox" id="gmail_integration" name="gmail_integration" checked={this.state.gmail_integration} onChange={this.handleCheck} />
               <label className="custom-control-label" htmlFor="gmail_integration"><span>{l10n.map.provider_gmail_integration}</span></label>
             </div>
-            {!this.state.gmail ? (
+            {!this.state.gmail && (
               <Alert className="mt-2" type="warning" header={l10n.map.alert_header_warning}>
                 <Trans id={l10n.map.provider_gmail_integration_warning} components={[
                   <strong key="0">{GMAIL_MATCH_PATTERN}</strong>,
                   <Link key="1" to="/settings/watchlist">{l10n.map.dashboard_link_manage_domains}</Link>
                 ]} />
               </Alert>
-            ) : (
+            )}
+            {(this.state.gmail && this.state.gmail_integration) && (
               <Alert className="mt-2" type="info" header={l10n.map.alert_header_important}>
                 Erfodert zusätzliche Berechtigungen, um die Integration für Ihren Gmail-Account nutzen zu können. Bei Bedarf werden Sie auf diese Seite weitergeleitet und ein Authorisierungs-Dialog wird angezeigt.
               </Alert>
@@ -215,7 +217,7 @@ export default class Provider extends React.Component {
           toggle={() => this.setState(prevState => ({showAuthModal: !prevState.showAuthModal}))}
           onHide={() => this.setState({authMessage: '', authModalCallback: null})}
           size="medium"
-          title="Authorisierung erteilen"
+          title={l10n.map.provider_gmail_auth_dialog_title}
           onOk={this.state.authModalCallback}
           onCancel={this.state.authModalClose}
         >{this.state.authMessage}</SimpleDialog>

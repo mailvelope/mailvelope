@@ -143,15 +143,16 @@ function scanDOM() {
   } catch (e) {
     console.log('Detecting PGP messages failed: ', e);
   }
-  if (!currentProvider.integration) {
-    try {
-      const editables = findEditable();
-      if (editables.length !== 0) {
-        attachEncryptFrame(editables);
-      }
-    } catch (e) {
-      console.log('Detecting editor elements failed: ', e);
+  if (currentProvider.integration) {
+    return;
+  }
+  try {
+    const editables = findEditable();
+    if (editables.length !== 0) {
+      attachEncryptFrame(editables);
     }
+  } catch (e) {
+    console.log('Detecting editor elements failed: ', e);
   }
 }
 

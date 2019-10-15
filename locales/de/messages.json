@@ -1407,7 +1407,7 @@
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
-    "message": "Erfodert zusätzliche Berechtigungen, um die Integration für Ihren Gmail-Account nutzen zu können. Bei Bedarf werden Sie auf diese Seite weitergeleitet und ein Authorisierungs-Dialog wird angezeigt."
+    "message": "Erfordert zusätzliche Berechtigungen, um die Integration für Ihren Gmail-Account nutzen zu können. Bei Bedarf werden Sie auf diese Seite weitergeleitet und ein Authorisierungs-Dialog wird angezeigt."
   },
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",

@@ -122,8 +122,7 @@ export default class Editor extends React.Component {
     });
   }
 
-  onSetMode(args) {
-    const {event, ...modes} = args;
+  onSetMode({event, ...modes}) {
     if (Object.entries(modes).some(entry => entry[1])) {
       this.fileUpload = new fileLib.FileUpload();
     }
