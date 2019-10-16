@@ -10,7 +10,7 @@ import * as l10n from '../lib/l10n';
 import ExtractFrame from './extractFrame';
 
 l10n.register([
-  'decrypt_frame_help_text'
+  'decrypt_att_frame_help_text'
 ]);
 
 l10n.mapToLocal();
@@ -43,7 +43,7 @@ export default class DecryptAttFrame extends ExtractFrame {
   renderFrame() {
     super.renderFrame();
     const para = document.createElement('p');
-    para.textContent = l10n.map.decrypt_frame_help_text;
+    para.textContent = l10n.map.decrypt_att_frame_help_text;
     this.eFrame.append(para);
     this.eFrame.classList.add('m-decrypt');
     this.onShow();

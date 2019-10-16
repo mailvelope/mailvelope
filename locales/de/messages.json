@@ -131,6 +131,10 @@
     "description": "Label for attachments in decrypted message",
     "message": "Anhänge"
   },
+  "decrypt_att_frame_help_text": {
+    "description": "Help text on decrypt frame with encrypted attachments or clipped armored message.",
+    "message": "Zum Anzeigen der Nachricht hier klicken"
+  },
   "decrypt_cleartext_warning": {
     "description": "Warning when cleartext is shown in decrypt component",
     "message": "Nachfolgender Text wurde nicht verschlüsselt!"
@@ -161,7 +165,7 @@
   },
   "decrypt_frame_help_text": {
     "description": "Help text on decrypt frame.",
-    "message": "Zum Entschlüsseln hier klicken!"
+    "message": "Zum Entschlüsseln hier klicken"
   },
   "decrypt_header": {
     "description": "Header of file/text decrypt page.",
@@ -573,7 +577,7 @@
   },
   "import_frame_help_text": {
     "description": "Help text on import frame.",
-    "message": "Zum Importieren des Schlüssels hier klicken!"
+    "message": "Zum Importieren des Schlüssels hier klicken"
   },
   "install_landing_page_hint": {
     "description": "Install landing page getting started hint",
@@ -2063,7 +2067,7 @@
   },
   "verify_frame_help_text": {
     "description": "Help text on verify frame.",
-    "message": "Zum Überprüfen der Signatur hier klicken!"
+    "message": "Zum Überprüfen der Signatur hier klicken"
   },
   "waiting_dialog_decryption_failed": {
     "description": "Error message in the waiting dialog after failing to decrypt a message",
