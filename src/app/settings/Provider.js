@@ -15,10 +15,10 @@ import SimpleDialog from '../../components/util/SimpleDialog';
 import {GMAIL_SCOPE_READONLY, GMAIL_SCOPE_SEND} from '../../modules/gmail';
 
 l10n.register([
-  'form_cancel',
-  'form_save',
   'alert_header_important',
   'alert_header_warning',
+  'form_cancel',
+  'form_save',
   'keygrid_user_email',
   'provider_gmail_auth',
   'provider_gmail_auth_dialog_intro',
@@ -27,6 +27,7 @@ l10n.register([
   'provider_gmail_auth_readonly',
   'provider_gmail_auth_send',
   'provider_gmail_integration',
+  'provider_gmail_integration_info',
   'provider_gmail_integration_warning',
   'settings_provider'
 ]);
@@ -178,7 +179,7 @@ export default class Provider extends React.Component {
             )}
             {(this.state.gmail && this.state.gmail_integration) && (
               <Alert className="mt-2" type="info" header={l10n.map.alert_header_important}>
-                Erfodert zusätzliche Berechtigungen, um die Integration für Ihren Gmail-Account nutzen zu können. Bei Bedarf werden Sie auf diese Seite weitergeleitet und ein Authorisierungs-Dialog wird angezeigt.
+                {l10n.map.provider_gmail_integration_info}
               </Alert>
             )}
             <p className="lead mt-3">Authorisierungen</p>
