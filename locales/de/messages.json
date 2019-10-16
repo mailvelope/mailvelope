@@ -145,7 +145,15 @@
   },
   "decrypt_digital_signature_null": {
     "description": "Caption digital signature",
-    "message": "Signatur nicht erkannt"
+    "message": "Signatur unbekannt"
+  },
+  "decrypt_digital_signature_null_info": {
+    "description": "Digital signature unknown info message",
+    "message": "Schlüssel mit der ID $1 nicht gefunden!"
+  },
+  "decrypt_digital_signature_null_info_short": {
+    "description": "Digital signature unknown short info message",
+    "message": "Schlüssel nicht gefunden!"
   },
   "decrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",

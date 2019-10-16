@@ -29,6 +29,7 @@ l10n.register([
   'decrypt_digital_signature',
   'decrypt_digital_signature_failure',
   'decrypt_digital_signature_null',
+  'decrypt_digital_signature_null_info_short',
   'decrypt_show_message_btn',
   'decrypt_signer_label',
   'key_import_bulk_success',
@@ -137,6 +138,8 @@ export default class DecryptMessage extends React.Component {
       signer = validSig[0];
     } else if (invalidSig.length) {
       signer = invalidSig[0];
+    } else {
+      signer = signers[0];
     }
     this.setState({signer});
   }
@@ -235,18 +238,34 @@ export default class DecryptMessage extends React.Component {
             <>
               <Alert id="SignatureDetails" type="info" className="my-1 px-2 flex-shrink-1 text-truncate">
                 <span href="#" id="SignatureDetails">
-                  <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
-                  <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}>`}
+                  {this.state.signer.valid !== null ? (
+                    <>
+                      <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
+                      <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}>`}
+                    </>
+                  ) : (
+                    <span>{l10n.map.decrypt_digital_signature_null_info_short}</span>
+                  )}
                 </span>
               </Alert>
               <Tooltip innerClassName="text-left" placement="auto-end" isOpen={this.state.signatureToolTipOpen} container={this.element.firstChild} target="SignatureDetails" autohide={false} toggle={() => this.setState(prevState => ({signatureToolTipOpen: !prevState.signatureToolTipOpen}))}>
-                <span><strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}>`}<br /> {`${l10n.map.keygrid_keyid} #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}</span>
+                {this.state.signer.valid !== null ? (
+                  <span><strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}>`}<br /> {`${l10n.map.keygrid_keyid} #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}</span>
+                ) : (
+                  <span>{l10n.get('decrypt_digital_signature_null_info', [`#${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`])}</span>
+                )}
               </Tooltip>
             </>
           ) : (
             <Alert type="info" className="my-1 px-2 flex-shrink-1">
-              <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
-              <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
+              {this.state.signer.valid !== null ? (
+                <>
+                  <span className="icon icon-key" style={{fontSize: '1.25rem'}}></span>
+                  <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
+                </>
+              ) : (
+                <span>{l10n.get('decrypt_digital_signature_null_info', [`#${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`])}</span>
+              )}
             </Alert>
           )}
       </div>

@@ -212,24 +212,23 @@ export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}
 }
 
 export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId, lookupKey}) {
-  const keyring = getPreferredKeyring(keyringId);
-  // determine issuer key id
-  const signature = await openpgp.signature.readArmored(detachedSignature);
-  const [sigPacket] = signature.packets.filterByTag(openpgp.enums.packet.signature);
-  const {issuerKeyId} = sigPacket;
-  // sync keys to preferred keyring
-  await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
-  // get keys for signer email address from preffered keyring
-  const signerKeys = await acquireSigningKeys(signerEmail, keyring, lookupKey, issuerKeyId);
-  if (!signerKeys) {
-    throw new MvError(l10n.get('form_definition_error_no_recipient_key'), 'NO_KEY_FOR_RECIPIENT');
+  try {
+    const keyring = getPreferredKeyring(keyringId);
+    // determine issuer key id
+    const signature = await openpgp.signature.readArmored(detachedSignature);
+    const [sigPacket] = signature.packets.filterByTag(openpgp.enums.packet.signature);
+    const {issuerKeyId} = sigPacket;
+    // sync keys to preferred keyring
+    await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
+    // get keys for signer email address from preffered keyring
+    const signerKeys = await acquireSigningKeys(signerEmail, keyring, lookupKey, issuerKeyId);
+    const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
+    let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
+    signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
+    return {signatures};
+  } catch (e) {
+    throw new MvError(l10n.get('verify_error', [e]), 'VERIFY_ERROR');
   }
-  const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
-  let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
-  // filter out signatures not corresponding to keys of signer email
-  signatures = signatures.filter(signature => signerKeyFprs.includes(signature.fingerprint));
-  signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
-  return {signatures};
 }
 
 async function acquireSigningKeys(signerEmail, keyring, lookupKey, keyId) {
@@ -239,7 +238,7 @@ async function acquireSigningKeys(signerEmail, keyring, lookupKey, keyId) {
     await lookupKey();
     ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId}));
   }
-  return signerKeys;
+  return signerKeys || [];
 }
 
 /**
