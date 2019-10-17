@@ -15,12 +15,12 @@ l10n.register([
 
 l10n.mapToLocal();
 
-export default class DecryptAttFrame extends ExtractFrame {
+export default class AttachmentFrame extends ExtractFrame {
   constructor() {
     super();
     this.dDialog = null;
     this.dPopup = false;
-    this.ctrlName = `dAttFrame-${this.id}`;
+    this.ctrlName = `aFrameGmail-${this.id}`;
   }
 
   init(containerElem) {

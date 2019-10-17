@@ -22,7 +22,7 @@ export default class DecryptFrame extends ExtractFrame {
     this.dDialog = null;
     // decrypt popup active
     this.dPopup = false;
-    this.ctrlName = `dFrame-${this.id}`;
+    this.ctrlName = `dFrame${this.currentProvider.integration ? 'Gmail' : ''}-${this.id}`;
   }
 
   renderFrame() {

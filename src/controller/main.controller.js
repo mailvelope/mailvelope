@@ -6,6 +6,7 @@
 import * as sub from './sub.controller';
 
 import DecryptController from './decrypt.controller';
+import GmailDecryptController from './gmailDecrypt.controller';
 import EncryptController from './encrypt.controller';
 import ImportController from './import.controller';
 import MainCsController from './mainCs.controller';
@@ -26,7 +27,8 @@ import GmailController from './gmail.controller';
  * need to be registered, all subsequent components that are created will connect by unique controller id.
  */
 sub.factory.register('dFrame',              DecryptController,       ['dDialog']);
-sub.factory.register('dAttFrame',           DecryptController,       ['dDialog']);
+sub.factory.register('dFrameGmail',         GmailDecryptController,  ['dDialog']);
+sub.factory.register('aFrameGmail',         GmailDecryptController,  ['dDialog']);
 sub.factory.register('decryptCont',         DecryptController,       ['dDialog']);
 sub.factory.register('eFrame',              EncryptController,       []);
 sub.factory.register('gmailInt',            GmailController,         []);

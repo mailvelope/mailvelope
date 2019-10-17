@@ -8,7 +8,7 @@ import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED} from '../lib/constants';
 import * as l10n from '../lib/l10n';
 import gmailIntegrationCsss from './gmailIntegration.css';
 import {isAttached} from './main';
-import DecryptAttFrame from './decryptAttFrame';
+import AttachmentFrame from './attachmentFrame';
 import {parseViewName} from '../controller/sub.controller';
 
 l10n.register([
@@ -126,10 +126,10 @@ export default class GmailIntegration {
       }
       msgData.att = this.getEncryptedAttachments(msgElem);
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
-        const dAttFrame = new DecryptAttFrame();
-        msgData.controllerId = dAttFrame.id;
+        const aFrame = new AttachmentFrame();
+        msgData.controllerId = aFrame.id;
         const containerElem = msgElem.querySelector('.ii.gt');
-        dAttFrame.attachTo(containerElem);
+        aFrame.attachTo(containerElem);
         if (msgData.att.length) {
           msgData.clearText = this.getClearText(msgElem);
         }
