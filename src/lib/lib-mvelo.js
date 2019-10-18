@@ -75,9 +75,9 @@ mvelo.storage.remove = function(id) {
 
 mvelo.tabs = {};
 
-mvelo.tabs.getActive = function() {
+mvelo.tabs.getActive = function(url = '*://*/*') {
   // get selected tab, "*://*/*" filters out non-http(s)
-  return browser.tabs.query({active: true, currentWindow: true, url: '*://*/*'})
+  return browser.tabs.query({active: true, currentWindow: true, url})
   .then(tabs => tabs[0]);
 };
 
@@ -142,6 +142,10 @@ mvelo.tabs.loadTab = function({path = '', hash = ''}) {
       return mvelo.tabs.activate(tabs[0], {url: url + hash});
     }
   });
+};
+
+mvelo.tabs.close = function(tab) {
+  return browser.tabs.remove(tab.id);
 };
 
 mvelo.util = {};

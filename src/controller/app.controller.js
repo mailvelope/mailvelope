@@ -379,7 +379,9 @@ export default class AppController extends sub.SubController {
     return gmailCtrl.onAuthorize({email, scopes});
   }
 
-  activateComponent({ctrlId}) {
+  async activateComponent({ctrlId}) {
+    const currentTab = await mvelo.tabs.getActive('<all_urls>');
+    mvelo.tabs.close(currentTab);
     const ctrl = sub.getById(ctrlId);
     ctrl.activateComponent();
   }

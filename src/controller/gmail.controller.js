@@ -22,6 +22,7 @@ export default class GmailController extends sub.SubController {
     this.keyringId = getPreferredKeyringId();
     this.currentAction = null;
     this.authQueue = [];
+    this.settingsTab = null;
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
     this.on('secure-reply', this.onSecureReply);
@@ -220,6 +221,8 @@ export default class GmailController extends sub.SubController {
     } else {
       this.activateComponent();
     }
+    mvelo.tabs.close(this.settingsTab);
+    this.settingsTab = null;
   }
 
   checkAuthorization(email, scopes) {
@@ -230,6 +233,6 @@ export default class GmailController extends sub.SubController {
     this.authQueue.push(ctrlId);
     const slotId = getHash();
     setAppDataSlot(slotId, {email, scopes, ctrlId});
-    mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
+    this.settingsTab = await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
   }
 }

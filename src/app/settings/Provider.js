@@ -60,7 +60,7 @@ export default class Provider extends React.Component {
 
   openOAuthDialog({email, scopes, ctrlId}) {
     this.setState({showAuthModal: true, authMessage: this.getAuthMessage(email, scopes), authModalCallback: async () => {
-      await port.send('authorize-gmail', {email, scopes, ctrlId});
+      await port.send('authorize-gmail', {email, scopes});
       await this.loadAuthorisations();
       this.setState({showAuthModal: false});
     }, authModalClose: () => this.setState({showAuthModal: false}, () => port.emit('activate-component', {ctrlId}))});
