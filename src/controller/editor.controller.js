@@ -55,33 +55,41 @@ export default class EditorController extends sub.SubController {
     this.on('open-app', ({fragment}) => this.openApp(fragment));
   }
 
-  onEditorMount() {
+  async onEditorMount() {
     this.ports.editor.emit('set-mode', {
       embedded: Boolean(this.ports.editorCont),
       integration: this.integration
     });
     if (this.integration) {
-      this.checkAuthorization();
+      this.gmailCtrl = sub.getByMainType('gmailInt')[0];
+      const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
+      const accessToken = await this.gmailCtrl.checkAuthorization(this.options.userEmail, scopes);
+      if (!accessToken) {
+        this.authorize(scopes);
+      }
     }
   }
 
-  async checkAuthorization() {
-    const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-    const accessToken = await gmail.getAccessToken(this.options.userEmail, scopes);
-    if (!accessToken) {
-      this.openAuthorizeDialog(scopes);
-    }
+  authorize(scopes) {
+    this.ports.editor.emit('error-message', {
+      error: {
+        code: 'AUTHORIZATION_REQUIRED',
+        message: 'gmail_integration_auth_error_send',
+        autoHide: false,
+        dismissable: false
+      }
+    });
+    this.gmailCtrl.openAuthorizeDialog({email: this.options.userEmail, scopes, ctrlId: this.id});
   }
 
-  async onAuthorize() {
-    try {
-      await gmail.authorize(this.options.userEmail, [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]);
+  onAuthorized({error}) {
+    if (!error) {
       this.ports.editor.emit('hide-notification');
-    } catch (e) {
+    } else {
       this.ports.editor.emit('error-message', {
         error: {
           code: 'AUTHORIZATION_FAILED',
-          message: e.message,
+          message: error.message,
           autoHide: false,
           dismissable: false
         }
@@ -94,18 +102,6 @@ export default class EditorController extends sub.SubController {
     if (this.popup) {
       this.popup.activate();
     }
-  }
-
-  openAuthorizeDialog(scopes) {
-    this.ports.editor.emit('error-message', {
-      error: {
-        code: 'AUTHORIZATION_REQUIRED',
-        message: 'gmail_integration_auth_error_send',
-        autoHide: false,
-        dismissable: false
-      }
-    });
-    gmail.openAuthorizeDialog({email: this.options.userEmail, scopes, ctrlId: this.id});
   }
 
   async onEditorLoad() {

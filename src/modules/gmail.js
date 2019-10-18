@@ -8,7 +8,6 @@ import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
 import {deDup} from '../lib/util';
 import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
-import {setAppDataSlot} from '../controller/sub.controller';
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
 
@@ -149,12 +148,6 @@ export async function authorize(email, scopes = []) {
   } else {
     throw new Error('JWT token invalid!');
   }
-}
-
-export async function openAuthorizeDialog({email, scopes, ctrlId}) {
-  const slotId = getHash();
-  setAppDataSlot(slotId, {email, scopes, ctrlId});
-  mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
 }
 
 export async function unauthorize(email) {

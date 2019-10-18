@@ -17,13 +17,13 @@ export default class gmailDecryptController extends DecryptController {
   constructor(port) {
     super(port);
     this.actionQueue = [];
+    this.gmailCtrl = sub.getByMainType('gmailInt')[0];
     // register event handlers
     this.on('set-data', this.onSetData);
     this.on('download-enc-attachment', this.onDownloadEncAttachment);
   }
 
   async onDecryptMessageInit() {
-    console.log('decryptMessage init on gmailDecryptController');
     super.onDecryptMessageInit();
     if (this.ports.aFrameGmail) {
       this.ports.aFrameGmail.emit('get-data');
@@ -51,13 +51,17 @@ export default class gmailDecryptController extends DecryptController {
     }
   }
 
-  async onAuthorize() {
-    try {
-      const accessToken = await gmail.authorize(this.userEmail, [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]);
+  authorize(scopes) {
+    this.ports.dDialog.emit('error-message', {error: l10n.get('gmail_integration_auth_error_download')});
+    this.gmailCtrl.openAuthorizeDialog({email: this.userEmail, scopes, ctrlId: this.id});
+  }
+
+  onAuthorized({error, accessToken}) {
+    if (!error) {
       this.ports.dDialog.emit('hide-error-message');
       this.executeActionQueue(accessToken);
-    } catch (e) {
-      this.ports.dDialog.emit('error-message', {error: e.messageText});
+    } else {
+      this.ports.dDialog.emit('error-message', {error: error.messageText});
     }
     this.activateComponent();
   }
@@ -65,10 +69,10 @@ export default class gmailDecryptController extends DecryptController {
   async executeActionQueue(accessToken) {
     const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
     if (!accessToken) {
-      accessToken = await gmail.getAccessToken(this.userEmail, scopes);
+      accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
     }
     if (!accessToken) {
-      this.openAuthorizeDialog(scopes);
+      this.authorize(scopes);
     } else {
       if (this.actionQueue.length) {
         for (const action of this.actionQueue) {
@@ -120,7 +124,7 @@ export default class gmailDecryptController extends DecryptController {
     const encFileNames = encAttFileNames.filter(fileName => extractFileExtension(fileName) !== 'asc');
     this.ports.dDialog.emit('set-enc-attachments', {encAtts: encFileNames});
     const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-    const accessToken = await gmail.getAccessToken(userEmail, scopes);
+    const accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
     if (clipped) {
       if (!accessToken) {
         this.registerAction('clipped');
@@ -192,11 +196,11 @@ export default class gmailDecryptController extends DecryptController {
   async onDownloadEncAttachment({fileName, accessToken}) {
     const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
     if (!accessToken) {
-      accessToken = await gmail.getAccessToken(this.userEmail, scopes);
+      accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
     }
     if (!accessToken) {
       this.registerAction('attachment', {fileName});
-      this.openAuthorizeDialog(scopes);
+      this.authorize(scopes);
     } else {
       const {data} = await gmail.getAttachment({fileName, email: this.userEmail, msgId: this.msgId, accessToken});
       const armored = dataURL2str(data);
@@ -215,11 +219,6 @@ export default class gmailDecryptController extends DecryptController {
         this.ports.dDialog.emit('error-message', {error: error.message});
       }
     }
-  }
-
-  openAuthorizeDialog(scopes) {
-    this.ports.dDialog.emit('error-message', {error: l10n.get('gmail_integration_auth_error_download')});
-    gmail.openAuthorizeDialog({email: this.userEmail, scopes, ctrlId: this.id});
   }
 
   async decrypt(armored, keyringId) {

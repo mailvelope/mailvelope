@@ -9,6 +9,7 @@ import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
 import * as l10n from '../lib/l10n';
+import {setAppDataSlot} from '../controller/sub.controller';
 
 export default class GmailController extends sub.SubController {
   constructor(port) {
@@ -20,6 +21,7 @@ export default class GmailController extends sub.SubController {
     this.editorControl = null;
     this.keyringId = getPreferredKeyringId();
     this.currentAction = null;
+    this.authQueue = [];
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
     this.on('secure-reply', this.onSecureReply);
@@ -72,7 +74,7 @@ export default class GmailController extends sub.SubController {
       const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
       const accessToken = await gmail.getAccessToken(userEmail, scopes);
       if (!accessToken) {
-        this.editorControl.openAuthorizeDialog(scopes);
+        this.editorControl.authorize(scopes);
       } else {
         const sendOptions = {
           email: userEmail,
@@ -122,7 +124,7 @@ export default class GmailController extends sub.SubController {
         this.tabId = id;
       }
       this.currentAction = {type: 'reply', msgId, all, userEmail};
-      gmail.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
+      this.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
       return;
     }
     const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
@@ -162,7 +164,7 @@ export default class GmailController extends sub.SubController {
         this.tabId = id;
       }
       this.currentAction = {type: 'forward', msgId, userEmail};
-      gmail.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
+      this.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
       return;
     }
     const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
@@ -191,8 +193,10 @@ export default class GmailController extends sub.SubController {
   }
 
   async onAuthorize({email, scopes}) {
+    let accessToken;
+    let error;
     try {
-      await gmail.authorize(email, scopes);
+      accessToken = await gmail.authorize(email, scopes);
       if (this.currentAction) {
         if (this.currentAction.type === 'reply') {
           this.onSecureReply(this.currentAction);
@@ -202,8 +206,30 @@ export default class GmailController extends sub.SubController {
         this.currentAction = null;
       }
     } catch (e) {
+      error = e;
       console.log(e);
     }
-    this.activateComponent();
+    if (this.authQueue.length) {
+      for (const ctrlId of this.authQueue) {
+        const ctrl = sub.getById(ctrlId);
+        if (ctrl) {
+          ctrl.onAuthorized({error, accessToken});
+        }
+      }
+      this.authQueue = [];
+    } else {
+      this.activateComponent();
+    }
+  }
+
+  checkAuthorization(email, scopes) {
+    return gmail.getAccessToken(email, scopes);
+  }
+
+  async openAuthorizeDialog({email, scopes, ctrlId}) {
+    this.authQueue.push(ctrlId);
+    const slotId = getHash();
+    setAppDataSlot(slotId, {email, scopes, ctrlId});
+    mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
   }
 }
