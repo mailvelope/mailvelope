@@ -29,6 +29,7 @@ export default class DecryptFrame extends ExtractFrame {
     super.renderFrame();
     const para = document.createElement('p');
     para.textContent = l10n.map.decrypt_frame_help_text;
+    this.eFrame.dataset.mvControllerType = 'dFrame';
     this.eFrame.append(para);
     this.eFrame.classList.add('m-decrypt');
   }
@@ -47,7 +48,7 @@ export default class DecryptFrame extends ExtractFrame {
     const armored = this.getPGPMessage();
     if (this.currentProvider.integration && this.currentProvider.integration.getMsgByControllerId(this.id)) {
       const {msgId, att} = this.currentProvider.integration.getMsgByControllerId(this.id);
-      this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId, encAttFileNames: att, armored, sender});
+      this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId, encAttFileNames: att, armored, sender, gmailCtrlId: this.currentProvider.integration.id});
     } else {
       this.port.emit('set-armored', {
         data: armored,

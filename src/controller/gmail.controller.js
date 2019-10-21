@@ -14,10 +14,6 @@ import {setAppDataSlot} from '../controller/sub.controller';
 export default class GmailController extends sub.SubController {
   constructor(port) {
     super(port);
-    if (!port) {
-      this.mainType = 'gmailInt';
-      this.id = getHash();
-    }
     this.editorControl = null;
     this.keyringId = getPreferredKeyringId();
     this.currentAction = null;

@@ -17,7 +17,7 @@ export default class gmailDecryptController extends DecryptController {
   constructor(port) {
     super(port);
     this.actionQueue = [];
-    this.gmailCtrl = sub.getByMainType('gmailInt')[0];
+    this.gmailCtrl = null;
     // register event handlers
     this.on('set-data', this.onSetData);
     this.on('download-enc-attachment', this.onDownloadEncAttachment);
@@ -32,7 +32,8 @@ export default class gmailDecryptController extends DecryptController {
 
   onDecrypt() {
     if (this.armored) {
-      this.decrypt(this.armored, this.keyringId);
+      this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
+      super.decrypt(this.armored, this.keyringId);
     } else {
       this.executeActionQueue();
     }
@@ -46,6 +47,7 @@ export default class gmailDecryptController extends DecryptController {
     this.armored = msg.data;
     if (!preventUnlock && (!this.ports.dFrameGmail || this.popup || await this.canUnlockKey(this.armored, this.keyringId))) {
       if (!/-----BEGIN\sPGP\sSIGNATURE/.test(this.armored)) {
+        this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
         await super.decrypt(this.armored, this.keyringId);
       } else {
         await this.verify(this.armored, this.keyringId);
@@ -115,7 +117,8 @@ export default class gmailDecryptController extends DecryptController {
     }
   }
 
-  async onSetData({userEmail, msgId, sender, armored, clearText, clipped, encAttFileNames}) {
+  async onSetData({userEmail, msgId, sender, armored, clearText, clipped, encAttFileNames, gmailCtrlId}) {
+    this.gmailCtrl = sub.getById(gmailCtrlId);
     this.userEmail = userEmail;
     this.msgId = msgId;
     if (armored) {

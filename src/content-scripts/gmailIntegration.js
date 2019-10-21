@@ -42,6 +42,7 @@ export default class GmailIntegration {
   registerEventListener() {
     document.addEventListener('mailvelope-observe', async () => this.updateElements());
     this.port.on('get-user-email', this.getGmailUser);
+    this.port.on('update-message-data', this.onUpdateMessageData);
   }
 
   getGmailUser() {
@@ -60,6 +61,12 @@ export default class GmailIntegration {
   getMsgId(msgElem) {
     const rawID = msgElem.dataset.messageId;
     return rawID[0] === '#' ? rawID.substr(1) : rawID;
+  }
+
+  onUpdateMessageData({msgId, data}) {
+    const msg = this.selectedMsgs.get(msgId);
+    this.selectedMsgs.set(msgId, {...msg, ...data});
+    this.scanMessages();
   }
 
   getMsgByControllerId(controllerId) {
@@ -101,7 +108,7 @@ export default class GmailIntegration {
     this.editorBtnRoot.dataset[FRAME_STATUS] = FRAME_ATTACHED;
   }
 
-  async scanArmored() {
+  async scanMessages() {
     const msgs = document.querySelectorAll('[data-message-id]');
     const currentMsgs = new Map();
     for (const msgElem of msgs) {
@@ -109,13 +116,17 @@ export default class GmailIntegration {
       const msgId = this.getMsgId(msgElem);
       const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
       if (mvFrame) {
-        msgData.controllerId =  this.getControllerID(mvFrame);
+        const {id, type} = this.getControllerDetails(mvFrame);
+        msgData.controllerId = id;
+        msgData.controllerType = type;
       }
       const selected = this.selectedMsgs && this.selectedMsgs.get(msgId);
       if (selected) {
         selected.controllerId = msgData.controllerId || selected.controllerId;
         currentMsgs.set(msgId, selected);
-        this.addBottomBtns(msgId, msgElem);
+        if (selected.controllerType === 'dFrame' || selected.clipped || selected.secureAction) {
+          this.addBottomBtns(msgId, msgElem);
+        }
         continue;
       }
       if (this.hasClippedArmored(msgElem)) {
@@ -125,6 +136,7 @@ export default class GmailIntegration {
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
         const aFrame = new AttachmentFrame();
         msgData.controllerId = aFrame.id;
+        msgData.controllerType = aFrame.mainType;
         const containerElem = msgElem.querySelector('.ii.gt');
         aFrame.attachTo(containerElem);
         if (msgData.att.length) {
@@ -140,18 +152,19 @@ export default class GmailIntegration {
         msgData.msgId = msgId;
         // add top and menu buttons
         this.attachMsgBtns(msgId, msgElem, msgData);
-        // add bottom buttons
-        this.addBottomBtns(msgId, msgElem);
-
+        // add bottom buttons in case of decryp frame
+        if (msgData.controllerType === 'dFrame' || msgData.clipped) {
+          this.addBottomBtns(msgId, msgElem);
+        }
         currentMsgs.set(msgId, msgData);
       }
     }
     this.selectedMsgs = currentMsgs;
   }
 
-  getControllerID(frameElem) {
-    const controllerId = frameElem.lastChild.shadowRoot.querySelector('.m-extract-frame').id;
-    return parseViewName(controllerId).id;
+  getControllerDetails(frameElem) {
+    const eframe = frameElem.lastChild.shadowRoot.querySelector('.m-extract-frame');
+    return {id: parseViewName(eframe.id).id, type: eframe.dataset.mvControllerType};
   }
 
   hasClippedArmored(msgElem) {
@@ -303,7 +316,7 @@ export default class GmailIntegration {
   async updateElements() {
     if (this.getGmailUser()) {
       this.attachEditorBtn();
-      await this.scanArmored();
+      await this.scanMessages();
     }
   }
 
@@ -324,7 +337,6 @@ export default class GmailIntegration {
       if (!msgElem) {
         continue;
       }
-      console.log(msgElem.querySelectorAll('[data-mv-btn-top]'));
       msgElem.querySelectorAll('[data-mv-btn-top]').forEach(node => node.parentNode.removeChild(node));
       const menuBtnElem = msgElem.querySelector('[data-mv-menu-btns]');
       if (menuBtnElem) {
