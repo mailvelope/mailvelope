@@ -57,12 +57,9 @@ export default class GmailIntegration {
     return this.userEmail;
   }
 
-  getMsgLegacyId(msgId) {
-    const msgElem = document.querySelector(`[data-message-id="${msgId}"]`);
-    if (!msgElem) {
-      return;
-    }
-    return msgElem.dataset.legacyMessageId;
+  getMsgId(msgElem) {
+    const rawID = msgElem.dataset.messageId;
+    return rawID[0] === '#' ? rawID.substr(1) : rawID;
   }
 
   getMsgByControllerId(controllerId) {
@@ -109,7 +106,7 @@ export default class GmailIntegration {
     const currentMsgs = new Map();
     for (const msgElem of msgs) {
       const msgData = {};
-      const msgId = msgElem.dataset.messageId;
+      const msgId = this.getMsgId(msgElem);
       const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
       if (mvFrame) {
         msgData.controllerId =  this.getControllerID(mvFrame);
@@ -141,7 +138,11 @@ export default class GmailIntegration {
       }
       if (msgData.controllerId) {
         msgData.msgId = msgId;
+        // add top and menu buttons
         this.attachMsgBtns(msgId, msgElem, msgData);
+        // add bottom buttons
+        this.addBottomBtns(msgId, msgElem);
+
         currentMsgs.set(msgId, msgData);
       }
     }
@@ -221,8 +222,6 @@ export default class GmailIntegration {
       };
       menuBtn.addEventListener('blur', msgData.menuBlurHandler, {capture: true});
     }
-    // add bottom buttons
-    this.addBottomBtns(msgId, msgElem);
   }
 
   addBottomBtns(msgId, msgElem) {
@@ -320,11 +319,12 @@ export default class GmailIntegration {
       this.editorBtn.parentNode.removeChild(this.editorBtn);
       this.editorBtnRoot.dataset[FRAME_STATUS] = FRAME_DETACHED;
     }
-    for (const {msgId, menuClickHandler, menuBlurHandler, clipped} of this.selectedMsgs) {
+    for (const {msgId, menuClickHandler, menuBlurHandler, clipped} of this.selectedMsgs.values()) {
       const msgElem = document.querySelector(`[data-message-id="${msgId}"]`);
       if (!msgElem) {
         continue;
       }
+      console.log(msgElem.querySelectorAll('[data-mv-btn-top]'));
       msgElem.querySelectorAll('[data-mv-btn-top]').forEach(node => node.parentNode.removeChild(node));
       const menuBtnElem = msgElem.querySelector('[data-mv-menu-btns]');
       if (menuBtnElem) {
@@ -352,12 +352,12 @@ export default class GmailIntegration {
   }
 
   onReplyButton(ev, msgId, all = false) {
-    this.port.emit('secure-reply', {msgId: this.getMsgLegacyId(msgId), all, userEmail: this.getGmailUser()});
+    this.port.emit('secure-reply', {msgId, all, userEmail: this.getGmailUser()});
     ev.stopPropagation();
   }
 
   onForwardButton(ev, msgId) {
-    this.port.emit('secure-forward', {msgId: this.getMsgLegacyId(msgId), userEmail: this.getGmailUser()});
+    this.port.emit('secure-forward', {msgId, userEmail: this.getGmailUser()});
     ev.stopPropagation();
   }
 
