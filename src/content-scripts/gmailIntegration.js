@@ -202,24 +202,25 @@ export default class GmailIntegration {
 
     // add menu items - TODO: improve click handler as it fails attaching the secure buttons to the menu in some rare cases
     const menuBtn = actionBtnsTopRoot.querySelector('.T-I-Js-Gs.aap.T-I-awG');
-    menuBtn.dataset.mvMenuBtns = FRAME_ATTACHED;
-    msgData.menuClickHandler = () => {
-      setTimeout(() => {
-        this.menuPopover = document.querySelector('.b7.J-M[role="menu"]');
-        this.addMenuBtn('reply', this.menuPopover, null, ev => this.onReplyButton(ev, msgId));
-        const replyMenuItem = this.menuPopover.querySelector('[role="menuitem"][id="r2"]');
-        if (replyMenuItem.style.display !== 'none') {
-          this.addMenuBtn('replyAll', this.menuPopover, replyMenuItem, ev => this.onReplyButton(ev, msgId, true));
-        }
-        this.addMenuBtn('forward', this.menuPopover, this.menuPopover.querySelector('[role="menuitem"][id="r3"]'), ev => this.onForwardButton(ev, msgId));
-      }, !this.menuPopover ? 50 : 0);
-    };
-    menuBtn.addEventListener('click', msgData.menuClickHandler, {capture: true});
-    msgData.menuBlurHandler = () => {
-      this.cleanupMenuBtns();
-    };
-    menuBtn.addEventListener('blur', msgData.menuBlurHandler, {capture: true});
-
+    if (menuBtn) {
+      menuBtn.dataset.mvMenuBtns = FRAME_ATTACHED;
+      msgData.menuClickHandler = () => {
+        setTimeout(() => {
+          this.menuPopover = document.querySelector('.b7.J-M[role="menu"]');
+          this.addMenuBtn('reply', this.menuPopover, null, ev => this.onReplyButton(ev, msgId));
+          const replyMenuItem = this.menuPopover.querySelector('[role="menuitem"][id="r2"]');
+          if (replyMenuItem.style.display !== 'none') {
+            this.addMenuBtn('replyAll', this.menuPopover, replyMenuItem, ev => this.onReplyButton(ev, msgId, true));
+          }
+          this.addMenuBtn('forward', this.menuPopover, this.menuPopover.querySelector('[role="menuitem"][id="r3"]'), ev => this.onForwardButton(ev, msgId));
+        }, !this.menuPopover ? 50 : 0);
+      };
+      menuBtn.addEventListener('click', msgData.menuClickHandler, {capture: true});
+      msgData.menuBlurHandler = () => {
+        this.cleanupMenuBtns();
+      };
+      menuBtn.addEventListener('blur', msgData.menuBlurHandler, {capture: true});
+    }
     // add bottom buttons
     this.addBottomBtns(msgId, msgElem);
   }
