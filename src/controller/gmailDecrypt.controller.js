@@ -45,7 +45,11 @@ export default class gmailDecryptController extends DecryptController {
     }
     this.armored = msg.data;
     if (!preventUnlock && (!this.ports.dFrameGmail || this.popup || await this.canUnlockKey(this.armored, this.keyringId))) {
-      await this.decrypt(this.armored, this.keyringId);
+      if (!/-----BEGIN\sPGP\sSIGNATURE/.test(this.armored)) {
+        await super.decrypt(this.armored, this.keyringId);
+      } else {
+        await this.verify(this.armored, this.keyringId);
+      }
     } else {
       this.ports.dDialog.emit('lock');
     }
@@ -122,7 +126,9 @@ export default class gmailDecryptController extends DecryptController {
     }
     this.encAttFileNames = encAttFileNames;
     const encFileNames = encAttFileNames.filter(fileName => extractFileExtension(fileName) !== 'asc');
-    this.ports.dDialog.emit('set-enc-attachments', {encAtts: encFileNames});
+    if (encFileNames.length) {
+      this.ports.dDialog.emit('set-enc-attachments', {encAtts: encFileNames});
+    }
     const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
     const accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
     if (clipped) {
@@ -142,7 +148,7 @@ export default class gmailDecryptController extends DecryptController {
         await this.onAscAttachments(ascFileNames, accessToken);
       }
     }
-    this.ports.dDialog.emit('waiting', {waiting: false});
+    this.ports.dDialog.emit('waiting', {waiting: false, unlock: accessToken ? true : false});
   }
 
   async onAscAttachments(fileNames, accessToken, forceUnlock = false) {
@@ -221,35 +227,31 @@ export default class gmailDecryptController extends DecryptController {
     }
   }
 
-  async decrypt(armored, keyringId) {
-    if (!/-----BEGIN\sPGP\sSIGNATURE/.test(armored)) {
-      super.decrypt(armored, keyringId);
-    } else {
-      this.ports.dDialog.emit('waiting', {waiting: true});
-      try {
-        const {signatures} = await model.verifyDetachedSignature({
-          plaintext: this.options.signedText,
-          signerEmail: this.options.senderAddress,
-          detachedSignature: armored,
-          keyringId,
-          lookupKey: () => lookupKey({keyringId, email: this.options.senderAddress})
-        });
-        this.ports.dDialog.emit('verified-message', {
-          message: this.options.plainText,
-          signers: signatures
-        });
-      } catch (error) {
-        if (error.code === 'PWD_DIALOG_CANCEL') {
-          if (this.ports.dFrame) {
-            return this.dialogCancel();
-          }
-        }
-        if (this.ports.dDialog) {
-          this.ports.dDialog.emit('error-message', {error: error.message});
+  async verify(armored, keyringId) {
+    this.ports.dDialog.emit('waiting', {waiting: true});
+    try {
+      const {signatures} = await model.verifyDetachedSignature({
+        plaintext: this.options.signedText,
+        signerEmail: this.options.senderAddress,
+        detachedSignature: armored,
+        keyringId,
+        lookupKey: () => lookupKey({keyringId, email: this.options.senderAddress})
+      });
+      this.ports.dDialog.emit('verified-message', {
+        message: this.options.plainText,
+        signers: signatures
+      });
+    } catch (error) {
+      if (error.code === 'PWD_DIALOG_CANCEL') {
+        if (this.ports.dFrame) {
+          return this.dialogCancel();
         }
       }
-      this.ports.dDialog.emit('waiting', {waiting: false});
+      if (this.ports.dDialog) {
+        this.ports.dDialog.emit('error-message', {error: error.message});
+      }
     }
+    this.ports.dDialog.emit('waiting', {waiting: false, unlock: true});
   }
 
   async importKey(armored) {

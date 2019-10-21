@@ -79,7 +79,7 @@ export default class DecryptMessage extends React.Component {
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
     this.port.on('terminate', this.onTerminate);
     this.port.on('set-enc-attachments', this.onEncAttachments);
-    this.port.on('waiting', ({waiting}) => this.setState({waiting}));
+    this.port.on('waiting', this.onWaiting);
   }
 
   onTerminate() {
@@ -98,6 +98,13 @@ export default class DecryptMessage extends React.Component {
     this.setState({waiting: false, locked: true});
   }
 
+  onWaiting({waiting, unlock = false}) {
+    this.setState(prevState => ({
+      waiting,
+      locked: unlock ? false : prevState.unlock
+    }));
+  }
+
   onVerifiedMessage({message, signers}) {
     this.onSignatureVerification({signers});
     this.onDecryptedMessage({message, clearText: true});
@@ -107,7 +114,7 @@ export default class DecryptMessage extends React.Component {
     if (clearText) {
       message = `<pre style="color: inherit; font-size: inherit;">${encodeHTML(message)}</pre>`;
     }
-    this.setState({message, clearText, locked: false});
+    this.setState({message, clearText});
   }
 
   onDecryptedAttachment({attachment}) {

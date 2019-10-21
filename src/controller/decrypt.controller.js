@@ -173,7 +173,7 @@ export default class DecryptController extends sub.SubController {
         this.ports.decryptCont.emit('error-message', {error: err});
       }
     }
-    this.ports.dDialog.emit('waiting', {waiting: false});
+    this.ports.dDialog.emit('waiting', {waiting: false, unlock: true});
   }
 
   async unlockKey({key, message}) {
