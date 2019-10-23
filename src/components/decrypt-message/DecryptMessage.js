@@ -101,7 +101,7 @@ export default class DecryptMessage extends React.Component {
   onWaiting({waiting, unlock = false}) {
     this.setState(prevState => ({
       waiting,
-      locked: unlock ? false : prevState.unlock
+      locked: unlock ? false : prevState.locked
     }));
   }
 
