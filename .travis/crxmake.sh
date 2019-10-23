@@ -14,30 +14,45 @@ crx="$name.crx"
 pub="$name.pub"
 sig="$name.sig"
 zip="$name.zip"
-trap 'rm -f "$pub" "$sig" "$zip"' EXIT
+tosign="$name.presig"
+binary_crx_id="$name.crxid"
+trap 'rm -f "$pub" "$sig" "$zip" "$tosign" "$binary_crx_id"' EXIT
 
 # zip up the crx dir
 cwd=$(pwd -P)
 (cd "$dir" && zip -qr -9 -X "$cwd/$zip" .)
 
+#extract crx id
+openssl rsa -in "$key" -pubout -outform der | openssl dgst -sha256 -binary -out "$binary_crx_id"
+truncate -s 16 "$binary_crx_id"
+
+#generate file to sign
+(
+  # echo "$crmagic_hex $version_hex $header_length $pub_len_hex $sig_len_hex"
+  printf "CRX3 SignedData"
+  echo "00 12 00 00 00 0A 10" | xxd -r -p
+  cat "$binary_crx_id" "$zip"
+) > "$tosign"
+
 # signature
-openssl sha1 -sha1 -binary -sign "$key" < "$zip" > "$sig"
+openssl dgst -sha256 -binary -sign "$key" < "$tosign" > "$sig"
 
 # public key
 openssl rsa -pubout -outform DER < "$key" > "$pub" 2>/dev/null
 
-byte_swap () {
-  # Take "abcdefgh" and return it as "ghefcdab"
-  echo "${1:6:2}${1:4:2}${1:2:2}${1:0:2}"
-}
-
-crmagic_hex="4372 3234" # Cr24
-version_hex="0200 0000" # 2
-pub_len_hex=$(byte_swap $(printf '%08x\n' $(ls -l "$pub" | awk '{print $5}')))
-sig_len_hex=$(byte_swap $(printf '%08x\n' $(ls -l "$sig" | awk '{print $5}')))
+crmagic_hex="43 72 32 34" # Cr24
+version_hex="03 00 00 00" # 3
+header_length="45 02 00 00"
+header_chunk_1="12 AC 04 0A A6 02"
+header_chunk_2="12 80 02"
+header_chunk_3="82 F1 04 12 0A 10"
 (
-  echo "$crmagic_hex $version_hex $pub_len_hex $sig_len_hex" | xxd -r -p
-  cat "$pub" "$sig" "$zip"
+  echo "$crmagic_hex $version_hex $header_length $header_chunk_1" | xxd -r -p
+  cat "$pub"
+  echo "$header_chunk_2" | xxd -r -p
+  cat "$sig"
+  echo "$header_chunk_3" | xxd -r -p
+  cat "$binary_crx_id" "$zip"
 ) > "$crx"
 echo "Wrote $crx"
 mv "$crx" dist/mailvelope.chrome.crx
