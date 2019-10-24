@@ -104,8 +104,10 @@ export default class gmailDecryptController extends DecryptController {
       this.actionQueue.push({type: action, options});
     }
     if (!this.tabId) {
-      const {id} = await mvelo.tabs.getActive();
-      this.tabId = id;
+      const activeTab = await mvelo.tabs.getActive();
+      if (activeTab) {
+        this.tabId = activeTab.id;
+      }
     }
   }
 

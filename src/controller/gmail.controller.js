@@ -208,7 +208,7 @@ export default class GmailController extends sub.SubController {
   async openAuthorizeDialog({email, scopes, ctrlId}) {
     this.authQueue.push(ctrlId);
     const slotId = getHash();
-    setAppDataSlot(slotId, {email, scopes, ctrlId});
+    setAppDataSlot(slotId, {email, scopes, gmailCtrlId: this.id, ctrlId});
     this.settingsTab = await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
   }
 }
