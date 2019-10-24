@@ -1417,7 +1417,7 @@
   },
   "provider_gmail_integration"  : {
     "description": "Label for Gmail integration option.",
-    "message": "Activate Gmail integration"
+    "message": "Activate Gmail integration (experimental)"
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
