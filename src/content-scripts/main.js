@@ -73,7 +73,11 @@ function registerEventListener() {
 
 function onDestroy() {
   off();
-  port.disconnect();
+  if (currentProvider.integration) {
+    currentProvider.integration.deactivate();
+  }
+  // re-init provider specific content scripts
+  init(prefs, watchList);
 }
 
 function detectHost() {
@@ -122,6 +126,9 @@ function on() {
   domObserver.observe(document.body, {subtree: true, childList: true});
   // start DOM scan
   scanDOM();
+  if (currentProvider.integration) {
+    currentProvider.integration.updateElements();
+  }
 }
 
 function off() {

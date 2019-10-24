@@ -19,6 +19,7 @@ export default class ExtractFrame {
     this.pgpElement = null;
     this.domIntersectionObserver = null;
     this.eFrame = null;
+    this.shadowRootElem = null;
     this.port = null;
     this.currentProvider = currentProvider;
     this.clickHandler = this.clickHandler.bind(this);
@@ -66,10 +67,10 @@ export default class ExtractFrame {
       this.eFrame.classList.add('m-large');
     }
     this.eFrame.addEventListener('click', this.clickHandler);
-    this.eFrame.querySelector('.m-frame-close').addEventListener('click', this.closeFrame.bind(this, false));
-    const shadowRootElem = document.createElement('div');
-    this.pgpElement.append(shadowRootElem);
-    const eFrameShadow = shadowRootElem.attachShadow({mode: 'open'});
+    this.eFrame.querySelector('.m-frame-close').addEventListener('click', this.closeFrame.bind(this, false, false));
+    this.shadowRootElem = document.createElement('div');
+    this.pgpElement.append(this.shadowRootElem);
+    const eFrameShadow = this.shadowRootElem.attachShadow({mode: 'open'});
     const encryptContainerStyle = document.createElement('style');
     encryptContainerStyle.textContent = encryptContainerCSS;
     eFrameShadow.append(encryptContainerStyle);
@@ -87,8 +88,8 @@ export default class ExtractFrame {
 
   registerEventListener() {
     document.addEventListener('mailvelope-observe', this.setFrameDim);
-    this.port.on('destroy', () => this.closeFrame(true));
-    this.port.onDisconnect.addListener(() => this.closeFrame());
+    this.port.on('destroy', () => this.closeFrame(true, true));
+    this.port.onDisconnect.addListener(() => this.closeFrame(true, false));
   }
 
   clickHandler(callback, ev) {
@@ -106,19 +107,21 @@ export default class ExtractFrame {
     this.eFrame.classList.add('m-show');
   }
 
-  closeFrame(finalClose, ev) {
+  closeFrame(reset, disconnect, ev) {
     this.eFrame.classList.remove('m-show');
     window.setTimeout(() => {
       this.domIntersectionObserver.disconnect();
       window.removeEventListener('resize', this.setFrameDim);
-      this.eFrame.remove();
-      if (finalClose === true) {
-        this.port.disconnect();
-        this.pgpElement.dataset[FRAME_STATUS] = '';
-      } else {
-        this.pgpElement.dataset[FRAME_STATUS] = FRAME_DETACHED;
-      }
+      this.shadowRootElem.remove();
     }, 300);
+    if (reset === true) {
+      this.pgpElement.dataset[FRAME_STATUS] = '';
+    } else {
+      this.pgpElement.dataset[FRAME_STATUS] = FRAME_DETACHED;
+    }
+    if (disconnect === true) {
+      this.port.disconnect();
+    }
     if (ev instanceof Event) {
       ev.stopPropagation();
     }

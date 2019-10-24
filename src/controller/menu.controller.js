@@ -23,7 +23,7 @@ export default class MenuController extends sub.SubController {
   onBrowserAction({action}) {
     switch (action) {
       case 'reload-extension':
-        this.reloadFrames();
+        sub.reloadFrames();
         break;
       case 'activate-tab':
         this.addToWatchList();
@@ -59,24 +59,6 @@ export default class MenuController extends sub.SubController {
       default:
         console.log('unknown browser action');
     }
-  }
-
-  destroyNodes(subControllers) {
-    this.postToNodes(subControllers, 'destroy');
-  }
-
-  postToNodes(subControllers, event) {
-    subControllers.forEach(subContr => {
-      subContr.ports[subContr.mainType].emit(event);
-    });
-  }
-
-  reloadFrames() {
-    // close frames
-    this.destroyNodes(sub.getByMainType('dFrame'));
-    this.destroyNodes(sub.getByMainType('vFrame'));
-    this.destroyNodes(sub.getByMainType('eFrame'));
-    this.destroyNodes(sub.getByMainType('imFrame'));
   }
 
   getIsSetupDone() {

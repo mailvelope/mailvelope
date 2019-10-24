@@ -29,6 +29,7 @@ export default class AttachmentFrame extends ExtractFrame {
     const wrapper = containerElem.querySelector('.m-extract-wrapper');
     if (wrapper) {
       this.pgpElement = wrapper;
+      this.pgpElement.style.display = 'inline-block';
     } else {
       // create container element
       this.pgpElement = document.createElement('div');
@@ -102,10 +103,12 @@ export default class AttachmentFrame extends ExtractFrame {
     this.eFrame.addEventListener('click', this.clickHandler);
   }
 
-  closeFrame(finalClose, ev) {
-    super.closeFrame(finalClose, ev);
+  closeFrame(reset, disconnect, ev) {
+    super.closeFrame(reset, disconnect, ev);
+    if (!reset) {
+      this.currentProvider.integration.onCloseFrame(this.id);
+    }
     this.pgpElement.style.display = 'none';
-    this.currentProvider.integration.onCloseFrame(this.id);
   }
 
   setFrameDim() {

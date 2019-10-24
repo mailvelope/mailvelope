@@ -26,6 +26,7 @@ export default class GmailIntegration {
     this.editorBtn = null;
     this.selectedMsgs = null;
     this.userEmail = null;
+    this.updateElements = this.updateElements.bind(this);
   }
 
   init() {
@@ -36,12 +37,12 @@ export default class GmailIntegration {
 
   establishConnection() {
     this.port = EventHandler.connect(`gmailInt-${this.id}`, this);
-    this.port.onDisconnect.addListener(this.removeElements.bind(this, false));
+    this.port.onDisconnect.addListener(this.deactivate.bind(this));
   }
 
   registerEventListener() {
-    document.addEventListener('mailvelope-observe', async () => this.updateElements());
-    this.port.on('get-user-email', this.getGmailUser);
+    document.addEventListener('mailvelope-observe', this.updateElements);
+    // this.port.on('get-user-email', this.getGmailUser);
     this.port.on('update-message-data', this.onUpdateMessageData);
   }
 
@@ -327,17 +328,23 @@ export default class GmailIntegration {
     }
   }
 
+  deactivate() {
+    document.removeEventListener('mailvelope-observe', this.updateElements);
+    this.removeElements();
+    this.selectedMsgs = null;
+  }
+
   removeElements() {
     if (this.editorBtn) {
       this.editorBtn.parentNode.removeChild(this.editorBtn);
-      this.editorBtnRoot.dataset[FRAME_STATUS] = FRAME_DETACHED;
+      this.editorBtnRoot.dataset[FRAME_STATUS] = '';
     }
     for (const {msgId, menuClickHandler, menuBlurHandler, clipped} of this.selectedMsgs.values()) {
-      const msgElem = document.querySelector(`[data-message-id="${msgId}"]`);
+      const msgElem = document.querySelector(`[data-message-id="#${msgId}"]`);
       if (!msgElem) {
         continue;
       }
-      msgElem.querySelectorAll('[data-mv-btn-top]').forEach(node => node.parentNode.removeChild(node));
+      msgElem.querySelectorAll('[data-mv-btn-top]').forEach(node => node.parentNode && node.parentNode.removeChild(node));
       const menuBtnElem = msgElem.querySelector('[data-mv-menu-btns]');
       if (menuBtnElem) {
         menuBtnElem.removeEventListener('click', menuClickHandler, true);
@@ -352,8 +359,10 @@ export default class GmailIntegration {
     const btnsBottomElem = document.querySelector('[data-mv-btns-bottom]');
     if (btnsBottomElem) {
       const parent = btnsBottomElem.parentNode;
-      parent.removeChild(btnsBottomElem);
-      parent.querySelectorAll('span.ams[role="link"]').forEach(node => node.style.display = 'inline-flex');
+      if (parent) {
+        parent.removeChild(btnsBottomElem);
+        parent.querySelectorAll('span.ams[role="link"]').forEach(node => node.style.display = 'inline-flex');
+      }
     }
     this.cleanupMenuBtns();
   }

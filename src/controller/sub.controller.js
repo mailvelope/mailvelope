@@ -218,3 +218,24 @@ export function getAppDataSlot(key) {
   appDataSlot.delete(key);
   return value;
 }
+
+function destroyNodes(subControllers) {
+  postToNodes(subControllers, 'destroy');
+}
+
+function postToNodes(subControllers, event) {
+  subControllers.forEach(subContr => {
+    subContr.ports[subContr.mainType].emit(event);
+  });
+}
+
+export function reloadFrames() {
+  // close frames
+  destroyNodes(getByMainType('dFrame'));
+  destroyNodes(getByMainType('dFrameGmail'));
+  destroyNodes(getByMainType('aFrameGmail'));
+  destroyNodes(getByMainType('vFrame'));
+  destroyNodes(getByMainType('eFrame'));
+  destroyNodes(getByMainType('imFrame'));
+  destroyNodes(getByMainType('mainCS'));
+}

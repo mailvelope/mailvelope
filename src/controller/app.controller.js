@@ -81,6 +81,7 @@ export default class AppController extends sub.SubController {
   async updatePreferences(options) {
     const updateOpenPGPFlag = options.prefs.security && options.prefs.security.hide_armored_header !== prefs.prefs.security.hide_armored_header;
     const disabledAutocryptFlag = options.prefs.keyserver && options.prefs.keyserver.autocrypt_lookup === false  && prefs.prefs.keyserver.autocrypt_lookup;
+    const reloadExtensionFlag = options.prefs.provider && options.prefs.provider.gmail_integration !== prefs.prefs.provider.gmail_integration;
     await prefs.update(options.prefs);
     // update content scripts
     sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
@@ -89,6 +90,9 @@ export default class AppController extends sub.SubController {
     }
     if (disabledAutocryptFlag) {
       await autocrypt.deleteIdentities(getAllKeyringIds());
+    }
+    if (reloadExtensionFlag) {
+      sub.reloadFrames();
     }
   }
 
