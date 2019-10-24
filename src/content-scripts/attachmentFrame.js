@@ -29,13 +29,12 @@ export default class AttachmentFrame extends ExtractFrame {
     const wrapper = containerElem.querySelector('.m-extract-wrapper');
     if (wrapper) {
       this.pgpElement = wrapper;
-      this.pgpElement.style.display = 'inline-block';
     } else {
       // create container element
       this.pgpElement = document.createElement('div');
-      this.pgpElement.classList.add('m-extract-wrapper');
-      this.pgpElement.style.display = 'inline-block';
+      this.pgpElement.classList.add('m-extragruntct-wrapper');
     }
+    this.pgpElement.style.display = 'inline-block';
     // set status to attached
     this.pgpElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
     this.pgpRange.append(this.pgpElement);

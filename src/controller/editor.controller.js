@@ -61,7 +61,7 @@ export default class EditorController extends sub.SubController {
       integration: this.integration
     });
     if (this.integration) {
-      this.gmailCtrl = sub.getByMainType('gmailInt')[0];
+      this.gmailCtrl = sub.getById(this.options.gmailCtrlId);
       const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
       const accessToken = await this.gmailCtrl.checkAuthorization(this.options.userEmail, scopes);
       if (!accessToken) {

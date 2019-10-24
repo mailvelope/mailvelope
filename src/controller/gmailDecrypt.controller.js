@@ -117,6 +117,9 @@ export default class gmailDecryptController extends DecryptController {
     }
   }
 
+  /**
+   * Receive DOM parsed message data from Gmail integration content script and display it in decrypt message component
+   */
   async onSetData({userEmail, msgId, sender, armored, clearText, clipped, encAttFileNames, gmailCtrlId}) {
     this.gmailCtrl = sub.getById(gmailCtrlId);
     this.userEmail = userEmail;

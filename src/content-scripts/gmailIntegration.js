@@ -42,7 +42,6 @@ export default class GmailIntegration {
 
   registerEventListener() {
     document.addEventListener('mailvelope-observe', this.updateElements);
-    // this.port.on('get-user-email', this.getGmailUser);
     this.port.on('update-message-data', this.onUpdateMessageData);
   }
 
@@ -204,7 +203,7 @@ export default class GmailIntegration {
     secureReplyBtn.setAttribute('tabindex', 0);
     secureReplyBtn.setAttribute('role', 'button');
     secureReplyBtn.setAttribute('aria-label', l10n.map.provider_gmail_secure_reply_btn);
-    secureReplyBtn.addEventListener('click', ev => this.onReplyButton(ev, msgId));
+    secureReplyBtn.addEventListener('click', ev => this.onSecureButton(ev, 'reply', msgId));
     const secureReplyBtnShadowRootElem = document.createElement('div');
     secureReplyBtnShadowRootElem.dataset.mvBtnTop = 'reply';
     secureReplyBtnShadowRootElem.style.display = 'inline-flex';
@@ -214,7 +213,6 @@ export default class GmailIntegration {
     secureReplyBtnStyle.textContent = gmailIntegrationCsss;
     secureReplyBtnShadow.append(secureReplyBtnStyle);
     secureReplyBtnShadow.append(secureReplyBtn);
-
     // add menu items - TODO: improve click handler as it fails attaching the secure buttons to the menu in some rare cases
     const menuBtn = actionBtnsTopRoot.querySelector('.T-I-Js-Gs.aap.T-I-awG');
     if (menuBtn) {
@@ -222,12 +220,12 @@ export default class GmailIntegration {
       msgData.menuClickHandler = () => {
         setTimeout(() => {
           this.menuPopover = document.querySelector('.b7.J-M[role="menu"]');
-          this.addMenuBtn('reply', this.menuPopover, null, ev => this.onReplyButton(ev, msgId));
+          this.addMenuBtn('reply', this.menuPopover, null, ev => this.onSecureButton(ev, 'reply', msgId));
           const replyMenuItem = this.menuPopover.querySelector('[role="menuitem"][id="r2"]');
           if (replyMenuItem.style.display !== 'none') {
-            this.addMenuBtn('replyAll', this.menuPopover, replyMenuItem, ev => this.onReplyButton(ev, msgId, true));
+            this.addMenuBtn('replyAll', this.menuPopover, replyMenuItem, ev => this.onSecureButton(ev, 'reply', msgId, true));
           }
-          this.addMenuBtn('forward', this.menuPopover, this.menuPopover.querySelector('[role="menuitem"][id="r3"]'), ev => this.onForwardButton(ev, msgId));
+          this.addMenuBtn('forward', this.menuPopover, this.menuPopover.querySelector('[role="menuitem"][id="r3"]'), ev => this.onSecureButton(ev, 'forward', msgId));
         }, !this.menuPopover ? 50 : 0);
       };
       menuBtn.addEventListener('click', msgData.menuClickHandler, {capture: true});
@@ -262,11 +260,11 @@ export default class GmailIntegration {
         parent.prepend(actionBtnsBottomShadowRootElem);
         const actionBtnsBottomElem = document.createElement('div');
         actionBtnsBottomElem.classList.add('mv-action-btns-bottom');
-        this.addBottomBtn('reply', actionBtnsBottomElem, ev => this.onReplyButton(ev, msgId));
+        this.addBottomBtn('reply', actionBtnsBottomElem, ev => this.onSecureButton(ev, 'reply', msgId));
         if (hasReplyAllBtn) {
-          this.addBottomBtn('replyAll', actionBtnsBottomElem, ev => this.onReplyButton(ev, msgId, true));
+          this.addBottomBtn('replyAll', actionBtnsBottomElem, ev => this.onSecureButton(ev, 'reply', msgId, true));
         }
-        this.addBottomBtn('forward', actionBtnsBottomElem, ev => this.onForwardButton(ev, msgId));
+        this.addBottomBtn('forward', actionBtnsBottomElem, ev => this.onSecureButton(ev, 'forward', msgId));
         const actionBtnsBottomShadow = actionBtnsBottomShadowRootElem.attachShadow({mode: 'open'});
         const actionBtnsBottomStyle = document.createElement('style');
         actionBtnsBottomStyle.textContent = gmailIntegrationCsss;
@@ -310,7 +308,7 @@ export default class GmailIntegration {
 
   cleanupMenuBtns() {
     if (this.menuPopover) {
-      this.menuPopover.querySelectorAll('[data-mv-menu-item]').forEach(node => node.parentNode.removeChild(node));
+      this.menuPopover.querySelectorAll('[data-mv-menu-item]').forEach(node => node.parentNode && node.parentNode.removeChild(node));
     }
   }
 
@@ -368,24 +366,12 @@ export default class GmailIntegration {
   }
 
   onEditorButton(ev) {
-    this.openEditor();
+    this.port.emit('open-editor', {userEmail: this.getGmailUser()});
     ev.stopPropagation();
   }
 
-  onReplyButton(ev, msgId, all = false) {
-    this.port.emit('secure-reply', {msgId, all, userEmail: this.getGmailUser()});
+  onSecureButton(ev, type, msgId, all = false) {
+    this.port.emit('secure-button', {type, msgId, all, userEmail: this.getGmailUser()});
     ev.stopPropagation();
-  }
-
-  onForwardButton(ev, msgId) {
-    this.port.emit('secure-forward', {msgId, userEmail: this.getGmailUser()});
-    ev.stopPropagation();
-  }
-
-  openEditor() {
-    const options = {
-      userEmail: this.getGmailUser()
-    };
-    this.port.emit('open-editor', options);
   }
 }
