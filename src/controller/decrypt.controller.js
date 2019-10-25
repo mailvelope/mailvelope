@@ -27,8 +27,8 @@ export default class DecryptController extends sub.SubController {
     }
     this.armored = null;
     this.message = null;
+    this.sender = null;
     this.popup = null;
-    this.options = {};
     this.keyringId = getPreferredKeyringId();
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
@@ -71,7 +71,9 @@ export default class DecryptController extends sub.SubController {
   }
 
   async onSetArmored(msg) {
-    this.options = msg.options;
+    if (msg.options && msg.options.senderAddress) {
+      this.sender = msg.options.senderAddress;
+    }
     if (msg.keyringId) {
       this.keyringId = msg.keyringId;
     }
@@ -123,9 +125,9 @@ export default class DecryptController extends sub.SubController {
         armored,
         keyringId,
         unlockKey: this.unlockKey.bind(this),
-        senderAddress: this.options.senderAddress,
+        senderAddress: this.sender,
         uiLogSource: 'security_log_viewer',
-        lookupKey: () => lookupKey({keyringId, email: this.options.senderAddress})
+        lookupKey: () => lookupKey({keyringId, email: this.sender})
       });
       const ports = this.ports;
       const handlers = {
@@ -146,6 +148,7 @@ export default class DecryptController extends sub.SubController {
       if (this.ports.decryptCont) {
         this.ports.decryptCont.emit('decrypt-done');
       }
+      this.ports.dDialog.emit('waiting', {waiting: false, unlock: true});
     } catch (error) {
       if (error.code === 'PWD_DIALOG_CANCEL') {
         if (this.ports.dFrame) {
@@ -172,8 +175,8 @@ export default class DecryptController extends sub.SubController {
         }
         this.ports.decryptCont.emit('error-message', {error: err});
       }
+      this.ports.dDialog.emit('waiting', {waiting: false});
     }
-    this.ports.dDialog.emit('waiting', {waiting: false, unlock: true});
   }
 
   async unlockKey({key, message}) {
