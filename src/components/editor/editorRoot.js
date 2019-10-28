@@ -27,7 +27,7 @@ function init() {
   // attachment max file size
   const quota = parseInt(query.get('quota'));
   let maxFileUploadSize = MAX_FILE_UPLOAD_SIZE;
-  if (query.quota && quota < maxFileUploadSize) {
+  if (quota && quota < maxFileUploadSize) {
     maxFileUploadSize = quota;
   }
   addDocumentTitle(`Mailvelope - ${l10n.map.editor_header}`);

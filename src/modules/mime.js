@@ -142,61 +142,6 @@ export function buildMail({message, attachments, quota, pgpMIME}) {
   return composedMessage;
 }
 
-export function buildPGPMail({armored, sender, to, cc, subject, quota}) {
-  let quotaSize = 0;
-  const mainMessage = new MimeBuilder('multipart/encrypted; protocol="application/pgp-encrypted";');
-  const headers = {
-    from: sender,
-    to: to.join(', '),
-    subject
-  };
-  if (cc && cc.length) {
-    headers.cc = cc.join(', ');
-  }
-  mainMessage.addHeader(headers);
-  const mainContent = 'This is an OpenPGP/MIME encrypted message (RFC 2440 and 3156)';
-  mainMessage.setContent(mainContent);
-  quotaSize += byteCount(mainContent);
-  const pgpHeader = new MimeBuilder('application/pgp-encrypted')
-  .setHeader({'content-description': 'PGP/MIME version identification'});
-  const pgpHeaderContent = 'Version: 1';
-  pgpHeader.setContent(pgpHeaderContent);
-  quotaSize += byteCount(pgpHeaderContent);
-  mainMessage.appendChild(pgpHeader);
-  const pgpArmored = new MimeBuilder('application/octet-stream; name="encrypted.asc"')
-  .setHeader({
-    'content-description': 'OpenPGP encrypted message',
-    'content-disposition': 'inline; filename="encrypted.asc"'
-  })
-  .setContent(armored);
-  quotaSize += byteCount(armored);
-  mainMessage.appendChild(pgpArmored);
-  if (quota && (quotaSize > quota)) {
-    throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
-  }
-  return mainMessage.build();
-}
-
-export function buildTextMail({armored, sender, to, cc, subject, quota}) {
-  let quotaSize = 0;
-  const mainMessage = new MimeBuilder('text/plain');
-  const headers = {
-    from: sender,
-    to: to.join(', '),
-    subject
-  };
-  if (cc && cc.length) {
-    headers.cc = cc.join(', ');
-  }
-  mainMessage.addHeader(headers);
-  mainMessage.setContent(armored);
-  quotaSize += byteCount(armored);
-  if (quota && (quotaSize > quota)) {
-    throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
-  }
-  return mainMessage.build();
-}
-
 export function buildMailWithHeader({message, attachments, sender, to, cc, subject, quota, continuationEncode = true}) {
   const mainMessage = new MimeBuilder('multipart/mixed');
   const headers = {

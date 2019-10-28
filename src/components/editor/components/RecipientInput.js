@@ -81,7 +81,7 @@ export class RecipientInput extends React.Component {
         <tags-input
           ng-model="rInput.recipients"
           type="email"
-          key-property="email"
+          key-property="displayId"
           allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
           spellcheck="false"
           tabindex="0"

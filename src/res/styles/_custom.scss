@@ -5,16 +5,8 @@
 
 
 /* set browser styles */
-::-webkit-input-placeholder {
-   font-style: italic;
-}
-:-moz-placeholder {
-   font-style: italic;
-}
-::-moz-placeholder {
-   font-style: italic;
-}
-:-ms-input-placeholder {
+
+::placeholder {
    font-style: italic;
 }
 
@@ -332,9 +324,6 @@ nav {
 
 // nav-pills
 .nav-pills {
-  // font-family: $headings-font-family;
-  // font-size: 1rem;
-
   .nav-link {
     display: flex;
     align-items: center;

@@ -334,24 +334,26 @@ export default class GmailIntegration {
 
   removeElements() {
     if (this.editorBtn) {
-      this.editorBtn.parentNode.removeChild(this.editorBtn);
+      this.editorBtn.parentNode && this.editorBtn.parentNode.removeChild(this.editorBtn);
       this.editorBtnRoot.dataset[FRAME_STATUS] = '';
     }
-    for (const {msgId, menuClickHandler, menuBlurHandler, clipped} of this.selectedMsgs.values()) {
-      const msgElem = document.querySelector(`[data-message-id="#${msgId}"]`);
-      if (!msgElem) {
-        continue;
-      }
-      msgElem.querySelectorAll('[data-mv-btn-top]').forEach(node => node.parentNode && node.parentNode.removeChild(node));
-      const menuBtnElem = msgElem.querySelector('[data-mv-menu-btns]');
-      if (menuBtnElem) {
-        menuBtnElem.removeEventListener('click', menuClickHandler, true);
-        menuBtnElem.removeEventListener('blur', menuBlurHandler, true);
-        menuBtnElem.dataset.mvMenuBtns = FRAME_DETACHED;
-      }
-      if (clipped) {
-        const bodyElem = msgElem.querySelector('.a3s.aXjCH');
-        bodyElem.style.display = 'block';
+    if (this.selectedMsgs) {
+      for (const {msgId, menuClickHandler, menuBlurHandler, clipped} of this.selectedMsgs.values()) {
+        const msgElem = document.querySelector(`[data-message-id="#${msgId}"]`);
+        if (!msgElem) {
+          continue;
+        }
+        msgElem.querySelectorAll('[data-mv-btn-top]').forEach(node => node.parentNode && node.parentNode.removeChild(node));
+        const menuBtnElem = msgElem.querySelector('[data-mv-menu-btns]');
+        if (menuBtnElem) {
+          menuBtnElem.removeEventListener('click', menuClickHandler, true);
+          menuBtnElem.removeEventListener('blur', menuBlurHandler, true);
+          menuBtnElem.dataset.mvMenuBtns = FRAME_DETACHED;
+        }
+        if (clipped) {
+          const bodyElem = msgElem.querySelector('.a3s.aXjCH');
+          bodyElem.style.display = 'block';
+        }
       }
     }
     const btnsBottomElem = document.querySelector('[data-mv-btns-bottom]');

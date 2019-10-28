@@ -20,7 +20,7 @@ export const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
 const GMAIL_SCOPES_DEFAULT = [GMAIL_SCOPE_USER_EMAIL];
 
 const API_KEY = 'AIzaSyDmDlrIRgj3YEtLm-o4rA8qXG8b17bWfIs';
-export const MAIL_QUOTA = 25000000;
+export const MAIL_QUOTA = 25 * 1024 * 1024;
 
 export async function getMessage({msgId, email, accessToken, format = 'full', metaHeaders = []}) {
   const init = {
@@ -120,7 +120,7 @@ export async function getAccessToken(email, scopes = []) {
       return storedToken.access_token;
     }
     if (storedToken.refresh_token) {
-      const refreshedToken = await getRrefeshToken(storedToken.refresh_token);
+      const refreshedToken = await getRefreshedAccessToken(storedToken.refresh_token);
       if (refreshedToken.access_token) {
         await storeToken(email, refreshedToken);
         return refreshedToken.access_token;
@@ -220,7 +220,7 @@ async function getAuthTokens(authCode) {
   return result.json();
 }
 
-async function getRrefeshToken(refresh_token) {
+async function getRefreshedAccessToken(refresh_token) {
   const url = 'https://www.googleapis.com/oauth2/v4/token';
   let data = `refresh_token=${encodeURIComponent(refresh_token)}&`;
   data += `client_id=${encodeURIComponent(CLIENT_ID)}&`;
@@ -267,9 +267,10 @@ async function storeToken(email, token) {
   if (token.refresh_token) {
     entry[email].refresh_token = token.refresh_token;
   }
-  const googleOAuthData = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
-  if (googleOAuthData) {
-    entry = Object.assign(googleOAuthData, entry);
+  const existingEntries = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
+  if (existingEntries) {
+    existingEntries[email] = {...existingEntries[email], ...entry[email]};
+    entry = existingEntries;
   }
   return mvelo.storage.set(GOOGLE_OAUTH_STORE, entry);
 }

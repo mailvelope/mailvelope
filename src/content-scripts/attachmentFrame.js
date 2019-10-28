@@ -32,7 +32,7 @@ export default class AttachmentFrame extends ExtractFrame {
     } else {
       // create container element
       this.pgpElement = document.createElement('div');
-      this.pgpElement.classList.add('m-extragruntct-wrapper');
+      this.pgpElement.classList.add('m-extract-wrapper');
     }
     this.pgpElement.style.display = 'inline-block';
     // set status to attached
@@ -104,9 +104,7 @@ export default class AttachmentFrame extends ExtractFrame {
 
   closeFrame(reset, disconnect, ev) {
     super.closeFrame(reset, disconnect, ev);
-    if (!reset) {
-      this.currentProvider.integration.onCloseFrame(this.id);
-    }
+    this.currentProvider.integration.onCloseFrame(this.id);
     this.pgpElement.style.display = 'none';
   }
 

@@ -284,7 +284,7 @@ export default class EditorController extends sub.SubController {
     }
     return new Promise((resolve, reject) => {
       this.encryptPromise = {resolve, reject};
-      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}`, {width: 820, height})
+      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}${this.integration ? `&quota=${gmail.MAIL_QUOTA}` : ''}`, {width: 820, height})
       .then(popup => {
         this.popup = popup;
         popup.addRemoveListener(() => this.onEditorClose({cancel: true}));

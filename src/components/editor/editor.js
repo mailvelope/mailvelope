@@ -156,7 +156,7 @@ export default class Editor extends React.Component {
   }
 
   showWaitingModal() {
-    this.setState({waiting: true});
+    this.setState(prevState => ({waiting: !prevState.showNotification}));
   }
 
   hideWaitingModal() {
@@ -349,7 +349,7 @@ export default class Editor extends React.Component {
       if (closeEditor) {
         this.port.emit('editor-close');
       } else {
-        this.setState({showNotification: false});
+        this.setState({showNotification: false, notification: null});
       }
     }, timeout);
   }
