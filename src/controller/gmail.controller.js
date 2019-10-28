@@ -57,7 +57,7 @@ export default class GmailController extends sub.SubController {
       }),
       userEmail: options.userEmail,
       attachments: options.attachments,
-      keepAttachments: (options.attachments && options.attachments.length > 0) || false
+      keepAttachments: options.keepAttachments
     });
   }
 
@@ -172,7 +172,8 @@ export default class GmailController extends sub.SubController {
       quotedMailHeader,
       quotedMail: messageText || '',
       quotedMailIndent: type === 'reply',
-      attachments
+      attachments,
+      keepAttachments: type !== 'reply'
     };
     this.onOpenEditor(options);
   }
