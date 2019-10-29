@@ -103,9 +103,13 @@ export default class AttachmentFrame extends ExtractFrame {
   }
 
   closeFrame(reset, disconnect, ev) {
-    super.closeFrame(reset, disconnect, ev);
-    this.currentProvider.integration.onCloseFrame(this.id);
-    this.pgpElement.style.display = 'none';
+    super.closeFrame(false, disconnect, ev);
+    if (reset) {
+      this.pgpElement.remove();
+    } else {
+      this.currentProvider.integration.onCloseFrame(this.id);
+      this.pgpElement.style.display = 'none';
+    }
   }
 
   setFrameDim() {

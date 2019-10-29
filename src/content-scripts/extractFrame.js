@@ -109,13 +109,15 @@ export default class ExtractFrame {
 
   closeFrame(reset, disconnect, ev) {
     this.eFrame.classList.remove('m-show');
+    this.domIntersectionObserver.disconnect();
+    window.removeEventListener('resize', this.setFrameDim);
+    document.removeEventListener('mailvelope-observe', this.setFrameDim);
     window.setTimeout(() => {
-      this.domIntersectionObserver.disconnect();
-      window.removeEventListener('resize', this.setFrameDim);
       this.shadowRootElem.remove();
     }, 300);
     if (reset === true) {
-      this.pgpElement.dataset[FRAME_STATUS] = '';
+      this.pgpElement.parentNode.prepend(this.pgpRange.extractContents());
+      this.pgpElement.remove();
     } else {
       this.pgpElement.dataset[FRAME_STATUS] = FRAME_DETACHED;
     }

@@ -4,7 +4,7 @@
  */
 import EventHandler from '../lib/EventHandler';
 import {getHash, parseHTML} from '../lib/util';
-import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED} from '../lib/constants';
+import {FRAME_STATUS, FRAME_ATTACHED} from '../lib/constants';
 import * as l10n from '../lib/l10n';
 import gmailIntegrationCsss from './gmailIntegration.css';
 import {isAttached} from './main';
@@ -335,10 +335,11 @@ export default class GmailIntegration {
   removeElements() {
     if (this.editorBtn) {
       this.editorBtn.parentNode && this.editorBtn.parentNode.removeChild(this.editorBtn);
-      this.editorBtnRoot.dataset[FRAME_STATUS] = '';
+      this.editorBtnRoot.removeAttribute('data-mvelo-frame');
+      this.editorBtnRoot.style.overflow = 'inherit';
     }
     if (this.selectedMsgs) {
-      for (const {msgId, menuClickHandler, menuBlurHandler, clipped} of this.selectedMsgs.values()) {
+      for (const {msgId, menuClickHandler, menuBlurHandler, clipped, hiddenElem} of this.selectedMsgs.values()) {
         const msgElem = document.querySelector(`[data-message-id="#${msgId}"]`);
         if (!msgElem) {
           continue;
@@ -348,11 +349,14 @@ export default class GmailIntegration {
         if (menuBtnElem) {
           menuBtnElem.removeEventListener('click', menuClickHandler, true);
           menuBtnElem.removeEventListener('blur', menuBlurHandler, true);
-          menuBtnElem.dataset.mvMenuBtns = FRAME_DETACHED;
+          menuBtnElem.removeAttribute('data-mv-menu-btns');
         }
         if (clipped) {
           const bodyElem = msgElem.querySelector('.a3s.aXjCH');
           bodyElem.style.display = 'block';
+        }
+        if (hiddenElem) {
+          hiddenElem.style.display = 'block';
         }
       }
     }
