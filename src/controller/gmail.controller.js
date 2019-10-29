@@ -35,13 +35,6 @@ export default class GmailController extends sub.SubController {
    */
 
   openEditor(options) {
-    if (this.editorControl && this.editorControl.popup) {
-      this.editorControl.activateComponent();
-      // eslint-disable-next-line no-unused-vars
-      return new Promise((resolve, reject) => {
-        ({resolve, reject} = this.editorControl.encryptPromise);
-      });
-    }
     this.editorControl = sub.factory.get('editor');
     return this.editorControl.encrypt({
       integration: true,
@@ -62,6 +55,10 @@ export default class GmailController extends sub.SubController {
   }
 
   async onOpenEditor(options) {
+    if (this.editorControl && this.editorControl.popup) {
+      this.editorControl.activateComponent();
+      return;
+    }
     try {
       options.recipientsTo = options.recipientsTo || [];
       options.recipientsCc = options.recipientsCc || [];
