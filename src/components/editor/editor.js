@@ -74,7 +74,7 @@ export default class Editor extends React.Component {
       embedded: false,
       integration: false
     };
-
+    this.encryptTimeout = null;
     this.port = EventHandler.connect(`editor-${this.props.id}`, this);
     // flag to control time slice for input logging
     this.logTextareaInput = true;
@@ -92,11 +92,12 @@ export default class Editor extends React.Component {
     this.port.on('set-init-data', this.onSetInitData);
     this.port.on('set-mode', this.onSetMode);
     this.port.on('set-attachment', this.onSetAttachment);
-    this.port.on('decrypt-in-progress', this.showWaitingModal);
-    this.port.on('encrypt-in-progress', this.showWaitingModal);
-    this.port.on('decrypt-end', this.hideWaitingModal);
-    this.port.on('encrypt-end', this.hideWaitingModal);
-    this.port.on('encrypt-failed', this.hideWaitingModal);
+    this.port.on('decrypt-in-progress', this.showSpinner);
+    this.port.on('encrypt-in-progress', this.onEncryptInProgress);
+    this.port.on('send-mail-in-progress', this.showSpinner);
+    this.port.on('decrypt-end', this.hideSpinner);
+    this.port.on('encrypt-end', this.hideSpinner);
+    this.port.on('encrypt-failed', this.hideSpinner);
     this.port.on('decrypt-failed', this.onDecryptFailed);
     this.port.on('show-pwd-dialog', this.onShowPwdDialog);
     this.port.on('hide-pwd-dialog', this.onHidePwdDialog);
@@ -155,11 +156,21 @@ export default class Editor extends React.Component {
     this.setState({publicKeys: keys});
   }
 
-  showWaitingModal() {
+  onEncryptInProgress() {
+    if (!this.encryptTimeout) {
+      this.encryptTimeout = setTimeout(() => {
+        this.showSpinner();
+      }, 300);
+    }
+  }
+
+  showSpinner() {
     this.setState(prevState => ({waiting: !prevState.showNotification}));
   }
 
-  hideWaitingModal() {
+  hideSpinner() {
+    clearTimeout(this.encryptTimeout);
+    this.encryptTimeout = null;
     this.setState({waiting: false});
   }
 
@@ -198,7 +209,7 @@ export default class Editor extends React.Component {
    */
   handleOk() {
     this.logUserInput('security_log_dialog_encrypt');
-    this.sendPlainText('encrypt');
+    this.setState({encryptDisabled: true}, () => this.sendPlainText('encrypt'));
   }
 
   getPlaintext(msg) {

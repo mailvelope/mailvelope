@@ -64,6 +64,7 @@ export default class GmailController extends sub.SubController {
       options.recipientsCc = options.recipientsCc || [];
       const {armored, encFiles, subject, to, cc} = await this.openEditor(options);
       // send email via GMAIL api
+      this.editorControl.ports.editor.emit('send-mail-in-progress');
       const userEmail = options.userEmail;
       const toFormatted = to.map(({name, email}) => `${name} <${email}>`);
       const ccFormatted = cc.map(({name, email}) => `${name} <${email}>`);

@@ -31,7 +31,6 @@ export default class EditorController extends sub.SubController {
       this.id = getHash();
     }
     this.encryptPromise = null;
-    this.encryptTimer = null;
     this.keyringId = null;
     this.popup = null;
     this.signKey = null;
@@ -392,7 +391,6 @@ export default class EditorController extends sub.SubController {
     } catch (error) {
       this.ports.editor.emit('decrypt-failed', {error: mapError(error)});
     }
-    clearTimeout(this.encryptTimer);
   }
 
   async decryptFiles(encFiles) {
@@ -453,7 +451,6 @@ export default class EditorController extends sub.SubController {
       }
       this.ports.editor.emit('encrypt-failed');
     }
-    clearTimeout(this.encryptTimer);
   }
 
   /**
@@ -539,9 +536,7 @@ export default class EditorController extends sub.SubController {
    * @return {Promise<String>} - message as armored block
    */
   encryptMessage({data, keyFprs, signKeyFpr, unlockKey, noCache}) {
-    this.encryptTimer = setTimeout(() => {
-      this.ports.editor.emit('encrypt-in-progress');
-    }, 800);
+    this.ports.editor.emit('encrypt-in-progress');
     return model.encryptMessage({
       data,
       keyringId: this.keyringId,
@@ -554,9 +549,7 @@ export default class EditorController extends sub.SubController {
   }
 
   encryptFiles({files, keyFprs, signKeyFpr, unlockKey, noCache}) {
-    this.encryptTimer = setTimeout(() => {
-      this.ports.editor.emit('encrypt-in-progress');
-    }, 800);
+    this.ports.editor.emit('encrypt-in-progress');
     return Promise.all(files.map(async file => {
       const fileExt = extractFileExtension(file.name);
       const encrypted = await model.encryptFile({
@@ -612,9 +605,7 @@ export default class EditorController extends sub.SubController {
     const openPopup = !this.popup;
     const beforePasswordRequest = id => this.popup && this.ports.editor.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({key, reason, openPopup, noCache, beforePasswordRequest});
-    this.encryptTimer = setTimeout(() => {
-      this.ports.editor.emit('encrypt-in-progress');
-    }, 800);
+    this.ports.editor.emit('encrypt-in-progress');
     if (sync) {
       triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     }
