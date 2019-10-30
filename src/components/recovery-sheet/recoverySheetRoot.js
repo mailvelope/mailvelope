@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
-import RecoverySheet from './RecoverySheet';
+import RecoverySheet from './recoverySheet';
 
 document.addEventListener('DOMContentLoaded', init);
 
