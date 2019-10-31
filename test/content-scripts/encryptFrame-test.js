@@ -29,7 +29,7 @@ describe('Encrypt Frame unit tests', () => {
     });
 
     it('should work', () => {
-      ef.setEditorOutput({recipients: recip});
+      ef.setEditorOutput({to: recip});
 
       expect(ef.currentProvider.setRecipients.withArgs({recipients: recip, editElement: null}).calledOnce).to.be.true;
     });

@@ -15,13 +15,13 @@ describe('Provider specific content-script unit tests', () => {
 
   describe('providers.init', () => {
     it('should work', () => {
-      providers.init();
+      providers.init({provider: {gmail_integration: false}});
     });
   });
 
   describe('providers.get', () => {
     beforeEach(() => {
-      providers.init();
+      providers.init({provider: {gmail_integration: false}});
     });
 
     it('should return default module for generic case', () => {
@@ -39,7 +39,7 @@ describe('Provider specific content-script unit tests', () => {
     let defMod;
 
     beforeEach(() => {
-      providers.init();
+      providers.init({provider: {gmail_integration: false}});
       defMod = providers.get('mail.some-generic-provider.com');
     });
 
@@ -72,7 +72,7 @@ describe('Provider specific content-script unit tests', () => {
     let gmail;
 
     beforeEach(() => {
-      providers.init();
+      providers.init({provider: {gmail_integration: false}});
       gmail = providers.get('mail.google.com');
       const container = $('<div class="I5"></div>');
       testElem.wrap(container);

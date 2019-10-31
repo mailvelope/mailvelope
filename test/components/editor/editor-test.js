@@ -81,7 +81,7 @@ describe('Editor tests', () => {
     it('should show editor in embedded mode', () => {
       const {wrapper} = setup();
       const component = wrapper.instance();
-      component.onSetEmbeddedMode({embedded: true});
+      component.onSetMode({embedded: true, integration: false});
       wrapper.update();
       expect(wrapper.find('.embedded').exists()).to.equal(true);
     });
@@ -89,7 +89,7 @@ describe('Editor tests', () => {
     it('should show error notification when decrypt failed', () => {
       const {wrapper} = setup();
       const component = wrapper.instance();
-      component.hideError = () => false;
+      component.hideNotification = () => false;
       component.onDecryptFailed({error: {message: 'Error message!'}});
       wrapper.update();
       expect(wrapper.find('Toast').first().props().children).to.equal('Error message!');

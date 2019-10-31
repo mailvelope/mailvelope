@@ -29,7 +29,8 @@ describe('Mailvelope Client API', () => {
     initKeyring();
   });
 
-  describe('Handling keyrings', () => {
+  describe('Handling keyrings', function() {
+    this.timeout(10000);
     it('can create a keyring', () =>
       expect(mailvelope.createKeyring('email@test.example')).to.eventually.be.ok);
 

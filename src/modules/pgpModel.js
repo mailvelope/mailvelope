@@ -200,8 +200,10 @@ export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}
     }
     const keyring = getPreferredKeyring(keyringId);
     await syncPublicKeys({keyring, keyIds: signingKeyIds, keyringId});
-    for (const signingKeyId of signingKeyIds) {
-      await acquireSigningKeys(signerEmail, keyring, lookupKey, signingKeyId);
+    if (signerEmail) {
+      for (const signingKeyId of signingKeyIds) {
+        await acquireSigningKeys(signerEmail, keyring, lookupKey, signingKeyId);
+      }
     }
     let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));

@@ -26,7 +26,7 @@ describe('Verify controller unit tests', () => {
 
   describe('onArmoredMessage', () => {
     it('should verify message and emit event', async () => {
-      const msg = {data: 'abc'};
+      const msg = {data: 'abc', sender: []};
       ctrl.keyringId = '123';
       VerifyController.__Rewire__('verifyMessage', () => Promise.resolve({data: 'cba', signatures: ['a', 'b', 'c']}));
       const emitStub = sandbox.stub();

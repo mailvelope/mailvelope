@@ -34,12 +34,12 @@ describe('Encrypt controller unit tests', () => {
 
   describe('openEditor', () => {
     it('should work for editor type plain', async () => {
-      editorCtrlMock.encrypt.returns(Promise.resolve({armored: 'armored', recipients: testRecipients}));
+      editorCtrlMock.encrypt.returns(Promise.resolve({armored: 'armored', to: testRecipients, cc: []}));
       prefs.general = {
         editor_type: 'plain'
       };
       await ctrl.onEncryptFrameDisplayEditor({text: 'foo'});
-      expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', recipients: testRecipients}).calledOnce).to.be.true;
+      expect(ctrl.emit.withArgs('set-editor-output', {text: 'armored', to: testRecipients, cc: []}).calledOnce).to.be.true;
     });
 
     it('should stop on error', async () => {

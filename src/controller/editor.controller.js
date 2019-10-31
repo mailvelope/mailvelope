@@ -125,15 +125,19 @@ export default class EditorController extends sub.SubController {
    * Set the recipient data in the editor.
    * @param  {Array} recipients - a list of potential recipient from the webmail ui
    */
-  async setRecipientData({to, cc}) {
-    // deduplicate email addresses
-    let toEmails = (to || []).map(recipient => recipient.email);
-    toEmails = deDup(toEmails); // just dedup, dont change order of user input
-    to = toEmails.map(e => ({email: e}));
-    let ccEmails = (cc || []).map(recipient => recipient.email);
-    ccEmails = deDup(ccEmails); // just dedup, dont change order of user input
-    cc = ccEmails.map(e => ({email: e}));
-    // get all public keys from required keyrings
+  async setRecipientData(recipients) {
+    let to = [];
+    let cc = [];
+    if (recipients) {
+      // deduplicate email addresses
+      let toEmails = (recipients.to || []).map(recipient => recipient.email);
+      toEmails = deDup(toEmails); // just dedup, dont change order of user input
+      to = toEmails.map(e => ({email: e}));
+      let ccEmails = (recipients.cc || []).map(recipient => recipient.email);
+      ccEmails = deDup(ccEmails); // just dedup, dont change order of user input
+      cc = ccEmails.map(e => ({email: e}));
+      // get all public keys from required keyrings
+    }
     const keys = await getKeyData({keyringId: this.keyringId});
     this.emit('public-key-userids', {keys, to, cc});
   }

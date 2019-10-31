@@ -41,8 +41,8 @@ describe('Editor controller unit tests', () => {
       prefs.prefs.keyserver = {
         wkd_lookup: true
       };
-      await ctrl.setRecipientData([]);
-      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: []}).calledOnce).to.be.true;
+      await ctrl.setRecipientData({to: [], cc: []});
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], to: [], cc: []}).calledOnce).to.be.true;
     });
 
     it('should handle undefined recipients', async () => {
@@ -50,7 +50,7 @@ describe('Editor controller unit tests', () => {
         wkd_lookup: true
       };
       await ctrl.setRecipientData();
-      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], recipients: []}).calledOnce).to.be.true;
+      expect(ctrl.emit.withArgs('public-key-userids', {keys: [{keyid: '0'}], to: [], cc: []}).calledOnce).to.be.true;
     });
   });
 
@@ -63,9 +63,12 @@ describe('Editor controller unit tests', () => {
     it('should not transfer private key material', () => {
       ctrl.transferEncrypted({
         armored: 'a',
-        keys: [{name: 'n', email: 'e', private: 'p'}]
+        encFiles: [],
+        to: [{name: 'n', email: 'e', private: 'p'}],
+        cc: [],
+        subject: 'Test'
       });
-      expect(ctrl.encryptPromise.resolve.withArgs({armored: 'a', recipients: [{name: 'n', email: 'e'}]}).calledOnce).to.be.true;
+      expect(ctrl.encryptPromise.resolve.withArgs({armored: 'a', encFiles: [], to: [{name: 'n', email: 'e'}], cc: [], subject: 'Test'}).calledOnce).to.be.true;
     });
   });
 
@@ -83,18 +86,20 @@ describe('Editor controller unit tests', () => {
         action: 'encrypt',
         message: 'm',
         keys
-      })).to.eventually.equal('a');
+      })).to.eventually.deep.equal({armored: 'a', encFiles: []});
     });
 
     it('should sign and encrypt', () => {
       ctrl.signMsg = true;
-      sandbox.stub(ctrl, 'signAndEncryptMessage').returns(Promise.resolve('a'));
+      const keyringStub = sandbox.stub().returns('p');
+      EditorController.__Rewire__('getDefaultKeyFpr', keyringStub);
+      sandbox.stub(ctrl, 'encryptMessage').returns(Promise.resolve('a'));
       return expect(ctrl.signAndEncrypt({
         action: 'encrypt',
         message: 'm',
         signMsg: true,
         keys
-      })).to.eventually.equal('a');
+      })).to.eventually.deep.equal({armored: 'a', encFiles: []});
     });
 
     it('should sign', () => {
@@ -102,7 +107,7 @@ describe('Editor controller unit tests', () => {
       return expect(ctrl.signAndEncrypt({
         action: 'sign',
         message: 'm'
-      })).to.eventually.equal('a');
+      })).to.eventually.deep.equal({armored: 'a'});
     });
 
     it('should handle build MIME error', () => {
