@@ -7,7 +7,7 @@
 
 window.chrome = window.chrome || {};
 
-window.chrome.runtime = window.chrome.runtime || {};
+window.chrome.runtime = window.chrome.runtime || {id: 'kajibbejlbohfaggdiogboambcijhkke'};
 
 window.chrome.runtime.getURL = function(name) {
   return location.href.split('/test/')[0] + '/' + name;

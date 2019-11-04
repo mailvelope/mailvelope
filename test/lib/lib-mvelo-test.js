@@ -28,7 +28,7 @@ describe('lib-mvelo unit tests', () => {
       expect(mvelo.util.text2autoLinkHtml('https://test.mailvelope.com/user/მთავარი_გვერდი')).to.equal('<a href="https://test.mailvelope.com/user/მთავარი_გვერდი" target="_blank" rel="noreferrer noopener">https://test.mailvelope.com/user/მთავარი_გვერდი</a>');
     });
     it('should escape special chars', () => {
-      expect(mvelo.util.text2autoLinkHtml('& < > " \' \/')).to.equal('&amp; &lt; &gt; &quot; &#039; &#x2F;');
+      expect(mvelo.util.text2autoLinkHtml('&<>')).to.equal('&amp;&lt;&gt;');
     });
   });
 });

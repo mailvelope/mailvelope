@@ -35,7 +35,8 @@ describe('Api controller unit tests', () => {
     });
   });
 
-  describe('Delegation to autocrypt', () => {
+  describe('Delegation to autocrypt', function() {
+    this.timeout(5000);
     beforeEach(setupKeyring);
     afterEach(teardownKeyring);
     const keyringId = MAIN_KEYRING_ID;
