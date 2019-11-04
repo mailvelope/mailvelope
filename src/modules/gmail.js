@@ -6,7 +6,7 @@
 import browser from 'webextension-polyfill';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
-import {deDup} from '../lib/util';
+import {MvError, deDup} from '../lib/util';
 import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
@@ -32,11 +32,10 @@ export async function getMessage({msgId, email, accessToken, format = 'full', me
     },
     'contentType': 'json'
   };
-  const response = await fetch(
+  return fetchJSON(
     `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?format=${format}${metaHeaders.map(header => `&metadataHeaders=${header}`).join('')}&key=${API_KEY}`,
     init
   );
-  return response.json();
 }
 
 export async function getMessageMimeType({msgId, email, accessToken}) {
@@ -60,11 +59,10 @@ export async function getAttachment({email, msgId, attachmentId, fileName, acces
     },
     'contentType': 'json'
   };
-  const response = await fetch(
+  const {data, size} = await fetchJSON(
     `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}/attachments/${attachmentId}?key=${API_KEY}`,
     init
   );
-  const {data, size} = await response.json();
   return {data: `data:application/octet-stream;base64,${base64DecodeUrl(data)}`, size, mimeType: 'application/octet-stream'};
 }
 
@@ -80,11 +78,10 @@ export async function sendMessage({email, message, accessToken}) {
       'Authorization': `Bearer ${accessToken}`,
     }
   };
-  const result = await fetch(
+  return fetchJSON(
     `https://www.googleapis.com/upload/gmail/v1/users/${email}/messages/send?uploadType=media`,
     init
   );
-  return result.json();
 }
 
 export async function sendMessageMeta({email, message, threadId, accessToken}) {
@@ -104,11 +101,10 @@ export async function sendMessageMeta({email, message, threadId, accessToken}) {
       'Authorization': `Bearer ${accessToken}`,
     }
   };
-  const result = await fetch(
+  return fetchJSON(
     ` https://www.googleapis.com/gmail/v1/users/${email}/messages/send`,
     init
   );
-  return result.json();
 }
 
 export async function getAccessToken(email, scopes = []) {
@@ -273,6 +269,15 @@ async function storeToken(email, token) {
     entry = existingEntries;
   }
   return mvelo.storage.set(GOOGLE_OAUTH_STORE, entry);
+}
+
+async function fetchJSON(resource, init) {
+  const response = await fetch(resource, init);
+  const json = await response.json();
+  if (!response.ok) {
+    throw new MvError(json.error.message, 'GMAIL_API_ERROR');
+  }
+  return json;
 }
 
 function parseQuery(queryString, separator = '&') {

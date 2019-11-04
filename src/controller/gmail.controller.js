@@ -82,8 +82,8 @@ export default class GmailController extends sub.SubController {
         if (options.threadId) {
           sendOptions.threadId = options.threadId;
         }
-        const {error} = await gmail.sendMessageMeta(sendOptions);
-        if (!error) {
+        try {
+          await gmail.sendMessageMeta(sendOptions);
           this.editorControl.ports.editor.emit('show-notification', {
             message: 'gmail_integration_sent_success',
             type: 'success',
@@ -92,25 +92,23 @@ export default class GmailController extends sub.SubController {
             closeOnHide: true,
             dismissable: false
           });
-        } else {
+        } catch (error) {
           this.editorControl.ports.editor.emit('error-message', {
-            error: {
-              code: error.code,
-              message: error.message,
+            error: Object.assign(mapError(error), {
               autoHide: false,
               dismissable: true
-            }
+            })
           });
         }
         this.editorControl = null;
       }
-    } catch (err) {
-      if (err.code == 'EDITOR_DIALOG_CANCEL') {
+    } catch (error) {
+      if (error.code == 'EDITOR_DIALOG_CANCEL') {
         this.editorControl = null;
         return;
       }
       this.editorControl.ports.editor.emit('error-message', {
-        error: Object.assign(mapError(err), {
+        error: Object.assign(mapError(error), {
           autoHide: false,
           dismissable: false
         })
@@ -130,50 +128,54 @@ export default class GmailController extends sub.SubController {
       this.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
       return;
     }
-    const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
-    const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
-    let subject = gmail.extractMailHeader(payload, 'Subject');
-    const {email: sender, name: senderName} = gmail.parseEmailAddress(gmail.extractMailHeader(payload, 'From'));
+    try {
+      const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
+      const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
+      let subject = gmail.extractMailHeader(payload, 'Subject');
+      const {email: sender, name: senderName} = gmail.parseEmailAddress(gmail.extractMailHeader(payload, 'From'));
 
-    const recipientsTo = [];
-    const recipientsCc = [];
-    const to = gmail.extractMailHeader(payload, 'To');
-    const cc = gmail.extractMailHeader(payload, 'Cc');
-    let attachments = [];
-    let quotedMailHeader;
-    if (type === 'reply') {
-      subject = `Re: ${subject}`;
-      recipientsTo.push(sender);
-      if (all) {
-        to.split(',').map(address => gmail.parseEmailAddress(address)['email']).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsTo.push(email));
-        if (cc) {
-          cc.split(',').map(address => gmail.parseEmailAddress(address)['email']).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsCc.push(email));
+      const recipientsTo = [];
+      const recipientsCc = [];
+      const to = gmail.extractMailHeader(payload, 'To');
+      const cc = gmail.extractMailHeader(payload, 'Cc');
+      let attachments = [];
+      let quotedMailHeader;
+      if (type === 'reply') {
+        subject = `Re: ${subject}`;
+        recipientsTo.push(sender);
+        if (all) {
+          to.split(',').map(address => gmail.parseEmailAddress(address)['email']).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsTo.push(email));
+          if (cc) {
+            cc.split(',').map(address => gmail.parseEmailAddress(address)['email']).filter(email => email !== '' && email !== sender && email !== userEmail).forEach(email => recipientsCc.push(email));
+          }
         }
+        quotedMailHeader = l10n.get('gmail_integration_quoted_mail_header_reply', [l10n.localizeDateTime(new Date(parseInt(internalDate, 10)), {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}), `${senderName} <${sender}>`.trim()]);
+      } else {
+        subject = `Fwd: ${subject}`;
+        quotedMailHeader = l10n.get('gmail_integration_quoted_mail_header_forward', [`${senderName} <${sender}>`.trim(), l10n.localizeDateTime(new Date(parseInt(internalDate, 10)), {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}), subject, to.split(',').map(address => `${gmail.parseEmailAddress(address)['name']} <${gmail.parseEmailAddress(address)['email']}>`.trim()).join(', ')]);
+        if (cc) {
+          quotedMailHeader += `\n${l10n.get('editor_label_copy_recipient')}: ${cc.split(',').map(address => `${gmail.parseEmailAddress(address)['name']} <${gmail.parseEmailAddress(address)['email']}>`.trim()).join(', ')}`;
+        }
+        quotedMailHeader += '\n';
+        attachments = await gmail.getMailAttachments({payload, userEmail, msgId, accessToken});
       }
-      quotedMailHeader = l10n.get('gmail_integration_quoted_mail_header_reply', [l10n.localizeDateTime(new Date(parseInt(internalDate, 10)), {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}), `${senderName} <${sender}>`.trim()]);
-    } else {
-      subject = `Fwd: ${subject}`;
-      quotedMailHeader = l10n.get('gmail_integration_quoted_mail_header_forward', [`${senderName} <${sender}>`.trim(), l10n.localizeDateTime(new Date(parseInt(internalDate, 10)), {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'}), subject, to.split(',').map(address => `${gmail.parseEmailAddress(address)['name']} <${gmail.parseEmailAddress(address)['email']}>`.trim()).join(', ')]);
-      if (cc) {
-        quotedMailHeader += `\n${l10n.get('editor_label_copy_recipient')}: ${cc.split(',').map(address => `${gmail.parseEmailAddress(address)['name']} <${gmail.parseEmailAddress(address)['email']}>`.trim()).join(', ')}`;
-      }
-      quotedMailHeader += '\n';
-      attachments = await gmail.getMailAttachments({payload, userEmail, msgId, accessToken});
-    }
 
-    const options = {
-      userEmail,
-      subject,
-      recipientsTo,
-      recipientsCc,
-      threadId,
-      quotedMailHeader,
-      quotedMail: messageText || '',
-      quotedMailIndent: type === 'reply',
-      attachments,
-      keepAttachments: type !== 'reply'
-    };
-    this.onOpenEditor(options);
+      const options = {
+        userEmail,
+        subject,
+        recipientsTo,
+        recipientsCc,
+        threadId,
+        quotedMailHeader,
+        quotedMail: messageText || '',
+        quotedMailIndent: type === 'reply',
+        attachments,
+        keepAttachments: type !== 'reply'
+      };
+      this.onOpenEditor(options);
+    } catch (error) {
+      console.log(`Gmail API error: ${error.message}`);
+    }
   }
 
   async onAuthorize({email, scopes}) {
