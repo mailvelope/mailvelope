@@ -11,7 +11,7 @@ import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byt
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
 
-const CLIENT_ID = '373196800931-ce39g4o9hshkhnot9im7m1bga57lvhlt.apps.googleusercontent.com';
+const CLIENT_ID = '119074447949-tna0do7hlleq779oihbsosrk6he4di06.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
 const GOOGLE_OAUTH_STORE = 'mvelo.oauth.gmail';
 export const GMAIL_SCOPE_USER_EMAIL = 'https://www.googleapis.com/auth/userinfo.email';
@@ -19,7 +19,6 @@ export const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.reado
 export const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
 const GMAIL_SCOPES_DEFAULT = [GMAIL_SCOPE_USER_EMAIL];
 
-const API_KEY = 'AIzaSyDmDlrIRgj3YEtLm-o4rA8qXG8b17bWfIs';
 export const MAIL_QUOTA = 25 * 1024 * 1024;
 
 export async function getMessage({msgId, email, accessToken, format = 'full', metaHeaders = []}) {
@@ -33,7 +32,7 @@ export async function getMessage({msgId, email, accessToken, format = 'full', me
     'contentType': 'json'
   };
   return fetchJSON(
-    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?format=${format}${metaHeaders.map(header => `&metadataHeaders=${header}`).join('')}&key=${API_KEY}`,
+    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}?format=${format}${metaHeaders.map(header => `&metadataHeaders=${header}`).join('')}`,
     init
   );
 }
@@ -60,7 +59,7 @@ export async function getAttachment({email, msgId, attachmentId, fileName, acces
     'contentType': 'json'
   };
   const {data, size} = await fetchJSON(
-    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}/attachments/${attachmentId}?key=${API_KEY}`,
+    `https://www.googleapis.com/gmail/v1/users/${email}/messages/${msgId}/attachments/${attachmentId}`,
     init
   );
   return {data: `data:application/octet-stream;base64,${base64DecodeUrl(data)}`, size, mimeType: 'application/octet-stream'};
