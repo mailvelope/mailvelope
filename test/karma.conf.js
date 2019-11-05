@@ -84,14 +84,10 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'ChromeHeadless', 'ChromeHeadlessNoSandbox'],
+    browsers: ['Chrome', 'ChromeHeadless'],
     browserConsoleLogOptions: {level: config.dev ? 'debug' : 'warn', format: '%b %T: %m', terminal: true},
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
-      }
-    },
+
+    browserNoActivityTimeout: 60000,
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
