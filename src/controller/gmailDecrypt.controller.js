@@ -205,17 +205,15 @@ export default class gmailDecryptController extends DecryptController {
           await this.verify(this.armored, this.keyringId);
         }
       }
-      let attachments;
       let unlock = false;
       if (ascMimeFileName) {
-        attachments = this.attachments.filter(fileName => fileName !== ascMimeFileName);
+        this.attachments = this.attachments.filter(fileName => fileName !== ascMimeFileName);
       } else {
-        attachments = this.attachments;
         if (!this.armored) {
           unlock = true;
         }
       }
-      this.ports.dDialog.emit('set-enc-attachments', {encAtts: attachments});
+      this.ports.dDialog.emit('set-enc-attachments', {encAtts: this.attachments});
       this.ports.dDialog.emit('waiting', {waiting: false, unlock});
     } catch (error) {
       this.ports.dDialog.emit('lock');
