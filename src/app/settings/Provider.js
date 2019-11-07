@@ -177,9 +177,9 @@ export default class Provider extends React.Component {
                 ]} />
               </Alert>
             )}
-            {(this.state.gmail && this.state.gmail_integration) && (
+            {this.state.gmail && (
               <Alert className="mt-2" type="info" header={l10n.map.alert_header_important}>
-                {l10n.map.provider_gmail_integration_info}
+                {l10n.map.provider_gmail_integration_info} <a href="https://www.mailvelope.com/faq#gmail" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
               </Alert>
             )}
             <p className="lead mt-3">Authorisierungen</p>
