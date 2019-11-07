@@ -169,7 +169,7 @@ export default class DecryptMessage extends React.Component {
     this.setState({
       notification: {
         header,
-        message: l10n.map[message] ? l10n.map[message] : message,
+        message,
         type,
         autoHide,
         hideDelay,
@@ -181,11 +181,11 @@ export default class DecryptMessage extends React.Component {
     });
   }
 
-  onErrorMessage({error}) {
+  onErrorMessage(msg) {
     this.showNotification({
       type: 'error',
       title: l10n.map.editor_error_header,
-      message: error,
+      message: msg.error,
       autoHide: false
     });
   }

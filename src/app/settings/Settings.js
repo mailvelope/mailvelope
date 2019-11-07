@@ -64,7 +64,7 @@ export default class Settings extends React.Component {
                 </div>
                 <div className="col-lg-9">
                   <Route path="/settings/general" component={General} />
-                  <Route path="/settings/provider" component={Provider} />
+                  <Route path="/settings/provider" render={({location}) => <Provider onSetNotification={this.handleSetNotification} location={location} />} />
                   <Route path="/settings/security" render={() => <Security onSetNotification={this.handleSetNotification} />} />
                   <Route path="/settings/security-background" render={() => <SecurityBackground prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} />} />
                   <Route path="/settings/watchlist" component={WatchList} />

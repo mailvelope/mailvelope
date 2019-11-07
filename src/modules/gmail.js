@@ -10,6 +10,7 @@ import {MvError, deDup} from '../lib/util';
 import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
+import * as l10n from '../lib/l10n';
 
 const CLIENT_ID = '119074447949-tna0do7hlleq779oihbsosrk6he4di06.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
@@ -133,15 +134,22 @@ export async function authorize(email, scopes = []) {
   scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   const authCode = await getAuthCode(email, scopes);
   if (!authCode) {
-    throw new Error('Authorisation failed!');
+    throw new MvError('Authorisation failed!', 'GOOGLE_OAUTH_ERROR');
   }
   const token = await getAuthTokens(authCode);
-  const id = parseJwt(token.id_token);
+  validateId(token.id_token, email);
+  await storeToken(email, token);
+  return token.access_token;
+}
+
+function validateId(idToken, email) {
+  const id = parseJwt(idToken);
   if (id.iss === GOOGLE_API_HOST && id.aud === CLIENT_ID && id.email === email && id.exp >= (new Date().getTime() / 1000)) {
-    await storeToken(email, token);
-    return token.access_token;
+    if (id.hd && id.hd !== 'mailvelope.com') {
+      throw new MvError(l10n.get('gmail_integration_id_validation_error_gsuite'), 'ID_GSUITE_ERROR');
+    }
   } else {
-    throw new Error('JWT token invalid!');
+    throw new MvError('Id token invalid!', 'ID_VALIDATION_ERROR');
   }
 }
 

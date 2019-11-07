@@ -11,6 +11,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {getHash, deDup, sortAndDeDup, mapError, MvError, byteCount, normalizeArmored, dataURL2str} from '../lib/util';
 import {extractFileExtension} from '../lib/file';
+import * as l10n from '../lib/l10n';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
 import * as sub from './sub.controller';
@@ -73,7 +74,7 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('error-message', {
       error: {
         code: 'AUTHORIZATION_REQUIRED',
-        message: 'gmail_integration_auth_error_send',
+        message: l10n.get('gmail_integration_auth_error_send'),
         autoHide: false,
         dismissable: false
       }

@@ -60,9 +60,14 @@ export default class Provider extends React.Component {
 
   openOAuthDialog({email, scopes, gmailCtrlId, ctrlId}) {
     this.setState({showAuthModal: true, authMessage: this.getAuthMessage(email, scopes), authModalCallback: async () => {
-      await port.send('authorize-gmail', {email, scopes, gmailCtrlId});
-      await this.loadAuthorisations();
-      this.setState({showAuthModal: false});
+      try {
+        await port.send('authorize-gmail', {email, scopes, gmailCtrlId});
+        await this.loadAuthorisations();
+        this.setState({showAuthModal: false});
+      } catch (error) {
+        this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
+        this.setState({showAuthModal: false, gmail_integration: false}, () => this.handleSave());
+      }
     }, authModalClose: () => this.setState({showAuthModal: false}, () => port.emit('activate-component', {ctrlId}))});
   }
 
@@ -228,5 +233,6 @@ export default class Provider extends React.Component {
 }
 
 Provider.propTypes = {
-  location: PropTypes.object
+  location: PropTypes.object,
+  onSetNotification: PropTypes.func
 };

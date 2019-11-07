@@ -40,8 +40,6 @@ l10n.register([
   'editor_label_recipient',
   'editor_label_subject',
   'form_ok',
-  'gmail_integration_auth_error_send',
-  'gmail_integration_sent_success',
   'security_background_button_title',
   'upload_quota_exceeded_warning',
   'upload_quota_warning_headline',
@@ -271,7 +269,7 @@ export default class Editor extends React.Component {
     this.setState({
       notification: {
         header,
-        message: l10n.map[message] ? l10n.map[message] : message,
+        message,
         type,
         autoHide,
         hideDelay,

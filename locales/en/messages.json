@@ -555,6 +555,10 @@
     "description": "Error message for components requiring authorization of GMAIL integration",
     "message": "Mailvelope is not authorized to send emails!"
   },
+  "gmail_integration_id_validation_error_gsuite": {
+    "description": "Error message for G-Suite users when trying to authorize GMAIL integration",
+    "message": "Email addresses assigned to a G-Suite account are not supported in the current test phase!"
+  },
   "gmail_integration_quoted_mail_header_reply": {
     "description": "Header for quoted reply mail",
     "message": "On $1, $2 wrote:"

@@ -49,7 +49,7 @@ export default class gmailDecryptController extends DecryptController {
       this.ports.dDialog.emit('hide-error-message');
       this.executeActionQueue(accessToken);
     } else {
-      this.ports.dDialog.emit('error-message', {error: error.messageText});
+      this.ports.dDialog.emit('error-message', {error: error.message});
     }
     this.activateComponent();
   }

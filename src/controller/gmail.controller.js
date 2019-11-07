@@ -5,10 +5,10 @@
 
 import mvelo from '../lib/lib-mvelo';
 import {getHash, mapError} from '../lib/util';
+import * as l10n from '../lib/l10n';
 import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
-import * as l10n from '../lib/l10n';
 import {setAppDataSlot} from '../controller/sub.controller';
 
 export default class GmailController extends sub.SubController {
@@ -85,7 +85,7 @@ export default class GmailController extends sub.SubController {
         try {
           await gmail.sendMessageMeta(sendOptions);
           this.editorControl.ports.editor.emit('show-notification', {
-            message: 'gmail_integration_sent_success',
+            message: l10n.get('gmail_integration_sent_success'),
             type: 'success',
             autoHide: true,
             hideDelay: 2000,
@@ -192,8 +192,11 @@ export default class GmailController extends sub.SubController {
         this.currentAction = null;
       }
     } catch (e) {
-      error = e;
+      if (e.code === 'ID_GSUITE_ERROR') {
+        throw (e);
+      }
       console.log(e);
+      error = e;
     }
     if (this.authQueue.length) {
       for (const ctrlId of this.authQueue) {
