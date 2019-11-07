@@ -1,7 +1,7 @@
 {
   "action_menu_activate_current_tab": {
     "description": "Activate on current tab shortcut in the action menu",
-    "message": "Diese Domain authorisieren"
+    "message": "Diese Domain autorisieren"
   },
   "action_menu_all_options": {
     "description": "All options link in the action menu",
@@ -93,7 +93,7 @@
   },
   "auth_domain_headline": {
     "description": "Headline of authorize domain dialog.",
-    "message": "Domain Authorisieren"
+    "message": "Domain autorisieren"
   },
   "auth_domain_description": {
     "description": "Description in authorize domain dialog",
@@ -1403,23 +1403,23 @@
   },
   "provider_gmail_auth_dialog_title"  : {
     "description": "Title of GMAIL OAuth dialog.",
-    "message": "Authorisierung erteilen"
+    "message": "Autorisierung erteilen"
   },
   "provider_gmail_auth_dialog_intro"  : {
     "description": "Intro text for GMAIL OAuth dialog.",
-    "message": "Um die Gmail-Integration für <0></0> nutzen zu können, muss Mailvelope für nachfolgende Berechtigungen authorisiert werden:"
+    "message": "Um die Gmail-Integration für <0></0> nutzen zu können, muss Mailvelope für nachfolgende Berechtigungen autorisiert werden:"
   },
   "provider_gmail_auth_dialog_outro"  : {
     "description": "Outro text for GMAIL OAuth dialog.",
-    "message": "Wenn Sie diesen Dialog mit \"Ja\" bestätigen, öffnet sich ein Google-Authorisierungsfenster. Wählen Sie Ihren Gmail-Account für die E-Mail-Adresse <0></0> und folgen Sie den Anweisungen."
+    "message": "Wenn Sie diesen Dialog mit \"Ja\" bestätigen, öffnet sich ein Google-Autorisierungsfenster. Wählen Sie Ihren Gmail-Account für die E-Mail-Adresse <0></0> und folgen Sie den Anweisungen."
   },
   "provider_gmail_integration"  : {
     "description": "Label for Gmail integration option.",
-    "message": "Gmail-Integration aktivieren (experimentell)"
+    "message": "Gmail-Integration (experimentell)"
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
-    "message": "Erfordert zusätzliche Berechtigungen, um die Integration für Ihren Gmail-Account nutzen zu können. Bei Bedarf werden Sie auf diese Seite weitergeleitet und ein Authorisierungs-Dialog wird angezeigt."
+    "message": "Für die Gmail-Integration benötigt Mailvelope zusätzliche Berechtigungen. Sobald Sie in Gmail die Verschlüsselungsfunktionen von Mailvelope nutzen, wird von Google ein Autorisierungsdialog gestartet, der Sie durch den Freigabeprozess führt."
   },
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",
