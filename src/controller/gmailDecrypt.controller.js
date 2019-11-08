@@ -282,7 +282,7 @@ export default class gmailDecryptController extends DecryptController {
     const result = await importControl.importKey(this.keyringId, armored);
     if (result === 'IMPORTED' || result === 'UPDATED') {
       this.ports.dDialog.emit('show-notification', {
-        message: 'key_import_bulk_success',
+        message: l10n.get('key_import_bulk_success'),
         type: 'success',
         autoHide: true,
         hideDelay: 2000,

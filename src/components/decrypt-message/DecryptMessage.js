@@ -32,7 +32,6 @@ l10n.register([
   'decrypt_digital_signature_null_info_short',
   'decrypt_show_message_btn',
   'decrypt_signer_label',
-  'key_import_bulk_success',
   'keygrid_keyid',
   'security_background_button_title'
 ]);
