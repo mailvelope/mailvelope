@@ -178,7 +178,17 @@ export default class gmailDecryptController extends DecryptController {
   async onAscAttachments(fileNames, accessToken, forceUnlock = false) {
     this.ports.dDialog.emit('waiting', {waiting: true});
     try {
-      const {mimeType} = await gmail.getMessageMimeType({msgId: this.msgId, email: this.userEmail, accessToken});
+      let mimeType;
+      let attachmentId;
+      if (fileNames.includes('encrypted.asc')) {
+        ({mimeType} = await gmail.getMessageMimeType({msgId: this.msgId, email: this.userEmail, accessToken}));
+      } else if (fileNames.includes('signature.asc')) {
+        const detSignAttId = await gmail.getPGPSignatureAttId({msgId: this.msgId, email: this.userEmail, accessToken});
+        if (detSignAttId) {
+          attachmentId = detSignAttId;
+          mimeType = 'multipart/signed';
+        }
+      }
       let ascMimeFileName;
       if (mimeType === 'multipart/encrypted' || mimeType === 'multipart/signed') {
         const {payload} = await gmail.getMessage({email: this.userEmail, msgId: this.msgId, accessToken, format: 'metadata', metaHeaders: ['from']});
@@ -193,7 +203,7 @@ export default class gmailDecryptController extends DecryptController {
           this.signedText = signedMessage;
           this.plainText = message;
         }
-        const {data} = await gmail.getAttachment({fileName: ascMimeFileName, email: this.userEmail, msgId: this.msgId, accessToken});
+        const {data} = await gmail.getAttachment({attachmentId, fileName: ascMimeFileName, email: this.userEmail, msgId: this.msgId, accessToken});
         this.armored = dataURL2str(data);
         if (mimeType === 'multipart/encrypted') {
           if (!await this.canUnlockKey(this.armored, this.keyringId) && !forceUnlock) {

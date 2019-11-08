@@ -323,10 +323,16 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
   let body;
   if (/^multipart\/signed/i.test(payload.mimeType) && payload.parts && payload.parts[1]) {
     if (/^application\/pgp-signature/i.test(payload.parts[1].mimeType)) {
-      body = getMailPartBody(payload.parts);
+      const node = getMimeNode(payload.parts);
+      if (node) {
+        body = node.body;
+      }
     }
   } else {
-    body = getMailPartBody([payload], type);
+    const node = getMimeNode([payload], [type]);
+    if (node) {
+      body = node.body;
+    }
   }
   if (!body) {
     return '';
@@ -354,6 +360,16 @@ export function extractSignedClearTextMultipart(rawEncoded) {
   });
 }
 
+export async function getPGPSignatureAttId({msgId, email, accessToken}) {
+  const {payload} = await getMessage({msgId, email, accessToken});
+  const node = getMimeNode([payload], ['multipart/signed']);
+  if (node) {
+    const sigNode = getMimeNode(node.parts, ['application/pgp-signature']);
+    return sigNode.body.attachmentId;
+  }
+  return;
+}
+
 export function getMailAttachments({payload, userEmail, msgId, exclude = ['encrypted.asc', 'signature.asc'], accessToken}) {
   if (!payload.parts) {
     return [];
@@ -365,17 +381,19 @@ export function getMailAttachments({payload, userEmail, msgId, exclude = ['encry
   }));
 }
 
-export function getMailPartBody(parts, mimeType = 'text/plain') {
+export function getMimeNode(parts, mimeTypes = ['text/plain']) {
+  let node;
   for (const part of parts) {
-    if (!part.parts) {
-      if (part.mimeType === mimeType) {
-        return part.body;
-      }
-    } else {
-      return getMailPartBody(part.parts);
+    if (mimeTypes.includes(part.mimeType)) {
+      node = part;
+    }
+    if (!node && part.parts) {
+      node = getMimeNode(part.parts, mimeTypes);
+    }
+    if (node) {
+      return node;
     }
   }
-  return '';
 }
 
 export function parseEmailAddress(address) {
