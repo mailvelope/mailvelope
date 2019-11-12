@@ -34,7 +34,7 @@ and then get and build the sources:
 
     git clone https://github.com/mailvelope/mailvelope.git
     cd mailvelope
-    npm install && grunt
+    npm ci && grunt prod
 
 #### Chrome
 

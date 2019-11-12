@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+
+v4.2.0
+-------
+__Nov 12, 2019__
+
+  * Support for Gmail API (experimental)
+  * Websites can trigger request for inclusion in the authorized domain list
+
 v4.1.1
 -------
 __Aug 28, 2019__

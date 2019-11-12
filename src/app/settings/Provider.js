@@ -12,7 +12,9 @@ import * as l10n from '../../lib/l10n';
 import Trans from '../../components/util/Trans';
 import Alert from '../../components/util/Alert';
 import SimpleDialog from '../../components/util/SimpleDialog';
-import {GMAIL_SCOPE_READONLY, GMAIL_SCOPE_SEND} from '../../modules/gmail';
+
+const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
+const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
 
 l10n.register([
   'alert_header_important',
