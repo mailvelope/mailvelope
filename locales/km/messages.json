@@ -1,74 +1,74 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "Добавить этот домен",
+        "message": "អនុញ្ញាតឈ្មោះគេហទំព័រនេះ",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
-        "message": "Все функции",
+        "message": "ជម្រើសទាំងអស់",
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Настройте Mailvelope</0> и вперед!",
+        "message": "<0>កំណត់ Mailvelope</0> ដើម្បីចាប់ផ្តើម!",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Все опции",
+        "message": "បង្ហាញជម្រើសនៃការកំណត់ទាំងអស់។",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
-        "message": "Панель управления",
+        "message": "ផ្ទាំងព័ត៌មាន",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_file_encryption_description": {
-        "message": "Шифрование одного или нескольких файлов",
+        "message": "ធ្វើកូដនីយកម្មលើឯកសារមួយ ឬច្រើន។",
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "Шифрование файлов",
+        "message": "ការធ្វើកូដនីយកម្មឯកសារ",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
-        "message": "Помощь",
+        "message": "ជំនួយ",
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "Управление открытыми и закрытыми ключами",
+        "message": "គ្រប់គ្រងសោសាធារណៈ និងឯកជន។",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "Ключи",
+        "message": "ចង្កោមសោ",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Главное меню Mailvelope",
+        "message": "មឺនុយចំបងរបស់ Mailvelope ",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Перезапустить Mailvelope",
+        "message": "Mailvelope ផ្ទុកឡើងវិញ",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Просмотр действий пользователя, связанных с безопасностью",
+        "message": "ពិនិត្យសកម្មភាពអ្នកប្រើប្រាស់ពាក់ព័ន្ធសុវត្ថិភាព។",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "Журнал",
+        "message": "កំណត់ត្រាសុវត្ថិភាព",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Меню настроек Mailvelope",
+        "message": "មឺនុយកំណត់ Mailvelope ",
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "Последнее обновление Mailvelope требует перенастройки фона безопасности.",
+        "message": "The last update of Mailvelope requires you to reconfigure your security background.",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Начнем!",
+        "message": "តោះចាប់ផ្តើម!",
         "description": "Start button label"
     },
     "alert_header_error": {
-        "message": "Ошибка!",
+        "message": "បញ្ហា!",
         "description": "Alert header of category error."
     },
     "alert_header_important": {
@@ -76,59 +76,59 @@
         "description": "Alert header of category important."
     },
     "alert_header_success": {
-        "message": "Успешно!",
+        "message": "ជោគជ័យ!",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "Внимание!",
+        "message": "ព្រមាន!",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Маска домена должна начинаться с '*.'.",
+        "message": "ឈ្មោះគេហទំព័រត្រូវលំនាំ គួរចាប់ពី '*.'.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "Нужно указать хотя бы одну маску домена.",
+        "message": "យ៉ាងហោចណាស់ តម្រូវឲ្យមានដែល Domainត្រូវនឹងគំនូសមួយ។",
         "description": "Alert header of category warning."
     },
     "auth_domain_headline": {
-        "message": "Добавить домен",
+        "message": "Authorize domain",
         "description": "Headline of authorize domain dialog."
     },
     "auth_domain_description": {
-        "message": "Разрешить использование Mailvelope с доменом $1?",
+        "message": "Would you like to allow the use of Mailvelope for the domain $1?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_api_label": {
-        "message": "Использовать API",
+        "message": "Allow API",
         "description": "Label for API allowed info"
     },
     "change_link": {
-        "message": "Изменить",
+        "message": "ផ្លាស់ប្តូរ",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Невозможно прочитать это расшифрованное сообщение: $1",
+        "message": "មិនអាចអាន សារទទេរនេះ៖ $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Шифрование",
+        "message": "កូដនីយកម្ម",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_manage_domains": {
-        "message": "Домены",
+        "message": "ឈ្មោះគេហទំព័រដែលបានអនុញ្ញាត",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Управление ключами",
+        "message": "គ្រប់គ្រងសោរ",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Записи в журнале",
+        "message": "កំណត់ត្រាសុវត្ថិភាព",
         "description": "Dashboard view security logs link"
     },
     "decrypt_attachment_label": {
-        "message": "Вложения",
+        "message": "ឯកសារភ្ជាប់",
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_att_frame_help_text": {
@@ -140,11 +140,11 @@
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_digital_signature": {
-        "message": "Подписанный",
+        "message": "បានចុះហត្ថលេខា",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Некорректная подпись",
+        "message": "ហត្ថលេខាមិនត្រឹមត្រូវ",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
@@ -156,11 +156,11 @@
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Ключ не найден!",
+        "message": "សោរ រកមិនឃើញ!",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "Ошибка расшифровки файла $1!",
+        "message": "វិកូដនីយកម្មនៃ​ឯកសារ $1 មិនអាចធ្វើបាន!",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
@@ -168,95 +168,95 @@
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "Расшифровка данных",
+        "message": "វិកូដនីយកម្មទិន្នន័យ",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "Успешно расшифровано",
+        "message": "វិកូដនីយកម្មជោគជ័យ",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
-        "message": "Расшифровать",
+        "message": "បើកកូដនីយកម្ម",
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Открыть в просмотрщике Mailvelope",
+        "message": "បើកក្នុងកម្មវិធីបើក Mailvelope",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "Показать сообщение",
+        "message": "បង្ហាញសារ",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Отправитель",
+        "message": "អ្នកផ្ញើ",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "Текст для расшифровки",
+        "message": "អក្សរសម្រាប់វិកូដនីយកម្ម",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Хотите также расшифровать текст?",
+        "message": "តើអ្នកចង់ធ្វើវិកូដនីយកម្មអក្សរ?",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Ошибка расшифровки текста!",
+        "message": "Decryption of the text is not possible!",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
-        "message": "Отмена",
+        "message": "បោះបង់",
         "description": "Dialog cancel button label"
     },
     "dialog_no_btn": {
-        "message": "Нет",
+        "message": "ទេ",
         "description": "Dialog no button label"
     },
     "dialog_popup_close": {
-        "message": "Закрыть",
+        "message": "បិទ",
         "description": "Close decrypt popup."
     },
     "dialog_save_btn": {
-        "message": "Сохранить",
+        "message": "រក្សាទុក",
         "description": "Dialog save button label"
     },
     "dialog_yes_btn": {
-        "message": "Да",
+        "message": "មែន",
         "description": "Dialog yes button label"
     },
     "editor_blur_warn": {
-        "message": "Внимание: ошибка текстового редактора.",
+        "message": "ព្រមាន៖ កម្មវិធីសរសេរអក្សរបាត់បង់ការកំណត់។",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "Зашифровать",
+        "message": "ធ្វើកូដនីយកម្ម",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "Ошибка",
+        "message": "បញ្ហា",
         "description": ""
     },
     "editor_header": {
-        "message": "Создание зашифрованного письма",
+        "message": "បង្កើតសារសុវត្ថិភាព",
         "description": "Header of editor popup."
     },
     "editor_key_not_found": {
-        "message": "Ключ не найден!",
+        "message": "សោរ រកមិនឃើញ!",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Чтобы зашифровать сообщение, у вас должен быть PGP-ключ каждого адресата. Тем не менее, вы можете подписать сообщение.",
+        "message": "អ្នកទទួលទាំងអស់ត្រូវការ​សោរ PGP ដើម្បី​ធ្វើកូដនីយកម្ម​​។ អ្នកនៅតែ​អាចចុះហត្ថលេខានៅលើសារដដែល។",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
-        "message": "Вложения",
+        "message": "ឯកសារភ្ជាប់",
         "description": "Label for attachments select/drop area."
     },
     "editor_label_message": {
-        "message": "Сообщение",
+        "message": "សារ",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "Получатель",
+        "message": "អ្នកទទួល",
         "description": "Label for recipient input."
     },
     "editor_label_copy_recipient": {
@@ -264,119 +264,119 @@
         "description": "Label for copy recipient text input."
     },
     "editor_label_subject": {
-        "message": "Тема",
+        "message": "Subject",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
-        "message": "Зашифровать файлы",
+        "message": "​ឯកសារកូតនីយកម្ម",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "Отсутствует основной ключ. Цифровая подпись невозможна.",
+        "message": "អ៊ីម៉ែលមិនអាចបាន​ចុះហត្ថលេខាឌីជីថល ដោយសារសោដើមបានបាត់",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "Сообщение не может быть подписано",
+        "message": "អ៊ីម៉េល មិនអាចចុះហត្ថលេខាដោយប្រព័ន្ធឌីជីថល",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "Удалить",
+        "message": "ដកចេញ",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "Только подпись",
+        "message": "ហត្ថលេខាតែមួយគត់",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "Отправленные сообщения будут снабжены цифровой подписью",
+        "message": "នៅពេលអ៊ីម៉េលត្រូវបានផ្ញើចេញ វានឹងចុះហត្ថលេខាដោយប្រព័ន្ធឌីជីថល",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "Сообщение будет снабжено цифровой подписью",
+        "message": "អ៊ីម៉េល នឹងត្រូវចុះហត្ថលេខាដោយប្រព័ន្ធឌីជីថល",
         "description": ""
     },
     "editor_transfer": {
-        "message": "Отправить",
+        "message": "បញ្ជូន",
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "Выбор подписи",
+        "message": "ជ្រើសរើសហត្ថលេខា",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "Изменение подписи",
+        "message": "ផ្លាស់ប្តូរហត្ថលេខា",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Пожалуйста, добавьте адресата.",
+        "message": "សូមបន្ថែមអ្នកទទួលម្នាក់។",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "Скачать все",
+        "message": "ទាញយកទាំងអស់",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "Расшифрованные файлы",
+        "message": "ឯកសារបានធ្វើកូដនីយកម្ម",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Зашифровано для",
+        "message": "បានធ្វើកូដនីយកម្មសម្រាប់",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "Невозможно зашифровать это сообщение: $1",
+        "message": "មិនអាច​ធ្វើកូដនីយកម្មសម្ងាត់សារនេះ៖ $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Ошибка шифрования файла $1!",
+        "message": "កូដនីយកម្មនៃ​ឯកសារ $1 មិនអាចធ្វើបាន!",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Написать защищенное письмо",
+        "message": "សរសេរអ៊ីម៉ែលសុវត្ថិភាព",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "Шифрование данных",
+        "message": "កូដនីយកម្មទិន្នន័យ",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "Успешно зашифровано",
+        "message": "កូដនីយកម្មជោគជ័យ",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
-        "message": "Зашифровать",
+        "message": "ធ្វើកូដនីយកម្ម",
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "Зашифрованные данные не подписаны",
+        "message": "ទិន្នន័យកូដនីយកម្មមិនបានចុះហត្ថលេខា",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "Удаление подписи",
+        "message": "លុបហត្ថលេខា",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
-        "message": "Подписано:",
+        "message": "ហត្ថលេខាដោយ",
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "Зашифрованные данные подписаны вашим ключом ($1)",
+        "message": "ទិន្នន័យធ្វើកូដនីយកម្ម បានចុះហត្ថលេខាជាមួយសោអ្នក ($1)",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Хотите также зашифровать текст?",
+        "message": "តើអ្នកចង់ធ្វើកូដនីយកម្មអក្សរដែរទេ?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Ошибка шифрования текста!",
+        "message": "កូដនីយកម្មនៃអក្សរ មិនអាចធ្វើបាន!",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "Один из файлов слишком велик.",
+        "message": "មានឯកសារមួយធំពេក។",
         "description": "."
     },
     "ext_description": {
-        "message": "Добавьте к email сквозное шифрование. Безопасная электронная почта по стандарту OpenPGP.",
+        "message": "បង្កើនអ្នកផ្តល់អ៊ីម៉ែលរបស់អ្នកជាមួយ​កូដនីយកម្មទាំងសងខាង។ រក្សាទំនាក់ទំនងអ៊ីម៉ែលដែលមានសុវត្ថិភាពដោយផ្អែកលើស្តង់ដារ OpenPGP ។",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -384,167 +384,167 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Сделайте Mailvelope еще безопаснее: настройте фон безопасности.",
+        "message": "ដាក់ Mailvelope ឲ្យមានសុវត្ថិភាពជាងមុនដោយកំណត់ប្រវត្តិសុវត្ថិភាពរបស់អ្នក។",
         "description": "Text of feature banner for new security background."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Персонализируйте",
+        "message": "កំណត់ដោយខ្លួនឯងឥឡូវនេះ",
         "description": "Button text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "Ошибка подписи",
+        "message": "ហត្ថលេខាមិនត្រឹមត្រូវ",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "Файл не подписан",
+        "message": "ឯកសារមិនបានចុះហត្ថលេខា",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
-        "message": "Ошибка расшифровки файла: $1",
+        "message": "មិនអាច បើកកូដនីយកម្មនៃឯកសារនេះទេ៖ $1",
         "description": ""
     },
     "file_signed": {
-        "message": "Файл подписан $1",
+        "message": "ឯកសារបានចុះហត្ថលេខាដោយ $1",
         "description": "Text of signer field of file element."
     },
     "form_back": {
-        "message": "Назад",
+        "message": "ត្រលប់ក្រោយ",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "Обработка",
+        "message": "កំពុងដំណើរការ",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "Отмена",
+        "message": "បោះបង់",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "Очистить",
+        "message": "សំអាត",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "Закрыть",
+        "message": "បិទ",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "Подтвердить",
+        "message": "យល់ព្រម",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "Продолжить",
+        "message": "បន្ត",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "Нет подходящего ключа для адресата.",
+        "message": "មិនមានសោកូដនីយកម្មត្រឹមត្រូវសម្រាប់អាសយដ្ឋានអ្នកទទួល។",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "Ошибка формы подписи.",
+        "message": "ទម្រង់ហត្ថលេខាមិនត្រឹមត្រូវ។",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "Назначение",
+        "message": "គោលដៅ",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "Зашифрованные данные появятся на этой странице.",
+        "message": "ទិន្នន័យកូដនីយកម្មនឹងត្រូវត្រឡប់ទៅកាន់ទំព័រនេះ។",
         "description": "Behavior when no action is specified in form"
     },
     "form_forward": {
-        "message": "Переслать",
+        "message": "បញ្ជូនបន្ត",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "Импорт",
+        "message": "នាំចូល",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Загрузка формы",
+        "message": "កំពុងផ្ទុកទម្រង់",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "Далее",
+        "message": "បន្ទាប់",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "Нет",
+        "message": "ទេ",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "OK",
+        "message": "យល់ព្រម",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "Получатель",
+        "message": "អ្នកទទួល",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "Сохранить",
+        "message": "រក្សាទុក",
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "В связке ключей отсутствует закрытый ключ для подписывания формы. Пожалуйста, импортируйте или создайте ключ.",
+        "message": "រកមិនឃើញសោឯកជនក្នុងចង្កោមសោដើម្បីចុះហត្ថលេខាលើមាតិកាទម្រង់។ សូមនាំចូល ឬបង្កើតថ្មី។",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "Отправить",
+        "message": "បញ្ជូន",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "Отменить действие",
+        "message": "ត្រលប់មកដើមវិញ",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "Да",
+        "message": "មែន",
         "description": "Yes form button."
     },
     "general_default_key_always": {
-        "message": "Дополнительно шифровать сообщения моим ключом (позволит расшифровывать отправленные письма)",
+        "message": "តែងតែបន្ថែមសោដើមទៅកាន់បញ្ជីអ្នកទទួល។ (នេះអនុញ្ញាតធ្វើវិកូដនីយកម្ម សារដែលបានផ្ញើ)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Добавлять к сообщениям цифровую подпись",
+        "message": "តើអ្នកចង់ចុះហត្ថលេខាគ្រប់អ៊ីម៉ែលទាំងអស់?",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign_link": {
-        "message": "Изменение настроек",
+        "message": "ផ្លាស់ប្តូរការកំណត់នៅទីនេះ",
         "description": "Test for auto sign link."
     },
     "general_default_key_no_sign_option": {
-        "message": "Не подписано",
+        "message": "មិនបានចុះហត្ថលេខា",
         "description": "Label for not sign option in sign key select."
     },
     "general_gnupg_check_availability": {
-        "message": "Проверить доступность",
+        "message": "អនុញ្ញាតឱ្យយើងពិនិត្យមើលពេលរកបាន។",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "У вас установлена программа GnuPG? Если нет, <0>скачайте ее отсюда</0>. Чтобы снова проверить доступность программы, <1>перезапустите Mailvelope</1>",
+        "message": "តើអ្នកមានដំឡើង GnuPG ទេ? បើទេ <0>ទាញយកទីនេះ</0>។ ដើម្បីត្រួតពិនិត្យម្តងទៀត<1>បើក Mailvelopeឡើងវិញ</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "Программа GnuPG недоступна",
+        "message": "GnuPG មិនមានទេ",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "Предпочитаете GnuPG?",
+        "message": "តើអ្នកចង់ប្រើ GnuPG?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "Сейчас вы используете",
+        "message": "អ្នកកំពុងប្រើប្រាស់",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Какое средство шифрования предпочитаете?",
+        "message": "តើកម្មវិធីអ៊ិនគ្រីបខាងក្រោយមួយណាដែលអ្នកចូលចិត្ត?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
-        "message": "Настройки OpenPGP",
+        "message": "ចំណូលចិត្ត OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Обратите внимание: открытые ключи синхронизируются между связками ключей. В зависимости от доступности закрытых ключей Mailvelope может действовать иначе, чем определено в настройках приоритета библиотек шифрования.",
+        "message": "សម្គាល់៖ សោសាធារណៈត្រូវបានធ្វើសមកាលកម្មរវាងចង្កោមសោដែលមាន។ អាស្រ័យលើភាពអាចរកបាននៃកូនសោឯកជន Mailvelopeអាចបដិសេធការកំណត់បណ្ណាល័យអ៊ិនគ្រីបដែលពេញចិត្ត។",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
@@ -572,11 +572,11 @@
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
-        "message": "Обнаружена программа GnuPG",
+        "message": "ការតភ្ជាប់ GnuPG ",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Пожалуйста, убедитесь, что в вашей связке GnuPG есть следующие действующие ключи: $1",
+        "message": "សូមត្រួតពិនិត្យ ប្រសិនបើសោសាធារណៈមាននៅបង្កោមសោ GnuPG និងត្រឹមត្រូវ៖ $1",
         "description": ""
     },
     "import_frame_help_text": {
@@ -584,815 +584,815 @@
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
-        "message": "Нажмите для открытия расширения.",
+        "message": "ចុចទីនេះ ដើម្បីបើកមុខងារបន្ថែម។",
         "description": "Install landing page getting started hint"
     },
     "invalid_default_key": {
-        "message": "Ошибка ключа для шифрования и подписи",
+        "message": "សោរ មិនអាចផៀងផ្ទាត់សម្រាប់ កូដនីយកម្ម​ និង​ដំណើរ​ការចុះ​ហត្ថលេខា",
         "description": "Tootip for set as default key button"
     },
     "key_default_active_btn_title": {
-        "message": "Ключ помечен как основной",
+        "message": "Key is set as default key",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "Ключ неверен и не может быть основным",
+        "message": "The key is invalid and cannot be set as the default key",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Пометить ключ как основной",
+        "message": "Set key as default key",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
-        "message": "Экспорт",
+        "message": "នាំចេញ",
         "description": "Export key button label"
     },
     "key_export_btn_title": {
-        "message": "Экспортировать ключ",
+        "message": "នាំចេញសោរ",
         "description": "Title for export key button"
     },
     "key_export_create_file": {
-        "message": "Сохранить",
+        "message": "រក្សាទុក",
         "description": "Download file button."
     },
     "key_export_dialog_copy_to_clipboard": {
-        "message": "Скопировать в буфер обмена",
+        "message": "Copy to clipboard",
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Какой ключ вы хотите экспортировать?",
+        "message": "Which key would you like to export?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
-        "message": "Экспортировать ключ",
+        "message": "នាំចេញសោរ",
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "Имя файла",
+        "message": "ឈ្មោះឯកសារ",
         "description": "Label of filename input."
     },
     "key_export_header": {
-        "message": "Экспортировать ключ",
+        "message": "នាំចេញសោរ",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "В этом файле содержатся также закрытые ключи. Храните файл в надежном месте, не давайте к нему доступ другим людям.",
+        "message": "ឯកសារនេះមានសោរឯកជន។ រក្សាឯកសារនេះនៅទីកន្លែងសុវត្ថិភាព និងមិនត្រូវចែករំលែកជាមួយអ្នកដទៃទេ។",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Дополнительно",
+        "message": "កម្រិតខ្ពស់",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "Создать другой...",
+        "message": "បង្កើតមួយទៀត...",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "Адрес De-Mail",
+        "message": "កំណត់អាសយដ្ឋានអ៊ីម៉េលម្តងទៀត",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "Ошибка создания ключа.",
+        "message": "បញ្ហាក្នុងការបង្កើតសោរ។",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "экспериментальное",
+        "message": "ពិសោធន៍",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "Ключ истекает",
+        "message": "កាលបរិច្ឆេទផុតកំណត់សោរ",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "По умолчанию в будущем",
+        "message": "លំនាំដើមអនាគត",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "Создать",
+        "message": "បង្កើត",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "Ошибка адреса email",
+        "message": "អាសយដ្ឋានអ៊ីម៉េលមិនត្រឹមត្រូវ",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "Длина ключа",
+        "message": "ទំហំសោរ",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "Полное имя владельца ключа",
+        "message": "ឈ្មោះពេញ នៃម្ចាស់សោរ",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "Введите пароль",
+        "message": "បញ្ចូល​ពាក្យសម្ងាត់",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "В поле пароля ничего нет",
+        "message": "កន្លែងបញ្ចូលពាក្យសម្ងាត់នៅទទេរ",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "Пароли совпадают",
+        "message": "ពាក្យ​សម្ងាត់​ត្រូវ​គ្នា",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "Повторите пароль",
+        "message": "បញ្ចូល​ពាក្យសម្ងាត់​ សារឡើងវិញ",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "Пароли не совпадают",
+        "message": "ពាក្យសម្ងាត់ មិនត្រូវគ្នា",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "Новый ключ создан и импортирован в связку ключей",
+        "message": "សោរថ្មីត្រូវបានបង្កើត និងបាននាំចូលក្នុងបណ្តុំសោរ",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "Загрузить открытый ключ на сервер ключей Mailvelope (можно удалить в любое время)",
+        "message": "បញ្ជូនសោរសាធារណៈ ទៅកាន់​ម៉ាស៊ីនមេសោរ Mailvelope  (អាចត្រូវ​បានលុប ចោលគ្រប់ពេល)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
-        "message": "Создание ключа...",
+        "message": "ការបង្កើតសោរកំពុងដំណើរការ...",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Пожалуйста, подождите. Создание ключа может потребовать нескольких минут. Время зависит от разных факторов, например, длины ключа.",
+        "message": "សូមរង់ចាំ, ការបង្កើតសោរ អាចចំណាយពេលច្រើននាទី អាស្រ័យ កត្តាច្រើន ដូចជា ទំហំសោរ។",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Ключ успешно импортирован/обновлен!",
+        "message": "សោត្រូវបាននាំចូល/ធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ!",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Импорт контактов",
+        "message": "នាំចូលបញ្ជីទំនាក់ទំនង",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Подтвердите зашифрованные коммуникации с этим человеком:",
+        "message": "បញ្ជាក់ដើម្បីបើកទំនាក់ទំនងសម្ងាត់ជាមួយអ្នកទទួលនេះ៖",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "Подтвердить ключ",
+        "message": "បញ្ជាក់សោ",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "Добавить ключ в связку ключей",
+        "message": "បន្ថែមសោរទៅបណ្តុំសោរ",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "Ошибка импорта.",
+        "message": "នាំចូលមានបញ្ហា។",
         "description": "Import error alert."
     },
     "key_import_error_no_uid": {
-        "message": "В ключе $1 нет ID пользователя",
+        "message": "រកមិនឃើញលេខID អ្នកប្រើប្រាស់ក្នុងសោ $1",
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Ошибка чтения защищенного PGP-ключа: $1",
+        "message": "កំហុសក្នុងការអានសោ PGP ៖ $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "Ошибка при работе с ключами",
+        "message": "បញ្ហាមួយកើតឡើងនៅពេលដំណើរការសោរនេះ",
         "description": "Import error alert."
     },
     "key_import_file_label": {
-        "message": "Выбор файлов",
+        "message": "ជ្រើសរើសេឯកសារ",
         "description": "File selection label."
     },
     "key_import_from_text_btn": {
-        "message": "Импорт ключа из буфера",
+        "message": "នាំចូលសោពីត្បៀតឯកសារ",
         "description": "Import keys from clipboard button label on key import page."
     },
     "key_import_from_text_label": {
-        "message": "Текст из буфера",
+        "message": "អក្សរពីត្បៀតឯកសារ",
         "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_hkp_search_btn": {
-        "message": "Поиск",
+        "message": "ស្វែងរក",
         "description": ""
     },
     "key_import_hkp_search_ph": {
-        "message": "По имени, email или ID ключа",
+        "message": "តាមឈ្មោះ, អាសយដ្ឋានអ៊ីម៉ែល, ឬលេខប្រើ",
         "description": ""
     },
     "key_import_hkp_search_public": {
-        "message": "Поиск открытых ключей на сервере ключей",
+        "message": "ស្វែងរកសោរសាធារណៈនៅលើម៉ាស៊ីនមេសោរ។",
         "description": ""
     },
     "key_import_hkp_server": {
-        "message": "Сервер ключей",
+        "message": "ម៉ាស៊ីនមេសោរ",
         "description": ""
     },
     "key_import_invalid_text": {
-        "message": "Не найден текст действующего ключа",
+        "message": "រកមិនឃើញសោរជាអក្សរត្រឹមត្រូវ​ទេ",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Внимание: истек срок важных данных для шифрования. Шифрованная связь с $1 невозможна. Этот человек должен снова пригласить вас.",
+        "message": "ចំណាំ៖ ទិន្នន័យចាំបាច់សម្រាប់ការទំនាក់ទំនងសម្ងាត់បានហួសកំណត់។ ការទំនាក់ទំនងសម្ងាត់ជាមួយ $1 លែងមានទៀតហើយ។ គេត្រូវអញ្ជើញអ្នកសារជាថ្មី។",
         "description": ""
     },
     "key_import_number_of_failed": {
-        "message": "Ошибка импорта ключа.",
+        "message": "មិនអាចនាំចូលកូនសោបានទេដោយសារមានកំហុស។",
         "description": "Error message with number of failed imports."
     },
     "key_import_number_of_failed_plural": {
-        "message": "Ошибка импорта ключей ($1).",
+        "message": "$1 សោមិនអាចនាំចូលដោយសារមានបញ្ហា។",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "Закрытый ключ, соответствующий открытому ключу $1 пользователя $2, импортирован в связку ключей",
+        "message": "ផ្នែកសោរឯកជន ត្រូវគ្នាជាមួយ សោរ​សាធារណៈដែលមានស្រាប់ $1 នៃអ្នកប្រើប្រាស់ $2 បាននាំចូលទៅក្នុងបណ្តុំសោរ",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "Ошибка чтения закрытого ключа: $1",
+        "message": "មិនអាចអានសោរឯកជន៖ $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "Закрытый ключ $1 пользователя $2 импортирован в связку ключей",
+        "message": "សោរឯកជន $1 នៃអ្នកប្រើប្រាស់ $2 បាន​នាំចូលក្នុងបណ្តុំសោរ",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "Обновлен закрытый ключ $1 пользователя $2",
+        "message": "បានធ្វើបច្ចុប្បន្នភាព សោរឯកជន $1 នៃអ្នកប្រើប្រាស់ $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "Ошибка чтения открытого ключа: $1",
+        "message": "មិនអាចអានសោរសាធារណ៖ $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "Открытый ключ $1 пользователя $2 импортирован в связку ключей",
+        "message": "សោរសាធារណៈ $1 នៃអ្នកប្រើ $2 បាននាំចូលក្នុងបណ្តុំសោរ",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "Открытый ключ $1 пользователя $2 обновлен",
+        "message": "បច្ចុប្បន្នភាពសោរសាធារណៈ $1 នៃអ្នកប្រើ $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_textarea": {
-        "message": "Импортировать ключ как текст",
+        "message": "បញ្ជូលសោរជាអក្សរ",
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "Текст слишком велик для импорта. Попробуйте импортировать по частям.",
+        "message": "សោរអក្សរ ដែលអ្នកព្យាយាមនាំចូលមានទំហំធំពេក។ ព្យាយាមនាំចូលបំណែកសោរ ដែលតូចជាងនេះ។",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "Ошибка импорта ключа: $1",
+        "message": "មិនអាចនាំចូលសោរដោយសារការលើកលែង៖ $1",
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "Данные ключей на сервере Mailvelope более не актуальны.",
+        "message": "The key data on the Mailvelope key server is no longer up to date.",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "Ключ не синхронизирован с сервером ключей Mailvelope.",
+        "message": "The key is not synchronized with the Mailvelope key server.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "Для окончательного удаления ключа с сервера ключей Mailvelope по всем пользовательским ID ключа было разослано подтверждающее письмо.",
+        "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Удалить все пользовательские ID",
+        "message": "Remove all user IDs",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "Отправить снова",
+        "message": "បញ្ជូនម្តងទៀត",
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "Данные ключей на сервере ключей Mailvelope актуальны.",
+        "message": "The key data on the Mailvelope key server is up to date.",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "Данные ключей на сервере ключей Mailvelope были обновлены.",
+        "message": "The key data has been updated on the Mailvelope key server.",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
-        "message": "Обновление",
+        "message": "បច្ចុប្បន្នភាព",
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "Чтобы синхронизировать ключ с сервером ключей Mailvelope, по всем пользовательским ID ключа разослано подтверждающее письмо.",
+        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
-        "message": "Синхронизировать",
+        "message": "សមកាល",
         "description": "Key server upload button label"
     },
     "key_recovery_failed": {
-        "message": "Не получилось восстановить ключ из резервной копии.",
+        "message": "ការស្តារសោរពីការបម្រុងទុកបានបរាជ័យ។",
         "description": ""
     },
     "key_remove_btn": {
-        "message": "Удалить",
+        "message": "ដកចេញ",
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "Удалить ключ из связки",
+        "message": "Remove key from keyring",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
-        "message": "Удалить ключ",
+        "message": "លុបសោ",
         "description": "Title of delete key dialog."
     },
     "key_revoke_btn": {
-        "message": "Отозвать",
+        "message": "ដកហូត",
         "description": "Revoke key button label"
     },
     "key_revoke_btn_title": {
-        "message": "Отозвать ключ",
+        "message": "ដកហូតសោ",
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Вы все еще хотите отозвать ключ?",
+        "message": "Would you still like to revoke the key?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "После отзыва ключ уже никогда нельзя будет использовать.",
+        "message": "With the revocation the key remains permanently unusable.",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
-        "message": "Отозвать ключ",
+        "message": "ដកហូតសោ",
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "Сделать основным",
+        "message": "កំណត់ជាលំនាំដើម",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
-        "message": "Ошибка создания резервной копии.",
+        "message": "ការបង្កើតសោរបម្រុងទុកបានបរាជ័យ។",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "Восстановить из резервной копии",
+        "message": "ស្តារការបម្រុងទុក",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Создайте новый лист восстановления, если:",
+        "message": "បង្កើតតារាងស្តារថ្មីមួយ ប្រសិនបើ៖",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Совет: создайте резервную копию",
+        "message": "ការណែនាំ៖ បង្កើតការបម្រុងទុក",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "Вы потеряли свой лист восстановления.",
+        "message": "អ្នកបានបាត់បង់តារាងស្តារឡើងវិញ។",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "Новый лист восстановления нужен по соображениям безопасности.",
+        "message": "តារាងស្តារឡើងវិញថ្មីមួួយ ត្រូវបានបង្កើតឡើងដើម្បីសុវត្ថិភាព។",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "Создать резервную копию",
+        "message": "បង្កើតការបម្រុងទុក",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "Резервная копия нужна для вашей зашифрованной переписки:",
+        "message": "ការបម្រុងទុក ត្រូវបានទាមទារ ដើម្បីការពារការទំនាក់ទំនងដែលសម្ងាត់របស់អ្នក៖",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "Совет: настройте резервную копию",
+        "message": "ការណែនាំ៖ កំណត់ការបម្រុងទុក",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "Для восстановления в случае потери данных",
+        "message": "ដើម្បីស្តារវាឡើងវិញក្នុងករណីបាត់បង់ទិន្នន័យ",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Для передачи на другие устройства",
+        "message": "ដើម្បីផ្ទេរវាទៅកាន់ឧបករណ៍ផ្សេង",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "Готовится документ с вашим кодом восстановления.",
+        "message": "ឯកសារជាមួយកូដស្តារឡើងវិញ ត្រូវបានរៀបចំ។",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "Создание резервной копии",
+        "message": "បង្កើតការបម្រុងទុក!",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "Дата истечения будет изменена также для всех подключей. Изменения не коснутся истекших и неработающих ключей.",
+        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "Изменить дату окончания срока действия",
+        "message": "ផ្លាស់ប្តូរថ្ងៃផុតកំណត់",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "Прежний пароль",
+        "message": "ពាក្យសម្ងាត់ចាស់",
         "description": "Old password input label"
     },
     "keydetails_change_pwd_dialog_title": {
-        "message": "Изменить пароль",
+        "message": "ផ្លាស់ប្តូរពាក្យសម្ងាត់",
         "description": "Title of change password dialog."
     },
     "keydetails_creation_date": {
-        "message": "Создан",
+        "message": "បានបង្កើត",
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "Истекает",
+        "message": "ហួសកំណត់",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "никогда",
+        "message": "មិនដែល",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
-        "message": "Пароль",
+        "message": "ពាក្យសម្ងាត់",
         "description": "Password of a PGP key."
     },
     "keydetails_title": {
-        "message": "Подробная информация о ключе",
+        "message": "សោលម្អិត",
         "description": "Title of the key details panel"
     },
     "keygen_dialog_password_placeholder": {
-        "message": "минимум 4 знака",
+        "message": "យ៉ាងតិច 4 ខ្ទង់",
         "description": ""
     },
     "keygen_dialog_password_error_length": {
-        "message": "В пароле должно быть не меньше $1 знаков",
+        "message": "ពាក្យសម្ងាត់ទាមទារយ៉ាងហោច $1 ខ្ទង់",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Пожалуйста, придумайте пароль для своего ключа, чтобы защитить шифрованную переписку:",
+        "message": "សូមដាក់​ពាក្យសម្ងាត់ ដើម្បីការពារ​ការទំនាក់ទំនង​របស់អ្នកដោយកូដនីយកម្ម៖",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Иногда на это требуется несколько минут. Браузер может перестать отвечать. Пожалуйста, немного терпения.",
+        "message": "ដំណើរការនេះអាចចំណាយពេលច្រើន។ កម្មវិធីរុករករបស់អ្នកអាចនឹងលែងឆ្លើយតប។ សូម​អត់ធ្មត់។",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "Настройка шифрованной переписки",
+        "message": "ការកំណត់​ការទំនាក់ទំនងឲ្យ​សម្ងាត់",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "Алгоритм",
+        "message": "ក្បួនដោះស្រាយ",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "Все",
+        "message": "ទាំងអស់",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "Cоздан",
+        "message": "កាលបរិច្ឆេទបង្កើត",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "Создан",
+        "message": "បានបង្កើត",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Основной ключ",
+        "message": "សោដើម",
         "description": "Default key in the keyring."
     },
     "keygrid_default_label": {
-        "message": "По умолчанию",
+        "message": "លំនាំដើម",
         "description": "Label for the default key"
     },
     "keygrid_delete": {
-        "message": "Удал.",
+        "message": "លុប",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "Действительно удалить этот ключ?",
+        "message": "តើ​អ្នក​ប្រាកដ​ថាចង់​លុបសោរនេះមែនទេ?",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "Показать все ключи",
+        "message": "បង្ហាញសោរទាំងអស់",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "Показать закрытый ключ",
+        "message": "បង្ហាញសោរឯកជន",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "Показать открытый ключ",
+        "message": "បង្ហាញសោរសាធារណៈ",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "Истекает",
+        "message": "កាលបរិច្ឆេទផុតកំណត់",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "Экспорт",
+        "message": "នាំចេញ",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "Экспортировать все ключи из списка в файл",
+        "message": "នាំចេញសោរទាំងអស់នៅក្នុងបញ្ជីឯកសារ",
         "description": "Title for Export key button."
     },
     "keygrid_generate_title": {
-        "message": "Создать ключ",
+        "message": "បង្កើតសោរ",
         "description": "Title for generate key button"
     },
     "keygrid_import_title": {
-        "message": "Импортировать ключ",
+        "message": "នាំចូលសោរ",
         "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
-        "message": "Ошибка ID пользователя",
+        "message": "អត្តសញ្ញាណអ្នកប្រើប្រាស់មិនត្រឹមត្រូវ",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "Отпечаток",
+        "message": "ស្នាមម្រាមដៃ PGP",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "Длина",
+        "message": "ប្រវែង",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "Этот ключ не ограничен по времени",
+        "message": "សោរនេះមិនទាន់ផុតកំណត់ទេ",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "ID ключа",
+        "message": "លេខសោរ៖",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
-        "message": "Ключ",
+        "message": "សោរចំបង",
         "description": "Main key in the PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Закрытые ключи",
+        "message": "សោរឯកជន",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "Открытые ключи",
+        "message": "សោរសាធារណៈ",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "Обновить",
+        "message": "ផ្ទុកឡើងវិញ",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Перезагрузить связку ключей",
+        "message": "ផ្ទុកបណ្តុំសោរឡើងវិញ",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "Отправить открытый ключ по email",
+        "message": "ផ្ញើសោរសាធារណៈតាមអ៊ីម៉េល",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "Подписант",
+        "message": "អ្នកចុះហត្ថលេខា",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "Неизвестный подписант",
+        "message": "អ្នកចុះហត្ថលេខាដែលគេមិនស្គាល់",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "Фильтры",
+        "message": "ចម្រោះ",
         "description": "Key grid sort selector."
     },
     "keygrid_status_expired": {
-        "message": "просрочен",
+        "message": "បានហួសកំណត់",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_invalid": {
-        "message": "недействующий",
+        "message": "មិនត្រឹមត្រូវ",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_revoked": {
-        "message": "отозван",
+        "message": "បានដកហូត",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "действующий",
+        "message": "ត្រឹមត្រូវ",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Подключ",
+        "message": "សោរបន្ទាប់បន្សំ",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "Подключи",
+        "message": "សោរបន្ទាប់បន្សំ",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "E-mail",
+        "message": "អ៊ីម៉េល",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "ID пользователя",
+        "message": "លេខ​សម្គាល់​អ្នកប្រើ៖",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "Имя",
+        "message": "ឈ្មោះ",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "Основной",
+        "message": "ចម្បង",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
-        "message": "Подписи",
+        "message": "ហត្ថលេខា",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "Статус",
+        "message": "ស្ថានភាព",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "См. настройки:",
+        "message": "មើលការកំណត់ដែលមាននៅ៖",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "Резервная копия связки ключей",
+        "message": "បម្រុងទុកបណ្តុំសោរ",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Хотите удалить связку ключей с ID: $1?",
+        "message": "តើអ្នកចង់លុបបណ្តុំសោរជាមួយលេខសម្គាល់៖ $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Подтвердить ключ",
+        "message": "បញ្ជាក់កូនសោ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Подтвердите ключи ($1)",
+        "message": "បញ្ជាក់ $1 សោ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_display_keys": {
-        "message": "Показать ключи",
+        "message": "បង្ហាញសោរ",
         "description": "Tab of keyring to display keys."
     },
     "keyring_export_keys": {
-        "message": "Экспортировать связку ключей",
+        "message": "នាំចេញបណ្តុំសោរ",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "Создать ключ",
+        "message": "បង្កើតសោរ",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "Управление ключами",
+        "message": "ការគ្រប់គ្រងសោរ",
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Можете добавить свои контакты в виде файла или текста из буфера.",
+        "message": "អ្នកអាចបន្ថែមលេខទំនាក់ទំនងរបស់អ្នកជាឯកសារ ឬអក្សរ ចេញពីត្បៀតឯកសារ។",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Добавить ключи",
+        "message": "បន្ថែម​សោរ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Можно искать контакты на сервере ключей.",
+        "message": "ស្វែងរកម៉ាស៊ីនមេសោសម្រាប់បញ្ជីទំនាក់ទំនងមានស្រាប់។",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
-        "message": "Основная связка ключей",
+        "message": "សោរចំបង",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "Закрытый",
+        "message": "ឯកជន",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "Открытый",
+        "message": "សាធារណៈ",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "Пары ключей",
+        "message": "សោរគូ",
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Удалить связку ключей",
+        "message": "លុបចង្កោមសោ",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
-        "message": "Настройки",
+        "message": "ដំឡើង",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "Создать ключ",
+        "message": "បង្កើតសោរ",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Если вы используете наше расширение впервые и у вас еще нет пары ключей, пожалуйста, создайте эту пару сейчас.",
+        "message": "ប្រសិនបើអ្នកប្រើកម្មវិធីបន្ថែមនេះជាលើកដំបូង​ និងបើអ្នកមិនទាន់មានសោរគូទេ សូមបង្កើតសោរឥឡូវនេះ។",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "Импорт ключа",
+        "message": "បញ្ជូលសោរ",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "У вас уже есть пара ключей на другом устройстве? Вы можете импортировать эти ключи. Просто экспортируйте ключи на другом устройстве, а затем импортируйте их здесь.",
+        "message": "តើអ្នកធ្លាប់មានសោរគូលើឧបករណ៍ដទៃ? អ្នកអាចនាំចូលសោរដែលមានស្រាប់។ គ្រាន់តែនាំចេញសោរគូពីឧបករណ៍ផ្សេង និងនាំចូលនៅទីនេះ។",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Пара ключей нужна для шифрования и расшифровки сообщений, а также чтобы предложить вашим адресатам шифровать переписку.",
+        "message": "សោរគូ តម្រូវឲ្យមាន កូដនីយកម្ម និង​បើកកូដនីយកម្ម ព្រមទាំងអញ្ជើញឈ្មោះក្នុងបញ្ជីទំនាក់ទំនងរបស់អ្នក ដើម្បីទំនាក់ទំនង​បានកូដនីយកម្មទំាងសងខាង។",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "В связке ключей пока нет парных ключей.",
+        "message": "បណ្តុំសោរនេះ មិនទាន់មានសោរគូទេ។",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "Дополнительно",
+        "message": "ប្រភពសោផ្សេងៗ",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Использовать ключи из заголовков Autocrypt входящих писем",
+        "message": "Use keys from Autocrypt headers of incoming email",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_hkp_url": {
-        "message": "Сервер ключей HKP",
+        "message": "ម៉ាស៊ីនមេ HKP សម្រាប់រក្សាសោរ",
         "description": "HKP key server option: url."
     },
     "keyserver_tofu_lookup": {
-        "message": "Использовать сервер ключей Mailvelope",
+        "message": "ប្រើប្រាស់ម៉ាស៊ីនមេសោ Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_url_error": {
-        "message": "Ошибка доступа к серверу ключей",
+        "message": "ម៉ាស៊ីនមេសោរ មិនអាចទាក់ទងបាន",
         "description": "HKP key server URL error."
     },
     "keyserver_url_warning": {
-        "message": "Формат адреса сервера ключей: http(s)://keys.example.com",
+        "message": "អាសយដ្ឋានម៉ាសុីមេសោរ ត្រូវតែមានទម្រង់ដូចខាងក្រោម៖ http(s)://keys.example.com",
         "description": "HKP key server url warning."
     },
     "keyserver_wkd_lookup": {
-        "message": "Запрашивать ключи у почтовых провайдеров получателей (Web Key Directory)",
+        "message": "ពាក្យគន្លឹះសំណួរពីអ្នកផ្តល់អ៊ីមែល (អ្នកទទួលកូនសោគេហទំព័រ)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
-        "message": "Добавить новый",
+        "message": "បន្ថែមថ្មី",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Добавить новый ID пользователя",
+        "message": "Add a new user ID",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
-        "message": "Сервер ключей",
+        "message": "ម៉ាស៊ីនមេសោរ",
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "не синхронизировано",
+        "message": "not synchronized",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
-        "message": "синхронизировано",
+        "message": "បានធ្វើសមកាលកម្ម",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "не подтверждено",
+        "message": "មិនបានផ្ទៀងផ្ទាត់",
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "Пользовательские ID",
+        "message": "Assigned user IDs",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
-        "message": "Узнать больше",
+        "message": "ស្វែងយល់បន្ថែម",
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "Не найден закрытый ключ для этого сообщения. Требуется закрытый ключ с ID: $1",
+        "message": "រកមិនឃើញសោរឯកជន​ទេ សម្រាប់សារនេះ។ ទាមទារសោរឯកជន លេខសម្គាល់៖ $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Ошибка расшифровки сообщения: $1",
+        "message": "មិនអាចធ្វើកូដនីយកម្មលើសារនេះ៖ $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "Адрес уже используется",
+        "message": "The email address is already in use",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Пожалуйста, укажите имя",
+        "message": "Please enter a name",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
-        "message": "Текст скопирован в буфер.",
+        "message": "អក្សរបានចម្លងទៅក្ដារត្បៀតឯកសារ",
         "description": "Copy to clipboard toast message."
     },
     "options_about": {
-        "message": "О программе",
+        "message": "អំពី",
         "description": "Options navigation: About."
     },
     "options_docu": {
-        "message": "Документация",
+        "message": "ឯកសារ",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "Настройки",
+        "message": "ជម្រើស",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "Прочее",
+        "message": "ការកំណត់",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "Настройки Mailvelope",
+        "message": "ជម្រើស​ Mailvelope",
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "предпочитаемый",
+        "message": "ចំណូលចិត្ត",
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
@@ -1444,475 +1444,475 @@
         "description": "Secure forward button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Временно запомнить пароль",
+        "message": "ចងចាំ​ពាក្យសម្ងាត់​បណ្តោះអាសន្ន",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "Действие с ключом отменено.",
+        "message": "ការដោះសោរត្រូវបានបោះបង់។",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "Введите пароль ключа",
+        "message": "បញ្ចូល ពាក្យសម្ងាត់",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Пожалуйста, введите пароль",
+        "message": "សូមបញ្ជូន​ពាក្យសម្ងាត់​របស់អ្នក",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Для создания ID пользователя, пожалуйста, укажите пароль.",
+        "message": "Please enter your key password to create the user ID.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Пожалуйста, введите свой пароль ключа, чтобы создать лист восстановления.",
+        "message": "សូមបញ្ចូល​ពាក្យសម្ងាត់​របស់អ្នក ដើម្បី​បង្កើតតារាងស្តារឡើងវិញមួយ។",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "Чтобы сохранить черновик, введите пароль ключа.",
+        "message": "បញ្ចូល​ពាក្យសម្ងាត់ដើម្បីរក្សាសំណៅព្រាង។",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Для расшифровки сообщения введите пароль ключа",
+        "message": "សូមបញ្ចូល​ពាក្យសម្ងាត់​របស់អ្នកដើម្បី​បើកកូដនីយកម្ម។",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Пожалуйста, введите пароль ключа для изменения настроек шифрованных коммуникаций.",
+        "message": "សូមបញ្ចូល​ពាក្យសម្ងាត់​របស់អ្នក ដើម្បី​ធ្វើបច្ចុប្បន្នភាព ការកំណត់ សម្រាប់ការទំនាក់ទំនងឲ្យ​មានការសម្ងាត់។",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Для отзыва этого ключа, пожалуйста, укажите пароль.",
+        "message": "Please enter your key password to revoke this key.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Для отзыва ID пользователя, пожалуйста, укажите пароль.",
+        "message": "Please enter your key password to revoke the user ID.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Для изменения срока действия ключа, пожалуйста, укажите пароль.",
+        "message": "Please enter your key password to set a new expiration date for the key.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Для подписи сообщения введите пароль ключа",
+        "message": "សូមបញ្ចូល​ពាក្យសម្ងាត់​របស់អ្នក ដើម្បី​ចុះហត្ថលេខា សារនេះ។",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "Ввод пароля | Mailvelope",
+        "message": "បញ្ចូលពាក្យសម្ងាត់ | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "ID польз.:",
+        "message": "លេខប្រើ៖",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Неверный пароль",
+        "message": "ខុស​ពាក្យសម្ងាត់",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "Резервная копия ваших данных",
+        "message": "ទិន្នន័យបម្រុងទុករបស់អ្នក",
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Чтобы сохранять данные только на своем компьютере, используйте опцию в настройках шифрования вашей учетной записи  ($1).",
+        "message": "ប្រសិនបើអ្នកចង់ រក្សាទុកឯកសារ ដាច់ដោយឡែកក្នុងកុំព្យូទ័ររបស់អ្នក អ្នកនឹងឃើញជម្រើសនៃការកំណត់ការទំនាក់ទំនង​សម្ងាត់នៃគណនី $1 របស់អ្នក។",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Резервная копия данных, необходимых для шифрованной связи (например, пароля ключа), будет храниться в зашифрованном виде на сервере ($1)  нашего партнера Mailvelope.",
+        "message": "ដើម្បីបម្រុងទុកទិន្នន័យ ដែលសំខាន់សម្រាប់ការទំនាក់ទំនង​ដោយសម្ងាត់​ (ឧទា. សោរ​ពាក្យសម្ងាត់​), ទិន្នន័យ នឹងត្រូវរក្សាទុកដោយ​ធ្វើកូដនីយកម្មនៅលើម៉ាស៊ីនមេ $1 របស់យើង ដោយដៃគូសុវត្ថិភាពរបស់យើង Mailvelope។",
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "Обратите внимание",
+        "message": "សូមប្រុងប្រយ័ត្ន",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "пожалуйста, проверьте настройки своего аккаунта:",
+        "message": "សូមពិនិត្យការកំណត់ក្នុងគណនីរបស់អ្នក ខាងក្រោម៖",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "Создан",
+        "message": "កាលបរិច្ឆេទបង្កើត៖",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "без резервной копии вы не сможете прочесть однажды зашифрованные сообщения, если потеряли пароль ключа, а также в случае проблем с устройством или расширением браузера!",
+        "message": "បើគ្មានការបម្រុងទុក, សារសម្ងាត់​របស់អ្នកមិនអាចធ្វើវិកូដនីយកម្ម ឬដោះកូដមកវិញបានទេក្នុងករណីដែលអ្នក ​ពាក្យសម្ងាត់​សោរ ឬក្នុងករណីដែលអ្នកមានបញ្ហាជាមួយកម្មវិធីរុករក។",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Советы по шифрованию коммуникаций ($1).",
+        "message": "ជំនួយសម្រាប់ការទំនាក់ទំនងសម្ងាត់ជាមួយ $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "Для установки на другом компьютере введите код восстановления в настройках:",
+        "message": "សម្រាប់ការដំឡើងលើកុំព្យូទ័រផ្សេង, បញ្ចូលកូដស្តារឡើងវិញ ក្នុងការកំណត់ ខាងក្រោម៖",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Связь с $1 зашифрована с использованием PGP. Вы можете отправлять шифрованные письма так, что лишь вы и адресаты сможете их прочесть.",
+        "message": "ការទំនាក់ទំនងសម្ងាត់ជាមួយ $1 ជាដំណើរការ​ផ្អែកលើ PGP។ វាអនុញ្ញាតអ្នកបញ្ជូនសារសម្ងាត់ ក្នុងខណៈពេលជាមួយគ្នា វាធានាថាមានតែអ្នក និងអ្នកទទួលប៉ុណ្ណោះ ដែលអាចអានសារបាន។",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "из-за проблем с расширением браузера,",
+        "message": "ដោយសារតែមានបញ្ហាជាមួយកម្មវិធីរុករក",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "потому что вы забыли пароль ключа,",
+        "message": "ដោយសារអ្នកភ្លេច​ពាក្យសម្ងាត់​របស់សោរអ្នក",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "Прочая информация и другие настройки доступны в вашей учетной записи $1",
+        "message": "អ្នកអាចរកព័ត៌មានបន្ថែម និង​ការកំណត់​​ជម្រើស ក្នុងគណនី $1ខាងក្រោម",
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "Важная информация!",
+        "message": "ព័ត៌មានសំខាន់!",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "Как правило, это важно",
+        "message": "ជាទូទៅ, វាមានសារៈសំខាន់",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "В настройках шифрования вашей учетной записи $1 вы можете пригласить других адресатов использовать связь с шифрованием PGP. Если адресат уже получал приглашение и все прошло нормально, рядом с email вы увидите значок замочка.",
+        "message": "នៅក្នុងទំនាក់ទំនងសម្ងាត់នៃគណនី$1 របស់អ្នក, អ្នកអាចអញ្ជើញដៃគូរទំនាក់ទំនងបន្ថែម ដើម្បីប្រើប្រាស់ ការទំនាក់ទំនង​សម្ងាត់តាមរយៈ PGP។ ដៃគូរទំនាក់ទំនងដែលត្រូវបានអញ្ជើញដោយជោគជ័យ អាចកំណត់បានដោយមានរូបសញ្ញាមេសោរនៅក្បែរ អាសយដ្ឋានអ៊ីម៉េល។",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "распечатайте и сохраните документ в надежном месте, чтобы никто не узнал код восстановления.",
+        "message": "រក្សាឯកសារបោះពុម្ពហើយ នៅក្នុងកន្លែងសុវត្ថិភាព និងត្រូវធ្វើអោយប្រាកដថាគ្មាននរណាអាចរកឃើញ​កូដស្តារឡើងវិញបាន​ទេ​។",
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "Других пользователей $1, которые используют PGP-шифрование GMX, можно увидеть в главной папке вашей учетной записи $1. Если вам это не нужно, можете отключить соответствующую функцию в настройках вашей учетной записи $1.",
+        "message": "អ្នកប្រើប្រាស់ $1 ផ្សេង ដែលកំពុងប្រើប្រាស់ដំណើរការ PGP នៃ GMX អាចស្វែងរកថតឯកសារកណ្តល នៅក្នុងគណនី$1 របស់អ្នក។ បើអ្នកមិនចង់មានអ្វីនៅក្នុងនេះ, សូមបិទមុខងារនេះក្នុង​ការកំណត់​គណនី  $1 របស់អ្នក។ ",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "На мобильных устройствах",
+        "message": "នៅលើទូរស័ព្ទដៃ",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Если шифрование сообщений больше не работает",
+        "message": "ប្រសិនបើការទំនាក់ទំនង​សម្ងាត់លែងដំណើរការ​ហើយ ឧទា.៖",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "На другом компьютере",
+        "message": "នៅលើកុំព្យូទ័រផ្សេង",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Зашифрованная переписка с другими адресатами",
+        "message": "ទំនាក់ទំនងសម្ងាត់ដៃគូរទំនាក់ទំនងដទៃ",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "Зашифрованная переписка на других устройствах",
+        "message": "ទំនាក់ទំនងសម្ងាត់នៅលើឧបករណ៍ផ្សេងៗ",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Настройка шифрованной переписки на других устройствах",
+        "message": "ការកំណត់ទំនាក់ទំនងសម្ងាត់លើឧបករណ៍ផ្សេង",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "по другим причинам,",
+        "message": "សម្រាប់មូលហេតុផ្សេងទៀត",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "Вы можете безопасно общаться с адресатами, которые также используют PGP-шифрование переписки.",
+        "message": "អ្នកអាចទាក់ទងដោយ​សុវត្ថិភាព ជាមួយអ្នកទំនាក់ទំនងផ្សេងទៀត ប្រសិនបើ ពួកគេកំពុងប្រើប្រាស់​ការទំនាក់ទំនង​សម្ងាត់ (PGP)។",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "Пожалуйста, сохраните этот документ в надежном месте!",
+        "message": "សូមរក្សាឯកសារនេះនៅកន្លែងសុវត្ថិភាព។",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "Печать",
+        "message": "បោះពុម្ព",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "Пожалуйста, распечатайте этот документ и сохраните его в надежном месте!",
+        "message": "សូមបោះពុម្ពឯកសារនេះ និងរក្សានៅកន្លែងសម្ងាត់!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "Шифрованная переписка",
+        "message": "ទំនាក់ទំនងសម្ងាត់",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "Входящие",
+        "message": "ប្រអប់សារ",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "Безопасность",
+        "message": "សុវត្ថិភាព",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "Настройки",
+        "message": "ការកំណត់",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "Сканируйте QR-код с помощью своего мобильного устройства.",
+        "message": "ស្កេនកូដ QR ជាមួយទូរស័ព្ទរបស់អ្នក។",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "Рекомендация",
+        "message": "អនុសាសន៍",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "Восстановление данных",
+        "message": "ទិន្នន័យស្តារឡើងវិញ",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "Код восстановления",
+        "message": "កូដស្តារឡើងវិញ",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Лист восстановления для зашифрованной переписки",
+        "message": "តារាងស្តារឡើងវិញ សម្រាប់ការទំនាក់ទំនងសម្ងាត់",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Восстановление зашифрованной переписки",
+        "message": "ស្តារឡើងវិញ សម្រាប់ការទំនាក់ទំនង​សម្ងាត់",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Если речь о пользователях GMX, вы можете быть уверены в их аутентичности. Если это пользователь какого-нибудь иного почтового сервиса, никогда не помешает проверить его личность.",
+        "message": "ជាមួយបញ្ជីទំនាក់ទំនង GMX អ្នកអាចប្រាកដថា អ្នកប្រើប្រាស់ដែលបានបង្ហាញជាអ្នកប្រើប្រាស់ដែលមានសុពលភាព ។ យ៉ាងហោចណាស់ អ្នកគួរតែផ្ទៀងផ្ទាត់បញ្ជីទំនាក់ទំនងជាមួយអាសយដ្ឋានអ៊ីម៉េលពីអ្នកផ្គត់ផ្គង់អ៊ីម៉េលផ្សេង។",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "устанавливайте шифрование переписки только на безопасных устройствах, которые не могут оказаться в руках посторонних.",
+        "message": "គ្រាន់តែកំណត់ការទំនាក់ទំនង​សម្ងាត់​នៅលើឧបករណ៍សុវត្ថិភាពដែលមិន​មានអ្នកផ្សេងប្រើប្រាស់តែប៉ុណ្ណោះ។",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "Резервную копию ваших данных можно расшифровать только с помощью кода восстановления на этом листе восстановления.",
+        "message": "ការបម្រុងទុក​ទិន្នន័យរបស់អ្នកអាចបើកកូដនីយកម្មដោយមានជំនួយពីការស្តារកូដឡើងវិញនៅលើតារាងស្តារនេះ។",
         "description": ""
     },
     "reload_tab": {
-        "message": "Пожалуйста, перезагрузите соответствующие страницы, чтобы изменения вступили в силу.",
+        "message": "សូមផ្ទុកទំព័រដែលត្រូវគ្នាឡើងវិញ ដើម្បីឱ្យការកំណត់មានប្រសិទ្ធភាព។",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "Подтвердить",
+        "message": "យល់ព្រម",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Пожалуйста, введите ваш код восстановления:",
+        "message": "សូមបញ្ចូលកូដស្តារឡើងវិញ៖",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "Показать",
+        "message": "បង្ហាញ",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "Пароль ключа:",
+        "message": "​ពាក្យសម្ងាត់សំខាន់​របស់អ្នក៖",
         "description": ""
     },
     "security_background_button_title": {
-        "message": "Фон безопасности можно изменить в настройках Mailvelope",
+        "message": "ផ្ទាំងខាងក្រោយសុវត្ថិភាព អាចកែតម្រូវក្នុងការកំណត់ Mailvelope ",
         "description": "The tooltip text for the keylock button"
     },
     "security_background_color_text": {
-        "message": "2. Выберите цвет",
+        "message": "2. ឥឡូវជ្រើសរើសពណ៌ដែលអ្នកចូលចិត្ត",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. Выберите значок",
+        "message": "1. ជ្រើសរើសរូបតំណាងដែលអ្នកចូលចិត្ត",
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Фон безопасности виден в каждом зашифрованном письме. Для пущей безопасности можно персонализировать этот фон. Так вы будете уверены, что никто не подсунул вам фальшивый интерфейс Mailvelope и не получил доступ к вашим персональным данным.",
+        "message": "ផ្ទៃខាងក្រោយសុវត្ថិភាពរបស់អ្នក ត្រូវបង្ហាញក្រោយសារកូដនីយកម្មទាំងអស់។ ដើម្បីបង្កើនសុវត្ថិភាព អ្នកគួរកំណត់វា។ នេះអាចធានាថា គ្មាននរណាម្នាក់អាចកសាងទ្រង់ទ្រាយ Mailvelope ដើម្បីចូលប្រើប្រាស់ទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នកទេ។",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "Запоминать пароли для сессии браузера",
+        "message": "ចងចាំពាក្យសម្ងាត់សម្រាប់ ការប្រើប្រាស់កម្មវិធីរុករកនេះ។",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "Число от 1 до 999",
+        "message": "ត្រូវតែជា លេខ ចន្លោះ 1-999",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "Нет",
+        "message": "ទេ",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "Да, сохранять в памяти на ",
+        "message": "ពិត​មែន​ រក្សាក្នុងអង្គចងចាំចំនួន",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "мин.",
+        "message": "នាទី។",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Где показывать расшифрованные сообщения?",
+        "message": "តើសារដោះសោរ ត្រូវបង្ហាញនៅទីណា?",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "На странице почтового сервиса",
+        "message": "នៅទំព័ររបស់អ្នកផ្គត់ផ្គង់អ៊ីម៉េល។",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "В отдельном всплывающем окне Mailvelope",
+        "message": "នៅទំព័រ Mailvelope ផ្សេងទៀតនឹងលោតឡើង ។",
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "Скрывать в сообщениях PGP версию Mailvelope и комментарий",
+        "message": "លាក់ជំនាន់ Mailvelope និងមតិយោបល់ក្នុងសារ PGP។",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
-        "message": "Действие",
+        "message": "សកម្មភាព",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "Нажата кнопка добавления вложения",
+        "message": "ប៊ូតុងបន្ថែមឯកសារភ្ជាប់",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "Вложение загружено",
+        "message": "ឯកសារភ្ជាប់ត្រូវបានទាញយក",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "Нажмите для создания резервной копии",
+        "message": "ចុច ដើម្បីបង្កើតការបម្រុងទុក",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Нажмите для восстановления из резервной копии",
+        "message": "ចុច ដើម្បីស្តារការបម្រុងទុក",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "Копирование в диалоге проверки",
+        "message": "ចម្លងក្នុងផ្ទាំងផ្ទៀងផ្ទាត់",
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "Сообщение расшифровано: $1",
+        "message": "សារត្រូវបានធ្វើវិកូដនីយកម្មជាមួយ៖ $1",
         "description": ""
     },
     "security_log_decrypt_ui": {
-        "message": "Расшифровать",
+        "message": "បើកកូដនីយកម្ម",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "Нажатие для отмены в диалоге",
+        "message": "ចុច ដើម្បីបោះបង់ផ្ទាំង",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "Нажатие кнопку шифрования",
+        "message": "ចុចដើម្បី​ដាក់កូដនីយកម្ម​ក្នុងផ្ទាំង",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "Подтверждение",
+        "message": "ចុច ដើម្បីយល់ព្រមក្នុងផ្ទាំង",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Нажатие подписи в диалоге",
+        "message": "ចុច ដើម្បីចុះហត្ថលេខាក្នុងផ្ទាំង",
         "description": ""
     },
     "security_log_editor": {
-        "message": "Редактор Mailvelope",
+        "message": "កម្មវិធីនិពន្ធ Mailvelope ",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "Расшифрованное PGP-сообщение",
+        "message": "បើកកូដនីយកម្មអ៊ីម៉ែល PGP",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "Диалог шифрования",
+        "message": "ផ្ទាំង​កូដនីយកម្ម",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_ui": {
-        "message": "Зашифровать",
+        "message": "ធ្វើកូដនីយកម្ម",
         "description": ""
     },
     "security_log_encrypt_form": {
-        "message": "Форма шифрования",
+        "message": "ទម្រង់កូដនីយកម្ម",
         "description": "Encrypt form as an event source"
     },
     "security_log_encryption_operation": {
-        "message": "Сообщение зашифровано для: $1",
+        "message": "សារ ត្រូវ​បានធ្វើកូដនីយកម្ម សម្រាប់៖ $1",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "Диалог импорта",
+        "message": "ផ្ទាំងនាំចូល",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "Резервная копия ключа",
+        "message": "សោរបម្រុងទុក",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "Создание ключей",
+        "message": "ការបង្កើតសោរ",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "Нажатие в парольном диалоге",
+        "message": "ចុចក្នុងផ្ទាំង​ពាក្យសម្ងាត់",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "Запрос пароля",
+        "message": "ផ្ទាំង​ពាក្យសម្ងាត់",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "Ввод пароля",
+        "message": "ផ្ទាំងបញ្ចូលពាក្យសម្ងាត់",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "Вложение удалено",
+        "message": "ឯកសារភ្ជាប់បានលុបចោល",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "Нажмите для диалога восстановления из резервной копии",
+        "message": "ចុចដើម្បីស្តារផ្ទាំងបម្រុងទុក",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Сообщение подписано ключом $1",
+        "message": "សារដែលបាន​ចុះហត្ថលេខាជាមួយសោ៖ $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "Нажмите для закрытия диалога подписи",
+        "message": "ចុច ដើម្បីបិទផ្ទាំងចុះហត្ថលេខា",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "Нажмите для открытия диалога подписи",
+        "message": "ចុច ដើម្បីបើកផ្ទាំងចុះហត្ថលេខា",
         "description": ""
     },
     "security_log_source": {
-        "message": "Объект",
+        "message": "ប្រភព",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "Журнал содержит информацию о действиях пользователя в Mailvelope.",
+        "message": "កំណត់ត្រាសុវត្ថិភាពបង្ហាញសកម្មភាពអ្នកប្រើប្រាស់គ្រប់មុខងាររបស់ Mailvelope។",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "Вставка в текстовое поле",
+        "message": "បញ្ចូលក្នុងកន្លែងសរសេរអក្សរ",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "Нажатие в текстовом поле",
+        "message": "ចុចក្នុងតំបន់អក្សរ",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "Ввод данных в текстовое поле",
+        "message": "បញ្ចូលក្នុងតំបន់អក្សរ",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "Выделение данных в текстовом поле",
+        "message": "ជ្រើសរើសក្នុងតំបនង់អក្សរ",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "Время",
+        "message": "តែមពេលវេលា",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "Диалог проверки",
+        "message": "ផ្ទាំងផ្ទៀងផ្ទាត់",
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "Просмотрщик Mailvelope",
+        "message": "កម្មវិធីបើក Mailvelope",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {
-        "message": "Настройки OpenPGP",
+        "message": "ការកំណត់​ OpenPGP",
         "description": "OpenPGP settings header"
     },
     "settings_backup": {
-        "message": "Резервная копия",
+        "message": "បម្រុង",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "Общие настройки",
+        "message": "ទូទៅ",
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Сервер ключей",
+        "message": "ម៉ាស៊ីនមេសោរ",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -1920,155 +1920,155 @@
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
-        "message": "Безопасность",
+        "message": "សុវត្ថិភាព",
         "description": "Tab of options to display security settings."
     },
     "settings_security_background": {
-        "message": "Фон безопасности",
+        "message": "ផ្ទៃខាងក្រោយសុវត្ថិភាព",
         "description": "Security background header"
     },
     "settings_security_log": {
-        "message": "Журнал",
+        "message": "កំណត់ត្រាសុវត្ថិភាព",
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "Домены",
+        "message": "ឈ្មោះគេហទំព័រដែលបានអនុញ្ញាត",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Подписать сообщение как:",
+        "message": "ចុះហត្ថលេខា​ជា៖",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "Ошибка подписи сообщения: $1",
+        "message": "មិនអាចចុះហត្ថលេខាសារនេះ៖ $1",
         "description": "Error during signing process."
     },
     "signer_unknown": {
-        "message": "Неизвестно",
+        "message": "មិន​ស្គាល់",
         "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
-        "message": "Расшифровать",
+        "message": "បើកកូដនីយកម្ម",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "Расшифровка текста",
+        "message": "បើកកូដនីយកម្មជាអក្សរ",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "Шифрование текста",
+        "message": "ធ្វើកូដនីយកម្មជាអក្សរ",
         "description": "Navigation link to text encryption feature"
     },
     "upload_aborting_warning": {
-        "message": "Закачка файла будет прервана.",
+        "message": "ឯកសារបញ្ជូននឹងត្រូវបានបោះបង់ចោល។",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Добавить файл",
+        "message": "បន្ថែម​ឯកសារ",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
-        "message": "Перетащите файл в эту область, чтобы прикрепить",
+        "message": "ទម្លាក់ឯកសារនៅតំបន់នេះ ដើម្បីភ្ជាប់វា",
         "description": "Text in file drop overlay area"
     },
     "upload_help": {
-        "message": "Перетащите файл в это окно или",
+        "message": "ទាញឯកសារទៅកាន់ផ្ទាំងនេះ ឬ",
         "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
-        "message": "Допустимый размер вложения:",
+        "message": "ទំហំឯកសារភ្ជាប់ដែលបានកំណត់៖",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "Слишком большое вложение",
+        "message": "ឯកសារភ្ជាប់ធំពេក",
         "description": ""
     },
     "user_create_btn": {
-        "message": "Создать",
+        "message": "បង្កើត",
         "description": "Create user button label"
     },
     "user_create_title": {
-        "message": "Создать ID пользователя",
+        "message": "បង្កើតលេខ ID អ្នកប្រើប្រាស់",
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "Пользовательский ID не синхронизирован с сервером ключей Mailvelope.",
+        "message": "The user ID is not synchronized with the Mailvelope key server.",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "Чтобы окончательно удалить сервер ключей Mailvelope, было выслано подтверждающее письмо ($1).",
+        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "Удалить ID пользователя",
+        "message": "លុបលេខ ID អ្នកប្រើប្រាស់",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "Отправить подтверждение снова",
+        "message": "បញ្ជូនបញ្ជាក់ឡើងវិញ",
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "Пользовательский ID синхронизирован с сервером ключей Mailvelope.",
+        "message": "The user ID is synchronized with the Mailvelope key server.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Пожалуйста, подтвердите намерение синхронизировать ID пользователя с сервером ключей Mailvelope.",
+        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "Чтобы синхронизировать ключ с сервером ключей Mailvelope, подтверждающее письмо было отправлено по адресу $1.",
+        "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
-        "message": "Удалить",
+        "message": "ដកចេញ",
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "Удалить ID пользователя",
+        "message": "លុបលេខ ID អ្នកប្រើប្រាស់",
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Хотите удалить этот пользовательский ID из вашего ключа?",
+        "message": "Do you want to remove this user ID from your key?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "ID пользователя также удален с сервера ключей Mailvelope.",
+        "message": "User ID is also removed from the Mailvelope key server.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
-        "message": "Удалить ID пользователя",
+        "message": "លុបលេខ ID អ្នកប្រើប្រាស់",
         "description": "Title of remove user dialog."
     },
     "user_revoke_btn": {
-        "message": "Отозвать",
+        "message": "ដកហូត",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Отозвать ID пользователя",
+        "message": "Revoke user ID",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "По-прежнему хотите отозвать?",
+        "message": "Would you still like to revoke?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "После отзыва ID пользователя для этого ключа не будет работать.",
+        "message": "After revocation, the user ID for this key will permanently remain unusable.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "Отозвать ID пользователя",
+        "message": "Revoke user ID",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
-        "message": "ID пользователя",
+        "message": "លេខ​សម្គាល់​អ្នកប្រើ",
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "Подтверждения",
+        "message": "ការផ្ទៀងផ្ទាត់",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "Невозможно проверить это сообщение: $1",
+        "message": "មិនអាចផ្ទៀងផ្ទាត់សារនេះ៖ $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
@@ -2076,19 +2076,19 @@
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Ошибка расшифровки!",
+        "message": "បើកកូដនីយកម្មបានបរាជ័យ!",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {
-        "message": "Добавить",
+        "message": "បញ្ចូលថ្មី",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "Ред.",
+        "message": "កែប្រែ",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Действительно удалить этот сайт из списка настроенных доменов?",
+        "message": "តើអ្នកពិតជាចង់លុបគេហទំព័រនេះចេញពីតារាងឈ្មោះគេហទំព័រដែលបានអនុញ្ញាត?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -2096,39 +2096,39 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Добавление домена",
+        "message": "ឈ្មោះគេហទំព័រដែលបានអនុញ្ញាត",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_remove_dialog_title": {
-        "message": "Удаление домена",
+        "message": "លុបឈ្មោះគេហទំព័រ",
         "description": "Title of delete watchlist dialog."
     },
     "watchlist_title_active": {
-        "message": "Включено",
+        "message": "បានបើក",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "Домен",
+        "message": "គំនូសដែន Domain",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "Только HTTPS",
+        "message": "HTTPS-តែប៉ុណ្ណោះ",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "Включено",
+        "message": "បានបើក",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "Сайт",
+        "message": "ទំព័រ",
         "description": "Site in watchlist."
     },
     "word_or": {
-        "message": "или",
+        "message": "ឬ",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "Неверный код восстановления",
+        "message": "កូដស្តារឡើងវិញមិនត្រឹមត្រូវ",
         "description": ""
     }
 }

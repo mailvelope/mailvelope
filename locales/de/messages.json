@@ -137,7 +137,7 @@
   },
   "decrypt_cleartext_warning": {
     "description": "Warning when cleartext is shown in decrypt component",
-    "message": "Nachfolgender Text wurde nicht verschlüsselt!"
+    "message": "Nachfolgender Text wurde nicht verschlüsselt."
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
@@ -153,15 +153,15 @@
   },
   "decrypt_digital_signature_null_info": {
     "description": "Digital signature unknown info message",
-    "message": "Schlüssel mit der ID $1 nicht gefunden!"
+    "message": "Schlüssel mit der ID $1 nicht gefunden."
   },
   "decrypt_digital_signature_null_info_short": {
     "description": "Digital signature unknown short info message",
-    "message": "Schlüssel nicht gefunden!"
+    "message": "Schlüssel nicht gefunden."
   },
   "decrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Entschlüsselung der Datei $1 ist nicht möglich!"
+    "message": "Entschlüsselung der Datei $1 ist nicht möglich."
   },
   "decrypt_frame_help_text": {
     "description": "Help text on decrypt frame.",
@@ -201,7 +201,7 @@
   },
   "decrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Entschlüsselung des Textes ist nicht möglich!"
+    "message": "Entschlüsselung des Textes ist nicht möglich."
   },
   "dialog_cancel_btn": {
     "description": "Dialog cancel button label",
@@ -241,7 +241,7 @@
   },
   "editor_key_not_found": {
     "description": "Warning for when a recipient key was not found.",
-    "message": "Schlüssel nicht gefunden!"
+    "message": "Schlüssel nicht gefunden."
   },
   "editor_key_not_found_msg": {
     "description": "Warning for when a recipient key was not found.",
@@ -329,7 +329,7 @@
   },
   "encrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Verschlüsselung der Datei $1 ist nicht möglich!"
+    "message": "Verschlüsselung der Datei $1 ist nicht möglich."
   },
   "encrypt_frame_btn_label": {
     "description": "Text on expanded editor button of editable email area",
@@ -369,7 +369,7 @@
   },
   "encrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Verschlüsselung des Textes ist nicht möglich!"
+    "message": "Verschlüsselung des Textes ist nicht möglich."
   },
   "encrypt_upload_file_warning_too_big": {
     "description": ".",
@@ -549,15 +549,15 @@
   },
   "gmail_integration_auth_error_download": {
     "description": "Error message for components requiring authorisation of GMAIL integration",
-    "message": "Mailvelope ist nicht berechtigt, Anhänge herunterzuladen!"
+    "message": "Mailvelope ist nicht berechtigt, Anhänge herunterzuladen."
   },
   "gmail_integration_auth_error_send": {
     "description": "Error message for components requiring authorisation of GMAIL integration",
-    "message": "Mailvelope ist nicht berechtigt, E-Mails zu versenden!"
+    "message": "Mailvelope ist nicht berechtigt, E-Mails zu versenden."
   },
   "gmail_integration_id_validation_error_gsuite": {
     "description": "Error message for G-Suite users when trying to authorize GMAIL integration",
-    "message": "E-Mail-Adressen, die einem G-Suite-Account zugeordnet sind, werden in der aktuellen Testphase nicht unterstützt!"
+    "message": "E-Mail-Adressen, die einem G Suite Account zugeordnet sind, werden in der aktuellen Testphase nicht unterstützt."
   },
   "gmail_integration_quoted_mail_header_reply": {
     "description": "Header for quoted reply mail",
@@ -569,7 +569,7 @@
   },
   "gmail_integration_sent_success": {
     "description": "Email sent success notification",
-    "message": "Die E-Mail wurde erfolgreich versandt!"
+    "message": "Die E-Mail wurde erfolgreich versandt."
   },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",
@@ -721,7 +721,7 @@
   },
   "key_import_bulk_success": {
     "description": "Import success message for more than 5 keys",
-    "message": "Schlüssel erfolgreich importiert/aktualisiert!"
+    "message": "Schlüssel erfolgreich importiert/aktualisiert."
   },
   "key_import_contacts_import_btn": {
     "description": "Contact import button label on key import page.",
@@ -2075,7 +2075,7 @@
   },
   "waiting_dialog_decryption_failed": {
     "description": "Error message in the waiting dialog after failing to decrypt a message",
-    "message": "Entschlüsselung fehlgeschlagen!"
+    "message": "Entschlüsselung fehlgeschlagen."
   },
   "watchlist_command_create": {
     "description": "Create entry in watchlist.",

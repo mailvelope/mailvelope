@@ -71,6 +71,10 @@
         "message": "Erreur",
         "description": "Alert header of category error."
     },
+    "alert_header_important": {
+        "message": "Important !",
+        "description": "Alert header of category important."
+    },
     "alert_header_success": {
         "message": "L’opération a été effectuée avec succès",
         "description": "Alert header of category success."
@@ -86,6 +90,18 @@
     "alert_no_domainmatchpattern_warning": {
         "message": "Il faut au moins un modèle de correspondance de domaine.",
         "description": "Alert header of category warning."
+    },
+    "auth_domain_headline": {
+        "message": "Autoriser un domaine",
+        "description": "Headline of authorize domain dialog."
+    },
+    "auth_domain_description": {
+        "message": "Souhaitez-vous permettre l’autorisation de Mailvelope pour le domaine $1 ?",
+        "description": "Description in authorize domain dialog"
+    },
+    "auth_domain_api_label": {
+        "message": "Autoriser l’API",
+        "description": "Label for API allowed info"
     },
     "change_link": {
         "message": "Modifier",
@@ -115,6 +131,14 @@
         "message": "Fichiers joints",
         "description": "Label for attachments in decrypted message"
     },
+    "decrypt_att_frame_help_text": {
+        "message": "Cliquez ici pour visualiser le message",
+        "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
+    },
+    "decrypt_cleartext_warning": {
+        "message": "Le texte suivant n’était pas chiffré !",
+        "description": "Warning when cleartext is shown in decrypt component"
+    },
     "decrypt_digital_signature": {
         "message": "Signé",
         "description": "Caption digital signature"
@@ -124,8 +148,16 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "La signature n’a pas pu être identifiée",
+        "message": "La signature est inconnue",
         "description": "Caption digital signature"
+    },
+    "decrypt_digital_signature_null_info": {
+        "message": "La clé avec l’ID $1 est introuvable !",
+        "description": "Digital signature unknown info message"
+    },
+    "decrypt_digital_signature_null_info_short": {
+        "message": "La clé est introuvable",
+        "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
         "message": "Il est impossible de déchiffrer le fichier $1",
@@ -226,6 +258,14 @@
     "editor_label_recipient": {
         "message": "Destinataire",
         "description": "Label for recipient input."
+    },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
+    "editor_label_subject": {
+        "message": "Objet",
+        "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
         "message": "Chiffrer des fichiers",
@@ -507,6 +547,30 @@
         "message": "Note : Les clés publiques sont synchronisées entre les trousseaux proposés. Selon la disponibilité des clés privées, Mailvelope peut passer outre le paramètre de la bibliothèque préférée de chiffrement.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
+    "gmail_integration_auth_error_download": {
+        "message": "Mailvelope n’est pas autorisé à télécharger des fichiers joints !",
+        "description": "Error message for components requiring authorization of GMAIL integration"
+    },
+    "gmail_integration_auth_error_send": {
+        "message": "Mailvelope n’est pas autorisé à envoyer des courriels !",
+        "description": "Error message for components requiring authorization of GMAIL integration"
+    },
+    "gmail_integration_id_validation_error_gsuite": {
+        "message": "Les adresses courriel attribuées à un compte G Suite ne sont pas prises en charge dans la phase de test actuelle.",
+        "description": "Error message for G-Suite users when trying to authorize GMAIL integration"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "Le $1, $2 a écrit :",
+        "description": "Header for quoted reply mail"
+    },
+    "gmail_integration_quoted_mail_header_forward": {
+        "message": "---------- Message réacheminé ---------\nDe : $1\nDate : $2\nObjet : $3\nÀ : $4",
+        "description": "Header for forwarded mail"
+    },
+    "gmail_integration_sent_success": {
+        "message": "Le courriel a été envoyé avec succès",
+        "description": "Email sent success notification"
+    },
     "gnupg_connection": {
         "message": "Connexion GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
@@ -514,10 +578,6 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Veuillez vérifier si les clés publiques suivantes se trouvent dans votre trousseau GnuPG et si elles sont valides : $1",
         "description": ""
-    },
-    "header_warning": {
-        "message": "Avertissement !",
-        "description": "Header warning."
     },
     "import_frame_help_text": {
         "message": "Cliquez pour importer la clé",
@@ -532,15 +592,15 @@
         "description": "Tootip for set as default key button"
     },
     "key_default_active_btn_title": {
-        "message": "La clé est définie comme clé par défaut",
+        "message": "La clé est définie en tant que clé par défaut",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "La clé est invalide et ne peut pas être définie comme clé par défaut",
+        "message": "La clé est invalide et ne peut pas être définie en tant que clé par défaut",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Définir la clé comme clé par défaut",
+        "message": "Définir la clé en tant que clé par défaut",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
@@ -856,7 +916,7 @@
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "Définir comme clé par défaut",
+        "message": "Définir en tant que clé par défaut",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
@@ -1172,7 +1232,7 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Vous pouvez ajouter vos contacts soit comme fichier soit comme texte du presse-papiers.",
+        "message": "Vous pouvez ajouter vos contacts soit en tant que fichier soit en tant que texte du presse-papiers.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
@@ -1252,7 +1312,7 @@
         "description": "HKP key server URL error."
     },
     "keyserver_url_warning": {
-        "message": "L’URL du serveur de clés doit être au format suivant : http(s)://cles.exemple.com",
+        "message": "L’URL du serveur de clés doit être au format suivant : http(s)://cles.exemple.com",
         "description": "HKP key server url warning."
     },
     "keyserver_wkd_lookup": {
@@ -1334,6 +1394,54 @@
     "preferred": {
         "message": "préféré ",
         "description": "Indicates if a keyring is preferred"
+    },
+    "provider_gmail_auth": {
+        "message": "Autorisations",
+        "description": "Authorizations"
+    },
+    "provider_gmail_auth_readonly": {
+        "message": "lire les courriels",
+        "description": "Readonly authorization"
+    },
+    "provider_gmail_auth_send": {
+        "message": "envoyer des courriels",
+        "description": "Send authorization"
+    },
+    "provider_gmail_auth_dialog_title": {
+        "message": "Accorder l’autorisation",
+        "description": "Title of GMAIL OAuth dialog."
+    },
+    "provider_gmail_auth_dialog_intro": {
+        "message": "Afin d’utiliser l’intégration à Gmail pour <0></0>, Mailvelope doit recevoir les autorisations suivantes :",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_auth_dialog_outro": {
+        "message": "Si vous confirmez cette boîte de dialogue avec« Oui », une fenêtre d'autorisation de Google s'ouvrira. Sélectionnez votre compte Gmail pour l'adresse courriel <0></0> et suivez les instructions.",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_integration": {
+        "message": "Intégration à Gmail (expérimentale)",
+        "description": "Label for Gmail integration option."
+    },
+    "provider_gmail_integration_info": {
+        "message": "Mailvelope a besoin d’autorisations supplémentaires pour l’intégration à Gmail. Dès que vous utilisez les fonctions de chiffrement de Mailvelope dans Gmail, Google affiche une boîte d’autorisation qui vous guide dans le processus d’approbation.",
+        "description": "Info message for Gmail integration option"
+    },
+    "provider_gmail_integration_warning": {
+        "message": "Gmail n’est pas autorisé pour le mode de recherche <0></0>. Veuillez vérifier les paramètres dans <1></1>.",
+        "description": "Warning message, when Gmail is not authorized"
+    },
+    "provider_gmail_secure_reply_btn": {
+        "message": "Réponse sécurisée",
+        "description": "Secure reply button title/tooltip"
+    },
+    "provider_gmail_secure_replyAll_btn": {
+        "message": "Réponse sécurisée à tous",
+        "description": "Secure reply all button title/tooltip"
+    },
+    "provider_gmail_secure_forward_btn": {
+        "message": "Transfert sécurisé",
+        "description": "Secure forward button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "Mémoriser le mot de passe temporairement",
@@ -1532,7 +1640,7 @@
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "Lire le code QR avec votre appareil mobile.",
+        "message": "Balayer le code QR avec votre appareil mobile.",
         "description": ""
     },
     "recovery_sheet_recommendation": {
@@ -1806,6 +1914,10 @@
     "settings_keyserver": {
         "message": "Serveur de clés",
         "description": "Tab of options to display key server settings."
+    },
+    "settings_provider": {
+        "message": "Gmail",
+        "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
         "message": "Sécurité",

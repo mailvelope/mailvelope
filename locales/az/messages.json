@@ -71,6 +71,10 @@
         "message": "Xəta!",
         "description": "Alert header of category error."
     },
+    "alert_header_important": {
+        "message": "Important!",
+        "description": "Alert header of category important."
+    },
     "alert_header_success": {
         "message": "Uğurlu!",
         "description": "Alert header of category success."
@@ -86,6 +90,18 @@
     "alert_no_domainmatchpattern_warning": {
         "message": "Ən azı bir domen uyğunluq quruluşuna ehtiyac var. ",
         "description": "Alert header of category warning."
+    },
+    "auth_domain_headline": {
+        "message": "Authorize domain",
+        "description": "Headline of authorize domain dialog."
+    },
+    "auth_domain_description": {
+        "message": "Would you like to allow the use of Mailvelope for the domain $1?",
+        "description": "Description in authorize domain dialog"
+    },
+    "auth_domain_api_label": {
+        "message": "Allow API",
+        "description": "Label for API allowed info"
     },
     "change_link": {
         "message": "Dəyiş",
@@ -115,6 +131,14 @@
         "message": "Qoşmalar",
         "description": "Label for attachments in decrypted message"
     },
+    "decrypt_att_frame_help_text": {
+        "message": "Click here to view the message",
+        "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
+    },
+    "decrypt_cleartext_warning": {
+        "message": "The following text was not encrypted!",
+        "description": "Warning when cleartext is shown in decrypt component"
+    },
     "decrypt_digital_signature": {
         "message": "Signed",
         "description": "Caption digital signature"
@@ -124,15 +148,23 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Signature could not be identified",
+        "message": "Signature unknown",
         "description": "Caption digital signature"
+    },
+    "decrypt_digital_signature_null_info": {
+        "message": "Key with ID $1 not found!",
+        "description": "Digital signature unknown info message"
+    },
+    "decrypt_digital_signature_null_info_short": {
+        "message": "Açar tapılmadı!",
+        "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
         "message": "Decryption of file $1 is not possible!",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Click to decrypt!",
+        "message": "Click to decrypt",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
@@ -226,6 +258,14 @@
     "editor_label_recipient": {
         "message": "Qəbul edən",
         "description": "Label for recipient input."
+    },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
+    "editor_label_subject": {
+        "message": "Mövzu",
+        "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
         "message": "Faylları şifrələ",
@@ -507,6 +547,30 @@
         "message": "Qeyd: ictimai açarlar mövcud açar halqaları arasında sinxronlaşdırılır. Fərdi açarların mövcudluğundan asılı olaraq Mailvelope üstün şifrələmə kataloq parametrlərini yenidən təyin edə bilər.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
+    "gmail_integration_auth_error_download": {
+        "message": "Mailvelope is not authorized to download attachments!",
+        "description": "Error message for components requiring authorization of GMAIL integration"
+    },
+    "gmail_integration_auth_error_send": {
+        "message": "Mailvelope is not authorized to send emails!",
+        "description": "Error message for components requiring authorization of GMAIL integration"
+    },
+    "gmail_integration_id_validation_error_gsuite": {
+        "message": "Email addresses assigned to a G-Suite account are not supported in the current test phase!",
+        "description": "Error message for G-Suite users when trying to authorize GMAIL integration"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "On $1, $2 wrote:",
+        "description": "Header for quoted reply mail"
+    },
+    "gmail_integration_quoted_mail_header_forward": {
+        "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
+        "description": "Header for forwarded mail"
+    },
+    "gmail_integration_sent_success": {
+        "message": "The email was sent successfully!",
+        "description": "Email sent success notification"
+    },
     "gnupg_connection": {
         "message": "GnuPG bağlantı",
         "description": "Header that shows that GnuPG is available on the system."
@@ -515,12 +579,8 @@
         "message": "Zəhmət olmasa GnuPG açar halqanda bu açarların mövcud olmasını və etibarlılığını yoxla: $1",
         "description": ""
     },
-    "header_warning": {
-        "message": "Xəbərdarlıq!",
-        "description": "Header warning."
-    },
     "import_frame_help_text": {
-        "message": "Click to import key!",
+        "message": "Click to import key",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
@@ -1335,6 +1395,54 @@
         "message": "üstünlük verilən",
         "description": "Indicates if a keyring is preferred"
     },
+    "provider_gmail_auth": {
+        "message": "Authorizations",
+        "description": "Authorizations"
+    },
+    "provider_gmail_auth_readonly": {
+        "message": "read email",
+        "description": "Readonly authorization"
+    },
+    "provider_gmail_auth_send": {
+        "message": "send email",
+        "description": "Send authorization"
+    },
+    "provider_gmail_auth_dialog_title": {
+        "message": "Grant authorization",
+        "description": "Title of GMAIL OAuth dialog."
+    },
+    "provider_gmail_auth_dialog_intro": {
+        "message": "To use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_auth_dialog_outro": {
+        "message": "If you confirm this dialog with \"Yes\", a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_integration": {
+        "message": "Gmail integration (experimental)",
+        "description": "Label for Gmail integration option."
+    },
+    "provider_gmail_integration_info": {
+        "message": "Mailvelope requires additional permissions for Gmail integration. As soon as you use the encryption functions of Mailvelope in Gmail, Google starts an authorization dialog that guides you through the approval process.",
+        "description": "Info message for Gmail integration option"
+    },
+    "provider_gmail_integration_warning": {
+        "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
+        "description": "Warning message, when Gmail is not authorized"
+    },
+    "provider_gmail_secure_reply_btn": {
+        "message": "Secure reply",
+        "description": "Secure reply button title/tooltip"
+    },
+    "provider_gmail_secure_replyAll_btn": {
+        "message": "Secure reply all",
+        "description": "Secure reply all button title/tooltip"
+    },
+    "provider_gmail_secure_forward_btn": {
+        "message": "Secure forward",
+        "description": "Secure forward button title/tooltip"
+    },
     "pwd_dialog_cache_pwd": {
         "message": "Şifrəni müvəqqəti yadda saxla",
         "description": "Checkbox label for remembering of the password."
@@ -1807,6 +1915,10 @@
         "message": "Açar Serveri",
         "description": "Tab of options to display key server settings."
     },
+    "settings_provider": {
+        "message": "Gmail",
+        "description": "Tab of options to display provider (Gmail) settings."
+    },
     "settings_security": {
         "message": "Təhlükəsizlik",
         "description": "Tab of options to display security settings."
@@ -1960,7 +2072,7 @@
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "Click to verify signature!",
+        "message": "Click to verify signature",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {

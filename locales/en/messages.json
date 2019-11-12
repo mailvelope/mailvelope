@@ -137,7 +137,7 @@
   },
   "decrypt_cleartext_warning": {
     "description": "Warning when cleartext is shown in decrypt component",
-    "message": "The following text was not encrypted!"
+    "message": "The following text was not encrypted."
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
@@ -153,15 +153,15 @@
   },
   "decrypt_digital_signature_null_info": {
     "description": "Digital signature unknown info message",
-    "message": "Key with ID $1 not found!"
+    "message": "Key with ID $1 not found."
   },
   "decrypt_digital_signature_null_info_short": {
     "description": "Digital signature unknown short info message",
-    "message": "Key not found!"
+    "message": "Key not found."
   },
   "decrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Decryption of file $1 is not possible!"
+    "message": "Decryption of file $1 is not possible."
   },
   "decrypt_frame_help_text": {
     "description": "Help text on decrypt frame.",
@@ -201,7 +201,7 @@
   },
   "decrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Decryption of the text is not possible!"
+    "message": "Decryption of the text is not possible."
   },
   "dialog_cancel_btn": {
     "description": "Dialog cancel button label",
@@ -329,7 +329,7 @@
   },
   "encrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",
-    "message": "Encryption of file $1 is not possible!"
+    "message": "Encryption of file $1 is not possible."
   },
   "encrypt_frame_btn_label": {
     "description": "Text on expanded editor button of editable email area",
@@ -369,7 +369,7 @@
   },
   "encrypt_text_error_header": {
     "description": "Header of text decryption error on decrypt result page.",
-    "message": "Encryption of the text is not possible!"
+    "message": "Encryption of the text is not possible."
   },
   "encrypt_upload_file_warning_too_big": {
     "description": ".",
@@ -549,15 +549,15 @@
   },
   "gmail_integration_auth_error_download": {
     "description": "Error message for components requiring authorization of GMAIL integration",
-    "message": "Mailvelope is not authorized to download attachments!"
+    "message": "Mailvelope is not authorized to download attachments."
   },
   "gmail_integration_auth_error_send": {
     "description": "Error message for components requiring authorization of GMAIL integration",
-    "message": "Mailvelope is not authorized to send emails!"
+    "message": "Mailvelope is not authorized to send emails."
   },
   "gmail_integration_id_validation_error_gsuite": {
-    "description": "Error message for G-Suite users when trying to authorize GMAIL integration",
-    "message": "Email addresses assigned to a G-Suite account are not supported in the current test phase!"
+    "description": "Error message for G Suite users when trying to authorize Gmail integration",
+    "message": "Email addresses assigned to a G Suite account are not supported in the current test phase."
   },
   "gmail_integration_quoted_mail_header_reply": {
     "description": "Header for quoted reply mail",
@@ -569,7 +569,7 @@
   },
   "gmail_integration_sent_success": {
     "description": "Email sent success notification",
-    "message": "The email was sent successfully!"
+    "message": "The email was sent successfully."
   },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",
@@ -721,7 +721,7 @@
   },
   "key_import_bulk_success": {
     "description": "Import success message for more than 5 keys",
-    "message": "Keys successfully imported/updated!"
+    "message": "Keys successfully imported/updated."
   },
   "key_import_contacts_import_btn": {
     "description": "Contact import button label on key import page.",
@@ -2077,7 +2077,7 @@
   },
   "waiting_dialog_decryption_failed": {
     "description": "Error message in the waiting dialog after failing to decrypt a message",
-    "message": "Decryption failed!"
+    "message": "Decryption failed."
   },
   "watchlist_command_create": {
     "description": "Create entry in watchlist.",
