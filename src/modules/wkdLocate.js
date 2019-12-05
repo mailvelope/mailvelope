@@ -7,8 +7,8 @@
  * @fileOverview This file implements Web Key directory lookup.
  */
 
-import * as crypto from 'crypto';
 import * as openpgp from 'openpgp';
+import {str2ab} from '../lib/util';
 import {prefs} from './prefs';
 import {filterUserIdsByEmail} from './key';
 import defaults from '../res/defaults.json';
@@ -61,7 +61,7 @@ export async function lookup(email) {
     return;
   }
 
-  const url = buildWKDUrl(email);
+  const url = await buildWKDUrl(email);
 
   // Impose a size limit and timeout similar to that of gnupg.
   const data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
@@ -110,17 +110,14 @@ function isBlacklisted(domain) {
  *
  * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-06.
  */
-function buildWKDUrl(email) {
+export async function buildWKDUrl(email) {
   const [, localPart, domain] = /(.*)@(.*)/.exec(email);
-
   if (!localPart || !domain) {
     throw new Error(`WKD: failed to parse: ${email}`);
   }
-  const shasum = crypto.createHash('sha1');
-  shasum.update(localPart.toLowerCase());
-  const digest = shasum.digest();
-  const localEncoded = openpgp.util.encodeZBase32(digest);
-
+  const localPartBuffer = str2ab(localPart.toLowerCase());
+  const digest = await crypto.subtle.digest('SHA-1', localPartBuffer);
+  const localEncoded = openpgp.util.encodeZBase32(new Uint8Array(digest));
   return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`;
 }
 
