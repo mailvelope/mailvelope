@@ -22,6 +22,7 @@ export default class gmailDecryptController extends DecryptController {
     this.plainText = null;
     this.clipped = false;
     this.attachments = [];
+    this.authorizationRequest = null;
     // register event handlers
     this.on('set-data', this.onSetData);
     this.on('download-enc-attachment', this.onDownloadEncAttachment);
@@ -36,49 +37,14 @@ export default class gmailDecryptController extends DecryptController {
 
   onDecrypt() {
     this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
-    this.executeActionQueue();
+    this.processData();
   }
 
-  authorize(scopes) {
-    this.ports.dDialog.emit('error-message', {error: l10n.get('gmail_integration_auth_error_download')});
-    this.gmailCtrl.openAuthorizeDialog({email: this.userEmail, scopes, ctrlId: this.id});
-  }
-
-  onAuthorized({error, accessToken}) {
-    if (!error) {
-      this.ports.dDialog.emit('hide-error-message');
-      this.executeActionQueue(accessToken);
-    } else {
-      this.ports.dDialog.emit('error-message', {error: error.message});
-    }
-    this.activateComponent();
-  }
-
-  async executeActionQueue(accessToken) {
+  async getAccessToken() {
     const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-    if (!accessToken) {
-      accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
-    }
-    if (!accessToken) {
-      this.authorize(scopes);
-    } else {
-      if (this.actionQueue.length) {
-        for (const action of this.actionQueue) {
-          if (action.type === 'attachment') {
-            this.onDownloadEncAttachment({fileName: action.options.fileName, accessToken});
-          }
-        }
-        this.actionQueue = [];
-      } else {
-        await this.processData(accessToken, true);
-      }
-    }
-  }
-
-  async registerAction(action, options) {
-    const inQeue = this.actionQueue.some(({type}) => type === action);
-    if (!inQeue) {
-      this.actionQueue.push({type: action, options});
+    const accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
+    if (accessToken) {
+      return accessToken;
     }
     if (!this.tabId) {
       const activeTab = await mvelo.tabs.getActive();
@@ -86,6 +52,18 @@ export default class gmailDecryptController extends DecryptController {
         this.tabId = activeTab.id;
       }
     }
+    this.ports.dDialog.emit('error-message', {error: l10n.get('gmail_integration_auth_error_download')});
+    this.gmailCtrl.openAuthorizeDialog({email: this.userEmail, scopes, ctrlId: this.id});
+    return new Promise((resolve, reject) => this.authorizationRequest = {resolve, reject});
+  }
+
+  onAuthorized({error, accessToken}) {
+    this.activateComponent();
+    if (error) {
+      return this.authorizationRequest.reject(error);
+    }
+    this.ports.dDialog.emit('hide-error-message');
+    this.authorizationRequest.resolve(accessToken);
   }
 
   activateComponent() {
@@ -119,10 +97,10 @@ export default class gmailDecryptController extends DecryptController {
     if (encAttachments.length) {
       this.ports.dDialog.emit('set-enc-attachments', {encAtts: encAttachments});
     }
-    const ascAttachments = encAttFileNames.filter(fileName => extractFileExtension(fileName) === 'asc');
     this.clipped = clipped;
+    this.ascAttachments = encAttFileNames.filter(fileName => extractFileExtension(fileName) === 'asc');
     let accessToken;
-    if (clipped || ascAttachments.length) {
+    if (clipped || this.ascAttachments.length) {
       const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
       accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
       if (!accessToken) {
@@ -132,26 +110,23 @@ export default class gmailDecryptController extends DecryptController {
     if (lock) {
       this.ports.dDialog.emit('lock');
     } else {
-      await this.processData(accessToken);
+      this.processData(accessToken);
     }
   }
 
   async processData(accessToken, forceUnlock = false) {
     if (this.armored) {
-      if (!/-----BEGIN\sPGP\sSIGNATURE/.test(this.armored)) {
-        this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
-        await super.decrypt(this.armored, this.keyringId);
-      } else {
-        await this.verify(this.armored, this.keyringId);
-      }
-    } else {
-      if (this.clipped) {
-        await this.onClippedArmored(this.msgId, this.userEmail, accessToken, forceUnlock);
-      }
+      this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
+      await super.decrypt(this.armored, this.keyringId);
     }
-    const ascFileNames = this.attachments.filter(fileName => extractFileExtension(fileName) === 'asc');
-    if (ascFileNames.length) {
-      await this.onAscAttachments(ascFileNames, accessToken, forceUnlock);
+    if (!accessToken && (this.clipped || this.ascAttachments.length)) {
+      accessToken = await this.getAccessToken();
+    }
+    if (this.clipped) {
+      await this.onClippedArmored(this.msgId, this.userEmail, accessToken, forceUnlock);
+    }
+    if (this.ascAttachments.length) {
+      await this.onAscAttachments(this.ascAttachments, accessToken, forceUnlock);
     }
   }
 
@@ -231,31 +206,23 @@ export default class gmailDecryptController extends DecryptController {
     }
   }
 
-  async onDownloadEncAttachment({fileName, accessToken}) {
-    const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-    if (!accessToken) {
-      accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
-    }
-    if (!accessToken) {
-      this.registerAction('attachment', {fileName});
-      this.authorize(scopes);
-    } else {
+  async onDownloadEncAttachment({fileName}) {
+    try {
+      const accessToken = await this.getAccessToken();
       const {data} = await gmail.getAttachment({fileName, email: this.userEmail, msgId: this.msgId, accessToken});
       const armored = dataURL2str(data);
-      try {
-        if (/-----BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
-          await this.importKey(armored);
-        } else {
-          const attachment = await model.decryptFile({
-            encryptedFile: {content: data, name: fileName},
-            unlockKey: this.unlockKey.bind(this),
-            uiLogSource: 'security_log_viewer'
-          });
-          this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
-        }
-      } catch (error) {
-        this.ports.dDialog.emit('error-message', {error: error.message});
+      if (/-----BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
+        await this.importKey(armored);
+      } else {
+        const attachment = await model.decryptFile({
+          encryptedFile: {content: data, name: fileName},
+          unlockKey: this.unlockKey.bind(this),
+          uiLogSource: 'security_log_viewer'
+        });
+        this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
       }
+    } catch (error) {
+      this.ports.dDialog.emit('error-message', {error: error.message});
     }
   }
 
