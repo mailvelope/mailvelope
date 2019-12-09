@@ -75,7 +75,6 @@ export default class AppController extends sub.SubController {
     this.on('get-oauth-tokens', this.getOAuthTokens);
     this.on('remove-oauth-token', this.removeOAuthToken);
     this.on('authorize-gmail', this.authorizeGmail);
-    this.on('activate-component', this.activateComponent);
   }
 
   async updatePreferences(options) {
@@ -381,12 +380,5 @@ export default class AppController extends sub.SubController {
   async authorizeGmail({email, scopes, gmailCtrlId}) {
     const gmailCtrl = sub.getById(gmailCtrlId);
     return gmailCtrl.onAuthorize({email, scopes});
-  }
-
-  async activateComponent({ctrlId}) {
-    const currentTab = await mvelo.tabs.getActive('<all_urls>');
-    mvelo.tabs.close(currentTab);
-    const ctrl = sub.getById(ctrlId);
-    ctrl.activateComponent();
   }
 }

@@ -62,15 +62,30 @@ export default class EditorController extends sub.SubController {
     });
     if (this.integration) {
       this.gmailCtrl = sub.getById(this.options.gmailCtrlId);
-      const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-      const accessToken = await this.gmailCtrl.checkAuthorization(this.options.userEmail, scopes);
-      if (!accessToken) {
-        this.authorize(scopes);
+      try {
+        this.getAccessToken();
+      } catch (error) {
+        this.ports.editor.emit('error-message', {
+          error: {
+            code: 'AUTHORIZATION_FAILED',
+            message: error.message,
+            autoHide: false,
+            dismissable: false
+          }
+        });
       }
     }
   }
 
-  authorize(scopes) {
+  async getAccessToken() {
+    return this.gmailCtrl.getAccessToken({
+      email: this.options.userEmail,
+      beforeAuth: () => this.beforeAuthorization(),
+      afterAuth: () => this.afterAuthorization()
+    });
+  }
+
+  beforeAuthorization() {
     this.ports.editor.emit('error-message', {
       error: {
         code: 'AUTHORIZATION_REQUIRED',
@@ -79,22 +94,10 @@ export default class EditorController extends sub.SubController {
         dismissable: false
       }
     });
-    this.gmailCtrl.openAuthorizeDialog({email: this.options.userEmail, scopes, ctrlId: this.id});
   }
 
-  onAuthorized({error}) {
-    if (!error) {
-      this.ports.editor.emit('hide-notification');
-    } else {
-      this.ports.editor.emit('error-message', {
-        error: {
-          code: 'AUTHORIZATION_FAILED',
-          message: error.message,
-          autoHide: false,
-          dismissable: false
-        }
-      });
-    }
+  afterAuthorization() {
+    this.ports.editor.emit('hide-notification');
     this.activateComponent();
   }
 

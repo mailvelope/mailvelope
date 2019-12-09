@@ -60,7 +60,7 @@ export default class Provider extends React.Component {
     });
   }
 
-  openOAuthDialog({email, scopes, gmailCtrlId, ctrlId}) {
+  openOAuthDialog({email, scopes, gmailCtrlId}) {
     this.setState({showAuthModal: true, authMessage: this.getAuthMessage(email, scopes), authModalCallback: async () => {
       try {
         await port.send('authorize-gmail', {email, scopes, gmailCtrlId});
@@ -70,7 +70,7 @@ export default class Provider extends React.Component {
         this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
         this.setState({showAuthModal: false, gmail_integration: false}, () => this.handleSave());
       }
-    }, authModalClose: () => this.setState({showAuthModal: false}, () => port.emit('activate-component', {ctrlId}))});
+    }, authModalClose: () => this.setState({showAuthModal: false})});
   }
 
   getAuthText(authorisation) {

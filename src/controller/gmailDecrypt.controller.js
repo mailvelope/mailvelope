@@ -3,7 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
 import * as l10n from '../lib/l10n';
 import {dataURL2str, normalizeArmored} from '../lib/util';
 import {extractFileExtension} from '../lib/file';
@@ -16,13 +15,12 @@ import {lookupKey} from './import.controller';
 export default class gmailDecryptController extends DecryptController {
   constructor(port) {
     super(port);
-    this.actionQueue = [];
     this.gmailCtrl = null;
+    this.userEmail = null;
     this.signedText = null;
     this.plainText = null;
     this.clipped = false;
     this.attachments = [];
-    this.authorizationRequest = null;
     // register event handlers
     this.on('set-data', this.onSetData);
     this.on('download-enc-attachment', this.onDownloadEncAttachment);
@@ -41,36 +39,17 @@ export default class gmailDecryptController extends DecryptController {
   }
 
   async getAccessToken() {
-    const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-    const accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
-    if (accessToken) {
-      return accessToken;
-    }
-    if (!this.tabId) {
-      const activeTab = await mvelo.tabs.getActive();
-      if (activeTab) {
-        this.tabId = activeTab.id;
-      }
-    }
-    this.ports.dDialog.emit('error-message', {error: l10n.get('gmail_integration_auth_error_download')});
-    this.gmailCtrl.openAuthorizeDialog({email: this.userEmail, scopes, ctrlId: this.id});
-    return new Promise((resolve, reject) => this.authorizationRequest = {resolve, reject});
+    return this.gmailCtrl.getAccessToken({
+      email: this.userEmail,
+      beforeAuth: () => this.ports.dDialog.emit('error-message', {error: l10n.get('gmail_integration_auth_error_download')}),
+      afterAuth: () => this.afterAuthorization()
+    });
   }
 
-  onAuthorized({error, accessToken}) {
-    this.activateComponent();
-    if (error) {
-      return this.authorizationRequest.reject(error);
-    }
+  afterAuthorization() {
     this.ports.dDialog.emit('hide-error-message');
-    this.authorizationRequest.resolve(accessToken);
-  }
-
-  activateComponent() {
     if (this.popup) {
       this.popup.activate();
-    } else {
-      mvelo.tabs.activate({id: this.tabId});
     }
   }
 
@@ -101,8 +80,7 @@ export default class gmailDecryptController extends DecryptController {
     this.ascAttachments = encAttFileNames.filter(fileName => extractFileExtension(fileName) === 'asc');
     let accessToken;
     if (clipped || this.ascAttachments.length) {
-      const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-      accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail, scopes);
+      accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail);
       if (!accessToken) {
         lock = true;
       }
@@ -119,14 +97,18 @@ export default class gmailDecryptController extends DecryptController {
       this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
       await super.decrypt(this.armored, this.keyringId);
     }
-    if (!accessToken && (this.clipped || this.ascAttachments.length)) {
-      accessToken = await this.getAccessToken();
-    }
-    if (this.clipped) {
-      await this.onClippedArmored(this.msgId, this.userEmail, accessToken, forceUnlock);
-    }
-    if (this.ascAttachments.length) {
-      await this.onAscAttachments(this.ascAttachments, accessToken, forceUnlock);
+    try {
+      if (!accessToken && (this.clipped || this.ascAttachments.length)) {
+        accessToken = await this.getAccessToken();
+      }
+      if (this.clipped) {
+        await this.onClippedArmored(this.msgId, this.userEmail, accessToken, forceUnlock);
+      }
+      if (this.ascAttachments.length) {
+        await this.onAscAttachments(this.ascAttachments, accessToken, forceUnlock);
+      }
+    } catch (error) {
+      this.ports.dDialog.emit('error-message', {error: error.message});
     }
   }
 

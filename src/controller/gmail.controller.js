@@ -16,8 +16,7 @@ export default class GmailController extends sub.SubController {
     super(port);
     this.editorControl = null;
     this.keyringId = getPreferredKeyringId();
-    this.currentAction = null;
-    this.authQueue = [];
+    this.authorizationRequest = null;
     this.settingsTab = null;
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
@@ -69,39 +68,34 @@ export default class GmailController extends sub.SubController {
       const toFormatted = to.map(({name, email}) => `${name} <${email}>`);
       const ccFormatted = cc.map(({name, email}) => `${name} <${email}>`);
       const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: toFormatted, cc: ccFormatted});
-      const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-      const accessToken = await gmail.getAccessToken(userEmail, scopes);
-      if (!accessToken) {
-        this.editorControl.authorize(scopes);
-      } else {
-        const sendOptions = {
-          email: userEmail,
-          message: mail,
-          accessToken
-        };
-        if (options.threadId) {
-          sendOptions.threadId = options.threadId;
-        }
-        try {
-          await gmail.sendMessageMeta(sendOptions);
-          this.editorControl.ports.editor.emit('show-notification', {
-            message: l10n.get('gmail_integration_sent_success'),
-            type: 'success',
-            autoHide: true,
-            hideDelay: 2000,
-            closeOnHide: true,
-            dismissable: false
-          });
-        } catch (error) {
-          this.editorControl.ports.editor.emit('error-message', {
-            error: Object.assign(mapError(error), {
-              autoHide: false,
-              dismissable: true
-            })
-          });
-        }
-        this.editorControl = null;
+      const accessToken = await this.editorControl.getAccessToken();
+      const sendOptions = {
+        email: userEmail,
+        message: mail,
+        accessToken
+      };
+      if (options.threadId) {
+        sendOptions.threadId = options.threadId;
       }
+      try {
+        await gmail.sendMessageMeta(sendOptions);
+        this.editorControl.ports.editor.emit('show-notification', {
+          message: l10n.get('gmail_integration_sent_success'),
+          type: 'success',
+          autoHide: true,
+          hideDelay: 2000,
+          closeOnHide: true,
+          dismissable: false
+        });
+      } catch (error) {
+        this.editorControl.ports.editor.emit('error-message', {
+          error: Object.assign(mapError(error), {
+            autoHide: false,
+            dismissable: true
+          })
+        });
+      }
+      this.editorControl = null;
     } catch (error) {
       if (error.code == 'EDITOR_DIALOG_CANCEL') {
         this.editorControl = null;
@@ -117,18 +111,8 @@ export default class GmailController extends sub.SubController {
   }
 
   async onSecureBtn({type, msgId, all, userEmail}) {
-    const scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND];
-    const accessToken = await gmail.getAccessToken(userEmail, scopes);
-    if (!accessToken) {
-      if (!this.tabId) {
-        const {id} = await mvelo.tabs.getActive();
-        this.tabId = id;
-      }
-      this.currentAction = {type, msgId, all, userEmail};
-      this.openAuthorizeDialog({email: userEmail, scopes, ctrlId: this.id});
-      return;
-    }
     try {
+      const accessToken = await this.getAccessToken({email: userEmail});
       const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
       const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
       let subject = gmail.extractMailHeader(payload, 'Subject');
@@ -178,49 +162,53 @@ export default class GmailController extends sub.SubController {
     }
   }
 
-  async onAuthorize({email, scopes}) {
-    let accessToken;
-    let error;
-    try {
-      accessToken = await gmail.authorize(email, scopes);
-      if (this.currentAction) {
-        if (this.currentAction.type === 'reply') {
-          this.onSecureReply(this.currentAction);
-        } else if (this.currentAction.type === 'forward') {
-          this.onSecureForward(this.currentAction);
-        }
-        this.currentAction = null;
-      }
-    } catch (e) {
-      if (e.code === 'ID_GSUITE_ERROR') {
-        throw (e);
-      }
-      console.log(e);
-      error = e;
+  /**
+   * Get access token
+   * @param  {String} email
+   * @param  {Array}  scopes
+   * @param  {Function} beforeAuth - called before new authorization request is started
+   * @param  {Function} afterAuth - called after successful authorization request
+   * @return {String}
+   */
+  async getAccessToken({email, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND], beforeAuth, afterAuth} = {}) {
+    const accessToken = await this.checkAuthorization(email, scopes);
+    if (accessToken) {
+      return accessToken;
     }
-    if (this.authQueue.length) {
-      for (const ctrlId of this.authQueue) {
-        const ctrl = sub.getById(ctrlId);
-        if (ctrl) {
-          ctrl.onAuthorized({error, accessToken});
-        }
-      }
-      this.authQueue = [];
-    } else {
-      this.activateComponent();
+    if (beforeAuth) {
+      beforeAuth();
     }
-    mvelo.tabs.close(this.settingsTab);
-    this.settingsTab = null;
+    this.openAuthorizeDialog({email, scopes});
+    return new Promise((resolve, reject) => this.authorizationRequest = {resolve, reject, afterAuth});
   }
 
-  checkAuthorization(email, scopes) {
+  async onAuthorize({email, scopes}) {
+    try {
+      const accessToken = await gmail.authorize(email, scopes);
+      mvelo.tabs.close(this.settingsTab);
+      this.settingsTab = null;
+      this.activateComponent();
+      if (this.authorizationRequest.afterAuth) {
+        this.authorizationRequest.afterAuth();
+      }
+      this.authorizationRequest.resolve(accessToken);
+    } catch (e) {
+      this.authorizationRequest.reject(e);
+      throw e;
+    }
+  }
+
+  checkAuthorization(email, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]) {
     return gmail.getAccessToken(email, scopes);
   }
 
-  async openAuthorizeDialog({email, scopes, ctrlId}) {
-    this.authQueue.push(ctrlId);
+  async openAuthorizeDialog({email, scopes}) {
+    const activeTab = await mvelo.tabs.getActive();
+    if (activeTab) {
+      this.tabId = activeTab.id;
+    }
     const slotId = getHash();
-    setAppDataSlot(slotId, {email, scopes, gmailCtrlId: this.id, ctrlId});
+    setAppDataSlot(slotId, {email, scopes, gmailCtrlId: this.id});
     this.settingsTab = await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
   }
 }
