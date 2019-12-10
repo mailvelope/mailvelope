@@ -367,7 +367,15 @@ export async function getPGPSignatureAttId({msgId, email, accessToken}) {
     const sigNode = getMimeNode(node.parts, ['application/pgp-signature']);
     return sigNode.body.attachmentId;
   }
-  return;
+}
+
+export async function getPGPEncryptedDataAttId({msgId, email, accessToken}) {
+  const {payload} = await getMessage({msgId, email, accessToken});
+  const node = getMimeNode([payload], ['multipart/encrypted']);
+  if (node) {
+    const encNode = getMimeNode(node.parts, ['application/octet-stream']);
+    return encNode.body.attachmentId;
+  }
 }
 
 export function getMailAttachments({payload, userEmail, msgId, exclude = ['encrypted.asc', 'signature.asc'], accessToken}) {
