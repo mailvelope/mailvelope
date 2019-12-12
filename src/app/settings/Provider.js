@@ -70,9 +70,9 @@ export default class Provider extends React.Component {
         this.setState({showAuthModal: false});
       } catch (error) {
         this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
-        this.setState({showAuthModal: false, gmail_integration: false}, () => this.handleSave());
+        this.setState({showAuthModal: false});
       }
-    }, authModalClose: () => this.setState({showAuthModal: false})});
+    }, authModalClose: () => this.setState({showAuthModal: false, gmail_integration: false}, () => this.handleSave())});
   }
 
   getAuthText(authorisation) {

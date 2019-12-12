@@ -134,7 +134,7 @@ export async function authorize(email, scopes = []) {
   scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   const authCode = await getAuthCode(email, scopes);
   if (!authCode) {
-    throw new MvError('Authorisation failed!', 'GOOGLE_OAUTH_ERROR');
+    throw new MvError('Authorization failed!', 'GOOGLE_OAUTH_ERROR');
   }
   const token = await getAuthTokens(authCode);
   validateId(token.id_token, email);
