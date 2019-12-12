@@ -1419,6 +1419,14 @@
     "description": "Outro text for GMAIL OAuth dialog.",
     "message": "If you confirm this dialog with \"Yes\", a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions."
   },
+  "provider_gmail_auth_cancel_btn"  : {
+    "description": "Cancel authorization button",
+    "message": "Cancel authorization"
+  },
+  "provider_gmail_auth_table_title"  : {
+    "description": "Title for authorization table.",
+    "message": "Authorizations"
+  },
   "provider_gmail_integration"  : {
     "description": "Label for Gmail integration option.",
     "message": "Gmail integration (experimental)"

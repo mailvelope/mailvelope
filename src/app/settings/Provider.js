@@ -23,11 +23,13 @@ l10n.register([
   'form_save',
   'keygrid_user_email',
   'provider_gmail_auth',
+  'provider_gmail_auth_cancel_btn',
   'provider_gmail_auth_dialog_intro',
   'provider_gmail_auth_dialog_outro',
   'provider_gmail_auth_dialog_title',
   'provider_gmail_auth_readonly',
   'provider_gmail_auth_send',
+  'provider_gmail_auth_table_title',
   'provider_gmail_integration',
   'provider_gmail_integration_info',
   'provider_gmail_integration_warning',
@@ -189,7 +191,7 @@ export default class Provider extends React.Component {
                 {l10n.map.provider_gmail_integration_info} <a href="https://www.mailvelope.com/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
               </Alert>
             )}
-            <p className="lead mt-3">Authorisierungen</p>
+            <p className="lead mt-3">{l10n.map.provider_gmail_auth_table_title}</p>
             <div className="table-responsive">
               <table className="table table-hover table-custom mb-0">
                 <thead>
@@ -206,7 +208,7 @@ export default class Provider extends React.Component {
                       <td>{entry.scope.split(' ').map(val => this.getAuthText(val)).filter(val => val !== '').join(', ')}</td>
                       <td className="text-center">
                         <div className="actions">
-                          <button type="button" onClick={e => { e.stopPropagation(); this.removeAuthorisation(entry.email); }} className="btn btn-secondary">Authorisierung aufheben</button>
+                          <button type="button" onClick={e => { e.stopPropagation(); this.removeAuthorisation(entry.email); }} className="btn btn-secondary">{l10n.map.provider_gmail_auth_cancel_btn}</button>
                         </div>
                       </td>
                     </tr>

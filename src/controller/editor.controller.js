@@ -63,7 +63,7 @@ export default class EditorController extends sub.SubController {
     if (this.integration) {
       this.gmailCtrl = sub.getById(this.options.gmailCtrlId);
       try {
-        this.getAccessToken();
+        await this.getAccessToken();
       } catch (error) {
         this.ports.editor.emit('error-message', {
           error: {
