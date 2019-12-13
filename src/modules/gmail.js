@@ -369,12 +369,12 @@ export async function getPGPSignatureAttId({msgId, email, accessToken}) {
   }
 }
 
-export async function getPGPEncryptedDataAttId({msgId, email, accessToken}) {
+export async function getPGPEncryptedAttData({msgId, email, accessToken}) {
   const {payload} = await getMessage({msgId, email, accessToken});
   const node = getMimeNode([payload], ['multipart/encrypted']);
   if (node) {
     const encNode = getMimeNode(node.parts, ['application/octet-stream']);
-    return encNode.body.attachmentId;
+    return {attachmentId: encNode.body.attachmentId, fileName: encNode.filename};
   }
 }
 

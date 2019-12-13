@@ -182,12 +182,16 @@ export default class gmailDecryptController extends DecryptController {
 
   async onMultipartEncrypted(accessToken) {
     await this.retrieveSender(accessToken);
-    const encDataAttId = await gmail.getPGPEncryptedDataAttId({msgId: this.msgId, email: this.userEmail, accessToken});
-    let ascMimeFileName;
-    if (!encDataAttId) {
-      ascMimeFileName = this.ascAttachments[0];
+    const encAttData = await gmail.getPGPEncryptedAttData({msgId: this.msgId, email: this.userEmail, accessToken});
+    let fileName;
+    let attachmentId;
+    if (encAttData) {
+      ({attachmentId, fileName} = encAttData);
+    } else {
+      fileName = this.ascAttachments[0];
     }
-    const {data} = await gmail.getAttachment({attachmentId: encDataAttId, fileName: ascMimeFileName, email: this.userEmail, msgId: this.msgId, accessToken});
+    this.attachments = this.attachments.filter(name => name !== fileName);
+    const {data} = await gmail.getAttachment({attachmentId, fileName, email: this.userEmail, msgId: this.msgId, accessToken});
     this.armored = dataURL2str(data);
     if (!await this.canUnlockKey(this.armored, this.keyringId)) {
       this.ports.dDialog.emit('lock');
