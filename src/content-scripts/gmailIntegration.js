@@ -70,12 +70,14 @@ export default class GmailIntegration {
   }
 
   getMsgByControllerId(controllerId) {
+    if (!this.selectedMsgs) {
+      return;
+    }
     for (const [, value] of this.selectedMsgs) {
       if (value.controllerId === controllerId) {
         return value;
       }
     }
-    return;
   }
 
   attachEditorBtn() {
