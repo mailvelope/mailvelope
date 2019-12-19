@@ -219,18 +219,18 @@ export default class GmailIntegration {
     const menuBtn = actionBtnsTopRoot.querySelector('.T-I-Js-Gs.aap.T-I-awG');
     if (menuBtn) {
       menuBtn.dataset.mvMenuBtns = FRAME_ATTACHED;
-      msgData.menuClickHandler = () => {
+      msgData.menuMouseDownHandler = () => {
+        this.menuPopover = document.querySelector('.b7.J-M[role="menu"]');
         setTimeout(() => {
-          this.menuPopover = document.querySelector('.b7.J-M[role="menu"]');
           this.addMenuBtn('reply', this.menuPopover, null, ev => this.onSecureButton(ev, 'reply', msgId));
           const replyMenuItem = this.menuPopover.querySelector('[role="menuitem"][id="r2"]');
           if (replyMenuItem.style.display !== 'none') {
             this.addMenuBtn('replyAll', this.menuPopover, replyMenuItem, ev => this.onSecureButton(ev, 'reply', msgId, true));
           }
           this.addMenuBtn('forward', this.menuPopover, this.menuPopover.querySelector('[role="menuitem"][id="r3"]'), ev => this.onSecureButton(ev, 'forward', msgId));
-        }, !this.menuPopover ? 50 : 0);
+        }, !this.menuPopover.hasChildNodes() ? 50 : 0);
       };
-      menuBtn.addEventListener('click', msgData.menuClickHandler, {capture: true});
+      menuBtn.addEventListener('mousedown', msgData.menuMouseDownHandler, {capture: true});
       msgData.menuBlurHandler = () => {
         this.cleanupMenuBtns();
       };
