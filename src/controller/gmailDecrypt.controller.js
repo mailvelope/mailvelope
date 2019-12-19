@@ -35,7 +35,6 @@ export default class gmailDecryptController extends DecryptController {
   }
 
   onDecrypt() {
-    this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
     this.processData();
   }
 
@@ -95,7 +94,6 @@ export default class gmailDecryptController extends DecryptController {
 
   async processData(accessToken) {
     if (this.armored) {
-      this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
       await super.decrypt(this.armored, this.keyringId);
     }
     try {
@@ -142,9 +140,6 @@ export default class gmailDecryptController extends DecryptController {
       if (mimeType === 'multipart/signed' || mimeType === 'multipart/encrypted') {
         return mimeType;
       }
-    }
-    if (this.ascAttachments.includes('signature.asc')) {
-      return 'multipart/signed';
     }
     if (this.ascAttachments.includes('encrypted.asc')) {
       return 'multipart/encrypted';
@@ -193,6 +188,7 @@ export default class gmailDecryptController extends DecryptController {
     this.attachments = this.attachments.filter(name => name !== fileName);
     const {data} = await gmail.getAttachment({attachmentId, fileName, email: this.userEmail, msgId: this.msgId, accessToken});
     this.armored = dataURL2str(data);
+    this.gmailCtrl.ports.gmailInt.emit('update-message-data', {msgId: this.msgId, data: {secureAction: true}});
     if (!await this.canUnlockKey(this.armored, this.keyringId)) {
       this.ports.dDialog.emit('lock');
     } else {
@@ -222,15 +218,22 @@ export default class gmailDecryptController extends DecryptController {
       const {data} = await gmail.getAttachment({fileName, email: this.userEmail, msgId: this.msgId, accessToken});
       const armored = dataURL2str(data);
       if (/-----BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
-        await this.importKey(armored);
+        return await this.importKey(armored);
+      }
+      let attachment;
+      if (/-----BEGIN\sPGP\sSIGNATURE/.test(armored)) {
+        attachment = {
+          data: armored,
+          filename: fileName
+        };
       } else {
-        const attachment = await model.decryptFile({
+        attachment = await model.decryptFile({
           encryptedFile: {content: data, name: fileName},
           unlockKey: this.unlockKey.bind(this),
           uiLogSource: 'security_log_viewer'
         });
-        this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
       }
+      this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
     } catch (error) {
       this.ports.dDialog.emit('error-message', {error: error.message});
     }
