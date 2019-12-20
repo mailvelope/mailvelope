@@ -84,7 +84,7 @@ export default class KeyUsers extends React.Component {
       <div className={`keyUsers ${this.props.className || ''}`}>
         <div className="card card-clean-table">
           <div className="card-header d-flex align-items-center justify-content-between flex-wrap">
-            <h3>{l10n.map.keyusers_title}</h3>
+            <h3 className="my-2 my-md-0">{l10n.map.keyusers_title}</h3>
             {(!this.context.gnupg && this.props.keyType !== 'public' && this.props.keyValidity) &&
               <Link to={`/keyring/key/${this.props.keyFpr}/user/add`} className="btn btn-sm btn-secondary" replace tabIndex="0" title={l10n.map.keyusers_add_btn_title}>{l10n.map.keyusers_add_btn}</Link>
             }

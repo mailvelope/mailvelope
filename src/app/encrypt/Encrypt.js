@@ -253,8 +253,8 @@ export default class Encrypt extends React.Component {
                   </nav>
                 }
                 <div className="card-title d-flex flex-wrap align-items-center w-100">
-                  <h1 className="flex-shrink-0">{!this.state.encrypted.length ? l10n.map.encrypt_header : l10n.map.encrypt_header_success}</h1>
-                  <div className="ml-auto flex-shrink-0">
+                  <h1 className="flex-shrink-0 mr-auto">{!this.state.encrypted.length ? l10n.map.encrypt_header : l10n.map.encrypt_header_success}</h1>
+                  <div className="flex-shrink-0">
                     {!this.state.encrypted.length &&
                       <button type="button" disabled={this.state.recipients.length === 0 || (this.state.files.length === 0 && this.state.message === '')} onClick={() => this.handleEncrypt()} className="btn btn-primary">{l10n.map.editor_encrypt_button}</button>
                     }

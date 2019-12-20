@@ -49,7 +49,7 @@ export default class Settings extends React.Component {
           <section className="card mv-options">
             <div className="card-body">
               <div className="row">
-                <div className="col-lg-3 mb-4">
+                <div className="col-md-4 col-lg-3 mb-4">
                   <div role="navigation">
                     <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                       <NavPill to="/settings/general">{l10n.map.settings_general}</NavPill>
@@ -62,7 +62,7 @@ export default class Settings extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-9">
+                <div className="col-md-8 col-lg-9">
                   <Route path="/settings/general" component={General} />
                   <Route path="/settings/provider" render={({location}) => <Provider onSetNotification={this.handleSetNotification} location={location} />} />
                   <Route path="/settings/security" render={() => <Security onSetNotification={this.handleSetNotification} />} />

@@ -180,7 +180,7 @@ export default class KeyDetails extends React.Component {
       <div className="keyDetails">
         <div className="card card-clean">
           <div className="card-header d-flex align-items-center justify-content-between flex-wrap">
-            <h3>{l10n.map.keydetails_title}</h3>
+            <h3 className="my-2 my-sm-0">{l10n.map.keydetails_title}</h3>
             <KeySelect keys={this.state.keys} selectedKeyIdx={this.state.selectedKeyIdx} onChange={index => this.handleChangeKey(index)} />
           </div>
           <div className="card-body pb-0">
@@ -267,10 +267,10 @@ export default class KeyDetails extends React.Component {
             <DefinePassword value={this.state.password} errors={this.state.errors} onChange={this.handleChange} disabled={this.state.success} />
             <div className="row btn-bar">
               <div className="col-6">
-                <button type="button" className="btn btn-secondary" onClick={() => this.setState({showPwdModal: false})}>{l10n.map.dialog_cancel_btn}</button>
+                <button type="button" className="btn btn-secondary btn-block" onClick={() => this.setState({showPwdModal: false})}>{l10n.map.dialog_cancel_btn}</button>
               </div>
               <div className="col-6">
-                <button type="button" onClick={this.validateChangePwd} className="btn btn-primary">{l10n.map.dialog_save_btn}</button>
+                <button type="button" onClick={this.validateChangePwd} className="btn btn-primary btn-block">{l10n.map.dialog_save_btn}</button>
               </div>
             </div>
           </form>

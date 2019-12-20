@@ -18,8 +18,8 @@ l10n.register([
 export default function Dashboard() {
   return (
     <div className="dashboard">
-      <div className="row text-center">
-        <div className="col-lg-6 col-xl-3 mb-3">
+      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 text-center">
+        <div className="col mb-4">
           <Link className="card h-100" to="/keyring/display" role="button">
             <div className="card-body">
               <img src="../img/Mailvelope/keyring.svg" role="presentation" />
@@ -29,7 +29,7 @@ export default function Dashboard() {
             </div>
           </Link>
         </div>
-        <div className="col-lg-6 col-xl-3 mb-3">
+        <div className="col mb-4">
           <Link className="card h-100" to="/encrypt" role="button">
             <div className="card-body">
               <img src="../img/Mailvelope/encryption.svg" role="presentation" />
@@ -39,7 +39,7 @@ export default function Dashboard() {
             </div>
           </Link>
         </div>
-        <div className="col-lg-6 col-xl-3 mb-3">
+        <div className="col mb-4">
           <Link className="card h-100" to="/settings/watchlist" role="button">
             <div className="card-body">
               <img src="../img/Mailvelope/authorized.svg" role="presentation" />
@@ -49,7 +49,7 @@ export default function Dashboard() {
             </div>
           </Link>
         </div>
-        <div className="col-lg-6 col-xl-3 mb-3">
+        <div className="col mb-4">
           <Link className="card h-100" to="/settings/security-log" role="button">
             <div className="card-body">
               <img src="../img/Mailvelope/clipboard.svg" role="presentation" />

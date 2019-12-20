@@ -240,8 +240,8 @@ export default class Decrypt extends React.Component {
                   </nav>
                 }
                 <div className="card-title d-flex flex-wrap align-items-center w-100">
-                  <h1 className="flex-shrink-0">{!this.state.decrypted.length ? l10n.map.decrypt_header : l10n.map.decrypt_header_success}</h1>
-                  <div className="ml-auto flex-shrink-0">
+                  <h1 className="flex-shrink-0 mr-auto">{!this.state.decrypted.length ? l10n.map.decrypt_header : l10n.map.decrypt_header_success}</h1>
+                  <div className="flex-shrink-0">
                     {!this.state.decrypted.length &&
                       <button type="button" disabled={this.state.files.length === 0 && this.state.message === ''} onClick={() => this.handleDecrypt()} className="btn btn-primary">{l10n.map.text_decrypt_button}</button>
                     }

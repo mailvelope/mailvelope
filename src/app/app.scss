@@ -15,10 +15,12 @@ body {
 nav {
   &.navbar {
     box-shadow: $box-shadow-lg;
-    padding: 0;
     .feature-banner {
       border: 1px solid rgba($turquoise, 0.05);
       background-color: rgba($turquoise, 0.1);
+      margin-bottom: -$navbar-padding-y;
+      margin-left: -$navbar-padding-x;
+      margin-right: -$navbar-padding-x;
     }
   }
 }
@@ -33,7 +35,7 @@ main {
     margin-bottom: 1.5rem;
     background-color: $white;
     box-shadow: $box-shadow-lg;
-    > section {      
+    > section {
       &.card {
         border: 0;
         > .card-body {
@@ -42,7 +44,7 @@ main {
             padding-right: 0;
             margin-bottom: 2rem;
           }
-        }        
+        }
       }
     }
   }
@@ -62,7 +64,7 @@ footer {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-} 
+}
 
 input[readonly] {
   cursor: text !important;
