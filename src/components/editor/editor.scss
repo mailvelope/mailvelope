@@ -32,8 +32,9 @@
   }
 
   .editor-body .plain-text iframe {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    width: 93%;
+    height: 95%;
     margin-bottom: 0;
     color: black;
     resize: none;
