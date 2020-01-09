@@ -64,7 +64,7 @@
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Let's start!",
+        "message": "¡Iniciemos!",
         "description": "Start button label"
     },
     "alert_header_error": {
@@ -72,7 +72,7 @@
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "Important!",
+        "message": "¡Importante!",
         "description": "Alert header of category important."
     },
     "alert_header_success": {
@@ -92,15 +92,15 @@
         "description": "Alert header of category warning."
     },
     "auth_domain_headline": {
-        "message": "Authorize domain",
+        "message": "Autorizar dominio",
         "description": "Headline of authorize domain dialog."
     },
     "auth_domain_description": {
-        "message": "Would you like to allow the use of Mailvelope for the domain $1?",
+        "message": "Quisieras permitir el uso de Mailvelope para este dominio 1 $1?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_api_label": {
-        "message": "Allow API",
+        "message": "Permitir API",
         "description": "Label for API allowed info"
     },
     "change_link": {
@@ -132,11 +132,11 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_att_frame_help_text": {
-        "message": "Click here to view the message",
+        "message": "Haz clic aquí para ver el mensaje.",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_cleartext_warning": {
-        "message": "The following text was not encrypted!",
+        "message": "El siguiente texto no fue cifrado.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_digital_signature": {
@@ -148,23 +148,23 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Signature unknown",
+        "message": "Firma desconocida",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "Key with ID $1 not found!",
+        "message": "Llave con la ID $1 no encontrada.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "¡No se ha encontrado la llave!",
+        "message": "Llave no encontrada.",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "Decryption of file $1 is not possible!",
+        "message": "No es posible descifrar el archivo $1.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Click to decrypt",
+        "message": "Clic para descifrar.",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
@@ -200,7 +200,7 @@
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Decryption of the text is not possible!",
+        "message": "No fue posible descifrar el texto.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
@@ -328,7 +328,7 @@
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Encryption of file $1 is not possible!",
+        "message": "No es posible cifrar el archivo $1.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
@@ -368,7 +368,7 @@
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Encryption of the text is not possible!",
+        "message": "No es posible cifrar el texto.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
@@ -548,27 +548,27 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments!",
+        "message": "Mailvelope no tiene autorización para descargar adjuntos.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails!",
+        "message": "Mailvelope no esta autorizado para enviar correos.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_id_validation_error_gsuite": {
-        "message": "Email addresses assigned to a G-Suite account are not supported in the current test phase!",
-        "description": "Error message for G-Suite users when trying to authorize GMAIL integration"
+        "message": "Las cuentas de correo asignadas a una cuenta de G Suite no están soportadas en la fase de prueba actual.",
+        "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
     "gmail_integration_quoted_mail_header_reply": {
-        "message": "On $1, $2 wrote:",
+        "message": "En $1, $2 escribió:",
         "description": "Header for quoted reply mail"
     },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
+        "message": "---------- Mensaje reenviado ---------\nDe: $1\nFecha: $2\nAsunto: $3\nPara: $4",
         "description": "Header for forwarded mail"
     },
     "gmail_integration_sent_success": {
-        "message": "The email was sent successfully!",
+        "message": "El correo se envió con éxito.",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
@@ -580,7 +580,7 @@
         "description": ""
     },
     "import_frame_help_text": {
-        "message": "Click to import key",
+        "message": "Clic para importar la llave.",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
@@ -720,7 +720,7 @@
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "¡Llaves importadas/actualizadas exitosamente!",
+        "message": "Las llaves se importaron/actualizaron exitosamente.",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
@@ -1204,7 +1204,7 @@
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to delete the keyring with ID: $1?",
+        "message": "Deseas borrar el llavero con la ID: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
@@ -1260,7 +1260,7 @@
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Delete keyring",
+        "message": "Borrar llavero",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
@@ -1396,51 +1396,59 @@
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
-        "message": "Authorizations",
+        "message": "Autorizaciones",
         "description": "Authorizations"
     },
     "provider_gmail_auth_readonly": {
-        "message": "read email",
+        "message": "correo leído",
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "send email",
+        "message": "corre enviado",
         "description": "Send authorization"
     },
     "provider_gmail_auth_dialog_title": {
-        "message": "Grant authorization",
+        "message": "Permitir autorización",
         "description": "Title of GMAIL OAuth dialog."
     },
     "provider_gmail_auth_dialog_intro": {
-        "message": "To use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "message": "Para usar la integración de Gmail para <0></0>, es necesario conceder los siguientes permisos a Mailvelope: ",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_auth_dialog_outro": {
-        "message": "If you confirm this dialog with \"Yes\", a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "message": "Si confirmas este dialogo con \"Sí\", se abrirá una autorización de Google. Selecciona tu cuenta de Gmail para las direcciones de corre <0></0> y sigue las instrucciones.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "Cancelar autorización",
+        "description": "Cancel authorization button"
+    },
+    "provider_gmail_auth_table_title": {
+        "message": "Autorizaciones",
+        "description": "Title for authorization table."
+    },
     "provider_gmail_integration": {
-        "message": "Gmail integration (experimental)",
+        "message": "Integración con Gmail (experimental)",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions for Gmail integration. As soon as you use the encryption functions of Mailvelope in Gmail, Google starts an authorization dialog that guides you through the approval process.",
+        "message": "Mailvelope requiere permisos adicionales para integrarse a Gmail. Tan pronto utilices las funciones de cifrado de Mailvelope en Gmail, Google iniciará un diálogo de autorización que te guiará por el proceso de aprobación.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
+        "message": "Gmail no autorizado con el patrón de búsqueda <0></0>. Por favor revisa las configuraciones en <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_secure_reply_btn": {
-        "message": "Secure reply",
+        "message": "Responde de manera segura",
         "description": "Secure reply button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
-        "message": "Secure reply all",
+        "message": "Responder de manera segura a todos.",
         "description": "Secure reply all button title/tooltip"
     },
     "provider_gmail_secure_forward_btn": {
-        "message": "Secure forward",
+        "message": "Reenviar de manera segura.",
         "description": "Secure forward button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
@@ -2072,11 +2080,11 @@
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "Click to verify signature",
+        "message": "Clic para verificar la firma",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "¡Fallo al descifrar!",
+        "message": "El descifrado falló.",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {

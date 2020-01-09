@@ -136,7 +136,7 @@
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_cleartext_warning": {
-        "message": "Şu metin şifrelenmedi!",
+        "message": "Şu metin şifrelenmedi.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_digital_signature": {
@@ -152,15 +152,15 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "$1 kodlu anahtar bulunamadı!",
+        "message": "ID $1 kodlu anahtar bulunamadı.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Anahtar bulunamadı!",
+        "message": "Anahtar bulunamadı.",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "$1 dosyasının şifresi çözülemez!",
+        "message": "$1 dosyasının şifresi çözülemiyor.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
@@ -200,7 +200,7 @@
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Metinin şifresi çözülemiyor!",
+        "message": "Metnin şifresi çözülemiyor.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
@@ -328,7 +328,7 @@
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "$1 dosyası şifrelenemedi!",
+        "message": "$1 dosyası şifrelenemiyor.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
@@ -368,7 +368,7 @@
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Metin şifrelenemez!",
+        "message": "Metin şifrelenemiyor.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
@@ -548,16 +548,16 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope uygulamasına ek dosyaları indirme izni verilmemiş!",
+        "message": "Mailvelope uygulamasına ek dosyaları indirme izni verilmemiş.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope uygulamasına e-posta gönderme izni verilmemiş!",
+        "message": "Mailvelope uygulamasına e-posta gönderme izni verilmemiş.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_id_validation_error_gsuite": {
-        "message": "G-Suite hesabı ile ilişkili e-posta adresleri şu andaki deneme aşamasında desteklenmiyor!",
-        "description": "Error message for G-Suite users when trying to authorize GMAIL integration"
+        "message": "G-Suite hesabı ile ilişkili e-posta adresleri şu andaki deneme aşamasında desteklenmiyor.",
+        "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
     "gmail_integration_quoted_mail_header_reply": {
         "message": "$1 tarihinde, $2 şunu yazmış:",
@@ -568,7 +568,7 @@
         "description": "Header for forwarded mail"
     },
     "gmail_integration_sent_success": {
-        "message": "E-posta gönderildi!",
+        "message": "E-posta gönderildi.",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
@@ -720,7 +720,7 @@
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Anahtarlar içe aktarıldı ya da güncellendi!",
+        "message": "Anahtarlar içe aktarıldı ya da güncellendi.",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
@@ -1419,6 +1419,14 @@
         "message": "Bu pencerede \"Evet\" ile onay verirseniz Google izin verme penceresi açılır. <0></0>  e-posta adresinin Gmail hesabını seçin ve yönergeleri izleyin.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "Cancel authorization",
+        "description": "Cancel authorization button"
+    },
+    "provider_gmail_auth_table_title": {
+        "message": "İzinler",
+        "description": "Title for authorization table."
+    },
     "provider_gmail_integration": {
         "message": "Gmail bütünleştirmesi (deneysel)",
         "description": "Label for Gmail integration option."
@@ -2076,7 +2084,7 @@
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Şifre çözülemedi!",
+        "message": "Şifre çözülemedi.",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {

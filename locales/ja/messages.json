@@ -548,27 +548,27 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "添付ファイルをダウンロードする権限がMailvelopeにありません!",
+        "message": "添付ファイルをダウンロードする権限がMailvelopeにありません。",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "メールを送る権限がMailvelopeにありません!",
+        "message": "メールを送る権限がMailvelopeにありません。",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_id_validation_error_gsuite": {
-        "message": "Email addresses assigned to a G-Suite account are not supported in the current test phase!",
-        "description": "Error message for G-Suite users when trying to authorize GMAIL integration"
+        "message": "G Suite アカウントのメールアドレスは、実験段階ではサポートされていません。",
+        "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
     "gmail_integration_quoted_mail_header_reply": {
         "message": "$1 について、 $2 が書きました:",
         "description": "Header for quoted reply mail"
     },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
+        "message": "---------- Forwarded message ---------\nFrome: $1\nDate: $2\nSubject: $3\nTo: $4",
         "description": "Header for forwarded mail"
     },
     "gmail_integration_sent_success": {
-        "message": "メールを送信しました!",
+        "message": "メールを送信しました。",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
@@ -720,7 +720,7 @@
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "鍵がインポートできました",
+        "message": "鍵がインポート/更新できました。",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
@@ -1408,23 +1408,31 @@
         "description": "Send authorization"
     },
     "provider_gmail_auth_dialog_title": {
-        "message": "権限を与える",
+        "message": "認証を与える",
         "description": "Title of GMAIL OAuth dialog."
     },
     "provider_gmail_auth_dialog_intro": {
-        "message": "To use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "message": "Gmailを <0></0>で使うには、Mailvelopeに以下の権限を与える必要があります:",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_auth_dialog_outro": {
         "message": "\"Yes\"を選ぶと、Googleの認証ウインドウが開きます。<0></0>のGmailのアカウントを選んで、指示に従ってください。",
         "description": "Outro text for GMAIL OAuth dialog."
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "認証を中止",
+        "description": "Cancel authorization button"
+    },
+    "provider_gmail_auth_table_title": {
+        "message": "認証",
+        "description": "Title for authorization table."
+    },
     "provider_gmail_integration": {
-        "message": "Gmail integration (experimental)",
+        "message": "Gmail統合を有効化（実験的機能）",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions for Gmail integration. As soon as you use the encryption functions of Mailvelope in Gmail, Google starts an authorization dialog that guides you through the approval process.",
+        "message": "Gmail統合機能を使うには、Mailvelopeに追加の権限を与える必要があります。Gmailで暗号機能を使うと、Googleの権限を与える認証ダイアログが現れます。",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
@@ -2076,7 +2084,7 @@
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "復号に失敗しました！",
+        "message": "復号に失敗しました。",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {

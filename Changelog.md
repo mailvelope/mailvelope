@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v4.2.1
+-------
+__Jan 9, 2020__
+
+  * Build WKD URL with web crypto digest method instead node crypto shim
+  * Various bug fixes in Gmail API integration
+  * Fix options view of app when using createSettingsContainer client-API method
+  * Update to Bootstrap 4.4.1, optimize container layout
 
 v4.2.0
 -------
