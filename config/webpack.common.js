@@ -62,7 +62,9 @@ function scss(loader = 'style-loader', css = false) {
         loader: 'sass-loader', // compiles Sass to CSS
         // Apply the JSON importer via sass-loader's options.
         options: {
-          importer: jsonImporter()
+          sassOptions: {
+            importer: jsonImporter()
+          }
         }
       }]
     },
