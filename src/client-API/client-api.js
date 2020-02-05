@@ -36,7 +36,7 @@ class Mailvelope {
 
   /**
    * Retrieves the Keyring for the given identifier
-   * @param {String} identifier - the identifier of the keyring
+   * @param {String} identifier - the identifier of the keyring, if empty the main keyring is returned
    * @returns {Promise.<Keyring, Error>}
    * @throws {Error} error.code = 'NO_KEYRING_FOR_ID'
    */
