@@ -203,6 +203,10 @@
         "message": "No fue posible descifrar el texto.",
         "description": "Header of text decryption error on decrypt result page."
     },
+    "decrypt_decrypted_files_label": {
+        "message": "Archivos descifrados",
+        "description": "Decrypted files label on decrypt success page."
+    },
     "dialog_cancel_btn": {
         "message": "Cancelar",
         "description": "Dialog cancel button label"

@@ -203,6 +203,10 @@
         "message": "このテキストの復号は不可能です。",
         "description": "Header of text decryption error on decrypt result page."
     },
+    "decrypt_decrypted_files_label": {
+        "message": "復号化されたファイル",
+        "description": "Decrypted files label on decrypt success page."
+    },
     "dialog_cancel_btn": {
         "message": "キャンセル",
         "description": "Dialog cancel button label"

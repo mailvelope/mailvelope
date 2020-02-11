@@ -203,6 +203,10 @@
         "message": "Decryption of the text is not possible.",
         "description": "Header of text decryption error on decrypt result page."
     },
+    "decrypt_decrypted_files_label": {
+        "message": "Şifrələnmiş fayllar",
+        "description": "Decrypted files label on decrypt success page."
+    },
     "dialog_cancel_btn": {
         "message": "Ləğv et",
         "description": "Dialog cancel button label"
