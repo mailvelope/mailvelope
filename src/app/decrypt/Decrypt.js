@@ -33,7 +33,8 @@ l10n.register([
   'notification_text_copy_to_clipboard',
   'decrypt_file_error_header',
   'encrypt_upload_file_error',
-  'decrypt_text_error_header'
+  'decrypt_text_error_header',
+  'decrypt_decrypted_files_label'
 ]);
 
 export default class Decrypt extends React.Component {
@@ -270,7 +271,7 @@ export default class Decrypt extends React.Component {
                 </div>
                 <div className={this.state.decrypted.length ? '' : 'd-none'}>
                   <div className="form-group mb-0">
-                    <label>Entschlüsselte Dateien</label>
+                    <label>{l10n.map.decrypt_decrypted_files_label}</label>
                     <div ref={ref => this.fileDownloadElements = ref}>
                       <FileDownloadPanel className="d-inline-flex flex-column align-items-start" files={this.state.decrypted} onCopyToClipboard={this.handleCopyToClipboard} />
                     </div>
