@@ -217,6 +217,16 @@ export default class DecryptMessage extends React.Component {
     }, timeout);
   }
 
+  signerKeyId() {
+    const {keyId, fingerprint} = this.state.signer;
+    if (keyId) {
+      return keyId.toUpperCase();
+    }
+    if (fingerprint) {
+      return fingerprint.substr(-16).toUpperCase();
+    }
+  }
+
   signatureStatus() {
     let labelClass;
     let labelText;
@@ -258,7 +268,7 @@ export default class DecryptMessage extends React.Component {
                 {this.state.signer.valid !== null ? (
                   <span><strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}>`}<br /> {`${l10n.map.keygrid_keyid} #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}</span>
                 ) : (
-                  <span>{l10n.get('decrypt_digital_signature_null_info', [`#${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`])}</span>
+                  <span>{l10n.get('decrypt_digital_signature_null_info', [`#${this.signerKeyId()}`])}</span>
                 )}
               </Tooltip>
             </>
@@ -270,7 +280,7 @@ export default class DecryptMessage extends React.Component {
                   <strong>{this.state.signer.keyDetails.name}</strong> {`<${this.state.signer.keyDetails.email}> #${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`}
                 </>
               ) : (
-                <span>{l10n.get('decrypt_digital_signature_null_info', [`#${this.state.signer.keyId ? this.state.signer.keyId.toUpperCase() : this.state.signer.keyDetails.keyId.toUpperCase()}`])}</span>
+                <span>{l10n.get('decrypt_digital_signature_null_info', [`#${this.signerKeyId()}`])}</span>
               )}
             </Alert>
           )}
