@@ -324,16 +324,22 @@ export default class AppController extends sub.SubController {
     for (const armoredKey of armoredKeys) {
       const pgpKey = await openpgpKey.readArmored(armoredKey.armored);
       if (pgpKey.err) {
-        errors.push({msg: pgpKey.err[0].message, code: 'KEY_IMPORT_ERROR_PARSE'});
-        continue;
+        for (const error of pgpKey.err) {
+          console.log('Error on openpgp.key.readArmored', error);
+          errors.push({msg: error.message, code: 'KEY_IMPORT_ERROR_PARSE'});
+        }
       }
+      let validKey = false;
       for (const key of pgpKey.keys) {
         const saniKey = await sanitizeKey(key);
         if (!saniKey) {
           errors.push({msg: key.primaryKey.getFingerprint().toUpperCase(), code: 'KEY_IMPORT_ERROR_NO_UID'});
           continue;
         }
+        validKey = true;
         keys.push(saniKey);
+      }
+      if (validKey) {
         validArmoreds.push(armoredKey);
       }
     }

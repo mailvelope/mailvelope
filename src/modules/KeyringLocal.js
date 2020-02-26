@@ -72,6 +72,7 @@ export default class KeyringLocal extends KeyringBase {
           result.push(...await this.importPrivateKey(key.armored, this.keystore));
         }
       } catch (e) {
+        console.log('Exception on key import:', e);
         result.push({
           type: 'error',
           message: l10n.get('key_import_unable', [e])
@@ -118,10 +119,11 @@ export default class KeyringLocal extends KeyringBase {
       const keyId = pubKey.primaryKey.getKeyId().toHex().toUpperCase();
       pubKey = await sanitizeKey(pubKey);
       if (!pubKey) {
-        return result.push({
+        result.push({
           type: 'error',
           message: l10n.get('key_import_error_no_uid', [keyId])
         });
+        continue;
       }
       if (key) {
         key = key[0];
@@ -165,10 +167,11 @@ export default class KeyringLocal extends KeyringBase {
       const keyId = privKey.primaryKey.getKeyId().toHex().toUpperCase();
       privKey = await sanitizeKey(privKey);
       if (!privKey) {
-        return result.push({
+        result.push({
           type: 'error',
           message: l10n.get('key_import_error_no_uid', [keyId])
         });
+        continue;
       }
       if (key) {
         key = key[0];

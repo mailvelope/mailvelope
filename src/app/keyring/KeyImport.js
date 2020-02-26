@@ -141,13 +141,15 @@ export default class KeyImport extends React.Component {
           this.props.onNotification({id: Date.now(), header: l10n.map.alert_header_error, message: code ? l10n.get(code.toLowerCase(), [msg]) : msg, type: 'error', hideDelay});
           hideDelay += 1000;
         }
-      } else {
-        this.setState({armoredKeys, keys, errors, showImportModal: true});
+        return;
       }
+      this.setState({armoredKeys, keys, errors, showImportModal: true});
     } catch (error) {
+      console.log('Error on key import preview:', error);
       this.props.onNotification({id: Date.now(), header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'error'});
+    } finally {
+      this.setState({waiting: false});
     }
-    this.setState({waiting: false});
   }
 
   async handleImport() {
@@ -190,6 +192,7 @@ export default class KeyImport extends React.Component {
       }
       this.setState({redirect: true, amoredKeys: [], keys: [], textImport: ''});
     } catch (error) {
+      console.log('Error on key import:', error);
       this.props.onNotification({id: Date.now(), header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'error'});
       this.setState({waiting: false});
     }
