@@ -91,17 +91,17 @@
     "description": "Alert header of category warning.",
     "message": "Mindestens ein Domänen-Übereinstimmungsmuster wird benötigt."
   },
-  "auth_domain_headline": {
-    "description": "Headline of authorize domain dialog.",
-    "message": "Domain autorisieren"
+  "auth_domain_api_label": {
+    "description": "Label for API allowed info",
+    "message": "API erlaubt"
   },
   "auth_domain_description": {
     "description": "Description in authorize domain dialog",
     "message": "Möchten Sie die Nutzung von Mailvelope für die Domain $1 erlauben?"
   },
-  "auth_domain_api_label": {
-    "description": "Label for API allowed info",
-    "message": "API erlaubt"
+  "auth_domain_headline": {
+    "description": "Headline of authorize domain dialog.",
+    "message": "Domain autorisieren"
   },
   "change_link": {
     "description": "Navigation link to change this setting.",
@@ -127,17 +127,21 @@
     "description": "Dashboard view security logs link",
     "message": "Sicherheitsprotokolle"
   },
-  "decrypt_attachment_label": {
-    "description": "Label for attachments in decrypted message",
-    "message": "Anhänge"
-  },
   "decrypt_att_frame_help_text": {
     "description": "Help text on decrypt frame with encrypted attachments or clipped armored message.",
     "message": "Zum Anzeigen der Nachricht hier klicken"
   },
+  "decrypt_attachment_label": {
+    "description": "Label for attachments in decrypted message",
+    "message": "Anhänge"
+  },
   "decrypt_cleartext_warning": {
     "description": "Warning when cleartext is shown in decrypt component",
     "message": "Nachfolgender Text wurde nicht verschlüsselt."
+  },
+  "decrypt_decrypted_files_label": {
+    "description": "Decrypted files label on decrypt success page.",
+    "message": "Entschlüsselte Dateien"
   },
   "decrypt_digital_signature": {
     "description": "Caption digital signature",
@@ -203,10 +207,6 @@
     "description": "Header of text decryption error on decrypt result page.",
     "message": "Entschlüsselung des Textes ist nicht möglich."
   },
-  "decrypt_decrypted_files_label": {
-    "description": "Decrypted files label on decrypt success page.",
-    "message": "Entschlüsselte Dateien"
-  },
   "dialog_cancel_btn": {
     "description": "Dialog cancel button label",
     "message": "Abbrechen"
@@ -255,6 +255,10 @@
     "description": "Label for attachments select/drop area.",
     "message": "Anhänge"
   },
+  "editor_label_copy_recipient": {
+    "description": "Label for copy recipient text input.",
+    "message": "Cc"
+  },
   "editor_label_message": {
     "description": "Label for message textarea.",
     "message": "Nachricht"
@@ -262,10 +266,6 @@
   "editor_label_recipient": {
     "description": "Label for recipient text input.",
     "message": "Empfänger"
-  },
-  "editor_label_copy_recipient": {
-    "description": "Label for copy recipient text input.",
-    "message": "Cc"
   },
   "editor_label_subject": {
     "description": "Label for subject text input.",
@@ -387,13 +387,13 @@
     "description": "Name of the extension.",
     "message": "Mailvelope"
   },
-  "feature_banner_new_security_background_text": {
-    "description": "Text of feature banner for new security background.",
-    "message": "Machen Sie Mailvelope noch sicherer, indem Sie ihren Sicherheitshintergrund personalisieren."
-  },
   "feature_banner_new_security_background_btn": {
     "description": "Button text of feature banner for new security background.",
     "message": "Jetzt personalisieren"
+  },
+  "feature_banner_new_security_background_text": {
+    "description": "Text of feature banner for new security background.",
+    "message": "Machen Sie Mailvelope noch sicherer, indem Sie ihren Sicherheitshintergrund personalisieren."
   },
   "file_invalid_signed": {
     "description": "Text of signer field of file element.",
@@ -563,13 +563,13 @@
     "description": "Error message for G-Suite users when trying to authorize GMAIL integration",
     "message": "E-Mail-Adressen, die einem G Suite Account zugeordnet sind, werden in der aktuellen Testphase nicht unterstützt."
   },
-  "gmail_integration_quoted_mail_header_reply": {
-    "description": "Header for quoted reply mail",
-    "message": "Am $1 schrieb $2:"
-  },
   "gmail_integration_quoted_mail_header_forward": {
     "description": "Header for forwarded mail",
     "message": "---------- Weitergeleitete Nachricht ---------\nVon: $1\nDatum: $2\nBetreff: $3\nAn: $4"
+  },
+  "gmail_integration_quoted_mail_header_reply": {
+    "description": "Header for quoted reply mail",
+    "message": "Am $1 schrieb $2:"
   },
   "gmail_integration_sent_success": {
     "description": "Email sent success notification",
@@ -1009,13 +1009,13 @@
     "description": "Title of the key details panel",
     "message": "Schlüsseldetails"
   },
-  "keygen_dialog_password_placeholder": {
-    "description": "",
-    "message": "mindestens 4 Zeichen"
-  },
   "keygen_dialog_password_error_length": {
     "description": "",
     "message": "Password benötigt mindestens $1 Zeichen"
+  },
+  "keygen_dialog_password_placeholder": {
+    "description": "",
+    "message": "mindestens 4 Zeichen"
   },
   "keygen_dialog_prolog": {
     "description": "",
@@ -1397,61 +1397,61 @@
     "description": "Indicates if a keyring is preferred",
     "message": "bevorzugt"
   },
-  "provider_gmail_auth"  : {
+  "provider_gmail_auth": {
     "description": "Authorizations",
     "message": "Berechtigungen"
   },
-  "provider_gmail_auth_readonly"  : {
-    "description": "Readonly authorisation",
-    "message": "E-Mails lesen"
-  },
-  "provider_gmail_auth_send"  : {
-    "description": "Send authorisation",
-    "message": "E-Mails senden"
-  },
-  "provider_gmail_auth_dialog_title"  : {
-    "description": "Title of GMAIL OAuth dialog.",
-    "message": "Autorisierung erteilen"
-  },
-  "provider_gmail_auth_dialog_intro"  : {
-    "description": "Intro text for GMAIL OAuth dialog.",
-    "message": "Um die Gmail-Integration für <0></0> nutzen zu können, muss Mailvelope für nachfolgende Berechtigungen autorisiert werden:"
-  },
-  "provider_gmail_auth_dialog_outro"  : {
-    "description": "Outro text for GMAIL OAuth dialog.",
-    "message": "Wenn Sie diesen Dialog mit \"Ja\" bestätigen, öffnet sich ein Google-Autorisierungsfenster. Wählen Sie Ihren Gmail-Account für die E-Mail-Adresse <0></0> und folgen Sie den Anweisungen."
-  },
-  "provider_gmail_auth_cancel_btn"  : {
+  "provider_gmail_auth_cancel_btn": {
     "description": "Cancel authorization button",
     "message": "Autorisierung aufheben"
   },
-  "provider_gmail_auth_table_title"  : {
-    "description": "Title for authorization table.",
-    "message": "Autorisierungen"
+  "provider_gmail_auth_readonly": {
+    "description": "Readonly authorisation",
+    "message": "E-Mails lesen"
   },
-  "provider_gmail_integration"  : {
+  "provider_gmail_auth_send": {
+    "description": "Send authorisation",
+    "message": "E-Mails senden"
+  },
+  "provider_gmail_auth_table_title": {
+    "description": "Title for authorization table.",
+    "message": "Google API Autorisierungen"
+  },
+  "provider_gmail_dialog_auth_intro": {
+    "description": "Intro text for GMAIL OAuth dialog.",
+    "message": "Bevor die Gmail-API für <0></0> verwendet werden kann, muss Mailvelope für nachfolgende Berechtigungen autorisiert werden:"
+  },
+  "provider_gmail_dialog_auth_outro": {
+    "description": "Outro text for GMAIL OAuth dialog.",
+    "message": "Wenn Sie diesen Dialog mit \"Ja\" bestätigen, öffnet sich ein Google-Autorisierungsfenster. Wählen Sie Ihren Gmail-Account mit der E-Mail-Adresse <0></0> und folgen Sie den Anweisungen."
+  },
+  "provider_gmail_dialog_title": {
+    "description": "Title of GMAIL OAuth dialog.",
+    "message": "Nutzung der Gmail-API"
+  },
+  "provider_gmail_integration": {
     "description": "Label for Gmail integration option.",
-    "message": "Gmail-Integration (experimentell)"
+    "message": "Gmail-API Integration (experimentell)"
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
-    "message": "Für die Gmail-Integration benötigt Mailvelope zusätzliche Berechtigungen. Sobald Sie in Gmail die Verschlüsselungsfunktionen von Mailvelope nutzen, wird von Google ein Autorisierungsdialog gestartet, der Sie durch den Freigabeprozess führt."
+    "message": "Für den Zugriff auf die Gmail-API benötigt Mailvelope zusätzliche Berechtigungen. Sobald Sie in Gmail die Verschlüsselungsfunktionen von Mailvelope nutzen, wird von Google ein Autorisierungsdialog gestartet, der Sie durch den Freigabeprozess führt."
   },
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",
     "message": "Gmail ist mit dem Suchmuster <0></0> nicht autorisiert. Bitte Prüfen Sie die Einstellungen in <1></1>."
   },
-  "provider_gmail_secure_reply_btn": {
-    "description": "Secure reply button title/tooltip",
-    "message": "Sicher antworten"
+  "provider_gmail_secure_forward_btn": {
+    "description": "Secure forward button title/tooltip",
+    "message": "Sicher weiterleiten"
   },
   "provider_gmail_secure_replyAll_btn": {
     "description": "Secure reply all button title/tooltip",
     "message": "Allen sicher antworten"
   },
-  "provider_gmail_secure_forward_btn": {
-    "description": "Secure forward button title/tooltip",
-    "message": "Sicher weiterleiten"
+  "provider_gmail_secure_reply_btn": {
+    "description": "Secure reply button title/tooltip",
+    "message": "Sicher antworten"
   },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",
@@ -1781,13 +1781,13 @@
     "description": "",
     "message": "Kopierereignis im Dialog"
   },
-  "security_log_decryption_operation": {
-    "description": "",
-    "message": "Nachricht wurde entschlüsselt mit: $1"
-  },
   "security_log_decrypt_ui": {
     "description": "",
     "message": "Entschlüsseln"
+  },
+  "security_log_decryption_operation": {
+    "description": "",
+    "message": "Nachricht wurde entschlüsselt mit: $1"
   },
   "security_log_dialog_cancel": {
     "description": "",
@@ -1817,13 +1817,13 @@
     "description": "Encrypt dialog as an event source",
     "message": "Verschlüsseln Dialog"
   },
-  "security_log_encrypt_ui": {
-    "description": "",
-    "message": "Verschlüsseln"
-  },
   "security_log_encrypt_form": {
     "description": "Encrypt form as an event source",
     "message": "Verschlüsseltes Formular"
+  },
+  "security_log_encrypt_ui": {
+    "description": "",
+    "message": "Verschlüsseln"
   },
   "security_log_encryption_operation": {
     "description": "",
@@ -1927,7 +1927,7 @@
   },
   "settings_provider": {
     "description": "Tab of options to display provider (Gmail) settings.",
-    "message": "Gmail"
+    "message": "Gmail-API"
   },
   "settings_security": {
     "description": "Tab of options to display security settings.",

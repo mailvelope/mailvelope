@@ -24,12 +24,12 @@ l10n.register([
   'keygrid_user_email',
   'provider_gmail_auth',
   'provider_gmail_auth_cancel_btn',
-  'provider_gmail_auth_dialog_intro',
-  'provider_gmail_auth_dialog_outro',
-  'provider_gmail_auth_dialog_title',
   'provider_gmail_auth_readonly',
   'provider_gmail_auth_send',
   'provider_gmail_auth_table_title',
+  'provider_gmail_dialog_auth_intro',
+  'provider_gmail_dialog_auth_outro',
+  'provider_gmail_dialog_title',
   'provider_gmail_integration',
   'provider_gmail_integration_info',
   'provider_gmail_integration_warning',
@@ -92,8 +92,8 @@ export default class Provider extends React.Component {
 
   getAuthMessage(email, scopes) {
     const textData = {
-      intro: <Trans id={l10n.map.provider_gmail_auth_dialog_intro} components={[<strong key="0">{email}</strong>]} />,
-      outro: <Trans id={l10n.map.provider_gmail_auth_dialog_outro} components={[<strong key="0">{email}</strong>]} />
+      intro: <Trans id={l10n.map.provider_gmail_dialog_auth_intro} components={[<strong key="0">{email}</strong>]} />,
+      outro: <Trans id={l10n.map.provider_gmail_dialog_auth_outro} components={[<strong key="0">{email}</strong>]} />
     };
     return (
       <React.Fragment>
@@ -174,7 +174,7 @@ export default class Provider extends React.Component {
         <h2 className="mb-4">{l10n.map.settings_provider}</h2>
         <form>
           <div className="form-group mb-4">
-            <div className="custom-control custom-checkbox">
+            <div className="custom-control custom-switch">
               <input className="custom-control-input" disabled={!this.state.gmail} type="checkbox" id="gmail_integration" name="gmail_integration" checked={this.state.gmail_integration} onChange={this.handleCheck} />
               <label className="custom-control-label" htmlFor="gmail_integration"><span>{l10n.map.provider_gmail_integration}</span></label>
             </div>
@@ -227,7 +227,7 @@ export default class Provider extends React.Component {
           toggle={() => this.setState(prevState => ({showAuthModal: !prevState.showAuthModal}))}
           onHide={() => this.setState({authMessage: '', authModalCallback: null})}
           size="medium"
-          title={l10n.map.provider_gmail_auth_dialog_title}
+          title={l10n.map.provider_gmail_dialog_title}
           onOk={this.state.authModalCallback}
           onCancel={this.state.authModalClose}
         >{this.state.authMessage}</SimpleDialog>
