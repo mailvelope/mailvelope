@@ -11,7 +11,7 @@ import {matchPattern2RegExString} from '../../lib/util';
 import * as l10n from '../../lib/l10n';
 import Trans from '../../components/util/Trans';
 import Alert from '../../components/util/Alert';
-import SimpleDialog from '../../components/util/SimpleDialog';
+import Modal from '../../components/util/Modal';
 
 const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
@@ -19,6 +19,7 @@ const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
 l10n.register([
   'alert_header_important',
   'alert_header_warning',
+  'dialog_popup_close',
   'form_cancel',
   'form_save',
   'keygrid_user_email',
@@ -27,8 +28,11 @@ l10n.register([
   'provider_gmail_auth_readonly',
   'provider_gmail_auth_send',
   'provider_gmail_auth_table_title',
+  'provider_gmail_dialog_auth_google_signin',
   'provider_gmail_dialog_auth_intro',
   'provider_gmail_dialog_auth_outro',
+  'provider_gmail_dialog_description',
+  'provider_gmail_dialog_privacy_policy',
   'provider_gmail_dialog_title',
   'provider_gmail_integration',
   'provider_gmail_integration_info',
@@ -45,6 +49,9 @@ export default class Provider extends React.Component {
       gmail: false, // Gmail registered in authorized domains
       gmail_integration: false,
       gmail_authorized_emails: [],
+      email: '',
+      scopes: [],
+      gmailCtrlId: '',
       watchList: null,
       modified: false,
     };
@@ -63,16 +70,19 @@ export default class Provider extends React.Component {
   }
 
   openOAuthDialog({email, scopes, gmailCtrlId}) {
-    this.setState({showAuthModal: true, authMessage: this.getAuthMessage(email, scopes), authModalCallback: async () => {
-      try {
-        await port.send('authorize-gmail', {email, scopes, gmailCtrlId});
-        await this.loadAuthorisations();
-        this.setState({showAuthModal: false});
-      } catch (error) {
-        this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
-        this.setState({showAuthModal: false});
-      }
-    }, authModalClose: () => this.setState({showAuthModal: false, gmail_integration: false}, () => this.handleSave())});
+    this.setState({showAuthModal: true, email, scopes, gmailCtrlId});
+  }
+
+  async getAuthorization() {
+    try {
+      const {email, scopes, gmailCtrlId} = this.state;
+      await port.send('authorize-gmail', {email, scopes, gmailCtrlId});
+      await this.loadAuthorisations();
+    } catch (error) {
+      this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
+    } finally {
+      this.setState({showAuthModal: false});
+    }
   }
 
   getAuthText(authorisation) {
@@ -88,26 +98,6 @@ export default class Provider extends React.Component {
         text = '';
     }
     return text;
-  }
-
-  getAuthMessage(email, scopes) {
-    const textData = {
-      intro: <Trans id={l10n.map.provider_gmail_dialog_auth_intro} components={[<strong key="0">{email}</strong>]} />,
-      outro: <Trans id={l10n.map.provider_gmail_dialog_auth_outro} components={[<strong key="0">{email}</strong>]} />
-    };
-    return (
-      <React.Fragment>
-        <p>{textData.intro}</p>
-        <ul>
-          {scopes.map((entry, index) =>
-            <li key={index}>
-              {this.getAuthText(entry)}
-            </li>
-          )}
-        </ul>
-        <p>{textData.outro}</p>
-      </React.Fragment>
-    );
   }
 
   async loadPrefs() {
@@ -168,6 +158,43 @@ export default class Provider extends React.Component {
     this.loadPrefs();
   }
 
+  authModal() {
+    return (
+      <Modal
+        isOpen={this.state.showAuthModal}
+        toggle={() => this.setState(prevState => ({showAuthModal: !prevState.showAuthModal}))}
+        size="medium"
+        title={l10n.map.provider_gmail_dialog_title}
+        footer={
+          <div className="modal-footer justify-content-between">
+            <button type="button" className="btn btn-secondary" onClick={() => this.setState({showAuthModal: false, gmail_integration: false}, () => this.handleSave())}>{l10n.map.dialog_popup_close}</button>
+            <button type="button" className="btn btn-light google-sign-in-btn" onClick={() => this.getAuthorization()}><img src="../../../img/btn_google_light_normal_ios.svg" />{l10n.map.provider_gmail_dialog_auth_google_signin}</button>
+          </div>
+        }
+      >
+        <>
+          <p><span>{l10n.map.provider_gmail_dialog_description}</span> <a href="https://www.mailvelope.com/de/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></p>
+          <p><Trans id={l10n.map.provider_gmail_dialog_auth_intro} components={[<strong key="0">{this.state.email}</strong>]} /></p>
+          <ul>
+            {this.state.scopes.map((entry, index) =>
+              <li key={index}>
+                {this.getAuthText(entry)}
+              </li>
+            )}
+          </ul>
+          <p><Trans id={l10n.map.provider_gmail_dialog_auth_outro} components={[<strong key="0">{this.state.email}</strong>]} /></p>
+          <p className="text-muted text-right">
+            <small>
+              <Trans id={l10n.map.provider_gmail_dialog_privacy_policy} components={[
+                <a key="0" href="https://www.mailvelope.com/en/privacy-policy" className="text-reset" target="_blank" rel="noopener noreferrer"></a>
+              ]} />
+            </small>
+          </p>
+        </>
+      </Modal>
+    );
+  }
+
   render() {
     return (
       <div id="provider">
@@ -222,15 +249,7 @@ export default class Provider extends React.Component {
             <button type="button" onClick={this.handleCancel} className="btn btn-secondary" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
           </div>
         </form>
-        <SimpleDialog
-          isOpen={this.state.showAuthModal}
-          toggle={() => this.setState(prevState => ({showAuthModal: !prevState.showAuthModal}))}
-          onHide={() => this.setState({authMessage: '', authModalCallback: null})}
-          size="medium"
-          title={l10n.map.provider_gmail_dialog_title}
-          onOk={this.state.authModalCallback}
-          onCancel={this.state.authModalClose}
-        >{this.state.authMessage}</SimpleDialog>
+        {this.authModal()}
       </div>
     );
   }

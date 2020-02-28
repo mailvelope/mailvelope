@@ -1419,13 +1419,25 @@
     "description": "Title for authorization table.",
     "message": "Google API Authorizations"
   },
+  "provider_gmail_dialog_auth_google_signin": {
+    "description": "Text Google sign in button",
+    "message": "Sign in with Google"
+  },
   "provider_gmail_dialog_auth_intro": {
     "description": "Intro text for GMAIL OAuth dialog.",
     "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:"
   },
   "provider_gmail_dialog_auth_outro": {
     "description": "Outro text for GMAIL OAuth dialog.",
-    "message": "If you confirm this dialog with \"Yes\", a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions."
+    "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions."
+  },
+  "provider_gmail_dialog_description": {
+    "description": "Leading text for GMAIL API dialog.",
+    "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments."
+  },
+  "provider_gmail_dialog_privacy_policy": {
+    "description": "Privacy policy link.",
+    "message": "Please read our <0>Privacy Policy</0>"
   },
   "provider_gmail_dialog_title": {
     "description": "Title of GMAIL OAuth dialog.",
@@ -1437,7 +1449,7 @@
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
-    "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you start using the encryption functions of Mailvelope in Gmail, Google starts an authorization dialog that guides you through the approval process."
+    "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account."
   },
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",

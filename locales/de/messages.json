@@ -1417,13 +1417,25 @@
     "description": "Title for authorization table.",
     "message": "Google API Autorisierungen"
   },
+  "provider_gmail_dialog_auth_google_signin": {
+    "description": "Text Google sign in button",
+    "message": "Anmelden mit Google"
+  },
   "provider_gmail_dialog_auth_intro": {
     "description": "Intro text for GMAIL OAuth dialog.",
     "message": "Bevor die Gmail-API für <0></0> verwendet werden kann, muss Mailvelope für nachfolgende Berechtigungen autorisiert werden:"
   },
   "provider_gmail_dialog_auth_outro": {
     "description": "Outro text for GMAIL OAuth dialog.",
-    "message": "Wenn Sie diesen Dialog mit \"Ja\" bestätigen, öffnet sich ein Google-Autorisierungsfenster. Wählen Sie Ihren Gmail-Account mit der E-Mail-Adresse <0></0> und folgen Sie den Anweisungen."
+    "message": "Wenn Sie den Anmelde-Button betätigen, öffnet sich ein Google-Autorisierungsfenster. Wählen Sie Ihren Gmail-Account mit der E-Mail-Adresse <0></0> und folgen Sie den Anweisungen."
+  },
+  "provider_gmail_dialog_description": {
+    "description": "Leading text for GMAIL API dialog.",
+    "message": "Die Nutzung der Gmail-API erweitert die Funktionalität von Mailvelope mit Gmail und vereinfacht das Versenden und Lesen verschlüsselter Emails und Anhänge."
+  },
+  "provider_gmail_dialog_privacy_policy": {
+    "description": "Privacy policy link.",
+    "message": "Lesen Sie unsere <0>Datenschutzbestimmungen</0>"
   },
   "provider_gmail_dialog_title": {
     "description": "Title of GMAIL OAuth dialog.",
@@ -1435,7 +1447,7 @@
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
-    "message": "Für den Zugriff auf die Gmail-API benötigt Mailvelope zusätzliche Berechtigungen. Sobald Sie in Gmail die Verschlüsselungsfunktionen von Mailvelope nutzen, wird von Google ein Autorisierungsdialog gestartet, der Sie durch den Freigabeprozess führt."
+    "message": "Für den Zugriff auf die Gmail-API benötigt Mailvelope zusätzliche Berechtigungen. Sobald Sie in Gmail die Verschlüsselungsfunktionen von Mailvelope nutzen, werden Sie durch einen Autorisierungsprozess geführt. Hierzu ist eine Anmeldung bei Ihrem Google Account nötig."
   },
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",
