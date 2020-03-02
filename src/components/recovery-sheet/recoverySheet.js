@@ -101,6 +101,7 @@ export default class RecoverySheet extends React.Component {
   }
 
   render() {
+    const printButton = <button type="button" onClick={() => window.print()} className={this.props.brand ? 'recovery-sheet_print-button' : 'btn btn-primary'}>{l10n.map.recovery_sheet_print_button}</button>;
     return (
       <div className={`recovery-sheet ${this.props.brand || ''}`}>
         <header className="recovery-sheet_teaser">
@@ -121,7 +122,7 @@ export default class RecoverySheet extends React.Component {
           </div>
           <section className="recovery-sheet_print d-print-none">
             <img src="assets/printer.png" />
-            <button type="button" onClick={() => window.print()} className="recovery-sheet_print-button">{l10n.map.recovery_sheet_print_button}</button>
+            {printButton}
             <img src="assets/printer.png" />
           </section>
           <section className="recovery-sheet_panel">
@@ -196,7 +197,7 @@ export default class RecoverySheet extends React.Component {
           </section>
           <section className="recovery-sheet_print d-print-none">
             <img src="assets/printer.png" />
-            <button type="button" className="recovery-sheet_print-button" onClick={() => window.print()}>{l10n.map.recovery_sheet_print_button}</button>
+            {printButton}
             <img src="assets/printer.png" />
           </section>
         </section>
@@ -251,7 +252,7 @@ export default class RecoverySheet extends React.Component {
               </div>
               <section className="recovery-sheet_print d-print-none">
                 <img src="assets/printer.png" />
-                <button type="button" onClick={() => window.print()} className="recovery-sheet_print-button">{l10n.map.recovery_sheet_print_button}</button>
+                {printButton}
                 <img src="assets/printer.png" />
               </section>
             </section>
