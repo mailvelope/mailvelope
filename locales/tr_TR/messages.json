@@ -91,17 +91,17 @@
         "message": "En az bir etki alanı eşleşme kalıbı gereklidir.",
         "description": "Alert header of category warning."
     },
-    "auth_domain_headline": {
-        "message": "Etki alanına izin ver",
-        "description": "Headline of authorize domain dialog."
+    "auth_domain_api_label": {
+        "message": "API uygulamasına izin ver",
+        "description": "Label for API allowed info"
     },
     "auth_domain_description": {
         "message": "$1 etki alanının Mailvelope ile kullanmasına izin vermek istiyor musunuz?",
         "description": "Description in authorize domain dialog"
     },
-    "auth_domain_api_label": {
-        "message": "API uygulamasına izin ver",
-        "description": "Label for API allowed info"
+    "auth_domain_headline": {
+        "message": "Etki alanına izin ver",
+        "description": "Headline of authorize domain dialog."
     },
     "change_link": {
         "message": "Değiştir",
@@ -127,17 +127,21 @@
         "message": "Güvenlik günlükleri",
         "description": "Dashboard view security logs link"
     },
-    "decrypt_attachment_label": {
-        "message": "Ek dosyalar",
-        "description": "Label for attachments in decrypted message"
-    },
     "decrypt_att_frame_help_text": {
         "message": "İletiyi görüntülemek için buraya tıklayın",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
+    "decrypt_attachment_label": {
+        "message": "Ek dosyalar",
+        "description": "Label for attachments in decrypted message"
+    },
     "decrypt_cleartext_warning": {
         "message": "Şu metin şifrelenmedi.",
         "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "Decrypted files",
+        "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
         "message": "İmzalanmış",
@@ -251,6 +255,10 @@
         "message": "Ek dosyalar",
         "description": "Label for attachments select/drop area."
     },
+    "editor_label_copy_recipient": {
+        "message": "Kopya",
+        "description": "Label for copy recipient text input."
+    },
     "editor_label_message": {
         "message": "İleti",
         "description": "Label for message textarea."
@@ -258,10 +266,6 @@
     "editor_label_recipient": {
         "message": "Alıcı",
         "description": "Label for recipient input."
-    },
-    "editor_label_copy_recipient": {
-        "message": "Kopya",
-        "description": "Label for copy recipient text input."
     },
     "editor_label_subject": {
         "message": "Konu",
@@ -383,13 +387,13 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "feature_banner_new_security_background_text": {
-        "message": "Güvenlik arka planınızı kişiselleştirerek Mailvelope uygulamasını daha da güvenli hale getirebilirsiniz.",
-        "description": "Text of feature banner for new security background."
-    },
     "feature_banner_new_security_background_btn": {
         "message": "Şimdi kişiselleştir",
         "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "Güvenlik arka planınızı kişiselleştirerek Mailvelope uygulamasını daha da güvenli hale getirebilirsiniz.",
+        "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
         "message": "İmza geçersiz",
@@ -559,13 +563,13 @@
         "message": "G-Suite hesabı ile ilişkili e-posta adresleri şu andaki deneme aşamasında desteklenmiyor.",
         "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
-    "gmail_integration_quoted_mail_header_reply": {
-        "message": "$1 tarihinde, $2 şunu yazmış:",
-        "description": "Header for quoted reply mail"
-    },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Yönlendirilmiş ileti ---------\nKimden: $1\nTarih: $2\nKonu: $3\nKime: $4",
         "description": "Header for forwarded mail"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "$1 tarihinde, $2 şunu yazmış:",
+        "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
         "message": "E-posta gönderildi.",
@@ -1007,12 +1011,12 @@
         "message": "Anahtar ayrıntıları",
         "description": "Title of the key details panel"
     },
-    "keygen_dialog_password_placeholder": {
-        "message": "en az 4 karakter",
-        "description": ""
-    },
     "keygen_dialog_password_error_length": {
         "message": "Parola en az $1 karakter uzunluğunda olmalıdır",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "en az 4 karakter",
         "description": ""
     },
     "keygen_dialog_prolog": {
@@ -1399,6 +1403,10 @@
         "message": "İzinler",
         "description": "Authorizations"
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "Doğrulamayı iptal et<br>",
+        "description": "Cancel authorization button"
+    },
     "provider_gmail_auth_readonly": {
         "message": "e-posta okuma",
         "description": "Readonly authorization"
@@ -1407,49 +1415,57 @@
         "message": "e-posta gönderme",
         "description": "Send authorization"
     },
-    "provider_gmail_auth_dialog_title": {
-        "message": "İzin ver",
-        "description": "Title of GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_intro": {
-        "message": "<0></0> Gmail bütünleştirmesini kullanabilmek için Mailvelope uygulamasına şu izinler verilmelidir:",
-        "description": "Intro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_outro": {
-        "message": "Bu pencerede \"Evet\" ile onay verirseniz Google izin verme penceresi açılır. <0></0>  e-posta adresinin Gmail hesabını seçin ve yönergeleri izleyin.",
-        "description": "Outro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_cancel_btn": {
-        "message": "Cancel authorization",
-        "description": "Cancel authorization button"
-    },
     "provider_gmail_auth_table_title": {
-        "message": "İzinler",
+        "message": "Google API Authorizations",
         "description": "Title for authorization table."
     },
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Sign in with Google",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
+        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_auth_outro": {
+        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_description": {
+        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "description": "Leading text for GMAIL API dialog."
+    },
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "Please read our <0>Privacy Policy</0>",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Using the Gmail API",
+        "description": "Title of GMAIL OAuth dialog."
+    },
     "provider_gmail_integration": {
-        "message": "Gmail bütünleştirmesi (deneysel)",
+        "message": "Gmail API Integration (experimental)",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope uygulaması Gmail bütünleştirmesi için ek izinlerin verilmesine gerek duyar. Gmail içinde Mailvelope şifreleme özelliklerini kullanabilmeniz için, Google izinleri verebileceğiniz bir pencere açar.",
+        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
         "message": "Gmail <0></0> arama modeline izin vermiyor. Lütfen <1></1> bölümündeki ayarlara bakın.",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_secure_reply_btn": {
-        "message": "Güvenli yanıtla",
-        "description": "Secure reply button title/tooltip"
+    "provider_gmail_secure_forward_btn": {
+        "message": "Güvenli yönlendir",
+        "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
         "message": "Tümüne güvenli yanıtla",
         "description": "Secure reply all button title/tooltip"
     },
-    "provider_gmail_secure_forward_btn": {
-        "message": "Güvenli yönlendir",
-        "description": "Secure forward button title/tooltip"
+    "provider_gmail_secure_reply_btn": {
+        "message": "Güvenli yanıtla",
+        "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "Parola geçici olarak hatırlansın",
@@ -1779,12 +1795,12 @@
         "message": "Doğrulama penceresinde kopyalama",
         "description": ""
     },
-    "security_log_decryption_operation": {
-        "message": "İletinin şifresi $1 kullanılarak çözüldü",
-        "description": ""
-    },
     "security_log_decrypt_ui": {
         "message": "Şifreyi Çöz",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "İletinin şifresi $1 kullanılarak çözüldü",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1815,13 +1831,13 @@
         "message": "Şifreleme Penceresi",
         "description": "Encrypt dialog as an event source"
     },
-    "security_log_encrypt_ui": {
-        "message": "Şifrele",
-        "description": ""
-    },
     "security_log_encrypt_form": {
         "message": "Şifreleme Formu",
         "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "Şifrele",
+        "description": ""
     },
     "security_log_encryption_operation": {
         "message": "İleti $1 için şifrelenmiş",
@@ -1924,7 +1940,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail",
+        "message": "Gmail API",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {

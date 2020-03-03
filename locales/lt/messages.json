@@ -91,17 +91,17 @@
         "message": "Reikalingas bent vienas srities šablonas.",
         "description": "Alert header of category warning."
     },
-    "auth_domain_headline": {
-        "message": "Įgalioti sritį",
-        "description": "Headline of authorize domain dialog."
+    "auth_domain_api_label": {
+        "message": "Leisti API",
+        "description": "Label for API allowed info"
     },
     "auth_domain_description": {
         "message": "Ar norėtumėte leisti naudoti Mailvelope šioje srityje: $1?",
         "description": "Description in authorize domain dialog"
     },
-    "auth_domain_api_label": {
-        "message": "Leisti API",
-        "description": "Label for API allowed info"
+    "auth_domain_headline": {
+        "message": "Įgalioti sritį",
+        "description": "Headline of authorize domain dialog."
     },
     "change_link": {
         "message": "Pakeisti",
@@ -127,17 +127,21 @@
         "message": "Saugumo žurnalai",
         "description": "Dashboard view security logs link"
     },
-    "decrypt_attachment_label": {
-        "message": "Priedai",
-        "description": "Label for attachments in decrypted message"
-    },
     "decrypt_att_frame_help_text": {
         "message": "Spustelėkite čia, norėdami peržiūrėti laišką",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
+    "decrypt_attachment_label": {
+        "message": "Priedai",
+        "description": "Label for attachments in decrypted message"
+    },
     "decrypt_cleartext_warning": {
         "message": "Sekantis tekstas nebuvo užšifruotas.",
         "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "Failai iššifruoti",
+        "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
         "message": "Pasirašytas",
@@ -251,6 +255,10 @@
         "message": "Priedai",
         "description": "Label for attachments select/drop area."
     },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
     "editor_label_message": {
         "message": "Laiškas",
         "description": "Label for message textarea."
@@ -258,10 +266,6 @@
     "editor_label_recipient": {
         "message": "Gavėjas",
         "description": "Label for recipient input."
-    },
-    "editor_label_copy_recipient": {
-        "message": "Cc",
-        "description": "Label for copy recipient text input."
     },
     "editor_label_subject": {
         "message": "Tema",
@@ -383,13 +387,13 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "feature_banner_new_security_background_text": {
-        "message": "Padarykite Mailvelope dar saugesnę, suasmenindami savo saugumo foną.",
-        "description": "Text of feature banner for new security background."
-    },
     "feature_banner_new_security_background_btn": {
         "message": "Suasmeninti dabar",
         "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "Padarykite Mailvelope dar saugesnę, suasmenindami savo saugumo foną.",
+        "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
         "message": "Parašas negalioja",
@@ -559,13 +563,13 @@
         "message": "Dabartinėje testavimo fazėje G Suite paskyrai priskirti el. pašto adresai nėra palaikomi.",
         "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
-    "gmail_integration_quoted_mail_header_reply": {
-        "message": "Ties $1, $2 rašė:",
-        "description": "Header for quoted reply mail"
-    },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Persiųstas laiškas ---------\nNuo: $1\nData: $2\nTema: $3\nKam: $4",
         "description": "Header for forwarded mail"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "Ties $1, $2 rašė:",
+        "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
         "message": "El. laiškas buvo sėkmingai išsiųstas.",
@@ -1007,12 +1011,12 @@
         "message": "Išsamesnė rakto informacija",
         "description": "Title of the key details panel"
     },
-    "keygen_dialog_password_placeholder": {
-        "message": "mažiausiai 4 simboliai",
-        "description": ""
-    },
     "keygen_dialog_password_error_length": {
         "message": "Slaptažodyje turi būti bent $1 simboliai",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "mažiausiai 4 simboliai",
         "description": ""
     },
     "keygen_dialog_prolog": {
@@ -1399,6 +1403,10 @@
         "message": "Įgaliojimai",
         "description": "Authorizations"
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "Nutraukti įgaliojimą",
+        "description": "Cancel authorization button"
+    },
     "provider_gmail_auth_readonly": {
         "message": "skaityti el. laiškus",
         "description": "Readonly authorization"
@@ -1407,49 +1415,57 @@
         "message": "siųsti el. laiškus",
         "description": "Send authorization"
     },
-    "provider_gmail_auth_dialog_title": {
-        "message": "Suteikti įgaliojimą",
-        "description": "Title of GMAIL OAuth dialog."
+    "provider_gmail_auth_table_title": {
+        "message": "Google API įgaliojimai",
+        "description": "Title for authorization table."
     },
-    "provider_gmail_auth_dialog_intro": {
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Prisijungti naudojant Google",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
         "message": "Norint naudoti Gmail integraciją su <0></0>, Mailvelope privalo būti suteikti šie leidimai:",
         "description": "Intro text for GMAIL OAuth dialog."
     },
-    "provider_gmail_auth_dialog_outro": {
-        "message": "Jei patvirtinsite šį dialogą spusteldami \"Taip\", tuomet bus atvertas Google įgaliojimų suteikimo langas. Pasirinkite savo el. pašto adreso <0></0> Gmail paskyrą ir vadovaukitės instrukcijomis.",
+    "provider_gmail_dialog_auth_outro": {
+        "message": "Jei spustelėsite ant prisijungimo mygtuko, bus atvertas Google įgaliojimų suteikimo langas. Pasirinkite el. pašto adreso <0></0> Gmail paskyrą ir vadovaukitės instrukcijomis.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
-    "provider_gmail_auth_cancel_btn": {
-        "message": "Nutraukti įgaliojimą",
-        "description": "Cancel authorization button"
+    "provider_gmail_dialog_description": {
+        "message": "Gmail API naudojimas išplėčia Mailveilope su Gmail funkcionalumą ir supaprastina šifruotų el. laiškų ir priedų siuntimą bei gavimą.",
+        "description": "Leading text for GMAIL API dialog."
     },
-    "provider_gmail_auth_table_title": {
-        "message": "Įgaliojimai",
-        "description": "Title for authorization table."
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "Prašome perskaityti mūsų <0>Privatumo politiką</0>",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Gmail API naudojimas",
+        "description": "Title of GMAIL OAuth dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail integracija (eksperimentinė)",
+        "message": "Gmail API integracija (eksperimentinė)",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Gmail integracijai, Mailvelope reikalauja papildomų leidimų. Kai tik pradėsite naudoti Mailvelope šifravimo funkcijas Gmail puslapyje, Google paleis įgaliojimų suteikimo dialogą, kuris lydės jus per patvirtinimo procesą.",
+        "message": "Tam, kad gautų prieigą prie Gmail API, Mailvelope reikia papildomų leidimų. Kai tik Gmail pradėsite naudoti Mailvelope šifravimo funkcijas, būsite palydėti per įgaliojimų suteikimo procesą. Tai pareikalaus, kad prisijungtumėte prie savo Google paskyros.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
         "message": "Gmail nėra įgaliota naudoti paieškos šabloną <0></0>. Patikrinkite nustatymus ties <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_secure_reply_btn": {
-        "message": "Saugiai atsakyti",
-        "description": "Secure reply button title/tooltip"
+    "provider_gmail_secure_forward_btn": {
+        "message": "Saugiai persiųsti",
+        "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
         "message": "Saugiai atsakyti visiems",
         "description": "Secure reply all button title/tooltip"
     },
-    "provider_gmail_secure_forward_btn": {
-        "message": "Saugiai persiųsti",
-        "description": "Secure forward button title/tooltip"
+    "provider_gmail_secure_reply_btn": {
+        "message": "Saugiai atsakyti",
+        "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "Laikinai prisiminti slaptažodį",
@@ -1779,12 +1795,12 @@
         "message": "Kopijavimas patikrinimo dialoge",
         "description": ""
     },
-    "security_log_decryption_operation": {
-        "message": "Laiškas iššifruotas naudojant: $1",
-        "description": ""
-    },
     "security_log_decrypt_ui": {
         "message": "Iššifruoti",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "Laiškas iššifruotas naudojant: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1815,13 +1831,13 @@
         "message": "Šifravimo dialogas",
         "description": "Encrypt dialog as an event source"
     },
-    "security_log_encrypt_ui": {
-        "message": "Šifruoti",
-        "description": ""
-    },
     "security_log_encrypt_form": {
         "message": "Šifravimo forma",
         "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "Šifruoti",
+        "description": ""
     },
     "security_log_encryption_operation": {
         "message": "Laiškas buvo užšifruotas ir skirtas: $1",
@@ -1924,7 +1940,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail",
+        "message": "Gmail API",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {

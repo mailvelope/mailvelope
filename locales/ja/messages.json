@@ -91,17 +91,17 @@
         "message": "少なくとも一つのドメイン一致パターンが必要です",
         "description": "Alert header of category warning."
     },
-    "auth_domain_headline": {
-        "message": "ドメインの認証",
-        "description": "Headline of authorize domain dialog."
+    "auth_domain_api_label": {
+        "message": "Allowを許可",
+        "description": "Label for API allowed info"
     },
     "auth_domain_description": {
         "message": "メールサービスのドメイン $1 でMailvelopeを使用できるようにしますか？",
         "description": "Description in authorize domain dialog"
     },
-    "auth_domain_api_label": {
-        "message": "Allowを許可",
-        "description": "Label for API allowed info"
+    "auth_domain_headline": {
+        "message": "ドメインの認証",
+        "description": "Headline of authorize domain dialog."
     },
     "change_link": {
         "message": "変更",
@@ -127,17 +127,21 @@
         "message": "セキュリティログ",
         "description": "Dashboard view security logs link"
     },
-    "decrypt_attachment_label": {
-        "message": "添付ファイル",
-        "description": "Label for attachments in decrypted message"
-    },
     "decrypt_att_frame_help_text": {
         "message": "ここをクリックして、メッセージを表示します。",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
+    "decrypt_attachment_label": {
+        "message": "添付ファイル",
+        "description": "Label for attachments in decrypted message"
+    },
     "decrypt_cleartext_warning": {
         "message": "以下のテキストは暗号されていません!",
         "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "復号済みファイル",
+        "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
         "message": "署名済",
@@ -251,6 +255,10 @@
         "message": "添付ファイル",
         "description": "Label for attachments select/drop area."
     },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
     "editor_label_message": {
         "message": "メッセージ",
         "description": "Label for message textarea."
@@ -258,10 +266,6 @@
     "editor_label_recipient": {
         "message": "受信者",
         "description": "Label for recipient input."
-    },
-    "editor_label_copy_recipient": {
-        "message": "Cc",
-        "description": "Label for copy recipient text input."
     },
     "editor_label_subject": {
         "message": "件名",
@@ -383,13 +387,13 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "feature_banner_new_security_background_text": {
-        "message": "背景マークを設定することで、Mailvelopeをさらに安全にできます。",
-        "description": "Text of feature banner for new security background."
-    },
     "feature_banner_new_security_background_btn": {
         "message": "背景マークの設定",
         "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "背景マークを設定することで、Mailvelopeをさらに安全にできます。",
+        "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
         "message": "署名は無効です",
@@ -559,13 +563,13 @@
         "message": "G Suite アカウントのメールアドレスは、実験段階ではサポートされていません。",
         "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
-    "gmail_integration_quoted_mail_header_reply": {
-        "message": "$1 について、 $2 が書きました:",
-        "description": "Header for quoted reply mail"
-    },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Forwarded message ---------\nFrome: $1\nDate: $2\nSubject: $3\nTo: $4",
         "description": "Header for forwarded mail"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "$1 について、 $2 が書きました:",
+        "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
         "message": "メールを送信しました。",
@@ -1007,12 +1011,12 @@
         "message": "鍵の詳細",
         "description": "Title of the key details panel"
     },
-    "keygen_dialog_password_placeholder": {
-        "message": "最低4文字",
-        "description": ""
-    },
     "keygen_dialog_password_error_length": {
         "message": "パスワードは $1  文字以上にしてください",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "最低4文字",
         "description": ""
     },
     "keygen_dialog_prolog": {
@@ -1399,6 +1403,10 @@
         "message": "認証",
         "description": "Authorizations"
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "認証を中止",
+        "description": "Cancel authorization button"
+    },
     "provider_gmail_auth_readonly": {
         "message": "メールを読む",
         "description": "Readonly authorization"
@@ -1407,49 +1415,57 @@
         "message": "メールを送る",
         "description": "Send authorization"
     },
-    "provider_gmail_auth_dialog_title": {
-        "message": "認証を与える",
-        "description": "Title of GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_intro": {
-        "message": "Gmailを <0></0>で使うには、Mailvelopeに以下の権限を与える必要があります:",
-        "description": "Intro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_outro": {
-        "message": "\"Yes\"を選ぶと、Googleの認証ウインドウが開きます。<0></0>のGmailのアカウントを選んで、指示に従ってください。",
-        "description": "Outro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_cancel_btn": {
-        "message": "認証を中止",
-        "description": "Cancel authorization button"
-    },
     "provider_gmail_auth_table_title": {
-        "message": "認証",
+        "message": "Google API 認証",
         "description": "Title for authorization table."
     },
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Googleでサインイン",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
+        "message": "Gmail 統合を <0></0> で使うには、以下の権限をMailvelopeに与える必要があります:",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_auth_outro": {
+        "message": "サインインボタンをクリックすると、Googleの認証ウインドウが開きます。<0></0>のGmailアカウントを選び、指示に従ってください。",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_description": {
+        "message": "Gmail APIを使うと、Gmailで簡単にMailvelopeを利用できます。",
+        "description": "Leading text for GMAIL API dialog."
+    },
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "<0>プライバシーポリシー</0> をご覧ください。",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Gmail APIを使う",
+        "description": "Title of GMAIL OAuth dialog."
+    },
     "provider_gmail_integration": {
-        "message": "Gmail統合を有効化（実験的機能）",
+        "message": "Gmail API統合（実験的機能）",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Gmail統合機能を使うには、Mailvelopeに追加の権限を与える必要があります。Gmailで暗号機能を使うと、Googleの権限を与える認証ダイアログが現れます。",
+        "message": "MailvelopeにGmail APIアクセス権限を与える必要があります。GmailでMailvelopeの暗号機能を使うと、Googleアカウントにサインインして、認証プロセスに進む必要があります。",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
         "message": "Gmailではパターン検索 <0></0> が許可されません。<1></1>の設定をチェックしてください。",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_secure_reply_btn": {
-        "message": "暗号で返信",
-        "description": "Secure reply button title/tooltip"
+    "provider_gmail_secure_forward_btn": {
+        "message": "暗号で転送",
+        "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
         "message": "全員に暗号で返信",
         "description": "Secure reply all button title/tooltip"
     },
-    "provider_gmail_secure_forward_btn": {
-        "message": "暗号で転送",
-        "description": "Secure forward button title/tooltip"
+    "provider_gmail_secure_reply_btn": {
+        "message": "暗号で返信",
+        "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "一時的にパスワードを記憶",
@@ -1779,12 +1795,12 @@
         "message": "認証ダイアログにコピー",
         "description": ""
     },
-    "security_log_decryption_operation": {
-        "message": "メッセージが復号されました: $1",
-        "description": ""
-    },
     "security_log_decrypt_ui": {
         "message": "復号化",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "メッセージが復号されました: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1815,13 +1831,13 @@
         "message": "暗号化ダイアログ",
         "description": "Encrypt dialog as an event source"
     },
-    "security_log_encrypt_ui": {
-        "message": "暗号化",
-        "description": ""
-    },
     "security_log_encrypt_form": {
         "message": "暗号化フォーム",
         "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "暗号化",
+        "description": ""
     },
     "security_log_encryption_operation": {
         "message": "$1 に対するメッセージが暗号化されました",
@@ -1924,7 +1940,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail",
+        "message": "Gmail API",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {

@@ -91,17 +91,17 @@
         "message": "Нужно указать хотя бы одну маску домена.",
         "description": "Alert header of category warning."
     },
-    "auth_domain_headline": {
-        "message": "Добавить домен",
-        "description": "Headline of authorize domain dialog."
+    "auth_domain_api_label": {
+        "message": "Использовать API",
+        "description": "Label for API allowed info"
     },
     "auth_domain_description": {
         "message": "Разрешить использование Mailvelope с доменом $1?",
         "description": "Description in authorize domain dialog"
     },
-    "auth_domain_api_label": {
-        "message": "Использовать API",
-        "description": "Label for API allowed info"
+    "auth_domain_headline": {
+        "message": "Добавить домен",
+        "description": "Headline of authorize domain dialog."
     },
     "change_link": {
         "message": "Изменить",
@@ -127,17 +127,21 @@
         "message": "Записи в журнале",
         "description": "Dashboard view security logs link"
     },
-    "decrypt_attachment_label": {
-        "message": "Вложения",
-        "description": "Label for attachments in decrypted message"
-    },
     "decrypt_att_frame_help_text": {
         "message": "Нажмите, чтобы увидеть сообщение",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
+    "decrypt_attachment_label": {
+        "message": "Вложения",
+        "description": "Label for attachments in decrypted message"
+    },
     "decrypt_cleartext_warning": {
         "message": "Следующий текст не был зашифрован.",
         "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "Decrypted files",
+        "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
         "message": "Подписанный",
@@ -251,6 +255,10 @@
         "message": "Вложения",
         "description": "Label for attachments select/drop area."
     },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
     "editor_label_message": {
         "message": "Сообщение",
         "description": "Label for message textarea."
@@ -258,10 +266,6 @@
     "editor_label_recipient": {
         "message": "Получатель",
         "description": "Label for recipient input."
-    },
-    "editor_label_copy_recipient": {
-        "message": "Cc",
-        "description": "Label for copy recipient text input."
     },
     "editor_label_subject": {
         "message": "Тема",
@@ -383,13 +387,13 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "feature_banner_new_security_background_text": {
-        "message": "Сделайте Mailvelope еще безопаснее: настройте фон безопасности.",
-        "description": "Text of feature banner for new security background."
-    },
     "feature_banner_new_security_background_btn": {
         "message": "Персонализируйте",
         "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "Сделайте Mailvelope еще безопаснее: настройте фон безопасности.",
+        "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
         "message": "Ошибка подписи",
@@ -559,13 +563,13 @@
         "message": "На время тестирования адреса email, связанные с аккаунтами G Suite, не поддерживаются.",
         "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
-    "gmail_integration_quoted_mail_header_reply": {
-        "message": " $1 $2 пишет:",
-        "description": "Header for quoted reply mail"
-    },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Пересланное сообщение ---------\nОт: $1\nДата: $2\nТема: $3\nКому: $4",
         "description": "Header for forwarded mail"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": " $1 $2 пишет:",
+        "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
         "message": "Сообщение успешно отправлено.",
@@ -1007,12 +1011,12 @@
         "message": "Подробная информация о ключе",
         "description": "Title of the key details panel"
     },
-    "keygen_dialog_password_placeholder": {
-        "message": "минимум 4 знака",
-        "description": ""
-    },
     "keygen_dialog_password_error_length": {
         "message": "В пароле должно быть не меньше $1 знаков",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "минимум 4 знака",
         "description": ""
     },
     "keygen_dialog_prolog": {
@@ -1399,6 +1403,10 @@
         "message": "Авторизации",
         "description": "Authorizations"
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "Отменить авторизацию",
+        "description": "Cancel authorization button"
+    },
     "provider_gmail_auth_readonly": {
         "message": "читать email",
         "description": "Readonly authorization"
@@ -1407,49 +1415,57 @@
         "message": "отправлять email",
         "description": "Send authorization"
     },
-    "provider_gmail_auth_dialog_title": {
-        "message": "Дать разрешение",
-        "description": "Title of GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_intro": {
-        "message": "Для интеграции Gmail с <0></0> Mailvelope нужны следующие разрешения:",
-        "description": "Intro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_outro": {
-        "message": "Если вы в этом диалоге выберете \"Да\", откроется окно авторизации Google. Выберите ваш аккаунт Gmail в качестве адреса email <0></0> и следуйте инструкциям.",
-        "description": "Outro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_cancel_btn": {
-        "message": "Отменить авторизацию",
-        "description": "Cancel authorization button"
-    },
     "provider_gmail_auth_table_title": {
-        "message": "Авторизации",
+        "message": "Google API Authorizations",
         "description": "Title for authorization table."
     },
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Sign in with Google",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
+        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_auth_outro": {
+        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_description": {
+        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "description": "Leading text for GMAIL API dialog."
+    },
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "Please read our <0>Privacy Policy</0>",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Using the Gmail API",
+        "description": "Title of GMAIL OAuth dialog."
+    },
     "provider_gmail_integration": {
-        "message": "Интеграция с Gmail (эксперимент)",
+        "message": "Gmail API Integration (experimental)",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope нужны дополнительные разрешения для интеграции с Google. Когда вы начнете использовать шифрование Mailvelope в Gmail, вы увидите диалог авторизации. Следуйте ему.",
+        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
         "message": "Gmail не авторизована для поискового шаблона <0></0>. Пожалуйста, проверьте настройки (<1></1>).",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_secure_reply_btn": {
-        "message": "Безопасный ответ",
-        "description": "Secure reply button title/tooltip"
+    "provider_gmail_secure_forward_btn": {
+        "message": "Безопасная пересылка",
+        "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
         "message": "Безопасный ответ всем",
         "description": "Secure reply all button title/tooltip"
     },
-    "provider_gmail_secure_forward_btn": {
-        "message": "Безопасная пересылка",
-        "description": "Secure forward button title/tooltip"
+    "provider_gmail_secure_reply_btn": {
+        "message": "Безопасный ответ",
+        "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "Временно запомнить пароль",
@@ -1779,12 +1795,12 @@
         "message": "Копирование в диалоге проверки",
         "description": ""
     },
-    "security_log_decryption_operation": {
-        "message": "Сообщение расшифровано: $1",
-        "description": ""
-    },
     "security_log_decrypt_ui": {
         "message": "Расшифровать",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "Сообщение расшифровано: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1815,13 +1831,13 @@
         "message": "Диалог шифрования",
         "description": "Encrypt dialog as an event source"
     },
-    "security_log_encrypt_ui": {
-        "message": "Зашифровать",
-        "description": ""
-    },
     "security_log_encrypt_form": {
         "message": "Форма шифрования",
         "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "Зашифровать",
+        "description": ""
     },
     "security_log_encryption_operation": {
         "message": "Сообщение зашифровано для: $1",
@@ -1924,7 +1940,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail",
+        "message": "Gmail API",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {

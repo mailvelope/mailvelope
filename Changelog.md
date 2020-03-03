@@ -1,6 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v4.2.2
+-------
+__Mar 3, 2020__
+
+  * Fix key import of multiple keys in one armored block
+  * Fix decrypt of message with unknown signature (GnuPG backend)
+  * Revise Gmail API settings UI
+
+
 v4.2.1
 -------
 __Jan 9, 2020__

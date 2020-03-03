@@ -72,7 +72,7 @@
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "Important!",
+        "message": "សំខាន់!",
         "description": "Alert header of category important."
     },
     "alert_header_success": {
@@ -91,17 +91,17 @@
         "message": "យ៉ាងហោចណាស់ តម្រូវឲ្យមានដែល Domainត្រូវនឹងគំនូសមួយ។",
         "description": "Alert header of category warning."
     },
-    "auth_domain_headline": {
-        "message": "Authorize domain",
-        "description": "Headline of authorize domain dialog."
+    "auth_domain_api_label": {
+        "message": "អនុញ្ញាត API",
+        "description": "Label for API allowed info"
     },
     "auth_domain_description": {
-        "message": "Would you like to allow the use of Mailvelope for the domain $1?",
+        "message": "តើអ្នកអនុញ្ញាតការប្រើប្រាស់ Mailvelope សម្រាប់ domain $1?",
         "description": "Description in authorize domain dialog"
     },
-    "auth_domain_api_label": {
-        "message": "Allow API",
-        "description": "Label for API allowed info"
+    "auth_domain_headline": {
+        "message": "អនុញ្ញាត domain",
+        "description": "Headline of authorize domain dialog."
     },
     "change_link": {
         "message": "ផ្លាស់ប្តូរ",
@@ -127,17 +127,21 @@
         "message": "កំណត់ត្រាសុវត្ថិភាព",
         "description": "Dashboard view security logs link"
     },
+    "decrypt_att_frame_help_text": {
+        "message": "ចុចទីនេះ ដើម្បីបង្ហាញសារ",
+        "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
+    },
     "decrypt_attachment_label": {
         "message": "ឯកសារភ្ជាប់",
         "description": "Label for attachments in decrypted message"
     },
-    "decrypt_att_frame_help_text": {
-        "message": "Click here to view the message",
-        "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
-    },
     "decrypt_cleartext_warning": {
-        "message": "The following text was not encrypted.",
+        "message": "អក្សរខាងក្រោមមិនបានធ្វើកូដនីយកម្មទេ។",
         "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "Decrypted files",
+        "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
         "message": "បានចុះហត្ថលេខា",
@@ -148,15 +152,15 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Signature unknown",
+        "message": "មិនស្គាល់ហត្ថលេខា",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "Key with ID $1 not found.",
+        "message": "សោជាមួយលេខ ID $1 រកមិនឃើញ។",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Key not found.",
+        "message": "សោ រកមិនឃើញ។",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
@@ -164,7 +168,7 @@
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Click to decrypt",
+        "message": "ចុច ដើម្បីវិកូដនីយកម្ម",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
@@ -251,6 +255,10 @@
         "message": "ឯកសារភ្ជាប់",
         "description": "Label for attachments select/drop area."
     },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
     "editor_label_message": {
         "message": "សារ",
         "description": "Label for message textarea."
@@ -259,12 +267,8 @@
         "message": "អ្នកទទួល",
         "description": "Label for recipient input."
     },
-    "editor_label_copy_recipient": {
-        "message": "Cc",
-        "description": "Label for copy recipient text input."
-    },
     "editor_label_subject": {
-        "message": "Subject",
+        "message": "ប្រធានបទ",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
@@ -383,13 +387,13 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "feature_banner_new_security_background_text": {
-        "message": "ដាក់ Mailvelope ឲ្យមានសុវត្ថិភាពជាងមុនដោយកំណត់ប្រវត្តិសុវត្ថិភាពរបស់អ្នក។",
-        "description": "Text of feature banner for new security background."
-    },
     "feature_banner_new_security_background_btn": {
         "message": "កំណត់ដោយខ្លួនឯងឥឡូវនេះ",
         "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "ដាក់ Mailvelope ឲ្យមានសុវត្ថិភាពជាងមុនដោយកំណត់ប្រវត្តិសុវត្ថិភាពរបស់អ្នក។",
+        "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
         "message": "ហត្ថលេខាមិនត្រឹមត្រូវ",
@@ -548,27 +552,27 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments.",
+        "message": "Mailvelope មិនត្រូវបានអនុញ្ញាតឲ្យទាញយកឯកសារភ្ជាប់។",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails.",
+        "message": "Mailvelope មិនត្រូវបានអនុញ្ញាតឲ្យផ្ញើអ៊ីម៉ែលទេ។",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_id_validation_error_gsuite": {
-        "message": "Email addresses assigned to a G Suite account are not supported in the current test phase.",
+        "message": "អាសយដ្ឋានអ៊ីម៉ែលត្រូវបានកំណត់ទៅគណនី G Suite មិនគាំទ្រនៅក្នុងដំណាក់កាលសាកល្បងនេះទេ។",
         "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
-    "gmail_integration_quoted_mail_header_reply": {
-        "message": "On $1, $2 wrote:",
-        "description": "Header for quoted reply mail"
-    },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
+        "message": "---------- សារផ្ញើបន្ត ---------\nពី៖ $1\nកាលបរិច្ឆេទ៖ $2\nប្រធានបទ៖ $3\nទៅ៖ $4",
         "description": "Header for forwarded mail"
     },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "លើ $1, $2 បានសរសេរ៖",
+        "description": "Header for quoted reply mail"
+    },
     "gmail_integration_sent_success": {
-        "message": "The email was sent successfully.",
+        "message": "អ៊ីម៉ែលត្រូវបានផ្ញើដោយជោគជ័យ",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
@@ -580,7 +584,7 @@
         "description": ""
     },
     "import_frame_help_text": {
-        "message": "Click to import key",
+        "message": "ចុច ដើម្បីនាំចូលសោរ",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
@@ -600,7 +604,7 @@
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Set key as default key",
+        "message": "កំណត់សោជាសោលំនាំដើម",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
@@ -620,7 +624,7 @@
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Which key would you like to export?",
+        "message": "តើអ្នកចង់នាំចេញសោណា?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
@@ -852,7 +856,7 @@
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Remove all user IDs",
+        "message": "លុបចោលលេខ IDs អ្នកប្រើប្រាស់ទាំងអស់",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
@@ -860,7 +864,7 @@
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "The key data on the Mailvelope key server is up to date.",
+        "message": "ទិន្នន័យសោនៅលើម៉ាស៊ីនមេ Mailvelope បានធ្វើបច្ចុប្បន្នភាព។",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
@@ -888,7 +892,7 @@
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "Remove key from keyring",
+        "message": "លុបសោចេញពីចង្កោមសោ",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
@@ -1007,12 +1011,12 @@
         "message": "សោលម្អិត",
         "description": "Title of the key details panel"
     },
-    "keygen_dialog_password_placeholder": {
-        "message": "យ៉ាងតិច 4 ខ្ទង់",
-        "description": ""
-    },
     "keygen_dialog_password_error_length": {
         "message": "ពាក្យសម្ងាត់ទាមទារយ៉ាងហោច $1 ខ្ទង់",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "យ៉ាងតិច 4 ខ្ទង់",
         "description": ""
     },
     "keygen_dialog_prolog": {
@@ -1324,7 +1328,7 @@
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Add a new user ID",
+        "message": "បន្ថែមលេខ ID អ្នកប្រើប្រាស់ថ្មី",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
@@ -1332,7 +1336,7 @@
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "not synchronized",
+        "message": "មិនបានធ្វើសមកាលកម្ម",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
@@ -1344,7 +1348,7 @@
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "Assigned user IDs",
+        "message": "កំណត់លេខ IDs អ្នកប្រើប្រាស់",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
@@ -1360,7 +1364,7 @@
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "The email address is already in use",
+        "message": "អាសយដ្ឋានអ៊ីម៉ែលនេះ ត្រូវបានគេប្រើប្រាស់",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
@@ -1396,60 +1400,72 @@
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
-        "message": "Authorizations",
+        "message": "ការអនុញ្ញាត",
         "description": "Authorizations"
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "បោះបង់ការអនុញ្ញាត",
+        "description": "Cancel authorization button"
+    },
     "provider_gmail_auth_readonly": {
-        "message": "read email",
+        "message": "អានអ៊ីម៉ែល",
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "send email",
+        "message": "ផ្ញើ អ៊ីម៉ែល",
         "description": "Send authorization"
     },
-    "provider_gmail_auth_dialog_title": {
-        "message": "Grant authorization",
-        "description": "Title of GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_intro": {
-        "message": "To use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
-        "description": "Intro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_outro": {
-        "message": "If you confirm this dialog with \"Yes\", a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
-        "description": "Outro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_cancel_btn": {
-        "message": "Cancel authorization",
-        "description": "Cancel authorization button"
-    },
     "provider_gmail_auth_table_title": {
-        "message": "Authorizations",
+        "message": "Google API Authorizations",
         "description": "Title for authorization table."
     },
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Sign in with Google",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
+        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_auth_outro": {
+        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_description": {
+        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "description": "Leading text for GMAIL API dialog."
+    },
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "Please read our <0>Privacy Policy</0>",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Using the Gmail API",
+        "description": "Title of GMAIL OAuth dialog."
+    },
     "provider_gmail_integration": {
-        "message": "Gmail integration (experimental)",
+        "message": "Gmail API Integration (experimental)",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions for Gmail integration. As soon as you use the encryption functions of Mailvelope in Gmail, Google starts an authorization dialog that guides you through the approval process.",
+        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
+        "message": "Gmail មិនត្រូវបានអនុញ្ញាតជាមួយទម្រង់ស្វែងរក <0></0>។ សូមពិនិត្យការកំណត់ក្នុង <1></1>។",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_secure_reply_btn": {
-        "message": "Secure reply",
-        "description": "Secure reply button title/tooltip"
+    "provider_gmail_secure_forward_btn": {
+        "message": "ផ្ញើបន្តដោយសម្ងាត់",
+        "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
-        "message": "Secure reply all",
+        "message": "ឆ្លើយដោយសម្ងាត់ទៅទាំងអស់គ្នា",
         "description": "Secure reply all button title/tooltip"
     },
-    "provider_gmail_secure_forward_btn": {
-        "message": "Secure forward",
-        "description": "Secure forward button title/tooltip"
+    "provider_gmail_secure_reply_btn": {
+        "message": "ឆ្លើយដោយសម្ងាត់",
+        "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "ចងចាំ​ពាក្យសម្ងាត់​បណ្តោះអាសន្ន",
@@ -1488,7 +1504,7 @@
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Please enter your key password to revoke this key.",
+        "message": "សូមបញ្ចូលពាក្យសំងាត់របស់អ្នកដើម្បីដកលេខកូដនេះ។",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
@@ -1779,12 +1795,12 @@
         "message": "ចម្លងក្នុងផ្ទាំងផ្ទៀងផ្ទាត់",
         "description": ""
     },
-    "security_log_decryption_operation": {
-        "message": "សារត្រូវបានធ្វើវិកូដនីយកម្មជាមួយ៖ $1",
-        "description": ""
-    },
     "security_log_decrypt_ui": {
         "message": "បើកកូដនីយកម្ម",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "សារត្រូវបានធ្វើវិកូដនីយកម្មជាមួយ៖ $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1815,13 +1831,13 @@
         "message": "ផ្ទាំង​កូដនីយកម្ម",
         "description": "Encrypt dialog as an event source"
     },
-    "security_log_encrypt_ui": {
-        "message": "ធ្វើកូដនីយកម្ម",
-        "description": ""
-    },
     "security_log_encrypt_form": {
         "message": "ទម្រង់កូដនីយកម្ម",
         "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "ធ្វើកូដនីយកម្ម",
+        "description": ""
     },
     "security_log_encryption_operation": {
         "message": "សារ ត្រូវ​បានធ្វើកូដនីយកម្ម សម្រាប់៖ $1",
@@ -1924,7 +1940,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail",
+        "message": "Gmail API",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
@@ -2052,11 +2068,11 @@
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Revoke user ID",
+        "message": "ដកកូដ ID អ្នកប្រើប្រាស់",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Would you still like to revoke?",
+        "message": "តើអ្នកនៅតែចង់ដកកូដ?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
@@ -2064,7 +2080,7 @@
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "Revoke user ID",
+        "message": "ដកកូដ ID អ្នកប្រើប្រាស់",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
@@ -2084,7 +2100,7 @@
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Decryption failed.",
+        "message": "វិកូដនីយកម្មបរាជ័យ។",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {

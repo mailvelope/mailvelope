@@ -91,17 +91,17 @@
         "message": "Il faut au moins un modèle de correspondance de domaine.",
         "description": "Alert header of category warning."
     },
-    "auth_domain_headline": {
-        "message": "Autoriser un domaine",
-        "description": "Headline of authorize domain dialog."
+    "auth_domain_api_label": {
+        "message": "Autoriser l’API",
+        "description": "Label for API allowed info"
     },
     "auth_domain_description": {
         "message": "Souhaitez-vous permettre l’autorisation de Mailvelope pour le domaine $1 ?",
         "description": "Description in authorize domain dialog"
     },
-    "auth_domain_api_label": {
-        "message": "Autoriser l’API",
-        "description": "Label for API allowed info"
+    "auth_domain_headline": {
+        "message": "Autoriser un domaine",
+        "description": "Headline of authorize domain dialog."
     },
     "change_link": {
         "message": "Modifier",
@@ -127,17 +127,21 @@
         "message": "Journaux de sécurité",
         "description": "Dashboard view security logs link"
     },
-    "decrypt_attachment_label": {
-        "message": "Fichiers joints",
-        "description": "Label for attachments in decrypted message"
-    },
     "decrypt_att_frame_help_text": {
         "message": "Cliquez ici pour visualiser le message",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
+    "decrypt_attachment_label": {
+        "message": "Fichiers joints",
+        "description": "Label for attachments in decrypted message"
+    },
     "decrypt_cleartext_warning": {
         "message": "Le texte suivant n’était pas chiffré !",
         "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "Fichiers déchiffrés",
+        "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
         "message": "Signé",
@@ -251,6 +255,10 @@
         "message": "Fichiers joints",
         "description": "Label for attachments select/drop area."
     },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
     "editor_label_message": {
         "message": "Message",
         "description": "Label for message textarea."
@@ -258,10 +266,6 @@
     "editor_label_recipient": {
         "message": "Destinataire",
         "description": "Label for recipient input."
-    },
-    "editor_label_copy_recipient": {
-        "message": "Cc",
-        "description": "Label for copy recipient text input."
     },
     "editor_label_subject": {
         "message": "Objet",
@@ -383,13 +387,13 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "feature_banner_new_security_background_text": {
-        "message": "Rendez Mailvelope encore plus sécurisée en personnalisant votre arrière-plan de sécurité.",
-        "description": "Text of feature banner for new security background."
-    },
     "feature_banner_new_security_background_btn": {
         "message": "Le personnaliser maintenant",
         "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "Rendez Mailvelope encore plus sécurisée en personnalisant votre arrière-plan de sécurité.",
+        "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
         "message": "La signature est invalide",
@@ -559,13 +563,13 @@
         "message": "Les adresses courriel attribuées à un compte G Suite ne sont pas prises en charge dans la phase de test actuelle.",
         "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
-    "gmail_integration_quoted_mail_header_reply": {
-        "message": "Le $1, $2 a écrit :",
-        "description": "Header for quoted reply mail"
-    },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Message réacheminé ---------\nDe : $1\nDate : $2\nObjet : $3\nÀ : $4",
         "description": "Header for forwarded mail"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "Le $1, $2 a écrit :",
+        "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
         "message": "Le courriel a été envoyé avec succès.",
@@ -1007,12 +1011,12 @@
         "message": "Détails de la clé",
         "description": "Title of the key details panel"
     },
-    "keygen_dialog_password_placeholder": {
-        "message": "4 caractères minimum",
-        "description": ""
-    },
     "keygen_dialog_password_error_length": {
         "message": "Le mot de passe doit comporter au moins $1 caractères",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "4 caractères minimum",
         "description": ""
     },
     "keygen_dialog_prolog": {
@@ -1399,6 +1403,10 @@
         "message": "Autorisations",
         "description": "Authorizations"
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "Annuler l’autorisation",
+        "description": "Cancel authorization button"
+    },
     "provider_gmail_auth_readonly": {
         "message": "lire les courriels",
         "description": "Readonly authorization"
@@ -1407,49 +1415,57 @@
         "message": "envoyer des courriels",
         "description": "Send authorization"
     },
-    "provider_gmail_auth_dialog_title": {
-        "message": "Accorder l’autorisation",
-        "description": "Title of GMAIL OAuth dialog."
+    "provider_gmail_auth_table_title": {
+        "message": "Autorisations de l’API de Google",
+        "description": "Title for authorization table."
     },
-    "provider_gmail_auth_dialog_intro": {
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Se connecter avec Google",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
         "message": "Afin d’utiliser l’intégration à Gmail pour <0></0>, Mailvelope doit recevoir les autorisations suivantes :",
         "description": "Intro text for GMAIL OAuth dialog."
     },
-    "provider_gmail_auth_dialog_outro": {
-        "message": "Si vous confirmez cette boîte de dialogue avec« Oui », une fenêtre d'autorisation de Google s'ouvrira. Sélectionnez votre compte Gmail pour l'adresse courriel <0></0> et suivez les instructions.",
+    "provider_gmail_dialog_auth_outro": {
+        "message": "Si vous cliquez sur le bouton de connexion, une fenêtre d’autorisation de Google s’ouvre. Sélectionnez votre compte Gmail pour l’adresse courriel <0></0> et suivez les instructions.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
-    "provider_gmail_auth_cancel_btn": {
-        "message": "Annuler l’autorisation",
-        "description": "Cancel authorization button"
+    "provider_gmail_dialog_description": {
+        "message": "Utiliser l’API de Gmail augmente la fonctionnalité de Mailvelope dans Gmail et simplifie l’envoi et la lecture de courriels et de fichiers joints chiffrés.",
+        "description": "Leading text for GMAIL API dialog."
     },
-    "provider_gmail_auth_table_title": {
-        "message": "Autorisations",
-        "description": "Title for authorization table."
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "Veuillez lire notre <0>politique de confidentialité</0>",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Utiliser l’API de Gmail",
+        "description": "Title of GMAIL OAuth dialog."
     },
     "provider_gmail_integration": {
-        "message": "Intégration à Gmail (expérimentale)",
+        "message": "Intégration de l’API de Gmail (expérimental)",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope a besoin d’autorisations supplémentaires pour l’intégration à Gmail. Dès que vous utilisez les fonctions de chiffrement de Mailvelope dans Gmail, Google affiche une boîte d’autorisation qui vous guide dans le processus d’approbation.",
+        "message": "Mailvelope a besoin d’autorisations supplémentaires pour accéder à l’API de Gmail. Dès que vous utilisez les fonctions de chiffrement de Mailvelope dans Gmail, vous êtes invité à suivre un processus d’autorisation. Ce processus exige que vous vous connectiez à votre compte Google.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
         "message": "Gmail n’est pas autorisé pour le mode de recherche <0></0>. Veuillez vérifier les paramètres dans <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_secure_reply_btn": {
-        "message": "Réponse sécurisée",
-        "description": "Secure reply button title/tooltip"
+    "provider_gmail_secure_forward_btn": {
+        "message": "Transfert sécurisé",
+        "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
         "message": "Réponse sécurisée à tous",
         "description": "Secure reply all button title/tooltip"
     },
-    "provider_gmail_secure_forward_btn": {
-        "message": "Transfert sécurisé",
-        "description": "Secure forward button title/tooltip"
+    "provider_gmail_secure_reply_btn": {
+        "message": "Réponse sécurisée",
+        "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "Mémoriser le mot de passe temporairement",
@@ -1779,12 +1795,12 @@
         "message": "Copie dans une boîte de dialogue de vérification",
         "description": ""
     },
-    "security_log_decryption_operation": {
-        "message": "Le message a été déchiffré avec : $1",
-        "description": ""
-    },
     "security_log_decrypt_ui": {
         "message": "Déchiffrer",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "Le message a été déchiffré avec : $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1815,13 +1831,13 @@
         "message": "Boîte de dialogue de chiffrement",
         "description": "Encrypt dialog as an event source"
     },
-    "security_log_encrypt_ui": {
-        "message": "Chiffrer",
-        "description": ""
-    },
     "security_log_encrypt_form": {
         "message": "Formulaire de chiffrement",
         "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "Chiffrer",
+        "description": ""
     },
     "security_log_encryption_operation": {
         "message": "Le message a été chiffré pour : $1",
@@ -1924,7 +1940,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail",
+        "message": "API de Gmail",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {

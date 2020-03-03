@@ -91,17 +91,17 @@
         "message": "โดเมนต้องจับคู่อย่างน้องหนึ่งรูปแบบ",
         "description": "Alert header of category warning."
     },
-    "auth_domain_headline": {
-        "message": "Authorize domain",
-        "description": "Headline of authorize domain dialog."
+    "auth_domain_api_label": {
+        "message": "Allow API",
+        "description": "Label for API allowed info"
     },
     "auth_domain_description": {
         "message": "Would you like to allow the use of Mailvelope for the domain $1?",
         "description": "Description in authorize domain dialog"
     },
-    "auth_domain_api_label": {
-        "message": "Allow API",
-        "description": "Label for API allowed info"
+    "auth_domain_headline": {
+        "message": "Authorize domain",
+        "description": "Headline of authorize domain dialog."
     },
     "change_link": {
         "message": "เปลี่ยนแปลง",
@@ -127,17 +127,21 @@
         "message": "Security logs",
         "description": "Dashboard view security logs link"
     },
-    "decrypt_attachment_label": {
-        "message": "เอกสารแนบ",
-        "description": "Label for attachments in decrypted message"
-    },
     "decrypt_att_frame_help_text": {
         "message": "Click here to view the message",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
+    "decrypt_attachment_label": {
+        "message": "เอกสารแนบ",
+        "description": "Label for attachments in decrypted message"
+    },
     "decrypt_cleartext_warning": {
         "message": "The following text was not encrypted.",
         "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "Decrypted files",
+        "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
         "message": "Signed",
@@ -251,6 +255,10 @@
         "message": "เอกสารแนบ",
         "description": "Label for attachments select/drop area."
     },
+    "editor_label_copy_recipient": {
+        "message": "Cc",
+        "description": "Label for copy recipient text input."
+    },
     "editor_label_message": {
         "message": "ข้อความ",
         "description": "Label for message textarea."
@@ -258,10 +266,6 @@
     "editor_label_recipient": {
         "message": "ผู้รับ",
         "description": "Label for recipient input."
-    },
-    "editor_label_copy_recipient": {
-        "message": "Cc",
-        "description": "Label for copy recipient text input."
     },
     "editor_label_subject": {
         "message": "Subject",
@@ -383,13 +387,13 @@
         "message": "Mailvelope",
         "description": "Name of the extension."
     },
-    "feature_banner_new_security_background_text": {
-        "message": "Make Mailvelope even more secure by personalizing your security background.",
-        "description": "Text of feature banner for new security background."
-    },
     "feature_banner_new_security_background_btn": {
         "message": "Personalize now",
         "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "Make Mailvelope even more secure by personalizing your security background.",
+        "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
         "message": "Signature is invalid",
@@ -559,13 +563,13 @@
         "message": "Email addresses assigned to a G Suite account are not supported in the current test phase.",
         "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
-    "gmail_integration_quoted_mail_header_reply": {
-        "message": "On $1, $2 wrote:",
-        "description": "Header for quoted reply mail"
-    },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
         "description": "Header for forwarded mail"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "On $1, $2 wrote:",
+        "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
         "message": "The email was sent successfully.",
@@ -1007,12 +1011,12 @@
         "message": "รายละเอียดของกุญแจ",
         "description": "Title of the key details panel"
     },
-    "keygen_dialog_password_placeholder": {
-        "message": "อย่างน้อย 4 ตัวอักษร",
-        "description": ""
-    },
     "keygen_dialog_password_error_length": {
         "message": "Password requires at least $1 characters",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "อย่างน้อย 4 ตัวอักษร",
         "description": ""
     },
     "keygen_dialog_prolog": {
@@ -1399,6 +1403,10 @@
         "message": "Authorizations",
         "description": "Authorizations"
     },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "Cancel authorization",
+        "description": "Cancel authorization button"
+    },
     "provider_gmail_auth_readonly": {
         "message": "read email",
         "description": "Readonly authorization"
@@ -1407,49 +1415,57 @@
         "message": "send email",
         "description": "Send authorization"
     },
-    "provider_gmail_auth_dialog_title": {
-        "message": "Grant authorization",
-        "description": "Title of GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_intro": {
-        "message": "To use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
-        "description": "Intro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_dialog_outro": {
-        "message": "If you confirm this dialog with \"Yes\", a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
-        "description": "Outro text for GMAIL OAuth dialog."
-    },
-    "provider_gmail_auth_cancel_btn": {
-        "message": "Cancel authorization",
-        "description": "Cancel authorization button"
-    },
     "provider_gmail_auth_table_title": {
-        "message": "Authorizations",
+        "message": "Google API Authorizations",
         "description": "Title for authorization table."
     },
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Sign in with Google",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
+        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_auth_outro": {
+        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_description": {
+        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "description": "Leading text for GMAIL API dialog."
+    },
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "Please read our <0>Privacy Policy</0>",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Using the Gmail API",
+        "description": "Title of GMAIL OAuth dialog."
+    },
     "provider_gmail_integration": {
-        "message": "Gmail integration (experimental)",
+        "message": "Gmail API Integration (experimental)",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions for Gmail integration. As soon as you use the encryption functions of Mailvelope in Gmail, Google starts an authorization dialog that guides you through the approval process.",
+        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
         "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_secure_reply_btn": {
-        "message": "Secure reply",
-        "description": "Secure reply button title/tooltip"
+    "provider_gmail_secure_forward_btn": {
+        "message": "Secure forward",
+        "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
         "message": "Secure reply all",
         "description": "Secure reply all button title/tooltip"
     },
-    "provider_gmail_secure_forward_btn": {
-        "message": "Secure forward",
-        "description": "Secure forward button title/tooltip"
+    "provider_gmail_secure_reply_btn": {
+        "message": "Secure reply",
+        "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
         "message": "จดจำรหัสผ่านชั่วคราว",
@@ -1779,12 +1795,12 @@
         "message": "การคัดลอกในหน้าต่างยืนยัน",
         "description": ""
     },
-    "security_log_decryption_operation": {
-        "message": "Message has been decrypted with: $1",
-        "description": ""
-    },
     "security_log_decrypt_ui": {
         "message": "ถอดรหัสลับ",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "Message has been decrypted with: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1815,13 +1831,13 @@
         "message": "เข้ารหัสลับหน้าต่างข้อความ",
         "description": "Encrypt dialog as an event source"
     },
-    "security_log_encrypt_ui": {
-        "message": "การเข้ารหัสลับ",
-        "description": ""
-    },
     "security_log_encrypt_form": {
         "message": "เข้ารหัสลับแบบฟอร์ม",
         "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "การเข้ารหัสลับ",
+        "description": ""
     },
     "security_log_encryption_operation": {
         "message": "การเข้ารหัสลับข้อความสำหรับ $1",
@@ -1924,7 +1940,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail",
+        "message": "Gmail API",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
