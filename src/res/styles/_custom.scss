@@ -686,26 +686,3 @@ dt {
   font-weight: 500;
   font-style: normal;
 }
-
-.google-sign-in-btn,
-.google-sign-in-btn:hover,
-.google-sign-in-btn:focus,
-.google-sign-in-btn:active {
-  background-color: #4285F4;
-  font-family: "Roboto";
-  color: white;
-  > img {
-    width: 2rem;
-    margin-right: 0.625rem;
-  }
-}
-
-.google-sign-in-btn:active {
-  background-color: #3367d6 !important;
-  color: white !important;
-}
-
-.google-sign-in-btn:hover {
-  box-shadow: 0 0 3px 3px rgba(66,133,244,.3);
-}
-

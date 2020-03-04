@@ -13,6 +13,8 @@ import Trans from '../../components/util/Trans';
 import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 
+import './Provider.scss';
+
 const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
 
@@ -168,7 +170,7 @@ export default class Provider extends React.Component {
         footer={
           <div className="modal-footer justify-content-between">
             <button type="button" className="btn btn-secondary" onClick={() => this.setState({showAuthModal: false, gmail_integration: false}, () => this.handleSave())}>{l10n.map.dialog_popup_close}</button>
-            <button type="button" className="btn btn-light google-sign-in-btn" onClick={() => this.getAuthorization()}><img src="../../../img/btn_google_light_normal_ios.svg" />{l10n.map.provider_gmail_dialog_auth_google_signin}</button>
+            {this.googleSignInButton()}
           </div>
         }
       >
@@ -192,6 +194,21 @@ export default class Provider extends React.Component {
           </p>
         </>
       </Modal>
+    );
+  }
+
+  googleSignInButton() {
+    return (
+      <button type="button" className="gSignInButton gSignInButtonBlue" onClick={() => this.getAuthorization()}>
+        <div className="gSignInButtonContentWrapper">
+          <div className="gSignInButtonIcon">
+            <img width="18px" height="18px" className="gSignInButtonSvg" src="../../../img/btn_google_sign_in.svg" />
+          </div>
+          <span className="gSignInButtonContents">
+            <span>{l10n.map.provider_gmail_dialog_auth_google_signin}</span>
+          </span>
+        </div>
+      </button>
     );
   }
 
