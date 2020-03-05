@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v4.2.3
+-------
+__Mar 5, 2020__
+
+  * Revise Google sign in button design
+
 v4.2.2
 -------
 __Mar 3, 2020__
@@ -8,7 +14,6 @@ __Mar 3, 2020__
   * Fix key import of multiple keys in one armored block
   * Fix decrypt of message with unknown signature (GnuPG backend)
   * Revise Gmail API settings UI
-
 
 v4.2.1
 -------
