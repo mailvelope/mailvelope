@@ -9,7 +9,7 @@ import * as l10n from '../../lib/l10n';
 import EventHandler from '../../lib/EventHandler';
 import SecurityBG from '../util/SecurityBG';
 
-import './RecoverySheet.css';
+import './recoverySheet.css';
 
 // register language strings
 l10n.register([
