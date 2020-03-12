@@ -264,6 +264,14 @@ module.exports = function(grunt) {
         push: false,
         files: ['package.json']
       }
+    },
+
+    webpack: {
+      options: {
+        progress: false
+      },
+      dev: require('./config/webpack.dev.js'),
+      prod: require('./config/webpack.prod.js')
     }
 
   });
@@ -277,6 +285,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jsdoc');
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-webpack');
 
   // distribution
   grunt.registerTask('dist-cr', ['compress:chrome']);
@@ -300,12 +309,4 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['shell:karma_test']);
 
   grunt.registerTask('test-dev', ['shell:karma_test_dev']);
-
-  grunt.registerTask('webpack', function() {
-    const done = this.async();
-    // , '--display-modules'
-    grunt.util.spawn({cmd: process.argv[0], args: ['./node_modules/webpack/bin/webpack.js', `--config=config/webpack.${this.args[0]}.js`], opts: {stdio: 'inherit'}}, (error, result) => {
-      done(result.code !== 1);
-    });
-  });
 };
