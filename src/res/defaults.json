@@ -56,11 +56,6 @@
           "scan": true,
           "frame": "*.mail.google.com",
           "api": false
-        },
-        {
-          "scan": true,
-          "frame": "*.inbox.google.com",
-          "api": false
         }
       ]
     },
@@ -77,6 +72,18 @@
         {
           "scan": true,
           "frame": "*.outlook.live.com",
+          "api": false
+        }
+      ]
+    },
+    {
+      "active": true,
+      "site": "outlook.office.com",
+      "https_only": true,
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.outlook.office.com",
           "api": false
         }
       ]
@@ -154,18 +161,6 @@
         {
           "scan": true,
           "frame": "*.mail.ru",
-          "api": false
-        }
-      ]
-    },
-    {
-      "active": true,
-      "site": "volny.cz",
-      "https_only": true,
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.mail.volny.cz",
           "api": false
         }
       ]
