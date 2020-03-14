@@ -729,11 +729,11 @@
   },
   "key_import_contacts_import_btn": {
     "description": "Contact import button label on key import page.",
-    "message": "Kontakte importieren"
+    "message": "Schlüssel importieren"
   },
   "key_import_default_description": {
     "description": "Key import dialog description.",
-    "message": "Nach der Bestätigung ist die verschlüsselte Kommunikation mit diesem Kontakt eingerichtet:"
+    "message": "Nach der Bestätigung werden diese Schlüssel in den lokalen Schlüsselbund übernommen:"
   },
   "key_import_default_headline": {
     "description": "Key import dialog header.",
@@ -793,7 +793,7 @@
   },
   "key_import_invalidated_description": {
     "description": "",
-    "message": "Achtung! Die vorhandenen Daten zur verschlüsselten Kommunikation sind abgelaufen. Eine verschlüsselte Kommunikation mit $1 ist nicht mehr möglich. Der Kontakt muss Sie neu einladen."
+    "message": "Achtung! Der Schlüssel für diesen Kontakt ist abgelaufen. Eine verschlüsselte Kommunikation mit $1 ist nicht mehr möglich. Der Kontakt muss Sie mit einem aktuellen Schlüssel neu einladen."
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
@@ -1235,7 +1235,7 @@
   },
   "keyring_import_description": {
     "description": "Description of key import for import tab of keyring import.",
-    "message": "Sie können Ihre Kontakte entweder als Datei hinzufügen oder als Text aus der der Zwischenablage einfügen."
+    "message": "Sie können Schlüssel entweder als Datei hinzufügen oder als Text aus der der Zwischenablage einfügen."
   },
   "keyring_import_keys": {
     "description": "Tab of keyring to import keys.",

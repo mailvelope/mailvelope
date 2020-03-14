@@ -729,11 +729,11 @@
   },
   "key_import_contacts_import_btn": {
     "description": "Contact import button label on key import page.",
-    "message": "Import contacts"
+    "message": "Import keys"
   },
   "key_import_default_description": {
     "description": "Key import dialog description.",
-    "message": "Confirm to enable encrypted communication with this recipient:"
+    "message": "After confirmation, these keys are transferred to the local keyring:"
   },
   "key_import_default_headline": {
     "description": "Key import dialog header.",
@@ -793,7 +793,7 @@
   },
   "key_import_invalidated_description": {
     "description": "",
-    "message": "Warning: Necessary data for encrypted communication has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you."
+    "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key."
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
@@ -1237,7 +1237,7 @@
   },
   "keyring_import_description": {
     "description": "Description of key import for import tab of keyring import.",
-    "message": "You can add your contacts either as file or as text from the clipboard."
+    "message": "You can add keys either as file or as text from the clipboard."
   },
   "keyring_import_keys": {
     "description": "Tab of keyring to import keys.",
