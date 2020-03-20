@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getHash} from '../lib/util';
+import {getHash, filterAsync} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
 import {key as openpgpKey} from 'openpgp';
@@ -315,9 +315,9 @@ export default class AppController extends sub.SubController {
   }
 
   async readArmoredKeys({armoredKeys}) {
-    const keys = [];
-    const validArmoreds = [];
     const errors = [];
+    let publicKeys = [];
+    const privateKeys = [];
     if (!armoredKeys.length) {
       return;
     }
@@ -329,23 +329,35 @@ export default class AppController extends sub.SubController {
           errors.push({msg: error.message, code: 'KEY_IMPORT_ERROR_PARSE'});
         }
       }
-      let validKey = false;
-      for (const key of pgpKey.keys) {
-        const saniKey = await sanitizeKey(key);
-        if (!saniKey) {
-          errors.push({msg: key.primaryKey.getFingerprint().toUpperCase(), code: 'KEY_IMPORT_ERROR_NO_UID'});
-          continue;
-        }
-        validKey = true;
-        keys.push(saniKey);
-      }
-      if (validKey) {
-        validArmoreds.push(armoredKey);
+      if (armoredKey.type === 'public') {
+        publicKeys.push(...pgpKey.keys);
+      } else {
+        privateKeys.push(...pgpKey.keys);
       }
     }
-    let mappedKeys = await mapKeys(keys);
-    mappedKeys = await Promise.all(mappedKeys.map(async (mappedKey, keyIndex) => {
-      const users = [];
+    // merge public into private
+    publicKeys = await filterAsync(publicKeys, async pubKey => {
+      const pubFpr = pubKey.primaryKey.getFingerprint();
+      const privKey = privateKeys.find(priv => priv.primaryKey.getFingerprint() === pubFpr);
+      if (!privKey) {
+        return true;
+      }
+      await privKey.update(pubKey);
+    });
+    const keys = [...publicKeys, ...privateKeys];
+    // sanitize keys
+    const sanitizedKeys = [];
+    for (const key of keys) {
+      const saniKey = await sanitizeKey(key);
+      if (!saniKey) {
+        errors.push({msg: key.primaryKey.getFingerprint().toUpperCase(), code: 'KEY_IMPORT_ERROR_NO_UID'});
+      } else {
+        sanitizedKeys.push(key);
+      }
+    }
+    const mappedKeys = await mapKeys(sanitizedKeys);
+    for (const [keyIndex, mappedKey] of mappedKeys.entries()) {
+      mappedKey.users = [];
       for (const [index, user] of keys[keyIndex].users.entries()) {
         if (!user.userId) {
           // filter out user attribute packages
@@ -354,10 +366,12 @@ export default class AppController extends sub.SubController {
         const userStatus = await user.verify(keys[keyIndex].primaryKey);
         const uiUser = {id: index, userId: user.userId.userid, name: user.userId.name, email: user.userId.email, status: userStatus};
         parseUserId(uiUser);
-        users.push(uiUser);
+        mappedKey.users.push(uiUser);
       }
-      mappedKey.users = users;
-      return mappedKey;
+    }
+    const validArmoreds = sanitizedKeys.map(key => ({
+      type: key.isPublic() ? 'public' : 'private',
+      armored: key.armor()
     }));
     return {keys: mappedKeys, errors, armoreds: validArmoreds};
   }
