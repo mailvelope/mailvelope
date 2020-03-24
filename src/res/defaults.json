@@ -275,7 +275,7 @@
       "prefer_gnupg": true
     },
     "provider": {
-      "gmail_integration": false
+      "gmail_integration": true
     },
     "keyserver": {
       "hkp_base_url": "https://keyserver.ubuntu.com",

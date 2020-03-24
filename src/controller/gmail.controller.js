@@ -173,6 +173,7 @@ export default class GmailController extends sub.SubController {
   async getAccessToken({email, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND], beforeAuth, afterAuth} = {}) {
     const accessToken = await this.checkAuthorization(email, scopes);
     if (accessToken) {
+      await this.checkLicense(email);
       return accessToken;
     }
     if (beforeAuth) {
@@ -185,9 +186,10 @@ export default class GmailController extends sub.SubController {
   async onAuthorize({email, scopes}) {
     try {
       const accessToken = await gmail.authorize(email, scopes);
+      await this.checkLicense(email);
+      this.activateComponent();
       mvelo.tabs.close(this.settingsTab);
       this.settingsTab = null;
-      this.activateComponent();
       if (this.authorizationRequest.afterAuth) {
         this.authorizationRequest.afterAuth();
       }
@@ -200,6 +202,17 @@ export default class GmailController extends sub.SubController {
 
   checkAuthorization(email, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]) {
     return gmail.getAccessToken(email, scopes);
+  }
+
+  async checkLicense(email) {
+    try {
+      await gmail.checkLicense(email);
+    } catch (e) {
+      const slotId = getHash();
+      setAppDataSlot(slotId, {email});
+      this.settingsTab = await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/license`);
+      throw e;
+    }
   }
 
   async openAuthorizeDialog({email, scopes}) {

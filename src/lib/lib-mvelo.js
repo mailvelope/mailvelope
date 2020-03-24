@@ -68,7 +68,7 @@ mvelo.storage.remove = function(id) {
         obj = obj[path[i]];
       }
       delete obj[path.pop()];
-      mvelo.storage.set(id[0], data);
+      return mvelo.storage.set(id[0], data);
     });
   }
 };

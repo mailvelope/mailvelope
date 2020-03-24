@@ -559,10 +559,6 @@
     "description": "Error message for components requiring authorisation of GMAIL integration",
     "message": "Mailvelope ist nicht berechtigt, E-Mails zu versenden."
   },
-  "gmail_integration_id_validation_error_gsuite": {
-    "description": "Error message for G-Suite users when trying to authorize GMAIL integration",
-    "message": "E-Mail-Adressen, die einem G Suite Account zugeordnet sind, werden in der aktuellen Testphase nicht unterstützt."
-  },
   "gmail_integration_quoted_mail_header_forward": {
     "description": "Header for forwarded mail",
     "message": "---------- Weitergeleitete Nachricht ---------\nVon: $1\nDatum: $2\nBetreff: $3\nAn: $4"
@@ -1422,7 +1418,7 @@
     "message": "Anmelden mit Google"
   },
   "provider_gmail_dialog_auth_intro": {
-    "description": "Intro text for GMAIL OAuth dialog.",
+    "description": "OAuth intro text for GMAIL API dialog.",
     "message": "Bevor die Gmail-API für <0></0> verwendet werden kann, muss Mailvelope für nachfolgende Berechtigungen autorisiert werden:"
   },
   "provider_gmail_dialog_auth_outro": {
@@ -1437,13 +1433,25 @@
     "description": "Privacy policy link.",
     "message": "Lesen Sie unsere <0>Datenschutzbestimmungen</0>"
   },
+  "provider_gmail_dialog_description": {
+    "description": "Leading text for GMAIL API dialog.",
+    "message": "Die Nutzung der Gmail-API erweitert die Funktionalität von Mailvelope mit Gmail und vereinfacht das Versenden und Lesen verschlüsselter Emails und Anhänge."
+  },
+  "provider_gmail_dialog_gsuite_alert": {
+    "description": "Alert text for GSuite Users in GMAIL API dialog.",
+    "message": "Dieses Feature ist für G Suite Nutzer kostenpflichtig. Lizenzen können auf der <0>Mailvelope Produktseite</0> erworben werden."
+  },
+  "provider_gmail_dialog_privacy_policy": {
+    "description": "Privacy policy link.",
+    "message": "Lesen Sie unsere <0>Datenschutzbestimmungen</0>"
+  },
   "provider_gmail_dialog_title": {
-    "description": "Title of GMAIL OAuth dialog.",
+    "description": "Title of GMAIL API dialog.",
     "message": "Nutzung der Gmail-API"
   },
   "provider_gmail_integration": {
     "description": "Label for Gmail integration option.",
-    "message": "Gmail-API Integration (experimentell)"
+    "message": "Gmail-API Integration"
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
@@ -1452,6 +1460,46 @@
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",
     "message": "Gmail ist mit dem Suchmuster <0></0> nicht autorisiert. Bitte Prüfen Sie die Einstellungen in <1></1>."
+  },
+  "provider_gmail_licensing_check_btn": {
+    "description": "License check button",
+    "message": "Lizenz anfragen"
+  },
+  "provider_gmail_licensing_dialog_para_1": {
+    "description": "Text of Gmail API licensing dialog first paragraph.",
+    "message": "Für G Suite Nutzer ist die Verwendung der Gmail-API <0>kostenpflichtig</0>."
+  },
+  "provider_gmail_licensing_dialog_para_2": {
+    "description": "Text of Gmail API licensing dialog second paragraph.",
+    "message": "Sie können Mailvelope mit Gmail auch weiterhin kostenlos nutzen, <0>mit der API ist ihr Workflow</0> beim Schreiben und Lesen verschlüsselter E-Mails und deren Anhängen jedoch <1>viel schneller und einfacher</1>."
+  },
+  "provider_gmail_licensing_dialog_para_3": {
+    "description": "Text of Gmail API licensing dialog third paragraph.",
+    "message": "Um die Gmail-API zu aktivieren, können Sie unser Business-Paket <0>kostenlos testen</0>:"
+  },
+  "provider_gmail_licensing_dialog_business_btn_info": {
+    "description": "Info text on Business button ",
+    "message": "Unsere Lösung für weltweite Business Kommunikation"
+  },
+  "provider_gmail_licensing_dialog_business_btn_price_info": {
+    "description": "Info text for price label of Business button",
+    "message": "pro Nutzer und Monat"
+  },
+  "provider_gmail_licensing_dialog_test_btn": {
+    "description": "Gmail API test button in licensing dialog",
+    "message": "Gmail-API kostenlos testen"
+  },
+  "provider_gmail_licensing_dialog_deactivate_btn": {
+    "description": "Gmail API deactivate button in licensing dialog",
+    "message": "Ohne Gmail-API fortfahren"
+  },
+  "provider_gmail_licensing_dialog_title": {
+    "description": "Title of GMAIL API licensing dialog.",
+    "message": "Mailvelope Business Lizenz erforderlich"
+  },
+  "provider_gmail_licensing_table_title": {
+    "description": "Title for G Suite licensing table.",
+    "message": "Mailvelope Lizenz"
   },
   "provider_gmail_secure_forward_btn": {
     "description": "Secure forward button title/tooltip",

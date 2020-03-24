@@ -75,6 +75,7 @@ export default class AppController extends sub.SubController {
     this.on('get-oauth-tokens', this.getOAuthTokens);
     this.on('remove-oauth-token', this.removeOAuthToken);
     this.on('authorize-gmail', this.authorizeGmail);
+    this.on('check-license', this.checkLicense);
   }
 
   async updatePreferences(options) {
@@ -400,5 +401,9 @@ export default class AppController extends sub.SubController {
   async authorizeGmail({email, scopes, gmailCtrlId}) {
     const gmailCtrl = sub.getById(gmailCtrlId);
     return gmailCtrl.onAuthorize({email, scopes});
+  }
+
+  async checkLicense({email}) {
+    return gmail.checkLicense(email);
   }
 }

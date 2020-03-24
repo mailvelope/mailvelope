@@ -79,6 +79,12 @@ export default class gmailDecryptController extends DecryptController {
       accessToken = await this.gmailCtrl.checkAuthorization(this.userEmail);
       if (!accessToken) {
         lock = true;
+      } else {
+        try {
+          await gmail.checkLicense(this.userEmail);
+        } catch (error) {
+          lock = true;
+        }
       }
     }
     if (lock) {

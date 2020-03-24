@@ -6,11 +6,11 @@
 import browser from 'webextension-polyfill';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
-import {MvError, deDup} from '../lib/util';
+import * as openpgp from 'openpgp';
+import {MvError, deDup, str2ab} from '../lib/util';
 import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
-import * as l10n from '../lib/l10n';
 
 const CLIENT_ID = '119074447949-tna0do7hlleq779oihbsosrk6he4di06.apps.googleusercontent.com';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
@@ -19,6 +19,7 @@ export const GMAIL_SCOPE_USER_EMAIL = 'https://www.googleapis.com/auth/userinfo.
 export const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 export const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
 const GMAIL_SCOPES_DEFAULT = [GMAIL_SCOPE_USER_EMAIL];
+const MVELO_BILLING_API_HOST = 'https://license.mailvelope.com';
 
 export const MAIL_QUOTA = 25 * 1024 * 1024;
 
@@ -118,7 +119,7 @@ export async function getAccessToken(email, scopes = []) {
     if (storedToken.refresh_token) {
       const refreshedToken = await getRefreshedAccessToken(storedToken.refresh_token);
       if (refreshedToken.access_token) {
-        await storeToken(email, refreshedToken);
+        await storeAuthData(email, buildTokenData(refreshedToken));
         return refreshedToken.access_token;
       }
     }
@@ -126,8 +127,59 @@ export async function getAccessToken(email, scopes = []) {
   return;
 }
 
-function checkStoredToken(storedToken) {
-  return storedToken.access_token && (storedToken.access_token_exp  >= new Date().getTime());
+function checkStoredToken(storedData) {
+  return storedData.access_token && (storedData.access_token_exp  >= new Date().getTime());
+}
+
+function validateLicense(storedData) {
+  const date = new Date();
+  return Boolean(storedData.mvelo_license_issued) && (new Date(date.getUTCFullYear(), date.getUTCMonth()).getTime() === storedData.mvelo_license_issued);
+}
+
+export async function checkLicense(email) {
+  const storedAuthData = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
+  const storedData = storedAuthData[email];
+  if (!storedData.gsuite) {
+    return;
+  }
+  if (validateLicense(storedData)) {
+    return;
+  }
+  const {gsuite, gmail_account_id} = storedData;
+  let valid = false;
+  try {
+    await requestLicense(gsuite, gmail_account_id);
+    valid = true;
+  } catch (e) {
+    throw new MvError(`GSuite licensing error: ${e.message}`, 'GSUITE_LICENSING_ERROR');
+  } finally {
+    await storeAuthData(email, buildLicenseData(valid));
+  }
+}
+
+async function requestLicense(domain, gmail_account_id) {
+  const ab = str2ab(gmail_account_id);
+  const abHash = await window.crypto.subtle.digest('SHA-256', ab);
+  const arrHash = new Uint8Array(abHash);
+  const digest = openpgp.util.encodeZBase32(arrHash);
+  const url = `${MVELO_BILLING_API_HOST}/api/v1/getLicense`;
+  const data = {
+    domain,
+    user: digest
+  };
+  const result = await fetch(url, {
+    method: 'POST',
+    async: true,
+    body: JSON.stringify(data),
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  if (result.status !== 200) {
+    const reply = await result.text();
+    throw new Error(reply);
+  }
 }
 
 export async function authorize(email, scopes = []) {
@@ -137,20 +189,17 @@ export async function authorize(email, scopes = []) {
     throw new MvError('Authorization failed!', 'GOOGLE_OAUTH_ERROR');
   }
   const token = await getAuthTokens(authCode);
-  validateId(token.id_token, email);
-  await storeToken(email, token);
+  const idInfo = validateId(token.id_token, email);
+  await storeAuthData(email, buildTokenData({...token, ...idInfo}));
   return token.access_token;
 }
 
 function validateId(idToken, email) {
   const id = parseJwt(idToken);
-  if (id.iss === GOOGLE_API_HOST && id.aud === CLIENT_ID && id.email === email && id.exp >= (new Date().getTime() / 1000)) {
-    if (id.hd && id.hd !== 'mailvelope.com') {
-      throw new MvError(l10n.get('gmail_integration_id_validation_error_gsuite'), 'ID_GSUITE_ERROR');
-    }
-  } else {
+  if (id.iss !== GOOGLE_API_HOST || id.aud !== CLIENT_ID || id.email !== email || id.exp < (new Date().getTime() / 1000)) {
     throw new MvError('Id token invalid!', 'ID_VALIDATION_ERROR');
   }
+  return id;
 }
 
 export async function unauthorize(email) {
@@ -160,7 +209,7 @@ export async function unauthorize(email) {
   }
   await revokeToken(storedTokens[email].access_token);
   delete storedTokens[email];
-  mvelo.storage.set(GOOGLE_OAUTH_STORE, storedTokens);
+  await mvelo.storage.set(GOOGLE_OAUTH_STORE, storedTokens);
 }
 
 async function getAuthCode(email, scopes) {
@@ -177,7 +226,7 @@ async function getAuthCode(email, scopes) {
   url += '&prompt=consent';
   url += `&login_hint=${encodeURIComponent(email)}`;
   url += `&state=${encodeURIComponent(state)}`;
-  const authPopup = await mvelo.windows.openPopup(url, {width: 500, height: 650});
+  const authPopup = await mvelo.windows.openPopup(url, {width: 600, height: 760});
   const originAndPathMatches = `^${matchPattern2RegExString(GOOGLE_API_HOST)}/.*`;
   return new Promise((resolve, reject) => {
     try {
@@ -259,23 +308,41 @@ async function revokeToken(token) {
   return result.json();
 }
 
-async function storeToken(email, token) {
-  let entry = {
-    [email]: {
-      access_token: token.access_token,
-      access_token_exp: new Date().getTime() + (token.expires_in) * 1000,
-      scope: token.scope,
-    }
+function buildTokenData(token) {
+  const data = {
+    access_token: token.access_token,
+    access_token_exp: new Date().getTime() + (token.expires_in) * 1000,
+    scope: token.scope
   };
   if (token.refresh_token) {
-    entry[email].refresh_token = token.refresh_token;
+    data.refresh_token = token.refresh_token;
   }
-  const existingEntries = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
-  if (existingEntries) {
-    existingEntries[email] = {...existingEntries[email], ...entry[email]};
-    entry = existingEntries;
+  if (token.hd) {
+    data.gsuite = token.hd;
+    data.gmail_account_id = token.sub;
   }
-  return mvelo.storage.set(GOOGLE_OAUTH_STORE, entry);
+  return data;
+}
+
+function buildLicenseData(valid) {
+  const data = {
+    mvelo_license_issued: 0
+  };
+  if (valid) {
+    const date = new Date();
+    data.mvelo_license_issued = new Date(date.getUTCFullYear(), date.getUTCMonth()).getTime();
+  }
+  return data;
+}
+
+async function storeAuthData(email, data) {
+  let entries = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
+  if (entries) {
+    entries[email] = {...entries[email], ...data};
+  } else {
+    entries = {[email]: data};
+  }
+  return mvelo.storage.set(GOOGLE_OAUTH_STORE, entries);
 }
 
 async function fetchJSON(resource, init) {

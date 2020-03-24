@@ -1,3 +1,31 @@
+@import "../../res/styles/_required";
+
+
+.licensing-dialog {
+  .btn {
+    text-align: left;
+    padding: 1.5rem;
+    img {
+      max-height: 96px;
+      width: auto;
+    }
+    .price-tag {
+      color: $body-color;
+      font-family: $headings-font-family;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+  }
+}
+
+table {
+  caption {
+    cursor: default;
+  }
+}
+
+
 
 .gSignInButton {
   border-radius: 1px;

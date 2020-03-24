@@ -559,10 +559,6 @@
     "description": "Error message for components requiring authorization of GMAIL integration",
     "message": "Mailvelope is not authorized to send emails."
   },
-  "gmail_integration_id_validation_error_gsuite": {
-    "description": "Error message for G Suite users when trying to authorize Gmail integration",
-    "message": "Email addresses assigned to a G Suite account are not supported in the current test phase."
-  },
   "gmail_integration_quoted_mail_header_forward": {
     "description": "Header for forwarded mail",
     "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4"
@@ -1439,13 +1435,25 @@
     "description": "Privacy policy link.",
     "message": "Please read our <0>Privacy Policy</0>"
   },
+  "provider_gmail_dialog_description": {
+    "description": "Leading text for GMAIL API dialog.",
+    "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments."
+  },
+  "provider_gmail_dialog_gsuite_alert": {
+    "description": "Alert text for GSuite Users in GMAIL API dialog.",
+    "message": "This feature is subject to a fee for G Suite users. Licenses can be purchased on the <0>Mailvelope product page</0>."
+  },
+  "provider_gmail_dialog_privacy_policy": {
+    "description": "Privacy policy link.",
+    "message": "Please read our <0>Privacy Policy</0>"
+  },
   "provider_gmail_dialog_title": {
-    "description": "Title of GMAIL OAuth dialog.",
+    "description": "Title of GMAIL API dialog.",
     "message": "Using the Gmail API"
   },
   "provider_gmail_integration": {
     "description": "Label for Gmail integration option.",
-    "message": "Gmail API Integration (experimental)"
+    "message": "Gmail API Integration"
   },
   "provider_gmail_integration_info": {
     "description": "Info message for Gmail integration option",
@@ -1454,6 +1462,46 @@
   "provider_gmail_integration_warning": {
     "description": "Warning message, when Gmail is not authorized",
     "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>."
+  },
+  "provider_gmail_licensing_check_btn": {
+    "description": "License check button",
+    "message": "Request license"
+  },
+  "provider_gmail_licensing_dialog_para_1": {
+    "description": "Text of Gmail API licensing dialog first paragraph.",
+    "message": "For G Suite users, the use of the Gmail API is <0>subject to a fee</0>."
+  },
+  "provider_gmail_licensing_dialog_para_2": {
+    "description": "Text of Gmail API licensing dialog second paragraph.",
+    "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>."
+  },
+  "provider_gmail_licensing_dialog_para_3": {
+    "description": "Text of Gmail API licensing dialog third paragraph.",
+    "message": "To activate the Gmail API, you can test our business package <0>for free</0>:"
+  },
+  "provider_gmail_licensing_dialog_business_btn_info": {
+    "description": "Info text on Business button ",
+    "message": "Our solution for worldwide business communication"
+  },
+  "provider_gmail_licensing_dialog_business_btn_price_info": {
+    "description": "Info text for price label of Business button",
+    "message": "per user and month"
+  },
+  "provider_gmail_licensing_dialog_test_btn": {
+    "description": "Gmail API test button in licensing dialog",
+    "message": "Test Gmail API for free"
+  },
+  "provider_gmail_licensing_dialog_deactivate_btn": {
+    "description": "Gmail API deactivate button in licensing dialog",
+    "message": "Continue without Gmail API"
+  },
+  "provider_gmail_licensing_dialog_title": {
+    "description": "Title of GMAIL API licensing dialog.",
+    "message": "Mailvelope Business license required"
+  },
+  "provider_gmail_licensing_table_title": {
+    "description": "Title for G Suite licensing table.",
+    "message": "Mailvelope License"
   },
   "provider_gmail_secure_forward_btn": {
     "description": "Secure forward button title/tooltip",
