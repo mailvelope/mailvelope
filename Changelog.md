@@ -1,6 +1,16 @@
 Mailvelope Changelog
 ====================
 
+v4.3.0
+-------
+__Apr 3, 2020__
+
+  * Add Gmail API support for G Suite organizations with Mailvelope subscription
+  * Key import preview: merge public into private keys. Fix import of private keys from PGP Universal Server.
+  * Revise wording for contacts vs keys
+  * Fix build error on case sensitive file systems
+  * Update default authorized domain list
+
 v4.2.3
 -------
 __Mar 5, 2020__

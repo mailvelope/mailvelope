@@ -24,7 +24,7 @@
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "Cifrado de ficheros",
+        "message": "Cifrado de archivos",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
@@ -140,7 +140,7 @@
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Decrypted files",
+        "message": "Archivos descifrados",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
@@ -156,7 +156,7 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "Llave con la ID $1 no encontrada.",
+        "message": "Llave con el ID $1 no encontrada.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
@@ -192,7 +192,7 @@
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Legítimo",
+        "message": "Remitente",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
@@ -204,7 +204,7 @@
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "No fue posible descifrar el texto.",
+        "message": "No es posible descifrar el texto.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
@@ -264,7 +264,7 @@
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "Receptor",
+        "message": "Destinatario",
         "description": "Label for recipient input."
     },
     "editor_label_subject": {
@@ -508,7 +508,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "¿Desearía firmar todos sus correos electrónicos?",
+        "message": "¿Desearías firmar todos tus correos electrónicos?",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign_link": {
@@ -558,10 +558,6 @@
     "gmail_integration_auth_error_send": {
         "message": "Mailvelope no esta autorizado para enviar correos.",
         "description": "Error message for components requiring authorization of GMAIL integration"
-    },
-    "gmail_integration_id_validation_error_gsuite": {
-        "message": "Las cuentas de correo asignadas a una cuenta de G Suite no están soportadas en la fase de prueba actual.",
-        "description": "Error message for G Suite users when trying to authorize Gmail integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Mensaje reenviado ---------\nDe: $1\nFecha: $2\nAsunto: $3\nPara: $4",
@@ -632,7 +628,7 @@
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "Nombre del archivo",
+        "message": "Nombre de archivo",
         "description": "Label of filename input."
     },
     "key_export_header": {
@@ -728,11 +724,11 @@
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Importar contactos",
+        "message": "Import keys",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Confirme para habilitar la comunicación cifrada con este destinatario.",
+        "message": "After confirmation, these keys are transferred to the local keyring:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
@@ -792,7 +788,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Advertencia: Datos necesarios para comunicación cifrada han expirado. Comunicación cifrada con $1 ya no será posible. El contacto necesita volver a invitarle.",
+        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -908,7 +904,7 @@
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "¿Aún le gustaría revocar la llave?",
+        "message": "¿Aún te gustaría revocar la llave?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
@@ -960,11 +956,11 @@
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "En orden a recuperarla en caso de pérdida de datos",
+        "message": "Para restaurarla en caso de pérdida de datos",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "En orden a transferirla a otros dispositivos",
+        "message": "Para transferirla a otros dispositivos",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
@@ -976,7 +972,7 @@
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "La fecha de caducidad también es cambiada para todas las subllaves. Subllaves inválidas o aquellas que ya hayan expirado permanecen sin afectar.",
+        "message": "La fecha de expiración también es cambiada para todas las subllaves. Subllaves inválidas o aquellas que ya hayan expirado permanecen sin afectar.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
@@ -1020,11 +1016,11 @@
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Por favor asigne una contraseña para su llave para proteger su comunicación cifrada:",
+        "message": "Por favor, asigna una contraseña para tu llave para proteger tu comunicación cifrada:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Este proceso puede tomar varios minutos. Puede que su navegador parezca no responder. Por favor tenga paciencia.",
+        "message": "Este proceso puede llevar varios minutos. Su navegador puede dejar de responder. Por favor sea paciente.",
         "description": ""
     },
     "keygen_waiting_headline": {
@@ -1212,7 +1208,7 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirmar clave",
+        "message": "Confirmar llave",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
@@ -1236,7 +1232,7 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Puede añadir sus contactos tanto mediante un archivo como texto desde el portapapeles.",
+        "message": "You can add keys either as file or as text from the clipboard.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
@@ -1244,7 +1240,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Buscar en el servidor de llaves por contactos existentes.",
+        "message": "Buscar en el servidor de llaves contactos existentes.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
@@ -1368,7 +1364,7 @@
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Por favor ingrese un nombre",
+        "message": "Por favor, ingresa un nombre",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
@@ -1412,48 +1408,92 @@
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "corre enviado",
+        "message": "correo enviado",
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
-        "message": "Google API Authorizations",
+        "message": "Autorizaciones de API de Google",
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "Sign in with Google",
+        "message": "Inicia sesión con Google",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
-        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "message": "Para utilizar la integración de Gmail para<0></0>, se deben otorgar los siguientes permisos a Mailvelope:",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_auth_outro": {
-        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "message": "Si haces clic en el botón de inicio de sesión, se abre una ventana de autorización de Google. Selecciona tu cuenta de Gmail para la dirección de correo electrónico y sigue las instrucciones.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_description": {
-        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "message": "El uso de la API de Gmail amplía la funcionalidad de Mailvelope con Gmail y simplifica el envío y la lectura de correos electrónicos y archivos adjuntos cifrados.",
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Please read our <0>Privacy Policy</0>",
+        "message": "Por favor, lee nuesta <0>Política de Privacidad</0>",
         "description": "Privacy policy link."
     },
+    "provider_gmail_dialog_gsuite_alert": {
+        "message": "This feature is subject to a fee for G Suite users. Licenses can be purchased on the <0>Mailvelope product page</0>.",
+        "description": "Alert text for GSuite Users in GMAIL API dialog."
+    },
     "provider_gmail_dialog_title": {
-        "message": "Using the Gmail API",
-        "description": "Title of GMAIL OAuth dialog."
+        "message": "Usando la API de Gmail",
+        "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API Integration (experimental)",
+        "message": "Gmail API Integration",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
+        "message": "Mailvelope requiere permisos adicionales para acceder a la API de Gmail. Tan pronto como uses las funciones de cifrado de Mailvelope en Gmail, se te guiará a través de un proceso de autorización. Esto requiere que inicies sesión en tu cuenta de Google.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail no autorizado con el patrón de búsqueda <0></0>. Por favor revisa las configuraciones en <1></1>.",
+        "message": "Gmail no está autorizado con el patrón de búsqueda <0></0>. Por favor, revisa las configuraciones en <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
+    },
+    "provider_gmail_licensing_check_btn": {
+        "message": "Request license",
+        "description": "License check button"
+    },
+    "provider_gmail_licensing_dialog_para_1": {
+        "message": "For G Suite users, the use of the Gmail API is <0>subject to a fee</0>.",
+        "description": "Text of Gmail API licensing dialog first paragraph."
+    },
+    "provider_gmail_licensing_dialog_para_2": {
+        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
+        "description": "Text of Gmail API licensing dialog second paragraph."
+    },
+    "provider_gmail_licensing_dialog_para_3": {
+        "message": "To activate the Gmail API, you can test our business package <0>for free</0>:",
+        "description": "Text of Gmail API licensing dialog third paragraph."
+    },
+    "provider_gmail_licensing_dialog_business_btn_info": {
+        "message": "Our solution for worldwide business communication",
+        "description": "Info text on Business button "
+    },
+    "provider_gmail_licensing_dialog_business_btn_price_info": {
+        "message": "per user and month",
+        "description": "Info text for price label of Business button"
+    },
+    "provider_gmail_licensing_dialog_test_btn": {
+        "message": "Test Gmail API for free",
+        "description": "Gmail API test button in licensing dialog"
+    },
+    "provider_gmail_licensing_dialog_deactivate_btn": {
+        "message": "Continue without Gmail API",
+        "description": "Gmail API deactivate button in licensing dialog"
+    },
+    "provider_gmail_licensing_dialog_title": {
+        "message": "Mailvelope Business license required",
+        "description": "Title of GMAIL API licensing dialog."
+    },
+    "provider_gmail_licensing_table_title": {
+        "message": "Mailvelope License",
+        "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
         "message": "Reenviar de manera segura.",
@@ -1536,7 +1576,7 @@
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Si quisiera guardar sus datos exclusivamente de manera local en su computadora, encontrará esta opción en la configuración de comunicación cifrada de su cuenta $1.",
+        "message": "Si deseas guardar tus datos exclusivamente de manera local en tu computadora, encontrarás esta opción en la configuración de comunicación cifrada de tu cuenta $1.",
         "description": ""
     },
     "recovery_sheet_backup_server": {
@@ -1568,7 +1608,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "La comunicación cifrada con $1 es un procedimiento basado en PGP. Le permite enviar correos cifrados y, al mismo tiempo, se asegura de que sólo usted y el destinatario sean capaces de leerlos.",
+        "message": "La comunicación cifrada con $1 es un procedimiento basado en PGP. Te permite enviar correos cifrados y, al mismo tiempo, se asegura de que sólo tu y el destinatario sean capaces de leerlos.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1580,7 +1620,7 @@
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "Puede encontrar más información y opciones de configuración en su cuenta $1 bajo",
+        "message": "Puedes encontrar más información y opciones de configuración en tu cuenta $1 bajo",
         "description": ""
     },
     "recovery_sheet_header": {
@@ -1592,7 +1632,7 @@
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "En la configuración de comunicación cifrada de su cuenta $1, tiene la posibilidad de invitar contactos adicionales para usar comunicación cifrada vía PGP. Los contactos que ya han sido invitados con éxito se pueden reconocer por el icono del candado junto a la dirección de correo electrónico.",
+        "message": "En la configuración de comunicación cifrada de tu cuenta $1, tienes la posibilidad de invitar contactos adicionales para usar comunicación cifrada vía PGP. Los contactos que ya han sido invitados con éxito se pueden reconocer por el icono del candado junto a la dirección de correo electrónico.",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
@@ -1724,11 +1764,11 @@
         "description": "The tooltip text for the keylock button"
     },
     "security_background_color_text": {
-        "message": "2. Ahora elija un color que le guste",
+        "message": "2. Ahora elige un color que te guste",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. Elija un ícono que le guste",
+        "message": "1. Elige un ícono que te guste",
         "description": "Security background select icon text"
     },
     "security_background_text": {
@@ -1940,7 +1980,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail API",
+        "message": "API de Gmail",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
@@ -1988,7 +2028,7 @@
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Añadir fichero",
+        "message": "Añadir archivo",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {

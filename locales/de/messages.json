@@ -1429,14 +1429,6 @@
     "description": "Leading text for GMAIL API dialog.",
     "message": "Die Nutzung der Gmail-API erweitert die Funktionalität von Mailvelope mit Gmail und vereinfacht das Versenden und Lesen verschlüsselter Emails und Anhänge."
   },
-  "provider_gmail_dialog_privacy_policy": {
-    "description": "Privacy policy link.",
-    "message": "Lesen Sie unsere <0>Datenschutzbestimmungen</0>"
-  },
-  "provider_gmail_dialog_description": {
-    "description": "Leading text for GMAIL API dialog.",
-    "message": "Die Nutzung der Gmail-API erweitert die Funktionalität von Mailvelope mit Gmail und vereinfacht das Versenden und Lesen verschlüsselter Emails und Anhänge."
-  },
   "provider_gmail_dialog_gsuite_alert": {
     "description": "Alert text for GSuite Users in GMAIL API dialog.",
     "message": "Dieses Feature ist für G Suite Nutzer kostenpflichtig. Lizenzen können auf der <0>Mailvelope Produktseite</0> erworben werden."

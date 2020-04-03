@@ -559,10 +559,6 @@
         "message": "Mailvelope is not authorized to send emails.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
-    "gmail_integration_id_validation_error_gsuite": {
-        "message": "Email addresses assigned to a G Suite account are not supported in the current test phase.",
-        "description": "Error message for G Suite users when trying to authorize Gmail integration"
-    },
     "gmail_integration_quoted_mail_header_forward": {
         "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
         "description": "Header for forwarded mail"
@@ -728,11 +724,11 @@
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Import contacts",
+        "message": "Import keys",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Confirm to enable encrypted communication with this recipient:",
+        "message": "After confirmation, these keys are transferred to the local keyring:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
@@ -792,7 +788,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: Necessary data for encrypted communication has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you.",
+        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -1236,7 +1232,7 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "You can add your contacts either as file or as text from the clipboard.",
+        "message": "You can add keys either as file or as text from the clipboard.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
@@ -1439,12 +1435,16 @@
         "message": "Please read our <0>Privacy Policy</0>",
         "description": "Privacy policy link."
     },
+    "provider_gmail_dialog_gsuite_alert": {
+        "message": "This feature is subject to a fee for G Suite users. Licenses can be purchased on the <0>Mailvelope product page</0>.",
+        "description": "Alert text for GSuite Users in GMAIL API dialog."
+    },
     "provider_gmail_dialog_title": {
         "message": "Using the Gmail API",
-        "description": "Title of GMAIL OAuth dialog."
+        "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API Integration (experimental)",
+        "message": "Gmail API Integration",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
@@ -1454,6 +1454,46 @@
     "provider_gmail_integration_warning": {
         "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
+    },
+    "provider_gmail_licensing_check_btn": {
+        "message": "Request license",
+        "description": "License check button"
+    },
+    "provider_gmail_licensing_dialog_para_1": {
+        "message": "For G Suite users, the use of the Gmail API is <0>subject to a fee</0>.",
+        "description": "Text of Gmail API licensing dialog first paragraph."
+    },
+    "provider_gmail_licensing_dialog_para_2": {
+        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
+        "description": "Text of Gmail API licensing dialog second paragraph."
+    },
+    "provider_gmail_licensing_dialog_para_3": {
+        "message": "To activate the Gmail API, you can test our business package <0>for free</0>:",
+        "description": "Text of Gmail API licensing dialog third paragraph."
+    },
+    "provider_gmail_licensing_dialog_business_btn_info": {
+        "message": "Our solution for worldwide business communication",
+        "description": "Info text on Business button "
+    },
+    "provider_gmail_licensing_dialog_business_btn_price_info": {
+        "message": "per user and month",
+        "description": "Info text for price label of Business button"
+    },
+    "provider_gmail_licensing_dialog_test_btn": {
+        "message": "Test Gmail API for free",
+        "description": "Gmail API test button in licensing dialog"
+    },
+    "provider_gmail_licensing_dialog_deactivate_btn": {
+        "message": "Continue without Gmail API",
+        "description": "Gmail API deactivate button in licensing dialog"
+    },
+    "provider_gmail_licensing_dialog_title": {
+        "message": "Mailvelope Business license required",
+        "description": "Title of GMAIL API licensing dialog."
+    },
+    "provider_gmail_licensing_table_title": {
+        "message": "Mailvelope License",
+        "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
         "message": "Secure forward",
