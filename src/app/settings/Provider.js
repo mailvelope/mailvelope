@@ -22,9 +22,11 @@ const MV_PRODUCT_PAGE_URL = 'https://www.mailvelope.com/products';
 l10n.register([
   'alert_header_error',
   'alert_header_important',
+  'alert_header_notice',
   'alert_header_warning',
   'dialog_popup_close',
   'keygrid_user_email',
+  'keygrid_refresh',
   'learn_more_link',
   'provider_gmail_auth',
   'provider_gmail_auth_cancel_btn',
@@ -41,7 +43,6 @@ l10n.register([
   'provider_gmail_integration',
   'provider_gmail_integration_info',
   'provider_gmail_integration_warning',
-  'provider_gmail_licensing_check_btn',
   'provider_gmail_licensing_dialog_business_btn_info',
   'provider_gmail_licensing_dialog_business_btn_price_info',
   'provider_gmail_licensing_dialog_deactivate_btn',
@@ -50,6 +51,7 @@ l10n.register([
   'provider_gmail_licensing_dialog_para_3',
   'provider_gmail_licensing_dialog_test_btn',
   'provider_gmail_licensing_dialog_title',
+  'provider_gmail_licensing_table_caption',
   'provider_gmail_licensing_table_title',
   'settings_provider',
   'watchlist_title_scan'
@@ -203,10 +205,11 @@ export default class Provider extends React.Component {
         }
       >
         <>
-          <p><span>{l10n.map.provider_gmail_dialog_description}</span> <a href="https://www.mailvelope.com/de/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></p>
-          <Alert type="warning" header={l10n.map.alert_header_warning}>
+          <p><span>{l10n.map.provider_gmail_dialog_description}</span> <a href="https://www.mailvelope.com/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></p>
+          <Alert type="warning" header={l10n.map.alert_header_notice}>
             <Trans id={l10n.map.provider_gmail_dialog_gsuite_alert} components={[
-              <a key="0" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
+              <a key="0" href="https://gsuite.google.com/" target="_blank" rel="noopener noreferrer"></a>,
+              <a key="1" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
             ]} />
           </Alert>
           <p><Trans id={l10n.map.provider_gmail_dialog_auth_intro} components={[<strong key="0">{this.state.email}</strong>]} /></p>
@@ -220,9 +223,7 @@ export default class Provider extends React.Component {
           <p><Trans id={l10n.map.provider_gmail_dialog_auth_outro} components={[<strong key="0">{this.state.email}</strong>]} /></p>
           <p className="text-muted text-right mb-0">
             <small>
-              <Trans id={l10n.map.provider_gmail_dialog_privacy_policy} components={[
-                <a key="0" href="https://www.mailvelope.com/en/privacy-policy" className="text-reset" target="_blank" rel="noopener noreferrer"></a>
-              ]} />
+              <a href="https://www.mailvelope.com/en/privacy-policy" className="text-reset" target="_blank" rel="noopener noreferrer">{l10n.map.provider_gmail_dialog_privacy_policy}</a>
             </small>
           </p>
         </>
@@ -318,7 +319,7 @@ export default class Provider extends React.Component {
             )}
             <p className="lead mt-3">{l10n.map.provider_gmail_auth_table_title}</p>
             <div className="table-responsive">
-              <table className="table table-hover table-custom mb-0">
+              <table className="table table-provider table-custom mb-0">
                 <thead>
                   <tr>
                     <th>{l10n.map.keygrid_user_email}</th>
@@ -333,7 +334,7 @@ export default class Provider extends React.Component {
                       <td>{entry.scope.split(' ').map(val => this.getAuthText(val)).filter(val => val !== '').join(', ')}</td>
                       <td className="text-center">
                         <div className="actions">
-                          <button type="button" onClick={e => { e.stopPropagation(); this.removeAuthorisation(entry.email); }} className="btn btn-secondary">{l10n.map.provider_gmail_auth_cancel_btn}</button>
+                          <button type="button" onClick={() => this.removeAuthorisation(entry.email)} className="btn btn-sm btn-secondary">{l10n.map.provider_gmail_auth_cancel_btn}</button>
                         </div>
                       </td>
                     </tr>
@@ -345,10 +346,11 @@ export default class Provider extends React.Component {
               <>
                 <p className="lead mt-3">{l10n.map.provider_gmail_licensing_table_title}</p>
                 <div className="table-responsive">
-                  <table className="table table-hover table-custom mb-0">
+                  <table className="table table-provider table-custom mb-0">
                     <caption>
-                      <Trans id={l10n.map.provider_gmail_dialog_gsuite_alert} components={[
-                        <a key="0" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
+                      <Trans id={l10n.map.provider_gmail_licensing_table_caption} components={[
+                        <a key="0" href="https://gsuite.google.com/" target="_blank" rel="noopener noreferrer"></a>,
+                        <a key="1" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
                       ]} />
                     </caption>
                     <thead>
@@ -369,7 +371,7 @@ export default class Provider extends React.Component {
                           )}
                           <td className="text-center">
                             <div className="actions">
-                              <button type="button" onClick={e => { e.stopPropagation(); this.checkLicense(entry.email); }} className="btn btn-secondary">{l10n.map.provider_gmail_licensing_check_btn}</button>
+                              <button type="button" onClick={() => this.checkLicense(entry.email)} className="btn btn-sm btn-secondary" disabled={entry.mvelo_license_issued ? true : ''}>{l10n.map.keygrid_refresh}</button>
                             </div>
                           </td>
                         </tr>

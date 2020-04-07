@@ -6,8 +6,7 @@
 import browser from 'webextension-polyfill';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
-import * as openpgp from 'openpgp';
-import {MvError, deDup, str2ab} from '../lib/util';
+import {MvError, deDup, str2ab, ab2hex} from '../lib/util';
 import {matchPattern2RegExString, getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
@@ -160,12 +159,11 @@ export async function checkLicense(email) {
 async function requestLicense(domain, gmail_account_id) {
   const ab = str2ab(gmail_account_id);
   const abHash = await window.crypto.subtle.digest('SHA-256', ab);
-  const arrHash = new Uint8Array(abHash);
-  const digest = openpgp.util.encodeZBase32(arrHash);
+  const hexHash = ab2hex(abHash);
   const url = `${MVELO_BILLING_API_HOST}/api/v1/getLicense`;
   const data = {
     domain,
-    user: digest
+    user: hexHash
   };
   const result = await fetch(url, {
     method: 'POST',

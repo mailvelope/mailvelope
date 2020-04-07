@@ -202,6 +202,10 @@ export function str2bool(value) {
   return value;
 }
 
+export function ab2hex(ab) {
+  return Array.from(new Uint8Array(ab)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 export function base64EncodeUrl(str) {
   return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
 }

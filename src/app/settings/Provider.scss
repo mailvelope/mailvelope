@@ -19,12 +19,17 @@
   }
 }
 
-table {
+.table-provider {
   caption {
     cursor: default;
   }
+  tr {
+    .actions {
+      text-align: right;
+      white-space: nowrap;
+    }
+  }
 }
-
 
 
 .gSignInButton {
