@@ -201,7 +201,30 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'build/',
-          src: ['chrome/**/*', 'chrome/!**/.*']
+          src: ['chrome/**/*', '!chrome/**/.*']
+        }]
+      },
+      edge: {
+        options: {
+          mode: 'zip',
+          archive: 'dist/mailvelope.edge.zip',
+          pretty: true
+        },
+        files: [{
+          expand: true,
+          cwd: 'build/',
+          src: ['chrome/**/*', '!chrome/**/.*', '!chrome/_locales/**/*', 'chrome/_locales/en/*']
+        }]
+      },
+      src: {
+        options: {
+          mode: 'zip',
+          archive: `dist/mailvelope.${pkg.version}.src.zip`,
+          pretty: true
+        },
+        files: [{
+          expand: true,
+          src: ['**/*', '!.*', '!mailvelope.*', '!build/**', '!dist/**', '!node_modules/**']
         }]
       },
       doc: {
@@ -289,6 +312,8 @@ module.exports = function(grunt) {
 
   // distribution
   grunt.registerTask('dist-cr', ['compress:chrome']);
+  grunt.registerTask('dist-edge', ['compress:edge']);
+  grunt.registerTask('dist-src', ['compress:src']);
   grunt.registerTask('dist-crx', () => {
     grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
   });
