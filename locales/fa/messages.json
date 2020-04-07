@@ -75,6 +75,10 @@
         "message": "Important!",
         "description": "Alert header of category important."
     },
+    "alert_header_notice": {
+        "message": "Please note:",
+        "description": "Alert header of category notice."
+    },
     "alert_header_success": {
         "message": "موفقیت!",
         "description": "Alert header of category success."
@@ -1431,13 +1435,13 @@
         "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
         "description": "Leading text for GMAIL API dialog."
     },
-    "provider_gmail_dialog_privacy_policy": {
-        "message": "Please read our <0>Privacy Policy</0>",
-        "description": "Privacy policy link."
-    },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "This feature is subject to a fee for G Suite users. Licenses can be purchased on the <0>Mailvelope product page</0>.",
+        "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
+    },
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "Please read our Privacy Policy",
+        "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
         "message": "Using the Gmail API",
@@ -1455,12 +1459,8 @@
         "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
-    "provider_gmail_licensing_check_btn": {
-        "message": "Request license",
-        "description": "License check button"
-    },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "For G Suite users, the use of the Gmail API is <0>subject to a fee</0>.",
+        "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1468,15 +1468,15 @@
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "To activate the Gmail API, you can test our business package <0>for free</0>:",
+        "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Our solution for worldwide business communication",
+        "message": "Communicating securely with organizations worldwide",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "per user and month",
+        "message": "per user/month",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_test_btn": {
@@ -1490,6 +1490,10 @@
     "provider_gmail_licensing_dialog_title": {
         "message": "Mailvelope Business license required",
         "description": "Title of GMAIL API licensing dialog."
+    },
+    "provider_gmail_licensing_table_caption": {
+        "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>.",
+        "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
         "message": "Mailvelope License",

@@ -1467,7 +1467,7 @@
   },
   "provider_gmail_licensing_dialog_para_3": {
     "description": "Text of Gmail API licensing dialog third paragraph.",
-    "message": "Um die Gmail-API zu aktivieren, können Sie unser Business-Paket <0>14 Tage kostenlos testen</0>:"
+    "message": "Testen Sie Mailvelope Business mit aktivierter Gmail-API <0>14 Tage kostenlos</0>:"
   },
   "provider_gmail_licensing_dialog_business_btn_info": {
     "description": "Info text on Business button ",

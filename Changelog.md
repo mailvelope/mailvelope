@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v4.3.1
+-------
+__Apr 7, 2020__
+
+  * Revise Gmail API configuration UI
+
 v4.3.0
 -------
 __Apr 3, 2020__
