@@ -224,7 +224,7 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          src: ['**/*', '!.*', '!mailvelope.*', '!build/**', '!dist/**', '!node_modules/**']
+          src: ['**/*', '!.*', '{src,test}/**/.eslintrc.json', '!mailvelope.*', '!build/**', '!dist/**', '!node_modules/**']
         }]
       },
       doc: {
