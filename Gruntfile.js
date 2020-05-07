@@ -44,20 +44,14 @@ module.exports = function(grunt) {
           {
             expand: true,
             flatten: true,
-            src: 'node_modules/jquery/dist/jquery.min.js',
+            src: 'node_modules/jquery/dist/jquery.slim.min.js',
             dest: 'build/tmp/dep/'
-          },
-          {
-            expand: true,
-            flatten: true,
-            src: 'node_modules/popper.js/dist/umd/popper.min.js',
-            dest: 'build/tmp/dep/popper/'
           },
           {
             expand: true,
             cwd: 'node_modules/bootstrap/dist/',
             src: [
-              'js/bootstrap.js',
+              'js/bootstrap.bundle.min.js',
             ],
             dest: 'build/tmp/dep/bootstrap/'
           },

@@ -345,7 +345,7 @@ function setReactValue(input, value) {
 
 /**
  * Extract emails from list of elements
- * @param  {NodeList<HTMLElement>} elements - A list of jQuery elements to iteralte over
+ * @param  {NodeList<HTMLElement>} elements - A list of HTML elements to iteralte over
  * @param  {Function} extract - extract function
  * @return {Array}   The recipient objects in fhe form { email: 'jon@example.com' }
  */
