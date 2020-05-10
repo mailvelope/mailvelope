@@ -93,10 +93,14 @@ export default class WatchList extends React.Component {
     this.setState({editorSite: null, editorIndex: null, modified: false});
   }
 
+  static validFrame(input) {
+    return /^(\*\.)?((\w+(-+\w+)*\.)+(\w{2,})|localhost)(:\d{1,5})?$/.test(input);
+  }
+
   handleSaveWatchListEditor() {
     const errors = {};
     for (const [index, value] of this.state.editorSite.frames.entries()) {
-      if (!/^\*(\.\w+(-\w+)*)+(\.\w{2,})?$/.test(value.frame)) {
+      if (!WatchList.validFrame(value.frame)) {
         errors[`frame${index}`] = new Error();
       }
     }

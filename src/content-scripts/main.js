@@ -90,7 +90,12 @@ function detectHost() {
         continue;
       }
       const hostRegex = matchPattern2RegEx(frame.frame);
-      const validHost = hostRegex.test(window.location.hostname);
+      let hostID = window.location.hostname;
+      const port = window.location.port;
+      if (port && frame.frame.includes(':')) {
+        hostID = `${hostID}:${port}`;
+      }
+      const validHost = hostRegex.test(hostID);
       if (validHost) {
         // host = match pattern without *. prefix
         host = frame.frame.replace(/^\*\./, '');

@@ -89,7 +89,7 @@
   },
   "alert_invalid_domainmatchpattern_warning": {
     "description": "Alert header of category warning.",
-    "message": "Domain match pattern should begin with '*.'."
+    "message": "Domain match pattern is [*.]host.name.tld[:port]."
   },
   "alert_no_domainmatchpattern_warning": {
     "description": "Alert header of category warning.",

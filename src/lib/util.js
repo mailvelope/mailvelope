@@ -269,7 +269,7 @@ export function matchPattern2RegEx(matchPattern) {
 }
 
 export function matchPattern2RegExString(matchPattern) {
-  return matchPattern.replace(/\./g, '\\.').replace(/\*\\\./, '(\\w+(-\\w+)*\\.)*');
+  return matchPattern.replace(/\./g, '\\.').replace(/^\*\\\./, '(\\w+(-\\w+)*\\.)*');
 }
 
 export function mapError(error = {}) {
