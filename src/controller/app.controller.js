@@ -398,12 +398,12 @@ export default class AppController extends sub.SubController {
     return gmail.unauthorize(email);
   }
 
-  async authorizeGmail({email, scopes, gmailCtrlId}) {
+  async authorizeGmail({email, legacyGsuite, scopes, gmailCtrlId}) {
     const gmailCtrl = sub.getById(gmailCtrlId);
-    return gmailCtrl.onAuthorize({email, scopes});
+    return gmailCtrl.onAuthorize({email, legacyGsuite, scopes});
   }
 
   async checkLicense({email}) {
-    return gmail.checkLicense(email);
+    return gmail.checkLicense({email});
   }
 }

@@ -58,7 +58,7 @@ export default class AttachmentFrame extends ExtractFrame {
 
   onData() {
     const {msgId, clipped, armored, clearText, att} = this.currentProvider.integration.getMsgByControllerId(this.id);
-    this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId, encAttFileNames: att, armored, clearText, clipped, gmailCtrlId: this.currentProvider.integration.id});
+    this.port.emit('set-data', {userInfo: this.currentProvider.integration.getUserInfo(), msgId, encAttFileNames: att, armored, clearText, clipped, gmailCtrlId: this.currentProvider.integration.id});
   }
 
   clickHandler(ev) {

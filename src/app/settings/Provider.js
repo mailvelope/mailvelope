@@ -67,6 +67,7 @@ export default class Provider extends React.Component {
       gmail_integration: false,
       gmail_authorized_emails: [],
       email: '',
+      legacyGsuite: false,
       scopes: [],
       gmailCtrlId: '',
       watchList: null
@@ -95,14 +96,14 @@ export default class Provider extends React.Component {
     }
   }
 
-  openOAuthDialog({email, scopes, gmailCtrlId}) {
-    this.setState({showAuthModal: true, email, scopes, gmailCtrlId});
+  openOAuthDialog({email, legacyGsuite, scopes, gmailCtrlId}) {
+    this.setState({showAuthModal: true, email, legacyGsuite, scopes, gmailCtrlId});
   }
 
   async getAuthorization() {
     try {
-      const {email, scopes, gmailCtrlId} = this.state;
-      await port.send('authorize-gmail', {email, scopes, gmailCtrlId});
+      const {email, legacyGsuite, scopes, gmailCtrlId} = this.state;
+      await port.send('authorize-gmail', {email, legacyGsuite, scopes, gmailCtrlId});
       await this.loadAuthorisations();
     } catch (error) {
       this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
@@ -206,12 +207,14 @@ export default class Provider extends React.Component {
       >
         <>
           <p><span>{l10n.map.provider_gmail_dialog_description}</span> <a href="https://www.mailvelope.com/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></p>
-          <Alert type="warning" header={l10n.map.alert_header_notice}>
-            <Trans id={l10n.map.provider_gmail_dialog_gsuite_alert} components={[
-              <a key="0" href="https://gsuite.google.com/" target="_blank" rel="noopener noreferrer"></a>,
-              <a key="1" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
-            ]} />
-          </Alert>
+          {!this.state.legacyGsuite &&
+            <Alert type="warning" header={l10n.map.alert_header_notice}>
+              <Trans id={l10n.map.provider_gmail_dialog_gsuite_alert} components={[
+                <a key="0" href="https://gsuite.google.com/" target="_blank" rel="noopener noreferrer"></a>,
+                <a key="1" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
+              ]} />
+            </Alert>
+          }
           <p><Trans id={l10n.map.provider_gmail_dialog_auth_intro} components={[<strong key="0">{this.state.email}</strong>]} /></p>
           <ul>
             {this.state.scopes.map((entry, index) =>
@@ -367,11 +370,15 @@ export default class Provider extends React.Component {
                           {entry.mvelo_license_issued ? (
                             <td className="text-center"><span className="badge badge-pill badge-success">Mailvelope Business</span></td>
                           ) : (
-                            <td className="text-center"><span className="icon icon-marker text-danger" aria-hidden="true"></span></td>
+                            entry.legacyGsuite ? (
+                              <td className="text-center"><span className="badge badge-pill badge-success">G Suite legacy free</span></td>
+                            ) : (
+                              <td className="text-center"><span className="icon icon-marker text-danger" aria-hidden="true"></span></td>
+                            )
                           )}
                           <td className="text-center">
                             <div className="actions">
-                              <button type="button" onClick={() => this.checkLicense(entry.email)} className="btn btn-sm btn-secondary" disabled={entry.mvelo_license_issued ? true : ''}>{l10n.map.keygrid_refresh}</button>
+                              <button type="button" onClick={() => this.checkLicense(entry.email)} className="btn btn-sm btn-secondary" disabled={entry.mvelo_license_issued || entry.legacyGsuite ? true : ''}>{l10n.map.keygrid_refresh}</button>
                             </div>
                           </td>
                         </tr>
