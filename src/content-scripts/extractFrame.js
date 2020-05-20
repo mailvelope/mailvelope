@@ -147,7 +147,7 @@ export default class ExtractFrame {
     if (this.pgpElement.parentElement.tagName.toLowerCase() === 'pre' && !this.pgpElement.querySelectorAll('br').length) {
       msg = this.pgpRange.toString();
     } else {
-      const pgpSelection = window.getSelection();
+      const pgpSelection = this.pgpElement.ownerDocument.getSelection();
       // required in order to make Selection.addRange work
       pgpSelection.removeAllRanges();
       pgpSelection.addRange(this.pgpRange);
