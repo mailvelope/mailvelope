@@ -11,11 +11,10 @@ import {Link} from 'react-router-dom';
 import {port} from '../../app';
 
 l10n.register([
-  'key_import_hkp_search',
+  'change_link',
   'key_import_hkp_search_btn',
   'key_import_hkp_search_ph',
-  'key_import_hkp_server',
-  'change_link'
+  'key_import_hkp_server'
 ]);
 
 const KEY_ID_REGEX = /^([0-9a-f]{8}|[0-9a-f]{16}|[0-9a-f]{40})$/i;

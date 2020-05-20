@@ -17,24 +17,23 @@ import {normalizeArmored, getHash, str2ab, encodeUtf8} from '../../lib/util';
 import './Decrypt.scss';
 
 l10n.register([
+  'alert_header_error',
+  'decrypt_decrypted_files_label',
+  'decrypt_file_error_header',
   'decrypt_header',
-  'decrypt_success_header',
   'decrypt_header_success',
   'decrypt_text_area_label',
   'decrypt_text_decryption_btn',
+  'decrypt_text_error_header',
   'editor_encrypt_button',
   'editor_label_attachments',
-  'text_decrypt_button',
   'encrypt_download_all_button',
+  'file_read_error',
   'form_back',
-  'signer_unknown',
-  'alert_header_error',
-  'upload_quota_exceeded_warning',
   'notification_text_copy_to_clipboard',
-  'decrypt_file_error_header',
-  'encrypt_upload_file_error',
-  'decrypt_text_error_header',
-  'decrypt_decrypted_files_label'
+  'signer_unknown',
+  'text_decrypt_button',
+  'upload_quota_exceeded_warning'
 ]);
 
 export default class Decrypt extends React.Component {
@@ -126,7 +125,7 @@ export default class Decrypt extends React.Component {
     if (source === 'decrypt') {
       notification.header = filename ? l10n.get('decrypt_file_error_header', [filename]) : l10n.map.decrypt_text_error_header;
     } else {
-      notification.header = l10n.get('encrypt_upload_file_error', [filename]);
+      notification.header = l10n.get('file_read_error', [filename]);
     }
     if (error.code === 'NO_KEY_FOUND') {
       notification.hideDelay = 5500;

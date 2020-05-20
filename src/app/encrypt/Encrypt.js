@@ -21,30 +21,31 @@ import {getHash, str2ab} from '../../lib/util';
 import './Encrypt.scss';
 
 l10n.register([
-  'encrypt_header',
-  'encrypt_header_success',
+  'alert_header_error',
+  'change_link',
   'editor_encrypt_button',
-  'editor_label_recipient',
   'editor_label_attachments',
   'editor_label_message',
+  'editor_label_recipient',
+  'encrypt_change_signer_dialog_signer_label',
+  'encrypt_change_signer_dialog_title',
   'encrypt_download_all_button',
-  'alert_header_error',
-  'upload_quota_exceeded_warning',
+  'encrypt_encrypted_files_label',
+  'encrypt_encrypted_for_label',
+  'encrypt_file_error_header',
+  'encrypt_header',
+  'encrypt_header_success',
+  'encrypt_no_signer_info',
+  'encrypt_remove_signer_btn',
+  'encrypt_signed_as_label',
+  'encrypt_signer_info',
+  'encrypt_text_encryption_btn',
+  'encrypt_text_error_header',
   'encrypt_upload_file_warning_too_big',
+  'file_read_error',
   'form_back',
   'notification_text_copy_to_clipboard',
-  'encrypt_signer_info',
-  'encrypt_no_signer_info',
-  'change_link',
-  'encrypt_remove_signer_btn',
-  'encrypt_text_encryption_btn',
-  'encrypt_encrypted_for_label',
-  'encrypt_encrypted_files_label',
-  'encrypt_signed_as_label',
-  'encrypt_change_signer_dialog_title',
-  'encrypt_change_signer_dialog_signer_label',
-  'encrypt_file_error_header',
-  'encrypt_text_error_header'
+  'upload_quota_exceeded_warning'
 ]);
 
 export default class Encrypt extends React.Component {
@@ -123,7 +124,7 @@ export default class Encrypt extends React.Component {
     if (source === 'encrypt') {
       notification.header = filename ? l10n.get('encrypt_file_error_header', [filename]) : l10n.map.encrypt_text_error_header;
     } else {
-      notification.header = l10n.get('encrypt_upload_file_error', [filename]);
+      notification.header = l10n.get('file_read_error', [filename]);
     }
     this.setState(prevState => ({notifications: [...prevState.notifications, notification]}));
   }
