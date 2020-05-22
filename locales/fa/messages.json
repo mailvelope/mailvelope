@@ -24,7 +24,7 @@
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "File encryption",
+        "message": "رمزنگاری فایل",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
@@ -32,7 +32,7 @@
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "Manage public and private keys.",
+        "message": "مدیریت کلید‌های خصوصی و عمومی",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
@@ -44,7 +44,7 @@
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Reload Mailvelope",
+        "message": "بارگذاری مجدد Mailvelope",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
@@ -64,7 +64,7 @@
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Let's start!",
+        "message": "شروع کنیم!",
         "description": "Start button label"
     },
     "alert_header_error": {
@@ -72,11 +72,11 @@
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "Important!",
+        "message": "مهم!",
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Please note:",
+        "message": "لطفاً توجه داشته باشید:",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
@@ -96,7 +96,7 @@
         "description": "Alert header of category warning."
     },
     "auth_domain_api_label": {
-        "message": "Allow API",
+        "message": "اجازه به API",
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
@@ -140,15 +140,15 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_cleartext_warning": {
-        "message": "The following text was not encrypted.",
+        "message": "متن آمده رمزگذاری نشده بود.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Decrypted files",
+        "message": "فایل های رمزگشایی شده",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "Signed",
+        "message": "امضا شده",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
@@ -156,7 +156,7 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Signature unknown",
+        "message": "امضا ناشناخته",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
@@ -164,7 +164,7 @@
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Key not found.",
+        "message": "کلید یافت نشد.",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
@@ -172,15 +172,15 @@
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Click to decrypt",
+        "message": "برای رمزگشایی کلیک کنید",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "Decrypt data",
+        "message": "رمزگشایی داده",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "Decryption successful",
+        "message": "رمزگشایی موفق بود",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
@@ -188,27 +188,27 @@
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Open in Mailvelope viewer",
+        "message": "باز کردن در نمایش‌گر Mailvelope",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "Show message",
+        "message": "نمایش پیام",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Sender",
+        "message": "ارسال کننده",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "Text to decrypt",
+        "message": "متن برای رمزگشایی",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Do you also want to decrypt a text?",
+        "message": "آیا می خواهید متن را هم رمزگشایی کنید؟",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Decryption of the text is not possible.",
+        "message": "رمزگشایی متن ممکن نمی باشد.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
@@ -244,8 +244,20 @@
         "description": ""
     },
     "editor_header": {
-        "message": "Compose Secure Email",
+        "message": "نوشتن ایمیل امن",
         "description": "Header of editor popup."
+    },
+    "editor_key_auto_sign": {
+        "message": "Would you like to sign all your emails?",
+        "description": "Label for default private key option."
+    },
+    "editor_key_auto_sign_link": {
+        "message": "Change settings here",
+        "description": "Test for auto sign link."
+    },
+    "editor_key_no_sign_option": {
+        "message": "Not signed",
+        "description": "Label for not sign option in sign key select."
     },
     "editor_key_not_found": {
         "message": "کلید یافت نشد!",
@@ -284,11 +296,11 @@
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "ایمیل نمی تواند به صورت دیجیتالی امضا شود\n",
+        "message": "ایمیل نمی تواند به صورت دیجیتالی امضا شود",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "حذف کردن",
+        "message": "حذف ",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
@@ -308,11 +320,11 @@
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "Select signature",
+        "message": "انتخاب امضا",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "Change signature",
+        "message": "تغییر امضا",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
@@ -320,15 +332,15 @@
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "Download all",
+        "message": "دریافت همه",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "Encrypted files",
+        "message": "فایل های رمزگذاری شده",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Encrypted for",
+        "message": "رمزگذاری شده برای",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
@@ -336,19 +348,19 @@
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Encryption of file $1 is not possible.",
+        "message": "رمزگذاری فایل $1 ممکن نیست.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Write secure email",
+        "message": "نوشتن ایمیل امن",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "Encrypt data",
+        "message": "رمزگذاری داده",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "Encryption successful",
+        "message": "رمزگذاری موفق بود",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
@@ -356,11 +368,11 @@
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "Encrypted data is not signed",
+        "message": "داده رمزگذاری شده امضا نشده است",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "Remove signature",
+        "message": "حذف امضا",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
@@ -368,7 +380,7 @@
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "Encrypted data is signed with your key ($1)",
+        "message": "داده رمزگذاری شده با کلید شما امضا شده است ($1)",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
@@ -376,7 +388,7 @@
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Encryption of the text is not possible.",
+        "message": "رمزگذاری متن ممکن نیست.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
@@ -392,7 +404,7 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Personalize now",
+        "message": "شخصی سازی همین الان",
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
@@ -400,11 +412,11 @@
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "Signature is invalid",
+        "message": "امضا نامعتبر است",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "File not signed",
+        "message": "فایل امضا نشده است",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
@@ -412,7 +424,7 @@
         "description": ""
     },
     "file_signed": {
-        "message": "File signed by $1",
+        "message": "فایل توسط $1 امضا شده است",
         "description": "Text of signer field of file element."
     },
     "form_back": {
@@ -512,16 +524,8 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Would you like to sign all your emails?",
+        "message": "Sign all outgoing messages.",
         "description": "Label for default private key option."
-    },
-    "general_default_key_auto_sign_link": {
-        "message": "Change settings here",
-        "description": "Test for auto sign link."
-    },
-    "general_default_key_no_sign_option": {
-        "message": "Not signed",
-        "description": "Label for not sign option in sign key select."
     },
     "general_gnupg_check_availability": {
         "message": "دادن اجازه به ما برای بررسی در دسترس بودن",
@@ -777,10 +781,6 @@
     },
     "key_import_hkp_search_ph": {
         "message": "توسط نام، آدرس ایمیل، یا آیدی کلید",
-        "description": ""
-    },
-    "key_import_hkp_search_public": {
-        "message": "جستجو برای کلید های عمومی روی سرور کلید.",
         "description": ""
     },
     "key_import_hkp_server": {
@@ -1459,6 +1459,18 @@
         "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
+    "provider_gmail_licensing_dialog_business_btn_info": {
+        "message": "Communicating securely with organizations worldwide",
+        "description": "Info text on Business button "
+    },
+    "provider_gmail_licensing_dialog_business_btn_price_info": {
+        "message": "per user/month",
+        "description": "Info text for price label of Business button"
+    },
+    "provider_gmail_licensing_dialog_deactivate_btn": {
+        "message": "Continue without Gmail API",
+        "description": "Gmail API deactivate button in licensing dialog"
+    },
     "provider_gmail_licensing_dialog_para_1": {
         "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
@@ -1471,21 +1483,9 @@
         "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
-    "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Communicating securely with organizations worldwide",
-        "description": "Info text on Business button "
-    },
-    "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "per user/month",
-        "description": "Info text for price label of Business button"
-    },
     "provider_gmail_licensing_dialog_test_btn": {
         "message": "Test Gmail API for free",
         "description": "Gmail API test button in licensing dialog"
-    },
-    "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Continue without Gmail API",
-        "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
         "message": "Mailvelope Business license required",

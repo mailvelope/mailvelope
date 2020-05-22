@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v4.3.2
+-------
+__May 22, 2020__
+
+  * Free access to Gmail-API for G Suite legacy (Google Apps) accounts
+  * Support port numbers in match patterns of authorized domain list
+  * Scan host page for PGP messages inside dynamically created iframes
+
 v4.3.1
 -------
 __Apr 7, 2020__
