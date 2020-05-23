@@ -6,6 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {MAIN_KEYRING_ID, APP_TOP_FRAME_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
+import {parseViewName} from '../lib/util';
 import {getSecurityBackground} from '../modules/prefs';
 
 export class SubController extends EventHandler {
@@ -129,14 +130,6 @@ function verifyCreatePermission(type, port) {
 }
 
 const controllers = new Map();
-
-export function parseViewName(viewName) {
-  const pair = viewName.split('-');
-  if (pair.length !== 2) {
-    throw new Error('Invalid view name.');
-  }
-  return {type: pair[0], id: pair[1]};
-}
 
 function verifyConnectPermission(type, sender) {
   if (type === sender.type) {

@@ -27,20 +27,4 @@ describe('Sub controller unit tests', () => {
       ctrl.emit('ping', {data: 'pong', to: 'foo-1'});
     });
   });
-
-  describe('Parse view name', () => {
-    it('Split at -', () => {
-      const {type, id} = sub.parseViewName('app-123');
-      expect(type).to.equal('app');
-      expect(id).to.equal('123');
-    });
-
-    it('Separator - required', () => {
-      expect(sub.parseViewName.bind(null, 'app')).to.throw('Invalid view name.');
-    });
-
-    it('Only one - separator allowed', () => {
-      expect(sub.parseViewName.bind(null, 'app-1-2')).to.throw('Invalid view name.');
-    });
-  });
 });

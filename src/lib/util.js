@@ -3,9 +3,9 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {SECURE_COLORS} from '../lib/constants.js';
+import {SECURE_COLORS} from './constants.js';
 import {securityColors} from '../res/common.json';
-import parseSVG from '../lib/svg-file-parser.js';
+import parseSVG from './svg-file-parser.js';
 
 export class MvError extends Error {
   constructor(msg, code = 'INTERNAL_ERROR') {
@@ -394,4 +394,12 @@ export function isWebEx() {
 
 export function isCRX() {
   return typeof browser === 'undefined' && typeof chrome !== 'undefined';
+}
+
+export function parseViewName(viewName) {
+  const pair = viewName.split('-');
+  if (pair.length !== 2) {
+    throw new Error('Invalid view name.');
+  }
+  return {type: pair[0], id: pair[1]};
 }

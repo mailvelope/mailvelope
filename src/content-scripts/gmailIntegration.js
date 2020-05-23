@@ -3,13 +3,12 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 import EventHandler from '../lib/EventHandler';
-import {getHash, parseHTML} from '../lib/util';
+import {getHash, parseHTML, parseViewName} from '../lib/util';
 import {FRAME_STATUS, FRAME_ATTACHED} from '../lib/constants';
 import * as l10n from '../lib/l10n';
 import gmailIntegrationCsss from './gmailIntegration.css';
 import {isAttached} from './main';
 import AttachmentFrame from './attachmentFrame';
-import {parseViewName} from '../controller/sub.controller';
 
 l10n.register([
   'encrypt_frame_btn_label',

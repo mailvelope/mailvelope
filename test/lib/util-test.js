@@ -1,5 +1,5 @@
 import {expect} from 'test';
-import {deDup, checkEmail} from 'lib/util';
+import {deDup, checkEmail, parseViewName} from 'lib/util';
 
 describe('lib/util unit tests', () => {
   describe('deDup', () => {
@@ -35,6 +35,22 @@ describe('lib/util unit tests', () => {
     });
     it('should be true fo valid email address', () => {
       expect(checkEmail('foo@bar.co')).to.be.true;
+    });
+  });
+
+  describe('Parse view name', () => {
+    it('Split at -', () => {
+      const {type, id} = parseViewName('app-123');
+      expect(type).to.equal('app');
+      expect(id).to.equal('123');
+    });
+
+    it('Separator - required', () => {
+      expect(parseViewName.bind(null, 'app')).to.throw('Invalid view name.');
+    });
+
+    it('Only one - separator allowed', () => {
+      expect(parseViewName.bind(null, 'app-1-2')).to.throw('Invalid view name.');
     });
   });
 });
