@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, DYN_IFRAME, PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY} from '../lib/constants';
+import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY} from '../lib/constants';
 import {getHash, matchPattern2RegEx, isVisible, firstParent} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 
@@ -169,52 +169,66 @@ function scanDOM() {
 }
 
 /**
- * find text nodes in DOM that match certain pattern
- * @return [Range]
+ * Check the nodes text content for PGP_HEADER and PGP_FOOTER
+ * @return NodeFilter.FILTER_ACCEPT|NodeFilter.FILTER_REJECT
+ */
+function acceptNode(node) {
+  if (PGP_HEADER.test(node.textContent) || PGP_FOOTER.test(node.textContent)) {
+    return NodeFilter.FILTER_ACCEPT;
+  }
+  return NodeFilter.FILTER_REJECT;
+}
+
+/**
+ * Find text nodes in DOM that contain PGP messages
+ * @return {Array.<Range>} - Array of Range objects containing the found PGP messages
  */
 function findPGPRanges() {
-  const treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode(node) {
-      if (PGP_HEADER.test(node.textContent) || PGP_FOOTER.test(node.textContent)) {
-        return NodeFilter.FILTER_ACCEPT;
-      }
-      return NodeFilter.FILTER_REJECT;
-    }
-  }, false);
+  const walkers = [];
+  walkers.push(document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {acceptNode}, false));
+  // check iframes for PGP content
+  let iframes = Array.from(document.getElementsByTagName('iframe')).filter(frame => frame.contentDocument && frame.contentDocument.body && frame.contentDocument.body.innerHTML);
+  // only dynamically created iframes
+  iframes = iframes.filter(frame => !frame.getAttribute('src') || /^(about|javascript).*/.test(frame.src));
+  for (const frame of iframes) {
+    walkers.push(document.createTreeWalker(frame.contentDocument.body, NodeFilter.SHOW_TEXT, {acceptNode}, false));
+  }
   const rangeList = [];
-  let currPGPBegin;
-  while (treeWalker.nextNode()) {
-    const node = treeWalker.currentNode;
-    // check if element is editable
-    const isEditable = firstParent(node, '[contenteditable], textarea');
-    if (isEditable ||
-      treeWalker.currentNode.parentNode.tagName.toLowerCase() === 'script' ||
-      treeWalker.currentNode.ownerDocument.designMode === 'on') {
-      continue;
-    }
-    const isPGPBegin = PGP_HEADER.exec(treeWalker.currentNode.textContent);
-    if (isPGPBegin) {
-      currPGPBegin = treeWalker.currentNode;
-      const isPGPEnd = PGP_FOOTER.exec(treeWalker.currentNode.textContent);
-      if (!isPGPEnd || isPGPBegin.index > isPGPEnd.index) {
+  for (const treeWalker of walkers) {
+    let currPGPBegin = null;
+    while (treeWalker.nextNode()) {
+      const node = treeWalker.currentNode;
+      // check if element is editable
+      const isEditable = firstParent(node, '[contenteditable], textarea');
+      if (isEditable ||
+        treeWalker.currentNode.parentNode.tagName.toLowerCase() === 'script' ||
+        treeWalker.currentNode.ownerDocument.designMode === 'on') {
         continue;
       }
-    }
-    if (currPGPBegin && getMessageType(currPGPBegin.textContent) === getMessageType(treeWalker.currentNode.textContent)) {
-      const pgpEnd = treeWalker.currentNode;
-      const range = pgpEnd.ownerDocument.createRange();
-      range.setStartBefore(currPGPBegin);
-      range.setEndAfter(pgpEnd);
-      const commonParentContainer = range.commonAncestorContainer;
-      let depth = 0;
-      let currParent = pgpEnd.parentElement;
-      while (currParent.parentElement && depth < 3) {
-        if (currParent === commonParentContainer) {
-          rangeList.push(range);
-          break;
+      const isPGPBegin = PGP_HEADER.exec(treeWalker.currentNode.textContent);
+      if (isPGPBegin) {
+        currPGPBegin = treeWalker.currentNode;
+        const isPGPEnd = PGP_FOOTER.exec(treeWalker.currentNode.textContent);
+        if (!isPGPEnd || isPGPBegin.index > isPGPEnd.index) {
+          continue;
         }
-        currParent = currParent.parentElement;
-        depth ++;
+      }
+      if (currPGPBegin && getMessageType(currPGPBegin.textContent) === getMessageType(treeWalker.currentNode.textContent)) {
+        const pgpEnd = treeWalker.currentNode;
+        const range = pgpEnd.ownerDocument.createRange();
+        range.setStartBefore(currPGPBegin);
+        range.setEndAfter(pgpEnd);
+        const commonParentContainer = range.commonAncestorContainer;
+        let depth = 0;
+        let currParent = pgpEnd.parentElement;
+        while (currParent.parentElement && depth < 3) {
+          if (currParent === commonParentContainer) {
+            rangeList.push(range);
+            break;
+          }
+          currParent = currParent.parentElement;
+          depth ++;
+        }
       }
     }
   }
@@ -238,9 +252,6 @@ function findEditable() {
   // find editable elements inside dynamic iframe (content script is not injected here)
   for (const dynFrame of dynFrames) {
     const content = dynFrame.contentDocument;
-    content.querySelector('body')
-    // mark body as 'inside iframe'
-    .dataset[DYN_IFRAME] = true;
     // document of iframe in design mode or contenteditable set on the body
     if (content.designMode === 'on' || content.querySelector('body[contenteditable="true"]')) {
       // add iframe to editable elements

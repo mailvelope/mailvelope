@@ -17,7 +17,6 @@ export default class GmailController extends sub.SubController {
     this.editorControl = null;
     this.keyringId = getPreferredKeyringId();
     this.authorizationRequest = null;
-    this.settingsTab = null;
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
     this.on('secure-button', this.onSecureBtn);
@@ -47,7 +46,7 @@ export default class GmailController extends sub.SubController {
         to: options.recipientsTo.map(email => ({email})),
         cc: options.recipientsCc.map(email => ({email}))
       }),
-      userEmail: options.userEmail,
+      userInfo: options.userInfo,
       attachments: options.attachments,
       keepAttachments: options.keepAttachments
     });
@@ -64,7 +63,7 @@ export default class GmailController extends sub.SubController {
       const {armored, encFiles, subject, to, cc} = await this.openEditor(options);
       // send email via GMAIL api
       this.editorControl.ports.editor.emit('send-mail-in-progress');
-      const userEmail = options.userEmail;
+      const userEmail = options.userInfo.email;
       const toFormatted = to.map(({name, email}) => `${name} <${email}>`);
       const ccFormatted = cc.map(({name, email}) => `${name} <${email}>`);
       const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: toFormatted, cc: ccFormatted});
@@ -110,9 +109,10 @@ export default class GmailController extends sub.SubController {
     }
   }
 
-  async onSecureBtn({type, msgId, all, userEmail}) {
+  async onSecureBtn({type, msgId, all, userInfo}) {
     try {
-      const accessToken = await this.getAccessToken({email: userEmail});
+      const accessToken = await this.getAccessToken(userInfo);
+      const userEmail = userInfo.email;
       const {threadId, internalDate, payload} = await gmail.getMessage({msgId, email: userEmail, accessToken});
       const messageText = await gmail.extractMailBody({payload, userEmail, msgId, accessToken});
       let subject = gmail.extractMailHeader(payload, 'Subject');
@@ -145,7 +145,7 @@ export default class GmailController extends sub.SubController {
       }
 
       const options = {
-        userEmail,
+        userInfo,
         subject,
         recipientsTo,
         recipientsCc,
@@ -170,26 +170,24 @@ export default class GmailController extends sub.SubController {
    * @param  {Function} afterAuth - called after successful authorization request
    * @return {String}
    */
-  async getAccessToken({email, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND], beforeAuth, afterAuth} = {}) {
-    const accessToken = await this.checkAuthorization(email, scopes);
+  async getAccessToken({email, legacyGsuite, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND], beforeAuth, afterAuth} = {}) {
+    const accessToken = await this.checkAuthorization({email, scopes});
     if (accessToken) {
-      await this.checkLicense(email);
+      await this.checkLicense({email, legacyGsuite});
       return accessToken;
     }
     if (beforeAuth) {
       beforeAuth();
     }
-    this.openAuthorizeDialog({email, scopes});
+    this.openAuthorizeDialog({email, legacyGsuite, scopes});
     return new Promise((resolve, reject) => this.authorizationRequest = {resolve, reject, afterAuth});
   }
 
-  async onAuthorize({email, scopes}) {
+  async onAuthorize({email, legacyGsuite, scopes}) {
     try {
-      const accessToken = await gmail.authorize(email, scopes);
-      await this.checkLicense(email);
+      const accessToken = await gmail.authorize(email, legacyGsuite, scopes);
+      await this.checkLicense({email, legacyGsuite});
       this.activateComponent();
-      mvelo.tabs.close(this.settingsTab);
-      this.settingsTab = null;
       if (this.authorizationRequest.afterAuth) {
         this.authorizationRequest.afterAuth();
       }
@@ -200,28 +198,28 @@ export default class GmailController extends sub.SubController {
     }
   }
 
-  checkAuthorization(email, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]) {
-    return gmail.getAccessToken(email, scopes);
+  checkAuthorization({email, scopes = [gmail.GMAIL_SCOPE_READONLY, gmail.GMAIL_SCOPE_SEND]}) {
+    return gmail.getAccessToken({email, scopes});
   }
 
-  async checkLicense(email) {
+  async checkLicense(userInfo) {
     try {
-      await gmail.checkLicense(email);
+      await gmail.checkLicense(userInfo);
     } catch (e) {
       const slotId = getHash();
-      setAppDataSlot(slotId, {email});
-      this.settingsTab = await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/license`);
+      setAppDataSlot(slotId, {email: userInfo.email});
+      await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/license`);
       throw e;
     }
   }
 
-  async openAuthorizeDialog({email, scopes}) {
+  async openAuthorizeDialog({email, legacyGsuite, scopes}) {
     const activeTab = await mvelo.tabs.getActive();
     if (activeTab) {
       this.tabId = activeTab.id;
     }
     const slotId = getHash();
-    setAppDataSlot(slotId, {email, scopes, gmailCtrlId: this.id});
-    this.settingsTab = await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
+    setAppDataSlot(slotId, {email, legacyGsuite, scopes, gmailCtrlId: this.id});
+    await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
   }
 }

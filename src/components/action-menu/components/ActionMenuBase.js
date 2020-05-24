@@ -8,18 +8,17 @@ import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 
 l10n.register([
-  'action_menu_dashboard_label',
+  'action_menu_activate_current_tab',
   'action_menu_dashboard_description',
-  'action_menu_keyring_label',
-  'action_menu_keyring_description',
-  'action_menu_file_encryption_label',
+  'action_menu_dashboard_label',
   'action_menu_file_encryption_description',
-  'action_menu_review_security_logs_label',
-  'action_menu_review_security_logs_description',
-  'action_menu_advanced_options',
+  'action_menu_file_encryption_label',
+  'action_menu_keyring_description',
+  'action_menu_keyring_label',
   'action_menu_primary_menu_aria_label',
   'action_menu_reload_extension_scripts',
-  'action_menu_activate_current_tab'
+  'action_menu_review_security_logs_description',
+  'action_menu_review_security_logs_label'
 ]);
 
 export default function ActionMenuBase(props) {

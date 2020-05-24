@@ -5,9 +5,6 @@ import EventHandler from 'lib/EventHandler';
 import ActionMenuBase from 'components/action-menu/components/ActionMenuBase';
 import ActionMenuWrapper from 'components/action-menu/components/ActionMenuWrapper';
 
-// disable all jquery animations
-$.fx.off = true;
-
 describe('Action Menu tests', () => {
   const sandbox = sinon.createSandbox();
   let testElem;

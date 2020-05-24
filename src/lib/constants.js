@@ -8,8 +8,6 @@ export const FRAME_STATUS = 'mveloFrame';
 // frame status
 export const FRAME_ATTACHED = 'att';
 export const FRAME_DETACHED = 'det';
-// marker for dynamically created iframes
-export const DYN_IFRAME = 'mveloDyn';
 // armor header type
 export const PGP_MESSAGE = 'msg';
 export const PGP_SIGNATURE = 'sig';

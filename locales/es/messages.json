@@ -247,6 +247,18 @@
         "message": "Componer correo electrónico seguro",
         "description": "Header of editor popup."
     },
+    "editor_key_auto_sign": {
+        "message": "¿Desearías firmar todos tus correos electrónicos?",
+        "description": "Label for default private key option."
+    },
+    "editor_key_auto_sign_link": {
+        "message": "Cambiar configuración aquí",
+        "description": "Test for auto sign link."
+    },
+    "editor_key_no_sign_option": {
+        "message": "No firmado",
+        "description": "Label for not sign option in sign key select."
+    },
     "editor_key_not_found": {
         "message": "¡No se ha encontrado la llave!",
         "description": "Warning for when a recipient key was not found."
@@ -512,16 +524,8 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "¿Desearías firmar todos tus correos electrónicos?",
+        "message": "Sign all outgoing messages.",
         "description": "Label for default private key option."
-    },
-    "general_default_key_auto_sign_link": {
-        "message": "Cambiar configuración aquí",
-        "description": "Test for auto sign link."
-    },
-    "general_default_key_no_sign_option": {
-        "message": "No firmado",
-        "description": "Label for not sign option in sign key select."
     },
     "general_gnupg_check_availability": {
         "message": "Permítenos comprobar la disponibilidad",
@@ -777,10 +781,6 @@
     },
     "key_import_hkp_search_ph": {
         "message": "Por nombre, dirección de correo electrónico, o identificación de llave",
-        "description": ""
-    },
-    "key_import_hkp_search_public": {
-        "message": "Buscar llaves públicas en el servidor de llaves",
         "description": ""
     },
     "key_import_hkp_server": {
@@ -1459,6 +1459,18 @@
         "message": "Gmail no está autorizado con el patrón de búsqueda <0></0>. Por favor, revisa las configuraciones en <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
+    "provider_gmail_licensing_dialog_business_btn_info": {
+        "message": "Communicating securely with organizations worldwide",
+        "description": "Info text on Business button "
+    },
+    "provider_gmail_licensing_dialog_business_btn_price_info": {
+        "message": "per user/month",
+        "description": "Info text for price label of Business button"
+    },
+    "provider_gmail_licensing_dialog_deactivate_btn": {
+        "message": "Continue without Gmail API",
+        "description": "Gmail API deactivate button in licensing dialog"
+    },
     "provider_gmail_licensing_dialog_para_1": {
         "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
@@ -1471,21 +1483,9 @@
         "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
-    "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Communicating securely with organizations worldwide",
-        "description": "Info text on Business button "
-    },
-    "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "per user/month",
-        "description": "Info text for price label of Business button"
-    },
     "provider_gmail_licensing_dialog_test_btn": {
         "message": "Test Gmail API for free",
         "description": "Gmail API test button in licensing dialog"
-    },
-    "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Continue without Gmail API",
-        "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
         "message": "Mailvelope Business license required",

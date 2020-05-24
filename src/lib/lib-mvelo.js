@@ -88,7 +88,10 @@ mvelo.tabs.attach = function(tabId, options) {
 
 mvelo.tabs.query = function(url) {
   return browser.tabs.query({url, currentWindow: true})
-  .catch(() => []);
+  .catch(error => {
+    console.log('Error calling tabs.query()', error);
+    return [];
+  });
 };
 
 mvelo.tabs.create = function(url, complete) {

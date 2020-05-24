@@ -25,7 +25,7 @@ export default class GmailIntegration {
     this.editorBtnRoot = null;
     this.editorBtn = null;
     this.selectedMsgs = null;
-    this.userEmail = null;
+    this.userInfo = null;
     this.updateElements = this.updateElements.bind(this);
   }
 
@@ -45,17 +45,19 @@ export default class GmailIntegration {
     this.port.on('update-message-data', this.onUpdateMessageData);
   }
 
-  getGmailUser() {
-    if (this.userEmail) {
-      return this.userEmail;
+  getUserInfo() {
+    if (this.userInfo) {
+      return this.userInfo;
     }
     const titleElem = document.querySelector('title');
     const match = titleElem.innerText.match(/([a-zA-Z0-9._-]+@([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+)/gi);
     if (!match) {
-      return;
+      throw new Error('Gmail User Id not found.');
     }
-    this.userEmail = match[0];
-    return this.userEmail;
+    this.userInfo = {};
+    this.userInfo.email = match[0];
+    this.userInfo.legacyGsuite = Array.from(document.querySelectorAll('.md.mj span')).some(element => /^15[\sG]/.test(element.textContent));
+    return this.userInfo;
   }
 
   getMsgId(msgElem) {
@@ -315,10 +317,8 @@ export default class GmailIntegration {
   }
 
   async updateElements() {
-    if (this.getGmailUser()) {
-      this.attachEditorBtn();
-      await this.scanMessages();
-    }
+    this.attachEditorBtn();
+    await this.scanMessages();
   }
 
   onCloseFrame(controllerId) {
@@ -374,12 +374,12 @@ export default class GmailIntegration {
   }
 
   onEditorButton(ev) {
-    this.port.emit('open-editor', {userEmail: this.getGmailUser()});
+    this.port.emit('open-editor', {userInfo: this.getUserInfo()});
     ev.stopPropagation();
   }
 
   onSecureButton(ev, type, msgId, all = false) {
-    this.port.emit('secure-button', {type, msgId, all, userEmail: this.getGmailUser()});
+    this.port.emit('secure-button', {type, msgId, all, userInfo: this.getUserInfo()});
     ev.stopPropagation();
   }
 }

@@ -79,7 +79,7 @@ export default class EditorController extends sub.SubController {
 
   async getAccessToken() {
     return this.gmailCtrl.getAccessToken({
-      email: this.options.userEmail,
+      ...this.options.userInfo,
       beforeAuth: () => this.beforeAuthorization(),
       afterAuth: () => this.afterAuthorization()
     });

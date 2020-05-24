@@ -107,7 +107,7 @@ export async function sendMessageMeta({email, message, threadId, accessToken}) {
   );
 }
 
-export async function getAccessToken(email, scopes = []) {
+export async function getAccessToken({email, scopes = []}) {
   scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   const storedTokens = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
   if (storedTokens && Object.keys(storedTokens).includes(email) && scopes.every(scope => storedTokens[email].scope.split(' ').includes(scope))) {
@@ -135,10 +135,13 @@ function validateLicense(storedData) {
   return Boolean(storedData.mvelo_license_issued) && (new Date(date.getUTCFullYear(), date.getUTCMonth()).getTime() === storedData.mvelo_license_issued);
 }
 
-export async function checkLicense(email) {
+export async function checkLicense({email, legacyGsuite}) {
   const storedAuthData = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
   const storedData = storedAuthData[email];
   if (!storedData.gsuite) {
+    return;
+  }
+  if (legacyGsuite && storedData.legacyGsuite) {
     return;
   }
   if (validateLicense(storedData)) {
@@ -150,9 +153,11 @@ export async function checkLicense(email) {
     await requestLicense(gsuite, gmail_account_id);
     valid = true;
   } catch (e) {
-    throw new MvError(`GSuite licensing error: ${e.message}`, 'GSUITE_LICENSING_ERROR');
+    if (!legacyGsuite) {
+      throw new MvError(`GSuite licensing error: ${e.message}`, 'GSUITE_LICENSING_ERROR');
+    }
   } finally {
-    await storeAuthData(email, buildLicenseData(valid));
+    await storeAuthData(email, {...buildLicenseData(valid), legacyGsuite});
   }
 }
 
@@ -180,7 +185,7 @@ async function requestLicense(domain, gmail_account_id) {
   }
 }
 
-export async function authorize(email, scopes = []) {
+export async function authorize(email, legacyGsuite, scopes = []) {
   scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   const authCode = await getAuthCode(email, scopes);
   if (!authCode) {
@@ -188,7 +193,7 @@ export async function authorize(email, scopes = []) {
   }
   const token = await getAuthTokens(authCode);
   const idInfo = validateId(token.id_token, email);
-  await storeAuthData(email, buildTokenData({...token, ...idInfo}));
+  await storeAuthData(email, buildTokenData({...token, ...idInfo, legacyGsuite}));
   return token.access_token;
 }
 
@@ -318,6 +323,9 @@ function buildTokenData(token) {
   if (token.hd) {
     data.gsuite = token.hd;
     data.gmail_account_id = token.sub;
+    if (token.legacyGsuite) {
+      data.legacyGsuite = token.legacyGsuite;
+    }
   }
   return data;
 }

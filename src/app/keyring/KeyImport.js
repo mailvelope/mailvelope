@@ -23,9 +23,10 @@ const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END
 const MAX_KEY_IMPORT_SIZE = 10000000;
 
 l10n.register([
+  'alert_header_error',
   'alert_header_success',
   'alert_header_warning',
-  'alert_header_error',
+  'file_read_error',
   'form_back',
   'form_confirm',
   'form_confirm',
@@ -41,7 +42,6 @@ l10n.register([
   'key_import_file_label',
   'key_import_from_text_btn',
   'key_import_from_text_label',
-  'key_import_hkp_search_btn',
   'key_import_hkp_search_btn',
   'key_import_invalid_text',
   'key_import_number_of_failed',
@@ -233,7 +233,7 @@ export default class KeyImport extends React.Component {
     if (source === 'import') {
       notification.header = filename ? l10n.get('decrypt_file_error_header', [filename]) : l10n.map.decrypt_text_error_header;
     } else {
-      notification.header = l10n.get('encrypt_upload_file_error', [filename]);
+      notification.header = l10n.get('file_read_error', [filename]);
     }
     if (error.code === 'NO_KEY_FOUND') {
       notification.hideDelay = 5500;

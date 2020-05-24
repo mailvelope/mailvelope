@@ -50,7 +50,7 @@ export default class DecryptFrame extends ExtractFrame {
       const integrationMsgData = this.currentProvider.integration.getMsgByControllerId(this.id);
       if (integrationMsgData) {
         const {msgId, att: encAttFileNames} = integrationMsgData;
-        this.port.emit('set-data', {userEmail: this.currentProvider.integration.getGmailUser(), msgId, encAttFileNames, armored, sender, gmailCtrlId: this.currentProvider.integration.id});
+        this.port.emit('set-data', {userInfo: this.currentProvider.integration.getUserInfo(), msgId, encAttFileNames, armored, sender, gmailCtrlId: this.currentProvider.integration.id});
         return;
       }
     }

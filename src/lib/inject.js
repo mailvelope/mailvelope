@@ -16,7 +16,12 @@ export async function initScriptInjection() {
   try {
     watchlistRegex = [];
     const filterURL = await getWatchListFilterURLs();
-    const matchPatterns = filterURL.map(({schemes, host}) => `${schemes.includes('http') ? '*' : 'https'}://${host}/*`);
+    const matchPatterns = filterURL.map(({schemes, host}) => {
+      const scheme = schemes.includes('http') ? '*' : 'https';
+      // filter out port numbers
+      host = host.includes(':') ? host.replace(/:\d{1,5}$/, '') : host;
+      return `${scheme}://${host}/*`;
+    });
     const originAndPathFilter = {url: filterURL.map(({schemes, host}) => {
       const originAndPathMatches = `^${schemes.includes('http') ? 'https?' : 'https'}:\/\/${matchPattern2RegExString(host)}/.*`;
       watchlistRegex.push(new RegExp(originAndPathMatches));

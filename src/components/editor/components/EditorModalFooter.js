@@ -11,15 +11,15 @@ import {Collapse} from 'reactstrap';
 import './EditorModalFooter.scss';
 
 l10n.register([
+  'editor_encrypt_button',
+  'editor_key_auto_sign',
+  'editor_key_auto_sign_link',
+  'editor_key_no_sign_option',
+  'editor_sign_button',
   'form_cancel',
   'form_submit',
-  'editor_sign_button',
-  'editor_encrypt_button',
   'options_home',
-  'sign_dialog_header',
-  'general_default_key_no_sign_option',
-  'general_default_key_auto_sign',
-  'general_default_key_auto_sign_link'
+  'sign_dialog_header'
 ]);
 
 export default class EditorModalFooter extends React.Component {
@@ -42,14 +42,14 @@ export default class EditorModalFooter extends React.Component {
               <label htmlFor="signingKey" className="col-sm-4 col-form-label">{l10n.map.sign_dialog_header}</label>
               <div className="col-sm-8">
                 <select id="signingKey" className="custom-select" value={this.props.signMsg ? this.props.signKey : 'nosign'} onChange={event => this.props.onChangeSignKey(event.target.value)}>
-                  <option value="nosign">{l10n.map.general_default_key_no_sign_option}</option>
+                  <option value="nosign">{l10n.map.editor_key_no_sign_option}</option>
                   {this.props.privKeys.map(key => <option value={key.fingerprint} key={key.fingerprint}>{`${key.userId} - ${key.keyId}`}</option>)}
                 </select>
               </div>
             </div>
             <div className="row">
               <div className="offset-sm-4 col-sm-8">
-                <span>{l10n.map.general_default_key_auto_sign}</span> <a role="button" href="#" onClick={this.props.onClickSignSetting}>{l10n.map.general_default_key_auto_sign_link}</a>
+                <span>{l10n.map.editor_key_auto_sign}</span> <a role="button" href="#" onClick={this.props.onClickSignSetting}>{l10n.map.editor_key_auto_sign_link}</a>
               </div>
             </div>
           </form>
