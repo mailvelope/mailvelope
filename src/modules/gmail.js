@@ -154,7 +154,7 @@ export async function checkLicense({email, legacyGsuite}) {
     valid = true;
   } catch (e) {
     if (!legacyGsuite) {
-      throw new MvError(`GSuite licensing error: ${e.message}`, 'GSUITE_LICENSING_ERROR');
+      throw new MvError(`Mailvelope Business license required to use this feature. ${e.message}`, 'GSUITE_LICENSING_ERROR');
     }
   } finally {
     await storeAuthData(email, {...buildLicenseData(valid), legacyGsuite});
