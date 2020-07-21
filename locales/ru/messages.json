@@ -524,7 +524,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all outgoing messages.",
+        "message": "Подписывать все исходящие сообщения.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
