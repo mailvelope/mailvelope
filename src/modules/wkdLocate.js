@@ -118,7 +118,8 @@ export async function buildWKDUrl(email) {
   const localPartBuffer = str2ab(localPart.toLowerCase());
   const digest = await crypto.subtle.digest('SHA-1', localPartBuffer);
   const localEncoded = openpgp.util.encodeZBase32(new Uint8Array(digest));
-  return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}`;
+  const localPartEncoded = encodeURIComponent(localPart);
+  return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}?l=${localPartEncoded}`;
 }
 
 /** Convert a promise into a promise with a timeout.
