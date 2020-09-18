@@ -148,7 +148,7 @@ export default class Decrypt extends React.Component {
       if (!this.state.keys.length) {
         await this.initKeys();
       }
-      const signingKey = this.state.keys.find(key => key.fingerprint === signature.fingerprint);
+      const signingKey = this.state.keys.find(key => key.fingerprint === signature.keyDetails.fingerprint);
       return {label: `${l10n.get('file_signed', signingKey.name)} (${l10n.map.keygrid_keyid} ${signingKey.keyId.toUpperCase()})`, type: 'success'};
     } else  {
       return {label: l10n.map.file_invalid_signed, type: 'danger'};
