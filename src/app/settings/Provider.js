@@ -17,7 +17,7 @@ import './Provider.scss';
 
 const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
-const MV_PRODUCT_PAGE_URL = 'https://www.mailvelope.com/products';
+const MV_PRODUCT_PAGE_URL = 'https://www.mailvelope.com/products?referrer=mailvelope-extension';
 
 l10n.register([
   'alert_header_error',
@@ -82,12 +82,20 @@ export default class Provider extends React.Component {
       const data = await getAppDataSlot();
       this.openOAuthDialog(data);
     } else if (/\/license$/.test(this.props.location.pathname)) {
-      const {email} = await getAppDataSlot();
+      let {email} = await getAppDataSlot() || {};
+      if (email) {
+        sessionStorage.setItem('license-email', email);
+      } else {
+        email = sessionStorage.getItem('license-email');
+      }
       this.checkLicense(email);
     }
   }
 
   async checkLicense(email) {
+    if (!email) {
+      return;
+    }
     try {
       await port.send('check-license', {email});
       await this.loadAuthorisations();
@@ -168,10 +176,7 @@ export default class Provider extends React.Component {
 
   handleTestAPI() {
     this.setState({showLicenseModal: false});
-    const winRef = window.open(`${MV_PRODUCT_PAGE_URL}?plan=mailvelope-business`, '_blank', 'noreferrer');
-    if (winRef) {
-      winRef.focus();
-    }
+    window.open(`${MV_PRODUCT_PAGE_URL}&plan=mailvelope-business`, '_blank', 'noreferrer');
   }
 
   handleGmailSwitch({target}) {
