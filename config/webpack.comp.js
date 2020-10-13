@@ -62,7 +62,7 @@ module.exports.prod = [
   prod('key-backup', 'backupKeyRoot'),
   prod('restore-backup', 'backupRestoreRoot'),
   prod('recovery-sheet', 'recoverySheetRoot'),
-  dev('auth-domain', 'authDomainRoot')
+  prod('auth-domain', 'authDomainRoot')
 ];
 
 module.exports.dev = module.exports;

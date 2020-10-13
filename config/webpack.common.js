@@ -35,7 +35,8 @@ function css(loader = 'style-loader') {
       {
         loader: 'css-loader',
         options: {
-          url: false
+          url: false,
+          esModule: loader === 'to-string-loader' ? false : true
         }
       }]
     },
@@ -50,14 +51,6 @@ function scss(loader = 'style-loader', css = false) {
         loader,
       }, {
         loader: 'css-loader',
-      }, {
-        loader: 'postcss-loader',
-        options: {
-          plugins: () =>
-            [
-              require('autoprefixer')
-            ]
-        }
       }, {
         loader: 'sass-loader', // compiles Sass to CSS
         // Apply the JSON importer via sass-loader's options.

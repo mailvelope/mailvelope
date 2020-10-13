@@ -127,7 +127,6 @@ export default class EncryptedFormController extends sub.SubController {
         'data-action', 'data-recipient'
       ],
       SAFE_FOR_TEMPLATES: false,
-      SAFE_FOR_JQUERY: false,
       ALLOW_DATA_ATTR: false
     });
   }

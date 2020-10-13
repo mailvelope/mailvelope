@@ -21,8 +21,7 @@ exports.prod = {
   output,
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      publicPath: './src'
+      filename: '[name].css'
     })
   ],
   module: {

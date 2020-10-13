@@ -171,8 +171,7 @@ dompurify.addHook('afterSanitizeAttributes', node => {
 
 mvelo.util.sanitizeHTML = function(html) {
   const saniHtml = dompurify.sanitize(html);
-  // cast to String if DOMPurify returns TrustedHTML
-  return typeof saniHtml !== 'string' ? String(saniHtml) : saniHtml;
+  return saniHtml;
 };
 
 mvelo.util.text2autoLinkHtml = function(text) {
