@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {parseHTML} from '../../../lib/util';
 
 export default class ContentSandbox extends React.PureComponent {
   constructor(props) {
@@ -21,7 +22,7 @@ export default class ContentSandbox extends React.PureComponent {
   setContent(value) {
     const sandboxDoc = this.sandbox.contentDocument;
     const content = sandboxDoc.querySelector('#content');
-    content.innerHTML = value;
+    content.append(...parseHTML(value));
   }
 
   render() {

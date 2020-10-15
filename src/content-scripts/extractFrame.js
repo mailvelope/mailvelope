@@ -60,7 +60,7 @@ export default class ExtractFrame {
     this.eFrame = document.createElement('div');
     this.eFrame.id = `eFrame-${this.id}`;
     const closeButton = '<a class="m-frame-close">×</a>';
-    this.eFrame.append(parseHTML(closeButton));
+    this.eFrame.append(...parseHTML(closeButton));
     this.eFrame.classList.add('m-extract-frame', 'm-cursor');
     this.pgpElement.append(this.eFrame);
     if (this.pgpRange.getBoundingClientRect().height > LARGE_FRAME) {

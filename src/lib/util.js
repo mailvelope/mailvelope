@@ -92,7 +92,7 @@ function decodeHTML(html) {
 
 export function parseHTML(html) {
   const htmlDoc = new DOMParser().parseFromString(html, 'text/html');
-  return htmlDoc.body.firstChild;
+  return htmlDoc.body.childNodes;
 }
 
 function decodeQuotedPrint(armored) {
