@@ -23,7 +23,7 @@ export async function decrypt({armored, base64, format, selfSigned, keyring, enc
     base64: Boolean(base64),
     expect: format === 'binary' ? 'base64' : null
   });
-  signatures = mapSignatures(signatures);
+  signatures = mapSignatures(signatures, keyring);
   if (selfSigned) {
     const privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
     signatures = signatures.filter(sig => {
@@ -98,7 +98,7 @@ export async function verify({armored, plaintext, detachedSignature}) {
   return {data, signatures};
 }
 
-function mapSignatures({signatures} = {}) {
+function mapSignatures({signatures} = {}, keyring) {
   let sigs = [];
   if (!signatures) {
     return sigs;
@@ -127,6 +127,16 @@ function mapSignatures({signatures} = {}) {
     if (sig.fingerprint && sig.fingerprint.length === 16) {
       sig.keyId = sig.fingerprint;
       delete sig.fingerprint;
+      if (keyring && sig.valid !== null) {
+        try {
+          sig.fingerprint = keyring.getFprForKeyId(sig.keyId);
+        } catch (e) {
+          console.log('Error mapping keyId to fingerprint', e);
+          if (e.code === 'LONG_KEY_ID_COLLISION') {
+            sig.valid = false;
+          }
+        }
+      }
     }
     return sig;
   });

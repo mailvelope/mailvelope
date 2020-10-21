@@ -141,15 +141,16 @@ export default class Decrypt extends React.Component {
       return {label: l10n.map.file_not_signed, type: 'info'};
     }
     const signature = signatures[0];
+    const keyId = signature.keyId ? signature.keyId : signature.fingerprint.substring(signature.fingerprint.length - 16);
     if (signature.valid === null) {
-      return {label: `${l10n.get('file_signed', l10n.map.signer_unknown)} (${l10n.map.keygrid_keyid} ${signature.fingerprint.substring(signature.fingerprint.length - 16).toUpperCase()})`, type: 'warning'};
+      return {label: `${l10n.get('file_signed', l10n.map.signer_unknown)} (${l10n.map.keygrid_keyid} ${keyId.toUpperCase()})`, type: 'warning'};
     }
     if (signature.valid) {
       if (!this.state.keys.length) {
         await this.initKeys();
       }
-      const signingKey = this.state.keys.find(key => key.fingerprint === signature.fingerprint);
-      return {label: `${l10n.get('file_signed', signingKey.name)} (${l10n.map.keygrid_keyid} ${signingKey.keyId.toUpperCase()})`, type: 'success'};
+      const {name = l10n.map.signer_unknown} = signature.keyDetails || this.state.keys.find(key => key.fingerprint === signature.fingerprint) || {};
+      return {label: `${l10n.get('file_signed', name)} (${l10n.map.keygrid_keyid} ${keyId.toUpperCase()})`, type: 'success'};
     } else  {
       return {label: l10n.map.file_invalid_signed, type: 'danger'};
     }
