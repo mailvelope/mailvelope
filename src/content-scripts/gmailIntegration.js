@@ -17,6 +17,8 @@ l10n.register([
   'provider_gmail_secure_forward_btn'
 ]);
 
+const MSG_BODY_SELECTOR = '.a3s.aXjCH, .a3s.aiL';
+
 export default class GmailIntegration {
   constructor() {
     this.id = getHash();
@@ -146,7 +148,7 @@ export default class GmailIntegration {
           msgData.clearText = this.getClearText(msgElem);
         }
         if (msgData.clipped || msgData.clearText) {
-          const bodyElem = containerElem.querySelector('.a3s.aXjCH');
+          const bodyElem = containerElem.querySelector(MSG_BODY_SELECTOR);
           bodyElem.style.display = 'none';
           msgData.hiddenElem = bodyElem;
         }
@@ -173,7 +175,7 @@ export default class GmailIntegration {
   hasClippedArmored(msgElem) {
     const clipped = msgElem.querySelector('.iX a');
     if (clipped && clipped.href.includes('view=lg')) {
-      const msgText = msgElem.querySelector('.a3s.aXjCH').innerText;
+      const msgText = msgElem.querySelector(MSG_BODY_SELECTOR).innerText;
       return /BEGIN\sPGP\sMESSAGE/.test(msgText);
     }
     return false;
@@ -353,7 +355,7 @@ export default class GmailIntegration {
           menuBtnElem.removeAttribute('data-mv-menu-btns');
         }
         if (clipped) {
-          const bodyElem = msgElem.querySelector('.a3s.aXjCH');
+          const bodyElem = msgElem.querySelector(MSG_BODY_SELECTOR);
           bodyElem.style.display = 'block';
         }
         if (hiddenElem) {
