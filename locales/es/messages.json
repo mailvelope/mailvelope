@@ -76,7 +76,7 @@
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Please note:",
+        "message": "Por favor, observe que:",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
@@ -88,7 +88,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Un patrón de coincidencia de dominio debiera comenzar con '*.'.",
+        "message": "El patrón de coincidencia de dominio es [*.]host.name.tld[:port].",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -524,7 +524,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all outgoing messages.",
+        "message": "Firmar todos los mensajes salientes.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
@@ -560,11 +560,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope no tiene autorización para descargar adjuntos.",
+        "message": "Mailvelope no está autorizado a descargar adjuntos. Necesitas brindarle acceso al API de Gmail para usar esta función.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope no esta autorizado para enviar correos.",
+        "message": "Mailvelope no está autorizado a enviar correos electrónicos. Necesitas brindarle acceso al API de Gmail para usar esta función.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
@@ -732,11 +732,11 @@
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Import keys",
+        "message": "Importar claves",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, these keys are transferred to the local keyring:",
+        "message": "Luego de la confirmación, estas claves son transferidas al juego de claves local:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
@@ -792,7 +792,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key.",
+        "message": "Advertencia: La clave para este contacto ha expirado. La comunicación cifrada con $1 ya no es posible. El contacto necesita  invitarte nuevamente con una clave real.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -1236,7 +1236,7 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "You can add keys either as file or as text from the clipboard.",
+        "message": "Puedes añadir claves tanto como archivo o como texto desde el portapapeles.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
@@ -1436,11 +1436,11 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>.",
+        "message": "Esta característica está disponible gratis para cuentas de Gmail. Si eres parte de una organización G Suite (<0>gsuite.google.com</0>), es necesario que adquieras una licencia en la <1>página de producto de Mailvelope</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Please read our Privacy Policy",
+        "message": "Por favor, lee nuesta Política de Privacidad",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
@@ -1448,7 +1448,7 @@
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API Integration",
+        "message": "Integración de API de Gmail",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
@@ -1460,43 +1460,43 @@
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Communicating securely with organizations worldwide",
+        "message": "Comunicándose en forma segura con organizaciones alrededor del mundo",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "per user/month",
+        "message": "por usuario/mes",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Continue without Gmail API",
+        "message": "Continuar sin API de Gmail",
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
+        "message": "El uso de la API de Gmail dentro de organizaciones G Suite está <0>sujeto a un arancel</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
-        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
+        "message": "Puedes continuar usando Mailvelope con Gmail gratis, pero <0>con la API, tu flujo de trabajo</0> para leer y escribir correos electrónicos cifrados y sus adjuntos será <1>mucho más rápido y fácil</1>.",
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
+        "message": "Prueba Mailvelope Business con la API de Gmail activada <0>14 días sin cargo</0>:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
-        "message": "Test Gmail API for free",
+        "message": "Prueba la API de Gmail gratis",
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Mailvelope Business license required",
+        "message": "Licencia de Mailvelope Business requerida",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>.",
+        "message": "Licencias para el uso de la integración Gmail-API cuando se use el G Suite (<0>gsuite.google.com</0>) pueden ser adquiridas en la <1>página de producto de Mailvelope</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "Mailvelope License",
+        "message": "Licencia de Mailvelope",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {

@@ -76,7 +76,7 @@
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Veuillez prendre note :",
+        "message": "Veuillez noter :",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
@@ -88,7 +88,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Le modèle de correspondance de domaine devrait commencer par « *. ».",
+        "message": "Le modèle de correspondance de domaine est [*.]nom.d’hôte.tld[:port].",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -560,11 +560,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope n’est pas autorisé à télécharger des fichiers joints.",
+        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope n’est pas autorisé à envoyer des courriels.",
+        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
@@ -1480,7 +1480,7 @@
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Essayez Mailvelope pour entreprise avec activation le l’API Gmail <0>gratuitement pendant 14 jours for free</0>:",
+        "message": "Essayez Mailvelope pour entreprise avec activation le l’API Gmail <0>gratuitement pendant 14 jours</0> :",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
@@ -1488,7 +1488,7 @@
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Une licence Mailvelope pour entreprise est exigée",
+        "message": "Une licence Mailvelope pour entreprise est exigée",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {

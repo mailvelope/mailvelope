@@ -88,7 +88,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Маска домена должна начинаться с '*.'.",
+        "message": "Домен в виде [*.]host.name.tld[:port].",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -524,7 +524,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all outgoing messages.",
+        "message": "Подписывать все исходящие сообщения",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
@@ -560,11 +560,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "У Mailvelope нет разрешения скачивать вложения.",
+        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "У Mailvelope нет разрешения на отправку писем.",
+        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
@@ -1776,7 +1776,7 @@
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Фон безопасности виден в каждом зашифрованном письме. Для пущей безопасности можно персонализировать этот фон. Так вы будете уверены, что никто не подсунул вам фальшивый интерфейс Mailvelope и не получил доступ к вашим персональным данным.",
+        "message": "Фон безопасности используется во время просмотра и редактирования зашифрованных писем. Для пущей безопасности можно персонализировать этот фон. Так вы будете уверены, что никто не подсунул вам фальшивый интерфейс Mailvelope и не получил доступ к вашим персональным данным.",
         "description": "Security background text"
     },
     "security_cache_header": {
@@ -1792,7 +1792,7 @@
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "Да, сохранять в памяти на ",
+        "message": "Да, сохранять в памяти ",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
@@ -2032,7 +2032,7 @@
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Добавить файл",
+        "message": "Выбрать файл",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
