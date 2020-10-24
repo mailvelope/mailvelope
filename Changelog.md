@@ -1,6 +1,17 @@
 Mailvelope Changelog
 ====================
 
+v4.4.0
+-------
+__Oct 24, 2020__
+
+  * WKD: Add missing 'l' parameter to WKD queries
+  * Fix body selection for clipped or cleartext signed messages in Gmail integration
+  * Revise signature detail retrieval in file decryption UI and GnuPG module
+  * Replace innerHTML assignment with DOMParser in decrypt message content sandbox
+  * Improve license error messages and status update
+  * Reduce dependencies of content scripts
+
 v4.3.2
 -------
 __May 22, 2020__

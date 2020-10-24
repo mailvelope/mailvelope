@@ -330,7 +330,7 @@ export default class Encrypt extends React.Component {
             <div>
               <div className="form-group">
                 <label>{l10n.map.encrypt_change_signer_dialog_signer_label}</label>
-                <select className="custom-select" value={this.state.selectedSigningKeyFpr ? this.state.selectedSigningKeyFpr : this.state.defaultKeyFpr} onChange={() => this.setState({selectedSigningKeyFpr: event.target.value})}>
+                <select className="custom-select" value={this.state.selectedSigningKeyFpr ? this.state.selectedSigningKeyFpr : this.state.defaultKeyFpr} onChange={event => this.setState({selectedSigningKeyFpr: event.target.value})}>
                   {this.state.signingKeys.map(key => <option value={key.fingerprint} key={key.fingerprint}>{`${key.userId} - ${key.keyId}`}</option>)}
                 </select>
               </div>

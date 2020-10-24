@@ -1,6 +1,6 @@
 {
   "name": "mailvelope",
-  "version": "4.3.2",
+  "version": "4.4.0",
   "description": "Mailvelope is a browser extension for Google Chrome and Firefox that allows secure email communication based on the OpenPGP standard. It can be configured to work with arbitrary Webmail provider.",
   "scripts": {
     "test": "grunt test",
@@ -16,10 +16,10 @@
   "license": "AGPL",
   "readmeFilename": "Readme.md",
   "dependencies": {
-    "angular": "1.8.1",
+    "angular": "1.8.2",
     "autocrypt": "0.10.0",
     "bootstrap": "4.4.1",
-    "dompurify": "2.1.1",
+    "dompurify": "2.2.0",
     "emailjs-mime-builder": "github:mailvelope/emailjs-mime-builder#bf4cea3bdf50bb26b0f86ee9b1e9ee7063b5a8cc",
     "emailjs-mime-parser": "1.0.0",
     "gpgmejs": "github:mailvelope/gpgmejs#c412917b2a111d99d9a1bb746dcc29b9802c869e",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-react": "^7.10.4",
-    "angular-mocks": "1.8.1",
+    "angular-mocks": "1.8.2",
     "babel-loader": "^8.1.0",
     "babel-plugin-rewire": "^1.2.0",
     "chai": "^4.2.0",
