@@ -12,7 +12,7 @@ describe('KeyStoreGPG unit tests', () => {
       Keyring: {
         getKeysArmored() {
           return {
-            secret_fprs: ['771f9119b823e06c0de306d466663688a83e9763', '81364f6680a600b292bec5980c02c51f4af1a165'],
+            secret_fprs: ['771f9119b823e06c0de306d466663688a83e9763', '2cf63f4b3b4a51e446252247db187eb58a88aa05'],
             armored: testKeys
           };
         },

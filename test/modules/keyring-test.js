@@ -75,7 +75,7 @@ describe('keyring unit tests', () => {
 
   describe('getKeyringWithPrivKey', () => {
     it('Should get keyring that includes at least one private key of the specified key Ids', () => {
-      const keyRing = getKeyringWithPrivKey(['0c02c51f4af1a165']);
+      const keyRing = getKeyringWithPrivKey(['db187eb58a88aa05']);
       expect(keyRing.id).to.equal('test123');
     });
   });
@@ -89,7 +89,7 @@ describe('keyring unit tests', () => {
 
   describe('syncPublicKeys', () => {
     it('Should synchronize public keys across keyrings', async () => {
-      await syncPublicKeys({keyringId: 'test123', keyIds: ['a9b65c80d7b21a26']});
+      await syncPublicKeys({keyringId: 'test123', keyIds: ['887839aaa7d5be4f']});
       const destKeyring = getById('test123');
       const targetKey = await destKeyring.getKeyByAddress('max@mailvelope.com');
       expect(targetKey['max@mailvelope.com']).to.not.be.false;

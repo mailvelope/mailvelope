@@ -81,7 +81,7 @@ describe('Key unit test', () => {
         expect(key.name).to.equal('Madita Bernstein');
         expect(key.email).to.equal('madita.bernstein@gmail.com');
         expect(key.userId).to.equal('Madita Bernstein <madita.bernstein@gmail.com>');
-        expect(key.exDate).to.equal('2022-11-26T13:08:45.000Z');
+        expect(key.exDate).to.equal('2030-11-26T13:08:45.000Z');
         expect(key.fingerprint).to.equal('771f9119b823e06c0de306d466663688a83e9763');
         expect(key.algorithm).to.equal('RSA (Encrypt or Sign)');
         expect(key.bitLength).to.equal(4096);
@@ -102,7 +102,7 @@ describe('Key unit test', () => {
         expect(subkey.algorithm).to.equal('RSA (Encrypt or Sign)');
         expect(subkey.bitLength).to.equal(3072);
         expect(subkey.fingerprint).to.equal('ef4d0286504c2a77e6e05d0da9c26ff01f6f59e2');
-        expect(subkey.exDate).to.equal('2021-11-26T14:16:09.000Z');
+        expect(subkey.exDate).to.equal('2025-11-26T14:16:09.000Z');
       }
     });
   });
@@ -114,7 +114,7 @@ describe('Key unit test', () => {
       await mapUsers(key.users, mapped, {}, key);
       const {users: mappedUsers} = mapped;
       expect(mappedUsers.length).to.equal(3);
-      expect(mappedUsers[0].signatures[0].crDate).to.equal('2018-11-26T13:17:37.000Z');
+      expect(mappedUsers[0].signatures[0].crDate).to.equal('2021-05-04T15:09:22.000Z');
       expect(mappedUsers[1].userId).to.equal('Madita Bernstone <madita@mailvelope.com>');
       mappedUsers.forEach(user => {
         expect(user).to.have.property('signatures');
@@ -227,9 +227,9 @@ describe('Key unit test', () => {
     it('should return the most recent created date field', async () => {
       const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
       const lastModDate = new Date(getLastModifiedDate(key));
-      expect(lastModDate.toISOString()).to.equal('2018-11-26T13:19:55.000Z');
+      expect(lastModDate.toISOString()).to.equal('2021-05-04T15:10:20.000Z');
       const expDateString = `${lastModDate.getUTCDate()}.${(lastModDate.getUTCMonth() + 1)}.${lastModDate.getUTCFullYear()} ${lastModDate.getUTCHours()}:${lastModDate.getUTCMinutes()}:${lastModDate.getUTCSeconds()}`;
-      expect(expDateString).to.equal('26.11.2018 13:19:55');
+      expect(expDateString).to.equal('4.5.2021 15:10:20');
     });
   });
 

@@ -58,7 +58,7 @@ describe('KeyStoreLocal unit tests', () => {
     it('should return array with keys ', async () => {
       const keys = await keyStore.loadKeys([testKeys.johnd_prv, testKeys.johnd_pub, testKeys.gordonf_pub]);
       expect(keys.length).to.equal(3);
-      expect(keys[0].getFingerprint()).to.equal('81364f6680a600b292bec5980c02c51f4af1a165');
+      expect(keys[0].getFingerprint()).to.equal('2cf63f4b3b4a51e446252247db187eb58a88aa05');
     });
   });
 

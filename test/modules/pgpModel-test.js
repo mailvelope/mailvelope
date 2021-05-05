@@ -57,7 +57,7 @@ describe('pgpModel unit tests', () => {
         unlockKey({key}) {
           return unlock({key, password: '1234'});
         },
-        encryptionKeyFprs: ['81364f6680a600b292bec5980c02c51f4af1a165', '3bfa0e474542751cc25777842e760c1d2b6c7a8d'],
+        encryptionKeyFprs: ['2cf63f4b3b4a51e446252247db187eb58a88aa05', '8f96b0094087a3499ed870ebe1ec3869e40bfe51'],
         signingKeyFpr: '771f9119b823e06c0de306d466663688a83e9763',
         uiLogSource: 'unit_test',
         noCache: false
@@ -167,11 +167,11 @@ S8Xz
           type: 'INSERT',
           time: 1544138583808
         },
-        '81364f6680a600b292bec5980c02c51f4af1a165': {
+        '2cf63f4b3b4a51e446252247db187eb58a88aa05': {
           type: 'INSERT',
           time: 1544138447643
         },
-        '3bfa0e474542751cc25777842e760c1d2b6c7a8d': {
+        '8f96b0094087a3499ed870ebe1ec3869e40bfe51': {
           type: 'INSERT',
           time: 1544138445434
         }
@@ -195,7 +195,7 @@ S8Xz
       const armored = await encryptFile({
         plainFile: file,
         keyringId: MAIN_KEYRING_ID,
-        encryptionKeyFprs: ['81364f6680a600b292bec5980c02c51f4af1a165', '3bfa0e474542751cc25777842e760c1d2b6c7a8d'],
+        encryptionKeyFprs: ['2cf63f4b3b4a51e446252247db187eb58a88aa05', '8f96b0094087a3499ed870ebe1ec3869e40bfe51'],
         armor: true
       });
       const decrypted = await decryptFile(
