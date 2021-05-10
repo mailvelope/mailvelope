@@ -341,6 +341,9 @@ function attachEncryptFrame(elements) {
 }
 
 export function isAttached(element) {
+  if (!element) {
+    return false;
+  }
   const status = element.dataset[FRAME_STATUS];
   switch (status) {
     case FRAME_ATTACHED:
