@@ -380,7 +380,7 @@ function parseJwt(token) {
 }
 
 export function extractMailHeader(payload, name) {
-  const header = payload.headers.find(header => header.name === name);
+  const header = payload.headers.find(header => name.localeCompare(header.name, undefined, {sensitivity: 'base'}) === 0);
   if (header) {
     return header.value;
   }
