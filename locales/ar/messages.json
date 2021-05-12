@@ -36,7 +36,7 @@
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "المفاتيح",
+        "message": "مستودع المفاتيح",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
@@ -48,7 +48,7 @@
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Review security relevant user actions.",
+        "message": "راجع إجراءات المستخدم المتعلقة بالأمان.",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
@@ -76,7 +76,7 @@
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Please note:",
+        "message": "يُرجى الملاحظة :",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
@@ -88,7 +88,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern is [*.]host.name.tld[:port].",
+        "message": "يطابق اسم النطاق النمط ‪[*.]host.name.tld[:port]‬",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -144,15 +144,15 @@
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Decrypted files",
+        "message": "الملفات التي فُكَّت تعميتها",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "موقع",
+        "message": "مُوقَّع",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "التوقيع غير صالح",
+        "message": "التوقيع باطل",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
@@ -160,7 +160,7 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "لم يعثر على مفتاح ذي المُعرِّف  $1.",
+        "message": "لم يعثر على مفتاح ذو المُعرِّف  $1.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
@@ -168,7 +168,7 @@
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "فك تعمية الملف  $1 غير ممكن.",
+        "message": "فك تعمية الملف $1 غير ممكن.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
@@ -232,7 +232,7 @@
         "description": "Dialog yes button label"
     },
     "editor_blur_warn": {
-        "message": "Warning: Text editor lost focus.",
+        "message": "تحذير : محرر النصوص فقد التركيز عليه.",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
@@ -272,7 +272,7 @@
         "description": "Label for attachments select/drop area."
     },
     "editor_label_copy_recipient": {
-        "message": "Cc",
+        "message": "نسخة إلى",
         "description": "Label for copy recipient text input."
     },
     "editor_label_message": {
@@ -396,7 +396,7 @@
         "description": "."
     },
     "ext_description": {
-        "message": "Enhance your email provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
+        "message": "عزِّز قدرات مزود بريدك الإلكتروني بواسطة التعمية من الطرف إلى الطرف. وسيلة التواصل الآمنة بالبريد إلكتروني المبنية على المعيار OpenPGP.",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -408,7 +408,7 @@
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Make Mailvelope even more secure by personalizing your security background.",
+        "message": "اجعل Mailvelope أكثر أمانا عبر تخصيص خلفية الأمن لديك.",
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
@@ -456,11 +456,11 @@
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "No valid encryption key for recipient address.",
+        "message": "لا يوجد مفتاح تعمية ملائم لعنوان المُستلِم.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "توقيع الاستمارة غير صحيح.",
+        "message": "توقيع الاستمارة باطل.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
@@ -524,7 +524,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all outgoing messages.",
+        "message": "وقِّع كل الرسائل الصادرة.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
@@ -556,15 +556,15 @@
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Note: public keys are synchronized between available keyrings. Depending on availability of private keys, Mailvelope can override the preferred encryption library setting.",
+        "message": "ملاحظة : كل المفاتيح العمومية تتزامن مع مستودع المفاتيح المتاح. يمكن لـ Mailvelope استخدام إعدادات أخرى لمكتبة التعمية المفضلة، وذلك حسب المفاتيح الخاصة المتاحة له.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "ليس لـ Mailvelope الصلاحية لتنزيل المرفقات. يجب عليك منح Mailvelope حق الوصول إلى واجهة برمجة تطبيقات Gmail لاستخدام هذه الوظيفة.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "ليس لـ Mailvelope الصلاحية لإرسال الرسائل الإلكترونية. يجب عليك منح Mailvelope حق الوصول إلى واجهة برمجة تطبيقات Gmail لاستخدام هذه الوظيفة.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
@@ -584,7 +584,7 @@
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1",
+        "message": "يُرجى التحقق من أن المفاتيح العمومية التالية متاحة في مستودع مفاتيح GnuPG وأنها صالحة : $1",
         "description": ""
     },
     "import_frame_help_text": {
@@ -596,7 +596,7 @@
         "description": "Install landing page getting started hint"
     },
     "invalid_default_key": {
-        "message": "المفتاح غير صالح لعمليات التشفير والتوقيع",
+        "message": "المفتاح غير صالح لعمليات التعمية والتوقيع",
         "description": "Tootip for set as default key button"
     },
     "key_default_active_btn_title": {
@@ -672,7 +672,7 @@
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Future Default",
+        "message": "الافتراضي مستقبلا",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
@@ -736,7 +736,7 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, these keys are transferred to the local keyring:",
+        "message": "بعد التأكيد، سوف تُنقَل هذه المفاتيح إلى المستودع المحلي للمفاتيح :",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
@@ -756,11 +756,11 @@
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Error reading armored PGP key: $1",
+        "message": "حدث خطأ أثناء قراءة مفتاح PGP المُدرَّع : $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "حدث خطأ أثناء معالجة مفاتيح",
+        "message": "حدث خطأ أثناء معالجة المفاتيح",
         "description": "Import error alert."
     },
     "key_import_file_label": {
@@ -780,7 +780,7 @@
         "description": ""
     },
     "key_import_hkp_search_ph": {
-        "message": "By name, email address, or key ID",
+        "message": "بالاسم أو بعنوان البريد الإلكتروني، أو بمُعرِّف المفتاح",
         "description": ""
     },
     "key_import_hkp_server": {
@@ -792,7 +792,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key.",
+        "message": "تحذير : انتهت صلاحية مفتاح جهة الاتصال هذه. لم يعد ممكنا الاتصال المُعمَّى مع  $1. يجب على جهة الاتصال إعادة استدعائك بواسطة مفتاحها الحالي.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -804,7 +804,7 @@
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "Private key part matching existing public key $1 of user $2 imported into keyring",
+        "message": "تم استيراد الجزء الخاص من المفتاح، الموافق للمفتاح العمومي الموجود $1 للمستخدم $2، نحو مستودع المفاتيح.",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
@@ -876,7 +876,7 @@
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
+        "message": "لقد أُرسلَت رسالة تأكيد إلى جميع مُعرٍّفات المستخدمين، لمزامنة المفتاح مع خادم مفاتيح Mailvelope.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
@@ -932,31 +932,31 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Create here a new recovery sheet, if:",
+        "message": "أنشيءْ ورقة استعادة جديدة، إذا : ",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "توصية: إنشاء نسخة احتياطية",
+        "message": "توصية : إنشاء نسخة احتياطية",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "You lost the recovery sheet.",
+        "message": "لقد ضاعت ورقة استعادتك.",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "A new recovery sheet has to be created for security reasons.",
+        "message": "تعين عليك إنشاء ورقة استعادة جديدة لأسباب أمنية.",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "أنشيء نسخة احتياط",
+        "message": "أنشيءْ نسخة احتياط",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "النسخة الاحتياطية مطلوبة لضمان أن تواصلك المشفر هو:",
+        "message": "النسخة الاحتياطية مطلوبة لضمان أن تواصلك المُعمَّى هو :",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "توصية: قم بإعداد نسخة احتياطية",
+        "message": "توصية : قم بإعداد نسخة احتياطية",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
@@ -976,7 +976,7 @@
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "message": "لقد تغير تاريخ انتهاء الصلاحية لجميع المفاتيح الفرعية. لن تتأثر المفاتيح الفرعية الباطلة والمفاتيح التي انتهت صلاحيتها.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
@@ -1020,11 +1020,11 @@
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Please assign a password for your key to protect your encrypted communication:",
+        "message": "يُرجى تعيين كلمة السر لمفتاحك لأجل حماية اتصالاتك المُعمَّاة :",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "This process can take several minutes. Your browser may become unresponsive. Please be patient.",
+        "message": "قد تتطلب العملية بعض دقائق. يُحتمل أن يتوقف متصفحك مؤقتا عن العمل، يُرجى منحه بعض الوقت.",
         "description": ""
     },
     "keygen_waiting_headline": {
@@ -1168,7 +1168,7 @@
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "المفتاح الثانوي",
+        "message": "المفتاح الفرعي",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
@@ -1200,7 +1200,7 @@
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "See available settings at:",
+        "message": "يُرجى الاطلاع على الإعدادات المتاحة في :",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
@@ -1208,7 +1208,7 @@
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to delete the keyring with ID: $1?",
+        "message": "هل تريد حذف مستودع المفاتيح ذو المُعرِّف : $1 ؟",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
@@ -1216,7 +1216,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys",
+        "message": "تأكيد $1 مفاتيح",
         "description": "Tab of keyring to import keys."
     },
     "keyring_display_keys": {
@@ -1236,7 +1236,7 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "You can add keys either as file or as text from the clipboard.",
+        "message": "يمكنك إضافة المفاتيح إما على شكل ملفات أو كنصوص انطلاقا من الحافظة.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
@@ -1244,7 +1244,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Search on the key server for existing contacts.",
+        "message": "البحث في خادم المفاتيح عن جهات الاتصال الموجودة.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
@@ -1288,7 +1288,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "A key pair is required to encrypt and decrypt messages, as well as to invite your contacts to end-to-end encrypted communication.",
+        "message": "من الضروري وجود مفتاحَين لتعمية الرسائل وفك تعميتها، وكذا دعوة جهات اتصالك للتواصل من طرف إلى طرف بشكل مُعمَّى.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
@@ -1296,11 +1296,11 @@
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "Additional key sources",
+        "message": "مصادر إضافية للمفاتيح",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Use keys from Autocrypt headers of incoming email",
+        "message": "استخدم المفاتيح انطلاقا من ترويسات Autocrypt بالنسبة للرسائل الإلكترونية الواردة.",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_hkp_url": {
@@ -1320,7 +1320,7 @@
         "description": "HKP key server url warning."
     },
     "keyserver_wkd_lookup": {
-        "message": "Query keys from the recipients email provider (Web Key Directory)",
+        "message": "طلب المفاتيح من مزود البريد الإلكتروني للمُستلِمين (دليل المفاتيح)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
@@ -1348,7 +1348,7 @@
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "Assigned user IDs",
+        "message": "مُعرِّفات المستخدمين المخصصة لهم",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
@@ -1416,87 +1416,87 @@
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
-        "message": "Google API Authorizations",
+        "message": "صلاحيات واجهة برمجة تطبيقات Google",
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "Sign in with Google",
+        "message": "لِج بواسطة Google",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
-        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "message": "لاستخدام اندماج Gmail بالنسبة لـ <0></0>، يجب منح Mailvelope هذه الصلاحيات :",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_auth_outro": {
-        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "message": "إذا ضغطت على زر الولوج، ستظهر نافذة تصريح استخدام خدمات Google، عليك بتحديد حساب Gmail بالنسبة عنوان البريد الإلكتروني <0></0> ثم اتباع التعليمات.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_description": {
-        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "message": "استخدم واجهة برمجة تطبيقات Gmail لتمديد وظائف Mailvelope بواسطة Gmail والتي تسهِّل إرسال وقراءة الرسائل الإلكترونية والمرفقات المُعمَّاة.",
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>.",
+        "message": "إن هذه الميزة متاحة مجانا لحسابات ‍‍‍‍‍‍‍‍Gmail. إذا كنت ضمن منظمة تستخدم G Suite (<0>‏gsuite.google.com</0>)، من الضروري عليك شراء ترخيص الاستخدام عبر <1>صفحة منتجات Mailvelope</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Please read our Privacy Policy",
+        "message": "يُرجى الاطلاع على سياسة خصوصيتنا",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
-        "message": "Using the Gmail API",
+        "message": "باستخدام واجهة برمجة تطبيقات Gmail",
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API Integration",
+        "message": "اندماج واجهة برمجة تطبيقات Gmail",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
+        "message": "يحتاج Mailvelope لصلاحيات إضافية للوصول إلى واجهة برمجة تطبيقات Gmail. سيتم إرشادك لذلك عبر عملية الحصول على التصريح، طالما تستخدم وظائف تعمية Mailvelope في Gmail. يتطلب منك هذا الأمر الولوج إلى حسابك في Google.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
+        "message": "غير مسموع لـ Gmail بواسطة نمط البحث هذا <0></0>. يُرجى التحقق من الإعدادات في <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Communicating securely with organizations worldwide",
+        "message": "التواصل بأمان عالميا مع المنظمات",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "per user/month",
+        "message": "مستخدم كل شهر",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Continue without Gmail API",
+        "message": "الاستمرار بدون واجهة برمجة تطبيقات Gmail",
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
+        "message": "استخدم واجهة برمجة تطبيقات Gmail مع G Suite للمنظمات، والتي <0>تخضع للرسوم</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
-        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
+        "message": "يمكنك الاستمرار في الاستخدام المجاني لـ Mailvelope مع Gmail، لكن بوجود <0>واجهة برمجة تطبيقاتك، سيكون سير عملك</0><1>أسرع وأيسر</1> عند كتابة أو قراءة رسائلك ومرفقاتك المُعمَّاة.",
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
+        "message": "اختبار Mailvelope للأعمال لمدة<0>14 يوما مجانا</0>، باستخدام واجهة برمجة تطبيقات Gmail :",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
-        "message": "Test Gmail API for free",
+        "message": "اختبار واجهة برمجة تطبيقات Gmail مجانا",
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Mailvelope Business license required",
+        "message": "ترخيص استخدام Mailvelope للأعمال ضروري",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>.",
+        "message": "إن ترخيص استخدام واجهة برمجة تطبيقات ‍‍‍‍‍‍‍‍Gmail عند استعمالك G Suite (<0>‏gsuite.google.com</0>)، يمكن شراؤه عبر <1>صفحة منتجات Mailvelope</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "Mailvelope License",
+        "message": "ترخيص Mailvelope",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
@@ -1528,7 +1528,7 @@
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Please enter your key password to create the user ID.",
+        "message": "يُرجى إدخال كلمة سر مفتاحك لإنشاء مُعرِّف المستخدم.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
@@ -1580,11 +1580,11 @@
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your $1 account. ",
+        "message": "إن شئت حفظ بياناتك محليا بشكل حصري في حاسوبك، يمكنك العثور على هذا الخيار في إعدادات الاتصالات المُعمَّاة لحسابك $1.",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope.",
+        "message": "للحفظ الاحتياطي للبيانات المهمة للاتصالات المُعمَّاة (مثلا، كلمة سر المفتاح)، ستُحفَظ تلك البيانات بشكل مُعمَّى في $1 خوادمنا بواسطة شركاء أمان Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
@@ -1592,7 +1592,7 @@
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "Please check the settings in your account under:",
+        "message": "يُرجى التحقق من إعدادات حسابك في :",
         "description": ""
     },
     "recovery_sheet_creation_date": {
@@ -1604,7 +1604,7 @@
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Hints for encrypted communication with $1",
+        "message": "اقتراحات الاتصالات المُعمَّاة مع $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
@@ -1612,7 +1612,7 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
+        "message": "إن اتصال المُعمَّى مع $1 يوافق الإجراءات المعتمدة على PGP. إنها تمكّنك من إرسال الرسائل الإلكترونية المُعمَّاة، وفي نفس الوقت، تضمن لك ولمتلقي الرسالة القدرة على قراءتها.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
@@ -1624,7 +1624,7 @@
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "You can find more information and setting options in your $1 account under",
+        "message": "يمكنك العثور على المزيد من خيارات المعلومات والإعدادات في حسابك $1 هنا",
         "description": ""
     },
     "recovery_sheet_header": {
@@ -1636,7 +1636,7 @@
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "In your encrypted communication settings of your $1 account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. ",
+        "message": "في إعدادات اتصالاتك المُعمَّاة في حسابك $1، لديك إمكانية دعوة جهات اتصال إضافية لاستخدام الاتصال المُعمَّى بواسطة PGP. يمكن التعرف على جهات الاتصال التي تمت دعوتها بالفعل بنجاح من خلال رمز القفل الموجود بجوار عنوان البريد الإلكتروني.",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
@@ -1644,7 +1644,7 @@
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "Other $1 users who are using the PGP procedure of GMX can be directly found in a central directory in your $1 account. If you do not want to have any entries in this directory, please deactivate this function in your $1 account settings.",
+        "message": "يمكن العثور على $1 مستخدمين آخرين، الذين يستخدمون إجراءات PGP الخاصة بـ GMX مباشرة في دليل مركزي في حسابك $1. إذا كنت لا تريد أن يكون لديك أي مُدخلات في هذا الدليل، يُرجى إلغاء تنشيط هذه الوظيفة في إعدادات حسابك $1.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
@@ -1652,7 +1652,7 @@
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "If your encrypted communication is no longer working, e.g.:",
+        "message": "إذا لم تعد تعمل اتصالاتك المُعمَّاة، مثلا :",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
@@ -1732,7 +1732,7 @@
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "With GMX contacts you can be sure that the users displayed are in fact valid users. You should, however, always verify the identity of contacts with an email address from another email provider.",
+        "message": "مع جهات اتصالك في GMX، يمكنك التأكد من أن المستخدمين المعروضين هم في الواقع مستخدمون حقيقيون. ومع ذلك، يجب عليك دائما التحقق من هوية جهات الاتصال، وذلك باستخدام عنوان بريد إلكتروني من مزود بريد إلكتروني آخر.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
@@ -1744,7 +1744,7 @@
         "description": ""
     },
     "reload_tab": {
-        "message": "Please reload the corresponding pages for the settings to take effect.",
+        "message": "يرجى إعادة تحميل الصفحات الحالية حتى تدخل الإعدادات حيز التنفيذ.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
@@ -1776,7 +1776,7 @@
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data.",
+        "message": "يتم عرض خلفيتك الأمنية وراء كل بريد إلكتروني مُعمَّى. لجعلها آمنة حقا، يجب عليك تخصيصها. هذه هي الطريقة التي تضمن بها عدم تمكن أي شخص من إعادة بناء واجهة Mailvelope للوصول إلى بياناتك الشخصية.",
         "description": "Security background text"
     },
     "security_cache_header": {
@@ -1860,7 +1860,7 @@
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Click to sign in dialog",
+        "message": "اضغط للولوج إلى مربع الحوار",
         "description": ""
     },
     "security_log_editor": {
@@ -1948,11 +1948,11 @@
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "Input in text area",
+        "message": "اكتب في خانة النصوص",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "Selection in text area",
+        "message": "التحديد في خانة النصوص",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
@@ -1984,7 +1984,7 @@
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail API",
+        "message": "واجهة برمجة تطبيقات Gmail",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
@@ -2000,7 +2000,7 @@
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "Authorized Domains",
+        "message": "النطاقات المأذون له",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
@@ -2076,15 +2076,15 @@
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "The user ID is synchronized with the Mailvelope key server.",
+        "message": "تمت مزامنة مُعرِّف المستخدم مع خادم مفاتيح Mailvelope.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
+        "message": "يُرجى تأكيد معرِّف المستخدم لمزامنته مع خادم مفاتيح Mailvelope.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1.",
+        "message": "لقد أُرسلَت إليك رسالة تأكيد إلى العنوان $1 للمزامنة مع خادم Mailvelope.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
@@ -2096,11 +2096,11 @@
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Do you want to remove this user ID from your key?",
+        "message": "ألديك الرغبة في إزالة مُعرِّف هذا المستخدم من مفتاحك ؟",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "User ID is also removed from the Mailvelope key server.",
+        "message": "لقد أُزيل مُعرٍّف المستخدم أيضا من خادم مفاتيح Mailvelope.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
@@ -2132,7 +2132,7 @@
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "Verifications",
+        "message": "صحة التوقيعات",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {

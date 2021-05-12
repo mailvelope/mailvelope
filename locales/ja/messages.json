@@ -560,11 +560,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "このMailvelopeには、添付ファイルをダウンロードする権限がありません。この機能を使うには、Gmail APIにアクセスする権限をMailvelopeに与える必要があります。",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "このMailvelopeには、メールを送信する権限がありません。この機能を使うには、Gmail APIにアクセスする権限をMailvelopeに与える必要があります。",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {

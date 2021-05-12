@@ -1,6 +1,16 @@
 Mailvelope Changelog
 ====================
 
+v4.4.1
+-------
+__May 12, 2021__
+
+  * [Gmail] Fix Mailvelope editor button integration when Meet section active in main menu
+  * [Gmail] Fix missing cc recipients when reply to all
+  * [Gmail] Fix legacy G Suite detection
+  * Fix unit tests: replace expired keys
+  * Update dependencies
+
 v4.4.0
 -------
 __Oct 24, 2020__

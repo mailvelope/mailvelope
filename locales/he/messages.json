@@ -560,11 +560,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "Mailvelope אינו מורשה להוריד צרופות. אתה צריך להעניק אל Mailvelope גישה אל API של Gmail כדי להשתמש בתפקודיות זו.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "Mailvelope אינו מורשה לשלוח דוא״לים. אתה צריך להעניק אל Mailvelope גישה אל API של Gmail כדי להשתמש בתפקודיות זו.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
@@ -1356,7 +1356,7 @@
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "מפתח פרטי לא נמצא עבור הודעה זו. זהויות מפתח פרטי דרושות: $1",
+        "message": "מפתח פרטי לא נמצא עבור הודעה זו. זהויות דרושות של מפתח פרטי: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {

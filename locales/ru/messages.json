@@ -148,7 +148,7 @@
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "Подписанный",
+        "message": "Подписано",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
@@ -560,11 +560,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "У Mailvelope нет права скачивать вложения. Вам нужно дать Mailvelope доступ к Gmail API, чтобы использовать эту функцию.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "У Mailvelope нет права отправлять email. Вам нужно дать Mailvelope доступ к Gmail API, чтобы использовать эту функцию.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
