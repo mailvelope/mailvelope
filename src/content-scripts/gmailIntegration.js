@@ -57,7 +57,7 @@ export default class GmailIntegration {
     }
     this.userInfo = {};
     this.userInfo.email = match[0];
-    this.userInfo.legacyGsuite = Array.from(document.querySelectorAll('.md.mj span')).some(element => /^15[\sG]/.test(element.textContent));
+    this.userInfo.legacyGsuite = Array.from(document.querySelectorAll('.aiG .aiD span')).some(element => /^1(?:5|7)[\sG]/.test(element.textContent));
     return this.userInfo;
   }
 
