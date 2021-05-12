@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Mailvelope API Source: web-components.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Mailvelope API</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="Editor.html">Editor</a></li><li><a href="Generator.html">Generator</a></li><li><a href="KeyBackupPopup.html">KeyBackupPopup</a></li><li><a href="Keyring.html">Keyring</a></li><li><a href="Mailvelope.html">Mailvelope</a></li><li><a href="OpenPGPEncryptedForm.html">OpenPGPEncryptedForm</a></li><li><a href="RestoreBackup.html">RestoreBackup</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="tutorial-Readme.html">Readme</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html">Global</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: web-components.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2018-2019 Mailvelope GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * OpenPGPEncryptedForm custom HTMLElement
+ */
+class OpenPGPEncryptedForm extends HTMLElement {
+  // Invoked when the custom element is first connected to the document's DOM.
+  connectedCallback() {
+    this.dispatchEvent(new Event('connected'));
+    const id = this.getAttribute('id');
+    if (!id) {
+      const error = new Error('No form id for openpgp-encrypted-tag. Please add a unique identifier.');
+      error.code = 'NO_FORM_ID';
+      return this.onError(error);
+    }
+    let html;
+    const scriptTags = this.getElementsByTagName('script');
+    if (scriptTags.length) {
+      html = scriptTags[0].innerText;
+    } else {
+      const error = new Error('No form template for openpgp-encrypted-tag. Please add a form template.');
+      error.code = 'NO_FORM_SCRIPT';
+      return this.onError(error);
+    }
+    window.mailvelope.createEncryptedFormContainer(`#${id}`, html, this.getAttribute('signature'))
+    .then(data => this.onEncrypt(data), error => this.onError(error));
+  }
+
+  onEncrypt(data) {
+    this.dispatchEvent(new CustomEvent('encrypt', {
+      detail: {armoredData: data.armoredData},
+      bubbles: true,
+      cancelable: true
+    }));
+  }
+
+  onError(error) {
+    this.dispatchEvent(new ErrorEvent('error', {
+      message: error.message,
+      error
+    }));
+  }
+}
+
+class OpenPGPEmailRead extends HTMLElement {
+  connectedCallback() {
+    const id = this.getAttribute('id');
+    if (!id) {
+      return this.onError(new Error('Missing id attribute on openpgp-email-read tag. Please add a unique identifier.'));
+    }
+    const [armoredElement] = this.getElementsByClassName('armored');
+    const armored = armoredElement ? armoredElement.textContent : this.dataset.armored;
+    if (!armored) {
+      return this.onError(new Error('Armored message required as &lt;template class="armored"> child element or data-armored attribute.'));
+    }
+    const options = {senderAddress: this.dataset.senderAddress};
+    if (window.mailvelope) {
+      this.createContainer(id, armored, options);
+    } else {
+      window.addEventListener('mailvelope', () => this.createContainer(id, armored, options), {once: true});
+    }
+  }
+
+  async createContainer(id, armored, options) {
+    try {
+      const {error} = await window.mailvelope.createDisplayContainer(`#${id}`, armored, null, options);
+      if (error) {
+        return this.onError(error);
+      }
+      this.onReady();
+    } catch (e) {
+      this.onError(e);
+    }
+  }
+
+  onReady() {
+    this.dispatchEvent(new CustomEvent('ready', {bubbles: true, cancelable: true}));
+  }
+
+  onError(error) {
+    this.dispatchEvent(new ErrorEvent('error', {message: error.message, error}));
+  }
+}
+
+class OpenPGPEmailWrite extends HTMLElement {
+  connectedCallback() {
+    const id = this.getAttribute('id');
+    if (!id) {
+      return this.onError(new Error('Missing id attribute on openpgp-email-write tag. Please add a unique identifier.'));
+    }
+    const [armoredDraftElement] = this.getElementsByClassName('armored-draft');
+    const armoredDraft = armoredDraftElement ? armoredDraftElement.textContent : undefined;
+    const [quotedMailElement] = this.getElementsByClassName('quoted-mail');
+    const quotedMail = quotedMailElement ? quotedMailElement.textContent : undefined;
+    let {quota, signMsg, keepAttachments} = this.dataset;
+    quota = quota ? Number(quota) : undefined;
+    signMsg = signMsg || signMsg === '' ? true : false;
+    keepAttachments = keepAttachments || keepAttachments === '' ? true : false;
+    const options = {armoredDraft, quotedMail, ...this.dataset, quota, signMsg, keepAttachments};
+    if (window.mailvelope) {
+      this.createEditor(id, options);
+    } else {
+      window.addEventListener('mailvelope', () => this.createEditor(id, options), {once: true});
+    }
+  }
+
+  async createEditor(id, options) {
+    try {
+      this.editor = await window.mailvelope.createEditorContainer(`#${id}`, null, options);
+      this.onReady(this.editor);
+    } catch (e) {
+      this.onError(e);
+    }
+  }
+
+  onReady(editor) {
+    this.dispatchEvent(new CustomEvent('ready', {bubbles: true, cancelable: true, detail: {editor}}));
+  }
+
+  onError(error) {
+    this.dispatchEvent(new ErrorEvent('error', {message: error.message, error}));
+  }
+}
+
+export function init() {
+  // See. https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements#Specification#Browser_compatibility
+  if (!window.customElements) {
+    return;
+  }
+  window.customElements.define('openpgp-encrypted-form', OpenPGPEncryptedForm);
+  window.customElements.define('openpgp-email-read', OpenPGPEmailRead);
+  window.customElements.define('openpgp-email-write', OpenPGPEmailWrite);
+}
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	© 2014-2016 Mailvelope GmbH
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a>
+	
+		on Wed May 12th 2021
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
