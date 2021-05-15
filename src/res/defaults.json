@@ -283,7 +283,8 @@
         "https://keyserver.ubuntu.com",
         "http://pool.sks-keyservers.net:11371",
         "https://pgp.mit.edu",
-        "https://keys.mailvelope.com"
+        "https://keys.mailvelope.com",
+        "https://keys.openpgp.org"
       ],
       "mvelo_tofu_lookup": true,
       "wkd_lookup": true,
