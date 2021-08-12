@@ -85,6 +85,11 @@
           "scan": true,
           "frame": "*.outlook.office.com",
           "api": false
+        },
+		    {
+          "scan": true,
+          "frame": "*.outlook.office365.com",
+          "api": false
         }
       ]
     },
