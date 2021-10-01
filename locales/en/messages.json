@@ -1219,10 +1219,6 @@
     "description": "Tab of keyring to import keys.",
     "message": "Confirm $1 keys"
   },
-  "keyring_display_keys": {
-    "description": "Tab of keyring to display keys.",
-    "message": "Display Keys"
-  },
   "keyring_export_keys": {
     "description": "Tab of keyring to export keys.",
     "message": "Export Keyring"
@@ -1311,6 +1307,18 @@
     "description": "Enable Mailvelope Key Server Auto Lookup",
     "message": "Use the Mailvelope key server"
   },
+  "keyserver_key_binding_header": {
+    "description": "Header for key binding feature",
+    "message": "Key Detection"
+  },
+  "keyserver_key_binding_label": {
+    "description": "Label for key binding feature",
+    "message": "Determine current key of contacts and perform key selection automatically"
+  },
+  "keyserver_oks_lookup": {
+    "description": "Enable keys.openpgp.org Auto Lookup",
+    "message": "Automatically search for keys on <0>keys.openpgp.org</0>"
+  },
   "keyserver_url_error": {
     "description": "HKP key server URL error.",
     "message": "Key server cannot be reached"
@@ -1318,6 +1326,10 @@
   "keyserver_url_warning": {
     "description": "HKP key server url warning.",
     "message": "Key server URL must have the following format: http(s)://keys.example.com"
+  },
+  "keyserver_verifying_servers": {
+    "description": "Label for verifying key servers.",
+    "message": "Key server with email verification"
   },
   "keyserver_wkd_lookup": {
     "description": "Enable Web Key Directory Auto Lookup",
@@ -1374,10 +1386,6 @@
   "notification_text_copy_to_clipboard": {
     "description": "Copy to clipboard toast message.",
     "message": "Text has been copied to clipboard."
-  },
-  "options_about": {
-    "description": "Options navigation: About.",
-    "message": "About"
   },
   "options_docu": {
     "description": "Options navigation: Documentation.",
@@ -1763,10 +1771,6 @@
     "description": "",
     "message": "Your key password:"
   },
-  "security_background_button_title": {
-    "description": "The tooltip text for the keylock button",
-    "message": "The security background can be adjusted in the Mailvelope Options"
-  },
   "security_background_color_text": {
     "description": "Security background select color text",
     "message": "2. Now choose a color that you like"
@@ -1981,7 +1985,7 @@
   },
   "settings_keyserver": {
     "description": "Tab of options to display key server settings.",
-    "message": "Key Server"
+    "message": "Key Sources"
   },
   "settings_provider": {
     "description": "Tab of options to display provider (Gmail) settings.",

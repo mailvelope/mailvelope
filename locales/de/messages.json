@@ -249,7 +249,7 @@
   },
   "editor_key_auto_sign": {
     "description": "Label for default private key option.",
-    "message": "Sie möchten ihre Emails immer Signieren?"
+    "message": "Sie möchten ihre E-Mails immer Signieren?"
   },
   "editor_key_auto_sign_link": {
     "description": "Test for auto sign link.",
@@ -353,7 +353,7 @@
   },
   "encrypt_frame_btn_label": {
     "description": "Text on expanded editor button of editable email area",
-    "message": "Sichere Email schreiben"
+    "message": "Sichere E-Mail schreiben"
   },
   "encrypt_header": {
     "description": "Header of file/text encrypt page.",
@@ -717,7 +717,7 @@
   },
   "key_gen_upload": {
     "description": "Upload key to Mailvelope key server checkbox",
-    "message": "Öffentlichen Schlüssel zum Mailvelope Schlüssel Server hochladen (kann jederzeit gelöscht werden)"
+    "message": "Öffentlichen Schlüssel zum Mailvelope Schlüssel-Server hochladen (kann jederzeit gelöscht werden)"
   },
   "key_gen_wait_header": {
     "description": "Wait dialog header",
@@ -781,11 +781,11 @@
   },
   "key_import_hkp_search_ph": {
     "decryption": "Key search input button.",
-    "message": "Nach Name, Email Adresse, oder Schlüssel ID"
+    "message": "Nach Name, E-Mail-Adresse, oder Schlüssel-ID"
   },
   "key_import_hkp_server": {
     "decryption": "Key search server label.",
-    "message": "Schlüssel Server"
+    "message": "Schlüssel-Server"
   },
   "key_import_invalid_text": {
     "description": "Import error alert.",
@@ -853,7 +853,7 @@
   },
   "key_keyserver_remove": {
     "description": "A deletion request has been sent to the Mailvelope key server",
-    "message": "Zur endgültigen Entfernung vom Mailvelope Schlüssel-Server wurde eine Bestätigungs-Email an alle Benutzer-IDs versandt."
+    "message": "Zur endgültigen Entfernung vom Mailvelope Schlüssel-Server wurde eine Bestätigungs-E-Mail an alle Benutzer-IDs versandt."
   },
   "key_keyserver_remove_btn": {
     "description": "Key server remove existing key button label",
@@ -877,7 +877,7 @@
   },
   "key_keyserver_upload": {
     "description": "An upload request has been sent to the Mailvelope key server",
-    "message": "Zur Synchronisierung mit dem Mailvelope Schlüssel-Server wurde eine Bestätigungs-Email an alle Benutzer-IDs versandt."
+    "message": "Zur Synchronisierung mit dem Mailvelope Schlüssel-Server wurde eine Bestätigungs-E-Mail an alle Benutzer-IDs versandt."
   },
   "key_keyserver_upload_btn": {
     "description": "Key server upload button label",
@@ -1217,10 +1217,6 @@
     "description": "Tab of keyring to import keys.",
     "message": "$1 Schlüssel bestätigen"
   },
-  "keyring_display_keys": {
-    "description": "Tab of keyring to display keys.",
-    "message": "Schlüssel anzeigen"
-  },
   "keyring_export_keys": {
     "description": "Tab of keyring to export keys.",
     "message": "Schlüssel exportieren"
@@ -1299,27 +1295,43 @@
   },
   "keyserver_autocrypt_lookup": {
     "description": "Enable Looking Up Keys Via Autocrypt",
-    "message": "Schlüssel aus Autocrypt Headern der ankommenden Emails verwenden"
+    "message": "Schlüssel aus Autocrypt Headern der ankommenden E-Mails verwenden"
   },
   "keyserver_hkp_url": {
     "description": "HKP key server option: url.",
-    "message": "HKP Schlüssel Server"
+    "message": "HKP Schlüssel-Server"
   },
   "keyserver_tofu_lookup": {
     "description": "Enable Mailvelope Key Server Auto Lookup",
     "message": "Den Mailvelope Schlüssel-Server benutzen"
   },
+  "keyserver_key_binding_header": {
+    "description": "Header for key binding feature",
+    "message": "Schlüssel Erkennung"
+  },
+  "keyserver_key_binding_label": {
+    "description": "Label for key binding feature",
+    "message": "Aktuellen Schlüssel von Kontakten ermitteln und Schlüsselauswahl automatisch treffen"
+  },
+  "keyserver_oks_lookup": {
+    "description": "Enable keys.openpgp.org Auto Lookup",
+    "message": "Automatisch auf <0>keys.openpgp.org</0> nach Schlüsseln suchen"
+  },
   "keyserver_url_error": {
     "description": "HKP key server url error.",
-    "message": "Schlüssel Server ist nicht erreichbar"
+    "message": "Schlüssel-Server ist nicht erreichbar"
   },
   "keyserver_url_warning": {
     "description": "HKP key server url warning.",
-    "message": "Schlüssel Server URL muss folgendes Format haben: http(s)://keys.example.com"
+    "message": "Schlüssel-Server URL muss folgendes Format haben: http(s)://keys.example.com"
+  },
+  "keyserver_verifying_servers": {
+    "description": "Label for verifying key servers.",
+    "message": "Schlüssel-Server mit E-Mail-Verifikation"
   },
   "keyserver_wkd_lookup": {
     "description": "Enable Web Key Directory Auto Lookup",
-    "message": "Empfänger Schlüssel beim Email-Anbieter des Empfängers abfragen (Web Key Directory)"
+    "message": "Empfänger Schlüssel beim E-Mail-Anbieter des Empfängers abfragen (Web Key Directory)"
   },
   "keyusers_add_btn": {
     "description": "Add user button label",
@@ -1372,10 +1384,6 @@
   "notification_text_copy_to_clipboard": {
     "description": "Copy to clipboard toast message.",
     "message": "Text wurde in die Zwischenablage kopiert."
-  },
-  "options_about": {
-    "description": "Options navigation: About.",
-    "message": "Über"
   },
   "options_docu": {
     "description": "Options navigation: Documentation.",
@@ -1431,7 +1439,7 @@
   },
   "provider_gmail_dialog_description": {
     "description": "Leading text for GMAIL API dialog.",
-    "message": "Die Nutzung der Gmail-API erweitert die Funktionalität von Mailvelope mit Gmail und vereinfacht das Versenden und Lesen verschlüsselter Emails und Anhänge."
+    "message": "Die Nutzung der Gmail-API erweitert die Funktionalität von Mailvelope mit Gmail und vereinfacht das Versenden und Lesen verschlüsselter E-Mails und Anhänge."
   },
   "provider_gmail_dialog_gsuite_alert": {
     "description": "Alert text for GSuite Users in GMAIL API dialog.",
@@ -1761,10 +1769,6 @@
     "description": "",
     "message": "Ihr Schlüssel-Passwort:"
   },
-  "security_background_button_title": {
-    "description": "The tooltip text for the keylock button",
-    "message": "Der Sicherheitshintergrund kann im Mailvelope-Optionsbereich angepasst werden"
-  },
   "security_background_color_text": {
     "description": "Security background select color text",
     "message": "2. Wählen Sie noch eine Farbe, die ihnen gefällt"
@@ -1979,7 +1983,7 @@
   },
   "settings_keyserver": {
     "description": "Tab of options to display key server settings.",
-    "message": "Schlüssel Server"
+    "message": "Schlüssel-Quellen"
   },
   "settings_provider": {
     "description": "Tab of options to display provider (Gmail) settings.",
@@ -2063,7 +2067,7 @@
   },
   "user_keyserver_remove": {
     "description": "A remove request has been sent to the Mailvelope key server",
-    "message": "Zur endgültigen Entfernung vom Mailvelope Server wurde eine Bestätigungs-Email an $1 versandt."
+    "message": "Zur endgültigen Entfernung vom Mailvelope Server wurde eine Bestätigungs-E-Mail an $1 versandt."
   },
   "user_keyserver_remove_btn": {
     "description": "Remove user ID button label text",
@@ -2083,7 +2087,7 @@
   },
   "user_keyserver_upload": {
     "description": "An upload request has been sent to the Mailvelope key server",
-    "message": "Zur Synchronisierung mit dem Mailvelope Server wurde eine Bestätigungs-Email an $1 versandt."
+    "message": "Zur Synchronisierung mit dem Mailvelope Server wurde eine Bestätigungs-E-Mail an $1 versandt."
   },
   "user_remove_btn": {
     "description": "Remove user button label",

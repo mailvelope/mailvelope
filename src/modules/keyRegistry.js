@@ -6,6 +6,7 @@
 import {isValidEncryptionKey, getLastModifiedDate} from './key';
 import * as openpgp from 'openpgp';
 import * as mveloKeyServer from './mveloKeyServer';
+import * as oks from './openpgpKeyServer';
 import * as wkd from './wkdLocate';
 import * as autocrypt from './autocryptWrapper';
 /**
@@ -24,7 +25,7 @@ import * as autocrypt from './autocryptWrapper';
  * * and autocrypt last
  */
 
-const strategies = [mveloKeyServer, wkd, autocrypt];
+const strategies = [mveloKeyServer, oks, wkd, autocrypt];
 
 /**
  * Get a verified public key from auto-locate sources by email address.

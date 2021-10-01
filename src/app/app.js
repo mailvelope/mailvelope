@@ -38,22 +38,10 @@ l10n.register([
   'encrypt_home',
   'feature_banner_new_security_background_btn',
   'feature_banner_new_security_background_text',
-  'keyring_display_keys',
-  'keyring_generate_key',
   'keyring_header',
-  'keyring_import_keys',
-  'keyring_setup',
-  'options_about',
   'options_docu',
   'options_home',
-  'options_title',
-  'security_background_button_title',
-  'settings_general',
-  'settings_keyserver',
-  'settings_security',
-  'settings_security_background',
-  'settings_security_log',
-  'settings_watchlist'
+  'options_title'
 ]);
 
 export let port; // EventHandler

@@ -31,7 +31,7 @@ export function stringify({keydata, addr}) {
 }
 
 async function autocrypt(id) {
-  const key = `mailvelope.autocrypt.${id}`;
+  const key = `mvelo.autocrypt.${id}`;
   let storage = stores.get(key);
   if (!storage) {
     storage = new Store(key);
@@ -97,7 +97,7 @@ export async function processHeader(headers, identity) {
 
 export async function deleteIdentities(identities) {
   for (const id of identities) {
-    const key = `mailvelope.autocrypt.${id}`;
+    const key = `mvelo.autocrypt.${id}`;
     await mvelo.storage.remove(key);
     stores.delete(key);
   }
