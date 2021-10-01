@@ -37,17 +37,23 @@ export function init() {
       if (typeof prefs.keyserver == 'undefined') {
         prefs.keyserver = defaults.preferences.keyserver;
       }
-      if (typeof prefs.keyserver.mvelo_tofu_lookup == 'undefined') {
-        prefs.keyserver.mvelo_tofu_lookup = defaults.preferences.keyserver.mvelo_tofu_lookup;
-      }
-      if (typeof prefs.keyserver.wkd_lookup == 'undefined') {
-        prefs.keyserver.wkd_lookup = defaults.preferences.keyserver.wkd_lookup;
-      }
       if (typeof prefs.keyserver.autocrypt_lookup == 'undefined') {
         prefs.keyserver.autocrypt_lookup = defaults.preferences.keyserver.autocrypt_lookup;
       }
       if (typeof prefs.keyserver.hkp_server_list == 'undefined') {
         prefs.keyserver.hkp_server_list = defaults.preferences.keyserver.hkp_server_list;
+      }
+      if (typeof prefs.keyserver.key_binding == 'undefined') {
+        prefs.keyserver.key_binding = defaults.preferences.keyserver.key_binding;
+      }
+      if (typeof prefs.keyserver.mvelo_tofu_lookup == 'undefined') {
+        prefs.keyserver.mvelo_tofu_lookup = defaults.preferences.keyserver.mvelo_tofu_lookup;
+      }
+      if (typeof prefs.keyserver.oks_lookup == 'undefined') {
+        prefs.keyserver.oks_lookup = defaults.preferences.keyserver.oks_lookup;
+      }
+      if (typeof prefs.keyserver.wkd_lookup == 'undefined') {
+        prefs.keyserver.wkd_lookup = defaults.preferences.keyserver.wkd_lookup;
       }
       if (typeof prefs.general.prefer_gnupg == 'undefined') {
         prefs.general.prefer_gnupg = defaults.preferences.general.prefer_gnupg;

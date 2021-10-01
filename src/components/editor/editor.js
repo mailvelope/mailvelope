@@ -40,7 +40,6 @@ l10n.register([
   'editor_label_recipient',
   'editor_label_subject',
   'form_ok',
-  'security_background_button_title',
   'upload_quota_exceeded_warning',
   'upload_quota_warning_headline',
   'waiting_dialog_decryption_failed'

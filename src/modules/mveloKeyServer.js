@@ -75,10 +75,6 @@ export async function lookup(email) {
 /**
  * Get a verified public key either from the server by either key id, or fingerprint.
  *
- * We are not using this function yet.
- * It's part of the Mailvelope Key Server API - so we leave this here
- * for later use.
- *
  * @param {string} options.keyId         (optional) The long 16 char key id
  * @param {string} options.fingerprint   (optional) The 40 char v4 fingerprint
  * @yield {Object}                       The public key json object

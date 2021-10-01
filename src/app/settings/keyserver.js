@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2019 Mailvelope GmbH
+ * Copyright (C) 2016-2021 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
@@ -9,6 +9,7 @@
  */
 
 import * as l10n from '../../lib/l10n';
+import Trans from '../../components/util/Trans';
 import {port} from '../app';
 
 import React from 'react';
@@ -22,42 +23,52 @@ l10n.register([
   'alert_header_error',
   'form_cancel',
   'form_save',
-  'keyserver_hkp_url',
-  'keyserver_url_warning',
-  'keyserver_url_error',
   'keyserver_additionals_label',
-  'keyserver_tofu_lookup',
-  'keyserver_wkd_lookup',
   'keyserver_autocrypt_lookup',
+  'keyserver_hkp_url',
+  'keyserver_key_binding_header',
+  'keyserver_key_binding_label',
+  'keyserver_oks_lookup',
+  'keyserver_tofu_lookup',
+  'keyserver_url_error',
+  'keyserver_url_warning',
+  'keyserver_verifying_servers',
+  'keyserver_wkd_lookup',
   'learn_more_link',
   'settings_keyserver'
 ]);
 
 function initialState({prefs}) {
+  let autocrypt_lookup = false;
   let hkp_base_url = '';
   let hkp_server_list = [];
+  let key_binding = false;
   let mvelo_tofu_lookup = false;
+  let oks_lookup = false;
   let wkd_lookup = false;
-  let autocrypt_lookup = false;
   if (prefs) {
     hkp_base_url = prefs.keyserver.hkp_base_url;
     hkp_server_list = prefs.keyserver.hkp_server_list.map(server => ({value: server, label: server}));
     if (!prefs.keyserver.hkp_server_list.includes(hkp_base_url)) {
       hkp_server_list.push({value: hkp_base_url, label: hkp_base_url});
     }
-    mvelo_tofu_lookup = prefs.keyserver.mvelo_tofu_lookup;
-    wkd_lookup = prefs.keyserver.wkd_lookup;
     autocrypt_lookup = prefs.keyserver.autocrypt_lookup;
+    key_binding = prefs.keyserver.key_binding;
+    mvelo_tofu_lookup = prefs.keyserver.mvelo_tofu_lookup;
+    oks_lookup = prefs.keyserver.oks_lookup;
+    wkd_lookup = prefs.keyserver.wkd_lookup;
   }
   return {
-    hkp_base_url,
-    valid_base_url: true,
-    hkp_server_list,
-    mvelo_tofu_lookup,
-    wkd_lookup,
     autocrypt_lookup,
+    hkp_base_url,
+    hkp_server_list,
+    key_binding,
     modified: false,
-    previousPrefs: prefs
+    mvelo_tofu_lookup,
+    oks_lookup,
+    previousPrefs: prefs,
+    valid_base_url: true,
+    wkd_lookup
   };
 }
 
@@ -122,11 +133,13 @@ export default class KeyServer extends React.Component {
       await this.testUrl(this.state.hkp_base_url);
       const update = {
         keyserver: {
+          autocrypt_lookup: this.state.autocrypt_lookup,
           hkp_base_url: this.state.hkp_base_url,
           hkp_server_list: this.state.hkp_server_list.map(server => server.value),
+          key_binding: this.state.key_binding,
           mvelo_tofu_lookup: this.state.mvelo_tofu_lookup,
-          wkd_lookup: this.state.wkd_lookup,
-          autocrypt_lookup: this.state.autocrypt_lookup
+          oks_lookup: this.state.oks_lookup,
+          wkd_lookup: this.state.wkd_lookup
         }
       };
       await this.props.onChangePrefs(update);
@@ -141,6 +154,34 @@ export default class KeyServer extends React.Component {
       <div id="keyserver">
         <h2 className="mb-4">{l10n.map.settings_keyserver}</h2>
         <form className="form mb-4">
+          <h3>{l10n.map.keyserver_verifying_servers}</h3>
+          <div className="form-group">
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="keyserverTOFULookup" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="keyserverTOFULookup"><span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://www.mailvelope.com/faq#key_server" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+            </div>
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="oksLookup" name="oks_lookup" checked={this.state.oks_lookup} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="oksLookup">
+                <span>
+                  <Trans id={l10n.map.keyserver_oks_lookup} components={[
+                    <a key="0" href="https://keys.openpgp.org" target="_blank" rel="noopener noreferrer"></a>
+                  ]} />
+                </span>.
+              </label>
+            </div>
+          </div>
+          <h3>{l10n.map.keyserver_additionals_label}</h3>
+          <div className="form-group">
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="keyserverWKDLookup" name="wkd_lookup" checked={this.state.wkd_lookup} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="keyserverWKDLookup"><span>{l10n.map.keyserver_wkd_lookup}</span>. <a href="https://www.mailvelope.com/faq#web_key_directory" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+            </div>
+            <div className="custom-control custom-checkbox">
+              <input className="custom-control-input" type="checkbox" id="keyserverAutocryptLookup" name="autocrypt_lookup" checked={this.state.autocrypt_lookup} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="keyserverAutocryptLookup"><span>{l10n.map.keyserver_autocrypt_lookup}</span>. <a href="https://www.mailvelope.com/faq#autocrypt" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+            </div>
+          </div>
           <h3>{l10n.map.keyserver_hkp_url}</h3>
           <div className="form-group">
             <CreatableSelect
@@ -166,19 +207,11 @@ export default class KeyServer extends React.Component {
               })}
             />
           </div>
-          <h3>{l10n.map.keyserver_additionals_label}</h3>
+          <h3>{l10n.map.keyserver_key_binding_header}</h3>
           <div className="form-group">
             <div className="custom-control custom-checkbox">
-              <input className="custom-control-input" type="checkbox" id="keyserverTOFULookup" name="mvelo_tofu_lookup" checked={this.state.mvelo_tofu_lookup} onChange={this.handleCheck} />
-              <label className="custom-control-label" htmlFor="keyserverTOFULookup"><span>{l10n.map.keyserver_tofu_lookup}</span>. <a href="https://www.mailvelope.com/faq#key_server" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
-            </div>
-            <div className="custom-control custom-checkbox">
-              <input className="custom-control-input" type="checkbox" id="keyserverWKDLookup" name="wkd_lookup" checked={this.state.wkd_lookup} onChange={this.handleCheck} />
-              <label className="custom-control-label" htmlFor="keyserverWKDLookup"><span>{l10n.map.keyserver_wkd_lookup}</span>. <a href="https://www.mailvelope.com/faq#web_key_directory" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
-            </div>
-            <div className="custom-control custom-checkbox">
-              <input className="custom-control-input" type="checkbox" id="keyserverAutocryptLookup" name="autocrypt_lookup" checked={this.state.autocrypt_lookup} onChange={this.handleCheck} />
-              <label className="custom-control-label" htmlFor="keyserverAutocryptLookup"><span>{l10n.map.keyserver_autocrypt_lookup}</span>. <a href="https://www.mailvelope.com/faq#autocrypt" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+              <input className="custom-control-input" type="checkbox" id="keyserverKeyBinding" name="key_binding" checked={this.state.key_binding} onChange={this.handleCheck} />
+              <label className="custom-control-label" htmlFor="keyserverKeyBinding"><span>{l10n.map.keyserver_key_binding_label}</span>. <a href="https://www.mailvelope.com/faq#key_binding" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
             </div>
           </div>
           <div className="btn-bar">

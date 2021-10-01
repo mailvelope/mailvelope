@@ -20,8 +20,7 @@ import Spinner from '../../components/util/Spinner';
 import Notifications from '../../components/util/Notifications';
 
 l10n.register([
-  'keyring_header',
-  'security_background_button_title'
+  'keyring_header'
 ]);
 
 const DEMAIL_SUFFIX = 'de-mail.de';

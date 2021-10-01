@@ -275,30 +275,33 @@
   "preferences": {
     "security": {
       "display_decrypted": "inline",
+      "hide_armored_header": false,
       "password_cache": true,
-      "password_timeout": 30,
-      "hide_armored_header": false
+      "password_timeout": 30
     },
     "general": {
       "auto_add_primary": true,
-      "auto_sign_msg": false,
+      "auto_sign_msg": true,
       "prefer_gnupg": true
     },
     "provider": {
       "gmail_integration": true
     },
     "keyserver": {
+      "autocrypt_lookup": false,
       "hkp_base_url": "https://keyserver.ubuntu.com",
-      "hkp_server_list": [
+      "hkp_server_list":
+      [
         "https://keyserver.ubuntu.com",
         "http://pool.sks-keyservers.net:11371",
         "https://pgp.mit.edu",
         "https://keys.mailvelope.com"
       ],
+      "key_binding": true,
       "mvelo_tofu_lookup": true,
-      "wkd_lookup": true,
-      "autocrypt_lookup": true,
-      "wkd_blacklist": [
+      "oks_lookup": true,
+      "wkd_blacklist":
+      [
         "gmail\\..*",
         "googlemail\\..*",
         "gmx\\..*",
@@ -306,7 +309,8 @@
         "hotmail\\..*",
         "web.de",
         "yahoo\\..*"
-      ]
+      ],
+      "wkd_lookup": true
     }
   }
 }
