@@ -42,6 +42,7 @@ export async function decrypt({message, keyring, senderAddress, selfSigned, encr
     const sig = {};
     sig.keyId = signature.keyid.toHex();
     sig.valid = signature.valid;
+    sig.created = signature.signature.packets[0].created;
     if (sig.valid !== null) {
       try {
         sig.fingerprint = keyring.getFprForKeyId(sig.keyId);
@@ -133,6 +134,7 @@ export async function verify({message, plaintext, detachedSignature, keyring, si
     const sig = {};
     sig.keyId = signature.keyid.toHex();
     sig.valid = signature.valid;
+    sig.created = signature.signature.packets[0].created;
     const keys = keyring.keystore.getKeysForId(sig.keyId, true);
     if (keys) {
       sig.fingerprint = keys[0].primaryKey.getFingerprint();
