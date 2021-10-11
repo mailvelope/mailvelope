@@ -15,11 +15,13 @@ import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPre
 import {getUserInfo, mapKeys} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
+import {updateKeyBinding, init as initKeyBinding} from './keyBinding';
 
 export async function init() {
   await defaults.init();
   await prefs.init();
   pwdCache.init();
+  initKeyBinding();
   initOpenPGP();
   await trustKey.init();
 }
@@ -54,16 +56,25 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
   if (!keyring) {
     throw noKeyFoundError(encryptionKeyIds);
   }
+  let local;
   if (lookupKey) {
-    await acquireSigningKeys(senderAddress, keyring, lookupKey);
+    ({local} = await acquireSigningKeys(senderAddress, keyring, lookupKey));
   }
   try {
     let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey: options => unlockKey({message, ...options}), senderAddress, selfSigned, encryptionKeyIds});
     await logDecryption(uiLogSource, keyring, encryptionKeyIds);
+    if (local) {
+      const unknownSig = signatures.find(sig => sig.valid === null);
+      if (unknownSig) {
+        // if local key existed, but unknown signature, we try key discovery
+        await acquireSigningKeys(senderAddress, keyring, lookupKey, unknownSig.keyId);
+      }
+    }
     // collect fingerprints or keyIds of signatures
     const sigKeyIds = signatures.map(sig => sig.fingerprint || sig.keyId);
     // sync public keys for the signatures
     await syncPublicKeys({keyring, keyIds: sigKeyIds, keyringId});
+    await updateKeyBinding(keyring, senderAddress, signatures);
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
     return {data, signatures, keyringId: keyring.id};
   } catch (e) {
@@ -206,6 +217,7 @@ export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}
       }
     }
     let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
+    await updateKeyBinding(keyring, signerEmail, signatures);
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
     return {data, signatures};
   } catch (e) {
@@ -222,10 +234,11 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
     const {issuerKeyId} = sigPacket;
     // sync keys to preferred keyring
     await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
-    // get keys for signer email address from preffered keyring
-    const signerKeys = await acquireSigningKeys(signerEmail, keyring, lookupKey, issuerKeyId);
+    // get keys for signer email address from preferred keyring
+    const {signerKeys} = await acquireSigningKeys(signerEmail, keyring, lookupKey, issuerKeyId);
     const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
     let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
+    await updateKeyBinding(keyring, signerEmail, signatures);
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
     return {signatures};
   } catch (e) {
@@ -235,12 +248,19 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
 
 async function acquireSigningKeys(signerEmail, keyring, lookupKey, keyId) {
   let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId});
-  if (!signerKeys) {
-    // if no keys available, try key discovery mechanisms
-    await lookupKey();
-    ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId}));
+  if (signerKeys) {
+    return {
+      signerKeys,
+      local: true
+    };
   }
-  return signerKeys || [];
+  // if no keys in local keyring, try key discovery mechanisms
+  await lookupKey();
+  ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId}));
+  return {
+    signerKeys: signerKeys || [],
+    discovery: true
+  };
 }
 
 /**

@@ -22,6 +22,8 @@ export async function init() {
 export async function update(obj) {
   const preferences = await getPreferences();
   prefs = preferences;
+  // notifiy update handlers
+  updateHandlers.forEach(fn => fn(prefs, obj));
   if (obj.security) {
     Object.assign(prefs.security, obj.security);
   }
@@ -34,10 +36,6 @@ export async function update(obj) {
   if (obj.provider) {
     Object.assign(prefs.provider, obj.provider);
   }
-  // notifiy update handlers
-  updateHandlers.forEach(fn => {
-    fn();
-  });
   await setPreferences(prefs);
 }
 
