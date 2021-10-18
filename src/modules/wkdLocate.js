@@ -61,16 +61,19 @@ export async function lookup(email) {
     return;
   }
 
-  const url = await buildWKDUrl(email);
+  wkdOptions = [true, false]
+  let data;
+  for (n = 0; n < wkdOptions.length; n++){
+    const url = await buildWKDUrl(email, wkdOptions[n]);
 
-  // Impose a size limit and timeout similar to that of gnupg.
-  const data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
-    res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
+    // Impose a size limit and timeout similar to that of gnupg.
+    data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
+      res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
 
-  if (!data) {
+    if (data) break;
     // If we got nothing the get error was already logged and
     // we do not need to throw another error. TH
-    return;
+    if (!data && n == wkdOptions.length - 1) return;
   }
 
   // Now we should have binary keys in the response.
@@ -107,19 +110,27 @@ function isBlacklisted(domain) {
  * under the terms of the GNU Lesser General Public License Version 3
  *
  * @param {String}   email  The canonicalized RFC822 addr spec.
+ * @param {Boolean} useAdvancedMethod   If true this method uses the Advanced Method of WKD else the Direct Method
  *
- * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-06.
+ * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-12 (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/).
  */
-export async function buildWKDUrl(email) {
+export async function buildWKDUrl(email, useAdvancedMethod) {
   const [, localPart, domain] = /(.*)@(.*)/.exec(email);
   if (!localPart || !domain) {
-    throw new Error(`WKD: failed to parse: ${email}`);
+  methodText = "(" + (useAdvancedMethod ? "Advanced" : "Direct") + "Method)"
+    throw new Error(`WKD ${methodText}: failed to parse: ${email}`);
   }
   const localPartBuffer = str2ab(localPart.toLowerCase());
   const digest = await crypto.subtle.digest('SHA-1', localPartBuffer);
   const localEncoded = openpgp.util.encodeZBase32(new Uint8Array(digest));
   const localPartEncoded = encodeURIComponent(localPart);
-  return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}?l=${localPartEncoded}`;
+  // Create URL with Advanced Method
+  if (useAdvancedMethod){
+    return `https://${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}?l=${localPartEncoded}`;
+  // Create URL with Direct Method
+  }else{
+    return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}?l=${localPartEncoded}`;
+  }
 }
 
 /** Convert a promise into a promise with a timeout.
