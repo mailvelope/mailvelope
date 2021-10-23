@@ -61,7 +61,7 @@ export async function lookup(email) {
     return;
   }
 
-  wkdOptions = [true, false]
+  wkdOptions = [true, false];
   let data;
   for (n = 0; n < wkdOptions.length; n++){
     const url = await buildWKDUrl(email, wkdOptions[n]);
@@ -126,7 +126,7 @@ export async function buildWKDUrl(email, useAdvancedMethod) {
   const localPartEncoded = encodeURIComponent(localPart);
   // Create URL with Advanced Method
   if (useAdvancedMethod){
-    return `https://${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}?l=${localPartEncoded}`;
+    return `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}?l=${localPartEncoded}`;
   // Create URL with Direct Method
   }else{
     return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}?l=${localPartEncoded}`;
