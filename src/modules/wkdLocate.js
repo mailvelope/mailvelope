@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2018 Mailvelope GmbH
- * Licensed under the GNU Affero General Public License version 3
- */
+* Copyright (C) 2018 Mailvelope GmbH
+* Licensed under the GNU Affero General Public License version 3
+*/
 
 /**
- * @fileOverview This file implements Web Key directory lookup.
- */
+* @fileOverview This file implements Web Key directory lookup.
+*/
 
 import * as openpgp from 'openpgp';
 import {str2ab} from '../lib/util';
@@ -45,11 +45,11 @@ export function isEnabled() {
 }
 
 /**
- * Get a key from WKD by the email address.
- * @param {String}    email    The keys email address.
- * @yield {String|{undefined}  Armored key with matching uid.
- *                             Undefined if no key was found.
- */
+* Get a key from WKD by the email address.
+* @param {String}    email    The keys email address.
+* @yield {String|{undefined}  Armored key with matching uid.
+*                             Undefined if no key was found.
+*/
 export async function lookup(email) {
   if (!email) {
     throw new Error('WKD: Skipping lookup without email.');
@@ -61,19 +61,22 @@ export async function lookup(email) {
     return;
   }
 
-  wkdOptions = [true, false];
+  const wkdOptions = [true, false];
   let data;
-  for (n = 0; n < wkdOptions.length; n++){
+  for (let n = 0; n < wkdOptions.length; n++) {
     const url = await buildWKDUrl(email, wkdOptions[n]);
 
     // Impose a size limit and timeout similar to that of gnupg.
     data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
       res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
-
-    if (data) break;
+    if (data) {
+      break;
+    }
     // If we got nothing the get error was already logged and
     // we do not need to throw another error. TH
-    if (!data && n == wkdOptions.length - 1) return;
+    if (!data && n == wkdOptions.length - 1) {
+      return;
+    }
   }
 
   // Now we should have binary keys in the response.
@@ -117,18 +120,18 @@ function isBlacklisted(domain) {
 export async function buildWKDUrl(email, useAdvancedMethod) {
   const [, localPart, domain] = /(.*)@(.*)/.exec(email);
   if (!localPart || !domain) {
-  methodText = "(" + (useAdvancedMethod ? "Advanced" : "Direct") + "Method)"
-    throw new Error(`WKD ${methodText}: failed to parse: ${email}`);
+    const kindOfMethod = useAdvancedMethod ? 'Advanced' : 'Direct';
+    throw new Error(`WKD (${kindOfMethod} Method): failed to parse: ${email}`);
   }
   const localPartBuffer = str2ab(localPart.toLowerCase());
   const digest = await crypto.subtle.digest('SHA-1', localPartBuffer);
   const localEncoded = openpgp.util.encodeZBase32(new Uint8Array(digest));
   const localPartEncoded = encodeURIComponent(localPart);
   // Create URL with Advanced Method
-  if (useAdvancedMethod){
+  if (useAdvancedMethod) {
     return `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}?l=${localPartEncoded}`;
   // Create URL with Direct Method
-  }else{
+  } else {
     return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}?l=${localPartEncoded}`;
   }
 }
