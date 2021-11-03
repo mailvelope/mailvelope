@@ -248,11 +248,12 @@ export default class KeyringBase {
   /**
    * Get keys by fingerprints
    * @param  {Array<String>} keyFprs
+   * @param  {Boolean} deep
    * @return {Array<openpgp.key.Key>}
    */
-  getKeysByFprs(keyFprs) {
+  getKeysByFprs(keyFprs, deep) {
     return keyFprs.map(keyFpr => {
-      const keyArray = this.keystore.getKeysForId(keyFpr);
+      const keyArray = this.keystore.getKeysForId(keyFpr, deep);
       if (keyArray) {
         return keyArray[0];
       }
