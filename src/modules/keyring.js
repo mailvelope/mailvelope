@@ -6,14 +6,15 @@
 import mvelo from '../lib/lib-mvelo';
 import {MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../lib/constants';
 import {wait, filterAsync, toArray, MvError} from '../lib/util';
-import {sanitizeKey, verifyForAddress} from './key';
+import {sanitizeKey} from './key';
 import KeyringLocal from './KeyringLocal';
 import KeyStoreLocal from './KeyStoreLocal';
 import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
 import {gpgme} from '../lib/browser.runtime';
 import {prefs} from './prefs';
-import {isValidEncryptionKey, equalKey, getLastModifiedDate, toPublic} from './key';
+import {isValidEncryptionKey, getLastModifiedDate, toPublic} from './key';
+import {getKeyBinding, isKeyBound} from './keyBinding';
 
 /**
  * Map with all keyrings and their attributes. Data is persisted in local storage.
@@ -298,6 +299,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
   for (const keyring of keyrings) {
     const keyDataArray = await keyring.getKeyData({allUsers});
     for (const keyData of keyDataArray) {
+      keyData.keyring = keyring;
       // check if key for this fingerprint already exists in result list
       const keyIndex = result.findIndex(element => keyData.fingerprint === element.fingerprint);
       if (keyIndex === -1) {
@@ -316,60 +318,79 @@ export async function getKeyData({keyringId, allUsers = true}) {
   // filter out all invalid keys
   result = await filterAsync(result, key => isValidEncryptionKey(key.key));
   // expand users
-  const expanded = [];
+  let expanded = [];
   for (const keyData of result) {
     for (const user of keyData.users) {
-      // exclude key and users properties
-      const {key, users, ...keyDataPart} = keyData;
-      expanded.push({...keyDataPart, ...user});
+      expanded.push({...keyData, ...user});
     }
   }
+  if (prefs.keyserver.key_binding) {
+    expanded.sort((a, b) => a.email.localeCompare(b.email));
+    expanded = expanded.reduce((accumulator, current) => {
+      const length = accumulator.length;
+      const last = length && accumulator[length - 1];
+      if (length === 0 || last.email !== current.email) {
+        accumulator.push(current);
+        return accumulator;
+      }
+      last.binding = typeof last.binding === 'undefined' ? isKeyBound(last.keyring, last.email, last.key) : last.binding;
+      last.lastModified = last.lastModified || getLastModifiedDate(last.key);
+      current.binding = typeof current.binding === 'undefined' ? isKeyBound(current.keyring, current.email, current.key) : current.binding;
+      current.lastModified = current.lastModified || getLastModifiedDate(current.key);
+      if (!last.binding && current.binding ||
+          last.binding === current.binding && last.lastModified < current.lastModified) {
+        accumulator.pop();
+        accumulator.push(current);
+      }
+      return accumulator;
+    }, []);
+  }
+  expanded = expanded.map(keyDetails => {
+    const {key, users, keyring, binding, lastModified, ...keyPart} = keyDetails;
+    return keyPart;
+  });
   // sort by user id
   expanded.sort((a, b) => a.userId.localeCompare(b.userId));
   return expanded;
 }
 
 /**
- * Query keys in all keyrings by email address
+ * Query key in all keyrings by email address
  * @param  {String} keyringId - requested keyring, the leading keyring of a scenario
  * @param  {Array<String>|String} emails
  * @param {Boolean} [validForEncrypt] - verify keys for encryption
  * @param {Boolean} [verifyUser] - verify user IDs
- * @return {Object} - map in the form {address: [key1, key2, ..]}
+ * @return {Object} - map in the form {address: [key]}
  */
 export async function getKeyByAddress(keyringId, emails, {validForEncrypt = true, verifyUser = true} = {}) {
   const result = Object.create(null);
   emails = toArray(emails);
   const keyrings = getPreferredKeyringQueue(keyringId);
   for (const email of emails) {
-    let allKeys = [];
+    const latestKey = [];
+    const boundKey = [];
     for (const keyring of keyrings) {
-      const keys = keyring.keystore.getForAddress(email);
-      for (const key of keys) {
-        if (verifyUser && !await verifyForAddress(key, email)) {
-          continue;
+      if (prefs.keyserver.key_binding) {
+        const fpr = getKeyBinding(keyring, email);
+        if (fpr) {
+          try {
+            const [key] = keyring.getKeysByFprs([fpr], true);
+            boundKey.push(key);
+          } catch (e) {}
         }
-        // check if key already exists in result list
-        const keyIndex = allKeys.findIndex(element => equalKey(element, key));
-        if (keyIndex === -1) {
-          // key does not exist, add to result list
-          allKeys.push(key);
-          continue;
-        }
-        // key already in result list
-        const existing = allKeys[keyIndex];
-        if (getLastModifiedDate(existing) < getLastModifiedDate(key)) {
-          // current key is more recent then existing key -> replace
-          allKeys[keyIndex] = key;
+      }
+      if (!boundKey.length) {
+        const {[email]: keys} = await keyring.getKeyByAddress(email, {validForEncrypt, verifyUser, sort: true});
+        if (keys) {
+          latestKey.push(keys[0]);
         }
       }
     }
-    if (validForEncrypt) {
-      // filter out all invalid keys
-      allKeys = await filterAsync(allKeys, key => isValidEncryptionKey(key, keyringId));
-    }
-    if (allKeys.length) {
-      result[email] = allKeys;
+    const keys = boundKey.length ? boundKey : latestKey;
+    if (keys.length) {
+      keys.sort((a, b) => getLastModifiedDate(b) - getLastModifiedDate(a));
+      keys.length = 1;
+      result[email] = keys;
     } else {
       result[email] = false;
     }

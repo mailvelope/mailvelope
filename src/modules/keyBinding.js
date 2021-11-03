@@ -10,6 +10,7 @@ const KEY_BINDING = 'key_binding';
 
 export function init() {
   addUpdateHandler((before, after) => {
+    // clear key binding storage if feature turned off
     if (before.keyserver.key_binding && !after.keyserver.key_binding) {
       for (const keyring of getAllKeyring()) {
         setKeyringAttr(keyring.id, {[KEY_BINDING]: {}});
@@ -18,6 +19,12 @@ export function init() {
   });
 }
 
+/**
+ * Update key binding storage with latest seen information
+ * @param  {KeyringBase} keyring
+ * @param  {String} signerEmail
+ * @param  {Array<{valid, created, fingerprint}>} signatures
+ */
 export async function updateKeyBinding(keyring, signerEmail, signatures) {
   if (!signerEmail) {
     return;
@@ -35,4 +42,17 @@ export async function updateKeyBinding(keyring, signerEmail, signatures) {
   }
   keyBindingMap[signerEmail] = {fingerprint, last_seen};
   await setKeyringAttr(keyring.id, {[KEY_BINDING]: keyBindingMap});
+}
+
+export function getKeyBinding(keyring, email) {
+  const keyBindingMap = getKeyringAttr(keyring.id, KEY_BINDING) || {};
+  const keyBinding = keyBindingMap[email];
+  if (keyBinding) {
+    return keyBinding.fingerprint;
+  }
+}
+
+export function isKeyBound(keyring, email, key) {
+  const fpr = getKeyBinding(keyring, email);
+  return key.getKeys().some(key => key.getFingerprint() === fpr);
 }
