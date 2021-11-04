@@ -60,23 +60,58 @@ export async function lookup(email) {
   if (isBlacklisted(domain)) {
     return;
   }
+  await doesSubdomainOpenpgpkeyExist(domain).then(async result => {
+    let url;
+    if (result) {
+      url = await buildWKDUrl(email, true);
+    } else {
+      url = await buildWKDUrl(email, false);
+    }
+    console.log(url);
 
-  const url = await buildWKDUrl(email);
+    // Impose a size limit and timeout similar to that of gnupg.
+    const data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
+      res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
 
-  // Impose a size limit and timeout similar to that of gnupg.
-  const data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
-    res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
-
-  if (!data) {
     // If we got nothing the get error was already logged and
     // we do not need to throw another error. TH
-    return;
-  }
+    if (!data) {
+      return;
+    }
 
-  // Now we should have binary keys in the response.
-  const armored = await parseKeysForEMail(data, email);
+    // Now we should have binary keys in the response.
+    const armored = await parseKeysForEMail(data, email);
 
-  return {armored, date: new Date()};
+    return {armored, date: new Date()};
+  });
+}
+
+/**
+ *
+ * @param {String} domain The domain, for which will be tested, if there is a subdomain called openpgpkey.
+ * @returns {Promise}
+ */
+export async function doesSubdomainOpenpgpkeyExist(domain) {
+  return new Promise(resolve => {
+    /*const request = new XMLHttpRequest();
+    request.overrideMimeType('text/plain; charset=x-user-defined');
+    console.log(`get openpgpkey.${domain}`);
+    request.open('GET', `openpgpkey.${domain}`);
+    request.timeout = TIMEOUT * 1000;
+    request.onreadystatechange = function() {
+      console.log(`ready state: ${request.readyState}`);
+      console.log(`status ${request.status}`);
+      console.log(`status text ${request.statusText}`);
+      if (request.readyState === 4) {
+        if (request.status === 404 || request.status === 0) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      }
+    };
+    request.send();*/
+  });
 }
 
 /**
@@ -107,19 +142,28 @@ function isBlacklisted(domain) {
  * under the terms of the GNU Lesser General Public License Version 3
  *
  * @param {String}   email  The canonicalized RFC822 addr spec.
+ * @param {Boolean} useAdvancedMethod   If true this method uses the Advanced Method of WKD else the Direct Method
  *
- * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-06.
+ * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-12 (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/).
  */
-export async function buildWKDUrl(email) {
+export async function buildWKDUrl(email, useAdvancedMethod) {
+  console.log(`use advanced: ${useAdvancedMethod}`);
   const [, localPart, domain] = /(.*)@(.*)/.exec(email);
   if (!localPart || !domain) {
-    throw new Error(`WKD: failed to parse: ${email}`);
+    const kindOfMethod = useAdvancedMethod ? 'Advanced' : 'Direct';
+    throw new Error(`WKD (${kindOfMethod} Method): failed to parse: ${email}`);
   }
   const localPartBuffer = str2ab(localPart.toLowerCase());
   const digest = await crypto.subtle.digest('SHA-1', localPartBuffer);
   const localEncoded = openpgp.util.encodeZBase32(new Uint8Array(digest));
   const localPartEncoded = encodeURIComponent(localPart);
-  return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}?l=${localPartEncoded}`;
+  // Create URL with Advanced Method
+  if (useAdvancedMethod) {
+    return `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}?l=${localPartEncoded}`;
+  // Create URL with Direct Method
+  } else {
+    return `https://${domain}/.well-known/openpgpkey/hu/${localEncoded}?l=${localPartEncoded}`;
+  }
 }
 
 /** Convert a promise into a promise with a timeout.
