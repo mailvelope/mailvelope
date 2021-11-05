@@ -60,14 +60,17 @@ export async function lookup(email) {
   if (isBlacklisted(domain)) {
     return;
   }
+
+  // Only if the subdomain does not exists the Direct Method may be used (see Draft).
   await doesSubdomainOpenpgpkeyExist(domain).then(async result => {
     let url;
+    console.log(`subdomain openpgpkey exists: ${result}`);
     if (result) {
       url = await buildWKDUrl(email, true);
     } else {
       url = await buildWKDUrl(email, false);
     }
-    console.log(url);
+    console.log(`Built url: ${url}`);
 
     // Impose a size limit and timeout similar to that of gnupg.
     const data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
@@ -92,26 +95,18 @@ export async function lookup(email) {
  * @returns {Promise}
  */
 export async function doesSubdomainOpenpgpkeyExist(domain) {
-  return new Promise(resolve => {
-    /*const request = new XMLHttpRequest();
-    request.overrideMimeType('text/plain; charset=x-user-defined');
-    console.log(`get openpgpkey.${domain}`);
-    request.open('GET', `openpgpkey.${domain}`);
-    request.timeout = TIMEOUT * 1000;
-    request.onreadystatechange = function() {
-      console.log(`ready state: ${request.readyState}`);
-      console.log(`status ${request.status}`);
-      console.log(`status text ${request.statusText}`);
-      if (request.readyState === 4) {
-        if (request.status === 404 || request.status === 0) {
-          resolve(false);
-        } else {
-          resolve(true);
-        }
-      }
-    };
-    request.send();*/
-  });
+  const url = `https://openpgpkey.${domain}`;
+  return timeout(TIMEOUT * 1000, window.fetch(url, {mode: 'no-cors'})
+  .then(data => {
+    if (data !== undefined && data.status === 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }).catch(() => {
+    console.error(`Error while fetching url (${url})`);
+    return false;
+  }));
 }
 
 /**
@@ -147,7 +142,6 @@ function isBlacklisted(domain) {
  * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-12 (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/).
  */
 export async function buildWKDUrl(email, useAdvancedMethod) {
-  console.log(`use advanced: ${useAdvancedMethod}`);
   const [, localPart, domain] = /(.*)@(.*)/.exec(email);
   if (!localPart || !domain) {
     const kindOfMethod = useAdvancedMethod ? 'Advanced' : 'Direct';
