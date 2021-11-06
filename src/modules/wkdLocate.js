@@ -62,7 +62,7 @@ export async function lookup(email) {
   }
 
   // Only if the subdomain does not exists the Direct Method may be used (see Draft).
-  await doesSubdomainOpenpgpkeyExist(domain).then(async result => {
+  return doesSubdomainOpenpgpkeyExist(domain).then(async result => {
     let url;
     console.log(`subdomain openpgpkey exists: ${result}`);
     if (result) {
@@ -70,7 +70,6 @@ export async function lookup(email) {
     } else {
       url = await buildWKDUrl(email, false);
     }
-    console.log(`Built url: ${url}`);
 
     // Impose a size limit and timeout similar to that of gnupg.
     const data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
@@ -104,7 +103,6 @@ export async function doesSubdomainOpenpgpkeyExist(domain) {
       return false;
     }
   }).catch(() => {
-    console.error(`Error while fetching url (${url})`);
     return false;
   }));
 }
