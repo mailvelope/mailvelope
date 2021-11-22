@@ -36,7 +36,8 @@
     "nativeMessaging",
     "storage",
     "tabs",
-    "webNavigation"
+    "webNavigation",
+    "dns"
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self' blob:;",
   "web_accessible_resources": [

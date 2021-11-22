@@ -61,50 +61,50 @@ export async function lookup(email) {
     return;
   }
 
-  // Only if the subdomain does not exists the Direct Method may be used (see Draft).
-  return doesSubdomainOpenpgpkeyExist(domain).then(async result => {
-    let url;
-    console.log(`subdomain openpgpkey exists: ${result}`);
-    if (result) {
-      url = await buildWKDUrl(email, true);
-    } else {
-      url = await buildWKDUrl(email, false);
-    }
+  let data;
 
-    // Impose a size limit and timeout similar to that of gnupg.
-    const data = await timeout(TIMEOUT * 1000, window.fetch(url)).then(
-      res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
+  // For the WKD standard it is important to check, if the subdomain openpgpkey exists. Only in that
+  // case we should use the advanced method. The optimal way to do this check, is to try to
+  // resolve the DNS name. On the 21st of November 2021 only Firefox supported the method dns.resolve()
+  // (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/dns/resolve).
+  // That's why we check first, if this method exists.
+  if (typeof(chrome.dns.resolve) === 'function') {
+    const host = `openpgpkey.${domain}`;
+    const canDNSNameBeResolved = await browser.dns.resolve(host).then(result => {
+      if (result.addresses.length > 0) {
+        return true;
+      }
+      return false;
+    }).catch(() => false);
+
+    if (canDNSNameBeResolved) {
+      data = await retrieveKey(email, true);
+    } else {
+      data = await retrieveKey(email, false);
+    }
+  } else {
+    data = await retrieveKey(email, true);
+    if (!data) {
+      data = await retrieveKey(email, false);
+    }
 
     // If we got nothing the get error was already logged and
     // we do not need to throw another error. TH
     if (!data) {
       return;
     }
+  }
+  // Now we should have binary keys in the response.
+  const armored = await parseKeysForEMail(data, email);
 
-    // Now we should have binary keys in the response.
-    const armored = await parseKeysForEMail(data, email);
-
-    return {armored, date: new Date()};
-  });
+  return {armored, date: new Date()};
 }
 
-/**
- *
- * @param {String} domain The domain, for which will be tested, if there is a subdomain called openpgpkey.
- * @returns {Promise}
- */
-export async function doesSubdomainOpenpgpkeyExist(domain) {
-  const url = `https://openpgpkey.${domain}`;
-  return timeout(TIMEOUT * 1000, window.fetch(url, {mode: 'no-cors'})
-  .then(data => {
-    if (data !== undefined && data.status === 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }).catch(() => {
-    return false;
-  }));
+async function retrieveKey(email, useAdvancedMethod) {
+  const url = await buildWKDUrl(email, useAdvancedMethod);
+  // Impose a size limit and timeout similar to that of gnupg.
+  return timeout(TIMEOUT * 1000, window.fetch(url)).then(
+    res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
 }
 
 /**
@@ -137,7 +137,7 @@ function isBlacklisted(domain) {
  * @param {String}   email  The canonicalized RFC822 addr spec.
  * @param {Boolean} useAdvancedMethod   If true this method uses the Advanced Method of WKD else the Direct Method
  *
- * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-12 (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/).
+ * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-13 (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/).
  */
 export async function buildWKDUrl(email, useAdvancedMethod) {
   const [, localPart, domain] = /(.*)@(.*)/.exec(email);
