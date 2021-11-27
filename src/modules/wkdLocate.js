@@ -63,12 +63,13 @@ export async function lookup(email) {
 
   let data;
 
-  // For the WKD standard it is important to check, if the subdomain openpgpkey exists. Only in that
-  // case we should use the advanced method. The optimal way to do this check, is to try to
-  // resolve the DNS name. On the 21st of November 2021 only Firefox supported the method dns.resolve()
-  // (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/dns/resolve).
-  // That's why we check first, if this method exists.
-  if (typeof(chrome.dns.resolve) === 'function') {
+  /** For the WKD standard (draft version 13, https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/13/) it is important to check, if the subdomain openpgpkey exists. Only in that
+  * case we should use the advanced method. The optimal way to do this check, is to try to
+  * resolve the DNS name. On the 21st of November 2021 only Firefox supported the method dns.resolve()
+  * (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/dns/resolve).
+  * That's why we check first, if this method exists.
+  */
+  if (typeof browser !== 'undefined' && typeof(browser.dns.resolve) === 'function') {
     const host = `openpgpkey.${domain}`;
     const canDNSNameBeResolved = await browser.dns.resolve(host).then(result => {
       if (result.addresses.length > 0) {
@@ -78,21 +79,29 @@ export async function lookup(email) {
     }).catch(() => false);
 
     if (canDNSNameBeResolved) {
-      data = await retrieveKey(email, true);
+      data = await retrievePubKeyViaWKD(email, 'advanced');
     } else {
-      data = await retrieveKey(email, false);
+      data = await retrievePubKeyViaWKD(email, 'direct');
     }
   } else {
-    data = await retrieveKey(email, true);
-    if (!data) {
-      data = await retrieveKey(email, false);
+    try {
+      data = await retrievePubKeyViaWKD(email, 'advanced');
+    } catch (error) {
+      /** On Chrome we can't resolve the DNS name. But, if the server returns some status code
+       * like 404, we know that the DNS name can be resolved. If we get a NetworkError,
+       * we don't know the exact reason, so we also try the direct method.
+       */
+      if (error.message.toString().includes('NetworkError')) {
+        data = await retrievePubKeyViaWKD(email, 'direct');
+      } else {
+        return;
+      }
     }
-
-    // If we got nothing the get error was already logged and
-    // we do not need to throw another error. TH
-    if (!data) {
-      return;
-    }
+  }
+  // If we got nothing the get error was already logged and
+  // we do not need to throw another error. TH
+  if (!data) {
+    return;
   }
   // Now we should have binary keys in the response.
   const armored = await parseKeysForEMail(data, email);
@@ -100,8 +109,8 @@ export async function lookup(email) {
   return {armored, date: new Date()};
 }
 
-async function retrieveKey(email, useAdvancedMethod) {
-  const url = await buildWKDUrl(email, useAdvancedMethod);
+async function retrievePubKeyViaWKD(email, methodOfWKD) {
+  const url = await buildWKDUrl(email, methodOfWKD);
   // Impose a size limit and timeout similar to that of gnupg.
   return timeout(TIMEOUT * 1000, window.fetch(url)).then(
     res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
@@ -135,22 +144,21 @@ function isBlacklisted(domain) {
  * under the terms of the GNU Lesser General Public License Version 3
  *
  * @param {String}   email  The canonicalized RFC822 addr spec.
- * @param {Boolean} useAdvancedMethod   If true this method uses the Advanced Method of WKD else the Direct Method
+ * @param {String} methodOfWKD   Determines the WKD method, which has to be used.
  *
  * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-13 (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/).
  */
-export async function buildWKDUrl(email, useAdvancedMethod) {
+export async function buildWKDUrl(email, methodOfWKD) {
   const [, localPart, domain] = /(.*)@(.*)/.exec(email);
   if (!localPart || !domain) {
-    const kindOfMethod = useAdvancedMethod ? 'Advanced' : 'Direct';
-    throw new Error(`WKD (${kindOfMethod} Method): failed to parse: ${email}`);
+    throw new Error(`WKD failed to parse: ${email}`);
   }
   const localPartBuffer = str2ab(localPart.toLowerCase());
   const digest = await crypto.subtle.digest('SHA-1', localPartBuffer);
   const localEncoded = openpgp.util.encodeZBase32(new Uint8Array(digest));
   const localPartEncoded = encodeURIComponent(localPart);
   // Create URL with Advanced Method
-  if (useAdvancedMethod) {
+  if (methodOfWKD === 'advanced') {
     return `https://openpgpkey.${domain}/.well-known/openpgpkey/${domain}/hu/${localEncoded}?l=${localPartEncoded}`;
   // Create URL with Direct Method
   } else {
