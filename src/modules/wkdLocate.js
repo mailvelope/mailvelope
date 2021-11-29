@@ -88,10 +88,10 @@ export async function lookup(email) {
       data = await retrievePubKeyViaWKD(email, 'advanced');
     } catch (error) {
       /** On Chrome we can't resolve the DNS name. But, if the server returns some status code
-       * like 404, we know that the DNS name can be resolved. If we get a NetworkError,
+       * like 404, we know that the DNS name can be resolved. If we get a TypeError,
        * we don't know the exact reason, so we also try the direct method.
        */
-      if (error.message.toString().includes('NetworkError')) {
+      if (error.name.toString() === 'TypeError') {
         data = await retrievePubKeyViaWKD(email, 'direct');
       } else {
         return;
