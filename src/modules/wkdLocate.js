@@ -65,7 +65,7 @@ export async function lookup(email) {
 
   /** For the WKD standard (draft version 13, https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/13/) it is important to check, if the subdomain openpgpkey exists. Only in that
   * case we should use the advanced method. The optimal way to do this check, is to try to
-  * resolve the DNS name. On the 21st of November 2021 only Firefox supported the method dns.resolve()
+  * resolve the DNS name. On the 21st of November 2021 only Firefox (since version 60) supported the method dns.resolve()
   * (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/dns/resolve).
   * That's why we check first, if this method exists.
   */
@@ -144,7 +144,7 @@ function isBlacklisted(domain) {
  * under the terms of the GNU Lesser General Public License Version 3
  *
  * @param {String}   email  The canonicalized RFC822 addr spec.
- * @param {String} methodOfWKD   Determines the WKD method, which has to be used.
+ * @param {String} methodOfWKD   Determines the WKD method, which has to be used. Possible parameters: 'direct', 'advanced'.
  *
  * @returns {String} The WKD URL according to draft-koch-openpgp-webkey-service-13 (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/).
  */
