@@ -12,6 +12,7 @@ import {str2ab} from '../lib/util';
 import {prefs} from './prefs';
 import {filterUserIdsByEmail} from './key';
 import defaults from '../res/defaults.json';
+import browser from 'webextension-polyfill';
 
 export const name = 'WKD';
 
@@ -69,7 +70,7 @@ export async function lookup(email) {
   * (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/dns/resolve).
   * That's why we check first, if this method exists.
   */
-  if (typeof browser !== 'undefined' && typeof(browser.dns.resolve) === 'function') {
+  if (typeof browser.dns !== 'undefined') {
     const host = `openpgpkey.${domain}`;
     const canDNSNameBeResolved = await browser.dns.resolve(host).then(result => {
       if (result.addresses.length > 0) {
