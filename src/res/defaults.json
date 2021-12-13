@@ -179,6 +179,11 @@
           "scan": true,
           "frame": "*.mail.zoho.com",
           "api": false
+        },
+        {
+          "scan": true,
+          "frame": "*.mail.zoho.eu",
+          "api": false
         }
       ]
     },
