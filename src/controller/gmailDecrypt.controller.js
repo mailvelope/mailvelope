@@ -253,7 +253,7 @@ export default class gmailDecryptController extends DecryptController {
         signerEmail: this.sender,
         detachedSignature: armored,
         keyringId,
-        lookupKey: () => lookupKey({keyringId, email: this.sender})
+        lookupKey: rotation => lookupKey({keyringId, email: this.sender, rotation})
       });
       this.ports.dDialog.emit('verified-message', {
         message: this.plainText,

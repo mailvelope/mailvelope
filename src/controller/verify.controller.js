@@ -45,7 +45,7 @@ export default class VerifyController extends SubController {
         armored: this.armored,
         keyringId: this.keyringId,
         signerEmail: sender,
-        lookupKey: () => lookupKey({keyringId: this.keyringId, email: sender})
+        lookupKey: rotation => lookupKey({keyringId: this.keyringId, email: sender, rotation})
       });
       this.ports.dDialog.emit('verified-message', {
         message: data,

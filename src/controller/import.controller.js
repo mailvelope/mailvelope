@@ -31,7 +31,7 @@ export default class ImportController extends sub.SubController {
     this.invalidated = false;
     // register event handlers
     this.on('imframe-armored-key', this.onArmoredKey);
-    this.on('key-import-dialog-init', () => this.emit('key-details', {key: this.keyDetails, invalidated: this.invalidated}));
+    this.on('key-import-dialog-init', () => this.emit('key-details', {key: this.keyDetails, invalidated: this.invalidated, rotation: this.rotation}));
     this.on('key-import-dialog-ok', this.onImportOk);
     this.on('key-import-dialog-cancel', this.handleCancel);
     this.on('key-import-user-input', msg => uiLog.push(msg.source, msg.type));
@@ -73,12 +73,13 @@ export default class ImportController extends sub.SubController {
     }
   }
 
-  async importKey(keyringId, armored) {
+  async importKey(keyringId, armored, rotation) {
     try {
       this.keyringId = keyringId;
       // check keyringId
       this.keyring = getKeyringById(keyringId);
       this.armored = armored;
+      this.rotation = rotation;
       this.keys = await openpgp.key.readArmored(this.armored);
       if (this.keys.err) {
         throw new Error(this.keys.err[0].message);
@@ -164,11 +165,18 @@ export default class ImportController extends sub.SubController {
   }
 }
 
-export async function lookupKey({keyringId, email}) {
+/**
+ * Lookup key in key registry
+ * @param  {String} options.keyringId
+ * @param  {String} options.email - email address of key user ID
+ * @param  {Boolean} options.rotation - set true if we have already a key in the local keyring
+ *                                      and therefore newly discovered key could possibly be a key rotation event
+ */
+export async function lookupKey({keyringId, email, rotation}) {
   const result = await keyRegistry.lookup(email, keyringId);
   if (result) {
     try {
-      await sub.factory.get('importKeyDialog').importKey(keyringId, result.armored);
+      await sub.factory.get('importKeyDialog').importKey(keyringId, result.armored, rotation);
     } catch (e) {
       console.log('Key import after auto locate failed', e);
     }

@@ -14,16 +14,20 @@ import Alert from '../util/Alert';
 
 // register language strings
 l10n.register([
-  'key_import_default_headline',
-  'key_import_default_description',
-  'key_import_invalidated_description',
-  'keyring_confirm_keys',
-  'keygrid_keyid',
-  'keygrid_user_name',
-  'keygrid_user_email',
-  'keygrid_key_fingerprint',
+  'form_cancel',
   'form_confirm',
-  'form_cancel'
+  'key_import_default_description',
+  'key_import_default_headline',
+  'key_import_invalidated_description',
+  'key_import_rotation_add',
+  'key_import_rotation_cancel',
+  'key_import_rotation_description',
+  'key_import_rotation_headline',
+  'keygrid_key_fingerprint',
+  'keygrid_keyid',
+  'keygrid_user_email',
+  'keygrid_user_name',
+  'keyring_confirm_keys'
 ]);
 
 export default class ImportKey extends React.Component {
@@ -33,6 +37,7 @@ export default class ImportKey extends React.Component {
       waiting: true,
       key: null,
       invalidated: false,
+      rotation: false,
       error: null,
       showError: false
     };
@@ -49,8 +54,8 @@ export default class ImportKey extends React.Component {
     this.port.on('import-error', this.onImportError);
   }
 
-  onKeyDetails({key, invalidated}) {
-    this.setState({key, invalidated, waiting: false});
+  onKeyDetails({key, invalidated, rotation}) {
+    this.setState({key, invalidated, rotation, waiting: false});
   }
 
   onImportError({message}) {
@@ -98,10 +103,10 @@ export default class ImportKey extends React.Component {
               ) : (
                 <>
                   <div className="modal-header justify-content-center border-0 p-4 flex-shrink-0">
-                    <h4 className="modal-title">{l10n.map.key_import_default_headline}</h4>
+                    <h4 className="modal-title">{this.state.rotation ? l10n.map.key_import_rotation_headline : l10n.map.key_import_default_headline}</h4>
                   </div>
                   <div className="modal-body overflow-auto py-0 px-4">
-                    <p>{!this.state.invalidated ? l10n.map.key_import_default_description : l10n.get('key_import_invalidated_description', [this.state.key.email ? this.state.key.email : this.state.key.name])}</p>
+                    {!this.state.rotation && <p>{!this.state.invalidated ? l10n.map.key_import_default_description : l10n.get('key_import_invalidated_description', [this.state.key.email ? this.state.key.email : this.state.key.name])}</p>}
                     {!this.state.showError ? (
                       <div className="table-responsive">
                         <table className="table table-custom">
@@ -132,11 +137,12 @@ export default class ImportKey extends React.Component {
                     ) : (
                       <Alert header={this.state.error.header} type={this.state.error.type}>{this.state.error.message}</Alert>
                     )}
+                    {this.state.rotation && <p>{l10n.map.key_import_rotation_description}</p>}
                   </div>
                   <div className="modal-footer justify-content-center border-0 p-4 flex-shrink-0">
                     <div className="btn-bar">
-                      <button type="button" onClick={this.handleCancel} className="btn btn-secondary">{l10n.map.form_cancel}</button>
-                      <button type="button" onClick={this.handleConfirm} className="btn btn-primary">{l10n.map.keyring_confirm_keys}</button>
+                      <button type="button" onClick={this.handleCancel} className="btn btn-secondary">{this.state.rotation ? l10n.map.key_import_rotation_cancel : l10n.map.form_cancel}</button>
+                      <button type="button" onClick={this.handleConfirm} className="btn btn-primary">{this.state.rotation ? l10n.map.key_import_rotation_add : l10n.map.keyring_confirm_keys}</button>
                     </div>
                   </div>
                 </>
