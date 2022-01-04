@@ -595,17 +595,13 @@
     "description": "Install landing page getting started hint",
     "message": "Hier klicken, um die Erweiterung zu öffnen."
   },
-  "invalid_default_key": {
-    "description": "Tootip for set as default key button",
-    "message": "Schlüssel ist nicht valide für Verschlüsselungs- und Signieren-Operationen"
-  },
   "key_default_active_btn_title": {
     "description": "Title for active default key button",
     "message": "Schlüssel ist als Standardschlüssel gesetzt"
   },
   "key_default_disabled_btn_title": {
     "description": "Title for disabled (invalid) default key button",
-    "message": "Schlüssel ist ungültig und kann nicht als Standardschlüssel gesetzt werden"
+    "message": "Schlüssel ist nicht valide für Verschlüsselungs- und Signieren-Operationen"
   },
   "key_default_inactive_btn_title": {
     "description": "Title for inactive default key button",
@@ -793,7 +789,7 @@
   },
   "key_import_invalidated_description": {
     "description": "",
-    "message": "Achtung! Der Schlüssel für diesen Kontakt ist abgelaufen. Eine verschlüsselte Kommunikation mit $1 ist nicht mehr möglich. Der Kontakt muss Sie mit einem aktuellen Schlüssel neu einladen."
+    "message": "Achtung! Der Schlüssel für diesen Kontakt ist abgelaufen. Eine verschlüsselte Kommunikation mit $1 ist nicht mehr möglich. Sie benötigen den aktuellen Schlüssel des Kontaktes."
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
@@ -830,6 +826,22 @@
   "key_import_public_update": {
     "description": "Import success message: $1: keyid, $2: userid.",
     "message": "Der öffentliche Schlüssel $1 des Benutzers $2 wurde aktualisiert"
+  },
+  "key_import_rotation_add": {
+    "description": "Key import rotation add button.",
+    "message": "Zum Schlüsselring hinzufügen"
+  },
+  "key_import_rotation_cancel": {
+    "description": "Key import rotation cancel button.",
+    "message": "Nicht jetzt"
+  },
+  "key_import_rotation_description": {
+    "description": "Key import dialog description.",
+    "message": "Wenn Sie weiterhin den alten Schlüssel verwenden, ist der Absender möglicherweise nicht in der Lage, Ihre Nachrichten zu entschlüsseln. Bitten Sie den Absender im Zweifelsfall, die Änderung über einen anderen Kommunikationskanal zu bestätigen. Sie können den Schlüssel später hinzufügen oder entfernen."
+  },
+  "key_import_rotation_headline": {
+    "description": "Key import rotation dialog header.",
+    "message": "Der Absender hat diese Nachricht mit einem neuen Schlüssel signiert."
   },
   "key_import_textarea": {
     "description": "Key import box.",

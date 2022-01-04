@@ -58,7 +58,7 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
   }
   let local;
   if (lookupKey) {
-    ({local} = await acquireSigningKeys(senderAddress, keyring, lookupKey));
+    ({local} = await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey}));
   }
   try {
     let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey: options => unlockKey({message, ...options}), senderAddress, selfSigned, encryptionKeyIds});
@@ -67,7 +67,7 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
       const unknownSig = signatures.find(sig => sig.valid === null);
       if (unknownSig) {
         // if local key existed, but unknown signature, we try key discovery
-        await acquireSigningKeys(senderAddress, keyring, lookupKey, unknownSig.keyId);
+        await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey, keyId: openpgp.Keyid.fromId(unknownSig.keyId)});
       }
     }
     // collect fingerprints or keyIds of signatures
@@ -213,7 +213,7 @@ export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}
     await syncPublicKeys({keyring, keyIds: signingKeyIds, keyringId});
     if (signerEmail) {
       for (const signingKeyId of signingKeyIds) {
-        await acquireSigningKeys(signerEmail, keyring, lookupKey, signingKeyId);
+        await acquireSigningKeys({signerEmail, keyring, lookupKey, keyId: signingKeyId});
       }
     }
     let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
@@ -235,7 +235,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
     // sync keys to preferred keyring
     await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
     // get keys for signer email address from preferred keyring
-    const {signerKeys} = await acquireSigningKeys(signerEmail, keyring, lookupKey, issuerKeyId);
+    const {signerKeys} = await acquireSigningKeys({signerEmail, keyring, lookupKey, keyId: issuerKeyId});
     const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
     let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
     await updateKeyBinding(keyring, signerEmail, signatures);
@@ -246,7 +246,7 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   }
 }
 
-async function acquireSigningKeys(signerEmail, keyring, lookupKey, keyId) {
+async function acquireSigningKeys({signerEmail, keyring, lookupKey, keyId}) {
   let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId});
   if (signerKeys) {
     return {
@@ -255,7 +255,15 @@ async function acquireSigningKeys(signerEmail, keyring, lookupKey, keyId) {
     };
   }
   // if no keys in local keyring, try key discovery mechanisms
-  await lookupKey();
+  let rotation;
+  if (keyId) {
+    ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail));
+    if (signerKeys) {
+      // potential key rotation event
+      rotation = true;
+    }
+  }
+  await lookupKey(rotation);
   ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId}));
   return {
     signerKeys: signerKeys || [],

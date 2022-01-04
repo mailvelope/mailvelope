@@ -127,7 +127,7 @@ export default class DecryptController extends sub.SubController {
         unlockKey: this.unlockKey.bind(this),
         senderAddress: this.sender,
         uiLogSource: 'security_log_viewer',
-        lookupKey: () => lookupKey({keyringId, email: this.sender})
+        lookupKey: rotation => lookupKey({keyringId, email: this.sender, rotation})
       });
       const ports = this.ports;
       const handlers = {

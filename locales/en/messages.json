@@ -599,17 +599,13 @@
     "description": "Install landing page getting started hint",
     "message": "Click here, to open the extension."
   },
-  "invalid_default_key": {
-    "description": "Tootip for set as default key button",
-    "message": "Key is not valid for encryption and signing operations"
-  },
   "key_default_active_btn_title": {
     "description": "Title for active default key button",
     "message": "Key is set as default key"
   },
   "key_default_disabled_btn_title": {
     "description": "Title for disabled (invalid) default key button",
-    "message": "The key is invalid and cannot be set as the default key"
+    "message": "Key is not valid for encryption and signing operations"
   },
   "key_default_inactive_btn_title": {
     "description": "Title for inactive default key button",
@@ -797,7 +793,7 @@
   },
   "key_import_invalidated_description": {
     "description": "",
-    "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key."
+    "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact."
   },
   "key_import_number_of_failed": {
     "description": "Error message with number of failed imports.",
@@ -834,6 +830,22 @@
   "key_import_public_update": {
     "description": "Import success message: $1: keyid, $2: userid.",
     "message": "Updated public key $1 of user $2"
+  },
+  "key_import_rotation_add": {
+    "description": "Key import rotation add button.",
+    "message": "Add to keyring"
+  },
+  "key_import_rotation_cancel": {
+    "description": "Key import rotation cancel button.",
+    "message": "Not now"
+  },
+  "key_import_rotation_description": {
+    "description": "Key import dialog description.",
+    "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later."
+  },
+  "key_import_rotation_headline": {
+    "description": "Key import rotation dialog header.",
+    "message": "The sender signed this message with a new key."
   },
   "key_import_textarea": {
     "description": "Key import box.",

@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 l10n.register([
   'keygrid_default_label',
   'key_set_as_default',
-  'invalid_default_key',
   'key_default_active_btn_title',
   'key_default_disabled_btn_title',
   'key_default_inactive_btn_title'
