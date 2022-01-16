@@ -70,7 +70,7 @@ export default class AppController extends sub.SubController {
     this.on('get-gnupg-status', () => Boolean(gpgme));
     this.on('reload-keystore', ({keyringId}) => keyringById(keyringId).keystore.load());
     this.on('read-amored-keys', this.readArmoredKeys);
-    this.on('auto-locate', this.autoLocate);
+    this.on('key-lookup', this.keyLookup);
     this.on('get-default-key-fpr', ({keyringId}) => getDefaultKeyFpr(keyringId));
     this.on('get-signing-keys', ({keyringId}) => keyringById(keyringId).getValidSigningKeys());
     this.on('get-oauth-tokens', this.getOAuthTokens);
@@ -381,7 +381,7 @@ export default class AppController extends sub.SubController {
     return {keys: mappedKeys, errors, armoreds: validArmoreds};
   }
 
-  async autoLocate({email, keyringId}) {
+  async keyLookup({email, keyringId}) {
     const result = await keyRegistry.lookup(email, keyringId);
     if (result) {
       await keyringById(keyringId).importKeys([{type: 'public', armored: result.armored}]);

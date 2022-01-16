@@ -28,7 +28,7 @@ import * as autocrypt from './autocryptWrapper';
 const strategies = [mveloKeyServer, oks, wkd, autocrypt];
 
 /**
- * Get a verified public key from auto-locate sources by email address.
+ * Get a verified public key from external key sources by email address.
  *
  * This checks for all strategies if they are enabled.
  * If none is enabled it will return fast.

@@ -49,27 +49,29 @@ export default class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasUserInput: false,
-      signMsg: false,
-      signKey: '',
       defaultKey: false,
-      privKeys: [],
       defaultPlainText: '',
+      embedded: false,
+      encryptDisabled: true,
+      extraKey: false,
+      extraKeys: [],
+      files: [],
+      hasUserInput: false,
+      integration: false,
+      notification: null,
       plainText: '',
+      privKeys: [],
       publicKeys: [],
+      pwdDialog: null,
       recipients: [],
       recipientsCc: [],
-      showRecipientsCc: false,
-      subject: '',
-      encryptDisabled: true,
-      waiting: true,
-      notification: null,
       showNotification: false,
-      pwdDialog: null,
-      files: [],
+      showRecipientsCc: false,
+      signKey: '',
+      signMsg: false,
+      subject: '',
       terminate: false,
-      embedded: false,
-      integration: false
+      waiting: true
     };
     this.encryptTimeout = null;
     this.port = EventHandler.connect(`editor-${this.props.id}`, this);
@@ -230,6 +232,7 @@ export default class Editor extends React.Component {
       subject: this.state.subject,
       keysTo: this.state.recipients.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
       keysCc: this.state.recipientsCc.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
+      keysEx: this.state.extraKeys.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
       attachments: this.state.files,
       action,
       signMsg: this.state.signMsg || draft, // draft is always signed
@@ -352,6 +355,15 @@ export default class Editor extends React.Component {
     }
   }
 
+  handleCheck(event) {
+    const target = event.target;
+    this.setState({[target.name]: target.checked});
+  }
+
+  handleKeyLookup(recipient) {
+    this.port.emit('key-lookup', {recipient});
+  }
+
   hideNotification(timeout = 0, closeEditor = false) {
     setTimeout(() => {
       if (closeEditor) {
@@ -378,7 +390,7 @@ export default class Editor extends React.Component {
                       </div>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} encryptDisabled={this.state.encryptDisabled}
                         onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
-                        onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
+                        onAutoLocate={recipient => this.handleKeyLookup(recipient)}
                       />
                     </div>
                   )}
@@ -387,7 +399,7 @@ export default class Editor extends React.Component {
                       <label className="mr-auto">{l10n.map.editor_label_copy_recipient}</label>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipientsCc} encryptDisabled={this.state.encryptDisabled}
                         onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
-                        onAutoLocate={recipient => this.port.emit('auto-locate', {recipient})}
+                        onAutoLocate={recipient => this.handleKeyLookup(recipient)}
                       />
                     </div>
                   )}
@@ -418,13 +430,16 @@ export default class Editor extends React.Component {
               {!this.state.embedded && (
                 <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
                   <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
-                    privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
+                    extraKey={this.state.extraKey}
+                    extraKeyInput={<RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} onAutoLocate={recipient => this.handleKeyLookup(recipient)} />}
                     integration = {this.state.integration}
                     onCancel={() => this.handleCancel()}
-                    onSignOnly={() => this.handleSign()}
-                    onOk={() => this.handleOk()}
                     onChangeSignKey={value => this.handleChangeSignKey(value)}
                     onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
+                    onExtraKey={event => this.handleCheck(event)}
+                    onOk={() => this.handleOk()}
+                    onSignOnly={() => this.handleSign()}
+                    privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
                   />
                 </div>
               )}

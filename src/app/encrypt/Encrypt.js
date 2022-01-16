@@ -58,7 +58,6 @@ export default class Encrypt extends React.Component {
       keyringId: '',
       keys: [],
       recipients: [],
-      autoLocate: false,
       signingKey: null,
       selectedSigningKeyFpr: null,
       signingKeys: [],
@@ -100,7 +99,7 @@ export default class Encrypt extends React.Component {
   }
 
   async handleAutoLocate({email}) {
-    await port.send('auto-locate', {email, keyringId: this.state.keyringId});
+    await port.send('key-lookup', {email, keyringId: this.state.keyringId});
     await this.initKeys();
   }
 
@@ -267,7 +266,7 @@ export default class Encrypt extends React.Component {
                 <div className={this.state.encrypted.length ? 'd-none' : ''}>
                   <div className="form-group">
                     <label>{l10n.map.editor_label_recipient}</label>
-                    <RecipientInput keys={this.state.keys} recipients={this.state.recipients} autoLocate={this.state.autoLocate} encryptDisabled={this.state.encryptDisabled}
+                    <RecipientInput keys={this.state.keys} recipients={this.state.recipients} encryptDisabled={this.state.encryptDisabled}
                       onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
                       onAutoLocate={recipient => this.handleAutoLocate(recipient)}
                     />

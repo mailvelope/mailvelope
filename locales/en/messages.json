@@ -247,6 +247,14 @@
     "description": "",
     "message": "Error"
   },
+  "editor_extra_key_checkbox": {
+    "description": "Extra key checkbox label.",
+    "message": "Add extra key"
+  },
+  "editor_extra_key_help": {
+    "description": "Extra key help text.",
+    "message": "Email will be encrypted with this additional key"
+  },
   "editor_header": {
     "description": "Header of editor popup.",
     "message": "Compose Secure Email"

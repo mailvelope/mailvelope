@@ -24,20 +24,16 @@ l10n.register([
 ]);
 
 /*
-  reference to props of RecipientInput
+  reference to props of RecipientInput will be shared with Angular controller
   this structure is not immutable, recipients will be received as {email},
   but RecipientInputCtrl will modify recipients to {email, keys}
  */
-let _props = null;
-// reference to angular controller
-let rInputCtrl = null;
+const contrCompStack = [];
 
 export class RecipientInput extends React.Component {
   constructor(props) {
     super(props);
     this.id = getHash();
-    // store props in global variable for Angular
-    _props = props;
   }
 
   componentDidMount() {
@@ -50,21 +46,24 @@ export class RecipientInput extends React.Component {
     });
     // attach ctrl to editor module
     angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);
+    // store props on stack for Angular
+    this.ctrlLink = {props: this.props};
+    contrCompStack.push(this.ctrlLink);
     // bootstrap angular
     angular.bootstrap(document.getElementById(this.id), ['recipientInput']);
-    if (_props.recipients.length) {
-      rInputCtrl.recipients = _props.recipients;
-      rInputCtrl.update();
+    if (this.ctrlLink.props.recipients.length) {
+      this.ctrlLink.rInputCtrl.recipients = this.ctrlLink.props.recipients;
+      this.ctrlLink.rInputCtrl.update();
     }
   }
 
   shouldComponentUpdate(nextProps) {
-    _props = nextProps;
-    rInputCtrl.recipients = _props.recipients;
+    this.ctrlLink.props = nextProps;
+    this.ctrlLink.rInputCtrl.recipients = this.ctrlLink.props.recipients;
     // only update input controller if recipients or keys change
     if (this.props.recipients !== nextProps.recipients ||
         this.props.keys !== nextProps.keys) {
-      rInputCtrl.update();
+      this.ctrlLink.rInputCtrl.update();
     }
     // no re-rendering of component due to Angular
     return false;
@@ -118,8 +117,9 @@ RecipientInput.propTypes = {
 export class RecipientInputCtrl {
   constructor($timeout) {
     this._timeout = $timeout;
-    this.recipients = _props.recipients;
-    rInputCtrl = this;
+    this.compLink = contrCompStack.pop();
+    this.recipients = this.compLink.props.recipients;
+    this.compLink.rInputCtrl = this;
   }
 
   update() {
@@ -167,7 +167,7 @@ export class RecipientInputCtrl {
    * @return {Object}             The key object (undefined if none found)
    */
   getKey(recipient) {
-    return _props.keys.find(key => {
+    return this.compLink.props.keys.find(key => {
       const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
       const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
       return fprMatch && emailMatch || emailMatch;
@@ -201,8 +201,8 @@ export class RecipientInputCtrl {
   checkEncryptStatus() {
     this.noEncrypt = this.recipients.some(r => !r.key);
     const encryptDisabled = this.noEncrypt || !this.recipients.length;
-    if (_props.encryptDisabled !== encryptDisabled) {
-      _props.onChangeEncryptStatus({encryptDisabled});
+    if (this.compLink.props.onChangeEncryptStatus && this.compLink.props.encryptDisabled !== encryptDisabled) {
+      this.compLink.props.onChangeEncryptStatus({encryptDisabled});
     }
   }
 
@@ -214,7 +214,7 @@ export class RecipientInputCtrl {
    */
   autoLocate(recipient) {
     recipient.checkedServer = true;
-    _props.onAutoLocate(recipient);
+    this.compLink.props.onAutoLocate(recipient);
   }
 
   /**
@@ -223,7 +223,7 @@ export class RecipientInputCtrl {
    * @return {Array}          A list of filtered items that match the query
    */
   autocomplete(query) {
-    const cache = _props.keys.map(key => ({
+    const cache = this.compLink.props.keys.map(key => ({
       email: key.email,
       fingerprint: key.fingerprint,
       displayId: `${key.userId} - ${key.keyId}`
