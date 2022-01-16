@@ -44,7 +44,7 @@ export default class EditorController extends sub.SubController {
     this.on('editor-load', this.onEditorLoad);
     this.on('editor-plaintext', this.onEditorPlaintext);
     this.on('editor-user-input', this.onEditorUserInput);
-    this.on('auto-locate', this.onAutoLocate);
+    this.on('key-lookup', this.onKeyLookup);
     // standalone editor only
     this.on('editor-close', this.onEditorClose);
     this.on('sign-only', this.onSignOnly);
@@ -250,12 +250,12 @@ export default class EditorController extends sub.SubController {
   }
 
   /**
-   * Lookup a recipient's public key with the auto-locate sources and
+   * Lookup a recipient's public key with the key registry sources and
    * store it locally using a TOFU like (trust on first use) mechanic.
    * @param  {Object} msg   The event message object
    * @return {undefined}
    */
-  async onAutoLocate(msg) {
+  async onKeyLookup(msg) {
     const options = msg.recipient;
     options.keyringId = this.keyringId;
     const result = await keyRegistry.lookup(options.email, this.keyringId);
@@ -437,7 +437,7 @@ export default class EditorController extends sub.SubController {
    * @param {Boolean} options.noCache - do not use password cache, user interaction required
    */
   async onEditorPlaintext(options) {
-    options.keys = [...options.keysTo, ...options.keysCc];
+    options.keys = [...options.keysTo, ...options.keysCc, ...options.keysEx];
     try {
       const {armored, encFiles} = await this.signAndEncrypt(options);
       this.ports.editor.emit('encrypt-end');

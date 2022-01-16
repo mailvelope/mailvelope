@@ -243,6 +243,14 @@
     "description": "",
     "message": "Fehler"
   },
+  "editor_extra_key_checkbox": {
+    "description": "Extra key checkbox label.",
+    "message": "Zusätzlichen Schlüssel hinzufügen"
+  },
+  "editor_extra_key_help": {
+    "description": "Extra key help text.",
+    "message": "Die E-Mail wird mit diesem zusätzlichen Schlüssel verschlüsselt"
+  },
   "editor_header": {
     "description": "Header of editor popup.",
     "message": "Sichere E-Mail schreiben"
