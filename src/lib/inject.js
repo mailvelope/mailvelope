@@ -8,6 +8,7 @@ import * as sub from '../controller/sub.controller';
 import {str2bool, matchPattern2RegExString, sortAndDeDup} from './util';
 import browser from 'webextension-polyfill';
 import {prefs, getWatchList} from '../modules/prefs';
+import {measureWatchListHit} from './analytics';
 
 // watchlist match patterns as regex for URL
 let watchlistRegex;
@@ -91,6 +92,7 @@ async function injectOpenTabs(filterURL) {
       if (!match) {
         continue;
       }
+      measureWatchListHit(tab.url);
       browser.tabs.executeScript(tab.id, {file: 'content-scripts/cs-mailvelope.js', frameId: frame.frameId})
       .catch(() => {});
       browser.tabs.insertCSS(tab.id, {frameId: frame.frameId})
@@ -104,6 +106,7 @@ function watchListNavigationHandler(details) {
     // request is not related to a tab
     return;
   }
+  measureWatchListHit(details.url);
   browser.tabs.executeScript(details.tabId, {file: 'content-scripts/cs-mailvelope.js', frameId: details.frameId})
   .catch(() => {});
   browser.tabs.insertCSS(details.tabId, {frameId: details.frameId})
