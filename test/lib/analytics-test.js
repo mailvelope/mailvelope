@@ -10,9 +10,9 @@ describe.only('analytics tests', () => {
 
   describe('measureWatchListHit', () => {
     beforeEach(() => {
-      sandbox.spy(analytics.ci);      
+      sandbox.spy(analytics.ci);
     });
-    
+
     it('should record hits to a bare domain matching defaults', () => {
       expect(analytics.ci.measureVisit.called).to.equal(false);
       analytics.measureWatchListHit('https://mail.google.com');
