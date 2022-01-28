@@ -1399,6 +1399,10 @@
     "description": "Indicates if a keyring is preferred",
     "message": "preferred"
   },
+  "provider_analytics_consent_description": {
+    "description": "Explanation of provider anaytics the user might consent to.",
+    "message": "Share with Mailvelope which email providers I visit each day.  To preserve your privacy, we... [UX & copy TBD]"
+  },
   "provider_gmail_auth": {
     "description": "Authorizations",
     "message": "Authorizations"
@@ -1970,6 +1974,10 @@
   "security_openpgp_header": {
     "description": "OpenPGP settings header",
     "message": "OpenPGP settings"
+  },
+  "settings_analytics": {
+    "description": "Tab for deciding whether or not to share analytics data.",
+    "message": "Analytics"
   },
   "settings_backup": {
     "description": "Tab allowing to backup and restore the settings.",
