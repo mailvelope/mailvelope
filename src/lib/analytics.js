@@ -1,4 +1,7 @@
-// TODO: Add license info?
+/**
+ * Copyright (C) 2022 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
 
 import {CleanInsights} from 'clean-insights-sdk';
 import {matchPattern2RegEx} from './util';

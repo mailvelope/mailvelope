@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2022 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
 import React from 'react';
 import * as l10n from '../../lib/l10n';
 import {PROVIDER_CAMPAIGN} from '../../lib/analytics';
