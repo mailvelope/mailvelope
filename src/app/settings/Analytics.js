@@ -1,6 +1,7 @@
 import React from 'react';
 import * as l10n from '../../lib/l10n';
-import {ci, PROVIDER_CAMPAIGN} from '../../lib/analytics';
+import {PROVIDER_CAMPAIGN} from '../../lib/analytics';
+import {port} from '../app';
 
 l10n.register([
   'form_cancel',
@@ -29,8 +30,8 @@ export default class Analytics extends React.Component {
   }
 
   getCurrentConsents() {
-    this.setState({
-      provider_analytics_consent: ci.isCampaignCurrentlyGranted(PROVIDER_CAMPAIGN),
+    port.send('get-consent', [PROVIDER_CAMPAIGN]).then((consent) => {
+      this.setState({provider_analytics_consent: consent});
     });
   }
 
@@ -47,10 +48,10 @@ export default class Analytics extends React.Component {
 
   handleSave() {
     if (this.state.provider_analytics_consent) {
-      // TODO: Can this be repeatedly granted idempotently?
-      ci.grantCampaign(PROVIDER_CAMPAIGN);
+      // TODO: can this be repeatedly granted idempotently?
+      port.emit('grant-consent', [PROVIDER_CAMPAIGN]);
     } else {
-      ci.denyCampaign(PROVIDER_CAMPAIGN);
+      port.emit('deny-consent', [PROVIDER_CAMPAIGN]);
     }
     this.setState({modified: false});
   }
