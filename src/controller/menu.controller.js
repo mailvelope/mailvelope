@@ -8,6 +8,7 @@ import {getHash} from '../lib/util';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
+import {ci} from '../lib/analytics';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -18,6 +19,22 @@ export default class MenuController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('get-is-bg-customized', this.getIsBGCustomized);
+    this.on('grant-consent', this.grantConsent);
+    this.on('deny-consent', this.denyConsent);
+  }
+
+  // These duplicate logic already in app.controller.js
+  // is there a way to DRY this out?
+  // not to self: perhaps pointing directly at ci.grant instead of 
+  // wrapping it here?
+  async grantConsent(campaignId) {
+    console.log('grant');
+    ci.grantCampaign(campaignId);
+  }
+
+  async denyConsent(campaignId) {
+    console.log('deny');
+    ci.denyCampaign(campaignId);
   }
 
   onBrowserAction({action}) {

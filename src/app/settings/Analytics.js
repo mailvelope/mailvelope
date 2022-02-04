@@ -20,8 +20,7 @@ export default class Analytics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // TODO: Fetch consent status.
-      provider_analytics_consent: false,
+      providerAnalyticsConsent: false,
       modified: false,
     };
     this.getCurrentConsents = this.getCurrentConsents.bind(this);
@@ -35,8 +34,8 @@ export default class Analytics extends React.Component {
   }
 
   getCurrentConsents() {
-    port.send('get-consent', [PROVIDER_CAMPAIGN]).then((consent) => {
-      this.setState({provider_analytics_consent: consent});
+    port.send('get-consent', [PROVIDER_CAMPAIGN]).then(consent => {
+      this.setState({providerAnalyticsConsent: consent});
     });
   }
 
@@ -52,7 +51,7 @@ export default class Analytics extends React.Component {
   }
 
   handleSave() {
-    if (this.state.provider_analytics_consent) {
+    if (this.state.providerAnalyticsConsent) {
       // TODO: can this be repeatedly granted idempotently?
       port.emit('grant-consent', [PROVIDER_CAMPAIGN]);
     } else {
@@ -73,7 +72,7 @@ export default class Analytics extends React.Component {
         <div className="form-group mb-4">
           <h3>{l10n.map.provider_analytics_consent}</h3>
           <div className="custom-control custom-checkbox">
-            <input className="custom-control-input" type="checkbox" checked={this.state.provider_analytics_consent} onChange={this.handleChange} id="providerAnalyticsConsent" name="provider_analytics_consent"></input>
+            <input className="custom-control-input" type="checkbox" checked={this.state.providerAnalyticsConsent} onChange={this.handleChange} id="providerAnalyticsConsent" name="providerAnalyticsConsent"></input>
             <label className="custom-control-label" htmlFor="providerAnalyticsConsent">{l10n.map.provider_analytics_consent_description}</label>
           </div>
         </div>

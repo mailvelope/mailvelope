@@ -7,6 +7,10 @@
     "description": "All options link in the action menu",
     "message": "All options"
   },
+  "action_menu_analytics_consent": {
+    "description": "Consent to share analytics information with mailvelope",
+    "message": "Share aggregated & anonymized analytics information with Mailvelope"
+  },
   "action_menu_configure_mailvelope": {
     "description": "Configure Mailvelope label in the action menu",
     "message": "<0>Configure Mailvelope</0> to get started!"
