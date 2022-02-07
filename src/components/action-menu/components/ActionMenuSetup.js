@@ -21,7 +21,6 @@ l10n.register([
 export default class ActionMenuSetup extends React.Component {
   constructor(props) {
     super(props);
-    // TODO: can/should this come in via props?
     this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
     this.state = {
       alreadyGrantedOrDeniedConsent: true,
@@ -32,8 +31,8 @@ export default class ActionMenuSetup extends React.Component {
   }
 
   componentDidMount() {
-    this.port.send('has-granted-or-denied-consent', {campaignId: PROVIDER_CAMPAIGN}).then(hasResponded => {
-      this.setState({alreadyGrantedOrDeniedConsent: hasResponded});
+    this.port.send('has-granted-or-denied-consent', {campaignId: PROVIDER_CAMPAIGN}).then(alreadyGrantedOrDeniedConsent => {
+      this.setState({alreadyGrantedOrDeniedConsent});
     });
   }
 
@@ -68,7 +67,7 @@ export default class ActionMenuSetup extends React.Component {
         </div>
         <div className="action-menu-footer card-footer text-center pt-1 pb-4">
           <button type="button" className="btn btn-primary" id="setup-keys" role="button" onClick={this.handleClickThrough}>{l10n.map.action_menu_setup_start_label}</button>
-          {!this.state.alreadyGrantedOrDeniedConsent && <div className="action-menu-control card-body">
+          {!this.state.alreadyGrantedOrDeniedConsent && <div className="action-menu-control custom-control custom-checkbox card-body">
             <input className="custom-control-input" type="checkbox" checked={this.state.analyticsConsent} onChange={this.handleChange} id="analyticsConsent" name="analyticsConsent"></input>
             <label className="custom-control-label" htmlFor="analyticsConsent"><Trans id={l10n.map.action_menu_analytics_consent} /> <a href="https://www.mailvelope.com/faq#analytics" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
           </div>}
