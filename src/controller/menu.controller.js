@@ -19,14 +19,10 @@ export default class MenuController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('get-is-bg-customized', this.getIsBGCustomized);
-    this.on('grant-consent', this.grantConsent);
-    this.on('deny-consent', this.denyConsent);
+    this.on('grant-consent', ({campaignId}) => ci.grantCampaign(campaignId));
+    this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
+    this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
     this.on('has-granted-or-denied-consent', this.hasGrantedOrDeniedConsent);
-    this.on('get-consent', this.getConsent);
-  }
-
-  async getConsent({campaignId}) {
-    return ci.isCampaignCurrentlyGranted(campaignId);
   }
 
   async hasGrantedOrDeniedConsent({campaignId}) {
@@ -34,16 +30,6 @@ export default class MenuController extends sub.SubController {
       return false;
     }
     return true;
-  }
-
-  async grantConsent({campaignId}) {
-    console.log('grant');
-    ci.grantCampaign(campaignId);
-  }
-
-  async denyConsent({campaignId}) {
-    console.log('deny');
-    ci.denyCampaign(campaignId);
   }
 
   onBrowserAction({action}) {

@@ -77,23 +77,9 @@ export default class AppController extends sub.SubController {
     this.on('remove-oauth-token', this.removeOAuthToken);
     this.on('authorize-gmail', this.authorizeGmail);
     this.on('check-license', this.checkLicense);
-    this.on('grant-consent', this.grantConsent);
-    this.on('deny-consent', this.denyConsent);
-    this.on('get-consent', this.getConsent);
-  }
-
-  // TODO: is there a way to put these right in settings/Analytics.js or must they be here to use the
-  // background storage?  Putting them there resulted in storage wiping itself out.
-  async getConsent({campaignId}) {
-    return ci.isCampaignCurrentlyGranted(campaignId);
-  }
-
-  async grantConsent({campaignId}) {
-    ci.grantCampaign(campaignId);
-  }
-
-  async denyConsent({campaignId}) {
-    ci.denyCampaign(campaignId);
+    this.on('grant-consent', ({campaignId}) => ci.grantCampaign(campaignId));
+    this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
+    this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
   }
 
   async updatePreferences(options) {
