@@ -7,10 +7,6 @@
     "description": "All options link in the action menu",
     "message": "All options"
   },
-  "action_menu_analytics_consent": {
-    "description": "Consent to share analytics information with mailvelope",
-    "message": "Share aggregated & anonymized analytics information with Mailvelope"
-  },
   "action_menu_configure_mailvelope": {
     "description": "Configure Mailvelope label in the action menu",
     "message": "<0>Configure Mailvelope</0> to get started!"
@@ -98,6 +94,10 @@
   "alert_no_domainmatchpattern_warning": {
     "description": "Alert header of category warning.",
     "message": "At least one domain match pattern is needed."
+  },
+  "analytics_consent_description": {
+    "description": "Consent to share analytics information with mailvelope",
+    "message": "Share aggregated & anonymized analytics information with Mailvelope"
   },
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
@@ -1402,10 +1402,6 @@
   "preferred": {
     "description": "Indicates if a keyring is preferred",
     "message": "preferred"
-  },
-  "provider_analytics_consent_description": {
-    "description": "Explanation of provider anaytics the user might consent to.",
-    "message": "Share with Mailvelope which email providers I visit each day.  To preserve your privacy, we... [UX & copy TBD]"
   },
   "provider_gmail_auth": {
     "description": "Authorizations",

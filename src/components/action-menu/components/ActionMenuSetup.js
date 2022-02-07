@@ -11,10 +11,10 @@ import {PROVIDER_CAMPAIGN} from '../../../lib/analytics';
 import EventHandler from '../../../lib/EventHandler';
 
 l10n.register([
-  'action_menu_analytics_consent',
   'action_menu_configure_mailvelope',
   'action_menu_setup_menu_aria_label',
   'action_menu_setup_start_label',
+  'analytics_consent_description',
   'learn_more_link',
 ]);
 
@@ -69,7 +69,7 @@ export default class ActionMenuSetup extends React.Component {
           <button type="button" className="btn btn-primary" id="setup-keys" role="button" onClick={this.handleClickThrough}>{l10n.map.action_menu_setup_start_label}</button>
           {!this.state.alreadyGrantedOrDeniedConsent && <div className="action-menu-control custom-control custom-checkbox card-body">
             <input className="custom-control-input" type="checkbox" checked={this.state.analyticsConsent} onChange={this.handleChange} id="analyticsConsent" name="analyticsConsent"></input>
-            <label className="custom-control-label" htmlFor="analyticsConsent"><Trans id={l10n.map.action_menu_analytics_consent} /> <a href="https://www.mailvelope.com/faq#analytics" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+            <label className="custom-control-label" htmlFor="analyticsConsent"><Trans id={l10n.map.analytics_consent_description} /> <a href="https://www.mailvelope.com/faq#analytics" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
           </div>}
         </div>
       </>

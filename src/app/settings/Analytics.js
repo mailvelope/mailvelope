@@ -13,7 +13,7 @@ l10n.register([
   'form_save',
   'provider_analytics_consent',
   'settings_analytics',
-  'provider_analytics_consent_description',
+  'analytics_consent_description',
 ]);
 
 export default class Analytics extends React.Component {
@@ -52,7 +52,6 @@ export default class Analytics extends React.Component {
 
   handleSave() {
     if (this.state.analyticsConsent) {
-      // TODO: can this be repeatedly granted idempotently?
       port.emit('grant-consent', {campaignId: PROVIDER_CAMPAIGN});
     } else {
       port.emit('deny-consent', {campaignId: PROVIDER_CAMPAIGN});
@@ -73,7 +72,7 @@ export default class Analytics extends React.Component {
           <h3>{l10n.map.provider_analytics_consent}</h3>
           <div className="custom-control custom-checkbox">
             <input className="custom-control-input" type="checkbox" checked={this.state.analyticsConsent} onChange={this.handleChange} id="analyticsConsent" name="analyticsConsent"></input>
-            <label className="custom-control-label" htmlFor="analyticsConsent">{l10n.map.provider_analytics_consent_description}</label>
+            <label className="custom-control-label" htmlFor="analyticsConsent">{l10n.map.analytics_consent_description} <a href="https://www.mailvelope.com/faq#analytics" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
           </div>
         </div>
         <div className="btn-bar">
