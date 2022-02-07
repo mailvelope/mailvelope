@@ -21,18 +21,27 @@ export default class MenuController extends sub.SubController {
     this.on('get-is-bg-customized', this.getIsBGCustomized);
     this.on('grant-consent', this.grantConsent);
     this.on('deny-consent', this.denyConsent);
+    this.on('has-granted-or-denied-consent', this.hasGrantedOrDeniedConsent);
+    this.on('get-consent', this.getConsent);
   }
 
-  // These duplicate logic already in app.controller.js
-  // is there a way to DRY this out?
-  // not to self: perhaps pointing directly at ci.grant instead of 
-  // wrapping it here?
-  async grantConsent(campaignId) {
+  async getConsent({campaignId}) {
+    return ci.isCampaignCurrentlyGranted(campaignId);
+  }
+
+  async hasGrantedOrDeniedConsent({campaignId}) {
+    if (ci.campaignConsents.indexOf(campaignId) === -1) {
+      return false;
+    }
+    return true;
+  }
+
+  async grantConsent({campaignId}) {
     console.log('grant');
     ci.grantCampaign(campaignId);
   }
 
-  async denyConsent(campaignId) {
+  async denyConsent({campaignId}) {
     console.log('deny');
     ci.denyCampaign(campaignId);
   }
