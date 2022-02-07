@@ -34,7 +34,7 @@ export default class Analytics extends React.Component {
   }
 
   getCurrentConsents() {
-    port.send('get-consent', [PROVIDER_CAMPAIGN]).then(consent => {
+    port.send('get-consent', {campaignId: PROVIDER_CAMPAIGN}).then(consent => {
       this.setState({analyticsConsent: consent});
     });
   }
@@ -53,9 +53,9 @@ export default class Analytics extends React.Component {
   handleSave() {
     if (this.state.analyticsConsent) {
       // TODO: can this be repeatedly granted idempotently?
-      port.emit('grant-consent', [PROVIDER_CAMPAIGN]);
+      port.emit('grant-consent', {campaignId: PROVIDER_CAMPAIGN});
     } else {
-      port.emit('deny-consent', [PROVIDER_CAMPAIGN]);
+      port.emit('deny-consent', {campaignId: PROVIDER_CAMPAIGN});
     }
     this.setState({modified: false});
   }

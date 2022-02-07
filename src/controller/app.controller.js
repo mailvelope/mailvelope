@@ -84,15 +84,15 @@ export default class AppController extends sub.SubController {
 
   // TODO: is there a way to put these right in settings/Analytics.js or must they be here to use the
   // background storage?  Putting them there resulted in storage wiping itself out.
-  async getConsent(campaignId) {
+  async getConsent({campaignId}) {
     return ci.isCampaignCurrentlyGranted(campaignId);
   }
 
-  async grantConsent(campaignId) {
+  async grantConsent({campaignId}) {
     ci.grantCampaign(campaignId);
   }
 
-  async denyConsent(campaignId) {
+  async denyConsent({campaignId}) {
     ci.denyCampaign(campaignId);
   }
 
