@@ -78,5 +78,5 @@ export default class ActionMenuSetup extends React.Component {
 }
 
 ActionMenuSetup.propTypes = {
-  onMenuItemClickHandler: PropTypes.func,
+  onMenuItemClickHandler: PropTypes.func
 };
