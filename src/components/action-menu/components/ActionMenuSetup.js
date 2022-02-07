@@ -24,6 +24,7 @@ export default class ActionMenuSetup extends React.Component {
     // TODO: can/should this come in via props?
     this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
     this.state = {
+      alreadyGrantedOrDeniedConsent: true,
       analyticsConsent: true,
     };
     this.handleClickThrough = this.handleClickThrough.bind(this);
@@ -32,22 +33,17 @@ export default class ActionMenuSetup extends React.Component {
 
   componentDidMount() {
     this.port.send('has-granted-or-denied-consent', {campaignId: PROVIDER_CAMPAIGN}).then(hasResponded => {
-      if (hasResponded) {
-        this.port.send('get-consent', {campaignId: PROVIDER_CAMPAIGN}).then(consent => {
-          this.setState({analyticsConsent: consent});
-        });
-      } else {
-        // When a user hasn't granted or denied consent, present an opt-out checkbox.
-        this.setState({analyticsConsent: true});
-      }
+      this.setState({alreadyGrantedOrDeniedConsent: hasResponded});
     });
   }
 
   handleClickThrough(event) {
-    if (this.state.analyticsConsent) {
-      this.port.emit('grant-consent', {campaignId: PROVIDER_CAMPAIGN});
-    } else {
-      this.port.emit('deny-consent', {campaignId: PROVIDER_CAMPAIGN});
+    if (!this.state.alreadyGrantedOrDeniedConsent) {
+      if (this.state.analyticsConsent) {
+        this.port.emit('grant-consent', {campaignId: PROVIDER_CAMPAIGN});
+      } else {
+        this.port.emit('deny-consent', {campaignId: PROVIDER_CAMPAIGN});
+      }
     }
     this.props.onMenuItemClickHandler(event);
   }
@@ -72,10 +68,10 @@ export default class ActionMenuSetup extends React.Component {
         </div>
         <div className="action-menu-footer card-footer text-center pt-1 pb-4">
           <button type="button" className="btn btn-primary" id="setup-keys" role="button" onClick={this.handleClickThrough}>{l10n.map.action_menu_setup_start_label}</button>
-          <div className="action-menu-control card-body">
+          {!this.state.alreadyGrantedOrDeniedConsent && <div className="action-menu-control card-body">
             <input className="custom-control-input" type="checkbox" checked={this.state.analyticsConsent} onChange={this.handleChange} id="analyticsConsent" name="analyticsConsent"></input>
             <label className="custom-control-label" htmlFor="analyticsConsent"><Trans id={l10n.map.action_menu_analytics_consent} /> <a href="https://www.mailvelope.com/faq#analytics" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
-          </div>
+          </div>}
         </div>
       </>
     );
