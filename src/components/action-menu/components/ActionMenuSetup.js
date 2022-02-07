@@ -52,7 +52,6 @@ export default class ActionMenuSetup extends React.Component {
     this.setState(() => {
       const update = {
         [target.name]: target.checked,
-        modified: true,
       };
       return update;
     });
