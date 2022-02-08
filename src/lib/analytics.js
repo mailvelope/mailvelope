@@ -17,10 +17,10 @@ export const ci = new CleanInsights({
   'debug': true,
   'campaigns': {
     [PROVIDER_CAMPAIGN]: {
-      'start': '2022-01-01T00:00:00-00:00',
-      'end': '2022-12-31T23:59:59-00:00',
-      'aggregationPeriodLength': 1, // days
-      'numberOfPeriods': 365,
+      'start': '2022-02-01T00:00:00-00:00',
+      'end': '2023-01-31T23:59:59-00:00',
+      'aggregationPeriodLength': 7, // days
+      'numberOfPeriods': 53,
       // Record which sites are used each day.  Subsequent same-day visits aren't interesting.
       'onlyRecordOnce': true,
     },
