@@ -26,9 +26,10 @@ describe.only('analytics tests', () => {
       analytics.measureWatchListHit('https://mail.google.com/some/path');
       expect(analytics.ci.measureVisit.called).to.equal(true);
     });
-    it('should not record hits to a domain not in defaults', () => {
+    it('should record hits to a domain not in defaults but not include domain', () => {
       analytics.measureWatchListHit('https://mail.notanalyzed.com');
-      expect(analytics.ci.measureVisit.called).to.equal(false);
+      const expected = [['Non-default Provider'], 'provider'];
+      expect(analytics.ci.measureVisit.calledWith(...expected)).to.equal(true);
     });
     it('should only capture matched site and frame pattern', () => {
       analytics.measureWatchListHit('https://sub.gmx.net/some/path');
