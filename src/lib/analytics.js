@@ -34,16 +34,19 @@ export const ci = new CleanInsights({
  * information in the URL.
  */
 export function measureWatchListHit(url) {
+  let measured = false;
   defaults.watch_list.forEach(site => {
     site.frames.forEach(frame => {
       const re = matchPattern2RegEx(frame.frame);
       if (re.test(mvelo.util.getDomain(url))) {
         ci.measureVisit([site.site, frame.frame], PROVIDER_CAMPAIGN);
-        return;
+        measured = true;
       }
     });
   });
   // When the script was injected, but not into a default site, do not disclose *which* site,
   // but do record that some non-default site was visited.
-  ci.measureVisit([NON_DEFAULT_PROVIDER], PROVIDER_CAMPAIGN);
+  if (!measured) {
+    ci.measureVisit([NON_DEFAULT_PROVIDER], PROVIDER_CAMPAIGN);
+  }
 }
