@@ -28,12 +28,12 @@ describe('analytics tests', () => {
     });
     it('should record hits to a domain not in defaults but not include domain', () => {
       analytics.measureWatchListHit('https://mail.notanalyzed.com');
-      const expected = [['Non-default Provider'], 'provider'];
+      const expected = [['webmail provider', 'Non-default Provider'], 'provider'];
       expect(analytics.ci.measureVisit.calledOnceWithExactly(...expected)).to.equal(true);
     });
     it('should only capture matched site and frame pattern', () => {
       analytics.measureWatchListHit('https://sub.gmx.net/some/path');
-      const expected = [['GMX', '*.gmx.net'], 'provider'];
+      const expected = [['webmail provider', 'GMX', '*.gmx.net'], 'provider'];
       expect(analytics.ci.measureVisit.calledOnceWithExactly(...expected)).to.equal(true);
     });
   });

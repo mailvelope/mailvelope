@@ -9,7 +9,8 @@ import mvelo from './lib-mvelo';
 import defaults from '../res/defaults.json';
 
 export const PROVIDER_CAMPAIGN = 'provider';
-export const NON_DEFAULT_PROVIDER = 'Non-default Provider';
+const NON_DEFAULT_PROVIDER = 'Non-default Provider';
+const PROVIDER_SCENE_PATH = 'webmail provider';
 
 export const ci = new CleanInsights({
   'server': 'https://metrics.cleaninsights.org/cleaninsights.php',
@@ -39,7 +40,7 @@ export function measureWatchListHit(url) {
     site.frames.forEach(frame => {
       const re = matchPattern2RegEx(frame.frame);
       if (re.test(mvelo.util.getDomain(url))) {
-        ci.measureVisit([site.site, frame.frame], PROVIDER_CAMPAIGN);
+        ci.measureVisit([PROVIDER_SCENE_PATH, site.site, frame.frame], PROVIDER_CAMPAIGN);
         measured = true;
       }
     });
@@ -47,6 +48,6 @@ export function measureWatchListHit(url) {
   // When the script was injected, but not into a default site, do not disclose *which* site,
   // but do record that some non-default site was visited.
   if (!measured) {
-    ci.measureVisit([NON_DEFAULT_PROVIDER], PROVIDER_CAMPAIGN);
+    ci.measureVisit([PROVIDER_SCENE_PATH, NON_DEFAULT_PROVIDER], PROVIDER_CAMPAIGN);
   }
 }
