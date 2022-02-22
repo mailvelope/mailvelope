@@ -33,6 +33,7 @@
   },
   "permissions": [
     "*://*/*",
+    "dns",
     "nativeMessaging",
     "storage",
     "tabs",
