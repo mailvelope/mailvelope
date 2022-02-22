@@ -95,6 +95,10 @@
     "description": "Alert header of category warning.",
     "message": "At least one domain match pattern is needed."
   },
+  "analytics_consent_description": {
+    "description": "Consent to share analytics information with mailvelope",
+    "message": "Share aggregated & anonymized analytics information with Mailvelope"
+  },
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
     "message": "Allow API"
@@ -1970,6 +1974,10 @@
   "security_openpgp_header": {
     "description": "OpenPGP settings header",
     "message": "OpenPGP settings"
+  },
+  "settings_analytics": {
+    "description": "Tab for deciding whether or not to share analytics data.",
+    "message": "Analytics"
   },
   "settings_backup": {
     "description": "Tab allowing to backup and restore the settings.",

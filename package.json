@@ -19,6 +19,7 @@
     "angular": "1.8.2",
     "autocrypt": "0.10.0",
     "bootstrap": "4.4.1",
+    "clean-insights-sdk": "2.5.1",
     "dompurify": "2.2.8",
     "emailjs-mime-builder": "github:mailvelope/emailjs-mime-builder#bf4cea3bdf50bb26b0f86ee9b1e9ee7063b5a8cc",
     "emailjs-mime-parser": "1.0.0",

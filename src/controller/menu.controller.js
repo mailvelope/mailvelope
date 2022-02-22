@@ -8,6 +8,7 @@ import {getHash} from '../lib/util';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
+import {ci} from '../lib/analytics';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -18,6 +19,17 @@ export default class MenuController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('get-is-bg-customized', this.getIsBGCustomized);
+    this.on('grant-consent', ({campaignId}) => ci.grantCampaign(campaignId));
+    this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
+    this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
+    this.on('has-granted-or-denied-consent', this.hasGrantedOrDeniedConsent);
+  }
+
+  async hasGrantedOrDeniedConsent({campaignId}) {
+    if (ci.campaignConsents.indexOf(campaignId) === -1) {
+      return false;
+    }
+    return true;
   }
 
   onBrowserAction({action}) {

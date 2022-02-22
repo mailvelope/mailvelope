@@ -17,8 +17,10 @@ import WatchList from './WatchList';
 import SecurityLog from './SecurityLog';
 import KeyServer from './keyserver';
 import Provider from './Provider';
+import Analytics from './Analytics';
 
 l10n.register([
+  'settings_analytics',
   'settings_general',
   'settings_keyserver',
   'settings_provider',
@@ -59,6 +61,7 @@ export default class Settings extends React.Component {
                       <NavPill to="/settings/provider">{l10n.map.settings_provider}</NavPill>
                       <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
                       <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
+                      <NavPill to="/settings/analytics">{l10n.map.settings_analytics}</NavPill>
                     </div>
                   </div>
                 </div>
@@ -70,6 +73,7 @@ export default class Settings extends React.Component {
                   <Route path="/settings/watchlist" component={WatchList} />
                   <Route path="/settings/security-log" component={SecurityLog} />
                   <Route path="/settings/key-server" render={() => <KeyServer prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} onSetNotification={this.handleSetNotification} />} />
+                  <Route path="/settings/analytics" component={Analytics} />
                 </div>
               </div>
             </div>

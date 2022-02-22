@@ -70,6 +70,12 @@ body {
       border-top: 0;  
       padding: 0.75rem;
       background-color: transparent;
+      .action-menu-control {
+        padding-left: 2.5rem;
+        font-size: .75rem;
+        color: darkgray;
+        text-align: left;
+      }
     }
   }
 }

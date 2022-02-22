@@ -21,6 +21,7 @@ import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 import * as mveloKeyServer from '../modules/mveloKeyServer';
 import * as autocrypt from '../modules/autocryptWrapper';
+import {ci} from '../lib/analytics';
 
 export default class AppController extends sub.SubController {
   constructor(port) {
@@ -76,6 +77,9 @@ export default class AppController extends sub.SubController {
     this.on('remove-oauth-token', this.removeOAuthToken);
     this.on('authorize-gmail', this.authorizeGmail);
     this.on('check-license', this.checkLicense);
+    this.on('grant-consent', ({campaignId}) => ci.grantCampaign(campaignId));
+    this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
+    this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
   }
 
   async updatePreferences(options) {
