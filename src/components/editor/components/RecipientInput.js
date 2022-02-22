@@ -19,6 +19,7 @@ import './RecipientInput.scss';
 /* global angular */
 
 l10n.register([
+  'editor_key_has_extra_msg',
   'editor_key_not_found',
   'editor_key_not_found_msg'
 ]);
@@ -62,7 +63,8 @@ export class RecipientInput extends React.Component {
     this.ctrlLink.rInputCtrl.recipients = this.ctrlLink.props.recipients;
     // only update input controller if recipients or keys change
     if (this.props.recipients !== nextProps.recipients ||
-        this.props.keys !== nextProps.keys) {
+        this.props.keys !== nextProps.keys ||
+        this.props.extraKey !== nextProps.extraKey) {
       this.ctrlLink.rInputCtrl.update();
     }
     // no re-rendering of component due to Angular
@@ -72,8 +74,7 @@ export class RecipientInput extends React.Component {
   render() {
     const contrAttr = node => {
       node.setAttribute('ng-controller', 'RecipientInputCtrl as rInput');
-      node.setAttribute('ng-hide', 'rInput.embedded');
-      node.setAttribute('ng-class', "{'has-error': rInput.noEncrypt}");
+      node.setAttribute('ng-class', "{'has-error': rInput.hasError}");
     };
     return (
       <div id={this.id} className="recipients-input" ref={node => node && contrAttr(node)}>
@@ -95,8 +96,11 @@ export class RecipientInput extends React.Component {
             min-length="1">
           </auto-complete>
         </tags-input>
-        <div className="alert alert-danger ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.noEncrypt')}>
+        <div className="alert alert-danger ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.hasError')}>
           <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
+        </div>
+        <div className="alert alert-info ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.hasExtraKey')}>
+          <span>{l10n.map.editor_key_has_extra_msg}</span>
         </div>
       </div>
     );
@@ -104,11 +108,12 @@ export class RecipientInput extends React.Component {
 }
 
 RecipientInput.propTypes = {
+  extraKey: PropTypes.bool,
+  hideErrorMsg: PropTypes.bool,
   keys: PropTypes.array,
-  recipients: PropTypes.array,
-  encryptDisabled: PropTypes.bool,
-  onChangeEncryptStatus: PropTypes.func,
-  onAutoLocate: PropTypes.func
+  onAutoLocate: PropTypes.func,
+  onChangeRecipient: PropTypes.func,
+  recipients: PropTypes.array
 };
 
 /**
@@ -184,10 +189,11 @@ export class RecipientInputCtrl {
       const tags = document.querySelectorAll('tags-input li.tag-item');
       for (const tag of tags) {
         if (tag.textContent.indexOf(recipient.email) !== -1) {
+          tag.classList.remove('tag-success', 'tag-info', 'tag-danger');
           if (recipient.key) {
             tag.classList.add('tag-success');
           } else {
-            tag.classList.add('tag-danger');
+            tag.classList.add(`tag-${this.compLink.props.extraKey ? 'info' : 'danger'}`);
           }
         }
       }
@@ -199,11 +205,10 @@ export class RecipientInputCtrl {
    * if one of them does not have a key.
    */
   checkEncryptStatus() {
-    this.noEncrypt = this.recipients.some(r => !r.key);
-    const encryptDisabled = this.noEncrypt || !this.recipients.length;
-    if (this.compLink.props.onChangeEncryptStatus && this.compLink.props.encryptDisabled !== encryptDisabled) {
-      this.compLink.props.onChangeEncryptStatus({encryptDisabled});
-    }
+    const hasError = this.recipients.some(r => !r.key) && !this.compLink.props.extraKey;
+    this.hasError = hasError && !this.compLink.props.hideErrorMsg;
+    this.hasExtraKey = this.compLink.props.extraKey;
+    this.compLink.props.onChangeRecipient && this.compLink.props.onChangeRecipient({hasError});
   }
 
   /**
