@@ -54,10 +54,10 @@ export default class Encrypt extends React.Component {
     this.state = {
       initializing: true,
       waiting: false,
-      encryptDisabled: true,
       keyringId: '',
       keys: [],
       recipients: [],
+      recipientsError: false,
       signingKey: null,
       selectedSigningKeyFpr: null,
       signingKeys: [],
@@ -256,7 +256,7 @@ export default class Encrypt extends React.Component {
                   <h1 className="flex-shrink-0 mr-auto">{!this.state.encrypted.length ? l10n.map.encrypt_header : l10n.map.encrypt_header_success}</h1>
                   <div className="flex-shrink-0">
                     {!this.state.encrypted.length &&
-                      <button type="button" disabled={this.state.recipients.length === 0 || (this.state.files.length === 0 && this.state.message === '')} onClick={() => this.handleEncrypt()} className="btn btn-primary">{l10n.map.editor_encrypt_button}</button>
+                      <button type="button" disabled={this.state.recipientsError || !this.state.recipients.length || (!this.state.files.length && this.state.message === '')} onClick={() => this.handleEncrypt()} className="btn btn-primary">{l10n.map.editor_encrypt_button}</button>
                     }
                     {this.state.encrypted.length > 1 &&
                       <button type="button" onClick={this.handleDownloadAll} className="btn btn-primary">{l10n.map.encrypt_download_all_button}</button>
@@ -266,8 +266,8 @@ export default class Encrypt extends React.Component {
                 <div className={this.state.encrypted.length ? 'd-none' : ''}>
                   <div className="form-group">
                     <label>{l10n.map.editor_label_recipient}</label>
-                    <RecipientInput keys={this.state.keys} recipients={this.state.recipients} encryptDisabled={this.state.encryptDisabled}
-                      onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+                    <RecipientInput keys={this.state.keys} recipients={this.state.recipients}
+                      onChangeRecipient={({hasError}) => this.setState({recipientsError: hasError})}
                       onAutoLocate={recipient => this.handleAutoLocate(recipient)}
                     />
                   </div>

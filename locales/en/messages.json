@@ -267,6 +267,10 @@
     "description": "Test for auto sign link.",
     "message": "Change settings here"
   },
+  "editor_key_has_extra_msg": {
+    "description": "Label for info message invalid recipients but extra key.",
+    "message": "Email will be encrypted with the alternate key entered below."
+  },
   "editor_key_no_sign_option": {
     "description": "Label for not sign option in sign key select.",
     "message": "Not signed"

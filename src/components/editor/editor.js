@@ -55,6 +55,7 @@ export default class Editor extends React.Component {
       encryptDisabled: true,
       extraKey: false,
       extraKeys: [],
+      extraKeysError: false,
       files: [],
       hasUserInput: false,
       integration: false,
@@ -64,7 +65,9 @@ export default class Editor extends React.Component {
       publicKeys: [],
       pwdDialog: null,
       recipients: [],
+      recipientsError: false,
       recipientsCc: [],
+      recipientsCcError: false,
       showNotification: false,
       showRecipientsCc: false,
       signKey: '',
@@ -374,7 +377,19 @@ export default class Editor extends React.Component {
     }, timeout);
   }
 
+  handleChangeRecipient(error) {
+    this.setState(prevState => {
+      const errorState = {recipientsError: prevState.recipientsError, recipientsCcError: prevState.recipientsCcError, ...error};
+      return {...errorState, encryptDisabled: errorState.recipientsError || errorState.recipientsCcError || !prevState.recipients.length};
+    });
+  }
+
+  handleChangeExtraKeyInput({hasError}) {
+    this.setState({extraKeysError: hasError});
+  }
+
   render() {
+    const hasExtraKey = Boolean(this.state.extraKey && this.state.extraKeys.length && !this.state.extraKeysError);
     return (
       <SecurityBG className={`editor ${this.state.embedded ? 'embedded' : ''}`} port={this.port}>
         <div className="modal d-block">
@@ -388,18 +403,20 @@ export default class Editor extends React.Component {
                         <label className="mr-auto">{l10n.map.editor_label_recipient}</label>
                         {(!this.state.showRecipientsCc && this.state.integration) && <label><a href="#" role="button" className="text-reset" onClick={() => this.setState({showRecipientsCc: true})}>{l10n.map.editor_label_copy_recipient}</a></label>}
                       </div>
-                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients} encryptDisabled={this.state.encryptDisabled}
-                        onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients}
+                        onChangeRecipient={({hasError}) => this.handleChangeRecipient({recipientsError: hasError})}
                         onAutoLocate={recipient => this.handleKeyLookup(recipient)}
+                        extraKey={hasExtraKey}
                       />
                     </div>
                   )}
                   {this.state.showRecipientsCc && (
                     <div className="mb-3">
                       <label className="mr-auto">{l10n.map.editor_label_copy_recipient}</label>
-                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipientsCc} encryptDisabled={this.state.encryptDisabled}
-                        onChangeEncryptStatus={({encryptDisabled}) => this.setState({encryptDisabled})}
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipientsCc}
+                        onChangeRecipient={({hasError}) => this.handleChangeRecipient({recipientsCcError: hasError})}
                         onAutoLocate={recipient => this.handleKeyLookup(recipient)}
+                        extraKey={hasExtraKey}
                       />
                     </div>
                   )}
@@ -431,7 +448,10 @@ export default class Editor extends React.Component {
                 <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
                   <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
                     extraKey={this.state.extraKey}
-                    extraKeyInput={<RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} onAutoLocate={recipient => this.handleKeyLookup(recipient)} />}
+                    extraKeyInput={
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} onAutoLocate={recipient => this.handleKeyLookup(recipient)} hideErrorMsg={true}
+                        onChangeRecipient={error => this.handleChangeExtraKeyInput(error)}
+                      />}
                     integration = {this.state.integration}
                     onCancel={() => this.handleCancel()}
                     onChangeSignKey={value => this.handleChangeSignKey(value)}
