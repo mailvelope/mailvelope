@@ -1,402 +1,406 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "Bu etki alanına izin ver",
+        "message": "Udělit této doméně pověření",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
-        "message": "Tüm seçenekler",
+        "message": "Všechny předvolby",
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "Başlamak için <0>Mailvelope uygulamasını yapılandırın</0>!",
+        "message": "Pokud chcete začít, <0>Mailvelope nastavte</0>!",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Tüm yapılandırma seçeneklerini görüntüler.",
+        "message": "Zobrazit všechny možnosti nastavení.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
-        "message": "Pano",
+        "message": "Přehled",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_file_encryption_description": {
-        "message": "Bir ya da bir kaç dosyayı şifreler.",
+        "message": "Zašifrovat jeden či více souborů.",
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "Dosya şifreleme",
+        "message": "Šifrování souboru",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
-        "message": "Yardım",
+        "message": "Nápověda",
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "Herkese açık ve kişisel anahtarları yönetir.",
+        "message": "Spravovat veřejné a soukromé klíče.",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "Anahtarlık",
+        "message": "Klíčenka",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Mailvelope ana menüsü",
+        "message": "Hlavní nabídka Mailvelope",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Mailvelope Uygulamasını Yeniden Yükle",
+        "message": "Znovu načíst Mailvelope",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Güvenlik ile ilgili kullanıcı işlemlerini gözden geçirin.",
+        "message": "Review security relevant user actions.",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "Güvenlik günlüğü",
+        "message": "Záznam událostí v zabezpečení",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Mailvelope kurulum menüsü",
+        "message": "Nabídka nastavení Mailvelope",
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "Son Mailvelope güncellemesi nedeniyle güvenlik arka planınızı yeniden yapılandırmanız gerekiyor.",
+        "message": "The last update of Mailvelope requires you to reconfigure your security background.",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Haydi başlayalım!",
+        "message": "Začněme!",
         "description": "Start button label"
     },
     "alert_header_error": {
-        "message": "Hata!",
+        "message": "Chyba!",
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "Önemli!",
+        "message": "Důležité!",
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Lütfen unutmayın:",
+        "message": "Please note:",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
-        "message": "Tamam!",
+        "message": "Úspěch!",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "Uyarı!",
+        "message": "Varování!",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Etki alanı eşleşme kalıbı [*.]host.name.tld[:port] şeklindedir.",
+        "message": "Domain match pattern is [*.]host.name.tld[:port].",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "En az bir etki alanı eşleşme kalıbı gereklidir.",
+        "message": "At least one domain match pattern is needed.",
         "description": "Alert header of category warning."
     },
+    "analytics_consent_description": {
+        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "description": "Consent to share analytics information with mailvelope"
+    },
     "auth_domain_api_label": {
-        "message": "API uygulamasına izin ver",
+        "message": "Allow API",
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
-        "message": "$1 etki alanının Mailvelope ile kullanmasına izin vermek istiyor musunuz?",
+        "message": "Would you like to allow the use of Mailvelope for the domain $1?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_headline": {
-        "message": "Etki alanına izin ver",
+        "message": "Authorize domain",
         "description": "Headline of authorize domain dialog."
     },
     "change_link": {
-        "message": "Değiştir",
+        "message": "Změnit",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Şu açık metin iletisi okunamadı: $1",
+        "message": "Tuto nešifrovanou zprávu se nepodařilo číst: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Şİfreleme",
+        "message": "Šifrování",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_manage_domains": {
-        "message": "İzin verilmiş etki alanları",
+        "message": "Authorized domains",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Anahtar yönetimi",
+        "message": "Spravovat klíče",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Güvenlik günlükleri",
+        "message": "Záznamy událostí v zabezpečení",
         "description": "Dashboard view security logs link"
     },
     "decrypt_att_frame_help_text": {
-        "message": "İletiyi görüntülemek için buraya tıklayın",
+        "message": "Zprávu zobrazíte kliknutím sem",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_attachment_label": {
-        "message": "Ek dosyalar",
+        "message": "Přílohy",
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_cleartext_warning": {
-        "message": "Şu metin şifrelenmedi.",
+        "message": "Následující text nebyl zašifrován",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Şifresi çözülmüş dosyalar",
+        "message": "Rozšifrované soubory",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "İmzalanmış",
+        "message": "Podepsáno",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "İmza geçersiz",
+        "message": "Neplatný podpis",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "İmza bilinmiyor",
+        "message": "Neznámý podpis",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "ID $1 kodlu anahtar bulunamadı.",
+        "message": "Klíč s identifikátorem $1 nenalezen.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Anahtar bulunamadı.",
+        "message": "Klíč nenalezen",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "$1 dosyasının şifresi çözülemiyor.",
+        "message": "Rozšifrování souboru $1 není možné.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Şifreyi çözmek için tıklayın",
+        "message": "Kliknutím rozšifrujete",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "Verilerin şifresini çöz",
+        "message": "Rozšifrovat data",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "Şifre çözüldü",
+        "message": "Rozšifrování úspěšné",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
-        "message": "Şifreyi çöz",
+        "message": "Rozšifrovat",
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Mailvelope görüntüleyicide aç",
+        "message": "Otevřít v prohlížeči Mailvelope",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "İletiyi görüntüle",
+        "message": "Zobrazit zprávu",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Gönderen",
+        "message": "Odesílatel",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "Şifresi çözülecek metin",
+        "message": "Text k rozšifrování",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Ayrıca bir metnin de şifresini çözmek ister misiniz?",
+        "message": "Chcete také rozšifrovat text?",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Metnin şifresi çözülemiyor.",
+        "message": "Rozšifrování textu není možné.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
-        "message": "İptal",
+        "message": "Zrušit",
         "description": "Dialog cancel button label"
     },
     "dialog_no_btn": {
-        "message": "Hayır",
+        "message": "Ne",
         "description": "Dialog no button label"
     },
     "dialog_popup_close": {
-        "message": "Kapat",
+        "message": "Zavřít",
         "description": "Close decrypt popup."
     },
     "dialog_save_btn": {
-        "message": "Kaydet",
+        "message": "Uložit",
         "description": "Dialog save button label"
     },
     "dialog_yes_btn": {
-        "message": "Evet",
+        "message": "Ano",
         "description": "Dialog yes button label"
     },
     "editor_blur_warn": {
-        "message": "Uyarı: Metin düzenleyici odağı kaybetti.",
+        "message": "Varování: textový editor ztratil zaměření.",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "Şifrele",
+        "message": "Zašifrovat",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "Hata",
+        "message": "Chyba",
         "description": ""
     },
     "editor_header": {
-        "message": "Güvenli E-posta Oluştur",
+        "message": "Napsat zabezpečený e-mail",
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "Tüm e-postalarınız imzalansın mı?",
+        "message": "Chcete podepisovat všechny své e-maily?",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
-        "message": "Ayarları buradan değiştirin",
+        "message": "Nastavení změníte zde",
         "description": "Test for auto sign link."
     },
     "editor_key_no_sign_option": {
-        "message": "İmzalanmamış",
+        "message": "Nepodepsáno",
         "description": "Label for not sign option in sign key select."
     },
     "editor_key_not_found": {
-        "message": "Anahtar bulunamadı!",
+        "message": "Klíč nenalezen!",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Şifreleme için tüm alıcıların bir PGP anahtarı olmalıdır. Gene de iletiyi imzalayabilirsiniz.",
+        "message": "Aby bylo možné zašifrovat je třeba, aby všichni příjemci měli PGP klíč. I tak ale stále ještě můžete zprávu alespoň podepsat.",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
-        "message": "Ek dosyalar",
+        "message": "Přílohy",
         "description": "Label for attachments select/drop area."
     },
     "editor_label_copy_recipient": {
-        "message": "Kopya",
+        "message": "Cc",
         "description": "Label for copy recipient text input."
     },
     "editor_label_message": {
-        "message": "İleti",
+        "message": "Oznameni",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "Alıcı",
+        "message": "Příjemce",
         "description": "Label for recipient input."
     },
     "editor_label_subject": {
-        "message": "Konu",
+        "message": "Předmět",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
-        "message": "Dosyaları şifrele",
+        "message": "Zašifrovat soubory",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "Varsayılan anahtar eksik olduğundan e-posta sayısal olarak imzalanamadı",
+        "message": "E-mail není možné digitálně podepsat, protože chybí výchozí klíč",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "E-posta sayısal olarak imzalanamadı",
+        "message": "E-mail nebylo možné digitálně podepsat",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "Kaldır",
+        "message": "Odstranit",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "Yalnız İmzala",
+        "message": "Pouze podepsat",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "E-posta gönderildiğinde, sayısal olarak da imzalanır",
+        "message": "E-mail bude při odeslání také digitálně podepsán",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "E-posta sayısal olarak imzalanacak",
+        "message": "E-mail bude digitálně podepsán",
         "description": ""
     },
     "editor_transfer": {
-        "message": "Aktar",
+        "message": "Přenést",
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "İmzayı seçin",
+        "message": "Vybrat podpis",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "İmzayı değiştir",
+        "message": "Změnit podpis",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Lütfen bir alıcı ekleyin.",
+        "message": "Přidejte příjemce.",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "Tümünü indir",
+        "message": "Stáhnout si vše",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "Şifrelenmiş dosyalar",
+        "message": "Šifrované soubory",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Şunun için şifrelenmiş",
+        "message": "Šifrováno pro",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "Bu ileti şifrelenemedi: $1",
+        "message": "Tuto zprávu se nepodařilo zašifrovat: $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "$1 dosyası şifrelenemiyor.",
+        "message": "Zašifrování souboru $1 není možné.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Güvenli e-posta yazın",
+        "message": "Napsat zabezpečený e-mail",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "Verileri şifrele",
+        "message": "Zašifrovat data",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "Şifrelendi",
+        "message": "Šifrování úspěšné",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
-        "message": "Şifrele",
+        "message": "Zašifrovat",
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "Şifrelenmiş veriler imzalanmamış",
+        "message": "Šifrovaná data nejsou podepisována",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "İmzayı kaldır",
+        "message": "Odebrat podpis",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
-        "message": "İmzalayan",
+        "message": "Podepsáno",
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "Şifrelenmiş veriler anahtarınız ($1) ile imzalandı",
+        "message": "Šifrovaná data jsou podepsána vaším klíčem ($1)",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Ayrıca bir metni de şifrelemek ister misiniz?",
+        "message": "Chcete také zašifrovat text?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Metin şifrelenemiyor.",
+        "message": "Šifrování textu není možné.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "Dosyalardan biri çok büyük.",
+        "message": "Jeden ze souborů je příliš velký.",
         "description": "."
     },
     "ext_description": {
-        "message": "E-posta hizmetinize uçtan uca şifreleme ekleyin. Güvenli e-posta iletişimi OpenPGP standartı üzerine geliştirilmiştir.",
+        "message": "Enhance your email provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -404,1583 +408,1587 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Şimdi kişiselleştir",
+        "message": "Přizpůsobit si",
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Güvenlik arka planınızı kişiselleştirerek Mailvelope uygulamasını daha da güvenli hale getirebilirsiniz.",
+        "message": "Make Mailvelope even more secure by personalizing your security background.",
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "İmza geçersiz",
+        "message": "Podpis není platný",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "Dosya imzalanmadı",
+        "message": "Soubor není podepsaný",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
-        "message": "Şu dosyanın şifresi çözülemedi: $1",
+        "message": "Tento soubor se nedaří rozšifrovat: $1",
         "description": ""
     },
     "file_signed": {
-        "message": "Dosya $1 tarafından imzalanmış",
+        "message": "Soubor podepsán $1",
         "description": "Text of signer field of file element."
     },
     "form_back": {
-        "message": "Geri",
+        "message": "Zpět",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "İşleniyor",
+        "message": "Zpracovávání",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "İptal",
+        "message": "Zrušit",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "Temizle",
+        "message": "Smazat",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "Kapat",
+        "message": "Zavřít",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "Onayla",
+        "message": "Potvrdit",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "Devam Et",
+        "message": "Pokračovat",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "Alıcı adresi için geçerli bir şifreleme anahtarı yok.",
+        "message": "Pro adresu příjemce není k dispozici žádný platný šifrovací klíč.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "Form imzası geçersiz.",
+        "message": "Podpis formuláře není platný.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "Hedef",
+        "message": "Cíl",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "Şifrelenmiş veriler sayfaya geri getirilecek. ",
+        "message": "Šifrovaná data budou vrácena stránce.",
         "description": "Behavior when no action is specified in form"
     },
     "form_forward": {
-        "message": "Yönlendir",
+        "message": "Přeposlat",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "İçe Aktar",
+        "message": "Importovat",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Form yükleniyor",
+        "message": "Formulář se načítá",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "Sonraki",
+        "message": "Další",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "Hayır",
+        "message": "Ne",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "Tamam",
+        "message": "OK",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "Alıcı",
+        "message": "Příjemce",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "Kaydet",
+        "message": "Uložit",
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "Anahtarlıkta form içeriğini imzalayacak bir kişisel anahtar bulunamadı. Lütfen var olan bir kişisel anahtarı içe aktarın ya da yeni bir tane oluşturun.",
+        "message": "Pro podepsání obsahu formuláře není k dispozici žádný soukromý klíč. Naimportujte nebo vytvořte nějaký.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "Onayla",
+        "message": "Předložit",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "Geri Al",
+        "message": "Zpět",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "Evet",
+        "message": "Ano",
         "description": "Yes form button."
     },
     "general_default_key_always": {
-        "message": "Varsayılan anahtarım her zaman alıcı listesine eklensin (Böylece gönderilmiş e-postaların şifresini çözebilirsiniz). ",
+        "message": "Vždy přidat můj výchozí klíč na seznam příjemců. (Toto vám umožní číst si odeslané e-maily)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Giden iletilerin tümü imzalansın.",
+        "message": "Podepisovat veškeré odchozí zprávy.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
-        "message": "Kullanılabilirliği denetlememize izin verin",
+        "message": "Umožněte nám kontrolovat dostupnost",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "GnuPG kurulu mu? Değilse <0>buradan indirin</0>. Kullanılabilirliğin yeniden denetlenmesi için <1>Mailvelope uygulamasını yeniden başlatın</1>",
+        "message": "Máte nainstalované GnuPG? Pokud ne <0>Stáhněte si ho zde</0>. Pokud chcete znovu zkontrolovat dostupnost tohoto nástroje, <1>restartujte Mailvelope</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG kullanılamıyor",
+        "message": "GnuPG není k dispozici",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "GnuPG kullanmak ister misiniz?",
+        "message": "Upřednostňujete použití GnuPG?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "Şu anda kullandığınız",
+        "message": "Nyní používáte",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Hangi arka plan şifreleme alt yapısını kullanmak istersiniz?",
+        "message": "Kterou podpůrnou vrstvu pro šifrování upřednostňujete?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
-        "message": "OpenPGP Ayarları",
+        "message": "Předvolby pro OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Not: Herkese açık anahtarlar kullanılabilen anahtarlıklar üzerinde eşitlenir. Kişisel anahtarlarınızın kullanılabilirliğine göre Mailvelope yeğlenen şifreleme kitaplığı ayarlarını değiştirebilir.",
+        "message": "Pozn.: veřejné klíče jsou synchronizovány mezi dostupnými klíčenkami. V závislosti na dostupnosti soukromých klíčů, Mailvelope může přepsat nastavení upřednostňované šifrovací knihovny.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope uygulamasına ek dosyaları indirme izni verilmemiş. Bu özelliği kullanabilmek için Gmail API uygulamasına Mailvelope erişimi izni vermelisiniz.",
+        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope uygulamasına e-posta gönderme izni verilmemiş. Bu özelliği kullanabilmek için Gmail API uygulamasına Mailvelope erişimi izni vermelisiniz.",
+        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- Yönlendirilmiş ileti ---------\nKimden: $1\nTarih: $2\nKonu: $3\nKime: $4",
+        "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
         "description": "Header for forwarded mail"
     },
     "gmail_integration_quoted_mail_header_reply": {
-        "message": "$1 tarihinde, $2 şunu yazmış:",
+        "message": "V $1, $2 napsal(a):",
         "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
-        "message": "E-posta gönderildi.",
+        "message": "E-mail byl v pořádku odeslán.",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
-        "message": "GnuPG bağlantısı",
+        "message": "Spojení s GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Lütfen şu herkese açık anahtarların GnuPG anahtarlığınızda bulunduğundan ve geçerli olduğundan emin olun: $1",
+        "message": "Zkontrolujte, zda se následující veřejné klíče nacházejí ve vaší GnuPG klíčence a jsou platné: $1",
         "description": ""
     },
     "import_frame_help_text": {
-        "message": "Anahtarı içe aktarmak için tıklayın",
+        "message": "Klíč importujete kliknutím",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
-        "message": "Uygulamayı açmak için buraya tıklayın.",
+        "message": "Kliknutím sem otevřete rozšíření.",
         "description": "Install landing page getting started hint"
     },
     "invalid_default_key": {
-        "message": "Anahtar şifreleme ve imzalama işlemleri için geçerli değil",
+        "message": "Klíč není platný pro operace šifrování a podepisování",
         "description": "Tootip for set as default key button"
     },
     "key_default_active_btn_title": {
-        "message": "Anahtar varsayılan anahtar olarak atandı",
+        "message": "Klíč je nastaven jako výchozí",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "Anahtar geçersiz olduğundan varsayılan anahtar olarak atanamaz",
+        "message": "Tento klíč není platný a není ho proto možné nastavit jako výchozí",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Anahtarı varsayılan olarak ata",
+        "message": "Nastavit klíč jako výchozí",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
-        "message": "Dışa Aktar",
+        "message": "Export",
         "description": "Export key button label"
     },
     "key_export_btn_title": {
-        "message": "Anahtarı dışa aktar",
+        "message": "Exportovat klíč",
         "description": "Title for export key button"
     },
     "key_export_create_file": {
-        "message": "Kaydet",
+        "message": "Uložit",
         "description": "Download file button."
     },
     "key_export_dialog_copy_to_clipboard": {
-        "message": "Panoya kopyala",
+        "message": "Kopírovat do schránky",
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Hangi anahtarı dışa aktarmak istiyorsunuz?",
+        "message": "Který z klíčů si přejete exportovat?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
-        "message": "Anahtarı dışa aktar",
+        "message": "Exportovat klíč",
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "Dosya adı",
+        "message": "Název souboru",
         "description": "Label of filename input."
     },
     "key_export_header": {
-        "message": "Anahtarı Dışa Aktar",
+        "message": "Exportovat klíče",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "Bu dosyada ayrıca kişisel anahtarlar bulunur. Anahtarı güvenli bir yerde saklayın ve hiç  kimse ile paylaşmayın.",
+        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Gelişmiş",
+        "message": "Pokročilé",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "Başka bir anahtar üret...",
+        "message": "Vytvořit další",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "De-Mail Adresi",
+        "message": "De-Mail Address",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "Anahtar oluşturulurken sorun çıktı.",
+        "message": "Chyba při vytváření klíče.",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "deneme aşamasında",
+        "message": "experimentální",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "Anahtar son kullanma tarihi",
+        "message": "Datum skončení platnosti klíče",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Gelecek Varsayılan",
+        "message": "Budoucí výchozí",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "Üret",
+        "message": "Generovat",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "E-posta adresi geçersiz",
+        "message": "Neplatná emailová adresa",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "Anahtar boyutu",
+        "message": "Velikost klíče",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "Anahtar sahibinin tam adı",
+        "message": "Celé jméno vlastníka klíče",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "Parolayı Yazın",
+        "message": "Zadejte heslo",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "Parola alanı boş",
+        "message": "Kolonka pro heslo je prázdná",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "Parola ile onayı aynı",
+        "message": "Shoda zadání hesla",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "Parolayı Yeniden Yazın",
+        "message": "Znovu zadejte heslo",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "Parola ile onayı aynı değil",
+        "message": "Hesla se neschodují.",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "Yeni anahtar üretildi ve anahtarlığa eklendi",
+        "message": "Nový klíč vytvořen a naimportován do klíčenky",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "Herkese açık anahtarı Mailvelope Anahtar Sunucusuna yükleyin (istendiği zaman silinebilir)",
+        "message": "Nahrát veřejný klíč na server s klíči projektu Mailvelope (kdykoli ho můžete vymazat)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
-        "message": "Anahtar üretiliyor...",
+        "message": "Probíhá vytváření klíče",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Lütfen bekleyin. Anahtarın üretilmesi anahtar boyutu gibi değişik etmenlere göre bir kaç dakika sürebilir.",
+        "message": "Please wait, key generation can take up to several minutes depending on various factors, such as the key size.",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Anahtarlar içe aktarıldı ya da güncellendi.",
+        "message": "Klíče úspěšně naimportovány/zaktualizovány.",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Anahtarları içe aktar",
+        "message": "Importovat klíče",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Onaylandıktan sonra bu anahtarlar yerel anahtarlığa aktarılacak:",
+        "message": "Po potvrzení budou tyto klíče přeneseny do lokální klíčenky:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "Anahtarı onayla",
+        "message": "Potvrdit klíč",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "Anahtarlığa ekle",
+        "message": "Přidat klíč do klíčenky",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "İçe Aktarma Sorunu.",
+        "message": "Chyba importu.",
         "description": "Import error alert."
     },
     "key_import_error_no_uid": {
-        "message": "$1 anahtarında geçerli bir kullanıcı kimliği bulunamadı",
+        "message": "V klíči $1 nenalezen platný identifikátor uživatele",
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Güçlendirilmiş PGP anahtarı okunurken sorun çıktı: $1",
+        "message": "Chyba při načítání chráněného PGP klíče: $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "Anahtarlar işlenirken bir sorun çıktı",
+        "message": "Při zpracovávání klíčů došlo k chybě",
         "description": "Import error alert."
     },
     "key_import_file_label": {
-        "message": "Dosyaları seçin",
+        "message": "Vybrat soubory",
         "description": "File selection label."
     },
     "key_import_from_text_btn": {
-        "message": "Anahtarı panodan içe aktar",
+        "message": "Import klíče ze schránky",
         "description": "Import keys from clipboard button label on key import page."
     },
     "key_import_from_text_label": {
-        "message": "Panodan metin",
+        "message": "Text ze schránky",
         "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_hkp_search_btn": {
-        "message": "Arama",
+        "message": "Hledat",
         "description": ""
     },
     "key_import_hkp_search_ph": {
-        "message": "Ada, e-posta adresine ya da anahtar koduna göre",
+        "message": "Podle jména, e-mailové adresy nebo identif. klíče",
         "description": ""
     },
     "key_import_hkp_server": {
-        "message": "Anahtar sunucusu",
+        "message": "Server s klíči",
         "description": ""
     },
     "key_import_invalid_text": {
-        "message": "Geçerli bir anahtar metni bulunamadı",
+        "message": "Nenalezen žádný platný text klíče",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Uyarı: Bu kişinin anahtarının kullanım süresi dolmuş. Bu nedenle artık $1 ile şifreli iletişim kurulamaz. Kişinin sizi güncel bir anahtar ile yeniden davet etmesi gerekiyor.",
+        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key.",
         "description": ""
     },
     "key_import_number_of_failed": {
-        "message": "Bir anahtar bazı sorunlar nedeniyle içe aktarılamadı.",
+        "message": "Klíč nebylo možné naimportovat kvůli chybám.",
         "description": "Error message with number of failed imports."
     },
     "key_import_number_of_failed_plural": {
-        "message": "$1 anahtar bazı sorunlar nedeniyle içe aktarılamadı.",
+        "message": "$1 klíčů nebylo možné naimportovat kvůli chybám.",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "$2 kullanıcısının $1 var olan herkese açık anahtarı ile eşleşen kişisel anahtar bölümü  anahtarlık içine aktarıldı",
+        "message": "Private key part matching existing public key $1 of user $2 imported into keyring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "Kişisel anahtar okunurken sorun çıktı: $1",
+        "message": "Nedaří se číst soukromý klíč: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "$2 kullanıcısının $1 kişisel anahtarı anahtarlık içine aktarıldı",
+        "message": "Private key $1 of user $2 imported into keyring",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "$2 kullanıcısının $1 kişisel anahtarı güncellendi",
+        "message": "Updated private key $1 of user $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "Herkese açık anahtar okunamadı: $1",
+        "message": "Nedaří se číst veřejný klíč: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "$2 kullanıcısının $1 herkese açık anahtarı anahtarlık içine aktarıldı",
+        "message": "Veřejný klíč $1 uživatele $2 naimportován do klíčenky",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "$2 kullanıcısının $1 herkese açık anahtarı güncellendi",
+        "message": "Aktualizován veřejný klíč $1 uživatele $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_textarea": {
-        "message": "Anahtarı metin olarak içe aktar",
+        "message": "Importovat klíč jako text",
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "İçe aktarmak istediğiniz anahtar metni işlenemeyecek kadar uzun. Bu işlemi daha küçük metin parçaları ile yapmayı deneyin.",
+        "message": "The key text you tried to import is too long to handle. Try doing it in smaller parts.",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "Bir sorun nedeniyle bir anahtar içe aktarılamadı: $1",
+        "message": "Unable to import a key due to exception: $1",
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri artık güncel değil.",
+        "message": "Data klíče na serveru s klíči projektu Mailvelope už nejsou aktuální.",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "Anahtar Mailvelope anahtar sunucusu ile eşitlenmemiş.",
+        "message": "Tento klíč není synchronizován se serverem s klíči, provozovaným projektem Mailvelope.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "Mailvelope anahtar sunucusundan tüm kullanıcı kimliklerine son silme onayı için bir e-posta gönderildi. ",
+        "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Tüm kullanıcı kimliklerini sil",
+        "message": "Odebrat veškeré identif. uživatele",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "Yeniden gönder",
+        "message": "Odeslat znovu",
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri güncel.",
+        "message": "Data klíče na serveru s klíči projektu Mailvelope jsou aktuální.",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri güncellenmiş.",
+        "message": "The key data has been updated on the Mailvelope key server.",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
-        "message": "Güncelle",
+        "message": "Aktualizovat",
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "Anahtarın Mailvelope anahtar sunucusu ile eşitlenmesi için tüm kullanıcı kimliklerine bir onay e-postası gönderildi.",
+        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
-        "message": "Eşitle",
+        "message": "Synchronizovat",
         "description": "Key server upload button label"
     },
     "key_recovery_failed": {
-        "message": "Anahtar yedekten geri yüklenemedi.",
+        "message": "Obnovování klíče ze zálohy se nezdařilo.",
         "description": ""
     },
     "key_remove_btn": {
-        "message": "Sil",
+        "message": "Odstranit",
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "Anahtarı anahtarlıktan sil",
+        "message": "Odebrat klíč z klíčenky",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
-        "message": "Anahtarı sil",
+        "message": "Odebrat klíč",
         "description": "Title of delete key dialog."
     },
     "key_revoke_btn": {
-        "message": "Geçersiz kıl",
+        "message": "Odvolat platnost",
         "description": "Revoke key button label"
     },
     "key_revoke_btn_title": {
-        "message": "Anahtarı geçersiz kıl",
+        "message": "Odvolat platnost klíče",
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Anahtarı geçersiz kılmak istediğinize emin misiniz?",
+        "message": "Pořád chcete platnost klíče odvolat?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "Geçersiz kılınan anahtarlar bir daha kullanılamaz.",
+        "message": "Pokud bude jeho platnost odvolána, klíč už bude navždy nepoužitelný.",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
-        "message": "Anahtarı geçersiz kıl",
+        "message": "Odvolat platnost klíče",
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "Varsayılan Olarak Ata",
+        "message": "Nastavit jako výchozí",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
-        "message": "Anahtar yedeği oluşturulamadı.",
+        "message": "Vytváření zálohy klíče se nezdařilo.",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "Yedeği geri yükle",
+        "message": "Obnovit zálohu",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Şu durumda buradan yeni bir kurtarma sayfası hazırlayın:",
+        "message": "Zde si vytvořte nový list pro obnovení, pokud:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Önerilen: Bir yedek oluşturun",
+        "message": "Doporučení: Vytvořit zálohu",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "Kurtarma sayfasını kaybettiyseniz.",
+        "message": "Jste ho ztratili.",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "Güvenlik nedeniyle yeni bir kurtarma sayfası oluşturmalısınız.",
+        "message": "Je třeba vytvořit nový list pro obnovení z bezpečnostních důvodů.",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "Bir yedek oluşturun",
+        "message": "Vytvořit zálohu",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "Yedekleme ile şifreli iletişiminiz için şundan emin olunur:",
+        "message": "Záloha je potřebná pro zajištění toho, že vaše šifrovaná komunikace je:",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "Öneri: Bir yedek kurulumu yapın",
+        "message": "Doporučení: Nastavit zálohu",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "Veri kaybı olması durumunda geri yükleyebilmek için",
+        "message": "V pořádku pro obnovení v případě ztráty dat",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Başka aygıtlara aktarmak için",
+        "message": "V pořádku pro přenos na jiná zařízení",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "Kurtarma kodunuzun bulunduğu bir belge hazırlanıyor.",
+        "message": "Připravuje se dokument s vašimi klíči pro obnovení.",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "Yedek oluşturuluyor!",
+        "message": "Vytváří se záloha!",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "Tüm alt anahtarların da son kullanma tarihi değiştirildi. Geçersiz alt anahtarlar ya da süresi zaten dolmuş olan alt anahtarlar bu değişiklikten etkilenmez.",
+        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "Son kullanma tarihini değiştir",
+        "message": "Změnit datum skončení platnosti",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "Eski parola",
+        "message": "Dosavadní heslo",
         "description": "Old password input label"
     },
     "keydetails_change_pwd_dialog_title": {
-        "message": "Parolayı değiştir",
+        "message": "Změnit heslo",
         "description": "Title of change password dialog."
     },
     "keydetails_creation_date": {
-        "message": "Oluşturulma",
+        "message": "Vytvořen",
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "Son kullanma",
+        "message": "Vyprší",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "asla",
+        "message": "nikdy",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
-        "message": "Parola",
+        "message": "Heslo",
         "description": "Password of a PGP key."
     },
     "keydetails_title": {
-        "message": "Anahtar ayrıntıları",
+        "message": "Detaily klíče",
         "description": "Title of the key details panel"
     },
     "keygen_dialog_password_error_length": {
-        "message": "Parola en az $1 karakter uzunluğunda olmalıdır",
+        "message": "Je třeba, aby heslo bylo alespoň $1 znaků dlouhé",
         "description": ""
     },
     "keygen_dialog_password_placeholder": {
-        "message": "en az 4 karakter",
+        "message": "přinejmenším 4 znaky",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Lütfen şifreli iletişiminizi korumak için anahtarınıza bir parola atayın:",
+        "message": "Abyste ochránili svou šifrovanou komunikaci, přiřaďte svému klíči heslo:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Bu işlem birkaç dakika sürebilir. Bu sırada web tarayıcınız yanıt vermeyi durdurabilir. Lütfen sabırla bekleyin.",
+        "message": "Tento proces může trvat několik minut. Váš prohlížeč může přestat reagovat. Prosíme buďte trpěliví.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "Şifreli iletişim kuruluyor",
+        "message": "Nastavit šifrovanou komunikaci",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "Algoritma",
+        "message": "Algoritmus",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "Tümü",
+        "message": "Vše",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "Oluşturulma Tarihi",
+        "message": "Datum vytvoření",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "Oluşturulma",
+        "message": "Vytvořen",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Varsayılan anahtar",
+        "message": "Výchozí klíč",
         "description": "Default key in the keyring."
     },
     "keygrid_default_label": {
-        "message": "Varsayılan",
+        "message": "Výchozí",
         "description": "Label for the default key"
     },
     "keygrid_delete": {
-        "message": "Sil",
+        "message": "Smazat",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "Bu anahtarı silmek istediğinize emin misiniz?",
+        "message": "Opravdu chcete tento klíč odebrat?",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "Tüm anahtarları görüntüle",
+        "message": "Zobrazit všechny klíče",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "Kişisel Anahtarı Görüntüle",
+        "message": "Zobrazit soukromý klíč",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "Herkese açık anahtarı görüntüle",
+        "message": "Zobrazit veřejný klíč",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "Son Kullanma Tarihi",
+        "message": "Datum vypršení platnosti",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "Dışa Aktar",
+        "message": "Export",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "Bu listedeki tüm anahtarları bir dosyaya aktarır",
+        "message": "Exportovat veškeré klíče z tohoto seznamu do souboru",
         "description": "Title for Export key button."
     },
     "keygrid_generate_title": {
-        "message": "Bir anahtar üretir",
+        "message": "Vytvořit klíč",
         "description": "Title for generate key button"
     },
     "keygrid_import_title": {
-        "message": "Bir anahtarı içe aktarır",
+        "message": "Importovat klíč",
         "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
-        "message": "Kullanıcı kimliği geçersiz",
+        "message": "Neplatný identif. uživatele",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "PGP Parmak İzi",
+        "message": "PGP otisk",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "Uzunluk",
+        "message": "Délka",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "Bu anahtarın son kullanma tarihi yok",
+        "message": "Tento klíč platí napořád",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "Anahtar Kodu",
+        "message": "ID klíče",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
-        "message": "Ana Anahtar",
+        "message": "Hlavní klíč",
         "description": "Main key in the PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Kişisel Anahtarlar",
+        "message": "Soukromé klíče",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "Herkese Açık Anahtarlar",
+        "message": "Veřejné klíče",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "Yenile",
+        "message": "Obnovit",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Anahtarlığı yeniden yükler",
+        "message": "Znovunačíst klíčenku",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "Herkese açık anahtarı e-posta ile gönder",
+        "message": "Poslat veřejný klíč e-mailem",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "İmzalayan",
+        "message": "Podepisující",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "İmzalayan bilinmiyor",
+        "message": "Neznámý podepisující",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "Süzgeçler",
+        "message": "Filtry",
         "description": "Key grid sort selector."
     },
     "keygrid_status_expired": {
-        "message": "süresi geçmiş",
+        "message": "po epiraci",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_invalid": {
-        "message": "geçersiz",
+        "message": "neplatný",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_revoked": {
-        "message": "geçersiz kılınmış",
+        "message": "revokované",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "geçerli",
+        "message": "platné",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Alt anahtar",
+        "message": "Podklíč",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "Alt anahtarlar",
+        "message": "Podklíče",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "E-posta",
+        "message": "E-mail",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "Kullanıcı kimlikleri",
+        "message": "Identifikátory uživatelů",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "Ad",
+        "message": "Jméno",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "Birincil",
+        "message": "Hlavní",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
-        "message": "İmzalar",
+        "message": "Podpisy",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "Durum",
+        "message": "Status",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "Kullanılabilecek ayarları şurada görebilirsiniz:",
+        "message": "Možná nastavení naleznete v:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "Anahtarlık yedeği",
+        "message": "Záloha klíčenky",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "$1 kodlu anahtarlığı silmek istediğinize emin misiniz?",
+        "message": "Opravdu chcete smazat klíčenku s identifikátorem: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Anahtarı onayla",
+        "message": "Potvrdit klíč",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "$1 anahtarı onayla",
+        "message": "Potvrdit $1 klíčů",
         "description": "Tab of keyring to import keys."
     },
     "keyring_display_keys": {
-        "message": "Anahtarları Görüntüle",
+        "message": "Zobrazit klíče",
         "description": "Tab of keyring to display keys."
     },
     "keyring_export_keys": {
-        "message": "Anahtarlığı Dışa Aktar",
+        "message": "Exportovat klíčenku",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "Anahtar Üret",
+        "message": "Vytvořit klíč",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "Anahtar Yönetimi",
+        "message": "Správa klíčů",
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Anahtarları dosya olarak yükleyerek ya da metin olarak yapıştırarak ekleyebilirsiniz.",
+        "message": "Klíče je možné přidávat buď jako soubor nebo jako text ze schránky.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Anahtar Ekle",
+        "message": "Přidat klíče",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Var olan kişiler için anahtar sunucusunda arama yapabilirsiniz.",
+        "message": "Hledat server s klíči pro existující kontakty.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
-        "message": "Ana Anahtarlık",
+        "message": "Hlavní klíčenka",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "Kişisel",
+        "message": "Soukromé ",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "Herkese açık",
+        "message": "Věřejné",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "Anahtar Çiftleri",
+        "message": "Dvojice klíčů",
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Anahtarlığı sil",
+        "message": "Smazat klíčenku",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
-        "message": "Kurulum",
+        "message": "Nastavit",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "Anahtar üret",
+        "message": "Vytvořit klíč",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Bu eklentiyi ilk kez kullanıyorsanız ve bir anahtar çiftiniz yoksa lütfen bir tane üretin.",
+        "message": "Pokud toto rozšíření používáte poprvé a nemáte doposud dvojici klíčů, vytvořte si ji nyní.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "Anahtarı İçe Aktar",
+        "message": "Importovat klíč",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "Zaten başka bir aygıt üzerinde kullandığınız bir anahtar çiftiniz varsa bu anahtarları içe aktarabilirsiniz. Anahtar çiftini diğer aygıt üzerinden dışa aktardıktan sonra buradan içe aktarın.",
+        "message": "Do you already have a key pair on another device? You can import your existing keys. Just export the key pair from the other device and then import them here.",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "İletileri şifreleyip çözmek ve kişileri uçtan uca şifreli iletişim kullanmaya çağırmak için bir anahtar çifti gereklidir. ",
+        "message": "Dvojice klíčů je zapotřebí pro šifrování a rozšifrovávání zpráv, stejně tak pro zvaní vašich kontaktů do komunikace, šifrované mezi koncovými body.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "Bu anahtarlıkta henüz bir anahtar çifti bulunmuyor.",
+        "message": "Tato klíčenka ještě neobsahuje dvojici klíčů.",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "Ek anahtar kaynakları",
+        "message": "Další zdroje klíčů",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Gelen e-postanın Autocrypt üst bilgisindeki anahtarlar kullanılsın",
+        "message": "Use keys from Autocrypt headers of incoming email",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_hkp_url": {
-        "message": "HKP anahtar sunucusu",
+        "message": "HKP server s klíči",
         "description": "HKP key server option: url."
     },
     "keyserver_tofu_lookup": {
-        "message": "Mailvelope anahtar sunucusu kullanılsın",
+        "message": "Použít server s klíči, provozovaný projektem Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_url_error": {
-        "message": "Anahtar sunucusuna erişilemiyor",
+        "message": "Server s klíči není dostupný",
         "description": "HKP key server URL error."
     },
     "keyserver_url_warning": {
-        "message": "Anahtar sunucusunun adresi şu biçimde olmalıdır: http(s)://keys.ornek.com",
+        "message": "Je třeba, aby URL adresa serveru s klíči měla následující formát: http(s)://klice.example.com",
         "description": "HKP key server url warning."
     },
     "keyserver_wkd_lookup": {
-        "message": "Anahtarlar alıcının e-posta hizmeti sağlayıcısı tarafından sorulsun (Web Anahtar Dizini)",
+        "message": "Dotázat se na klíče poskytovatele e-mailu příjemců (webový adresář klíčů)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
-        "message": "Yeni ekle",
+        "message": "Přidat nového",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Yeni bir kullanıcı kimliği ekle",
+        "message": "Přidat nový identifikátor uživatele",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
-        "message": "Anahtar sunucusu",
+        "message": "Server s klíči",
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "eşitlenmemiş",
+        "message": "Nesynchronizováno",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
-        "message": "eşitlenmiş",
+        "message": "synchronizováno",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "doğrulanmamış",
+        "message": "neověřeno",
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "Atanmış kullanıcı kimlikleri",
+        "message": "Přiřazené identif. uživatele",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
-        "message": "Ayrıntılı bilgi alın",
+        "message": "Zjistěte více",
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "Bu ileti için bir kişisel anahtar bulunamadı. Gerekli kişisel anahtar kodları: $1",
+        "message": "Pro tuto zprávu nebyl nalezen soukromý klíč. Identifikátory potřebných soukromých klíčů: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Bu iletinin şifresi çözülemedi: $1",
+        "message": "Tuto zprávu se nepodařilo rozšifrovat: $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "E-posta adresi zaten kullanılmış",
+        "message": "Tuto e-mailovou adresu už někdo používá",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Lütfen bir ad yazın",
+        "message": "Zadejte jméno",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
-        "message": "Metin panoya kopyalandı.",
+        "message": "Text byl zkopírován do schránky.",
         "description": "Copy to clipboard toast message."
     },
     "options_about": {
-        "message": "Hakkında",
+        "message": "O programu",
         "description": "Options navigation: About."
     },
     "options_docu": {
-        "message": "Belgeler",
+        "message": "Dokumentace",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "Seçenekler",
+        "message": "Volby",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "Ayarlar",
+        "message": "Nastavení",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "Mailvelope Ayarları",
+        "message": "Mailvelope Options",
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "yeğlenen",
+        "message": "upřednostněno",
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
-        "message": "İzinler",
+        "message": "Pověření",
         "description": "Authorizations"
     },
     "provider_gmail_auth_cancel_btn": {
-        "message": "Kimlik doğrulamasını iptal et",
+        "message": "Zrušit pověření",
         "description": "Cancel authorization button"
     },
     "provider_gmail_auth_readonly": {
-        "message": "e-posta okuma",
+        "message": "číst e-mail",
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "e-posta gönderme",
+        "message": "odeslat e-mail",
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
-        "message": "Google API İzinleri",
+        "message": "Google API Authorizations",
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "Google ile oturum aç",
+        "message": "Přihlásit se prostřednictvím Google účtu",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
-        "message": "<0></0> Gmail bütünleştirmesini kullanabilmek için Mailvelope uygulamasına şu izinler verilmelidir:",
+        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_auth_outro": {
-        "message": "Oturum aç düğmesine tıklarsanız, Google izin verme penceresi açılır. <0></0> e-posta adresinin Gmail hesabını seçin ve yönergeleri izleyin.",
+        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_description": {
-        "message": "Gmail API uygulamasının kullanılması Mailvelope ile Gmail arasındaki işlevselliğin artmasını sağlar ve şifrelenmiş e-postalar ile ek dosyalarının alınıp gönderilmesini kolaylaştırır.",
+        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "Bu özellik Gmail hesapları için ücretsiz olarak kullanılabilir. Bir G Suite (<0>gsuite.google.com</0>) kuruluşunun bir parçası iseniz <1>Mailvelope ürün sayfasından</1> bir lisans satın almanız gerekir.",
+        "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Lütfen gizlilik ilkemizi okuyun",
+        "message": "Přečtete si naše zásady ochrany soukromí",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
-        "message": "Gmail API Kullanılarak",
+        "message": "Using the Gmail API",
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API Bütünleştirmesi",
+        "message": "Napojení na aplikační program. rozhraní (API) služby Gmail",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Gmail API uygulamasının Mailvelope tarafından kullanılabilmesi için ek izinlerin verilmesi gerekir. Gmail ile Mailvelope şifreleme özelliklerini kullanabilmeniz için sizi yönlendireceğiz. Bu işlem için Google hesabınızla oturum açmanız gerekecek.",
+        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail <0></0> arama modeline izin vermiyor. Lütfen <1></1> bölümündeki ayarlara bakın.",
+        "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Tüm dünyadaki kuruluşlar ile güvenli olarak iletişim kurun",
+        "message": "Komunikujeme bezpečně s organizacemi po celém světě",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "kullanıcı/ay",
+        "message": "za uživatele a měsíc",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Gmail API kullanmadan devam et",
+        "message": "Continue without Gmail API",
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "Gmail API uygulamasının G Suite kuruluşlarında kullanılabilmesi için <0>bir ücret ödenmesi gerekir</0>.",
+        "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
-        "message": "Mailvelope uygulamasını Gmail ile ücretsiz olarak kullanmaya devam edebilirsiniz. Ancak <0>API kullandığınızda</0> şifrelenmiş e-postaları ve ek dosyalarını yazmak ve okumak <1>çok daha hızlı ve kolay</1> olur.",
+        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Etkinleştirilmiş Gmail API ile Mailvelope Business sürümünü <0>14 gün ücretsiz olarak</0> deneyin:",
+        "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
-        "message": "Gmail API uygulamasını ücretsiz olarak deneyin",
+        "message": "Test Gmail API for free",
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Mailvelope Business lisansı gereklidir",
+        "message": "Je vyžadována licence Mailvelope pro podniky",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Bir G Suite (<0>gsuite.google.com</0>) kuruluşu Gmail API bütünleştirmesini kullanmak için gereken lisansları <1>Mailvelope ürün sayfasından</1> satın alabilirsiniz.",
+        "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "Mailvelope Lisansı",
+        "message": "Licence Mailvelope",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
-        "message": "Güvenli yönlendir",
+        "message": "Zabezpečené přeposlání",
         "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
-        "message": "Tümüne güvenli yanıtla",
+        "message": "Zabezpečená odpověď všem",
         "description": "Secure reply all button title/tooltip"
     },
     "provider_gmail_secure_reply_btn": {
-        "message": "Güvenli yanıtla",
+        "message": "Zabezpečená odpověď",
         "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Parola geçici olarak hatırlansın",
+        "message": "Dočasně zapamatovat heslo",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "Anahtarların kilidini açma işlemi iptal edildi.",
+        "message": "Odemykání klíčů bylo zrušeno.",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "Anahtar parolasını yazın",
+        "message": "Zadejte heslo klíče",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Lütfen parolanızı yazın",
+        "message": "Zadejte své heslo",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Lütfen kullanıcı kimliğini oluşturmak için anahtar parolanızı yazın.",
+        "message": "Please enter your key password to create the user ID.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Lütfen bir kurtarma sayfası oluşturmak için anahtar parolanızı yazın.",
+        "message": "Pokud chcete vytvořit list pro obnovení, zadejte heslo ke svému klíči.",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "Taslağı kaydetmek için anahtar parolanızı yazın.",
+        "message": "Pokud chcete koncept uložit, zadejte heslo pro klíč.",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Lütfen bu iletinin şifresini çözmek için anahtar parolanızı yazın.",
+        "message": "Pokud chcete tuto zprávu rozšifrovat, zadejte heslo ke svému klíči.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Lütfen şifreli iletişim ayarlarını güncellemek için anahtar parolanızı yazın.",
+        "message": "Pokud chcete aktualizovat nastavení pro šifrovanou komunikaci, zadejte heslo ke svému klíči.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Lütfen bu anahtarı geçersiz kılmak için anahtar parolanızı yazın.",
+        "message": "Pokud chcete tento klíč zneplatnit, zadejte heslo k němu.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Lütfen bu kullanıcı kimliğini geçersiz kılmak için anahtar parolanızı yazın.",
+        "message": "Please enter your key password to revoke the user ID.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Lütfen bu anahtarın son kullanma tarihini değiştirmek için anahtar parolanızı yazın.",
+        "message": "Please enter your key password to set a new expiration date for the key.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Lütfen bu iletiyi imzalamak için anahtar parolanızı yazın.",
+        "message": "Pokud chcete tuto zprávu podepsat, zadejte heslo ke svému klíči.",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "Parolanızı yazın | Mailvelope",
+        "message": "Zadejte heslo | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "Kullanıcı kimliği:",
+        "message": "Identif. uživatele:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Parola hatalı",
+        "message": "Nesprávné heslo",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "Verilerinizin yedekleyin",
+        "message": "Záloha vašich dat",
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Verilerinizi yerel olarak bilgisayarınıza da yedeklemek isterseniz bununla ilgili seçeneği $1 hesabınızın şifreli iletişim bölümünde bulabilirsiniz.",
+        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your $1 account. ",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Şifreli iletişim için önemli veriler (anahtar parolası gibi) yedeklenirken, $1 sunucuları üzerine güvenlik iş ortağımız Mailvelope tarafından şifrelenerek kaydedilir. ",
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "Lütfen unutmayın",
+        "message": "Please be aware",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "Lütfen şuradaki hesap ayarlarınızı denetleyin:",
+        "message": "Zkontrolujte nastavení ve svém účtu v sekci:",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "Oluşturulma tarihi:",
+        "message": "Datum vytvoření:",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "Yedek almazsanız, anahtar parolanızı kaybetmeniz, aygıtınızın bozulması ya da web tarayıcı eklentisinde sorun çıkması gibi durumlarda şifrelenmiş iletilerinizin şifresini bir daha çözemezsiniz!",
+        "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "$1 ile şifreli iletişim kullanmanın incelikleri",
+        "message": "Rady pro šifrovanou komunikaci s $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "Diğer bilgisayarlara kurarken şu bölümdeki ayarlarda bulunan kurtarma kodunu yazın:",
+        "message": "Pokud chcete nainstalovat na jiné počítače, zadejte kód pro obnovení v nastavení v sekci:",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "$1 ile şifreli iletişim PGP temeline göre geliştirilmiştir. Şifrelenmiş e-postalar göndermenizi ve alıcının iletiyi okuyabileceğinden emin olmanızı sağlar.",
+        "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "web tarayıcı eklentisinde çıkabilecek sorunlar nedeniyle",
+        "message": "kvůli problémům s rozšířením pro prohlížeč",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "anahtarınızın parolasını unutmanız nedeniyle",
+        "message": "protože jste zapomněli heslo ke svému klíči",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "$1 hesabınızın şu bölümünde ayrıntılı bilgi ve ayar seçenekleri bulabilirsiniz:",
+        "message": "You can find more information and setting options in your $1 account under",
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "Önemli bilgiler!",
+        "message": "Důležitá informace!",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "Genel olarak önemlidir",
+        "message": "Obecně, je důležité",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "$1 hesabınızın şifreli iletişim ayarlarında, başka kişileri PGP kullanarak şifreli iletişim kurmaya  çağırabilirsiniz. Daha önce çağrılmış kişiler e-posta adresinin yanındaki asma kilit simgesi ile anlaşılabilir.",
+        "message": "In your encrypted communication settings of your $1 account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. ",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "Bu belgeyi yazdırarak güvenli bir yerde saklayın ve kurtarma koduna başka hiç kimsenin erişemeyeceğinden emin olun.",
+        "message": "Uložte si výtisk tohoto dokumentu na bezpečné místo a zajistěte, že ke kódu pro obnovení nemá nikdo jiný přístup.",
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "GMX PGP yöntemini kullanan diğer $1 kullanıcı $1 hesabınızın merkez klasöründe bulunabilir. Bu klasörde herhangi bir kayıt bulunmasını istemiyorsanız, $1 hesabı ayarlarınızdan bu özelliği devre dışı bırakabilirsiniz.",
+        "message": "Other $1 users who are using the PGP procedure of GMX can be directly found in a central directory in your $1 account. If you do not want to have any entries in this directory, please deactivate this function in your $1 account settings.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "Mobil aygıtlarda",
+        "message": "Na mobilních zařízeních",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Şu örnekteki gibi şifreli iletişiminiz artık çalışmıyorsa:",
+        "message": "Pokud vaše šifrovaná komunikace nefunguje, např.:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "Farklı bir bilgisayar üzerinde",
+        "message": "Na jiném počítači",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Diğer kişiler ile şifreli iletişim",
+        "message": "Šifrovaná komunikace s ostatními kontakty",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "Diğer aygıtlarda şifreli ileitşim",
+        "message": "Šifrovaná komunikace na ostatních zařízeních",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Diğer aygıtlar üzerine şifreli iletişim kurmak",
+        "message": "Nastavení šifrované komunikace na jiných zařízeních",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "diğer nedenlerle",
+        "message": "z jiných důvodů",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "Şifreli iletişim (PGP) kullanan başkaları varsa onlarla güvenli iletişim kurabilirsiniz.",
+        "message": "S ostatními kontakty můžete komunikovat zabezpečeně, pokud také používají šifrovanou komunikaci (PGP).",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "Lütfen bu belgeyi güvenli bir yerde saklayın!",
+        "message": "Prosíme uložte si tento dokument na bezpečném místě!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "Yazdır",
+        "message": "Tisk",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "Lütfen bu belgeyi yazdırıp güvenli bir yerde saklayın!",
+        "message": "Prosíme vytiskněte si tento dokument a uložte si ho na bezpečném místě!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "Şifreli iletişim",
+        "message": "Šifrovaná komunikace",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "Gelen Kutusu",
+        "message": "Doručené",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "Güvenlik",
+        "message": "Bezpečnost",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "Ayarlar",
+        "message": "Nastavení",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "QR kodu mobil aygıtınız ile tarayın.",
+        "message": "Naskenujte QR kód vaším mobilním zařízením.",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "Öneri",
+        "message": "Doporučení",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "Verileri kurtarmak",
+        "message": "Obnovují se data",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "Kurtarma kodu",
+        "message": "Kód pro obnovení",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Şifreli iletişim kurtarma sayfası",
+        "message": "List pro obnovení šifrované komunikace",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Şifreli iletişimi kurtar",
+        "message": "Obnovit šifrovanou komunikaci",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Görüntülenen GMX kişilerinin geçerli kullanıcılar olduğundan emin olabilirsiniz. Bununla birlikte her zaman kişilerin kimliğini başka bir e-posta hizmeti sağlayıcısının e-posta adresini kullanarak doğrulamalısınız.",
+        "message": "V případě kontaktů u poskytovatele GMX si můžete být jistí, že zobrazení uživatelé jsou skutečně platní uživatelé. Nicméně měli byste vždy ověřit identitu kontaktů u e-mailových adres od jiného poskytovatele e-mailu.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "Şifreli iletişimi yalnız başkalarının erişemeyeceği güvenli aygıtlar üzerine kurun.",
+        "message": "Šifrovanou komunikaci nastavujte pouze na bezpečných zařízeních, ke kterým máte přístup pouze vy.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "Yedeklenmiş verilerinizin şifresi yalnız bu kurtarma sayfasındaki kurtarma kodu ile çözülebilir.",
+        "message": "Zálohu vašich dat je možné rozšifrovat pouze prostřednictvím obnovovacího kódu, uvedeného na tomto listu pro obnovení.",
         "description": ""
     },
     "reload_tab": {
-        "message": "Lütfen ayarların etkili olması için ilgili sayfaları yeniden yükleyin.",
+        "message": "Aby se nastavení projevila, znovu načtěte odpovídající stránky.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "Onayla",
+        "message": "Potvrdit",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Lütfen kurtarma kodunuzu yazın:",
+        "message": "Zadejte svůj kód pro obnovení:",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "Görüntüle",
+        "message": "Zobrazit",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "Anahtar parolanız:",
+        "message": "Heslo k vašemu klíči:",
         "description": ""
     },
     "security_background_button_title": {
-        "message": "Güvenlik arka planı Mailvelope ayarları bölümünden yapılandırılabilir",
+        "message": "The security background can be adjusted in the Mailvelope Options",
         "description": "The tooltip text for the keylock button"
     },
     "security_background_color_text": {
-        "message": "2. Şimdi beğendiğiniz bir renk seçin",
+        "message": "2. Nyní si zvolte barvu, která se vám líbí",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. Beğendiğiniz bir simge seçin",
+        "message": "1. Zvolte si ikonu, která se vám líbí",
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Şifrelenmiş e-postalar güvenlik arka planı kullanılarak görüntülenir. Gerçekten güvenli kılmak için arka planı kişiselleştirmelisiniz. Böylece hiç kimsenin Mailvelope arayüzünü yeniden oluşturamayacağından ve kişisel verilerinize erişemeyeceğinden emin olursunuz. ",
+        "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data.",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "Parolalar bu tarayıcı oturumu için anımsansın.",
+        "message": "Zapamatovat si heslo po dobu této relace v prohlížeči.",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "1 ile 999 arasında bir sayı olmalıdır",
+        "message": "Je třeba, aby bylo číslo z rozsahu 1-999",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "Hayır.",
+        "message": "Ne.",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "Evet, şu kadar süreyle:",
+        "message": "Ano, ponechat v paměti po dobu",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "dakika.",
+        "message": "minut.",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Şifresi çözülen iletiler nerede görüntülensin?",
+        "message": "Kde jsou rozšifrované zprávy zobrazovány?",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "E-posta hizmeti sağlayıcının sayfasında.",
+        "message": "Na stránce poskytovatele e-mailu.",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "Ayrı bir Mailvelope açılan penceresinde.",
+        "message": "V odděleném vyskakovacím okně doplňku Mailvelope.",
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "PGP iletilerinde Mailvelope sürümü ve açıklamalar görüntülenmesin.",
+        "message": "Skrýt v PGP zprávách verzi Mailvelope a komentář.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
-        "message": "İşlem",
+        "message": "Akce",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "Dosya ekleme düğmesine tıklama",
+        "message": "Kliknuto na tlačítko přidání přílohy",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "Ek dosya indirme",
+        "message": "Příloha stažena",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "Yedekle üzerine tıklama",
+        "message": "Zálohu vytvoříte kliknutím",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Yedeği geri yükle üzerine tıklama",
+        "message": "Kliknutím obnovíte ze zálohy",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "Doğrulama penceresinde kopyalama",
+        "message": "Zkopírujete kliknutím v dialogu pro ověření",
         "description": ""
     },
     "security_log_decrypt_ui": {
-        "message": "Şifreyi Çöz",
+        "message": "Rozšifrovat",
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "İletinin şifresi $1 kullanılarak çözüldü",
+        "message": "Zpráva byla rozšifrována pomocí: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "Pencerede iptal üzerine tıklandı",
+        "message": "V dialogu klikněte na Storno",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "Pencerede şifrele üzerine tıklandı",
+        "message": "Zašifrujete kliknutím v dialogu",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "Pencerede onayla üzerine tıklandı",
+        "message": "Click to confirm in dialog",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Pencerede oturum aç üzerine tıklandı",
+        "message": "Podepíšete kliknutím v dialogu",
         "description": ""
     },
     "security_log_editor": {
-        "message": "Mailvelope Düzenleyici",
+        "message": "Editor v rámci doplňku Mailvelope",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "PGP E-posta Şifresinin Çözülmesi",
+        "message": "Rozšifrovat PGP e-mail",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "Şifreleme Penceresi",
+        "message": "Dialog pro šifrování",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "Şifreleme Formu",
+        "message": "Zašifrovat formulář",
         "description": "Encrypt form as an event source"
     },
     "security_log_encrypt_ui": {
-        "message": "Şifrele",
+        "message": "Zašifrovat",
         "description": ""
     },
     "security_log_encryption_operation": {
-        "message": "İleti $1 için şifrelenmiş",
+        "message": "Zpráva byla zašifrována pro: $1",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "İçe Aktarma Penceresi",
+        "message": "Dialog pro import",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "Anahtar Yedekleme",
+        "message": "Záloha klíče",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "Anahtar Üretme",
+        "message": "Nástroj pro vytváření klíčů",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "Pencerede parola alanına tıklandı",
+        "message": "Klikněte v dialogu pro heslo",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "Parola Penceresi",
+        "message": "Dialog pro heslo",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "Pencerede parola alanına yazıldı",
+        "message": "Zadání v dialogu pro heslo",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "Ek dosya silme",
+        "message": "Příloha odebrána",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "Pencerede yedeği geri yükle üzerine tıklandı",
+        "message": "Klikněte v dialogu obnovení zálohy",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "İleti şu anahtar ile imzalandı: $1",
+        "message": "Zpráva byla podepsána klíčem: $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "İmza penceresini kapat üzerine tıklandı",
+        "message": "Dialog pro podepsání zavřete kliknutím",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "İmza penceresini aç üzerine tıklandı",
+        "message": "Dialog pro podepsání otevřete kliknutím",
         "description": ""
     },
     "security_log_source": {
-        "message": "Kaynak",
+        "message": "Zdrojový kód",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "Güvenlik günlüğünde tüm Mailvelope bileşenlerindeki kullanıcı işlemleri görülebilir",
+        "message": "The security log shows user actions in all components of Mailvelope.",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "Metin alanına yazıldı",
+        "message": "Psaní v textové kolonce",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "Metin alanına tıklandı",
+        "message": "Kliknutí do oblasti textu",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "Metin alanına yazıldı",
+        "message": "Psaní v oblasti textu",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "Metin alanında seçim yapıldı",
+        "message": "Výběr v oblasti textu",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "Zaman damgası",
+        "message": "Timestamp",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "Doğrulama Penceresi",
+        "message": "Dialog pro ověření",
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "Mailvelope Görüntüleyici",
+        "message": "Prohlížeč Mailvelope",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {
-        "message": "OpenPGP ayarları",
+        "message": "Nastavení pro OpenPGP",
         "description": "OpenPGP settings header"
     },
+    "settings_analytics": {
+        "message": "Analytics",
+        "description": "Tab for deciding whether or not to share analytics data."
+    },
     "settings_backup": {
-        "message": "Yedekleme",
+        "message": "Záloha",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "Genel",
+        "message": "Hlavní",
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Anahtar Sunucusu",
+        "message": "Server s klíči",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -1988,175 +1996,175 @@
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
-        "message": "Güvenlik",
+        "message": "Bezpečnost",
         "description": "Tab of options to display security settings."
     },
     "settings_security_background": {
-        "message": "Güvenlik Arka Planı",
+        "message": "Security Background",
         "description": "Security background header"
     },
     "settings_security_log": {
-        "message": "Güvenlik Günlüğü",
+        "message": "Záznam událostí v zabezpečení",
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "İzin Verilmiş Etki Alanları",
+        "message": "Authorized Domains",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "İletiyi şu kimlikle imzala:",
+        "message": "Podepsat zprávu jako:",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "Bu ileti imzalanamadı: $1 ",
+        "message": "Tuto zprávu se nepodařilo podepsat: $1",
         "description": "Error during signing process."
     },
     "signer_unknown": {
-        "message": "Bilinmiyor",
+        "message": "Neznámé",
         "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
-        "message": "Şifreyi Çöz",
+        "message": "Rozšifrovat",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "Şifreli Metini Çözme",
+        "message": "Rozšifrování textu",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "Metin Şifreleme",
+        "message": "Šifrování textu",
         "description": "Navigation link to text encryption feature"
     },
     "upload_aborting_warning": {
-        "message": "Dosya yükleme işleminden vazgeçildi.",
+        "message": "Nahrání souboru bude zrušeno.",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Dosya ekle",
+        "message": "Přidat soubor",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
-        "message": "Eklemek istediğiniz dosyayı sürükleyip bu alana bırakın",
+        "message": "Pokud ho chcete přidat jako přílohu, upusťte soubor do této oblasti",
         "description": "Text in file drop overlay area"
     },
     "upload_help": {
-        "message": "Dosyayı sürükleyip bu pencereye bırakın ya da",
+        "message": "Přetáhněte soubor do tohoto okna nebo",
         "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
-        "message": "Eklenebilecek dosya boyutu:",
+        "message": "Nejvyšší umožněná velikost přílohy:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "Ek dosyanın boyutu çok büyük",
+        "message": "Příloha je příliš velká",
         "description": ""
     },
     "user_create_btn": {
-        "message": "Oluştur",
+        "message": "Vytvořit",
         "description": "Create user button label"
     },
     "user_create_title": {
-        "message": "Kullanıcı kimliği oluştur",
+        "message": "Vytvořit identif. uživatele",
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusu ile eşitlenmemiş.",
+        "message": "The user ID is not synchronized with the Mailvelope key server.",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "Kullanıcı kodunu Mailvelope anahtar sunucusundan silmek için $1 adresine bir onay e-postası gönderildi.",
+        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "Kullanıcı kimliğini sil",
+        "message": "Odebrat identif. uživatele",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "Onay e-postasını yeniden gönder",
+        "message": "Znovu poslat potvrzení",
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusu ile eşitlendi.",
+        "message": "Identif. uživatele je synchronizován se serverem s klíči, provozovaným projektem Mailvelope.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Lütfen Mailvelope anahtar sunucusu ile eşitlemek için kullanıcı kimliğini onaylayın.",
+        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "Kullanıcı kodunu Mailvelope sunucusu ile eşitlemek için $1 adresine bir onay e-postası gönderildi.",
+        "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
-        "message": "Sil",
+        "message": "Odstranit",
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "Kullanıcı kimliğini sil",
+        "message": "Odebrat identif. uživatele",
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Bu kullanıcı kimliğini anahtarınızdan silmek istediğinize emin misiniz?",
+        "message": "Do you want to remove this user ID from your key?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusundan da silinecek.",
+        "message": "User ID is also removed from the Mailvelope key server.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
-        "message": "Kullanıcı kimliğini sil",
+        "message": "Odebrat identif. uživatele",
         "description": "Title of remove user dialog."
     },
     "user_revoke_btn": {
-        "message": "Geçersiz kıl",
+        "message": "Odvolat platnost",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Kullanıcı kimliğini geçersiz kıl",
+        "message": "Revoke user ID",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Geçersiz kılmak istediğinizden emin misiniz?",
+        "message": "Would you still like to revoke?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "Geçersiz kılınan kullanıcı kimliği bu anahtar için bir daha kullanılamaz.",
+        "message": "After revocation, the user ID for this key will permanently remain unusable.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "Kullanıcı kimliğini geçersiz kıl",
+        "message": "Revoke user ID",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
-        "message": "Kullanıcı kimliği",
+        "message": "Identif. uživatele",
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "Doğrulamalar",
+        "message": "Ověřování",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "Bu ileti doğrulanamadı: $1",
+        "message": "Tuto zprávu se nepodařilo ověřit: $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "İmzayı doğrulamak için tıklayın",
+        "message": "Kliknutím podpis ověříte",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Şifre çözülemedi.",
+        "message": "Rozšifrovávání se nezdařilo.",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {
-        "message": "Yeni kayıt ekle",
+        "message": "Přidat novou položku",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "Düzenle",
+        "message": "Editovat",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Bu siteyi izin verilmiş etki alanları listesinden çıkarmak istediğinize emin misiniz?",
+        "message": "Do you really want to remove this site from the list of authorized domains?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -2164,39 +2172,39 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "İzin Verilmiş Etki Alanı",
+        "message": "Authorized Domain",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_remove_dialog_title": {
-        "message": "Etki alanını sil",
+        "message": "Odebrat doménu",
         "description": "Title of delete watchlist dialog."
     },
     "watchlist_title_active": {
-        "message": "Etkin",
+        "message": "Zapnuto",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "Etki alanı biçimi",
+        "message": "Domain pattern",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "Yalnız HTTPS",
+        "message": "Pouze HTTPS",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "Etkin",
+        "message": "Zapnuto",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "Site",
+        "message": "Stránky",
         "description": "Site in watchlist."
     },
     "word_or": {
-        "message": "ya da ",
+        "message": "nebo",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "Kurtarma kodu geçersiz",
+        "message": "Neplatný kód pro obnovení",
         "description": ""
     }
 }

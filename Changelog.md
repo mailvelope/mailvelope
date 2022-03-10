@@ -1,6 +1,19 @@
 Mailvelope Changelog
 ====================
 
+v4.5.0
+-------
+__Mar 10, 2022__
+
+  * Add option to define extra encryption key in the editor UI to support a domain-wide key concept
+  * Introduce key binding: latest seen signature of contact is used for the key selection process
+  * Adapt key import dialog for key rotation events
+  * Use the keys.openpgp.org verifying key server for automatic key discovery
+  * Add Clean Insights privacy preserving analytics (https://cleaninsights.org/)
+  * Support WKD advanced method (https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/13/)
+  * [Gmail] Fix transfer of recipients to Gmail editor
+  * Update dependencies (Webpack 4 -> 5)
+
 v4.4.1
 -------
 __May 12, 2021__

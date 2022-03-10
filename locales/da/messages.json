@@ -95,6 +95,10 @@
         "message": "Mindst ét domæne match-mønster er nødvendigt.",
         "description": "Alert header of category warning."
     },
+    "analytics_consent_description": {
+        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "description": "Consent to share analytics information with mailvelope"
+    },
     "auth_domain_api_label": {
         "message": "Allow API",
         "description": "Label for API allowed info"
@@ -148,7 +152,7 @@
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "Signed",
+        "message": "Signeret",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
@@ -284,7 +288,7 @@
         "description": "Label for recipient input."
     },
     "editor_label_subject": {
-        "message": "Subject",
+        "message": "Emne",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
@@ -1970,6 +1974,10 @@
     "security_openpgp_header": {
         "message": "OpenPGP indstillinger",
         "description": "OpenPGP settings header"
+    },
+    "settings_analytics": {
+        "message": "Analytics",
+        "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
         "message": "Backup",

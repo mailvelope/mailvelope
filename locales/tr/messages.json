@@ -1,402 +1,406 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "Authorize this domain",
+        "message": "Bu etki alanına izin ver",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
-        "message": "所有選項",
+        "message": "Tüm seçenekler",
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>設定 Mailvelope</0> 來開始使用",
+        "message": "Başlamak için <0>Mailvelope uygulamasını yapılandırın</0>!",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Display all configuration options.",
+        "message": "Tüm yapılandırma seçeneklerini görüntüler.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
-        "message": "儀表板",
+        "message": "Pano",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_file_encryption_description": {
-        "message": "Encrypt one or multiple files.",
+        "message": "Bir ya da bir kaç dosyayı şifreler.",
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "File encryption",
+        "message": "Dosya şifreleme",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
-        "message": "協助",
+        "message": "Yardım",
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "Manage public and private keys.",
+        "message": "Herkese açık ve kişisel anahtarları yönetir.",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "鑰匙環",
+        "message": "Anahtarlık",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Mailvelope 主選單",
+        "message": "Mailvelope ana menüsü",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Reload Mailvelope",
+        "message": "Mailvelope uygulamasını yeniden yükle",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Review security relevant user actions.",
+        "message": "Güvenlik ile ilgili kullanıcı işlemlerini gözden geçirin.",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "Security log",
+        "message": "Güvenlik günlüğü",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Mailvelope 設定選單",
+        "message": "Mailvelope kurulum menüsü",
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "The last update of Mailvelope requires you to reconfigure your security background.",
+        "message": "Son Mailvelope güncellemesi nedeniyle güvenlik arka planınızı yeniden yapılandırmanız gerekiyor.",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Let's start!",
+        "message": "Haydi başlayalım!",
         "description": "Start button label"
     },
     "alert_header_error": {
-        "message": "錯誤!",
+        "message": "Hata!",
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "Important!",
+        "message": "Önemli!",
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Please note:",
+        "message": "Lütfen unutmayın:",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
-        "message": "成功!",
+        "message": "Tamam!",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "警告！",
+        "message": "Uyarı!",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern is [*.]host.name.tld[:port].",
+        "message": "Etki alanı eşleşme kalıbı [*.]host.name.tld[:port] şeklindedir.",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "至少要符合一個網域規律",
+        "message": "En az bir etki alanı eşleşme kalıbı gereklidir.",
         "description": "Alert header of category warning."
     },
+    "analytics_consent_description": {
+        "message": "Toplanmış ve anonimleştirilmiş istatistik bilgilerini Mailvelope ile paylaş",
+        "description": "Consent to share analytics information with mailvelope"
+    },
     "auth_domain_api_label": {
-        "message": "Allow API",
+        "message": "API uygulamasına izin ver",
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
-        "message": "Would you like to allow the use of Mailvelope for the domain $1?",
+        "message": "$1 etki alanının Mailvelope ile kullanmasına izin vermek istiyor musunuz?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_headline": {
-        "message": "Authorize domain",
+        "message": "Etki alanına izin ver",
         "description": "Headline of authorize domain dialog."
     },
     "change_link": {
-        "message": "變動",
+        "message": "Değiştir",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "無法讀取純明文的訊息: $1",
+        "message": "Şu açık metin iletisi okunamadı: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "加密",
+        "message": "Şİfreleme",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_manage_domains": {
-        "message": "Authorized domains",
+        "message": "İzin verilmiş etki alanları",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Manage keys",
+        "message": "Anahtar yönetimi",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Security logs",
+        "message": "Güvenlik günlükleri",
         "description": "Dashboard view security logs link"
     },
     "decrypt_att_frame_help_text": {
-        "message": "Click here to view the message",
+        "message": "İletiyi görüntülemek için buraya tıklayın",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_attachment_label": {
-        "message": "附件",
+        "message": "Ek dosyalar",
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_cleartext_warning": {
-        "message": "The following text was not encrypted.",
+        "message": "Şu metin şifrelenmedi.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Decrypted files",
+        "message": "Şifresi çözülmüş dosyalar",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "已簽屬",
+        "message": "İmzalanmış",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "無效的簽署",
+        "message": "İmza geçersiz",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Signature unknown",
+        "message": "İmza bilinmiyor",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "Key with ID $1 not found.",
+        "message": "ID $1 kodlu anahtar bulunamadı.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Key not found.",
+        "message": "Anahtar bulunamadı.",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "Decryption of file $1 is not possible.",
+        "message": "$1 dosyasının şifresi çözülemiyor.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Click to decrypt",
+        "message": "Şifreyi çözmek için tıklayın",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "Decrypt data",
+        "message": "Verilerin şifresini çöz",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "Decryption successful",
+        "message": "Şifre çözüldü",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
-        "message": "解密",
+        "message": "Şifreyi çöz",
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Open in Mailvelope viewer",
+        "message": "Mailvelope görüntüleyicide aç",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "Show message",
+        "message": "İletiyi görüntüle",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Sender",
+        "message": "Gönderen",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "Text to decrypt",
+        "message": "Şifresi çözülecek metin",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Do you also want to decrypt a text?",
+        "message": "Ayrıca bir metnin de şifresini çözmek ister misiniz?",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Decryption of the text is not possible.",
+        "message": "Metnin şifresi çözülemiyor.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
-        "message": "取消",
+        "message": "İptal",
         "description": "Dialog cancel button label"
     },
     "dialog_no_btn": {
-        "message": "否",
+        "message": "Hayır",
         "description": "Dialog no button label"
     },
     "dialog_popup_close": {
-        "message": "關閉",
+        "message": "Kapat",
         "description": "Close decrypt popup."
     },
     "dialog_save_btn": {
-        "message": "儲存",
+        "message": "Kaydet",
         "description": "Dialog save button label"
     },
     "dialog_yes_btn": {
-        "message": "是",
+        "message": "Evet",
         "description": "Dialog yes button label"
     },
     "editor_blur_warn": {
-        "message": "警告：文件編輯器失去焦點",
+        "message": "Uyarı: Metin düzenleyici odağı kaybetti.",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "加密",
+        "message": "Şifrele",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "錯誤",
+        "message": "Hata",
         "description": ""
     },
     "editor_header": {
-        "message": "Compose Secure Email",
+        "message": "Güvenli e-posta oluştur",
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "Would you like to sign all your emails?",
+        "message": "Tüm e-postalarınız imzalansın mı?",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
-        "message": "Change settings here",
+        "message": "Ayarları buradan değiştirin",
         "description": "Test for auto sign link."
     },
     "editor_key_no_sign_option": {
-        "message": "Not signed",
+        "message": "İmzalanmamış",
         "description": "Label for not sign option in sign key select."
     },
     "editor_key_not_found": {
-        "message": "找不到密鑰",
+        "message": "Anahtar bulunamadı!",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "所有收件人都要有 PGP 密鑰來作加密，但你還是可以簽署這個訊息。",
+        "message": "Şifreleme için tüm alıcıların bir PGP anahtarı olmalıdır. Gene de iletiyi imzalayabilirsiniz.",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
-        "message": "附件",
+        "message": "Ek dosyalar",
         "description": "Label for attachments select/drop area."
     },
     "editor_label_copy_recipient": {
-        "message": "副本",
+        "message": "Kopya",
         "description": "Label for copy recipient text input."
     },
     "editor_label_message": {
-        "message": "電子訊息",
+        "message": "İleti",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "收件人",
+        "message": "Alıcı",
         "description": "Label for recipient input."
     },
     "editor_label_subject": {
-        "message": "主旨",
+        "message": "Konu",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
-        "message": "Encrypt files",
+        "message": "Dosyaları şifrele",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "因遺失預設密鑰電子郵件不能數位簽署",
+        "message": "Varsayılan anahtar eksik olduğundan e-posta sayısal olarak imzalanamadı",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "郵件無法進行數位簽名",
+        "message": "E-posta sayısal olarak imzalanamadı",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "移除",
+        "message": "Kaldır",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "只進行簽章",
+        "message": "Yalnız imzala",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "當郵件寄出時，它也會進行數位簽名",
+        "message": "E-posta gönderildiğinde, sayısal olarak da imzalanır",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "郵件將會進行數位簽名",
+        "message": "E-posta sayısal olarak imzalanacak",
         "description": ""
     },
     "editor_transfer": {
-        "message": "傳送",
+        "message": "Aktar",
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "Select signature",
+        "message": "İmzayı seçin",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "Change signature",
+        "message": "İmzayı değiştir",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "請加入一名收件者",
+        "message": "Lütfen bir alıcı ekleyin.",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "Download all",
+        "message": "Tümünü indir",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "Encrypted files",
+        "message": "Şifrelenmiş dosyalar",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Encrypted for",
+        "message": "Şunun için şifrelenmiş",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "無法加密此訊息: $1",
+        "message": "Bu ileti şifrelenemedi: $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Encryption of file $1 is not possible.",
+        "message": "$1 dosyası şifrelenemiyor.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Write secure email",
+        "message": "Güvenli e-posta yazın",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "Encrypt data",
+        "message": "Verileri şifrele",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "Encryption successful",
+        "message": "Şifrelendi",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
-        "message": "加密",
+        "message": "Şifrele",
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "Encrypted data is not signed",
+        "message": "Şifrelenmiş veriler imzalanmamış",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "Remove signature",
+        "message": "İmzayı kaldır",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
-        "message": "簽署",
+        "message": "İmzalayan",
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "Encrypted data is signed with your key ($1)",
+        "message": "Şifrelenmiş veriler anahtarınız ($1) ile imzalandı",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Do you also want to encrypt a text?",
+        "message": "Ayrıca bir metni de şifrelemek ister misiniz?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Encryption of the text is not possible.",
+        "message": "Metin şifrelenemiyor.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "某一個檔案過大",
+        "message": "Dosyalardan biri çok büyük.",
         "description": "."
     },
     "ext_description": {
-        "message": "強化郵件供應商端對端的加密功能，基於 OpenPGP 標準的安全郵件通訊。",
+        "message": "E-posta hizmetinize uçtan uca şifreleme ekleyin. Güvenli e-posta iletişimi OpenPGP standartı üzerine geliştirilmiştir.",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -404,1583 +408,1587 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Personalize now",
+        "message": "Şimdi kişiselleştir",
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Make Mailvelope even more secure by personalizing your security background.",
+        "message": "Güvenlik arka planınızı kişiselleştirerek Mailvelope uygulamasını daha da güvenli hale getirebilirsiniz.",
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "Signature is invalid",
+        "message": "İmza geçersiz",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "File not signed",
+        "message": "Dosya imzalanmadı",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
-        "message": "無法解密檔案： $1",
+        "message": "Şu dosyanın şifresi çözülemedi: $1",
         "description": ""
     },
     "file_signed": {
-        "message": "File signed by $1",
+        "message": "Dosya $1 tarafından imzalanmış",
         "description": "Text of signer field of file element."
     },
     "form_back": {
-        "message": "返回",
+        "message": "Geri",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "處理中",
+        "message": "İşleniyor",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "取消",
+        "message": "İptal",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "清除",
+        "message": "Temizle",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "關閉",
+        "message": "Kapat",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "確認",
+        "message": "Onayla",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "繼續",
+        "message": "Devam et",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "收件人電郵無有效的加密金鑰",
+        "message": "Alıcı adresi için geçerli bir şifreleme anahtarı yok.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "簽署格式無效",
+        "message": "Form imzası geçersiz.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "目的地",
+        "message": "Hedef",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "已加密的訊息會被送回到此頁",
+        "message": "Şifrelenmiş veriler sayfaya geri getirilecek. ",
         "description": "Behavior when no action is specified in form"
     },
     "form_forward": {
-        "message": "往前",
+        "message": "Yönlendir",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "匯入",
+        "message": "İçe aktar",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "載入格式",
+        "message": "Form yükleniyor",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "下一個",
+        "message": "Sonraki",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "否",
+        "message": "Hayır",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "OK",
+        "message": "Tamam",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "收件人",
+        "message": "Alıcı",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "儲存",
+        "message": "Kaydet",
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "密鑰圈無私鑰可簽署此格式內容，請滙入或建立一個私鑰。",
+        "message": "Anahtarlıkta form içeriğini imzalayacak bir kişisel anahtar bulunamadı. Lütfen var olan bir kişisel anahtarı içe aktarın ya da yeni bir tane oluşturun.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "送出",
+        "message": "Onayla",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "復原",
+        "message": "Geri al",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "是",
+        "message": "Evet",
         "description": "Yes form button."
     },
     "general_default_key_always": {
-        "message": "將預設密鑰加入到收件人清單上(此作法便於解密已送出的訊息)",
+        "message": "Varsayılan anahtarım her zaman alıcı listesine eklensin (Böylece gönderilmiş e-postaların şifresini çözebilirsiniz). ",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all outgoing messages.",
+        "message": "Giden iletilerin tümü imzalansın.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
-        "message": "讓我們可以查看可用性",
+        "message": "Kullanılabilirliği denetlememize izin verin",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "您是否已安裝 GnuPG? 若無，可以<0>在此下載</0>。請再次檢查可用性，<1>重啟Mailvelope</1>",
+        "message": "GnuPG kurulu mu? Değilse <0>buradan indirin</0>. Kullanılabilirliğin yeniden denetlenmesi için <1>Mailvelope uygulamasını yeniden başlatın</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG 無法使用",
+        "message": "GnuPG kullanılamıyor",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "您偏好使用 GnuPG 嗎?",
+        "message": "GnuPG kullanmak ister misiniz?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "您目前正在使用",
+        "message": "Şu anda kullandığınız",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "您偏好何種加密後端？",
+        "message": "Hangi arka plan şifreleme alt yapısını kullanmak istersiniz?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
-        "message": "OpenPGP  偏好",
+        "message": "OpenPGP ayarları",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "注意：公鑰會在可用的密鑰圈間進行同步。Mailvelope 可視私鑰的可用狀況來覆蓋喜好的加密庫設置。",
+        "message": "Not: Herkese açık anahtarlar kullanılabilen anahtarlıklar üzerinde eşitlenir. Kişisel anahtarlarınızın kullanılabilirliğine göre Mailvelope yeğlenen şifreleme kitaplığı ayarlarını değiştirebilir.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "Mailvelope uygulamasına ek dosyaları indirme izni verilmemiş. Bu özelliği kullanabilmek için Gmail API uygulamasına Mailvelope erişimi izni vermelisiniz.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "Mailvelope uygulamasına e-posta gönderme izni verilmemiş. Bu özelliği kullanabilmek için Gmail API uygulamasına Mailvelope erişimi izni vermelisiniz.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
+        "message": "---------- Yönlendirilmiş ileti ---------\nKimden: $1\nTarih: $2\nKonu: $3\nKime: $4",
         "description": "Header for forwarded mail"
     },
     "gmail_integration_quoted_mail_header_reply": {
-        "message": "On $1, $2 wrote:",
+        "message": "$1 tarihinde, $2 şunu yazmış:",
         "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
-        "message": "The email was sent successfully.",
+        "message": "E-posta gönderildi.",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
-        "message": "GnuPG 連線",
+        "message": "GnuPG bağlantısı",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "請檢查以下的公鑰是否已在 GnuPG 密鑰圈且仍有效： $1",
+        "message": "Lütfen şu herkese açık anahtarların GnuPG anahtarlığınızda bulunduğundan ve geçerli olduğundan emin olun: $1",
         "description": ""
     },
     "import_frame_help_text": {
-        "message": "Click to import key",
+        "message": "Anahtarı içe aktarmak için tıklayın",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
-        "message": "Click here, to open the extension.",
+        "message": "Uygulamayı açmak için buraya tıklayın.",
         "description": "Install landing page getting started hint"
     },
     "invalid_default_key": {
-        "message": "密鑰無法進行加密與簽章操作",
+        "message": "Anahtar şifreleme ve imzalama işlemleri için geçerli değil",
         "description": "Tootip for set as default key button"
     },
     "key_default_active_btn_title": {
-        "message": "被設為默認密鑰",
+        "message": "Anahtar varsayılan anahtar olarak atandı",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "密鑰無效且不能被設為默認密鑰",
+        "message": "Anahtar geçersiz olduğundan varsayılan anahtar olarak atanamaz",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "設定密鑰為默認",
+        "message": "Anahtarı varsayılan olarak ata",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
-        "message": "滙出",
+        "message": "Dışa aktar",
         "description": "Export key button label"
     },
     "key_export_btn_title": {
-        "message": "滙出密鑰",
+        "message": "Anahtarı dışa aktar",
         "description": "Title for export key button"
     },
     "key_export_create_file": {
-        "message": "儲存",
+        "message": "Kaydet",
         "description": "Download file button."
     },
     "key_export_dialog_copy_to_clipboard": {
-        "message": "複製到剪貼簿",
+        "message": "Panoya kopyala",
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "欲滙出哪件密鑰？",
+        "message": "Hangi anahtarı dışa aktarmak istiyorsunuz?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
-        "message": "滙出密鑰",
+        "message": "Anahtarı dışa aktar",
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "檔案名稱",
+        "message": "Dosya adı",
         "description": "Label of filename input."
     },
     "key_export_header": {
-        "message": "匯出密鑰",
+        "message": "Anahtarı dışa aktar",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "此檔案含有私鑰，請將它存放在安全處，不要和他人共享。",
+        "message": "Bu dosyada ayrıca kişisel anahtarlar bulunur. Anahtarı güvenli bir yerde saklayın ve hiç  kimse ile paylaşmayın.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "進階的",
+        "message": "Gelişmiş",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "産生另一個",
+        "message": "Başka bir anahtar üret...",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "De-Mail 郵件地址",
+        "message": "De-Mail adresi",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "産生密鑰時出錯",
+        "message": "Anahtar oluşturulurken sorun çıktı.",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "試驗用",
+        "message": "deneme aşamasında",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "密鑰到期日",
+        "message": "Anahtar son kullanma tarihi",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "將來預設",
+        "message": "Gelecek varsayılan",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "產生",
+        "message": "Üret",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "無效的郵件地址",
+        "message": "E-posta adresi geçersiz",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "密鑰大小",
+        "message": "Anahtar boyutu",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "密鑰所有者的全名",
+        "message": "Anahtar sahibinin tam adı",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "輸入密碼",
+        "message": "Parolayı yazın",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "密碼欄空白",
+        "message": "Parola alanı boş",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "密碼相符",
+        "message": "Parola ile onayı aynı",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "重新輸入密碼",
+        "message": "Parolayı yeniden yazın",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "密碼不符",
+        "message": "Parola ile onayı aynı değil",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "已産生新密鑰並匯入到鑰匙圈內",
+        "message": "Yeni anahtar üretildi ve anahtarlığa eklendi",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "上傳公鑰到 Mailvelope 的密鑰伺服器（隨時可刪除）",
+        "message": "Herkese açık anahtarı Mailvelope Anahtar Sunucusuna yükleyin (istendiği zaman silinebilir)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
-        "message": "密鑰産生處理中",
+        "message": "Anahtar üretiliyor...",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "請稍等，産生密鑰要花上好幾分鐘，得視不同因素如密鑰檔案大小而定。",
+        "message": "Lütfen bekleyin. Anahtarın üretilmesi anahtar boyutu gibi değişik etmenlere göre bir kaç dakika sürebilir.",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Keys successfully imported/updated.",
+        "message": "Anahtarlar içe aktarıldı ya da güncellendi.",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Import keys",
+        "message": "Anahtarları içe aktar",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, these keys are transferred to the local keyring:",
+        "message": "Onaylandıktan sonra bu anahtarlar yerel anahtarlığa aktarılacak:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "確認金鑰",
+        "message": "Anahtarı onayla",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "新增密鑰到鑰匙圈",
+        "message": "Anahtarlığa ekle",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "匯入出錯",
+        "message": "İçe aktarma sorunu.",
         "description": "Import error alert."
     },
     "key_import_error_no_uid": {
-        "message": "No valid user ID found in key $1",
+        "message": "$1 anahtarında geçerli bir kullanıcı kimliği bulunamadı",
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Error reading armored PGP key: $1",
+        "message": "Güçlendirilmiş PGP anahtarı okunurken sorun çıktı: $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "在處理密鑰時發生錯誤　",
+        "message": "Anahtarlar işlenirken bir sorun çıktı",
         "description": "Import error alert."
     },
     "key_import_file_label": {
-        "message": "Select files",
+        "message": "Dosyaları seçin",
         "description": "File selection label."
     },
     "key_import_from_text_btn": {
-        "message": "Import key from clipboard",
+        "message": "Anahtarı panodan içe aktar",
         "description": "Import keys from clipboard button label on key import page."
     },
     "key_import_from_text_label": {
-        "message": "Text from clipboard",
+        "message": "Panodan metin",
         "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_hkp_search_btn": {
-        "message": "搜尋",
+        "message": "Arama",
         "description": ""
     },
     "key_import_hkp_search_ph": {
-        "message": "利用名字、郵件或是密鑰 ID",
+        "message": "Ada, e-posta adresine ya da anahtar koduna göre",
         "description": ""
     },
     "key_import_hkp_server": {
-        "message": "金鑰伺服器 ",
+        "message": "Anahtar sunucusu",
         "description": ""
     },
     "key_import_invalid_text": {
-        "message": "找不到有效的密鑰明文",
+        "message": "Geçerli bir anahtar metni bulunamadı",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. The contact needs to re-invite you with an actual key.",
+        "message": "Uyarı: Bu kişinin anahtarının kullanım süresi dolmuş. Bu nedenle artık $1 ile şifreli iletişim kurulamaz. Kişinin sizi güncel bir anahtar ile yeniden davet etmesi gerekiyor.",
         "description": ""
     },
     "key_import_number_of_failed": {
-        "message": "A key could not be imported due to errors.",
+        "message": "Bir anahtar bazı sorunlar nedeniyle içe aktarılamadı.",
         "description": "Error message with number of failed imports."
     },
     "key_import_number_of_failed_plural": {
-        "message": "$1 keys could not be imported due to errors.",
+        "message": "$1 anahtar bazı sorunlar nedeniyle içe aktarılamadı.",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "用戶 $2配對現有公鑰$1的私鑰匯入到金鑰錬下",
+        "message": "$2 kullanıcısının $1 var olan herkese açık anahtarı ile eşleşen kişisel anahtar bölümü  anahtarlık içine aktarıldı",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "無法讀取私鑰: $1",
+        "message": "Kişisel anahtar okunurken sorun çıktı: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "匯入使用者 $2的私鑰$1到鑰匙圈",
+        "message": "$2 kullanıcısının $1 kişisel anahtarı anahtarlık içine aktarıldı",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "上傳使用者 $2的私鑰$1",
+        "message": "$2 kullanıcısının $1 kişisel anahtarı güncellendi",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "無法讀取公鑰: $1",
+        "message": "Herkese açık anahtar okunamadı: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "將使用者 $2的公鑰$1匯入鑰匙圈",
+        "message": "$2 kullanıcısının $1 herkese açık anahtarı anahtarlık içine aktarıldı",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "更新使用者 $2的公鑰$1 ",
+        "message": "$2 kullanıcısının $1 herkese açık anahtarı güncellendi",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_textarea": {
-        "message": "從純文字檔中匯入密鑰",
+        "message": "Anahtarı metin olarak içe aktar",
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "欲匯入的密鑰純文字檔案過長無法處理，請試著把它分成小一點單位",
+        "message": "İçe aktarmak istediğiniz anahtar metni işlenemeyecek kadar uzun. Bu işlemi daha küçük metin parçaları ile yapmayı deneyin.",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "因意外無法匯入密鑰: $1",
+        "message": "Bir sorun nedeniyle bir anahtar içe aktarılamadı: $1",
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "Mailvelope 密鑰伺服器的資料還未被更新。",
+        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri artık güncel değil.",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "用戶 ID 尚未與 Mailvelope 伺服器同步。",
+        "message": "Anahtar Mailvelope anahtar sunucusu ile eşitlenmemiş.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "Mailvelope 主機寄送了一封最終的移除確認信給相關的用戶 IDs",
+        "message": "Mailvelope anahtar sunucusundan tüm kullanıcı kimliklerine son silme onayı için bir e-posta gönderildi. ",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "移除所有用戶的識別碼",
+        "message": "Tüm kullanıcı kimliklerini sil",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "重新送出",
+        "message": "Yeniden gönder",
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "Mailvelope 密鑰伺服器的資料已為最新",
+        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri güncel.",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "密鑰資料已上傳到 Mailvelope 密鑰伺服器。",
+        "message": "Mailvelope anahtar sunucusu üzerindeki anahtar verileri güncellenmiş.",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
-        "message": "更新",
+        "message": "Güncelle",
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "要同步 Mailvelope 密鑰伺服器，系統會傳送一封確認信給用戶。",
+        "message": "Anahtarın Mailvelope anahtar sunucusu ile eşitlenmesi için tüm kullanıcı kimliklerine bir onay e-postası gönderildi.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
-        "message": "同步",
+        "message": "Eşitle",
         "description": "Key server upload button label"
     },
     "key_recovery_failed": {
-        "message": "從備份裏回復密鑰失敗",
+        "message": "Anahtar yedekten geri yüklenemedi.",
         "description": ""
     },
     "key_remove_btn": {
-        "message": "移除",
+        "message": "Sil",
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "從鑰匙環撤銷密鑰",
+        "message": "Anahtarı anahtarlıktan sil",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
-        "message": "移除密鑰",
+        "message": "Anahtarı sil",
         "description": "Title of delete key dialog."
     },
     "key_revoke_btn": {
-        "message": "撒銷",
+        "message": "Geçersiz kıl",
         "description": "Revoke key button label"
     },
     "key_revoke_btn_title": {
-        "message": "撒銷密鑰",
+        "message": "Anahtarı geçersiz kıl",
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Would you still like to revoke the key?",
+        "message": "Anahtarı geçersiz kılmak istediğinize emin misiniz?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "此密鑰所撤銷的用戶 ID 將再也無法使用。",
+        "message": "Geçersiz kılınan anahtarlar bir daha kullanılamaz.",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
-        "message": "撒銷密鑰",
+        "message": "Anahtarı geçersiz kıl",
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "設為預設",
+        "message": "Varsayılan olarak ata",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
-        "message": "建立密鑰備份失敗",
+        "message": "Anahtar yedeği oluşturulamadı.",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "回復備份",
+        "message": "Yedeği geri yükle",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "如果有以下情況，請在此建立新復原表單",
+        "message": "Şu durumda buradan yeni bir kurtarma sayfası hazırlayın:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "推薦: 建立備份",
+        "message": "Önerilen: Bir yedek oluşturun",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "遺失了復原表",
+        "message": "Kurtarma sayfasını kaybettiyseniz.",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "因安全理由，入須建立新的回復表。",
+        "message": "Güvenlik nedeniyle yeni bir kurtarma sayfası oluşturmalısınız.",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "建立備份",
+        "message": "Bir yedek oluşturun",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "確保通訊加密所進行的備份為:",
+        "message": "Yedekleme ile şifreli iletişiminiz için şundan emin olunur:",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "推薦: 設定備份",
+        "message": "Öneri: Bir yedek kurulumu yapın",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "In order to restore it in case of data loss",
+        "message": "Veri kaybı olması durumunda geri yükleyebilmek için",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "In order to transfer it to other devices",
+        "message": "Başka aygıtlara aktarmak için",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "一份帶有回復碼的文件正在準備中。",
+        "message": "Kurtarma kodunuzun bulunduğu bir belge hazırlanıyor.",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "建立備份!",
+        "message": "Yedek oluşturuluyor!",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "message": "Tüm alt anahtarların da son kullanma tarihi değiştirildi. Geçersiz alt anahtarlar ya da süresi zaten dolmuş olan alt anahtarlar bu değişiklikten etkilenmez.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "更改到期日",
+        "message": "Son kullanma tarihini değiştir",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "舊密碼",
+        "message": "Eski parola",
         "description": "Old password input label"
     },
     "keydetails_change_pwd_dialog_title": {
-        "message": "修改密碼",
+        "message": "Parolayı değiştir",
         "description": "Title of change password dialog."
     },
     "keydetails_creation_date": {
-        "message": "已建立",
+        "message": "Oluşturulma",
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "逾期",
+        "message": "Son kullanma",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "從未",
+        "message": "asla",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
-        "message": "密碼",
+        "message": "Parola",
         "description": "Password of a PGP key."
     },
     "keydetails_title": {
-        "message": "密鑰詳情",
+        "message": "Anahtar ayrıntıları",
         "description": "Title of the key details panel"
     },
     "keygen_dialog_password_error_length": {
-        "message": "Password requires at least $1 characters",
+        "message": "Parola en az $1 karakter uzunluğunda olmalıdır",
         "description": ""
     },
     "keygen_dialog_password_placeholder": {
-        "message": "至少4個字元",
+        "message": "en az 4 karakter",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Please assign a password for your key to protect your encrypted communication:",
+        "message": "Lütfen şifreli iletişiminizi korumak için anahtarınıza bir parola atayın:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "This process can take several minutes. Your browser may become unresponsive. Please be patient.",
+        "message": "Bu işlem birkaç dakika sürebilir. Bu sırada web tarayıcınız yanıt vermeyi durdurabilir. Lütfen sabırla bekleyin.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "設置加密通訊",
+        "message": "Şifreli iletişim kuruluyor",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "演算法",
+        "message": "Algoritma",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "所有",
+        "message": "Tümü",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "建立日期",
+        "message": "Oluşturulma tarihi",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "已建立",
+        "message": "Oluşturulma",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "預設密鑰",
+        "message": "Varsayılan anahtar",
         "description": "Default key in the keyring."
     },
     "keygrid_default_label": {
-        "message": "預設",
+        "message": "Varsayılan",
         "description": "Label for the default key"
     },
     "keygrid_delete": {
-        "message": "刪除",
+        "message": "Sil",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "確認要移除這個密鑰?",
+        "message": "Bu anahtarı silmek istediğinize emin misiniz?",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "顯示所有密鑰",
+        "message": "Tüm anahtarları görüntüle",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "顯示私鑰",
+        "message": "Kişisel anahtarı görüntüle",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "顯示公鑰",
+        "message": "Herkese açık anahtarı görüntüle",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "到期日",
+        "message": "Son kullanma tarihi",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "匯出",
+        "message": "Dışa aktar",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "將這清單上的金鑰匯出到檔案上",
+        "message": "Bu listedeki tüm anahtarları bir dosyaya aktarır",
         "description": "Title for Export key button."
     },
     "keygrid_generate_title": {
-        "message": "產生密鑰",
+        "message": "Bir anahtar üretir",
         "description": "Title for generate key button"
     },
     "keygrid_import_title": {
-        "message": "滙入密鑰",
+        "message": "Bir anahtarı içe aktarır",
         "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
-        "message": "無效的用戶 ID",
+        "message": "Kullanıcı kimliği geçersiz",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "PGP 指紋",
+        "message": "PGP parmak izi",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "長度",
+        "message": "Uzunluk",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "密鑰未過期",
+        "message": "Bu anahtarın son kullanma tarihi yok",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "密鑰 ID:",
+        "message": "Anahtar kodu",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
-        "message": "主密鑰",
+        "message": "Ana anahtar",
         "description": "Main key in the PGP key."
     },
     "keygrid_private_keys": {
-        "message": "密鑰",
+        "message": "Kişisel anahtarlar",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "公鑰",
+        "message": "Herkese açık anahtarlar",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "更新",
+        "message": "Yenile",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "重新載入密鑰圈",
+        "message": "Anahtarlığı yeniden yükler",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "透過郵件傳送公鑰",
+        "message": "Herkese açık anahtarı e-posta ile gönder",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "簽署人",
+        "message": "İmzalayan",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "未知的簽署人",
+        "message": "İmzalayan bilinmiyor",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "篩選器",
+        "message": "Süzgeçler",
         "description": "Key grid sort selector."
     },
     "keygrid_status_expired": {
-        "message": "已過期",
+        "message": "süresi geçmiş",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_invalid": {
-        "message": "無效",
+        "message": "geçersiz",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_revoked": {
-        "message": "已撤銷",
+        "message": "geçersiz kılınmış",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "有效",
+        "message": "geçerli",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Subkey",
+        "message": "Alt anahtar",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "子密鑰",
+        "message": "Alt anahtarlar",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "電子郵件",
+        "message": "E-posta",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "用戶帳號",
+        "message": "Kullanıcı kimlikleri",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "名字",
+        "message": "Ad",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "主要的",
+        "message": "Birincil",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
-        "message": "簽章",
+        "message": "İmzalar",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "狀態",
+        "message": "Durum",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "查看可使用的設置：",
+        "message": "Kullanılabilecek ayarları şurada görebilirsiniz:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "金鑰圈備份",
+        "message": "Anahtarlık yedeği",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Do you want to delete the keyring with ID: $1?",
+        "message": "$1 kodlu anahtarlığı silmek istediğinize emin misiniz?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "確認金鑰",
+        "message": "Anahtarı onayla",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys",
+        "message": "$1 anahtarı onayla",
         "description": "Tab of keyring to import keys."
     },
     "keyring_display_keys": {
-        "message": "顯示密鑰",
+        "message": "Anahtarları görüntüle",
         "description": "Tab of keyring to display keys."
     },
     "keyring_export_keys": {
-        "message": "匯出鑰匙圈",
+        "message": "Anahtarlığı dışa aktar",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "産生密鑰",
+        "message": "Anahtar üret",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "密鑰管理",
+        "message": "Anahtar yönetimi",
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "You can add keys either as file or as text from the clipboard.",
+        "message": "Anahtarları dosya olarak yükleyerek ya da metin olarak yapıştırarak ekleyebilirsiniz.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "新增金鑰",
+        "message": "Anahtar ekle",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Search on the key server for existing contacts.",
+        "message": "Var olan kişiler için anahtar sunucusunda arama yapabilirsiniz.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_main": {
-        "message": "主要的鑰匙圈",
+        "message": "Ana anahtarlık",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "私密",
+        "message": "Kişisel",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "公共",
+        "message": "Herkese açık",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "密鑰配對",
+        "message": "Anahtar çiftleri",
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Delete keyring",
+        "message": "Anahtarlığı sil",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
-        "message": "設定",
+        "message": "Kurulum",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "産生密鑰",
+        "message": "Anahtar üret",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "如果第一次使用這個外掛附件且尚無密鑰組，請現在立即産生一組密鑰。",
+        "message": "Bu eklentiyi ilk kez kullanıyorsanız ve bir anahtar çiftiniz yoksa lütfen bir tane üretin.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "匯入密鑰",
+        "message": "Anahtarı içe aktar",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "是否在其它設備上已有一組密鑰？請匯入現有的密鑰。只要從其它設備上匯出密鑰然後在此將其匯入即可。",
+        "message": "Zaten başka bir aygıt üzerinde kullandığınız bir anahtar çiftiniz varsa bu anahtarları içe aktarabilirsiniz. Anahtar çiftini diğer aygıt üzerinden dışa aktardıktan sonra buradan içe aktarın.",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "需要一對公私鑰來進行加密和解密訊息，才能邀請聯絡通訊對像進行端對端的加密通訊。",
+        "message": "İletileri şifreleyip çözmek ve kişileri uçtan uca şifreli iletişim kullanmaya çağırmak için bir anahtar çifti gereklidir. ",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "這串鑰匙圈中尚無任何密鑰",
+        "message": "Bu anahtarlıkta henüz bir anahtar çifti bulunmuyor.",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "其它的密鑰來源",
+        "message": "Ek anahtar kaynakları",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Use keys from Autocrypt headers of incoming email",
+        "message": "Gelen e-postanın Autocrypt üst bilgisindeki anahtarlar kullanılsın",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_hkp_url": {
-        "message": "HKP 密鑰伺服器",
+        "message": "HKP anahtar sunucusu",
         "description": "HKP key server option: url."
     },
     "keyserver_tofu_lookup": {
-        "message": "使用 Mailvelope 密鑰伺服器",
+        "message": "Mailvelope anahtar sunucusu kullanılsın",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_url_error": {
-        "message": "密鑰伺服器無法連上",
+        "message": "Anahtar sunucusuna erişilemiyor",
         "description": "HKP key server URL error."
     },
     "keyserver_url_warning": {
-        "message": "密鑰伺服器的網址必須為如下格式：http(s)://keys.example.com",
+        "message": "Anahtar sunucusunun adresi şu biçimde olmalıdır: http(s)://keys.ornek.com",
         "description": "HKP key server url warning."
     },
     "keyserver_wkd_lookup": {
-        "message": "Query keys from the recipients email provider (Web Key Directory)",
+        "message": "Anahtarlar alıcının e-posta hizmeti sağlayıcısı tarafından sorulsun (Web Anahtar Dizini)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
-        "message": "新增",
+        "message": "Yeni ekle",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "新增使用者  ID",
+        "message": "Yeni bir kullanıcı kimliği ekle",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
-        "message": "金鑰伺服器 ",
+        "message": "Anahtar sunucusu",
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "未同步",
+        "message": "eşitlenmemiş",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
-        "message": "已同步",
+        "message": "eşitlenmiş",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "未經驗證",
+        "message": "doğrulanmamış",
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "指派的用戶 IDs",
+        "message": "Atanmış kullanıcı kimlikleri",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
-        "message": "了解更多",
+        "message": "Ayrıntılı bilgi alın",
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "本訊息找不到合適的私鑰. 需要的私鑰識別碼: $1",
+        "message": "Bu ileti için bir kişisel anahtar bulunamadı. Gerekli kişisel anahtar kodları: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "無法解密該訊息: $1",
+        "message": "Bu iletinin şifresi çözülemedi: $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "The email address is already in use",
+        "message": "E-posta adresi zaten kullanılmış",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Please enter a name",
+        "message": "Lütfen bir ad yazın",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
-        "message": "Text has been copied to clipboard.",
+        "message": "Metin panoya kopyalandı.",
         "description": "Copy to clipboard toast message."
     },
     "options_about": {
-        "message": "關於",
+        "message": "Hakkında",
         "description": "Options navigation: About."
     },
     "options_docu": {
-        "message": "文件",
+        "message": "Belgeler",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "選項",
+        "message": "Seçenekler",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "設定",
+        "message": "Ayarlar",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "Mailvelope 選項",
+        "message": "Mailvelope ayarları",
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "偏好的",
+        "message": "yeğlenen",
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
-        "message": "Authorizations",
+        "message": "İzinler",
         "description": "Authorizations"
     },
     "provider_gmail_auth_cancel_btn": {
-        "message": "Cancel authorization",
+        "message": "Kimlik doğrulamasını iptal et",
         "description": "Cancel authorization button"
     },
     "provider_gmail_auth_readonly": {
-        "message": "read email",
+        "message": "e-posta okuma",
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "send email",
+        "message": "e-posta gönderme",
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
-        "message": "Google API Authorizations",
+        "message": "Google API izinleri",
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "Sign in with Google",
+        "message": "Google ile oturum aç",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
-        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "message": "<0></0> Gmail bütünleştirmesini kullanabilmek için Mailvelope uygulamasına şu izinler verilmelidir:",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_auth_outro": {
-        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "message": "Oturum aç düğmesine tıklarsanız, Google izin verme penceresi açılır. <0></0> e-posta adresinin Gmail hesabını seçin ve yönergeleri izleyin.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_description": {
-        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "message": "Gmail API uygulamasının kullanılması Mailvelope ile Gmail arasındaki işlevselliğin artmasını sağlar ve şifrelenmiş e-postalar ile ek dosyalarının alınıp gönderilmesini kolaylaştırır.",
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>.",
+        "message": "Bu özellik Gmail hesapları için ücretsiz olarak kullanılabilir. Bir G Suite (<0>gsuite.google.com</0>) kuruluşunun bir parçası iseniz <1>Mailvelope ürün sayfasından</1> bir lisans satın almanız gerekir.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Please read our Privacy Policy",
+        "message": "Lütfen gizlilik ilkemizi okuyun",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
-        "message": "Using the Gmail API",
+        "message": "Gmail API kullanılarak",
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API Integration",
+        "message": "Gmail API bütünleştirmesi",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
+        "message": "Gmail API uygulamasının Mailvelope tarafından kullanılabilmesi için ek izinlerin verilmesi gerekir. Gmail ile Mailvelope şifreleme özelliklerini kullanabilmeniz için sizi yönlendireceğiz. Bu işlem için Google hesabınızla oturum açmanız gerekecek.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
+        "message": "Gmail <0></0> arama modeline izin vermiyor. Lütfen <1></1> bölümündeki ayarlara bakın.",
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Communicating securely with organizations worldwide",
+        "message": "Tüm dünyadaki kuruluşlar ile güvenli olarak iletişim kurun",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "per user/month",
+        "message": "kullanıcı/ay",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Continue without Gmail API",
+        "message": "Gmail API kullanmadan devam et",
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
+        "message": "Gmail API uygulamasının G Suite kuruluşlarında kullanılabilmesi için <0>bir ücret ödenmesi gerekir</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
-        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
+        "message": "Mailvelope uygulamasını Gmail ile ücretsiz olarak kullanmaya devam edebilirsiniz. Ancak <0>API kullandığınızda</0> şifrelenmiş e-postaları ve ek dosyalarını yazmak ve okumak <1>çok daha hızlı ve kolay</1> olur.",
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
+        "message": "Etkinleştirilmiş Gmail API ile Mailvelope Business sürümünü <0>14 gün ücretsiz olarak</0> deneyin:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
-        "message": "Test Gmail API for free",
+        "message": "Gmail API uygulamasını ücretsiz olarak deneyin",
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Mailvelope Business license required",
+        "message": "Mailvelope Business lisansı gereklidir",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>.",
+        "message": "Bir G Suite (<0>gsuite.google.com</0>) kuruluşu Gmail API bütünleştirmesini kullanmak için gereken lisansları <1>Mailvelope ürün sayfasından</1> satın alabilirsiniz.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "Mailvelope License",
+        "message": "Mailvelope lisansı",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
-        "message": "Secure forward",
+        "message": "Güvenli yönlendir",
         "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
-        "message": "Secure reply all",
+        "message": "Tümüne güvenli yanıtla",
         "description": "Secure reply all button title/tooltip"
     },
     "provider_gmail_secure_reply_btn": {
-        "message": "Secure reply",
+        "message": "Güvenli yanıtla",
         "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "暫時記住密碼",
+        "message": "Parola geçici olarak hatırlansın",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "未上鎖的密鑰被取消了",
+        "message": "Anahtarların kilidini açma işlemi iptal edildi.",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "輸入主密碼",
+        "message": "Anahtar parolasını yazın",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "請輸入密碼",
+        "message": "Lütfen parolanızı yazın",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "請輸入密鑰的主密碼來建立用戶 ID",
+        "message": "Lütfen kullanıcı kimliğini oluşturmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "請輸入密鑰之密碼以建立恢復表",
+        "message": "Lütfen bir kurtarma sayfası oluşturmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "輸入密碼以儲存草稿",
+        "message": "Taslağı kaydetmek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "請輸入主密碼以解密本訊息",
+        "message": "Lütfen bu iletinin şifresini çözmek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "請輸入你的密鑰密碼以更新加密通訊之設定",
+        "message": "Lütfen şifreli iletişim ayarlarını güncellemek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "請輸入密鑰的主密碼以便進行撤銷",
+        "message": "Lütfen bu anahtarı geçersiz kılmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "請輸入密鑰的主密碼以撤銷用戶 ID",
+        "message": "Lütfen bu kullanıcı kimliğini geçersiz kılmak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "請輸入密鑰之密碼以為其設置新的到期日",
+        "message": "Lütfen bu anahtarın son kullanma tarihini değiştirmek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "請輸入主密碼以簽署此訊息",
+        "message": "Lütfen bu iletiyi imzalamak için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "輪入密碼 | Mailvelope",
+        "message": "Parolanızı yazın | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "用戶帳號識別碼:",
+        "message": "Kullanıcı kimliği:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "錯誤密碼",
+        "message": "Parola hatalı",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "備份資料",
+        "message": "Verilerinizin yedekleyin",
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your $1 account. ",
+        "message": "Verilerinizi yerel olarak bilgisayarınıza da yedeklemek isterseniz bununla ilgili seçeneği $1 hesabınızın şifreli iletişim bölümünde bulabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope.",
+        "message": "Şifreli iletişim için önemli veriler (anahtar parolası gibi) yedeklenirken, $1 sunucuları üzerine güvenlik iş ortağımız Mailvelope tarafından şifrelenerek kaydedilir. ",
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "請留意",
+        "message": "Lütfen unutmayın",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "請檢查帳戶底下的設定：",
+        "message": "Lütfen şuradaki hesap ayarlarınızı denetleyin:",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "建立日期:",
+        "message": "Oluşturulma tarihi:",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "若無備份，如果遺失密鑰密碼、設備被破壞或是瀏覧器外掛出了問題，則加密的訊息將無法再被解密",
+        "message": "Yedek almazsanız, anahtar parolanızı kaybetmeniz, aygıtınızın bozulması ya da web tarayıcı eklentisinde sorun çıkması gibi durumlarda şifrelenmiş iletilerinizin şifresini bir daha çözemezsiniz!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Hints for encrypted communication with $1",
+        "message": "$1 ile şifreli iletişim kullanmanın incelikleri",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "若安裝在另一台電腦，請在設定底下輸入回復碼:",
+        "message": "Diğer bilgisayarlara kurarken şu bölümdeki ayarlarda bulunan kurtarma kodunu yazın:",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
+        "message": "$1 ile şifreli iletişim PGP temeline göre geliştirilmiştir. Şifrelenmiş e-postalar göndermenizi ve alıcının iletiyi okuyabileceğinden emin olmanızı sağlar.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "由於瀏覧器外掛的問題",
+        "message": "web tarayıcı eklentisinde çıkabilecek sorunlar nedeniyle",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "因為忘記了密鑰的密碼 ",
+        "message": "anahtarınızın parolasını unutmanız nedeniyle",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "You can find more information and setting options in your $1 account under",
+        "message": "$1 hesabınızın şu bölümünde ayrıntılı bilgi ve ayar seçenekleri bulabilirsiniz:",
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "重要資訊!",
+        "message": "Önemli bilgiler!",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "一般而言是重要的",
+        "message": "Genel olarak önemlidir",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "In your encrypted communication settings of your $1 account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. ",
+        "message": "$1 hesabınızın şifreli iletişim ayarlarında, başka kişileri PGP kullanarak şifreli iletişim kurmaya  çağırabilirsiniz. Daha önce çağrılmış kişiler e-posta adresinin yanındaki asma kilit simgesi ile anlaşılabilir.",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "把印出來旳文件放在一個安全的地方，並確保沒人可以近用取得此回復碼",
+        "message": "Bu belgeyi yazdırarak güvenli bir yerde saklayın ve kurtarma koduna başka hiç kimsenin erişemeyeceğinden emin olun.",
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "Other $1 users who are using the PGP procedure of GMX can be directly found in a central directory in your $1 account. If you do not want to have any entries in this directory, please deactivate this function in your $1 account settings.",
+        "message": "GMX PGP yöntemini kullanan diğer $1 kullanıcı $1 hesabınızın merkez klasöründe bulunabilir. Bu klasörde herhangi bir kayıt bulunmasını istemiyorsanız, $1 hesabı ayarlarınızdan bu özelliği devre dışı bırakabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "行動設備上",
+        "message": "Mobil aygıtlarda",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "如果加密通訊不再有效工作，例如：",
+        "message": "Şu örnekteki gibi şifreli iletişiminiz artık çalışmıyorsa:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "不同的電腦",
+        "message": "Farklı bir bilgisayar üzerinde",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "與其它聯絡人進行加密通訊",
+        "message": "Diğer kişiler ile şifreli iletişim",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "其它設備上加密通訊",
+        "message": "Diğer aygıtlarda şifreli ileitşim",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "在其它設備上設定加密通訊",
+        "message": "Diğer aygıtlar üzerine şifreli iletişim kurmak",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "其它原因",
+        "message": "diğer nedenlerle",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "如果聯絡人也使用加密通訊 (PGP)，你們之間可以進行安全的通訊.",
+        "message": "Şifreli iletişim (PGP) kullanan başkaları varsa onlarla güvenli iletişim kurabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "請將這個文字儲存在安全的地方",
+        "message": "Lütfen bu belgeyi güvenli bir yerde saklayın!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "列印",
+        "message": "Yazdır",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "請將這個文字列印出來後放在一處安全的地方",
+        "message": "Lütfen bu belgeyi yazdırıp güvenli bir yerde saklayın!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "加密通訊",
+        "message": "Şifreli iletişim",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "收件夾",
+        "message": "Gelen kutusu",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "安全",
+        "message": "Güvenlik",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "設定",
+        "message": "Ayarlar",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "用行動設備掃描ＱＲ碼",
+        "message": "QR kodu mobil aygıtınız ile tarayın.",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "推薦",
+        "message": "Öneri",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "回復資料",
+        "message": "Verileri kurtarmak",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "回復碼",
+        "message": "Kurtarma kodu",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "加密通訊的回復表單",
+        "message": "Şifreli iletişim kurtarma sayfası",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "回復加密的通訊",
+        "message": "Şifreli iletişimi kurtar",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "和  GMX 聯絡人，可以確認他們顯示為有效的用戶，但對於不同郵件服務供應商，就要記得要利用郵件地址認證聯絡人的身份。",
+        "message": "Görüntülenen GMX kişilerinin geçerli kullanıcılar olduğundan emin olabilirsiniz. Bununla birlikte her zaman kişilerin kimliğini başka bir e-posta hizmeti sağlayıcısının e-posta adresini kullanarak doğrulamalısınız.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "只在不會被他人取用的安全設備上設定加密通訊",
+        "message": "Şifreli iletişimi yalnız başkalarının erişemeyeceği güvenli aygıtlar üzerine kurun.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "資料的備份只能在回復表單上的回復碼協助下才能進行解密。",
+        "message": "Yedeklenmiş verilerinizin şifresi yalnız bu kurtarma sayfasındaki kurtarma kodu ile çözülebilir.",
         "description": ""
     },
     "reload_tab": {
-        "message": "請重新載入通信頁好讓設置更新生效",
+        "message": "Lütfen ayarların etkili olması için ilgili sayfaları yeniden yükleyin.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "確認",
+        "message": "Onayla",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "請輸入恢復碼：",
+        "message": "Lütfen kurtarma kodunuzu yazın:",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "顯示",
+        "message": "Görüntüle",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "密鑰的密碼:",
+        "message": "Anahtar parolanız:",
         "description": ""
     },
     "security_background_button_title": {
-        "message": "安全背景可以在Mailvelope選項下進行調整",
+        "message": "Güvenlik arka planı Mailvelope ayarları bölümünden yapılandırılabilir",
         "description": "The tooltip text for the keylock button"
     },
     "security_background_color_text": {
-        "message": "2. Now choose a color that you like",
+        "message": "2. Şimdi beğendiğiniz bir renk seçin",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. Choose an icon that you like",
+        "message": "1. Beğendiğiniz bir simge seçin",
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data.",
+        "message": "Şifrelenmiş e-postalar güvenlik arka planı kullanılarak görüntülenir. Gerçekten güvenli kılmak için arka planı kişiselleştirmelisiniz. Böylece hiç kimsenin Mailvelope arayüzünü yeniden oluşturamayacağından ve kişisel verilerinize erişemeyeceğinden emin olursunuz. ",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "在此瀏覧器期間記住密碼",
+        "message": "Parolalar bu tarayıcı oturumu için anımsansın.",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "必須為1-999之間的數字",
+        "message": "1 ile 999 arasında bir sayı olmalıdır",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "No.",
+        "message": "Hayır.",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "是的，請記住",
+        "message": "Evet, şu kadar süreyle:",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "分鐘",
+        "message": "dakika.",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "被解密的訊息要在哪裏顯示？",
+        "message": "Şifresi çözülen iletiler nerede görüntülensin?",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "郵件服務供應商的頁面",
+        "message": "E-posta hizmeti sağlayıcının sayfasında.",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "在另一個彈出的 Mailvelope 視窗",
+        "message": "Ayrı bir Mailvelope açılan penceresinde.",
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "Hide Mailvelope version and comment in PGP messages.",
+        "message": "PGP iletilerinde Mailvelope sürümü ve açıklamalar görüntülenmesin.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
-        "message": "動作",
+        "message": "İşlem",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "點擊附件鈕以新增附件",
+        "message": "Dosya ekleme düğmesine tıklama",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "下載附件",
+        "message": "Ek dosya indirme",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "點擊以建立備份",
+        "message": "Yedekle üzerine tıklama",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "點擊以重置備份",
+        "message": "Yedeği geri yükle üzerine tıklama",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "複製認證對話框",
+        "message": "Doğrulama penceresinde kopyalama",
         "description": ""
     },
     "security_log_decrypt_ui": {
-        "message": "解密",
+        "message": "Şifreyi çöz",
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "Message has been decrypted with: $1",
+        "message": "İletinin şifresi $1 kullanılarak çözüldü",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "在對話框中點擊即可取消",
+        "message": "Pencerede iptal üzerine tıklandı",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "點擊以在對話框進行加密",
+        "message": "Pencerede şifrele üzerine tıklandı",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "在對話框點擊進行確認",
+        "message": "Pencerede onayla üzerine tıklandı",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "點擊對話框進行簽名",
+        "message": "Pencerede oturum aç üzerine tıklandı",
         "description": ""
     },
     "security_log_editor": {
-        "message": "Mailvelope Editor",
+        "message": "Mailvelope düzenleyici",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "解密 PGP 郵件",
+        "message": "PGP e-posta şifresinin çözülmesi",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "加密對話框",
+        "message": "Şifreleme penceresi",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "加密格式",
+        "message": "Şifreleme formu",
         "description": "Encrypt form as an event source"
     },
     "security_log_encrypt_ui": {
-        "message": "加密",
+        "message": "Şifrele",
         "description": ""
     },
     "security_log_encryption_operation": {
-        "message": "訊息已被加密: $1",
+        "message": "İleti $1 için şifrelenmiş",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "匯入對話框",
+        "message": "İçe aktarma penceresi",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "密鑰備份",
+        "message": "Anahtar yedekleme",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "密鑰産生器",
+        "message": "Anahtar üretme",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "點擊密碼對話框",
+        "message": "Pencerede parola alanına tıklandı",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "密碼對話框",
+        "message": "Parola penceresi",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "在密碼對話中輸入",
+        "message": "Pencerede parola alanına yazıldı",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "移除附件檔案",
+        "message": "Ek dosya silme",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "點擊以重置備份的對話窗",
+        "message": "Pencerede yedeği geri yükle üzerine tıklandı",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "訊息內容已經此密鑰簽署：$1",
+        "message": "İleti şu anahtar ile imzalandı: $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "點擊關閉簽名對話框",
+        "message": "İmza penceresini kapat üzerine tıklandı",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "點擊開啟簽名的對話框",
+        "message": "İmza penceresini aç üzerine tıklandı",
         "description": ""
     },
     "security_log_source": {
-        "message": "來源",
+        "message": "Kaynak",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "安全活動記錄顯示用戶在 Mailvelope元件下的所有動作",
+        "message": "Güvenlik günlüğünde tüm Mailvelope bileşenlerindeki kullanıcı işlemleri görülebilir",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "輸入在文字欄位",
+        "message": "Metin alanına yazıldı",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "點擊文件區塊",
+        "message": "Metin alanına tıklandı",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "文件區塊的輸入",
+        "message": "Metin alanına yazıldı",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "在文件區塊中進行選取",
+        "message": "Metin alanında seçim yapıldı",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "時間戳記",
+        "message": "Zaman damgası",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "認證對話框",
+        "message": "Doğrulama penceresi",
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "Mailvelope Viewer",
+        "message": "Mailvelope görüntüleyici",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {
-        "message": "OpenPGP 設定",
+        "message": "OpenPGP ayarları",
         "description": "OpenPGP settings header"
     },
+    "settings_analytics": {
+        "message": "İstatistikler",
+        "description": "Tab for deciding whether or not to share analytics data."
+    },
     "settings_backup": {
-        "message": "備份",
+        "message": "Yedekleme",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "一般",
+        "message": "Genel",
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "密鑰伺服器",
+        "message": "Anahtar sunucusu",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -1988,175 +1996,175 @@
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
-        "message": "安全",
+        "message": "Güvenlik",
         "description": "Tab of options to display security settings."
     },
     "settings_security_background": {
-        "message": "安全背景",
+        "message": "Güvenlik arka planı",
         "description": "Security background header"
     },
     "settings_security_log": {
-        "message": "安全活動記錄",
+        "message": "Güvenlik günlüğü",
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "已授權的域名",
+        "message": "İzin verilmiş etki alanları",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "訊息簽署：",
+        "message": "İletiyi şu kimlikle imzala:",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "無法簽署此訊息： $1",
+        "message": "Bu ileti imzalanamadı: $1 ",
         "description": "Error during signing process."
     },
     "signer_unknown": {
-        "message": "未知",
+        "message": "Bilinmiyor",
         "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
-        "message": "解密",
+        "message": "Şifreyi çöz",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "內文解密",
+        "message": "Şifreli metni çözme",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "內文加密",
+        "message": "Metin şifreleme",
         "description": "Navigation link to text encryption feature"
     },
     "upload_aborting_warning": {
-        "message": "上傳的檔案將被遺棄",
+        "message": "Dosya yükleme işleminden vazgeçildi.",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "新增檔案",
+        "message": "Dosya ekle",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
-        "message": "Drop the file in this area to attach it",
+        "message": "Eklemek istediğiniz dosyayı sürükleyip bu alana bırakın",
         "description": "Text in file drop overlay area"
     },
     "upload_help": {
-        "message": "Drag file to this window or",
+        "message": "Dosyayı sürükleyip bu pencereye bırakın ya da",
         "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
-        "message": "可容許的附件大小：",
+        "message": "Eklenebilecek dosya boyutu:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "附件檔案過大",
+        "message": "Ek dosyanın boyutu çok büyük",
         "description": ""
     },
     "user_create_btn": {
-        "message": "建立",
+        "message": "Oluştur",
         "description": "Create user button label"
     },
     "user_create_title": {
-        "message": "建立用戶識別",
+        "message": "Kullanıcı kimliği oluştur",
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "用戶 ID 尚未與 Mailvelope 伺服器同步。",
+        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusu ile eşitlenmemiş.",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "Kullanıcı kodunu Mailvelope anahtar sunucusundan silmek için $1 adresine bir onay e-postası gönderildi.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "移除用戶 ID",
+        "message": "Kullanıcı kimliğini sil",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "重寄確認信",
+        "message": "Onay e-postasını yeniden gönder",
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "用戶 ID 已與 Mailvelope 伺服器同步。",
+        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusu ile eşitlendi.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "請確認用戶 ID 即將與 Mailvelope 伺服器進行同步。",
+        "message": "Lütfen Mailvelope anahtar sunucusu ile eşitlemek için kullanıcı kimliğini onaylayın.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "要同步 Mailvelope 密鑰伺服器，系統確認信會寄給$1。",
+        "message": "Kullanıcı kodunu Mailvelope sunucusu ile eşitlemek için $1 adresine bir onay e-postası gönderildi.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
-        "message": "移除",
+        "message": "Sil",
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "移除用戶 ID",
+        "message": "Kullanıcı kimliğini sil",
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "用從此密鑰移除這個用戶 ID 嗎",
+        "message": "Bu kullanıcı kimliğini anahtarınızdan silmek istediğinize emin misiniz?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "用戶 ID 亦已自 Mailvelope 伺服器移除。",
+        "message": "Kullanıcı kimliği Mailvelope anahtar sunucusundan da silinecek.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
-        "message": "移除用戶 ID",
+        "message": "Kullanıcı kimliğini sil",
         "description": "Title of remove user dialog."
     },
     "user_revoke_btn": {
-        "message": "撒銷",
+        "message": "Geçersiz kıl",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "撤銷用戶 ID",
+        "message": "Kullanıcı kimliğini geçersiz kıl",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "仍要進行撤銷嗎？",
+        "message": "Geçersiz kılmak istediğinizden emin misiniz?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "After revocation, the user ID for this key will permanently remain unusable.",
+        "message": "Geçersiz kılınan kullanıcı kimliği bu anahtar için bir daha kullanılamaz.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "撤銷用戶 ID",
+        "message": "Kullanıcı kimliğini geçersiz kıl",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
-        "message": "用戶識別碼",
+        "message": "Kullanıcı kimliği",
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "驗證",
+        "message": "Doğrulamalar",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "無法認證此訊息: $1",
+        "message": "Bu ileti doğrulanamadı: $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "Click to verify signature",
+        "message": "İmzayı doğrulamak için tıklayın",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Decryption failed.",
+        "message": "Şifre çözülemedi.",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {
-        "message": "新增條目",
+        "message": "Yeni kayıt ekle",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "編輯",
+        "message": "Düzenle",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "是否真要將此網站自已授權的域名清單上移除？",
+        "message": "Bu siteyi izin verilmiş etki alanları listesinden çıkarmak istediğinize emin misiniz?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -2164,39 +2172,39 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "已授權的域名",
+        "message": "İzin verilmiş etki alanı",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_remove_dialog_title": {
-        "message": "Remove domain",
+        "message": "Etki alanını sil",
         "description": "Title of delete watchlist dialog."
     },
     "watchlist_title_active": {
-        "message": "啟用",
+        "message": "Etkin",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "網域規律",
+        "message": "Etki alanı biçimi",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "HTTPS-only",
+        "message": "Yalnız HTTPS",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "啟用",
+        "message": "Etkin",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "網址",
+        "message": "Site",
         "description": "Site in watchlist."
     },
     "word_or": {
-        "message": "或者",
+        "message": "ya da ",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "無效的恢復碼",
+        "message": "Kurtarma kodu geçersiz",
         "description": ""
     }
 }

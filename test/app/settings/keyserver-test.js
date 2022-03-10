@@ -17,6 +17,8 @@ describe('Key server settings unit tests', () => {
           mvelo_tofu_lookup: true,
           wkd_lookup: true,
           autocrypt_lookup: true,
+          key_binding: true,
+          oks_lookup: true
         }
       }
     };
@@ -35,6 +37,8 @@ describe('Key server settings unit tests', () => {
         mvelo_tofu_lookup: true,
         wkd_lookup: true,
         autocrypt_lookup: true,
+        key_binding: true,
+        oks_lookup: true,
         modified: false,
         previousPrefs: props.prefs
       });

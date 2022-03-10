@@ -95,6 +95,10 @@
         "message": "Il faut au moins un modèle de correspondance de domaine.",
         "description": "Alert header of category warning."
     },
+    "analytics_consent_description": {
+        "message": "Partager avec Mailvelope des données d’analyse agrégées et anonymisées",
+        "description": "Consent to share analytics information with mailvelope"
+    },
     "auth_domain_api_label": {
         "message": "Autoriser l’API",
         "description": "Label for API allowed info"
@@ -1970,6 +1974,10 @@
     "security_openpgp_header": {
         "message": "Paramètres OpenPGP",
         "description": "OpenPGP settings header"
+    },
+    "settings_analytics": {
+        "message": "Analyse des données",
+        "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
         "message": "Sauvegarde",

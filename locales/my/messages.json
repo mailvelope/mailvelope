@@ -1,0 +1,2210 @@
+{
+    "action_menu_activate_current_tab": {
+        "message": "ဤဒိုမိန်းကို ခွင့်ပြုပါ",
+        "description": "Activate on current tab shortcut in the action menu"
+    },
+    "action_menu_all_options": {
+        "message": "ရွေးချယ်မှု အားလုံး",
+        "description": "All options link in the action menu"
+    },
+    "action_menu_configure_mailvelope": {
+        "message": "စတင်ရန် <0>Mailvelope ကို ချိန်ညှိပါ</0>။",
+        "description": "Configure Mailvelope label in the action menu"
+    },
+    "action_menu_dashboard_description": {
+        "message": "အစိတ်အပိုင်းများ ဖွဲ့စည်းပုံ ရွေးချယ်မှုအားလုံးကို ပြသပါ။",
+        "description": "Dashboard description in the action menu"
+    },
+    "action_menu_dashboard_label": {
+        "message": "ဒက်ရှ်ဘုတ်",
+        "description": "Dashboard label in the action menu"
+    },
+    "action_menu_file_encryption_description": {
+        "message": "ဖိုင်တစ်ဖိုင် သို့မဟုတ် ဖိုင်များစွာကို ကုဒ်ဖြင့် ပြောင်းပါ။",
+        "description": "File encryption description in the action menu"
+    },
+    "action_menu_file_encryption_label": {
+        "message": "ဖိုင် ကုဒ်ဖြင့်ပြောင်းလဲခြင်း",
+        "description": "File encryption label in the action menu"
+    },
+    "action_menu_help": {
+        "message": "အကူအညီ",
+        "description": "Online help shortcut."
+    },
+    "action_menu_keyring_description": {
+        "message": "အများသုံးနှင့် သီးသန့် စကားဝှက်သော့များကို စီမံခန့်ခွဲပါ။",
+        "description": "Keyring description in the action menu"
+    },
+    "action_menu_keyring_label": {
+        "message": "သော့ချိတ်",
+        "description": "Keyring label in the action menu"
+    },
+    "action_menu_primary_menu_aria_label": {
+        "message": "Mailvelope ပထမ မီနူး",
+        "description": "Accessibility, aria label of the primary menu"
+    },
+    "action_menu_reload_extension_scripts": {
+        "message": "Mailvelope ကို ပြန်တင်ရန်",
+        "description": "Reload extension scripts shortcut in the action menu"
+    },
+    "action_menu_review_security_logs_description": {
+        "message": "လုံခြုံရေးနှင့်ဆိုင်သော အသုံးပြုသူ လုပ်ဆောင်ချက်များကို ပြန်လည်စစ်ဆေးပါ။",
+        "description": "Review security logs description in the action menu"
+    },
+    "action_menu_review_security_logs_label": {
+        "message": "လုံခြုံရေး မှတ်တမ်း",
+        "description": "Review security logs label in the action menu"
+    },
+    "action_menu_setup_menu_aria_label": {
+        "message": "Mailvelope ပြင်ဆင်သတ်မှတ်ရန် မီနူး",
+        "description": "Accessibility, aria label of the setup menu"
+    },
+    "action_menu_setup_new_bg_description": {
+        "message": "Mailvelope နောက်ဆုံး အပ်ဒိတ်အရ သင့်လုံခြုံရေးနောက်ခံကို ပြန်လည်ချိန်ညှိရန် လိုအပ်ပါသည်။",
+        "description": "Configure new security bg description text in the action menu"
+    },
+    "action_menu_setup_start_label": {
+        "message": "စတင်မယ်",
+        "description": "Start button label"
+    },
+    "alert_header_error": {
+        "message": "အမှား။",
+        "description": "Alert header of category error."
+    },
+    "alert_header_important": {
+        "message": "အရေးကြီးသည်။",
+        "description": "Alert header of category important."
+    },
+    "alert_header_notice": {
+        "message": "သတိပြုရန် -",
+        "description": "Alert header of category notice."
+    },
+    "alert_header_success": {
+        "message": "အောင်မြင်ပါသည်။",
+        "description": "Alert header of category success."
+    },
+    "alert_header_warning": {
+        "message": "သတိပေးချက်။",
+        "description": "Alert header of category warning."
+    },
+    "alert_invalid_domainmatchpattern_warning": {
+        "message": "ဒိုမိန်းတွဲဖက်မှု ပုံစံမှာ  [*.]host.name.tld[:port] ဖြစ်သည်။",
+        "description": "Alert header of category warning."
+    },
+    "alert_no_domainmatchpattern_warning": {
+        "message": "အနည်းဆုံး ဒိုမိန်းတွဲဖက်မှု ပုံစံတစ်ခု လိုအပ်သည်။",
+        "description": "Alert header of category warning."
+    },
+    "analytics_consent_description": {
+        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "description": "Consent to share analytics information with mailvelope"
+    },
+    "auth_domain_api_label": {
+        "message": "API ခွင့်ပြုရန်",
+        "description": "Label for API allowed info"
+    },
+    "auth_domain_description": {
+        "message": "သင်သည် $1 ဒိုမိန်းအတွက် Mailvelope အသုံးပြုရန် ခွင့်ပြုလိုပါသလား။",
+        "description": "Description in authorize domain dialog"
+    },
+    "auth_domain_headline": {
+        "message": "ဒိုမိန်း ခွင့်ပြုရန်",
+        "description": "Headline of authorize domain dialog."
+    },
+    "change_link": {
+        "message": "ပြောင်းလဲရန်",
+        "description": "Navigation link to change this setting."
+    },
+    "cleartext_read_error": {
+        "message": "ဤကုဒ်ဖြင့်ပြောင်းမထားသော မက်ဆေ့ချ်ကို ဖတ်၍မရပါ - $1",
+        "description": "Cleartext message read error message: $1: error message."
+    },
+    "dashboard_link_encrypt_decrypt_files": {
+        "message": "ကုဒ်ဖြင့် ပြောင်းလဲခြင်း",
+        "description": "Dashboard encrypt decrypt files link"
+    },
+    "dashboard_link_manage_domains": {
+        "message": "ခွင့်ပြုထားသော ဒိုမိန်းများ",
+        "description": "Dashboard manage domains link"
+    },
+    "dashboard_link_manage_keys": {
+        "message": "စကားဝှက်သော့များကို စီမံရန်",
+        "description": "Dashboard manage keys link"
+    },
+    "dashboard_link_view_security_log": {
+        "message": "လုံခြုံရေး မှတ်တမ်းများ",
+        "description": "Dashboard view security logs link"
+    },
+    "decrypt_att_frame_help_text": {
+        "message": "မက်ဆေ့ချ် ကြည့်ရန် ဒီမှာ နှိပ်ပါ",
+        "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
+    },
+    "decrypt_attachment_label": {
+        "message": "ပူးတွဲဖိုင်များ",
+        "description": "Label for attachments in decrypted message"
+    },
+    "decrypt_cleartext_warning": {
+        "message": "အောက်ပါစာသားကို ကုဒ်ဖြင့် ပြောင်းမထားပါ။",
+        "description": "Warning when cleartext is shown in decrypt component"
+    },
+    "decrypt_decrypted_files_label": {
+        "message": "ပြန်ဖြည်ထားသော ဖိုင်များ",
+        "description": "Decrypted files label on decrypt success page."
+    },
+    "decrypt_digital_signature": {
+        "message": "လက်မှတ်ထိုးပြီး",
+        "description": "Caption digital signature"
+    },
+    "decrypt_digital_signature_failure": {
+        "message": "လက်မှတ် မှားနေသည်",
+        "description": "Caption digital signature"
+    },
+    "decrypt_digital_signature_null": {
+        "message": "ဤလက်မှတ်ကို မသိပါ",
+        "description": "Caption digital signature"
+    },
+    "decrypt_digital_signature_null_info": {
+        "message": "ID $1 ပါသော စကားဝှက်သော့ကို ရှာမတွေ့ပါ။",
+        "description": "Digital signature unknown info message"
+    },
+    "decrypt_digital_signature_null_info_short": {
+        "message": "စကားဝှက်သော့ ရှာမတွေ့ပါ။",
+        "description": "Digital signature unknown short info message"
+    },
+    "decrypt_file_error_header": {
+        "message": "ဖိုင် $1 ကို ပြန်ဖြည်၍ မရပါ။",
+        "description": "Header of file decryption error on decrypt result page."
+    },
+    "decrypt_frame_help_text": {
+        "message": "ပြန်ဖြည်ရန် နှိပ်ပါ",
+        "description": "Help text on decrypt frame."
+    },
+    "decrypt_header": {
+        "message": "အချက်အလက် ပြန်ဖြည်ရန်",
+        "description": "Header of file/text decrypt page."
+    },
+    "decrypt_header_success": {
+        "message": "ပြန်ဖြည် ပြီးပါပြီ",
+        "description": "Header of file/text decrypt result page."
+    },
+    "decrypt_home": {
+        "message": "ပြန်ဖြည်ရန်",
+        "description": "File/text decrypting navigation: Home."
+    },
+    "decrypt_open_viewer_btn_title": {
+        "message": "Mailvelope ကြည့်စက်တွင် ဖွင့်ရန်",
+        "description": "Title of open message viewer icon button."
+    },
+    "decrypt_show_message_btn": {
+        "message": "မက်ဆေ့ချ် ပြရန်",
+        "description": "Show messsage button label in decrypt message."
+    },
+    "decrypt_signer_label": {
+        "message": "ပေးပို့သူ",
+        "description": "Label for signature line in decrypted message"
+    },
+    "decrypt_text_area_label": {
+        "message": "ပြန်ဖြည်ရန် စာသား",
+        "description": "Label of textarea to paste armored block in on decrypt page."
+    },
+    "decrypt_text_decryption_btn": {
+        "message": "စာသားကိုရော ပြန်ဖြည်လိုပါသလား။",
+        "description": "Text decryption button label on decrypt page."
+    },
+    "decrypt_text_error_header": {
+        "message": "စာသား ပြန်ဖြည်၍ မရပါ။",
+        "description": "Header of text decryption error on decrypt result page."
+    },
+    "dialog_cancel_btn": {
+        "message": "ပယ်ဖျက်ရန်​",
+        "description": "Dialog cancel button label"
+    },
+    "dialog_no_btn": {
+        "message": "မလုပ်ပါ",
+        "description": "Dialog no button label"
+    },
+    "dialog_popup_close": {
+        "message": "ပိတ်မယ်",
+        "description": "Close decrypt popup."
+    },
+    "dialog_save_btn": {
+        "message": "သိမ်းရန်",
+        "description": "Dialog save button label"
+    },
+    "dialog_yes_btn": {
+        "message": "လုပ်မည်",
+        "description": "Dialog yes button label"
+    },
+    "editor_blur_warn": {
+        "message": "သတိပေးချက် - စာသား တည်းဖြတ်စက် ဆုံချက် ရှာမတွေ့ပါ။",
+        "description": "Warning for lost focus."
+    },
+    "editor_encrypt_button": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းရန်",
+        "description": "Encrypt button."
+    },
+    "editor_error_header": {
+        "message": "ချို့ယွင်းချက်",
+        "description": ""
+    },
+    "editor_header": {
+        "message": "လုံခြုံစိတ်ချရသော အီးမေးလ် ရေးသားရန်",
+        "description": "Header of editor popup."
+    },
+    "editor_key_auto_sign": {
+        "message": "သင့်အီးမေးလ်အားလုံးကို လက်မှတ်ထိုးလိုပါသလား။",
+        "description": "Label for default private key option."
+    },
+    "editor_key_auto_sign_link": {
+        "message": "ဆက်တင်များကို ဒီမှာ ပြောင်းလဲပါ",
+        "description": "Test for auto sign link."
+    },
+    "editor_key_no_sign_option": {
+        "message": "လက်မှတ်ထိုးမထားပါ",
+        "description": "Label for not sign option in sign key select."
+    },
+    "editor_key_not_found": {
+        "message": "စကားဝှက်သော့ ရှာမတွေ့ပါ။",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "editor_key_not_found_msg": {
+        "message": "လက်ခံသူအားလုံးသည် ကုဒ်ဖြင့်ပြောင်းရန် PGP စကားဝှက်သော့ လိုအပ်ပါသည်။ မက်ဆေ့ချ်ကိုမူ လက်မှတ်ထိုးနိုင်ပါသေးသည်။",
+        "description": "Warning for when a recipient key was not found."
+    },
+    "editor_label_attachments": {
+        "message": "ပူးတွဲဖိုင်များ",
+        "description": "Label for attachments select/drop area."
+    },
+    "editor_label_copy_recipient": {
+        "message": "မိတ္တူပို့ရန်",
+        "description": "Label for copy recipient text input."
+    },
+    "editor_label_message": {
+        "message": "မက်ဆေ့ချ်",
+        "description": "Label for message textarea."
+    },
+    "editor_label_recipient": {
+        "message": "လက်ခံသူ",
+        "description": "Label for recipient input."
+    },
+    "editor_label_subject": {
+        "message": "အကြောင်းအရာ",
+        "description": "Label for subject text input."
+    },
+    "editor_link_file_encryption": {
+        "message": "ဖိုင်များကို ကုဒ်ဖြင့်ပြောင်းရန်",
+        "description": "Navigation link to file encryption"
+    },
+    "editor_no_default_key_caption_long": {
+        "message": "နဂိုမူလ စကားဝှက်သော့ လိုနေသဖြင့် အီးမေးလ်ကို ဒစ်ဂျစ်တယ်နည်းလမ်းဖြင့် လက်မှတ်မထိုးနိုင်ပါ",
+        "description": ""
+    },
+    "editor_no_default_key_caption_short": {
+        "message": "အီးမေးလ်ကို ဒစ်ဂျစ်တယ်နည်းလမ်းဖြင့် လက်မှတ်မထိုးနိုင်ပါ",
+        "description": ""
+    },
+    "editor_remove_upload": {
+        "message": "ဖယ်ရှားရန်",
+        "description": "Remove uploaded attachment"
+    },
+    "editor_sign_button": {
+        "message": "လက်မှတ်ထိုးရန် သီးသန့်",
+        "description": "Sign button."
+    },
+    "editor_sign_caption_long": {
+        "message": "အီးမေးလ်ကို ဒစ်ဂျစ်တယ်နည်းလမ်းဖြင့် လက်မှတ်ထိုး၍ ပို့ပါမည်",
+        "description": ""
+    },
+    "editor_sign_caption_short": {
+        "message": "အီးမေးလ်ကို ဒစ်ဂျစ်တယ်နည်းလမ်းဖြင့် လက်မှတ်ထိုးပါမည်",
+        "description": ""
+    },
+    "editor_transfer": {
+        "message": "လွှဲပြောင်းရန်",
+        "description": "Transfer button of editor popup."
+    },
+    "encrypt_change_signer_dialog_signer_label": {
+        "message": "လက်မှတ် ရွေးရန်",
+        "description": "Label for signer select of change signer dialog."
+    },
+    "encrypt_change_signer_dialog_title": {
+        "message": "လက်မှတ် ပြောင်းရန်",
+        "description": "Titel of change signer dialog."
+    },
+    "encrypt_dialog_no_recipient": {
+        "message": "ကျေးဇူးပြု၍ လက်ခံသူ ထည့်ပါ။",
+        "description": "Error message if no recipient selected."
+    },
+    "encrypt_download_all_button": {
+        "message": "အားလုံးကို ဒေါင်းလုဒ်လုပ်ရန်",
+        "description": "Button to download all files"
+    },
+    "encrypt_encrypted_files_label": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး ဖိုင်များ",
+        "description": "Encrypted files label on encrypt success page."
+    },
+    "encrypt_encrypted_for_label": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး",
+        "description": "Encrypted for label on encrypt success page."
+    },
+    "encrypt_error": {
+        "message": "ဤမက်ဆေ့ချ်ကို ကုဒ်ဖြင့်ပြောင်း၍ မရပါ - $1",
+        "description": "Error during encryption process."
+    },
+    "encrypt_file_error_header": {
+        "message": "ဖိုင် $1 ကို ကုဒ်ဖြင့်ပြောင်း၍ မရပါ။",
+        "description": "Header of file decryption error on decrypt result page."
+    },
+    "encrypt_frame_btn_label": {
+        "message": "လုံခြုံစိတ်ချရသော အီးမေးလ် ရေးသားရန်",
+        "description": "Text on expanded editor button of editable email area"
+    },
+    "encrypt_header": {
+        "message": "အချက်အလက်ကို ကုဒ်ဖြင့်ပြောင်းရန်",
+        "description": "Header of file/text encrypt page."
+    },
+    "encrypt_header_success": {
+        "message": "ကုဒ်ဖြင့် ပြောင်းလဲပြီးပါပြီ",
+        "description": "Header of file/text encrypt result page."
+    },
+    "encrypt_home": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းရန်",
+        "description": "File/text encrypting navigation: Home."
+    },
+    "encrypt_no_signer_info": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး အချက်အလက်ကို လက်မှတ်ထိုးမထားပါ",
+        "description": "No signer info text on encrypt page."
+    },
+    "encrypt_remove_signer_btn": {
+        "message": "လက်မှတ် ဖယ်ရှားရန်",
+        "description": "Remove signer button label on encrypt page."
+    },
+    "encrypt_signed_as_label": {
+        "message": "လက်မှတ်ထိုးသူ",
+        "description": "Signed as label on encrypt success page."
+    },
+    "encrypt_signer_info": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး အချက်အလက်ကို သင့်စကားဝှက်သော့ ($1) ဖြင့် လက်မှတ်ထိုးထားသည်",
+        "description": "Signer info text on encrypt page."
+    },
+    "encrypt_text_encryption_btn": {
+        "message": "စာသားကိုရော ကုဒ်ဖြင့် ပြောင်းလိုပါသလား။",
+        "description": "Text encryption button label on encrypt page."
+    },
+    "encrypt_text_error_header": {
+        "message": "စာသားကို ကုဒ်ဖြင့်ပြောင်းလဲ၍မရပါ။",
+        "description": "Header of text decryption error on decrypt result page."
+    },
+    "encrypt_upload_file_warning_too_big": {
+        "message": "ဖိုင်များထဲမှ တစ်ဖိုင်မှာ ကြီးလွန်းနေသည်။",
+        "description": "."
+    },
+    "ext_description": {
+        "message": "ဘယ်သူမှ ကြားဖြတ်၍ ဖတ်မရအောင်လုပ်ပြီး သင့်အီးမေးလ် ဝန်ဆောင်မှုပေးသူကို ကူညီပါ။ OpenPGP စံနှုန်းပေါ် အခြေခံပြီး အီးမေးလ် ဆက်သွယ်ခြင်းကို လုံခြုံစိတ်ချရအောင် လုပ်ပါ။",
+        "description": "Description of the extension."
+    },
+    "ext_name": {
+        "message": "Mailvelope",
+        "description": "Name of the extension."
+    },
+    "feature_banner_new_security_background_btn": {
+        "message": "ယခု စိတ်ကြိုက်ပြင်ဆင်ပါ",
+        "description": "Button text of feature banner for new security background."
+    },
+    "feature_banner_new_security_background_text": {
+        "message": "သင့်လုံခြုံရေးနောက်ခံကို စိတ်ကြိုက်ပြင်ဆင်ပြီး Mailvelope ကို ပိုမိုလုံခြုံစိတ်ချရအောင် ပြုလုပ်ပါ။",
+        "description": "Text of feature banner for new security background."
+    },
+    "file_invalid_signed": {
+        "message": "လက်မှတ် မှားနေသည်",
+        "description": "Text of signer field of file element."
+    },
+    "file_not_signed": {
+        "message": "ဖိုင်ကို လက်မှတ်ထိုးမထားပါ",
+        "description": "Text of signer field of file element."
+    },
+    "file_read_error": {
+        "message": "ဤဖိုင်ကို ပြန်ဖြည်၍ မရပါ - $1",
+        "description": ""
+    },
+    "file_signed": {
+        "message": "$1 က ဖိုင်ကို လက်မှတ်ထိုးသည်",
+        "description": "Text of signer field of file element."
+    },
+    "form_back": {
+        "message": "နောက်သို့",
+        "description": "Back form button."
+    },
+    "form_busy": {
+        "message": "စီမံဆောင်ရွက်ဆဲ",
+        "description": "Form in busy state."
+    },
+    "form_cancel": {
+        "message": "ပယ်ဖျက်ရန်",
+        "description": "Cancel form button."
+    },
+    "form_clear": {
+        "message": "ရှင်းလင်းရန်",
+        "description": "Clear form button."
+    },
+    "form_close": {
+        "message": "ပိတ်ရန်",
+        "description": "Close form button."
+    },
+    "form_confirm": {
+        "message": "အတည်ပြုရန်",
+        "description": "Confirm form button."
+    },
+    "form_continue": {
+        "message": "ဆက်လုပ်ရန်",
+        "description": "Continue form button."
+    },
+    "form_definition_error_no_recipient_key": {
+        "message": "လက်ခံသူလိပ်စာအတွက် ဆီလျော်သည့် ကုဒ်ဖြင့်ပြောင်းလဲပြီးသော စကားဝှက်သော့ မရှိပါ။",
+        "description": "Error message when recipient key is not in keyring"
+    },
+    "form_definition_error_signature_invalid": {
+        "message": "ပုံစံပါ လက်မှတ်သည် မမှန်ကန်ပါ။",
+        "description": "Error message when the form signature is not valid"
+    },
+    "form_destination": {
+        "message": "ပေးပို့မည့် နေရာ",
+        "description": "URL the form data will be sent to"
+    },
+    "form_destination_default": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး အချက်အလက်ကို စာမျက်နှာသို့ ပြန်ပို့ပါမည်။",
+        "description": "Behavior when no action is specified in form"
+    },
+    "form_forward": {
+        "message": "ပြန်လည်မျှဝေရန်",
+        "description": "Forward form button."
+    },
+    "form_import": {
+        "message": "ထည့်သွင်းရန်",
+        "description": "Import form button."
+    },
+    "form_loading": {
+        "message": "ပုံစံ တင်နေသည်",
+        "description": "Waiting modal when form is loading."
+    },
+    "form_next": {
+        "message": "ရှေ့သို့",
+        "description": "Next form button."
+    },
+    "form_no": {
+        "message": "မဟုတ်ပါ",
+        "description": "No form button."
+    },
+    "form_ok": {
+        "message": "အိုကေ",
+        "description": "Ok form button."
+    },
+    "form_recipient": {
+        "message": "လက်ခံသူ",
+        "description": "The email for which the form will be encrypted for"
+    },
+    "form_save": {
+        "message": "သိမ်းရန်",
+        "description": "Save form button."
+    },
+    "form_sign_error_no_default_key": {
+        "message": "ပုံစံပါ အကြောင်းအရာကို လက်မှတ်ထိုးရန် သော့တွဲတွင် သီးသန့် စကားဝှက်သော့ မရရှိနိုင်ပါ။ ကျေးဇူးပြု၍ ထည့်သွင်းပါ သို့မဟုတ် ဖန်တီးပါ။",
+        "description": "Error message when trying to sign and no primary key is found"
+    },
+    "form_submit": {
+        "message": "ထည့်သွင်းရန်",
+        "description": "Submit form button."
+    },
+    "form_undo": {
+        "message": "ပြန်ပြင်ရန်",
+        "description": "Undo form button."
+    },
+    "form_yes": {
+        "message": "ဟုတ်ပါသည်",
+        "description": "Yes form button."
+    },
+    "general_default_key_always": {
+        "message": "လက်ခံသူစာရင်းတွင် ကျွန်ုပ်၏ နဂိုမူလ စကားဝှက်သော့ကို အမြဲတမ်း ထည့်ပါ။ (ဤသို့ဖြင့် ပို့ထားသော စာများကို ပြန်ဖြည်နိုင်သည်)",
+        "description": "Label for default private key option."
+    },
+    "general_default_key_auto_sign": {
+        "message": "အထွက် မက်ဆေ့ချ်အားလုံးကို လက်မှတ်ထိုးပါ။",
+        "description": "Label for default private key option."
+    },
+    "general_gnupg_check_availability": {
+        "message": "ရနိုင်၊ မရနိုင် စစ်ဆေးခွင့်ပြုပါ",
+        "description": "Button label to check availability of GnuPG"
+    },
+    "general_gnupg_installed_question": {
+        "message": "သင် GnuPG တပ်ဆင်ထားသလား။ မတပ်ထားလျှင် <0>ဒီမှာ ဒေါင်းလုဒ်လုပ်ပါ</0>။ ရနိုင်၊ မရနိုင် ထပ်မံစစ်ဆေးရန် <1>Mailvelope ကို ပြန်လည်စတင်ပါ</1>",
+        "description": "Status message with available user options"
+    },
+    "general_gnupg_not_available": {
+        "message": "GnuPG မရရှိနိုင်ပါ",
+        "description": "Indicator if GnuPG is not available"
+    },
+    "general_gnupg_prefer": {
+        "message": "GnuPG ကို အသုံးပြုလိုပါသလား။",
+        "description": "Question if user prefers to use GnuPG"
+    },
+    "general_openpgp_current": {
+        "message": "သင် လက်ရှိ သုံးနေသည့်အရာမှာ ",
+        "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
+    },
+    "general_openpgp_prefer": {
+        "message": "မည်သည့် ကုဒ်ဖြင့်ပြောင်းလဲထားသော ဒေတာသုံးစွဲမှုအက်ပ်ကို သင်ပိုနှစ်သက်သလဲ။",
+        "description": "Label for OpenPGP backend selection."
+    },
+    "general_openpgp_preferences": {
+        "message": "OpenPGP အလေးပေး ရွေးချယ်မှု",
+        "description": "Headline for OpenPGP settings."
+    },
+    "general_prefer_gnupg_note": {
+        "message": "မှတ်ချက် - အများသုံး စကားဝှက်သော့များကို ရရှိနိုင်သော သော့တွဲများထဲမှ ပေါင်းစပ်သည်။ သီးသန့် စကားဝှက်သော့များ ရရှိနိုင်မှုအပေါ် မူတည်ပြီး Mailvelope သည် ပိုမိုနှစ်သက်သော ကုဒ်ဖြင့်ပြောင်းလဲပြီး စာကြည့်တိုက် ဆက်တင်အစား အခြားတစ်ခုဖြင့် ဆောင်ရွက်နိုင်သည်။",
+        "description": "Help text for GnuPG as the preferred OpenPGP backend option."
+    },
+    "gmail_integration_auth_error_download": {
+        "message": "ပူးတွဲဖိုင်များကို ဒေါင်းလုဒ်လုပ်ရန် Mailvelope အား ခွင့်မပြုပါ။ ဤလုပ်ဆောင်ချက်ကို အသုံးပြုရန် သင်သည် Mailvelope အား Gmail API ကို အသုံးပြုခွင့် ပေးရပါမည်။",
+        "description": "Error message for components requiring authorization of GMAIL integration"
+    },
+    "gmail_integration_auth_error_send": {
+        "message": "အီးမေးလ်ပို့ရန် Mailvelope အား ခွင့်မပြုပါ။ ဤလုပ်ဆောင်ချက်ကို အသုံးပြုရန် သင်သည် Mailvelope အား Gmail API ကို အသုံးပြုခွင့် ပေးရပါမည်။",
+        "description": "Error message for components requiring authorization of GMAIL integration"
+    },
+    "gmail_integration_quoted_mail_header_forward": {
+        "message": "---------- ပြန်လည်မျှဝေထားသော မက်ဆေ့ချ် ---------\nမှ - $1\nနေ့‌စွဲ - $2\nအကြောင်းအရာ - $3\nသို့ - $4",
+        "description": "Header for forwarded mail"
+    },
+    "gmail_integration_quoted_mail_header_reply": {
+        "message": "$1 တွင် $2 က ရေးသားခဲ့သည် -",
+        "description": "Header for quoted reply mail"
+    },
+    "gmail_integration_sent_success": {
+        "message": "အီးမေးလ်ပို့ခြင်း အောင်မြင်ပါသည်။",
+        "description": "Email sent success notification"
+    },
+    "gnupg_connection": {
+        "message": "GnuPG  ချိတ်ဆက်ခြင်း",
+        "description": "Header that shows that GnuPG is available on the system."
+    },
+    "gnupg_error_unusable_pub_key": {
+        "message": "ကျေးဇူးပြု၍ အောက်ပါ အများသုံး စကားဝှက်သော့များကို သင့် GnuPG သော့တွဲတွင် ရရှိနိုင်ပြီး မှန်ကန်ကြောင်း စစ်ဆေးပါ - $1",
+        "description": ""
+    },
+    "import_frame_help_text": {
+        "message": "စကားဝှက်သော့ ထည့်သွင်းရန် ကလစ်နှိပ်ပါ",
+        "description": "Help text on import frame."
+    },
+    "install_landing_page_hint": {
+        "message": "အဆက်ကို ဖွင့်ရန် ဒီမှာ နှိပ်ပါ။",
+        "description": "Install landing page getting started hint"
+    },
+    "invalid_default_key": {
+        "message": "စကားဝှက်သော့သည် ကုဒ်ဖြင့်ပြောင်းလဲခြင်းနှင့် လက်မှတ်ထိုးခြင်း လုပ်ဆောင်ချက်များအတွက် မဆီလျော်ပါ",
+        "description": "Tootip for set as default key button"
+    },
+    "key_default_active_btn_title": {
+        "message": "စကားဝှက်သော့ကို နဂိုမူလ စကားဝှက်သော့အဖြစ် သတ်မှတ်ထားသည်",
+        "description": "Title for active default key button"
+    },
+    "key_default_disabled_btn_title": {
+        "message": "ဤစကားဝှက်သော့သည် မဆီလျော်သောကြောင့် နဂိုမူလ စကားဝှက်သော့အဖြစ် သတ်မှတ်၍မရပါ",
+        "description": "Title for disabled (invalid) default key button"
+    },
+    "key_default_inactive_btn_title": {
+        "message": "စကားဝှက်သော့ကို နဂိုမူလ စကားဝှက်သော့အဖြစ် သတ်မှတ်ရန်",
+        "description": "Title for inactive default key button"
+    },
+    "key_export_btn": {
+        "message": "ပို့ရန်",
+        "description": "Export key button label"
+    },
+    "key_export_btn_title": {
+        "message": "စကားဝှက်သော့ ပို့ရန်",
+        "description": "Title for export key button"
+    },
+    "key_export_create_file": {
+        "message": "သိမ်းရန်",
+        "description": "Download file button."
+    },
+    "key_export_dialog_copy_to_clipboard": {
+        "message": "clipboard ထဲသို့ ကူးရန်",
+        "description": "Copy to clipboard button label."
+    },
+    "key_export_dialog_question": {
+        "message": "မည်သည့်စကားဝှက်သော့ကို ပို့ချင်ပါသလဲ။",
+        "description": "Question in export private key dialog."
+    },
+    "key_export_dialog_title": {
+        "message": "စကားဝှက်သော့ ပို့ရန်",
+        "description": "Title of export key dialog."
+    },
+    "key_export_filename": {
+        "message": "ဖိုင်အမည်",
+        "description": "Label of filename input."
+    },
+    "key_export_header": {
+        "message": "စကားဝှက်သော့ ပို့ရန်",
+        "description": "Export key dialog header."
+    },
+    "key_export_warning_private": {
+        "message": "ဤဖိုင်တွင် သီးသန့် စကားဝှက်သော့များလည်း ပါဝင်သည်။ ဖိုင်ကို လုံခြုံသော နေရာတွင် သိမ်းပြီး၊ အခြားသူများနှင့် မမျှဝေပါနှင့်။",
+        "description": "Key export warning."
+    },
+    "key_gen_advanced_btn": {
+        "message": "အဆင့်မြင့်",
+        "description": "Advanced key generation settings."
+    },
+    "key_gen_another": {
+        "message": "နောက်တစ်ခု ထုတ်လုပ်ပါ...",
+        "description": "Key import button"
+    },
+    "key_gen_demail": {
+        "message": "De-Mail လိပ်စာ",
+        "description": "De-Mail address name."
+    },
+    "key_gen_error": {
+        "message": "စကားဝှက်သော့ ထုတ်လုပ်စဉ် ချွတ်ယွင်းချက် ဖြစ်ပေါ်ခဲ့သည်။",
+        "description": "Key generation error message"
+    },
+    "key_gen_experimental": {
+        "message": "စမ်းသပ်ဆဲ",
+        "description": "A key algorithm is flagged as experimental"
+    },
+    "key_gen_expiration": {
+        "message": "စကားဝှက်သော့ သက်တမ်းကုန်ဆုံးရက်",
+        "description": "Key expiration date"
+    },
+    "key_gen_future_default": {
+        "message": "အနာဂတ်သုံး ပုံသေမူလ",
+        "description": "Key generation algorithm, the future supported standard."
+    },
+    "key_gen_generate": {
+        "message": "ထုတ်လုပ်ရန်",
+        "description": "Key generate button label"
+    },
+    "key_gen_invalid_email": {
+        "message": "အီးမေးလ်လိပ်စာ မှားနေသည်",
+        "description": "Error message."
+    },
+    "key_gen_key_size": {
+        "message": "စကားဝှက်သော့ အရွယ်အစား",
+        "description": "Advanced key generation settings: Key size"
+    },
+    "key_gen_name_help": {
+        "message": "စကားဝှက်သော့ ပိုင်ရှင် အမည် အပြည့်အစုံ",
+        "description": "Help text for name field."
+    },
+    "key_gen_pwd": {
+        "message": "စကားဝှက် ရိုက်ထည့်ပါ",
+        "description": "Label for passphrase input field"
+    },
+    "key_gen_pwd_empty": {
+        "message": "စကားဝှက်ထည့်ရန် အကွက် လွတ်နေသည်",
+        "description": "Passphrase input field status"
+    },
+    "key_gen_pwd_match": {
+        "message": "စကားဝှက်များ ကိုက်ညီပါသည်",
+        "description": "Passphrase input field status"
+    },
+    "key_gen_pwd_reenter": {
+        "message": "စကားဝှက် ပြန်ရိုက်ထည့်ပါ",
+        "description": "Label for passphrase input field"
+    },
+    "key_gen_pwd_unequal": {
+        "message": "စကားဝှက်များ ကိုက်ညီမှုမရှိပါ",
+        "description": "Passphrase input field status"
+    },
+    "key_gen_success": {
+        "message": "စကားဝှက်သော့အသစ် ထုတ်လုပ်ပြီး သော့တွဲထဲသို့ ထည့်ထားသည်",
+        "description": "Key generation success message"
+    },
+    "key_gen_upload": {
+        "message": "အများသုံး စကားဝှက်သော့ကို Mailvelope စကားဝှက်သော့ဆာဗာသို့ တင်ပါ (အချိန်မရွေး ဖျက်နိုင်သည်)",
+        "description": "Upload key to Mailvelope key server checkbox"
+    },
+    "key_gen_wait_header": {
+        "message": "စကားဝှက်သော့ ထုတ်လုပ်နေဆဲ…",
+        "description": "Wait dialog header"
+    },
+    "key_gen_wait_info": {
+        "message": "စကားဝှက်သော့ ထုတ်လုပ်ရာတွင် စကားဝှက်သော့ အရွယ်အစားကဲ့သို့ အချက်အလက်များပေါ်တွင် မူတည်ပြီး မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်။ ကျေးဇူးပြု၍ စောင့်ပေးပါ။",
+        "description": "Wait dialog info message"
+    },
+    "key_import_bulk_success": {
+        "message": "စကားဝှက်သော့များကို အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ/အပ်ဒိတ်လုပ်ပြီးပါပြီ။",
+        "description": "Import success message for more than 5 keys"
+    },
+    "key_import_contacts_import_btn": {
+        "message": "စကားဝှက်သော့များ ထည့်သွင်းရန်",
+        "description": "Contact import button label on key import page."
+    },
+    "key_import_default_description": {
+        "message": "အတည်ပြုပြီးနောက် ဤစကားဝှက်သော့များကို စက်တွင်း သော့တွဲသို့ လွှဲပြောင်းပါမည် -",
+        "description": "Key import dialog description."
+    },
+    "key_import_default_headline": {
+        "message": "စကားဝှက်သော့ အတည်ပြုရန်",
+        "description": "Key import dialog header."
+    },
+    "key_import_dialog_header": {
+        "message": "စကားဝှက်သော့ကို သော့တွဲသို့ ထည့်ရန်",
+        "description": "Key import dialog header."
+    },
+    "key_import_error": {
+        "message": "ထည့်သွင်းရာတွင် ပြဿနာရှိသည်။",
+        "description": "Import error alert."
+    },
+    "key_import_error_no_uid": {
+        "message": "စကားဝှက်သော့ $1 တွင် ဆီလျော်သော အသုံးပြုသူ ID ရှာမတွေ့ပါ",
+        "description": "Import error no user id found."
+    },
+    "key_import_error_parse": {
+        "message": "ကာကွယ်ထားသော PGP စကားဝှက်သော့ကို ဖတ်ရာတွင် ပြဿနာရှိသည် - $1",
+        "description": "Import parse error."
+    },
+    "key_import_exception": {
+        "message": "စကားဝှက်သော့များကို စီမံဆောင်ရွက်ရာတွင် ပြဿနာ ဖြစ်ပေါ်သည်",
+        "description": "Import error alert."
+    },
+    "key_import_file_label": {
+        "message": "ဖိုင်များကို ရွေးရန်",
+        "description": "File selection label."
+    },
+    "key_import_from_text_btn": {
+        "message": "clipboard မှ စကားဝှက်သော့ကို ထည့်သွင်းရန်",
+        "description": "Import keys from clipboard button label on key import page."
+    },
+    "key_import_from_text_label": {
+        "message": "clipboard မှ စာသား",
+        "description": "Import keys from clipboard textarea label on key import page."
+    },
+    "key_import_hkp_search_btn": {
+        "message": "ရှာရန်",
+        "description": ""
+    },
+    "key_import_hkp_search_ph": {
+        "message": "အမည်၊ အီးမေးလ်လိပ်စာ သို့မဟုတ် စကားဝှက်သော့ ID ရိုက်ထည့်ရန်",
+        "description": ""
+    },
+    "key_import_hkp_server": {
+        "message": "စကားဝှက်သော့ ဆာဗာ",
+        "description": ""
+    },
+    "key_import_invalid_text": {
+        "message": "ဆီလျော်သော စကားဝှက်သော့ စာသား ရှာမတွေ့ပါ",
+        "description": "Import error alert."
+    },
+    "key_import_invalidated_description": {
+        "message": "သတိပေးချက် - ဤအဆက်အသွယ်အတွက် စကားဝှက်သော့မှာ သက်တမ်းကုန်သွားပါပြီ။ $1 နှင့် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ရန် မဖြစ်နိုင်တော့ပါ။ အဆက်အသွယ်က စကားဝှက်သော့ အစစ်အမှန်ဖြင့် သင့်အား ထပ်မံဖိတ်ကြားရန် လိုအပ်ပါသည်။",
+        "description": ""
+    },
+    "key_import_number_of_failed": {
+        "message": "ပြဿနာများကြောင့် စကားဝှက်သော့တစ်ခုကို ထည့်သွင်း၍ မရပါ။",
+        "description": "Error message with number of failed imports."
+    },
+    "key_import_number_of_failed_plural": {
+        "message": "ပြဿနာများကြောင့် စကားဝှက်သော့ $1 ခုကို ထည့်သွင်း၍ မရပါ။ ‌",
+        "description": "Error message with number of failed imports."
+    },
+    "key_import_private_exists": {
+        "message": "အသုံးပြုသူ $2 တွင်ရှိသော အများသုံး စကားဝှက်သော့ $1 နှင့် တွဲဖက်နိုင်သည့် သီးသန့် စကားဝှက်သော့ အစိတ်အပိုင်းကို သော့တွဲထဲသို့ ထည့်သွင်းပြီးပါပြီ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_private_read": {
+        "message": "သီးသန့် စကားဝှက်သော့ကို ဖတ်၍မရပါ - $1",
+        "description": "Import error message. $1: error message"
+    },
+    "key_import_private_success": {
+        "message": "အသုံးပြုသူ $2 ၏ သီးသန့် စကားဝှက်သော့ $1 ကို သော့တွဲထဲသို့ ထည့်သွင်းပြီးပါပြီ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_private_update": {
+        "message": "အသုံးပြုသူ $2 ၏ သီးသန့် စကားဝှက်သော့ $1 ကို အပ်ဒိတ်လုပ်ပြီးပါပြီ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_public_read": {
+        "message": "အများသုံး စကားဝှက်သော့ကို ဖတ်၍မရပါ - $1",
+        "description": "Import error message. $1: error message"
+    },
+    "key_import_public_success": {
+        "message": "အသုံးပြုသူ $2 ၏ အများသုံး စကားဝှက်သော့ $1 ကို သော့တွဲထဲသို့ ထည့်သွင်းပြီးပါပြီ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_public_update": {
+        "message": "အသုံးပြုသူ $2 ၏ အများသုံး စကားဝှက်သော့ $1 ကို အပ်ဒိတ်လုပ်ပြီးပါပြီ",
+        "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_textarea": {
+        "message": "စကားဝှက်သော့ကို စာသားအဖြစ် ထည့်သွင်းရန်",
+        "description": "Key import box."
+    },
+    "key_import_too_big": {
+        "message": "သင်ထည့်သွင်းလိုသော စကားဝှက်သော့ စာသားသည် ရှည်လွန်းနေသည်။ အပိုင်းငယ်များ ခွဲပြီး ထည့်သွင်းကြည့်ပါ။",
+        "description": "Import error alert."
+    },
+    "key_import_unable": {
+        "message": "ခြွင်းချက်ကြောင့် စကားဝှက်သော့ ထည့်သွင်း၍ မရပါ - $1",
+        "description": "Import error message: $1: error message."
+    },
+    "key_keyserver_mod": {
+        "message": "Mailvelope စကားဝှက်သော့ ဆာဗာရှိ စကားဝှက်သော့ အချက်အလက်သည် အပ်ဒိတ်မဖြစ်တော့ပါ။",
+        "description": "Local key data differs from Mailvelope key server"
+    },
+    "key_keyserver_not": {
+        "message": "စကားဝှက်သော့ကို Mailvelope စကားဝှက်သော့ ဆာဗာနှင့် မပေါင်းစပ်ထားပါ။",
+        "description": "Key is not on the the Mailvelope server"
+    },
+    "key_keyserver_remove": {
+        "message": "Mailvelope စကားဝှက်သော့ ဆာဗာမှ အပြီးသတ်ဖယ်ရှားရန် အသုံးပြုသူ ID အားလုံးထံသို့ အတည်ပြုရန် အီးမေးလ် ပို့ပြီးပါပြီ။",
+        "description": "A deletion request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_remove_btn": {
+        "message": "အသုံးပြုသူ ID အားလုံးကို ဖယ်ရှားရန်",
+        "description": "Key server remove existing key button label"
+    },
+    "key_keyserver_resend_btn": {
+        "message": "ထပ်မံပေးပို့ရန်",
+        "description": "Key server send again button label"
+    },
+    "key_keyserver_sync": {
+        "message": "Mailvelope စကားဝှက်သော့ ဆာဗာရှိ စကားဝှက်သော့ အချက်အလက်သည် အပ်ဒိတ်ဖြစ်ပါပြီ။",
+        "description": "Key data is synchronized with the Mailvelope key server"
+    },
+    "key_keyserver_update": {
+        "message": "စကားဝှက်သော့ အချက်အလက်ကို Mailvelope စကားဝှက်သော့ ဆာဗာတွင် အပ်ဒိတ်လုပ်ပြီးပါပြီ။",
+        "description": "An update request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_update_btn": {
+        "message": "အပ်ဒိတ်လုပ်ရန်",
+        "description": "Key server update button label"
+    },
+    "key_keyserver_upload": {
+        "message": "စကားဝှက်သော့ကို Mailvelope စကားဝှက်သော့ ဆာဗာနှင့် ပေါင်းစပ်ရန်အတွက် အတည်ပြုရန် အီးမေးလ်ကို အသုံးပြုသူ ID အားလုံးထံ ပို့ထားသည်။",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "key_keyserver_upload_btn": {
+        "message": "ပေါင်းစပ်ရန်",
+        "description": "Key server upload button label"
+    },
+    "key_recovery_failed": {
+        "message": "စကားဝှက်သော့ကို အရန်သိမ်းထားရာမှ ပြန်လည်ရယူခြင်း မအောင်မြင်ပါ။",
+        "description": ""
+    },
+    "key_remove_btn": {
+        "message": "ဖယ်ရှားရန်",
+        "description": "Remove key button label"
+    },
+    "key_remove_btn_title": {
+        "message": "စကားဝှက်သော့ကို သော့တွဲမှ ဖယ်ရှားရန်",
+        "description": "Title for remove key button"
+    },
+    "key_remove_dialog_title": {
+        "message": "စကားဝှက်သော့ ဖယ်ရှားရန်",
+        "description": "Title of delete key dialog."
+    },
+    "key_revoke_btn": {
+        "message": "ရုပ်သိမ်းရန်",
+        "description": "Revoke key button label"
+    },
+    "key_revoke_btn_title": {
+        "message": "စကားဝှက်သော့ ရုပ်သိမ်းရန်",
+        "description": "Title for revoke key button"
+    },
+    "key_revoke_dialog_confirm": {
+        "message": "စကားဝှက်သော့ကို ရုပ်သိမ်းလိုသလား။",
+        "description": "Confirmation question of revoke key dialog."
+    },
+    "key_revoke_dialog_description": {
+        "message": "ရုပ်သိမ်းပြီးလျှင် စကားဝှက်သော့ကို အပြီးတိုင် အသုံးမပြုနိုင်ဘဲရှိပါမည်။",
+        "description": "Text of revoke key dialog."
+    },
+    "key_revoke_dialog_title": {
+        "message": "စကားဝှက်သော့ ရုပ်သိမ်းရန်",
+        "description": "Title of revoke key dialog."
+    },
+    "key_set_as_default": {
+        "message": "ပုံသေမူလအဖြစ် သတ်မှတ်ရန်",
+        "description": "Set as default key for the keyring button"
+    },
+    "keybackup_failed": {
+        "message": "စကားဝှက်သော့အရန် ဖန်တီးခြင်း မအောင်မြင်ပါ။",
+        "description": ""
+    },
+    "keybackup_restore_dialog_button": {
+        "message": "အရန်ကို ပြန်လည်ရယူရန်",
+        "description": ""
+    },
+    "keybackup_restore_dialog_description": {
+        "message": "ပြန်လည်ရယူရန် စာရင်းစာရွက်အသစ် ဒီမှာ ဖန်တီးပါ -",
+        "description": ""
+    },
+    "keybackup_restore_dialog_headline": {
+        "message": "အကြံပြုချက် - အရန် ဖန်တီးပါ",
+        "description": ""
+    },
+    "keybackup_restore_dialog_list_1": {
+        "message": "ပြန်လည်ရယူရန် စာရင်းစာရွက် ပျောက်သွားသည်။",
+        "description": ""
+    },
+    "keybackup_restore_dialog_list_2": {
+        "message": "လုံခြုံရေးအတွက် ပြန်လည်ရယူရန် စာရင်းစာရွက်အသစ်ကို ဖန်တီးဖို့ လိုအပ်သည်။",
+        "description": ""
+    },
+    "keybackup_setup_dialog_button": {
+        "message": "အရံ ဖန်တီးရန်",
+        "description": ""
+    },
+    "keybackup_setup_dialog_description": {
+        "message": "အရံက သင်၏ ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်းကို ဤသို့ သေချာစေသည် -",
+        "description": ""
+    },
+    "keybackup_setup_dialog_headline": {
+        "message": "အကြံပြုချက် - အရံ ပြင်ဆင်သတ်မှတ်ပါ",
+        "description": ""
+    },
+    "keybackup_setup_dialog_list_1": {
+        "message": "အချက်အလက် ဆုံးရှုံးပါက ပြန်လည်ရယူရန်",
+        "description": "In order to restore your encrypted communication in case of data loss."
+    },
+    "keybackup_setup_dialog_list_2": {
+        "message": "အခြားစက်ပစ္စည်းများသို့ လွှဲပြောင်းရန်",
+        "description": "In order to transfer your encrypted communication to other devices."
+    },
+    "keybackup_waiting_description": {
+        "message": "သင်၏ ပြန်လည်ရယူရန် ကုဒ်ပါသော မှတ်တမ်းကို ပြင်ဆင်နေသည်။",
+        "description": ""
+    },
+    "keybackup_waiting_headline": {
+        "message": "အရံ ဖန်တီးနေသည်။",
+        "description": ""
+    },
+    "keydetails_change_exp_date_dialog_note": {
+        "message": "စကားဝှက်သော့ငယ်အားလုံးအတွက် သက်တမ်းကုန်ဆုံးရက်ကိုလည်း ပြောင်းလဲထားသည်။ သို့သော် မဆီလျော်သော စကားဝှက်သော့ငယ်များ သို့မဟုတ် သက်တမ်းကုန်ဆုံးပြီးသော စကားဝှက်သော့ငယ်များအပေါ် သက်‌ရောက်မှုမရှိပါ။",
+        "description": "Important note in change expiration date dialog."
+    },
+    "keydetails_change_exp_date_dialog_title": {
+        "message": "သက်တမ်းကုန်ဆုံးရက် ပြောင်းလဲရန်",
+        "description": "Title of change expiration date dialog."
+    },
+    "keydetails_change_pwd_dialog_old": {
+        "message": "စကားဝှက်အဟောင်း",
+        "description": "Old password input label"
+    },
+    "keydetails_change_pwd_dialog_title": {
+        "message": "စကားဝှက် ပြောင်းလဲရန်",
+        "description": "Title of change password dialog."
+    },
+    "keydetails_creation_date": {
+        "message": "ဖန်တီးသည့်ရက်",
+        "description": "Creation date of a PGP key."
+    },
+    "keydetails_expiration_date": {
+        "message": "သက်တမ်းကုန်ဆုံးရက်",
+        "description": "Expiration date of a PGP key."
+    },
+    "keydetails_key_not_expire": {
+        "message": "ဘယ်တော့မှ",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "keydetails_password": {
+        "message": "စကားဝှက်",
+        "description": "Password of a PGP key."
+    },
+    "keydetails_title": {
+        "message": "စကားဝှက်သော့ အသေးစိတ်များ",
+        "description": "Title of the key details panel"
+    },
+    "keygen_dialog_password_error_length": {
+        "message": "စကားဝှက်တွင် အနည်းဆုံး စာလုံး $1 လုံး လိုအပ်သည်",
+        "description": ""
+    },
+    "keygen_dialog_password_placeholder": {
+        "message": "အနည်းဆုံး စာလုံး ၄ လုံး",
+        "description": ""
+    },
+    "keygen_dialog_prolog": {
+        "message": "ကျေးဇူးပြု၍ သင်၏ ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်းကို ကာကွယ်ရန် သင့်စကားဝှက်သော့အတွက် စကားဝှက် သတ်မှတ်ပေးပါ -",
+        "description": ""
+    },
+    "keygen_waiting_description": {
+        "message": "ဤလုပ်ငန်းစဉ်သည် မိနစ်အနည်းငယ် ကြာနိုင်ပါသည်။ သင့်ဘရောက်ဇာသည် မတုံ့ပြန်ဘဲ ရှိနေနိုင်သည်။ ကျေးဇူးပြု၍ သည်းခံပေးပါ။",
+        "description": ""
+    },
+    "keygen_waiting_headline": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်မှုကို ပြင်ဆင်သတ်မှတ်ခြင်း",
+        "description": ""
+    },
+    "keygrid_algorithm": {
+        "message": "အယ်လဂိုရီသမ်",
+        "description": "Public-key algorithm of a PGP key."
+    },
+    "keygrid_all_keys": {
+        "message": "အားလုံး",
+        "description": "Selection of key type."
+    },
+    "keygrid_creation_date": {
+        "message": "ဖန်တီးသည့် နေ့စွဲ",
+        "description": "Creation date of a PGP key."
+    },
+    "keygrid_creation_date_short": {
+        "message": "ဖန်တီးသည့်ရက်",
+        "description": "Short creation date of a PGP key. Max. width: 90px"
+    },
+    "keygrid_default_key": {
+        "message": "နဂိုမူလ စကားဝှက်သော့",
+        "description": "Default key in the keyring."
+    },
+    "keygrid_default_label": {
+        "message": "ပုံသေမူလ",
+        "description": "Label for the default key"
+    },
+    "keygrid_delete": {
+        "message": "ဖျက်ရန်",
+        "description": "Max. 6 characters."
+    },
+    "keygrid_delete_confirmation": {
+        "message": "ဤစကားဝှက်သော့ကို သင်ဖယ်ရှားလိုသည်မှာ သေချာပါသလား။",
+        "description": "Delete confirmation dialog."
+    },
+    "keygrid_display_all_keys": {
+        "message": "စကားဝှက်သော့ အားလုံးကို ပြသရန်",
+        "description": "Export key menu."
+    },
+    "keygrid_display_priv_key": {
+        "message": "သီးသန့် စကားဝှက်သော့ကို ပြသရန်",
+        "description": "Export key menu."
+    },
+    "keygrid_display_pub_key": {
+        "message": "အများသုံး စကားဝှက်သော့ကို ပြသရန်",
+        "description": "Export key menu."
+    },
+    "keygrid_expiration_date": {
+        "message": "သက်တမ်းကုန်ဆုံးရက်",
+        "description": "Expiration date of a PGP key."
+    },
+    "keygrid_export": {
+        "message": "ပို့ရန်",
+        "description": "Export key."
+    },
+    "keygrid_export_title": {
+        "message": "ဤစာရင်းပါ စကားဝှက်သော့အားလုံးကို ဖိုင်ထဲသို့ ပို့ရန်",
+        "description": "Title for Export key button."
+    },
+    "keygrid_generate_title": {
+        "message": "စကားဝှက်သော့တစ်ခု ထုတ်လုပ်ရန်",
+        "description": "Title for generate key button"
+    },
+    "keygrid_import_title": {
+        "message": "စကားဝှက်သော့တစ်ခု ထည့်သွင်းရန်",
+        "description": "Title for Import key button."
+    },
+    "keygrid_invalid_userid": {
+        "message": "မဆီလျော်သော အသုံးပြုသူ ID",
+        "description": "User ID invalid."
+    },
+    "keygrid_key_fingerprint": {
+        "message": "PGP လက်ဗွေ",
+        "description": "Unique string identifier for a PGP key."
+    },
+    "keygrid_key_length": {
+        "message": "အရှည်",
+        "description": "Key length of a PGP key."
+    },
+    "keygrid_key_not_expire": {
+        "message": "ဤစကားဝှက်သော့သည် သက်တမ်းကုန်မည် မဟုတ်ပါ",
+        "description": "Expiration date of a PGP key not set."
+    },
+    "keygrid_keyid": {
+        "message": "စကားဝှက်သော့ ID",
+        "description": "Key ID of a PGP key."
+    },
+    "keygrid_primary_key": {
+        "message": "အဓိက စကားဝှက်သော့",
+        "description": "Main key in the PGP key."
+    },
+    "keygrid_private_keys": {
+        "message": "သီးသန့် စကားဝှက်သော့များ",
+        "description": "Selection of key type."
+    },
+    "keygrid_public_keys": {
+        "message": "အများသုံး စကားဝှက်သော့များ",
+        "description": "Selection of key type."
+    },
+    "keygrid_refresh": {
+        "message": "ရီဖရက်ရှ်လုပ်ရန်",
+        "description": "Refresh keygrid component."
+    },
+    "keygrid_refresh_title": {
+        "message": "သော့တွဲကို ပြန်တင်ရန်",
+        "description": "Title for button to refresh keygrid component."
+    },
+    "keygrid_send_pub_key": {
+        "message": "အများသုံး စကားဝှက်သော့ကို အီးမေးလ်ဖြင့် ပို့ရန်",
+        "description": "Export key menu."
+    },
+    "keygrid_signer_name": {
+        "message": "လက်မှတ်ထိုးသူ",
+        "description": "User ID of signer."
+    },
+    "keygrid_signer_unknown": {
+        "message": "လက်မှတ်ထိုးသူကို မသိပါ",
+        "description": "Key of signer not available."
+    },
+    "keygrid_sort_type": {
+        "message": "စစ်ထုတ်ချက်များ",
+        "description": "Key grid sort selector."
+    },
+    "keygrid_status_expired": {
+        "message": "သက်တမ်းကုန်ပြီး",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_invalid": {
+        "message": "မဆီလျော်ပါ",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_revoked": {
+        "message": "ရုပ်သိမ်းပြီး",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_status_valid": {
+        "message": "ဆီလျော်သည်",
+        "description": "Validity status of a PGP key."
+    },
+    "keygrid_subkey": {
+        "message": "စကားဝှက်သော့ငယ်",
+        "description": "Subkey of a PGP key."
+    },
+    "keygrid_subkeys": {
+        "message": "စကားဝှက်သော့ငယ်များ",
+        "description": "Subkeys of a PGP key."
+    },
+    "keygrid_user_email": {
+        "message": "အီးမေးလ်",
+        "description": "Email address in User ID of a PGP key."
+    },
+    "keygrid_user_ids": {
+        "message": "အသုံးပြုသူ ID များ",
+        "description": "User IDs of a PGP key."
+    },
+    "keygrid_user_name": {
+        "message": "အမည်",
+        "description": "Name in User ID of a PGP key."
+    },
+    "keygrid_user_primary": {
+        "message": "ပထမ",
+        "description": "Primary status of User ID of a PGP key"
+    },
+    "keygrid_userid_signatures": {
+        "message": "လက်မှတ်များ",
+        "description": "Signatures on User ID of a PGP key."
+    },
+    "keygrid_validity_status": {
+        "message": "အခြေအနေ",
+        "description": "Validity status of a PGP key."
+    },
+    "keyring_available_settings": {
+        "message": "ရရှိနိုင်သော ဆက်တင်များကို ကြည့်ရန် -",
+        "description": "Text introducing the availability of further settings."
+    },
+    "keyring_backup": {
+        "message": "အရံ သော့တွဲ",
+        "description": "Title of keyring backup view"
+    },
+    "keyring_confirm_deletion": {
+        "message": "သော့တွဲ ID $1 ကို ဖျက်ပစ်လိုပါသလား။",
+        "description": "Confirmation message prompted when a keyring is deleted"
+    },
+    "keyring_confirm_keys": {
+        "message": "စကားဝှက်သော့ အတည်ပြုရန်",
+        "description": "Tab of keyring to import keys."
+    },
+    "keyring_confirm_keys_plural": {
+        "message": "စကားဝှက်သော့ $1 ခုကို အတည်ပြုရန်",
+        "description": "Tab of keyring to import keys."
+    },
+    "keyring_display_keys": {
+        "message": "စကားဝှက်သော့များကို ပြသရန်",
+        "description": "Tab of keyring to display keys."
+    },
+    "keyring_export_keys": {
+        "message": "သော့တွဲကို ပို့ရန်",
+        "description": "Tab of keyring to export keys."
+    },
+    "keyring_generate_key": {
+        "message": "စကားဝှက်သော့ ထုတ်လုပ်ရန်",
+        "description": "Tab of keyring to generate key."
+    },
+    "keyring_header": {
+        "message": "စကားဝှက်သော့ စီမံခန့်ခွဲမှု",
+        "description": "Header of the key ring."
+    },
+    "keyring_import_description": {
+        "message": "စကားဝှက်သော့များကို ဖိုင်အနေနှင့်ဖြစ်စေ၊ clipboard မှ စာသားအနေနှင့်ဖြစ်စေ ထည့်နိုင်သည်။",
+        "description": "Description of key import for import tab of keyring import."
+    },
+    "keyring_import_keys": {
+        "message": "စကားဝှက်သော့များကို ထည့်ရန်",
+        "description": "Tab of keyring to import keys."
+    },
+    "keyring_import_search_description": {
+        "message": "တည်ရှိနေဆဲ အဆက်အသွယ်များကို စကားဝှက်သော့ ဆာဗာတွင် ရှာပါ။",
+        "description": "Description of key search for search tab of keyring import."
+    },
+    "keyring_main": {
+        "message": "အဓိက သော့တွဲ",
+        "description": "Label for the main keyring"
+    },
+    "keyring_private": {
+        "message": "သီးသန့်",
+        "description": "private key type"
+    },
+    "keyring_public": {
+        "message": "အများသုံး",
+        "description": "public key type"
+    },
+    "keyring_public_private": {
+        "message": "ချိတ်ဆက်ပြီးသော စကားဝှက်သော့များ",
+        "description": "public and private key types"
+    },
+    "keyring_remove_dialog_title": {
+        "message": "သော့တွဲကို ဖျက်ရန်",
+        "description": "Title of delete keyring dialog."
+    },
+    "keyring_setup": {
+        "message": "ထည့်သွင်းတည်ဆောက်မှု",
+        "description": "Setup keyring for mail provider."
+    },
+    "keyring_setup_generate_key": {
+        "message": "စကားဝှက်သော့ ထုတ်လုပ်ရန်",
+        "description": "Generate key"
+    },
+    "keyring_setup_generate_key_explanation": {
+        "message": "သင်သည် ဤအဆက်ကို ပထမဆုံးအကြိမ် အသုံးပြုနေပြီး ချိတ်ဆက်ပြီးသော စကားဝှက်သော့ မရှိသေးပါက ကျေးဇူးပြု၍ အခု ထုတ်လုပ်လိုက်ပါ။",
+        "description": "Generate key"
+    },
+    "keyring_setup_import_key": {
+        "message": "စကားဝှက်သော့ ထည့်သွင်းရန်",
+        "description": "Import key"
+    },
+    "keyring_setup_import_key_explanation": {
+        "message": "အခြားစက်ပစ္စည်းပေါ်တွင် ချိတ်ဆက်ပြီးသော စကားဝှက်သော့ ရှိပြီးပြီလား။ သင့်တွင် ရှိသော စကားဝှက်သော့များကို ထည့်သွင်းနိုင်သည်။ အခြားစက်ပစ္စည်းမှ ချိတ်ဆက်ပြီးသော စကားဝှက်သော့ကို ပို့ပြီးနောက် ဒီမှာ ထည့်သွင်းလိုက်ပါ။",
+        "description": "Import key"
+    },
+    "keyring_setup_no_keypair": {
+        "message": "မက်ဆေ့ချ်များကို ကုဒ်ဖြင့်ပြောင်းရန်နှင့် ပြန်ဖြည်ရန်အတွက် ချိတ်ဆက်ပြီးသော စကားဝှက်သော့ လိုအပ်သည်။ သင့်အဆက်အသွယ်များအား အဆုံးမှအဆုံးသို့ ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ရန် ဖိတ်ကြားရန်အတွက်လည်း လိုအပ်သည်။",
+        "description": "Setup text if no keypair available"
+    },
+    "keyring_setup_no_keypair_heading": {
+        "message": "ဤသော့တွဲတွင် ချိတ်ဆက်ပြီးသော စကားဝှက်သော့ မပါဝင်သေးပါ။",
+        "description": "Setup heading if no keypair available"
+    },
+    "keyserver_additionals_label": {
+        "message": "ထပ်ဆောင်း စကားဝှက်သော့ ရင်းမြစ်များ",
+        "description": "Label for configuration of additional key sources"
+    },
+    "keyserver_autocrypt_lookup": {
+        "message": "ဝင်ရောက်လာသော အီးမေးလ်များ၏ Autocrypt ခေါင်းစည်းများမှ စကားဝှက်သော့များကို အသုံးပြုရန်",
+        "description": "Enable Looking Up Keys Via Autocrypt"
+    },
+    "keyserver_hkp_url": {
+        "message": "HKP စကားဝှက်သော့ ဆာဗာ",
+        "description": "HKP key server option: url."
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Mailvelope စကားဝှက်သော့ ဆာဗာကို အသုံးပြုရန်",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
+    },
+    "keyserver_url_error": {
+        "message": "စကားဝှက်သော့ ဆာဗာသို့ မရောက်ရှိနိုင်ပါ",
+        "description": "HKP key server URL error."
+    },
+    "keyserver_url_warning": {
+        "message": "စကားဝှက်သော့ ဆာဗာ URL သည် အောက်ပါဖောမက် ဖြစ်ရမည် - http(s)://keys.example.com",
+        "description": "HKP key server url warning."
+    },
+    "keyserver_wkd_lookup": {
+        "message": "လက်ခံသူများ၏ အီးမေးလ် ဝန်ဆောင်မှုပေးသူထံမှ စကားဝှက်သော့များ တောင်းဆိုပါ (အွန်လိုင်း စကားဝှက်သော့ လမ်းညွှန်)",
+        "description": "Enable Web Key Directory Auto Lookup"
+    },
+    "keyusers_add_btn": {
+        "message": "အသစ် ထည့်ရန်",
+        "description": "Add user button label"
+    },
+    "keyusers_add_btn_title": {
+        "message": "အသုံးပြုသူ ID အသစ်တစ်ခု ထည့်ရန်",
+        "description": "Add user button title"
+    },
+    "keyusers_keyserver": {
+        "message": "စကားဝှက်သော့ ဆာဗာ",
+        "description": "Label of key server column key users table"
+    },
+    "keyusers_keyserver_not": {
+        "message": "ပေါင်းစပ်မထားပါ",
+        "description": "User ID not synchronized with key server label text"
+    },
+    "keyusers_keyserver_sync": {
+        "message": "ပေါင်းစပ်ထားသည်",
+        "description": "User ID synchronized with key server label text"
+    },
+    "keyusers_keyserver_unverified": {
+        "message": "မှန်ကန်ကြောင်း စစ်ဆေးမထားပါ",
+        "description": "User ID key server not verified label text"
+    },
+    "keyusers_title": {
+        "message": "သတ်မှတ်ပေးထားသော အသုံးပြုသူ ID များ",
+        "description": "Title of the key users panel"
+    },
+    "learn_more_link": {
+        "message": "ပိုမိုလေ့လာရန်",
+        "description": "Text of a link to a learn-more resource"
+    },
+    "message_no_keys": {
+        "message": "ဤမက်ဆေ့ချ်အတွက် သီးသန့် စကားဝှက်သော့ ရှာမတွေ့ပါ။ လိုအပ်သော သီးသန့် စကားဝှက်သော့ ID များ - $1",
+        "description": "Decrypt error message."
+    },
+    "message_read_error": {
+        "message": "ဤမက်ဆေ့ချ်ကို ပြန်ဖြည်၍ မရပါ - $1",
+        "description": "Message read error message: $1: error message."
+    },
+    "nameaddrinput_error_email_exists": {
+        "message": "ဤအီးမေးလ်လိပ်စာကို အသုံးပြုထားသူရှိသည်",
+        "description": "Error message for email input field."
+    },
+    "nameaddrinput_error_name_empty": {
+        "message": "ကျေးဇူးပြု၍ အမည် ရိုက်ထည့်ပါ",
+        "description": "Error message for name input field."
+    },
+    "notification_text_copy_to_clipboard": {
+        "message": "စာသားကို clipboard သို့ ကူးပြီးပါပြီ",
+        "description": "Copy to clipboard toast message."
+    },
+    "options_about": {
+        "message": "အကြောင်း",
+        "description": "Options navigation: About."
+    },
+    "options_docu": {
+        "message": "အသုံးပြုနည်းလက်စွဲ",
+        "description": "Options navigation: Documentation."
+    },
+    "options_home": {
+        "message": "ရွေးစရာများ",
+        "description": "Options navigation: Home."
+    },
+    "options_settings": {
+        "message": "အပြင်အဆင်များ",
+        "description": "Options header: Settings."
+    },
+    "options_title": {
+        "message": "Mailvelope ရွေးချယ်မှုများ",
+        "description": "Title of options page."
+    },
+    "preferred": {
+        "message": "ပိုနှစ်သက်သည်",
+        "description": "Indicates if a keyring is preferred"
+    },
+    "provider_gmail_auth": {
+        "message": "ခွင့်ပြုချက်များ",
+        "description": "Authorizations"
+    },
+    "provider_gmail_auth_cancel_btn": {
+        "message": "ခွင့်ပြုချက် ပယ်ဖျက်ရန်",
+        "description": "Cancel authorization button"
+    },
+    "provider_gmail_auth_readonly": {
+        "message": "အီးမေးလ် ဖတ်ရန်",
+        "description": "Readonly authorization"
+    },
+    "provider_gmail_auth_send": {
+        "message": "အီးမေးလ် ပို့ရန်",
+        "description": "Send authorization"
+    },
+    "provider_gmail_auth_table_title": {
+        "message": "Google API ခွင့်ပြုချက်များ",
+        "description": "Title for authorization table."
+    },
+    "provider_gmail_dialog_auth_google_signin": {
+        "message": "Google ဖြင့် အကောင့်ဝင်ရန်",
+        "description": "Text Google sign in button"
+    },
+    "provider_gmail_dialog_auth_intro": {
+        "message": "<0></0> အတွက် Gmail နှင့် ပေါင်းစပ်မှုကို အသုံးပြုရန် Mailvelope အား အောက်ပါခွင့်ပြုချက်များ ပေးရမည် -",
+        "description": "Intro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_auth_outro": {
+        "message": "အကောင့်ဝင်သည့် ခလုတ်ကို နှိပ်လျှင် Google ခွင့်ပြုချက် ဝင်းဒိုး ပွင့်လာပါမည်။ အီးမေးလ်လိပ်စာ <0></0> အတွက် သင့် Gmail အကောင့်ကို ရွေးချယ်ပြီး ညွှန်ကြားချက်များကို လိုက်နာပါ။",
+        "description": "Outro text for GMAIL OAuth dialog."
+    },
+    "provider_gmail_dialog_description": {
+        "message": "Gmail API ကို အသုံးပြုခြင်းက Mailvelope အား Gmail နှင့် တွဲဖက်လုပ်ဆောင်နိုင်စွမ်း တိုးလာစေပြီး ကုဒ်ဖြင့်ပြောင်းပြီးသော အီးမေးလ်များနှင့် ပူးတွဲဖိုင်များကို ပို့ခြင်းနှင့် ဖတ်ခြင်းကို လွယ်ကူရိုးရှင်းစေသည်။",
+        "description": "Leading text for GMAIL API dialog."
+    },
+    "provider_gmail_dialog_gsuite_alert": {
+        "message": "ဤလုပ်ဆောင်ချက်ကို Gmail အကောင့်များအတွက် အခမဲ့ ရရှိနိုင်သည်။ သင်သည် G Suite (<0>gsuite.google.com</0>) အဖွဲ့အစည်း၏ တစ်စိတ်တစ်ပိုင်းဖြစ်ပါက <1>Mailvelope ထုတ်ကုန် စာမျက်နှာ</1> တွင် လိုင်စင် ဝယ်ယူရန် လိုအပ်ပါသည်။",
+        "description": "Alert text for GSuite Users in GMAIL API dialog."
+    },
+    "provider_gmail_dialog_privacy_policy": {
+        "message": "ကျေးဇူးပြု၍ ကျွန်ုပ်တို့၏ ကိုယ်ရေးလုံခြုံမှု မူဝါဒကို ဖတ်ပါ",
+        "description": "Privacy policy link."
+    },
+    "provider_gmail_dialog_title": {
+        "message": "Gmail API အသုံးပြုခြင်း",
+        "description": "Title of GMAIL API dialog."
+    },
+    "provider_gmail_integration": {
+        "message": "Gmail API ပေါင်းစပ်ထည့်သွင်းခြင်း",
+        "description": "Label for Gmail integration option."
+    },
+    "provider_gmail_integration_info": {
+        "message": "Mailvelope သည် Gmail API ကို အသုံးပြုရန် ထပ်ဆောင်း ခွင့်ပြုချက်များ လိုအပ်သည်။ သင်သည် Mailvelope ၏ ကုဒ်ဖြင့်ပြောင်းလဲပြီး လုပ်ဆောင်ချက်များကို Gmail တွင် အသုံးပြုသည်နှင့် ခွင့်ပြုချက် လုပ်ငန်းစဉ်ကို ဆောင်ရွက်ရန် သင့်အား လမ်းညွှန်ပါမည်။ ထိုအတွက် သင်၏ Gmail အသုံးပြုသူစာရင်းသို့ အကောင့်ဝင်ရန် လိုအပ်ပါသည်။",
+        "description": "Info message for Gmail integration option"
+    },
+    "provider_gmail_integration_warning": {
+        "message": "ရှာဖွေမှုပုံစံ <0></0> အတွက် Gmail ကို ခွင့်မပြုပါ။ ကျေးဇူးပြု၍ <1></1> တွင် ဆက်တင်များကို စစ်ဆေးပါ။",
+        "description": "Warning message, when Gmail is not authorized"
+    },
+    "provider_gmail_licensing_dialog_business_btn_info": {
+        "message": "ကမ္ဘာတစ်ဝန်းရှိ အဖွဲ့အစည်းများနှင့် လုံခြုံစိတ်ချစွာ ဆက်သွယ်ခြင်း",
+        "description": "Info text on Business button "
+    },
+    "provider_gmail_licensing_dialog_business_btn_price_info": {
+        "message": "အသုံးပြုသူတစ်ဦး/တစ်လ",
+        "description": "Info text for price label of Business button"
+    },
+    "provider_gmail_licensing_dialog_deactivate_btn": {
+        "message": "Gmail API မပါဘဲ ဆက်လုပ်ရန်",
+        "description": "Gmail API deactivate button in licensing dialog"
+    },
+    "provider_gmail_licensing_dialog_para_1": {
+        "message": "G Suite အဖွဲ့အစည်းများအတွင်း Gmail API အသုံးပြုပါက <0>အခကြေးငွေ ပေးရပါမည်</0>။",
+        "description": "Text of Gmail API licensing dialog first paragraph."
+    },
+    "provider_gmail_licensing_dialog_para_2": {
+        "message": "သင်သည် Mailvelope ကို Gmail နှင့် အခမဲ့ ဆက်လက်အသုံးပြုနိုင်သည်။ သို့သော် ကုဒ်ဖြင့်ပြောင်းပြီးသော အီးမေးလ်များနှင့် ပူးတွဲဖိုင်များကို ရေးခြင်းနှင့် ဖတ်ခြင်းအတွက် <0>API သုံးသည့် သင့်အလုပ်စီးဆင်းမှုသည်</0> <1>များစွာ ပိုမိုလွယ်ကူမြန်ဆန်ပါမည်</1>။",
+        "description": "Text of Gmail API licensing dialog second paragraph."
+    },
+    "provider_gmail_licensing_dialog_para_3": {
+        "message": "Mailvelope Business ကို သက်ဝင်လုပ်ဆောင်ထားသော Gmail API ဖြင့် <0>၁၄ ရက်စာ အခမဲ့</0> စမ်းသပ်လိုက်ပါ -",
+        "description": "Text of Gmail API licensing dialog third paragraph."
+    },
+    "provider_gmail_licensing_dialog_test_btn": {
+        "message": "Gmail API ကို အခမဲ့ စမ်းသပ်လိုက်ပါ",
+        "description": "Gmail API test button in licensing dialog"
+    },
+    "provider_gmail_licensing_dialog_title": {
+        "message": "Mailvelope Business လိုင်စင် လိုအပ်ပါသည်",
+        "description": "Title of GMAIL API licensing dialog."
+    },
+    "provider_gmail_licensing_table_caption": {
+        "message": "G Suite (<0>gsuite.google.com</0>) အသုံးပြုစဉ် Gmail-API ပေါင်းစပ်ထည့်သွင်းမှု အသုံးပြုရန် လိုင်စင်များကို <1>Mailvelope ထုတ်ကုန် စာမျက်နှာ</1> တွင် ဝယ်ယူနိုင်ပါသည်။",
+        "description": "Caption for G Suite licensing table."
+    },
+    "provider_gmail_licensing_table_title": {
+        "message": "Mailvelope လိုင်စင်",
+        "description": "Title for G Suite licensing table."
+    },
+    "provider_gmail_secure_forward_btn": {
+        "message": "လုံခြုံစိတ်ချစွာ ပြန်လည်မျှဝေရန်",
+        "description": "Secure forward button title/tooltip"
+    },
+    "provider_gmail_secure_replyAll_btn": {
+        "message": "အားလုံးထံ လုံခြုံစိတ်ချစွာ စာပြန်ရန်",
+        "description": "Secure reply all button title/tooltip"
+    },
+    "provider_gmail_secure_reply_btn": {
+        "message": "လုံခြုံစိတ်ချစွာ စာပြန်ရန်",
+        "description": "Secure reply button title/tooltip"
+    },
+    "pwd_dialog_cache_pwd": {
+        "message": "စကားဝှက်ကို ယာယီ မှတ်ရန်",
+        "description": "Checkbox label for remembering of the password."
+    },
+    "pwd_dialog_cancel": {
+        "message": "စကားဝှက်သော့များကို သော့ဖွင့်ခြင်းအား ပယ်ဖျက်ခဲ့သည်။",
+        "description": "User canceled key unlock dialog."
+    },
+    "pwd_dialog_header": {
+        "message": "စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ရန်",
+        "description": "Header of the password dialog."
+    },
+    "pwd_dialog_pwd_please": {
+        "message": "ကျေးဇူးပြု၍ သင့်စကားဝှက် ရိုက်ထည့်ပါ",
+        "description": "Placeholder for password."
+    },
+    "pwd_dialog_reason_add_user": {
+        "message": "ကျေးဇူးပြု၍ အသုံးပြုသူ ID ကို ဖန်တီးရန် သင်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_backup": {
+        "message": "ပြန်လည်ရယူရန် စာရင်းစာရွက် ဖန်တီးရန်အတွက် သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_create_draft": {
+        "message": "အကြမ်းကို သိမ်းရန် စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_decrypt": {
+        "message": "ဤမက်ဆေ့ချ်ကို ပြန်ဖြည်ရန် သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_editor": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီးသော ဆက်သွယ်ခြင်းအတွက် ဆက်တင်များကို အပ်ဒိတ်လုပ်ရန် သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke": {
+        "message": "ဤစကားဝှက်သော့ကို ရုပ်သိမ်းရန် သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_revoke_user": {
+        "message": "အသုံးပြုသူ ID ကို ရုပ်သိမ်းရန် သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_set_exdate": {
+        "message": "စကားဝှက်သော့အတွက် သက်တမ်းကုန်ဆုံးရက်အသစ် သတ်မှတ်ရန် သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_reason_sign": {
+        "message": "ဤမက်ဆေ့ချ်ကို လက်မှတ်ထိုးရန် သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ရိုက်ထည့်ပါ။",
+        "description": ""
+    },
+    "pwd_dialog_title": {
+        "message": "စကားဝှက် ရိုက်ထည့်ရန် | Mailvelope",
+        "description": "Title of the password dialog."
+    },
+    "pwd_dialog_userid": {
+        "message": "အသုံးပြုသူ ID -",
+        "description": "Label for user ID."
+    },
+    "pwd_dialog_wrong_pwd": {
+        "message": "စကားဝှက် မှားနေသည်",
+        "description": "Password error message."
+    },
+    "recovery_sheet_backup_data": {
+        "message": "သင့်အချက်အလက်၏ အရံ",
+        "description": ""
+    },
+    "recovery_sheet_backup_local": {
+        "message": "သင်သည် သင့်အချက်အလက်ကို သင့်ကွန်ပျူတာတွင်သာ သီးသန့် သိမ်းဆည်းလိုပါက ဤရွေးချယ်မှုကို သင့် $1 အသုံးပြုသူစာရင်း၏ ကုဒ်ဖြင့်ပြောင်းပြီးသော ဆက်သွယ်ရေး ဆက်တင်များတွင် ရှာတွေ့ပါမည်။",
+        "description": ""
+    },
+    "recovery_sheet_backup_server": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီးသော ဆက်သွယ်ရေးအတွက် အရေးကြီးသော အချက်အလက် (ဥပမာ - စကားဝှက်သော့၏ စကားဝှက်) ကို အရံပြုရန် ကျွန်ုပ်တို့၏ လုံခြုံရေး ပူးပေါင်းဆောင်ရွက်သူဖြစ်သည့် Mailvelope က ထိုအချက်အလက်ကို ကျွန်ုပ်တို့၏ $1 ဆာဗာများတွင် ကုဒ်ဖြင့်ပြောင်းပြီး သိမ်းဆည်းပါမည်။",
+        "description": ""
+    },
+    "recovery_sheet_be_aware": {
+        "message": "ကျေးဇူးပြု၍ သတိပြုပါ",
+        "description": "Label"
+    },
+    "recovery_sheet_check_settings": {
+        "message": "သင့်အသုံးပြုသူစာရင်းရှိ ဆက်တင်များကို ဤနေရာတွင် စစ်ဆေးပါ -",
+        "description": ""
+    },
+    "recovery_sheet_creation_date": {
+        "message": "ဖန်တီးသည့် နေ့စွဲ -",
+        "description": "Label for recovery sheet creation date"
+    },
+    "recovery_sheet_data_lost": {
+        "message": "အရံ မရှိပါက သင့်စကားဝှက်သော့၏ စကားဝှက်ကို ပျောက်ဆုံးခဲ့လျှင် သို့မဟုတ် စက်ပစ္စည်းချို့ယွင်းခဲ့လျှင် သို့မဟုတ် ဘရောက်ဇာ အဆက်တွင် ပြဿနာရှိခဲ့လျှင် သင် ကုဒ်ဖြင့်ပြောင်းပြီးသော မက်ဆေ့ချ်များကို ထပ်မံ ပြန်ဖြည်၍ မရနိုင်ပါ။",
+        "description": ""
+    },
+    "recovery_sheet_encryption_note": {
+        "message": "$1 နှင့် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်းအတွက် အကြံပြုချက်များ",
+        "description": "Sub title"
+    },
+    "recovery_sheet_enter_code": {
+        "message": "အခြားကွန်ပျူတာများတွင် တပ်ဆင်ရန်အတွက် ပြန်လည်ရယူရန် ကုဒ်ကို ဆက်တင်များ၌ ဤနေရာတွင် ရိုက်ထည့်ပါ -",
+        "description": "Label for navigation path"
+    },
+    "recovery_sheet_explain_pgp": {
+        "message": "$1 နှင့် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်းသည် PGP အခြေပြု လုပ်ငန်းစဉ်အဆင့်ဆင့် ဖြစ်သည်။ ၎င်းကို အသုံးပြု၍ သင်သည် ကုဒ်ဖြင့်ပြောင်းပြီးသော အီးမေးလ်များကို ပို့နိုင်သည်။ တစ်ချိန်တည်းတွင် သင်နှင့် လက်ခံသူကသာ ထိုအီးမေးလ်များကို ဖတ်နိုင်စေရန် ၎င်းက သေချာအောင်လုပ်ပေးသည်။",
+        "description": ""
+    },
+    "recovery_sheet_extension_problems": {
+        "message": "ဘရောက်ဇာ အဆက်တွင် ပြဿနာများ ရှိသောကြောင့်",
+        "description": "List item"
+    },
+    "recovery_sheet_forgot_password": {
+        "message": "သင့်စကားဝှက်သော့၏ စကားဝှက်ကို သင် မေ့နေသောကြောင့်",
+        "description": "List item"
+    },
+    "recovery_sheet_further_info": {
+        "message": "နောက်ထပ် အချက်အလက်နှင့် ဆက်တင် ရွေးချယ်မှုများကို သင့် $1 အသုံးပြုသူစာရင်း၌ ဤနေရာတွင် ရှာတွေ့နိုင်သည်",
+        "description": ""
+    },
+    "recovery_sheet_header": {
+        "message": "အရေးကြီး အချက်အလက်။",
+        "description": "Title of recovery sheet."
+    },
+    "recovery_sheet_in_general": {
+        "message": "ယေဘုယျအားဖြင့် အရေးကြီးသည်",
+        "description": "Label"
+    },
+    "recovery_sheet_invite_contacts": {
+        "message": "သင့် $1 အသုံးပြုသူစာရင်းရှိ ကုဒ်ဖြင့်ပြောင်းပြီးသော ဆက်သွယ်ရေး ဆက်တင်များတွင် သင်သည် PGP မှတစ်ဆင့် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်းကို အသုံးပြုရန် ထပ်ဆောင်း အဆက်အသွယ်များကို ဖိတ်ကြားနိုင်သည်။ အောင်မြင်စွာ ဖိတ်ကြားပြီးသော အဆက်အသွယ်များ၏ အီးမေးလ်လိပ်စာဘေးတွင် သော့ခလောက်ပုံ အိုင်ကွန်ကို တွေ့နိုင်သည်။",
+        "description": ""
+    },
+    "recovery_sheet_keep_safe": {
+        "message": "ဤမှတ်တမ်းကို ပရင့်ထုတ်ပြီး လုံခြုံသောနေရာတွင် သိမ်းထားပါ။ ပြန်လည်ရယူရန် ကုဒ်ကို အခြားမည်သူမျှ အသုံးမပြုနိုင်ကြောင်း သေချာအောင်လုပ်ပါ။",
+        "description": ""
+    },
+    "recovery_sheet_key_server": {
+        "message": "GMX ၏ PGP လုပ်ငန်းစဉ် အဆင့်ဆင့်ကို အသုံးပြုသော အခြား $1 အသုံးပြုသူများကို သင်၏ $1 အသုံးပြုသူစာရင်းရှိ အဓိက လမ်းညွှန်တွင် တိုက်ရိုက် ရှာတွေ့နိုင်သည်။ ဤလမ်းညွှန်တွင် အသုံးပြုသူအမည်များ မထည့်ထားလိုပါက သင့် $1 အသုံးပြုသူစာရင်း ဆက်တင်များတွင် ဤလုပ်ဆောင်ချက်ကို လည်ပတ်မှု ရပ်ဆိုင်းနိုင်သည်။",
+        "description": ""
+    },
+    "recovery_sheet_mobile_devices": {
+        "message": "မိုဘိုင်းစက်ပစ္စည်းများပေါ်တွင်",
+        "description": ""
+    },
+    "recovery_sheet_not_working": {
+        "message": "သင်၏ ကုဒ်ဖြင့်ပြောင်းပြီးသော ဆက်သွယ်ခြင်း အလုပ်မလုပ်တော့ပါက၊ ဥပမာ -",
+        "description": "Label for list"
+    },
+    "recovery_sheet_other_computer": {
+        "message": "ကွဲပြားသော ကွန်ပျူတာပေါ်တွင်",
+        "description": ""
+    },
+    "recovery_sheet_other_contacts": {
+        "message": "အခြားအဆက်အသွယ်များနှင့် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်း",
+        "description": ""
+    },
+    "recovery_sheet_other_devices": {
+        "message": "အခြားစက်ပစ္စည်းများပေါ်တွင် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်း",
+        "description": "Sub title"
+    },
+    "recovery_sheet_other_devices_setup": {
+        "message": "အခြားစက်ပစ္စည်းများပေါ်တွင် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်မှုကို ပြင်ဆင်သတ်မှတ်ခြင်း",
+        "description": ""
+    },
+    "recovery_sheet_other_problems": {
+        "message": "အခြားအကြောင်းရင်းများအတွက်",
+        "description": "List item"
+    },
+    "recovery_sheet_pgp_compat": {
+        "message": "အခြားအဆက်အသွယ်များကလည်း ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်း (PGP) ကို အသုံးပြုပါက သင်သည် ထိုသူတို့နှင့် လုံခြုံစိတ်ချစွာ ဆက်သွယ်နိုင်သည်။",
+        "description": ""
+    },
+    "recovery_sheet_print_block": {
+        "message": "ကျေးဇူးပြု၍ ဤမှတ်တမ်းကို လုံခြုံသောနေရာတွင် သိမ်းထားပါ။",
+        "description": "Sub title of recovery sheet."
+    },
+    "recovery_sheet_print_button": {
+        "message": "ပုံနှိပ်ပါ",
+        "description": ""
+    },
+    "recovery_sheet_print_notice": {
+        "message": "ကျေးဇူးပြု၍ ဤမှတ်တမ်းကို ပရင့်ထုတ်ပြီး လုံခြုံသောနေရာတွင် သိမ်းထားပါ။",
+        "description": "Sub title of recovery sheet."
+    },
+    "recovery_sheet_provider_communication": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်း",
+        "description": ""
+    },
+    "recovery_sheet_provider_inbox": {
+        "message": "စာတိုက်",
+        "description": ""
+    },
+    "recovery_sheet_provider_security": {
+        "message": "လုံခြုံရေး",
+        "description": ""
+    },
+    "recovery_sheet_provider_settings": {
+        "message": "ဆက်တင်များ",
+        "description": ""
+    },
+    "recovery_sheet_qr_code": {
+        "message": "QR ကုဒ်ကို သင့်မိုဘိုင်းစက်ပစ္စည်းဖြင့် စကန်ဖတ်ပါ။",
+        "description": ""
+    },
+    "recovery_sheet_recommendation": {
+        "message": "အကြံပြုချက်",
+        "description": ""
+    },
+    "recovery_sheet_recover_data": {
+        "message": "အချက်အလက် ပြန်လည်ရယူခြင်း",
+        "description": "Sub title"
+    },
+    "recovery_sheet_recovery_code": {
+        "message": "ပြန်လည်ရယူရန် ကုဒ်",
+        "description": ""
+    },
+    "recovery_sheet_subtitle_receipt": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ခြင်းအတွက် ပြန်လည်ရယူရန် စာရင်းမှတ်တမ်း",
+        "description": "Sub title of recovery sheet."
+    },
+    "recovery_sheet_subtitle_recover": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်မှုကို ပြန်လည်ရယူရန်",
+        "description": "Sub title"
+    },
+    "recovery_sheet_trusted_contacts": {
+        "message": "GMX အဆက်အသွယ်များနှင့် ပတ်သက်၍ ပြသထားသော အသုံးပြုသူများသည် အမှန်တကယ် ဆီလျော်သော အသုံးပြုသူများဖြစ်ကြောင်း စိတ်ချနိုင်သည်။ သို့သော် သင်သည် အခြားအီးမေးလ်ဝန်ဆောင်မှုပေးသူထံမှ အီးမေးလ်လိပ်စာ အသုံးပြု၍ အဆက်အသွယ်များ၏ ကိုယ်ပိုင်အမှတ်သင်္ကေတကို မှန်ကန်ကြောင်း အမြဲစစ်ဆေးသင့်သည်။",
+        "description": ""
+    },
+    "recovery_sheet_unknown_third": {
+        "message": "သူစိမ်းများ အသုံးမပြုနိုင်သော လုံခြုံစိတ်ချရသည့် စက်ပစ္စည်းများတွင်သာ ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်မှုကို ပြင်ဆင်သတ်မှတ်ပါ။",
+        "description": ""
+    },
+    "recovery_sheet_unlock_backup": {
+        "message": "သင့်အချက်အလက်၏ အရံကို ဤပြန်လည်ရယူရန် စာရင်းစာရွက်ရှိ ပြန်လည်ရယူရန် ကုဒ်၏ အကူအညီဖြင့်သာ ပြန်ဖြည်နိုင်သည်။",
+        "description": ""
+    },
+    "reload_tab": {
+        "message": "ဆက်တင်များ သက်ရောက်မှုရှိစေရန် ကျေးဇူးပြု၍ သက်ဆိုင်ရာ စာမျက်နှာများကို ပြန်တင်ပါ။",
+        "description": "Info message."
+    },
+    "restore_backup_dialog_button": {
+        "message": "အတည်ပြုရန်",
+        "description": ""
+    },
+    "restore_backup_dialog_headline": {
+        "message": "ကျေးဇူးပြု၍ သင်၏ ပြန်လည်ရယူရန် ကုဒ်ကို ရိုက်ထည့်ပါ -",
+        "description": ""
+    },
+    "restore_password_dialog_button": {
+        "message": "ပြပါ",
+        "description": ""
+    },
+    "restore_password_dialog_headline": {
+        "message": "သင့်စကားဝှက်သော့၏ စကားဝှက် -",
+        "description": ""
+    },
+    "security_background_button_title": {
+        "message": "လုံခြုံရေး နောက်ခံကို Mailvelope ရွေးချယ်မှုများတွင် ချိန်ညှိနိုင်သည်",
+        "description": "The tooltip text for the keylock button"
+    },
+    "security_background_color_text": {
+        "message": "၂။ အခု သင်ကြိုက်သော အရောင်တစ်ခုကို ရွေးပါ",
+        "description": "Security background select color text"
+    },
+    "security_background_icons_text": {
+        "message": "၁။ သင်ကြိုက်သော အိုင်ကွန်တစ်ခုကို ရွေးပါ",
+        "description": "Security background select icon text"
+    },
+    "security_background_text": {
+        "message": "သင့်လုံခြုံရေးနောက်ခံကို ကုဒ်ဖြင့်ပြောင်းပြီးသော အီးမေးလ်တိုင်း၏ နောက်တွင် ပြသထားသည်။ လုံးဝ စိတ်ချလိုပါက ထိုလုံခြုံရေးနောက်ခံကို သင့်စိတ်ကြိုက်မွမ်းမံသင့်သည်။ ဤနည်းဖြင့် သင့်ကိုယ်ရေးအချက်အလက်ကို အသုံးပြုရန် ရည်ရွယ်ချက်ဖြင့် Mailvelope အသုံးပြုသူမြင်ရမည့်ပုံစံကို မည်သူမျှ ပြန်လည်မတည်ဆောက်နိုင်အောင် ကာကွယ်နိုင်သည်။",
+        "description": "Security background text"
+    },
+    "security_cache_header": {
+        "message": "ဤဘရောက်ဇာ ကာလအပိုင်းအခြားအတွက် စကားဝှက်များကို မှတ်ထားပါ။",
+        "description": "Password cache header"
+    },
+    "security_cache_help": {
+        "message": "၁ မှ ၉၉၉ အထိ ဂဏန်းတစ်ခု ဖြစ်ရမည်",
+        "description": "Help text for cache time."
+    },
+    "security_cache_off": {
+        "message": "မမှတ်ပါနှင့်။",
+        "description": "Don't store password."
+    },
+    "security_cache_on": {
+        "message": "ဟုတ်ကဲ့၊ မှတ်ဉာဏ်တွင် ",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "security_cache_time": {
+        "message": "မိနစ်ကြာ သိမ်းထားပါ။",
+        "description": "Store password in memory for $1 minutes."
+    },
+    "security_display_decrypted": {
+        "message": "ပြန်ဖြည်ထားသော မက်ဆေ့ချ်များကို ဘယ်မှာ ပြသပါသလဲ။",
+        "description": "Label for display options"
+    },
+    "security_display_inline": {
+        "message": "အီးမေးလ် ဝန်ဆောင်မှုပေးသူ၏ စာမျက်နှာတွင် ပြသသည်။",
+        "description": "Decrypted message display option"
+    },
+    "security_display_popup": {
+        "message": "သီးခြား Mailvelope အသိပေးချက်တွင် ပြသသည်။",
+        "description": "Decrypted message display option"
+    },
+    "security_hide_armored_head": {
+        "message": "PGP မက်ဆေ့များတွင် Mailvelope ဗားရှင်းနှင့် မှတ်ချက်ကို ဝှက်ပါ။",
+        "description": "Hide header infos in armored messages"
+    },
+    "security_log_action": {
+        "message": "လုပ်ဆောင်ချက်",
+        "description": "Title of the action column of the security log table."
+    },
+    "security_log_add_attachment": {
+        "message": "ပူးတွဲဖိုင်ထည့်ရန် ခလုတ်ကို ကလစ်နှိပ်ပြီးပါပြီ",
+        "description": "A click on the attachment upload button as an event type"
+    },
+    "security_log_attachment_download": {
+        "message": "ပူးတွဲဖိုင်ကို ဒေါင်းလုဒ် လုပ်ပြီးပါပြီ",
+        "description": "Attachment downloaded as an event source"
+    },
+    "security_log_backup_create": {
+        "message": "အရန် ဖန်တီးရန် ကလစ်နှိပ်ပါ",
+        "description": ""
+    },
+    "security_log_backup_restore": {
+        "message": "အရန်ကို ပြန်လည်ရယူရန် ကလစ်နှိပ်ပါ",
+        "description": ""
+    },
+    "security_log_content_copy": {
+        "message": "မှန်ကန်ကြောင်းစစ်ဆေးရန် ဝင်းဒိုးငယ်တွင် ကူးပါ",
+        "description": ""
+    },
+    "security_log_decrypt_ui": {
+        "message": "ပြန်ဖြည်ရန်",
+        "description": ""
+    },
+    "security_log_decryption_operation": {
+        "message": "ဤအရာကို အသုံးပြု၍ မက်ဆေ့ချ်ကို ပြန်ဖြည်ထားသည် - $1",
+        "description": ""
+    },
+    "security_log_dialog_cancel": {
+        "message": "ပယ်ဖျက်ရန် ဝင်းဒိုးငယ်တွင် ကလစ်နှိပ်သည်",
+        "description": ""
+    },
+    "security_log_dialog_encrypt": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းရန် ဝင်းဒိုးငယ်တွင် ကလစ်နှိပ်သည်",
+        "description": ""
+    },
+    "security_log_dialog_ok": {
+        "message": "အတည်ပြုရန် ဝင်းဒိုးငယ်တွင် ကလစ်နှိပ်သည်",
+        "description": ""
+    },
+    "security_log_dialog_sign": {
+        "message": "လက်မှတ်ထိုးရန် ဝင်းဒိုးငယ်တွင် ကလစ်နှိပ်သည်",
+        "description": ""
+    },
+    "security_log_editor": {
+        "message": "Mailvelope တည်းဖြတ်ကိရိယာ",
+        "description": "Message editor container as an event source"
+    },
+    "security_log_email_viewer": {
+        "message": "ပြန်ဖြည်ထားသော PGP အီးမေးလ်",
+        "description": "Email decryption container as an event source"
+    },
+    "security_log_encrypt_dialog": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းရန် ဝင်းဒိုးငယ်",
+        "description": "Encrypt dialog as an event source"
+    },
+    "security_log_encrypt_form": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းရန် ပုံစံ",
+        "description": "Encrypt form as an event source"
+    },
+    "security_log_encrypt_ui": {
+        "message": "ကုဒ်ဖြင့်ပြောင်းရန်",
+        "description": ""
+    },
+    "security_log_encryption_operation": {
+        "message": "ဤအရာအတွက် မက်ဆေ့ချ်ကို ကုဒ်ဖြင့်ပြောင်းပြီးပါပြီ - $1",
+        "description": ""
+    },
+    "security_log_import_dialog": {
+        "message": "ထည့်သွင်းရန် ဝင်းဒိုးငယ်",
+        "description": "Key import dialog as an event source"
+    },
+    "security_log_key_backup": {
+        "message": "စကားဝှက်သော့အရံ သိမ်းဆည်းခြင်း",
+        "description": "Message keybackup container as an event source"
+    },
+    "security_log_key_generator": {
+        "message": "စကားဝှက်သော့ ထုတ်လုပ်သည့်ကိရိယာ",
+        "description": "Key generator container as an event source"
+    },
+    "security_log_password_click": {
+        "message": "စကားဝှက် ဝင်းဒိုးငယ်တွင် ကလစ်နှိပ်သည်",
+        "description": ""
+    },
+    "security_log_password_dialog": {
+        "message": "စကားဝှက် ဝင်းဒိုးငယ်",
+        "description": "Password dialog as an event source"
+    },
+    "security_log_password_input": {
+        "message": "စကားဝှက် ဝင်းဒိုးငယ်တွင် ဖြည့်သွင်းသည်",
+        "description": ""
+    },
+    "security_log_remove_attachment": {
+        "message": "ပူးတွဲဖိုင်ကို ဖယ်ရှားထားသည်",
+        "description": "A click on the attachment remove button as event type"
+    },
+    "security_log_restore_backup_click": {
+        "message": "အရန် ပြန်လည်ရယူရန် ဝင်းဒိုးငယ်တွင် ကလစ်နှိပ်သည်",
+        "description": ""
+    },
+    "security_log_sign_operation": {
+        "message": "မက်ဆေ့ချ်ကို ဤစကားဝှက်သော့ဖြင့် လက်မှတ်ထိုးပြီးပါပြီ - $1",
+        "description": ""
+    },
+    "security_log_signature_modal_close": {
+        "message": "လက်မှတ် ဝင်းဒိုးငယ်ကို ပိတ်ရန် ကလစ်နှိပ်ပါ",
+        "description": ""
+    },
+    "security_log_signature_modal_open": {
+        "message": "လက်မှတ် ဝင်းဒိုးငယ်ကို ဖွင့်ရန် ကလစ်နှိပ်ပါ",
+        "description": ""
+    },
+    "security_log_source": {
+        "message": "ရင်းမြစ်",
+        "description": "Title of the source column of the security log table."
+    },
+    "security_log_text": {
+        "message": "Mailvelope အစိတ်အပိုင်းအားလုံးရှိ အသုံးပြုသူ၏ ဆောင်ရွက်မှုများကို လုံခြုံရေးမှတ်တမ်းတွင် ပြသသည်။",
+        "description": "Text explaining the purpose of the security log"
+    },
+    "security_log_text_input": {
+        "message": "စာသား အကွက်တွင် ဖြည့်သွင်းသည်",
+        "description": "User clicked in text area"
+    },
+    "security_log_textarea_click": {
+        "message": "စာသား နေရာတွင် ကလစ်နှိပ်သည်",
+        "description": "User clicked in text area"
+    },
+    "security_log_textarea_input": {
+        "message": "စာသား နေရာတွင် ဖြည့်သွင်းသည်",
+        "description": "User clicked in text area"
+    },
+    "security_log_textarea_select": {
+        "message": "စာသား နေရာတွင် ရွေးချယ်မှု ပြုလုပ်သည်",
+        "description": "Selection of the text area as an event type"
+    },
+    "security_log_timestamp": {
+        "message": "ပြုလုပ်သည့်အချိန်",
+        "description": "Title of the timestamp column of the security log table."
+    },
+    "security_log_verify_dialog": {
+        "message": "မှန်ကန်ကြောင်းစစ်ဆေးရန် ဝင်းဒိုးငယ်",
+        "description": "Verify dialog as an event source"
+    },
+    "security_log_viewer": {
+        "message": "Mailvelope ကြည့်စက်",
+        "description": "Message viewer as an event source"
+    },
+    "security_openpgp_header": {
+        "message": "OpenPGP ဆက်တင်များ",
+        "description": "OpenPGP settings header"
+    },
+    "settings_analytics": {
+        "message": "Analytics",
+        "description": "Tab for deciding whether or not to share analytics data."
+    },
+    "settings_backup": {
+        "message": "အရံ",
+        "description": "Tab allowing to backup and restore the settings."
+    },
+    "settings_general": {
+        "message": "ယေဘုယျ",
+        "description": "Tab of options to display general settings."
+    },
+    "settings_keyserver": {
+        "message": "စကားဝှက်သော့ ဆာဗာ",
+        "description": "Tab of options to display key server settings."
+    },
+    "settings_provider": {
+        "message": "Gmail API",
+        "description": "Tab of options to display provider (Gmail) settings."
+    },
+    "settings_security": {
+        "message": "လုံခြုံရေး",
+        "description": "Tab of options to display security settings."
+    },
+    "settings_security_background": {
+        "message": "လုံခြုံရေး နောက်ခံ",
+        "description": "Security background header"
+    },
+    "settings_security_log": {
+        "message": "လုံခြုံရေး မှတ်တမ်း",
+        "description": "Tab of options to display security log."
+    },
+    "settings_watchlist": {
+        "message": "ခွင့်ပြုထားသော ဒိုမိန်းများ",
+        "description": "Tab of options to display list of authorized domains."
+    },
+    "sign_dialog_header": {
+        "message": "မက်ဆေ့ချ် လက်မှတ်ထိုးသူ -",
+        "description": "Header of sign dialog. Choose the person you want to sign the message with."
+    },
+    "sign_error": {
+        "message": "ဤမက်ဆေ့ချ်ကို လက်မှတ်ထိုး၍ မရပါ - $1",
+        "description": "Error during signing process."
+    },
+    "signer_unknown": {
+        "message": "အမည်မသိ",
+        "description": "Name of unknown signer."
+    },
+    "text_decrypt_button": {
+        "message": "ပြန်ဖြည်ရန်",
+        "description": "Button label for decrypting the message"
+    },
+    "text_decrypting": {
+        "message": "စာသား ပြန်ဖြည်ခြင်း",
+        "description": "Navigation link to text decryption feature"
+    },
+    "text_encrypting": {
+        "message": "စာသားကုဒ်ဖြင့် ပြောင်းလဲခြင်း",
+        "description": "Navigation link to text encryption feature"
+    },
+    "upload_aborting_warning": {
+        "message": "ဖိုင်အပ်လုဒ်ကို ဖျက်ပစ်ပါမည်။",
+        "description": "A warning for the aborting of the file upload."
+    },
+    "upload_attachment": {
+        "message": "ဖိုင် ထည့်ရန်",
+        "description": "Text in the upload attachment button of the message editor dialog"
+    },
+    "upload_drop": {
+        "message": "ဖိုင်ကို တွဲကပ်ရန် ဤနေရာသို့ ယူလာပြီးချပါ",
+        "description": "Text in file drop overlay area"
+    },
+    "upload_help": {
+        "message": "ဖိုင်ကို ဤဝင်းဒိုးထဲသို့ ဆွဲယူပါ သို့မဟုတ်",
+        "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
+    },
+    "upload_quota_exceeded_warning": {
+        "message": "ခွင့်ပြုသော ပူးတွဲဖိုင် အရွယ်အစား -",
+        "description": "A warning shown when the attachments upload quota is exceeded."
+    },
+    "upload_quota_warning_headline": {
+        "message": "ပူးတွဲဖိုင် အရွယ်အစား ကြီးလွန်းသည်",
+        "description": ""
+    },
+    "user_create_btn": {
+        "message": "ဖန်တီးရန်",
+        "description": "Create user button label"
+    },
+    "user_create_title": {
+        "message": "အသုံးပြုသူ ID ဖန်တီးရန်",
+        "description": "Title of create user page"
+    },
+    "user_keyserver_not": {
+        "message": "အသုံးပြုသူ ID ကို Mailvelope စကားဝှက်သော့ ဆာဗာနှင့် မပေါင်းစပ်ထားပါ။",
+        "description": "User ID is not synchronized with Mailvelope key server"
+    },
+    "user_keyserver_remove": {
+        "message": "Mailvelope စကားဝှက်သော့ ဆာဗာမှ အပြီးသတ် ဖယ်ရှားရန်အတွက် အတည်ပြုရန် အီးမေးလ်ကို $1 သို့ ပို့ထားသည်။",
+        "description": "A remove request has been sent to the Mailvelope key server"
+    },
+    "user_keyserver_remove_btn": {
+        "message": "အသုံးပြုသူ ID ဖယ်ရှားရန်",
+        "description": "Remove user ID button label text"
+    },
+    "user_keyserver_resend_confirmation_btn": {
+        "message": "အတည်ပြုချက် ပြန်ပို့ရန်",
+        "description": "Resend confirmation button label text"
+    },
+    "user_keyserver_sync": {
+        "message": "အသုံးပြုသူ ID ကို Mailvelope စကားဝှက်သော့ ဆာဗာနှင့် ပေါင်းစပ်ထားသည်။",
+        "description": "User ID is synchronised with the Mailvelope key server"
+    },
+    "user_keyserver_unverified": {
+        "message": "အသုံးပြုသူ ID ကို Mailvelope စကားဝှက်သော့ ဆာဗာနှင့် ပေါင်းစပ်ရန် အတည်ပြုပါ။",
+        "description": "User ID Mailvelope key server not verified"
+    },
+    "user_keyserver_upload": {
+        "message": "Mailvelope ဆာဗာနှင့် ပေါင်းစပ်ရန်အတွက် အတည်ပြုရန် အီးမေးလ်ကို $1 သို့ ပို့ထားသည်။",
+        "description": "An upload request has been sent to the Mailvelope key server"
+    },
+    "user_remove_btn": {
+        "message": "ဖယ်ရှားရန်",
+        "description": "Remove user button label"
+    },
+    "user_remove_btn_title": {
+        "message": "အသုံးပြုသူ ID ဖယ်ရှားရန်",
+        "description": "Remove user button title"
+    },
+    "user_remove_dialog_confirmation": {
+        "message": "သင်သည် ဤအသုံးပြုသူ ID ကို သင့်စကားဝှက်သော့မှ ဖယ်ရှားလိုပါသလား။",
+        "description": "Confirmation question in remove user dialog."
+    },
+    "user_remove_dialog_keyserver_warning": {
+        "message": "အသုံးပြုသူ ID ကို Mailvelope စကားဝှက်သော့ ဆာဗာတွင်လည်း ဖယ်ရှားလိုက်သည်။",
+        "description": "Warning message, that key will be deleted from keyserver"
+    },
+    "user_remove_dialog_title": {
+        "message": "အသုံးပြုသူ ID ဖယ်ရှားရန်",
+        "description": "Title of remove user dialog."
+    },
+    "user_revoke_btn": {
+        "message": "ရုပ်သိမ်းရန်",
+        "description": "Revoke user button label"
+    },
+    "user_revoke_btn_title": {
+        "message": "အသုံးပြုသူ ID ကို ရုပ်သိမ်းရန်",
+        "description": "Revoke user button title"
+    },
+    "user_revoke_dialog_confirmation": {
+        "message": "သင် ရုပ်သိမ်းလိုသလား။",
+        "description": "Confirmation question in revoke user dialog."
+    },
+    "user_revoke_dialog_description": {
+        "message": "ဤစကားဝှက်သော့အတွက် အသုံးပြုသူ ID ကို ရုပ်သိမ်းပြီးနောက် ဘယ်တော့မှ အသုံးမပြုနိုင်ပဲရှိပါမည်။",
+        "description": "Description in revoke user dialog."
+    },
+    "user_revoke_dialog_title": {
+        "message": "အသုံးပြုသူ ID ကို ရုပ်သိမ်းရန်",
+        "description": "Title of revoke user dialog."
+    },
+    "user_title": {
+        "message": "အသုံးပြုသူ ID",
+        "description": "Title of user page"
+    },
+    "usersignatures_title": {
+        "message": "မှန်ကန်ကြောင်း စစ်ဆေးထားမှုများ",
+        "description": "Title of signatures panel in user."
+    },
+    "verify_error": {
+        "message": "ဤမက်ဆေ့ချ်ကို မှန်ကန်ကြောင်း စစ်ဆေး၍ မရပါ - $1",
+        "description": "Error during verification process."
+    },
+    "verify_frame_help_text": {
+        "message": "လက်မှတ်ကို မှန်ကန်ကြောင်းစစ်ဆေးရန် ကလစ်နှိပ်ပါ",
+        "description": "Help text on verify frame."
+    },
+    "waiting_dialog_decryption_failed": {
+        "message": "ကုဒ်ဖြည်ခြင်း မအောင်မြင်ပါ။",
+        "description": "Error message in the waiting dialog after failing to decrypt a message"
+    },
+    "watchlist_command_create": {
+        "message": "အကြောင်းအရာအသစ်တစ်ခု ထည့်ရန်",
+        "description": "Create entry in watchlist."
+    },
+    "watchlist_command_edit": {
+        "message": "တည်းဖြတ်ရန်",
+        "description": "Edit entry in watchlist."
+    },
+    "watchlist_delete_confirmation": {
+        "message": "ခွင့်ပြုထားသော ဒိုမိန်းစာရင်းမှ ဤဝက်ဘ်ဆိုက်ကို အမှန်တကယ် ဖယ်ရှားလိုပါသလား။",
+        "description": "Message in the watchlist delete confirmation dialog."
+    },
+    "watchlist_expose_api": {
+        "message": "API",
+        "description": "Expose API to Webmailer."
+    },
+    "watchlist_record_title": {
+        "message": "ခွင့်ပြုထားသော ဒိုမိန်း",
+        "description": "Title of the watchlist editor dialog."
+    },
+    "watchlist_remove_dialog_title": {
+        "message": "ဒိုမိန်း ဖယ်ရှားရန်",
+        "description": "Title of delete watchlist dialog."
+    },
+    "watchlist_title_active": {
+        "message": "ဖွင့်ထားသည်",
+        "description": "Entry in watchlist is active."
+    },
+    "watchlist_title_frame": {
+        "message": "ဒိုမိန်း ပုံစံ",
+        "description": "Web domain URL match pattern of site in watchlist."
+    },
+    "watchlist_title_https_only": {
+        "message": "HTTPS သီးသန့်",
+        "description": "Only allow URLs with HTTPS scheme in watchlist."
+    },
+    "watchlist_title_scan": {
+        "message": "ဖွင့်ထားသည်",
+        "description": "Scan status of site in watchlist."
+    },
+    "watchlist_title_site": {
+        "message": "ဝက်ဘ်ဆိုက်",
+        "description": "Site in watchlist."
+    },
+    "word_or": {
+        "message": "သို့မဟုတ်",
+        "description": "Separate list of elements."
+    },
+    "wrong_restore_code": {
+        "message": "ပြန်လည်ရယူရန် ကုဒ် မမှန်ကန်ပါ",
+        "description": ""
+    }
+}

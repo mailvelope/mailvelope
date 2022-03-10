@@ -4,7 +4,7 @@
   "description": "__MSG_ext_description__",
   "homepage_url":"https://www.mailvelope.com",
   "manifest_version": 2,
-  "minimum_chrome_version": "60",
+  "minimum_chrome_version": "80",
   "icons": {
     "32": "img/Mailvelope/logo_signet_32.png",
     "48": "img/Mailvelope/logo_signet_48.png",

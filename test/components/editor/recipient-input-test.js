@@ -11,7 +11,8 @@ describe('RecipientInput component unit tests', () => {
   beforeEach(() => {
     props = {recipients: []};
     // intialize props
-    new RecipientInput(props);
+    const rInput = new RecipientInput(props);
+    rInput.propsOnStack();
     angular.module('recipient-input-test', []);
     angular.mock.module('recipient-input-test');
     angular.mock.inject(($rootScope, $timeout, $controller) => {
@@ -189,31 +190,31 @@ describe('RecipientInput component unit tests', () => {
 
   describe('checkEncryptStatus', () => {
     beforeEach(() => {
-      props.onChangeEncryptStatus = sinon.stub();
+      props.onChangeRecipient = sinon.stub();
     });
     afterEach(() => {
-      props.onChangeEncryptStatus = null;
+      props.onChangeRecipient = null;
     });
 
-    it('should not encrypt for empty recipient', () => {
+    it('should not emit error for empty recipient', () => {
       ctrl.recipients = [];
       ctrl.checkEncryptStatus();
-      expect(ctrl.noEncrypt).to.be.false;
-      expect(props.onChangeEncryptStatus.withArgs({encryptDisabled: true}).calledOnce).to.be.true;
+      expect(ctrl.hasError).to.be.false;
+      expect(props.onChangeRecipient.withArgs({hasError: false}).calledOnce).to.be.true;
     });
 
     it('should encrypt if all recipients have keys', () => {
       ctrl.recipients = [{key: {}}];
       ctrl.checkEncryptStatus();
-      expect(ctrl.noEncrypt).to.be.false;
-      expect(props.onChangeEncryptStatus.withArgs({encryptDisabled: false}).calledOnce).to.be.true;
+      expect(ctrl.hasError).to.be.false;
+      expect(props.onChangeRecipient.withArgs({hasError: false}).calledOnce).to.be.true;
     });
 
     it('should not encrypt if not all recipients have keys', () => {
       ctrl.recipients = [{key: {}}, {}];
       ctrl.checkEncryptStatus();
-      expect(ctrl.noEncrypt).to.be.true;
-      expect(props.onChangeEncryptStatus.withArgs({encryptDisabled: true}).calledOnce).to.be.true;
+      expect(ctrl.hasError).to.be.true;
+      expect(props.onChangeRecipient.withArgs({hasError: true}).calledOnce).to.be.true;
     });
   });
 

@@ -13,7 +13,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'webpack'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -24,7 +24,7 @@ module.exports = function(config) {
       {pattern: '../node_modules/angular-mocks/angular-mocks.js', watched: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.worker.js', watched: false, included: false,  nocache: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.js', watched: false, included: false,  nocache: false},
-      {pattern: '../src/client-API/main.js', watched: true, included: false},
+      {pattern: '../src/client-API/main.js', watched: true},
       {pattern: '../src/img/**/*', watched: false, included: false},
       // add files to be tested here
       'app/**/*.js',

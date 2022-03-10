@@ -11,7 +11,7 @@ const KEY_BINDING = 'key_binding';
 export function init() {
   addUpdateHandler((before, after) => {
     // clear key binding storage if feature turned off
-    if (before.keyserver.key_binding && !after.keyserver.key_binding) {
+    if (before.keyserver.key_binding && after.keyserver?.key_binding === false) {
       for (const keyring of getAllKeyring()) {
         setKeyringAttr(keyring.id, {[KEY_BINDING]: {}});
       }

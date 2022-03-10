@@ -6,15 +6,15 @@
 import {getPreferences, setPreferences, getWatchList, setWatchList} from './prefs';
 import {getSecureRandom} from './crypto';
 import defaults from '../res/defaults.json';
-import {securityBGs, securityColors} from '../res/common.json';
+import common from '../res/common.json';
 
 function initSecurityBgnd(prefs) {
   if (prefs.security.bgIcon && prefs.security.bgColor) {
     return;
   }
-  const securityBGArr = Object.entries(securityBGs);
+  const securityBGArr = Object.entries(common.securityBGs);
   prefs.security.bgIcon = securityBGArr[getSecureRandom(0, securityBGArr.length - 1)][0];
-  const securityColorArr = Object.keys(securityColors);
+  const securityColorArr = Object.keys(common.securityColors);
   prefs.security.bgColor = securityColorArr[getSecureRandom(0, securityColorArr.length - 1)];
   prefs.security.personalized = false;
 }

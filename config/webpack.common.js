@@ -7,23 +7,10 @@ const prod = {
   optimization: {
     minimize: false
   },
-  plugins: plugins(),
   performance: {
     hints: false
   }
 };
-
-function plugins() {
-  return [
-    function() {
-      this.hooks.done.tap('DoneHook', stats => {
-        if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') == -1) {
-          process.exitCode = 1;
-        }
-      });
-    }
-  ];
-}
 
 function css(loader = 'style-loader') {
   return [
@@ -63,27 +50,21 @@ function scss(loader = 'style-loader', css = false) {
     },
     {
       test: /\.svg$/,
-      loader: 'file-loader'
+      type: 'asset/resource'
     },
     {
       test: /\.woff2$/,
-      use: [{
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'res/fonts/'
-        }
-      }]
+      type: 'asset/resource',
+      generator: {
+        filename: 'res/fonts/[name].[ext]'
+      }
     },
     {
       test: /\.png$/,
-      use: [{
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'img/'
-        }
-      }]
+      type: 'asset/resource',
+      generator: {
+        filename: 'img/[name].[ext]'
+      }
     }
   ];
 }
@@ -128,6 +109,5 @@ function resolve() {
 }
 
 exports.prod = prod;
-exports.plugins = plugins;
 exports.module = {css, scss, react, replaceVersion};
 exports.resolve = resolve;

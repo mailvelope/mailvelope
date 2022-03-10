@@ -20,9 +20,7 @@ exports.prod = {
   entry: entries,
   output,
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    })
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [...common.module.scss(MiniCssExtractPlugin.loader, true)]

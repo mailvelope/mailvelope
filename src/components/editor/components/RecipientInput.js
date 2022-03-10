@@ -37,6 +37,12 @@ export class RecipientInput extends React.Component {
     this.id = getHash();
   }
 
+  propsOnStack() {
+    // store props on stack for Angular
+    this.ctrlLink = {props: this.props};
+    contrCompStack.push(this.ctrlLink);
+  }
+
   componentDidMount() {
     // load editor module dependencies
     angular.module('recipientInput', ['ngTagsInput'])
@@ -47,9 +53,7 @@ export class RecipientInput extends React.Component {
     });
     // attach ctrl to editor module
     angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);
-    // store props on stack for Angular
-    this.ctrlLink = {props: this.props};
-    contrCompStack.push(this.ctrlLink);
+    this.propsOnStack();
     // bootstrap angular
     angular.bootstrap(document.getElementById(this.id), ['recipientInput']);
     if (this.ctrlLink.props.recipients.length) {

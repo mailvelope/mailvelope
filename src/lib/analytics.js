@@ -16,7 +16,7 @@ export const ci = new CleanInsights({
   'server': 'https://metrics.cleaninsights.org/cleaninsights.php',
   'siteId': 22,  // Mailvelope's site ID on Clean Insights Matomo instance.
   'persistEveryNTimes': 1,
-  'debug': true,
+  'debug': false,
   'campaigns': {
     [PROVIDER_CAMPAIGN]: {
       'start': '2022-02-01T00:00:00-00:00',

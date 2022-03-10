@@ -7,7 +7,7 @@ const common = require('./webpack.common');
 const conf = {
   ...common.prod,
   mode: 'development',
-  devtool: 'none'
+  devtool: false
 };
 
 conf.externals = {
@@ -34,7 +34,7 @@ conf.module.rules[0].options.plugins.push('babel-plugin-rewire');
 conf.module.rules.push(
   {
     test: /\.asc$/,
-    use: 'raw-loader'
+    type: 'asset/source'
   }
 );
 

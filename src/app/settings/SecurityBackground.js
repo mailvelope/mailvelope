@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {port} from '../app';
 import * as l10n from '../../lib/l10n';
 
-import {securityBGs, securityColors} from '../../res/common.json';
+import common from '../../res/common.json';
 import './SecurityBackground.scss';
 
 l10n.register([
@@ -86,9 +86,9 @@ export default class SecurityBackground extends React.Component {
             </p>
             <div className="mb-4">
               <div id="securityBgContainer" className="d-flex flex-wrap">
-                {Object.keys(securityBGs).map(index =>
+                {Object.keys(common.securityBGs).map(index =>
                   <a key={index} className={`securityBgLink ${this.state.bgIcon === index ? 'active' : ''}`} tabIndex="0" onClick={() => this.handleClickBgIcon(index)}>
-                    <div className={`securityBgItem symbol ${securityBGs[index]}`}>
+                    <div className={`securityBgItem symbol ${common.securityBGs[index]}`}>
                     </div>
                   </a>
                 )}
@@ -99,7 +99,7 @@ export default class SecurityBackground extends React.Component {
             </p>
             <div>
               <div id="securityBgContainer" className="d-flex flex-wrap">
-                {Object.keys(securityColors).map(index =>
+                {Object.keys(common.securityColors).map(index =>
                   <a key={index} className={`securityBgLink ${this.state.bgColor === index ? 'active' : ''}`} tabIndex="0" onClick={() => this.handleClickColorIcon(index)}>
                     <div className={`securityBgItem color ${index}`}>
                     </div>

@@ -95,6 +95,10 @@
     "description": "Alert header of category warning.",
     "message": "Mindestens ein Domänen-Übereinstimmungsmuster wird benötigt."
   },
+  "analytics_consent_description": {
+    "description": "Consent to share analytics information with mailvelope",
+    "message": "Aggregierte und anonymisierte Analysedaten mit Mailvelope teilen"
+  },
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
     "message": "API erlaubt"
@@ -1996,6 +2000,10 @@
   "security_openpgp_header": {
     "description": "OpenPGP settings header",
     "message": "OpenPGP Einstellungen"
+  },
+  "settings_analytics": {
+    "description": "Tab for deciding whether or not to share analytics data.",
+    "message": "Nutzungsdaten"
   },
   "settings_backup": {
     "description": "Tab allowing to backup and restore the settings.",

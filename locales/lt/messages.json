@@ -95,6 +95,10 @@
         "message": "Reikalingas bent vienas srities šablonas.",
         "description": "Alert header of category warning."
     },
+    "analytics_consent_description": {
+        "message": "Bendrinti su Mailvelope surinktą ir anonimizuotą analitikos informaciją",
+        "description": "Consent to share analytics information with mailvelope"
+    },
     "auth_domain_api_label": {
         "message": "Leisti API",
         "description": "Label for API allowed info"
@@ -1970,6 +1974,10 @@
     "security_openpgp_header": {
         "message": "OpenPGP nustatymai",
         "description": "OpenPGP settings header"
+    },
+    "settings_analytics": {
+        "message": "Analitika",
+        "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
         "message": "Atsarginė kopija",
