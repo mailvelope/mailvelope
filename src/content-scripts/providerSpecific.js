@@ -91,7 +91,7 @@ class Gmail {
    * @return {Promise.<Array>}   The recipient objects in the form { email: 'jon@example.com' }
    */
   async getRecipients(editElement) {
-    return getAttr(editElement.closest('.I5').querySelectorAll('.oL.aDm span[email], .vR span[email]'), 'email');
+    return getAttr(editElement.closest('.I5').querySelectorAll('.agb .afV[data-hovercard-id]'), 'data-hovercard-id');
   }
 
   /**
