@@ -31,10 +31,12 @@ describe('Gnupg unit test', () => {
             signatures: {
               good: [
                 {
-                  fingerprint: '2CE0DBDCB17AEA6F33B028C1F1E70322973DFEDE'
+                  fingerprint: '2CE0DBDCB17AEA6F33B028C1F1E70322973DFEDE',
+                  timestamp: new Date('10.10.2020')
                 },
                 {
-                  fingerprint: 'F1E70322973DFEDE'
+                  fingerprint: 'F1E70322973DFEDE',
+                  timestamp: new Date('11.10.2020')
                 }
               ],
               bad: [
@@ -46,6 +48,7 @@ describe('Gnupg unit test', () => {
                 },
                 {
                   fingerprint: '2CE0DBDCB17AEA6F33B028C1F1E70322973D7FG2',
+                  timestamp: new Date('12.10.2020'),
                   errorDetails: {
                     'key-missing': false,
                   },
@@ -76,10 +79,10 @@ describe('Gnupg unit test', () => {
       const {data, signatures} = result;
       expect(data).to.equal(msg);
       expect(signatures).to.have.deep.members([
-        {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973dfede'},
-        {valid: true, keyId: 'f1e70322973dfede'},
+        {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973dfede', created: new Date('10.10.2020')},
+        {valid: true, keyId: 'f1e70322973dfede', created: new Date('11.10.2020')},
         {valid: null, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973dhs34'},
-        {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973d7fg2'},
+        {valid: true, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973d7fg2', created: new Date('12.10.2020')},
         {valid: false, fingerprint: '2ce0dbdcb17aea6f33b028c1f1e70322973ddel5'}
       ]);
     });

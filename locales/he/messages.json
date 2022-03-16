@@ -247,6 +247,14 @@
         "message": "שגיאה",
         "description": ""
     },
+    "editor_extra_key_checkbox": {
+        "message": "Add extra key",
+        "description": "Extra key checkbox label."
+    },
+    "editor_extra_key_help": {
+        "message": "Email will be encrypted with this additional key",
+        "description": "Extra key help text."
+    },
     "editor_header": {
         "message": "חבר דוא״ל מאובטח",
         "description": "Header of editor popup."
@@ -258,6 +266,10 @@
     "editor_key_auto_sign_link": {
         "message": "שנה הגדרות כאן",
         "description": "Test for auto sign link."
+    },
+    "editor_key_has_extra_msg": {
+        "message": "Email will be encrypted with the alternate key entered below.",
+        "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
         "message": "לא חתום",
@@ -599,16 +611,12 @@
         "message": "לחץ כאן כדי לפתוח את ההרחבה.",
         "description": "Install landing page getting started hint"
     },
-    "invalid_default_key": {
-        "message": "המפתח אינו תקף עבור פעולות של הצפנה והחתמה",
-        "description": "Tootip for set as default key button"
-    },
     "key_default_active_btn_title": {
         "message": "המפתח נקבע כמפתח ברירת מחדל",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "המפתח בלתי תקף ואינו יכול להיקבע כמפתח ברירת המחדל",
+        "message": "המפתח אינו תקף עבור פעולות של הצפנה והחתמה",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
@@ -796,7 +804,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "אזהרה: המפתח עבור איש קשר זה פג. תקשורת מוצפנת עם $1 אינה אפשרית עוד. איש הקשר צריך להזמין אותך מחדש עם מפתח ממשי.",
+        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -834,6 +842,22 @@
     "key_import_public_update": {
         "message": "המפתח הציבורי $1 של המשתמש $2 עודכן",
         "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_rotation_add": {
+        "message": "Add to keyring",
+        "description": "Key import rotation add button."
+    },
+    "key_import_rotation_cancel": {
+        "message": "Not now",
+        "description": "Key import rotation cancel button."
+    },
+    "key_import_rotation_description": {
+        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
+        "description": "Key import dialog description."
+    },
+    "key_import_rotation_headline": {
+        "message": "The sender signed this message with a new key.",
+        "description": "Key import rotation dialog header."
     },
     "key_import_textarea": {
         "message": "ייבא מפתח בתור טקסט",
@@ -936,7 +960,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "צור כאן גיליון השבה חדש, אם:",
+        "message": "Create a new recovery sheet here if:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1223,10 +1247,6 @@
         "message": "אשר $1 מפתחות",
         "description": "Tab of keyring to import keys."
     },
-    "keyring_display_keys": {
-        "message": "הצג מפתחות",
-        "description": "Tab of keyring to display keys."
-    },
     "keyring_export_keys": {
         "message": "ייצא מחזיק מפתחות",
         "description": "Tab of keyring to export keys."
@@ -1315,6 +1335,18 @@
         "message": "השתמש בשרת המפתחות של Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
+    "keyserver_key_binding_header": {
+        "message": "Key Detection",
+        "description": "Header for key binding feature"
+    },
+    "keyserver_key_binding_label": {
+        "message": "Determine current key of contacts and perform key selection automatically",
+        "description": "Label for key binding feature"
+    },
+    "keyserver_oks_lookup": {
+        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
+        "description": "Enable keys.openpgp.org Auto Lookup"
+    },
     "keyserver_url_error": {
         "message": "שרת המפתחות אינו ניתן להשגה",
         "description": "HKP key server URL error."
@@ -1322,6 +1354,10 @@
     "keyserver_url_warning": {
         "message": "כתובת שרת מפתחות חייבת להיות בתסדיר הבא: http(s)://keys.example.com",
         "description": "HKP key server url warning."
+    },
+    "keyserver_verifying_servers": {
+        "message": "Key server with email verification",
+        "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
         "message": "מפתחות שאילתה מספק הדוא״ל הנמענים (סיפריית מפתח רשת)",
@@ -1378,10 +1414,6 @@
     "notification_text_copy_to_clipboard": {
         "message": "טקסט הועתק אל לוח הגזירה.",
         "description": "Copy to clipboard toast message."
-    },
-    "options_about": {
-        "message": "אודות",
-        "description": "Options navigation: About."
     },
     "options_docu": {
         "message": "תיעוד",
@@ -1767,10 +1799,6 @@
         "message": "סיסמת המפתח שלך:",
         "description": ""
     },
-    "security_background_button_title": {
-        "message": "רקע האבטחה ניתן להתאמה באפשרויות Mailvelope",
-        "description": "The tooltip text for the keylock button"
-    },
     "security_background_color_text": {
         "message": "2. כעת בחר צבע שאתה אוהב",
         "description": "Security background select color text"
@@ -1988,7 +2016,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "שרת מפתחות",
+        "message": "Key Sources",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {

@@ -104,7 +104,7 @@ function mapSignatures({signatures} = {}, keyring) {
     return sigs;
   }
   for (const good of signatures.good) {
-    sigs.push({valid: true, fingerprint: good.fingerprint.toLowerCase()});
+    sigs.push({valid: true, fingerprint: good.fingerprint.toLowerCase(), created: good.timestamp});
   }
   for (const bad of signatures.bad) {
     const sig = {};
@@ -118,6 +118,7 @@ function mapSignatures({signatures} = {}, keyring) {
       // but the trust model of GnuPG considers the public key as unsufficiently trusted. As in the Mailvelope model
       // all keys in the keyring are trusted, we consider this signature as valid.
       sig.valid = true;
+      sig.created = bad.timestamp;
     } else {
       sig.valid = false;
     }

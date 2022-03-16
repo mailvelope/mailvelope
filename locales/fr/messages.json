@@ -247,6 +247,14 @@
         "message": "Erreur",
         "description": ""
     },
+    "editor_extra_key_checkbox": {
+        "message": "Ajouter une clé supplémentaire",
+        "description": "Extra key checkbox label."
+    },
+    "editor_extra_key_help": {
+        "message": "Le courriel sera chiffré avec cette clé supplémentaire",
+        "description": "Extra key help text."
+    },
     "editor_header": {
         "message": "Rédiger un courriel sécurisé",
         "description": "Header of editor popup."
@@ -258,6 +266,10 @@
     "editor_key_auto_sign_link": {
         "message": "Changer les paramètres ici",
         "description": "Test for auto sign link."
+    },
+    "editor_key_has_extra_msg": {
+        "message": "Le courriel sera chiffré avec la clé de remplacement saisie ci-dessous.",
+        "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
         "message": "Non signé",
@@ -599,16 +611,12 @@
         "message": "Sélectionner ici, pour ouvrir l’extension.",
         "description": "Install landing page getting started hint"
     },
-    "invalid_default_key": {
-        "message": "La clé n’est pas valide pour les opérations de chiffrement et de signature",
-        "description": "Tootip for set as default key button"
-    },
     "key_default_active_btn_title": {
         "message": "La clé est définie en tant que clé par défaut",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "La clé est invalide et ne peut pas être définie en tant que clé par défaut",
+        "message": "La clé n’est pas valide pour les opérations de chiffrement et de signature",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
@@ -796,7 +804,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Avertissement : La clé de ce contact a expiré. Les communications chiffrées ne sont plus possibles avec $1. Le contact doit vous réinviter avec une clé qui n’est pas expirée.",
+        "message": "Avertissement : La clé de ce contact est expirée. Il n’est plus possible de chiffrer les communications avec $1. Vous devez obtenir la clé actuelle de ce contact.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -834,6 +842,22 @@
     "key_import_public_update": {
         "message": "La clé publique $1 de l’utilisateur $2 a été mise à jour",
         "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_rotation_add": {
+        "message": "Ajouter au trousseau",
+        "description": "Key import rotation add button."
+    },
+    "key_import_rotation_cancel": {
+        "message": "Pas maintenant",
+        "description": "Key import rotation cancel button."
+    },
+    "key_import_rotation_description": {
+        "message": "Si vous continuez à utiliser cette ancienne clé, l’expéditeur ne pourra peut-être pas déchiffrer vos messages. Si vous avez des doutes, demandez à l’expéditeur de confirmer le changement par un autre moyen de communication. Vous pourrez ajouter ou supprimer la clé ultérieurement.",
+        "description": "Key import dialog description."
+    },
+    "key_import_rotation_headline": {
+        "message": "L’expéditeur a signé ce message avec une nouvelle clé.",
+        "description": "Key import rotation dialog header."
     },
     "key_import_textarea": {
         "message": "Importer une clé en tant que texte",
@@ -936,7 +960,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Créez ici une nouvelle feuille de récupération si :",
+        "message": "Créez une nouvelle feuille de récupération ici si :",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1223,10 +1247,6 @@
         "message": "Confirmer $1 clés",
         "description": "Tab of keyring to import keys."
     },
-    "keyring_display_keys": {
-        "message": "Afficher les clés",
-        "description": "Tab of keyring to display keys."
-    },
     "keyring_export_keys": {
         "message": "Exporter le trousseau",
         "description": "Tab of keyring to export keys."
@@ -1315,6 +1335,18 @@
         "message": "Utiliser le serveur de clés de Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
+    "keyserver_key_binding_header": {
+        "message": "Détection de clé",
+        "description": "Header for key binding feature"
+    },
+    "keyserver_key_binding_label": {
+        "message": "Déterminer la clé actuelle des contacts et sélectionner la clé automatiquement",
+        "description": "Label for key binding feature"
+    },
+    "keyserver_oks_lookup": {
+        "message": "Chercher des clés automatiquement sur <0>keys.openpgp.org</0>",
+        "description": "Enable keys.openpgp.org Auto Lookup"
+    },
     "keyserver_url_error": {
         "message": "Impossible d’atteindre le serveur de clés",
         "description": "HKP key server URL error."
@@ -1322,6 +1354,10 @@
     "keyserver_url_warning": {
         "message": "L’URL du serveur de clés doit être au format suivant : http(s)://cles.exemple.com",
         "description": "HKP key server url warning."
+    },
+    "keyserver_verifying_servers": {
+        "message": "Serveur de clé avec vérification par courriel",
+        "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
         "message": "Chercher les clés auprès du service de courriel des destinataires (annuaire de clés Web)",
@@ -1378,10 +1414,6 @@
     "notification_text_copy_to_clipboard": {
         "message": "Le texte a été copié dans le presse-papiers.",
         "description": "Copy to clipboard toast message."
-    },
-    "options_about": {
-        "message": "À propos",
-        "description": "Options navigation: About."
     },
     "options_docu": {
         "message": "Documentation",
@@ -1767,10 +1799,6 @@
         "message": "Le mot de passe de votre clé :",
         "description": ""
     },
-    "security_background_button_title": {
-        "message": "L’arrière-plan de sécurité peut être modifié dans les options de Mailvelope",
-        "description": "The tooltip text for the keylock button"
-    },
     "security_background_color_text": {
         "message": "2. Maintenant, sélectionnez une couleur qui vous plaît",
         "description": "Security background select color text"
@@ -1988,7 +2016,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Serveur de clés",
+        "message": "Source des clés",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {

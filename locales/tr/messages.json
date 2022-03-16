@@ -200,7 +200,7 @@
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Gönderen",
+        "message": "Gönderici",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
@@ -247,6 +247,14 @@
         "message": "Hata",
         "description": ""
     },
+    "editor_extra_key_checkbox": {
+        "message": "Ek anahtar ekle",
+        "description": "Extra key checkbox label."
+    },
+    "editor_extra_key_help": {
+        "message": "E-posta bu ek anahtar ile şifrelenecek",
+        "description": "Extra key help text."
+    },
     "editor_header": {
         "message": "Güvenli e-posta oluştur",
         "description": "Header of editor popup."
@@ -258,6 +266,10 @@
     "editor_key_auto_sign_link": {
         "message": "Ayarları buradan değiştirin",
         "description": "Test for auto sign link."
+    },
+    "editor_key_has_extra_msg": {
+        "message": "E-posta aşağıya yazılmış alternatif anahtar ile şifrelenecek.",
+        "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
         "message": "İmzalanmamış",
@@ -599,16 +611,12 @@
         "message": "Uygulamayı açmak için buraya tıklayın.",
         "description": "Install landing page getting started hint"
     },
-    "invalid_default_key": {
-        "message": "Anahtar şifreleme ve imzalama işlemleri için geçerli değil",
-        "description": "Tootip for set as default key button"
-    },
     "key_default_active_btn_title": {
         "message": "Anahtar varsayılan anahtar olarak atandı",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "Anahtar geçersiz olduğundan varsayılan anahtar olarak atanamaz",
+        "message": "Anahtar şifreleme ve imzalama işlemleri için geçerli değil",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
@@ -796,7 +804,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Uyarı: Bu kişinin anahtarının kullanım süresi dolmuş. Bu nedenle artık $1 ile şifreli iletişim kurulamaz. Kişinin sizi güncel bir anahtar ile yeniden davet etmesi gerekiyor.",
+        "message": "Uyarı: Bu kişinin anahtarının kullanım süresi dolmuş. Bu nedenle artık $1 ile şifreli iletişim kurulamaz. Bu kişinin geçerli anahtarını almanız gerekir.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -834,6 +842,22 @@
     "key_import_public_update": {
         "message": "$2 kullanıcısının $1 herkese açık anahtarı güncellendi",
         "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_rotation_add": {
+        "message": "Anahtarlığa ekle",
+        "description": "Key import rotation add button."
+    },
+    "key_import_rotation_cancel": {
+        "message": "Şimdi değil",
+        "description": "Key import rotation cancel button."
+    },
+    "key_import_rotation_description": {
+        "message": "Eski anahtarı kullanmaya devam ederseniz, gönderici iletilerinizin şifresini çözemeyebilir. Şüpheniz varsa, göndericiden değişikliği başka bir iletişim kanalı kullanarak onaylamasını isteyin. Anahtarı daha sonra ekleyebilir veya kaldırabilirsiniz.",
+        "description": "Key import dialog description."
+    },
+    "key_import_rotation_headline": {
+        "message": "Gönderici bu iletiyi yeni bir anahtar ile imzaladı.",
+        "description": "Key import rotation dialog header."
     },
     "key_import_textarea": {
         "message": "Anahtarı metin olarak içe aktar",
@@ -1223,10 +1247,6 @@
         "message": "$1 anahtarı onayla",
         "description": "Tab of keyring to import keys."
     },
-    "keyring_display_keys": {
-        "message": "Anahtarları görüntüle",
-        "description": "Tab of keyring to display keys."
-    },
     "keyring_export_keys": {
         "message": "Anahtarlığı dışa aktar",
         "description": "Tab of keyring to export keys."
@@ -1315,6 +1335,18 @@
         "message": "Mailvelope anahtar sunucusu kullanılsın",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
+    "keyserver_key_binding_header": {
+        "message": "Anahtar algılaması",
+        "description": "Header for key binding feature"
+    },
+    "keyserver_key_binding_label": {
+        "message": "Kişilerin geçerli anahtarını belirleyerek anahtar seçimini otomatik olarak gerçekleştirin",
+        "description": "Label for key binding feature"
+    },
+    "keyserver_oks_lookup": {
+        "message": "Anahtarları otomatik olarak <0>keys.openpgp.org</0> üzerinde arayın ",
+        "description": "Enable keys.openpgp.org Auto Lookup"
+    },
     "keyserver_url_error": {
         "message": "Anahtar sunucusuna erişilemiyor",
         "description": "HKP key server URL error."
@@ -1322,6 +1354,10 @@
     "keyserver_url_warning": {
         "message": "Anahtar sunucusunun adresi şu biçimde olmalıdır: http(s)://keys.ornek.com",
         "description": "HKP key server url warning."
+    },
+    "keyserver_verifying_servers": {
+        "message": "E-posta doğrulaması ile anahtar sunucusu",
+        "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
         "message": "Anahtarlar alıcının e-posta hizmeti sağlayıcısı tarafından sorulsun (Web Anahtar Dizini)",
@@ -1378,10 +1414,6 @@
     "notification_text_copy_to_clipboard": {
         "message": "Metin panoya kopyalandı.",
         "description": "Copy to clipboard toast message."
-    },
-    "options_about": {
-        "message": "Hakkında",
-        "description": "Options navigation: About."
     },
     "options_docu": {
         "message": "Belgeler",
@@ -1767,10 +1799,6 @@
         "message": "Anahtar parolanız:",
         "description": ""
     },
-    "security_background_button_title": {
-        "message": "Güvenlik arka planı Mailvelope ayarları bölümünden yapılandırılabilir",
-        "description": "The tooltip text for the keylock button"
-    },
     "security_background_color_text": {
         "message": "2. Şimdi beğendiğiniz bir renk seçin",
         "description": "Security background select color text"
@@ -1988,7 +2016,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Anahtar sunucusu",
+        "message": "Anahtar kaynakları",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {

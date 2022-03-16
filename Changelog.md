@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v4.5.1
+-------
+__Mar 16, 2022__
+
+  * Fix signature evaluation for key binding feature that can result in error when decrypting messages or files
+
 v4.5.0
 -------
 __Mar 10, 2022__

@@ -247,6 +247,14 @@
         "message": "ချို့ယွင်းချက်",
         "description": ""
     },
+    "editor_extra_key_checkbox": {
+        "message": "Add extra key",
+        "description": "Extra key checkbox label."
+    },
+    "editor_extra_key_help": {
+        "message": "Email will be encrypted with this additional key",
+        "description": "Extra key help text."
+    },
     "editor_header": {
         "message": "လုံခြုံစိတ်ချရသော အီးမေးလ် ရေးသားရန်",
         "description": "Header of editor popup."
@@ -258,6 +266,10 @@
     "editor_key_auto_sign_link": {
         "message": "ဆက်တင်များကို ဒီမှာ ပြောင်းလဲပါ",
         "description": "Test for auto sign link."
+    },
+    "editor_key_has_extra_msg": {
+        "message": "Email will be encrypted with the alternate key entered below.",
+        "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
         "message": "လက်မှတ်ထိုးမထားပါ",
@@ -599,16 +611,12 @@
         "message": "အဆက်ကို ဖွင့်ရန် ဒီမှာ နှိပ်ပါ။",
         "description": "Install landing page getting started hint"
     },
-    "invalid_default_key": {
-        "message": "စကားဝှက်သော့သည် ကုဒ်ဖြင့်ပြောင်းလဲခြင်းနှင့် လက်မှတ်ထိုးခြင်း လုပ်ဆောင်ချက်များအတွက် မဆီလျော်ပါ",
-        "description": "Tootip for set as default key button"
-    },
     "key_default_active_btn_title": {
         "message": "စကားဝှက်သော့ကို နဂိုမူလ စကားဝှက်သော့အဖြစ် သတ်မှတ်ထားသည်",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "ဤစကားဝှက်သော့သည် မဆီလျော်သောကြောင့် နဂိုမူလ စကားဝှက်သော့အဖြစ် သတ်မှတ်၍မရပါ",
+        "message": "စကားဝှက်သော့သည် ကုဒ်ဖြင့်ပြောင်းလဲခြင်းနှင့် လက်မှတ်ထိုးခြင်း လုပ်ဆောင်ချက်များအတွက် မဆီလျော်ပါ",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
@@ -796,7 +804,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "သတိပေးချက် - ဤအဆက်အသွယ်အတွက် စကားဝှက်သော့မှာ သက်တမ်းကုန်သွားပါပြီ။ $1 နှင့် ကုဒ်ဖြင့်ပြောင်းပြီး ဆက်သွယ်ရန် မဖြစ်နိုင်တော့ပါ။ အဆက်အသွယ်က စကားဝှက်သော့ အစစ်အမှန်ဖြင့် သင့်အား ထပ်မံဖိတ်ကြားရန် လိုအပ်ပါသည်။",
+        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -834,6 +842,22 @@
     "key_import_public_update": {
         "message": "အသုံးပြုသူ $2 ၏ အများသုံး စကားဝှက်သော့ $1 ကို အပ်ဒိတ်လုပ်ပြီးပါပြီ",
         "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_rotation_add": {
+        "message": "Add to keyring",
+        "description": "Key import rotation add button."
+    },
+    "key_import_rotation_cancel": {
+        "message": "အခုမဟုတ်ပါ",
+        "description": "Key import rotation cancel button."
+    },
+    "key_import_rotation_description": {
+        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
+        "description": "Key import dialog description."
+    },
+    "key_import_rotation_headline": {
+        "message": "The sender signed this message with a new key.",
+        "description": "Key import rotation dialog header."
     },
     "key_import_textarea": {
         "message": "စကားဝှက်သော့ကို စာသားအဖြစ် ထည့်သွင်းရန်",
@@ -936,7 +960,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "ပြန်လည်ရယူရန် စာရင်းစာရွက်အသစ် ဒီမှာ ဖန်တီးပါ -",
+        "message": "Create a new recovery sheet here if:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1223,10 +1247,6 @@
         "message": "စကားဝှက်သော့ $1 ခုကို အတည်ပြုရန်",
         "description": "Tab of keyring to import keys."
     },
-    "keyring_display_keys": {
-        "message": "စကားဝှက်သော့များကို ပြသရန်",
-        "description": "Tab of keyring to display keys."
-    },
     "keyring_export_keys": {
         "message": "သော့တွဲကို ပို့ရန်",
         "description": "Tab of keyring to export keys."
@@ -1315,6 +1335,18 @@
         "message": "Mailvelope စကားဝှက်သော့ ဆာဗာကို အသုံးပြုရန်",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
+    "keyserver_key_binding_header": {
+        "message": "Key Detection",
+        "description": "Header for key binding feature"
+    },
+    "keyserver_key_binding_label": {
+        "message": "Determine current key of contacts and perform key selection automatically",
+        "description": "Label for key binding feature"
+    },
+    "keyserver_oks_lookup": {
+        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
+        "description": "Enable keys.openpgp.org Auto Lookup"
+    },
     "keyserver_url_error": {
         "message": "စကားဝှက်သော့ ဆာဗာသို့ မရောက်ရှိနိုင်ပါ",
         "description": "HKP key server URL error."
@@ -1322,6 +1354,10 @@
     "keyserver_url_warning": {
         "message": "စကားဝှက်သော့ ဆာဗာ URL သည် အောက်ပါဖောမက် ဖြစ်ရမည် - http(s)://keys.example.com",
         "description": "HKP key server url warning."
+    },
+    "keyserver_verifying_servers": {
+        "message": "Key server with email verification",
+        "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
         "message": "လက်ခံသူများ၏ အီးမေးလ် ဝန်ဆောင်မှုပေးသူထံမှ စကားဝှက်သော့များ တောင်းဆိုပါ (အွန်လိုင်း စကားဝှက်သော့ လမ်းညွှန်)",
@@ -1378,10 +1414,6 @@
     "notification_text_copy_to_clipboard": {
         "message": "စာသားကို clipboard သို့ ကူးပြီးပါပြီ",
         "description": "Copy to clipboard toast message."
-    },
-    "options_about": {
-        "message": "အကြောင်း",
-        "description": "Options navigation: About."
     },
     "options_docu": {
         "message": "အသုံးပြုနည်းလက်စွဲ",
@@ -1767,10 +1799,6 @@
         "message": "သင့်စကားဝှက်သော့၏ စကားဝှက် -",
         "description": ""
     },
-    "security_background_button_title": {
-        "message": "လုံခြုံရေး နောက်ခံကို Mailvelope ရွေးချယ်မှုများတွင် ချိန်ညှိနိုင်သည်",
-        "description": "The tooltip text for the keylock button"
-    },
     "security_background_color_text": {
         "message": "၂။ အခု သင်ကြိုက်သော အရောင်တစ်ခုကို ရွေးပါ",
         "description": "Security background select color text"
@@ -1988,7 +2016,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "စကားဝှက်သော့ ဆာဗာ",
+        "message": "Key Sources",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {

@@ -247,6 +247,14 @@
         "message": "エラー",
         "description": ""
     },
+    "editor_extra_key_checkbox": {
+        "message": "Add extra key",
+        "description": "Extra key checkbox label."
+    },
+    "editor_extra_key_help": {
+        "message": "Email will be encrypted with this additional key",
+        "description": "Extra key help text."
+    },
     "editor_header": {
         "message": "暗号メールを書く",
         "description": "Header of editor popup."
@@ -258,6 +266,10 @@
     "editor_key_auto_sign_link": {
         "message": "設定を変更する",
         "description": "Test for auto sign link."
+    },
+    "editor_key_has_extra_msg": {
+        "message": "Email will be encrypted with the alternate key entered below.",
+        "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
         "message": "無署名",
@@ -599,16 +611,12 @@
         "message": "クリックして拡張機能を開く",
         "description": "Install landing page getting started hint"
     },
-    "invalid_default_key": {
-        "message": "暗号化と署名の鍵が有効ではありません。",
-        "description": "Tootip for set as default key button"
-    },
     "key_default_active_btn_title": {
         "message": "デフォルト鍵に設定",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "鍵が無効なので、デフォルト鍵に設定できません",
+        "message": "暗号化と署名の鍵が有効ではありません。",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
@@ -796,7 +804,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "【注意】この連絡先の鍵が期限切れになっています。 $1 との暗号通信はできません。連絡先から再度招待される必要があります",
+        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -834,6 +842,22 @@
     "key_import_public_update": {
         "message": "$2 の公開鍵 $1 を更新",
         "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_rotation_add": {
+        "message": "Add to keyring",
+        "description": "Key import rotation add button."
+    },
+    "key_import_rotation_cancel": {
+        "message": "Not now",
+        "description": "Key import rotation cancel button."
+    },
+    "key_import_rotation_description": {
+        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
+        "description": "Key import dialog description."
+    },
+    "key_import_rotation_headline": {
+        "message": "The sender signed this message with a new key.",
+        "description": "Key import rotation dialog header."
     },
     "key_import_textarea": {
         "message": "テキスト形式で鍵をインポート",
@@ -936,7 +960,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "次の場合、新しいリカバリー（復旧）シートを作ります：",
+        "message": "Create a new recovery sheet here if:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1223,10 +1247,6 @@
         "message": " $1 の鍵を確認",
         "description": "Tab of keyring to import keys."
     },
-    "keyring_display_keys": {
-        "message": "鍵の表示",
-        "description": "Tab of keyring to display keys."
-    },
     "keyring_export_keys": {
         "message": "鍵リングをエクスポート",
         "description": "Tab of keyring to export keys."
@@ -1315,6 +1335,18 @@
         "message": "Mailvelopeキーサーバーの使用",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
+    "keyserver_key_binding_header": {
+        "message": "Key Detection",
+        "description": "Header for key binding feature"
+    },
+    "keyserver_key_binding_label": {
+        "message": "Determine current key of contacts and perform key selection automatically",
+        "description": "Label for key binding feature"
+    },
+    "keyserver_oks_lookup": {
+        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
+        "description": "Enable keys.openpgp.org Auto Lookup"
+    },
     "keyserver_url_error": {
         "message": "鍵サーバーと通信できません。",
         "description": "HKP key server URL error."
@@ -1322,6 +1354,10 @@
     "keyserver_url_warning": {
         "message": "鍵サーバーのURLは以下の形式でなければなりません:http(s)://keys.example.com",
         "description": "HKP key server url warning."
+    },
+    "keyserver_verifying_servers": {
+        "message": "Key server with email verification",
+        "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
         "message": "受信者のメールサービスから鍵を検索する（Web Key Directory）",
@@ -1378,10 +1414,6 @@
     "notification_text_copy_to_clipboard": {
         "message": "テキストがクリップボードにコピーされました",
         "description": "Copy to clipboard toast message."
-    },
-    "options_about": {
-        "message": "About",
-        "description": "Options navigation: About."
     },
     "options_docu": {
         "message": "ドキュメント",
@@ -1767,10 +1799,6 @@
         "message": "あなたの鍵のパスワード:",
         "description": ""
     },
-    "security_background_button_title": {
-        "message": "Mailvelopeのオプションで、背景マークが変更できます",
-        "description": "The tooltip text for the keylock button"
-    },
     "security_background_color_text": {
         "message": "2. 好きな色を選んでください",
         "description": "Security background select color text"
@@ -1988,7 +2016,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "鍵サーバー",
+        "message": "Key Sources",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {

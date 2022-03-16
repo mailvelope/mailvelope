@@ -247,6 +247,14 @@
         "message": "Klaida",
         "description": ""
     },
+    "editor_extra_key_checkbox": {
+        "message": "Pridėti papildomą raktą",
+        "description": "Extra key checkbox label."
+    },
+    "editor_extra_key_help": {
+        "message": "El. laiškas bus šifruotas naudojant šį papildomą raktą",
+        "description": "Extra key help text."
+    },
     "editor_header": {
         "message": "Rašyti saugų el. laišką",
         "description": "Header of editor popup."
@@ -258,6 +266,10 @@
     "editor_key_auto_sign_link": {
         "message": "Keisti nustatymus čia",
         "description": "Test for auto sign link."
+    },
+    "editor_key_has_extra_msg": {
+        "message": "El. laiškas bus šifruotas naudojant žemiau įvestą alternatyvų raktą.",
+        "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
         "message": "Nepasirašytas",
@@ -599,16 +611,12 @@
         "message": "Spustelėkite čia, norėdami atverti plėtinį.",
         "description": "Install landing page getting started hint"
     },
-    "invalid_default_key": {
-        "message": "Raktas šifravimo ir pasirašymo operacijoms nebegalioja",
-        "description": "Tootip for set as default key button"
-    },
     "key_default_active_btn_title": {
         "message": "Raktas nustatytas kaip numatytasis",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "Raktas yra nebegaliojantis ir negali būti nustatytas kaip numatytasis raktas",
+        "message": "Raktas šifravimo ir pasirašymo operacijoms nebegalioja",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
@@ -796,7 +804,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Įspėjimas: Šio adresato raktas nebegalioja. Šifruotas bendravimas su  $1 yra daugiau nebeįmanomas. Adresatas turi pakviesti jus iš naujo, naudodamas faktinį raktą.",
+        "message": "Įspėjimas: Šio adresato raktas nebegalioja. Šifruotas bendravimas su $1 daugiau nebeįmanomas. Turite gauti iš šio adresato dabartinį jo raktą.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -834,6 +842,22 @@
     "key_import_public_update": {
         "message": "Atnaujintas naudotojo $2 viešasis raktas $1",
         "description": "Import success message: $1: keyid, $2: userid."
+    },
+    "key_import_rotation_add": {
+        "message": "Pridėti į raktinę",
+        "description": "Key import rotation add button."
+    },
+    "key_import_rotation_cancel": {
+        "message": "Ne dabar",
+        "description": "Key import rotation cancel button."
+    },
+    "key_import_rotation_description": {
+        "message": "Jei ir toliau naudosite seną raktą, siuntėjui gali nepavykti iššifruoti jūsų laiškų. Jeigu jums kyla įtarimų, paklauskite siuntėjo, naudodami kitą bendravimo kanalą, ar siuntėjas pasikeitė raktą. Vėliau galėsite pridėti arba pašalinti raktą.",
+        "description": "Key import dialog description."
+    },
+    "key_import_rotation_headline": {
+        "message": "Siuntėjas pasirašė šį laišką nauju raktu.",
+        "description": "Key import rotation dialog header."
     },
     "key_import_textarea": {
         "message": "Importuoti raktą kaip tekstą",
@@ -936,7 +960,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Sukurkite čia naują atkūrimo lapą tuo atveju, jeigu:",
+        "message": "Sukurti čia naują atkūrimo lapą, jeigu:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1223,10 +1247,6 @@
         "message": "Patvirtinti $1 raktų(-us)",
         "description": "Tab of keyring to import keys."
     },
-    "keyring_display_keys": {
-        "message": "Rodyti raktus",
-        "description": "Tab of keyring to display keys."
-    },
     "keyring_export_keys": {
         "message": "Eksportuoti raktinę",
         "description": "Tab of keyring to export keys."
@@ -1315,6 +1335,18 @@
         "message": "Naudoti Mailvelope raktų serverį",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
+    "keyserver_key_binding_header": {
+        "message": "Rakto aptikimas",
+        "description": "Header for key binding feature"
+    },
+    "keyserver_key_binding_label": {
+        "message": "Nustatyti dabartinį adresatų raktą ir automatiškai atlikti rakto pasirinkimą.",
+        "description": "Label for key binding feature"
+    },
+    "keyserver_oks_lookup": {
+        "message": "Automatiškai ieškoti raktų, adresu <0>keys.openpgp.org</0>",
+        "description": "Enable keys.openpgp.org Auto Lookup"
+    },
     "keyserver_url_error": {
         "message": "Raktų serveris nepasiekiamas",
         "description": "HKP key server URL error."
@@ -1322,6 +1354,10 @@
     "keyserver_url_warning": {
         "message": "Raktų serverio URL privalo būti šio formato: http(s)://keys.example.com",
         "description": "HKP key server url warning."
+    },
+    "keyserver_verifying_servers": {
+        "message": "Raktų serveris su patvirtinimu el. paštu",
+        "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
         "message": "Užklausti raktus iš gavėjų el. pašto teikėjo (Saityno raktų katalogo)",
@@ -1378,10 +1414,6 @@
     "notification_text_copy_to_clipboard": {
         "message": "Tekstas nukopijuotas į iškarpinę.",
         "description": "Copy to clipboard toast message."
-    },
-    "options_about": {
-        "message": "Apie",
-        "description": "Options navigation: About."
     },
     "options_docu": {
         "message": "Dokumentacija",
@@ -1767,10 +1799,6 @@
         "message": "Jūsų rakto slaptažodis:",
         "description": ""
     },
-    "security_background_button_title": {
-        "message": "Saugumo fonas gali būti reguliuojamas Mailvelope parinktyse",
-        "description": "The tooltip text for the keylock button"
-    },
     "security_background_color_text": {
         "message": "2. Pasirinkite mėgstamą spalvą",
         "description": "Security background select color text"
@@ -1988,7 +2016,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Raktų serveris",
+        "message": "Rakto šaltiniai",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
