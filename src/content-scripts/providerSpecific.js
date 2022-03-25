@@ -101,7 +101,7 @@ class Gmail {
     const containerElement = editElement.closest('.I5');
     // find the relevant elements in the Gmail interface
     const displayArea = containerElement.querySelector('.aoD.hl'); // email display only area
-    const tagRemove = containerElement.querySelectorAll('.fX .vR .vM'); // email tags remove button
+    const tagRemove = containerElement.querySelectorAll('.afV[data-hovercard-id] .afX'); // email tags remove button
     const input = containerElement.querySelectorAll('.agP.aFw'); // the actual recipient email address text input (a textarea)
     const subject = containerElement.querySelector('.aoT'); // subject field
     const editor = containerElement.querySelector('.Am.Al'); // editor
