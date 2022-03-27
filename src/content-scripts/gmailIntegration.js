@@ -84,7 +84,7 @@ export default class GmailIntegration {
   }
 
   attachEditorBtn() {
-    const nav = document.querySelector('.aeN');
+    const nav = document.querySelector('.aIH') ?? document.querySelector('.aeN');
     if (!nav) {
       return;
     }
