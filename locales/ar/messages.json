@@ -848,7 +848,7 @@
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
-        "message": "Not now",
+        "message": "في وقت آخر",
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {

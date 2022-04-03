@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v4.5.2
+-------
+__Apr 3, 2022__
+
+  * [Gmail] Fix detection of navigation area for new integrated view of Gmail to display Mailvelope compose button
+  * [Gmail] Fix transfer of recipient email addresses from Mailvelope to Gmail editor
+  * Upgrade emailjs-mime-parser to v2.0.7
+
 v4.5.1
 -------
 __Mar 16, 2022__

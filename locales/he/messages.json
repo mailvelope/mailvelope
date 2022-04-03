@@ -96,7 +96,7 @@
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
-        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "message": "שתף מידע אנליטיקה צבור ועלום שם עם Mailvelope",
         "description": "Consent to share analytics information with mailvelope"
     },
     "auth_domain_api_label": {
@@ -248,11 +248,11 @@
         "description": ""
     },
     "editor_extra_key_checkbox": {
-        "message": "Add extra key",
+        "message": "הוסף מפתח אקסטרה",
         "description": "Extra key checkbox label."
     },
     "editor_extra_key_help": {
-        "message": "Email will be encrypted with this additional key",
+        "message": "דוא״ל יוצפן עם המפתח הנוסף הזה",
         "description": "Extra key help text."
     },
     "editor_header": {
@@ -268,7 +268,7 @@
         "description": "Test for auto sign link."
     },
     "editor_key_has_extra_msg": {
-        "message": "Email will be encrypted with the alternate key entered below.",
+        "message": "דוא״ל יוצפן עם המפתח החליפי שהוכנס למטה.",
         "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
@@ -804,7 +804,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
+        "message": "אזהרה: המפתח עבור איש הקשר הזה פג. תקשורת מוצפנת עם $1 אינה אפשרית יותר. אתה צריך להשיג את המפתח הנוכחי מאיש הקשר הזה.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -844,19 +844,19 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
-        "message": "Add to keyring",
+        "message": "הוסף אל מחזיק מפתחות",
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
-        "message": "Not now",
+        "message": "לא עכשיו",
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
-        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
+        "message": "אם תמשיך להשתמש במפתח הישן, ייתכן שהשולח לא יוכל לפענח את ההודעות שלך. אם אתה חשדן, בקש מהשולח לאשר את השינוי בערוץ תקשורת אחר. אתה יכול להוסיף או להסיר את המפתח מאוחר יותר.",
         "description": "Key import dialog description."
     },
     "key_import_rotation_headline": {
-        "message": "The sender signed this message with a new key.",
+        "message": "השולח חתם על הודעה זו עם מפתח חדש.",
         "description": "Key import rotation dialog header."
     },
     "key_import_textarea": {
@@ -960,7 +960,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Create a new recovery sheet here if:",
+        "message": "צור גיליון השבה חדש כאן אם:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1336,15 +1336,15 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_key_binding_header": {
-        "message": "Key Detection",
+        "message": "זיהוי מפתח",
         "description": "Header for key binding feature"
     },
     "keyserver_key_binding_label": {
-        "message": "Determine current key of contacts and perform key selection automatically",
+        "message": "קבע מפתח נוכחי של אנשי קשר ובצע באופן אוטומטי בחירת מפתח",
         "description": "Label for key binding feature"
     },
     "keyserver_oks_lookup": {
-        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
+        "message": "חפש באופן אוטומטי מפתחות על <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
     },
     "keyserver_url_error": {
@@ -1356,7 +1356,7 @@
         "description": "HKP key server url warning."
     },
     "keyserver_verifying_servers": {
-        "message": "Key server with email verification",
+        "message": "שרת מפתחות עם וידוא דוא״ל",
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
@@ -2004,7 +2004,7 @@
         "description": "OpenPGP settings header"
     },
     "settings_analytics": {
-        "message": "Analytics",
+        "message": "אנליטיקה",
         "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
@@ -2016,7 +2016,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Sources",
+        "message": "מקורות מפתחות",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
