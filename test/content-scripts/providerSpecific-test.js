@@ -100,37 +100,28 @@ describe('Provider specific content-script unit tests', () => {
 
     describe('setRecipients', () => {
       beforeEach(() => {
-        testElem.append('<div class="aoD hl"></div>');
-        testElem.append('<div class="fX"><div class="vR"><span class="vM"></span></div><textarea class="vO"></textarea></div>');
-      });
-
-      it.skip('should clear email address text input', () => {
-        const toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
-
-        $('.fX .vO').val('test1@example.com');
-
-        gmail.setRecipients({recipients: toSet, editElement: testElem[0]});
-
-        expect($('.fX .vO').val()).to.be.empty;
+        testElem.append('<div class="afV" data-hovercard-id="test1@example.com" data-name="Test 1"><div class="afW"><div class="af6"><div class="afX"></div></div></div></div>');
+        testElem.append('<div class="afV" data-hovercard-id="test2@example.com" data-name="Test 2"><div class="afW"><div class="af6"><div class="afX"></div></div></div></div>');
+        testElem.append('<div class="agP aFw"></div>');
       });
 
       it('should trigger click event on email remove buttons', done => {
         const toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
-        $('.fX .vR .vM').on('click', () => {
+        $('.afV[data-hovercard-id] .afX').on('click', () => {
           done();
         });
 
         gmail.setRecipients({recipients: toSet, editElement: testElem[0]});
       });
 
-      it.skip('should set joined email addresses to input field', done => {
+      it('should set joined email addresses to input field', done => {
         const toSet = [{name: 'Test 1', email: 'test1@example.com'}, {name: 'Test 2', email: 'test2@example.com'}];
 
         gmail.setRecipients({recipients: toSet, editElement: testElem[0]});
 
         setTimeout(() => {
-          expect($('.fX .vO').val()).to.equal('test1@example.com, test2@example.com');
+          expect($('.agP.aFw').val()).to.equal('test1@example.com, test2@example.com');
           done();
         }, 10);
       });

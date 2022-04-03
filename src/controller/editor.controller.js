@@ -394,7 +394,7 @@ export default class EditorController extends sub.SubController {
           throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
       }
-      await parseMessage(data, handlers, 'text');
+      parseMessage(data, handlers, 'text');
       this.ports.editor.emit('decrypt-end');
     } catch (error) {
       this.ports.editor.emit('decrypt-failed', {error: mapError(error)});

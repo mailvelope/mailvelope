@@ -60,7 +60,7 @@ export function parseUserId(user) {
   }
 }
 
-export async function mapKeys(keys) {
+export function mapKeys(keys) {
   return Promise.all(keys.map(async key => {
     let uiKey = {};
     if (key.isPublic()) {

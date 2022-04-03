@@ -21,32 +21,18 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import MimeParser from 'emailjs-mime-parser';
+import parseMIME from 'emailjs-mime-parser';
 
 // parse the body parts and handle the results for the individual mime nodes
-export function parse(bodyParts, cb) {
-  let parsedCounter = 0;
-  // feed each body part to the mimeparser
-  bodyParts.forEach(bodyPart => {
-    const parser = new MimeParser();
-    // body part has been parsed
-    parser.onend = function() {
-      delete bodyPart.raw; // part has been parsed, we can remove the raw attribute
-      bodyPart.content = []; // holds subparts, e.g. for encrypted and/or signed nodes
-      // traverse through the parsed result
-      walkMimeTree(parser.node, bodyPart);
-      // we're done with a body part, are we done with all parts?
-      parsedCounter++;
-      if (parsedCounter < bodyParts.length) {
-        // nope, more body parts left to parse
-        return;
-      }
-      // we're done
-      cb(bodyParts);
-    };
-    // parse the body part
-    parser.end(bodyPart.raw);
-  });
+export function parse(bodyParts) {
+  for (const bodyPart of bodyParts) {
+    const node = parseMIME(bodyPart.raw);
+    delete bodyPart.raw; // part has been parsed, we can remove the raw attribute
+    bodyPart.content = []; // holds subparts, e.g. for encrypted and/or signed nodes
+    // traverse through the parsed result
+    walkMimeTree(node, bodyPart);
+  }
+  return bodyParts;
 }
 
 // functions that return true/false if they were able to handle a certain kind of body part
@@ -67,8 +53,8 @@ function walkMimeTree(mimeNode, bodyPart) {
     }
   }
   // depth-first traverse the child nodes
-  if (mimeNode._childNodes) {
-    mimeNode._childNodes.forEach(childNode => {
+  if (mimeNode.childNodes) {
+    mimeNode.childNodes.forEach(childNode => {
       walkMimeTree(childNode, bodyPart);
     });
   }
@@ -83,13 +69,13 @@ function walkMimeTree(mimeNode, bodyPart) {
  * |-- application/octet-stream <-- ciphertext
  */
 function matchEncrypted(node, bodyPart) {
-  const isEncrypted = /^multipart\/encrypted/i.test(node.contentType.value) && node._childNodes && node._childNodes[1];
+  const isEncrypted = /^multipart\/encrypted/i.test(node.contentType.value) && node?.childNodes[1];
   if (!isEncrypted) {
     return false;
   }
   // normalize the child node
-  normalize(node._childNodes[1]);
-  bodyPart.content = new TextDecoder('utf-8').decode(node._childNodes[1].content);
+  normalize(node.childNodes[1]);
+  bodyPart.content = new TextDecoder('utf-8').decode(node.childNodes[1].content);
   return true;
 }
 
@@ -102,16 +88,16 @@ function matchEncrypted(node, bodyPart) {
  * |-- application/pgp-signature
  */
 function matchSigned(node, bodyPart) {
-  // does the content type fit?
-  let isSigned = /^multipart\/signed/i.test(node.contentType.value);
-  // does the mime node have child nodes?
-  isSigned = isSigned && node._childNodes && node._childNodes[0] && node._childNodes[1];
-  // normalize the child nodes
-  isSigned && normalize(node._childNodes[0]);
-  isSigned && normalize(node._childNodes[1]);
-  // do the child nodes fit?
-  isSigned = isSigned && /^application\/pgp-signature/i.test(node._childNodes[1].contentType.value);
+  const isSigned = /^multipart\/signed/i.test(node.contentType.value) && node?.childNodes[0] && node?.childNodes[1];
   if (!isSigned) {
+    return false;
+  }
+  // normalize the child nodes
+  normalize(node.childNodes[0]);
+  normalize(node.childNodes[1]);
+  // do the child nodes fit
+  const hasSignature = /^application\/pgp-signature/i.test(node.childNodes[1].contentType.value);
+  if (!hasSignature) {
     return false;
   }
   // remember the correct node to do the parsing of the nested nodes
@@ -128,10 +114,10 @@ function matchSigned(node, bodyPart) {
     bodyPart.content.push(part);
   }
   // email.js automatically converts \r\n to \n ... normalize to \r\n for signature check!
-  part.signedMessage = node._childNodes[0].raw.replace(/\r/g, '').replace(/\n/g, '\r\n');
-  part.signature = new TextDecoder('utf-8').decode(node._childNodes[1].content);
+  part.signedMessage = node.childNodes[0].raw.replace(/\r/g, '').replace(/\n/g, '\r\n');
+  part.signature = new TextDecoder('utf-8').decode(node.childNodes[1].content);
   // walk the mime tree to find the nested nodes
-  walkMimeTree(node._childNodes[0], part);
+  walkMimeTree(node.childNodes[0], part);
   return true;
 }
 
@@ -140,7 +126,7 @@ function matchSigned(node, bodyPart) {
  */
 function matchText(node, bodyPart) {
   const disposition = node.headers['content-disposition'];
-  const isText = (/^text\/plain/i.test(node.contentType.value) && (!disposition || (disposition && disposition[0].value !== 'attachment')));
+  const isText = (/^text\/plain/i.test(node.contentType.value) && (!disposition || disposition[0].value !== 'attachment'));
   if (!isText) {
     return false;
   }
@@ -163,7 +149,7 @@ function matchText(node, bodyPart) {
  */
 function matchHtml(node, bodyPart) {
   const disposition = node.headers['content-disposition'];
-  const isHtml = (/^text\/html/i.test(node.contentType.value) && (!disposition || (disposition && disposition[0].value !== 'attachment')));
+  const isHtml = (/^text\/html/i.test(node.contentType.value) && (!disposition || disposition[0].value !== 'attachment'));
   if (!isHtml) {
     return false;
   }
@@ -187,7 +173,7 @@ function matchHtml(node, bodyPart) {
 function matchAttachment(node, bodyPart) {
   const disposition = node.headers['content-disposition'];
   const contentType = node.contentType.value;
-  const isTextAttachment = /^text\//i.test(contentType) && disposition && disposition[0].value === 'attachment';
+  const isTextAttachment = /^text\//i.test(contentType) && disposition?.[0].value === 'attachment';
   const isOtherAttachment = !/^text\//i.test(contentType) && !/^multipart\//i.test(contentType);
   if (!isTextAttachment && !isOtherAttachment) {
     return false;
@@ -204,9 +190,9 @@ function matchAttachment(node, bodyPart) {
     bodyPart.content.push(part);
   }
   part.content = node.content;
-  part.id = part.id || (node.headers['content-id'] && node.headers['content-id'][0].value.replace(/[<>]/g, ''));
-  part.mimeType = part.mimeType || contentType;
-  part.filename = part.filename || (disposition && disposition[0].params.filename) || node.contentType.params.name || 'attachment';
+  part.id ||= node.headers['content-id']?.[0].value.replace(/[<>]/g, '');
+  part.mimeType ||= contentType;
+  part.filename ||= disposition?.[0].params.filename || node.contentType.params.name || 'attachment';
   return true;
 }
 
@@ -221,23 +207,23 @@ function matchAttachment(node, bodyPart) {
  */
 function normalize(node) {
   // normalize the optional content-type, fallback to 'application/octet-stream'
-  node.contentType = node.contentType || {};
-  node.contentType.value = node.contentType.value || 'application/octet-stream';
-  node.contentType.params = node.contentType.params || {};
+  node.contentType ||= {};
+  node.contentType.value ||= 'application/octet-stream';
+  node.contentType.params ||= {};
   // normalize the contents
-  node.raw = node.raw || '';
-  node.content = node.content || '';
+  node.raw ||= '';
+  node.content ||= '';
   // optional
   if (node.headers['content-id']) {
     // node has content-id set, let's normalize it
-    const cid = node.headers['content-id'][0] = node.headers['content-id'][0] || {};
-    cid.value = cid.value || '';
+    node.headers['content-id'][0] ||= {};
+    node.headers['content-id'][0].value ||= '';
   }
   // optional
   if (node.headers['content-disposition']) {
     // this is an attachment node, let's normalize node.headers['content-disposition']
-    const disposition = node.headers['content-disposition'][0] = node.headers['content-disposition'][0] || {};
-    disposition.value = disposition.value || '';
-    disposition.params = disposition.params || {};
+    node.headers['content-disposition'][0] ||= {};
+    node.headers['content-disposition'][0].value ||= '';
+    node.headers['content-disposition'][0].params ||= {};
   }
 }

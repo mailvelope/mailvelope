@@ -15,61 +15,55 @@ import MimeBuilder from 'emailjs-mime-builder';
  * @param  {[type]} encoding 'html' or 'text'
  * @return {[type]}          [description]
  */
-export async function parseMessage(rawText, handlers, encoding) {
-  if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding|From|Date|Content-Language):/.test(rawText)) {
-    await parseMIME(rawText, handlers, encoding);
+export function parseMessage(rawText, handlers, encoding) {
+  if (/^\s*(MIME-Version|Content-Type|Content-Transfer-Encoding|Content-ID|Content-Description|Content-Disposition|Content-Language|From|Date):/.test(rawText)) {
+    parseMIME(rawText, handlers, encoding);
   } else {
-    await parseInline(rawText, handlers, encoding);
+    parseInline(rawText, handlers, encoding);
   }
 }
 
 function parseMIME(rawText, handlers, encoding) {
-  return new Promise(resolve => {
-    // mailreader expects rawText in pseudo-binary
-    rawText = unescape(encodeURIComponent(rawText));
-    mailreader.parse([{raw: rawText}], parsed => {
-      if (parsed && parsed.length > 0) {
-        const htmlParts = [];
-        const textParts = [];
-        if (encoding === 'html') {
-          filterBodyParts(parsed, 'html', htmlParts);
-          if (htmlParts.length) {
-            const sanitized = mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
-            handlers.onMessage(sanitized);
-          } else {
-            filterBodyParts(parsed, 'text', textParts);
-            if (textParts.length) {
-              handlers.onMessage(textParts.map(part => mvelo.util.text2autoLinkHtml(part.content)).join('<hr>'));
-            }
-          }
-        } else if (encoding === 'text') {
-          filterBodyParts(parsed, 'text', textParts);
-          if (textParts.length) {
-            handlers.onMessage(textParts.map(part => part.content).join('\n\n'));
-          } else {
-            filterBodyParts(parsed, 'html', htmlParts);
-            if (htmlParts.length) {
-              handlers.onMessage(htmlParts.map(part => html2text(part.content)).join('\n\n'));
-            }
-          }
+  const parsed = mailreader.parse([{raw: rawText}]);
+  if (parsed && parsed.length > 0) {
+    const htmlParts = [];
+    const textParts = [];
+    if (encoding === 'html') {
+      filterBodyParts(parsed, 'html', htmlParts);
+      if (htmlParts.length) {
+        const sanitized = mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
+        handlers.onMessage(sanitized);
+      } else {
+        filterBodyParts(parsed, 'text', textParts);
+        if (textParts.length) {
+          handlers.onMessage(textParts.map(part => mvelo.util.text2autoLinkHtml(part.content)).join('<hr>'));
         }
-        const attachmentParts = [];
-        filterBodyParts(parsed, 'attachment', attachmentParts);
-        attachmentParts.forEach(part => {
-          part.filename = encodeHTML(part.filename);
-          part.content = ab2str(part.content.buffer);
-          handlers.onAttachment(part);
-        });
       }
-      if (handlers.noEvent) {
-        handlers.onMessage('');
+    } else if (encoding === 'text') {
+      filterBodyParts(parsed, 'text', textParts);
+      if (textParts.length) {
+        handlers.onMessage(textParts.map(part => part.content).join('\n\n'));
+      } else {
+        filterBodyParts(parsed, 'html', htmlParts);
+        if (htmlParts.length) {
+          handlers.onMessage(htmlParts.map(part => html2text(part.content)).join('\n\n'));
+        }
       }
-      resolve();
+    }
+    const attachmentParts = [];
+    filterBodyParts(parsed, 'attachment', attachmentParts);
+    attachmentParts.forEach(part => {
+      part.filename = encodeHTML(part.filename);
+      part.content = ab2str(part.content.buffer);
+      handlers.onAttachment(part);
     });
-  });
+  }
+  if (handlers.noEvent) {
+    handlers.onMessage('');
+  }
 }
 
-async function parseInline(rawText, handlers, encoding) {
+function parseInline(rawText, handlers, encoding) {
   if (encoding === 'html') {
     handlers.onMessage(mvelo.util.text2autoLinkHtml(rawText));
   } else {

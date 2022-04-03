@@ -144,7 +144,7 @@ export default class DecryptController extends sub.SubController {
       if (this.ports.dDialog && signatures) {
         this.ports.dDialog.emit('signature-verification', {signers: signatures});
       }
-      await parseMessage(data, handlers, 'html');
+      parseMessage(data, handlers, 'html');
       if (this.ports.decryptCont) {
         this.ports.decryptCont.emit('decrypt-done');
       }

@@ -420,17 +420,13 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
 }
 
 export function extractSignedClearTextMultipart(rawEncoded) {
-  return new Promise(resolve => {
-    const raw = atob(base64DecodeUrl(rawEncoded));
-    mailreader.parse([{raw}], parsed => {
-      const [result] = filterBodyParts(parsed, 'signed');
-      if (result) {
-        const [{content: message}] = filterBodyParts([result], 'text');
-        resolve({signedMessage: result.signedMessage, message});
-      }
-    });
-    resolve();
-  });
+  const raw = atob(base64DecodeUrl(rawEncoded));
+  const parsed = mailreader.parse([{raw}]);
+  const [result] = filterBodyParts(parsed, 'signed');
+  if (result) {
+    const [{content: message}] = filterBodyParts([result], 'text');
+    return {signedMessage: result.signedMessage, message};
+  }
 }
 
 export async function getPGPSignatureAttId({msgId, email, accessToken}) {
