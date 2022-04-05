@@ -134,17 +134,17 @@ export default class RecoverySheet extends React.Component {
                 </div>
                 {this.state.backupCode && (
                   <SecurityBG className="recovery-sheet_code-container" port={this.port}>
-                    <span className="recovery-sheet_code-digit">{this.state.backupCode.substr(0, 5)}</span>
+                    <span className="recovery-sheet_code-digit">{this.state.backupCode.slice(0, 5)}</span>
                     <span className="recovery-sheet_code-separator">-</span>
-                    <span className="recovery-sheet_code-digit">{this.state.backupCode.substr(5, 5)}</span>
+                    <span className="recovery-sheet_code-digit">{this.state.backupCode.slice(5, 10)}</span>
                     <span className="recovery-sheet_code-separator">-</span>
-                    <span className="recovery-sheet_code-digit">{this.state.backupCode.substr(10, 5)}</span>
+                    <span className="recovery-sheet_code-digit">{this.state.backupCode.slice(10, 15)}</span>
                     <span className="recovery-sheet_code-separator">-</span>
-                    <span className="recovery-sheet_code-digit">{this.state.backupCode.substr(15, 5)}</span>
+                    <span className="recovery-sheet_code-digit">{this.state.backupCode.slice(15, 20)}</span>
                     <span className="recovery-sheet_code-separator">-</span>
-                    <span className="recovery-sheet_code-digit">{this.state.backupCode.substr(20, 5)}</span>
+                    <span className="recovery-sheet_code-digit">{this.state.backupCode.slice(20, 25)}</span>
                     <span className="recovery-sheet_code-separator">-</span>
-                    <span className="recovery-sheet_code-digit">{this.state.backupCode.substr(25, 1)}</span>
+                    <span className="recovery-sheet_code-digit">{this.state.backupCode.slice(25, 26)}</span>
                   </SecurityBG>
                 )}
               </div>

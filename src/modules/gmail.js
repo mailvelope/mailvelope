@@ -362,7 +362,7 @@ async function fetchJSON(resource, init) {
 
 function parseQuery(queryString, separator = '&') {
   const query = {};
-  const pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split(separator);
+  const pairs = (queryString[0] === '?' ? queryString.slice(1) : queryString).split(separator);
   for (let i = 0; i < pairs.length; i++) {
     const pair = pairs[i].split('=');
     query[decodeURIComponent(pair[0].trim())] = decodeURIComponent((pair[1] || '').replace(/^"(.+(?="$))"$/, '$1'));

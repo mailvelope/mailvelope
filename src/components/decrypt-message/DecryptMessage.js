@@ -222,7 +222,7 @@ export default class DecryptMessage extends React.Component {
       return keyId.toUpperCase();
     }
     if (fingerprint) {
-      return fingerprint.substr(-16).toUpperCase();
+      return fingerprint.slice(-16).toUpperCase();
     }
   }
 

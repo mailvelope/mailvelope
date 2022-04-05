@@ -134,7 +134,7 @@ async function authRequest({tabId, url}) {
   let hostname = targetUrl.hostname;
   const protocol = targetUrl.protocol;
   if (hostname.startsWith('www.')) {
-    hostname = hostname.substr(4);
+    hostname = hostname.slice(4);
   }
   const authDomainCtrl = sub.factory.get('authDomainCont');
   authDomainCtrl.setFrame({hostname, protocol, api, tabId});

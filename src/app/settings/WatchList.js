@@ -156,7 +156,7 @@ export default class WatchList extends React.Component {
 
   addToWatchList({domain, protocol}) {
     if (domain.startsWith('www.')) {
-      domain = domain.substr(4);
+      domain = domain.slice(4);
     }
     this.setState(prevState => {
       let watchListIndex;

@@ -63,7 +63,7 @@ export default class GmailIntegration {
 
   getMsgId(msgElem) {
     const rawID = msgElem.dataset.messageId;
-    return rawID[0] === '#' ? rawID.substr(1) : rawID;
+    return rawID[0] === '#' ? rawID.slice(1) : rawID;
   }
 
   onUpdateMessageData({msgId, data}) {
