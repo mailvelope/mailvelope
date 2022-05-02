@@ -403,3 +403,54 @@ export function parseViewName(viewName) {
   }
   return {type: pair[0], id: pair[1]};
 }
+
+const usedInputs = [];
+
+/**
+ * @param {HTMLElement} element   An element like input or textarea.
+ */
+export function handleChangeOfInput(element) {
+  if (element.value.length > 0) {
+    if (usedInputs.indexOf(element) === -1) {
+      usedInputs.push(element);
+    }
+  } else {
+    usedInputs.pop(element);
+  }
+  handleNumberOfUsedInputs();
+}
+
+export function addUsedInput(element) {
+  if (usedInputs.indexOf(element) === -1) {
+    usedInputs.push(element);
+  }
+  handleNumberOfUsedInputs();
+}
+
+export function removeUsedInput(element) {
+  usedInputs.pop(element);
+  handleNumberOfUsedInputs();
+}
+
+function handleNumberOfUsedInputs() {
+  if (usedInputs.length > 0) {
+    enableCloseConfirmation();
+  } else {
+    disableCloseConfirmation();
+  }
+}
+
+/**
+ * This function enables a confirmation dialog when the user tries to close a tab.
+ * It's useful for places where user can enter a text because this way the lost
+ * of work is prevented.
+ */
+export function enableCloseConfirmation() {
+  window.onbeforeunload = function() {
+    return '';
+  };
+}
+
+export function disableCloseConfirmation() {
+  window.onbeforeunload = undefined;
+}

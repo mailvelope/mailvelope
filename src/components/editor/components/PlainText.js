@@ -6,6 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import {handleChangeOfInput, removeUsedInput} from '../../../../src/lib/util';
 
 export default class PlainText extends React.PureComponent {
   constructor(props) {
@@ -23,6 +24,10 @@ export default class PlainText extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    removeUsedInput(this.textarea);
+  }
+
   getValue() {
     return this.textarea.value;
   }
@@ -30,7 +35,7 @@ export default class PlainText extends React.PureComponent {
   createPlainText() {
     const textarea = (
       <textarea defaultValue={this.props.defaultValue} className="form-control" rows={12} autoFocus
-        onChange={event => this.props.onChange(event.target.value)}
+        onChange={event => { this.props.onChange(event.target.value); handleChangeOfInput(event.target); }}
         onBlur={this.props.onBlur}
         onMouseUp={this.props.onMouseUp}
         ref={node => this.textarea = node}

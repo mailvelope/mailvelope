@@ -11,7 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getHash} from '../../../lib/util';
+import {getHash, addUsedInput, removeUsedInput} from '../../../lib/util';
 import * as l10n from '../../../lib/l10n';
 
 import './RecipientInput.scss';
@@ -62,6 +62,10 @@ export class RecipientInput extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    removeUsedInput(this.ctrlLink.rInputCtrl);
+  }
+
   shouldComponentUpdate(nextProps) {
     this.ctrlLink.props = nextProps;
     this.ctrlLink.rInputCtrl.recipients = this.ctrlLink.props.recipients;
@@ -93,8 +97,8 @@ export class RecipientInput extends React.Component {
           add-on-enter="true"
           enable-editing-last-tag="true"
           display-property="displayId"
-          on-tag-added="rInput.verify($tag)"
-          on-tag-removed="rInput.checkEncryptStatus()">
+          on-tag-added="rInput.verify($tag); rInput.onTagAddded();"
+          on-tag-removed="rInput.checkEncryptStatus(); rInput.onTagRemoved();">
           <auto-complete
             source="rInput.autocomplete($query)"
             min-length="1">
@@ -129,6 +133,16 @@ export class RecipientInputCtrl {
     this.compLink = contrCompStack.pop();
     this.recipients = this.compLink.props.recipients;
     this.compLink.rInputCtrl = this;
+  }
+
+  onTagAddded() {
+    addUsedInput(this);
+  }
+
+  onTagRemoved() {
+    if (this.recipients.length === 0) {
+      removeUsedInput(this);
+    }
   }
 
   update() {
