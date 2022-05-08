@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {toArray, Uint8Array2str, dataURL2str, str2Uint8Array} from '../lib/util';
+import {Uint8Array2str, dataURL2str, str2Uint8Array} from '../lib/util';
 import * as openpgp from 'openpgp';
 
 /**
@@ -17,10 +17,10 @@ import * as openpgp from 'openpgp';
  * @param  {String} options.format - default is 'utf8', other value: 'binary'
  * @return {Object}
  */
-export async function decrypt({message, keyring, senderAddress, selfSigned, encryptionKeyIds, unlockKey, format}) {
+export async function decrypt({message, keyring, encryptionKeyIds, unlockKey, format}) {
   let privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
   privateKey = await unlockKey({key: privateKey});
-  let signingKeys = signingKeys = keyring.keystore.publicKeys.keys.concat(keyring.keystore.privateKeys.keys.map(k => k.toPublic()));
+  let signingKeys = keyring.keystore.publicKeys.keys.concat(keyring.keystore.privateKeys.keys.map(k => k.toPublic()));
   const result = await openpgp.decrypt({message, privateKeys: privateKey, publicKeys: signingKeys, format});
   result.signatures = (result.signatures || []).map(signature => {
     const sig = {};
