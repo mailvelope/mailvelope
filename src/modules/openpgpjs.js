@@ -20,23 +20,7 @@ import * as openpgp from 'openpgp';
 export async function decrypt({message, keyring, senderAddress, selfSigned, encryptionKeyIds, unlockKey, format}) {
   let privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
   privateKey = await unlockKey({key: privateKey});
-  let signingKeys;
-  // normalize sender address to array
-  senderAddress = toArray(senderAddress);
-  // verify signatures if sender address provided or self signed message (draft)
-  if (senderAddress.length || selfSigned) {
-    signingKeys = [];
-    if (senderAddress.length) {
-      signingKeys = await keyring.getKeyByAddress(senderAddress);
-      signingKeys = senderAddress.reduce((result, email) => result.concat(signingKeys[email] || []), []);
-    }
-    // if no signing keys found we use decryption key for verification
-    // this covers the self signed message (draft) use case
-    // also signingKeys parameter in decryptAndVerifyMessage has to contain at least one key
-    if (!signingKeys.length) {
-      signingKeys = [privateKey];
-    }
-  }
+  let signingKeys = signingKeys = keyring.keystore.publicKeys.keys.concat(keyring.keystore.privateKeys.keys.map(k => k.toPublic()));
   const result = await openpgp.decrypt({message, privateKeys: privateKey, publicKeys: signingKeys, format});
   result.signatures = (result.signatures || []).map(signature => {
     const sig = {};
