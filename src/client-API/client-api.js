@@ -220,6 +220,7 @@ class Keyring {
    *                                    * 'LOC' - local key ring <br>
    *                                    * 'WKD' - web key directory <br>
    *                                    * 'MKS' - mailvelope key server <br>
+   *                                    * 'OKS' - keys.openpgp.org <br>
    *                                    * 'AC' - autocrypt
    * @property {Date} [lastSeen]    - last time the key was seen <br>
    *                                  (not set for local keys)

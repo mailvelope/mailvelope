@@ -62,7 +62,7 @@ export default class ApiController extends sub.SubController {
           }))
         };
       } else {
-        const found = await keyRegistry.lookup(email, keyringId);
+        const found = await keyRegistry.lookup({query: {email}, identity: keyringId});
         if (found) {
           keyMap[email] = {
             keys: [found]

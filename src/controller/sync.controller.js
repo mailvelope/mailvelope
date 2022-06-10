@@ -46,13 +46,12 @@ export class SyncController extends sub.SubController {
     }
     this.modified = this.keyring.sync.data.modified;
     const defaultKey = await this.keyring.getDefaultKey();
+    if (!defaultKey) {
+      return;
+    }
     if (!options.key) {
       // if no key provided we take the default key
-      if (defaultKey) {
-        options.key = defaultKey;
-      } else {
-        return; // no private key for sync
-      }
+      options.key = defaultKey;
     } else {
       // check if provided key is default key, otherwise no sync
       if (!equalKey(options.key, defaultKey)) {

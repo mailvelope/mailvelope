@@ -40,9 +40,6 @@ export function init() {
       if (typeof prefs.keyserver.autocrypt_lookup == 'undefined') {
         prefs.keyserver.autocrypt_lookup = defaults.preferences.keyserver.autocrypt_lookup;
       }
-      if (typeof prefs.keyserver.hkp_server_list == 'undefined') {
-        prefs.keyserver.hkp_server_list = defaults.preferences.keyserver.hkp_server_list;
-      }
       if (typeof prefs.keyserver.key_binding == 'undefined') {
         prefs.keyserver.key_binding = defaults.preferences.keyserver.key_binding;
       }

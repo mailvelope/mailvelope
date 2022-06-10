@@ -3,7 +3,7 @@
   "plugins": [
     "react"
   ],
-  "extends": ["plugin:react/recommended"],
+  "extends": ["plugin:react/recommended", "plugin:react-hooks/recommended"],
   "rules": {
     "jsx-quotes": "warn",
     "react/button-has-type": "warn",

@@ -56,7 +56,6 @@ export default class AppController extends sub.SubController {
     this.on('generateKey', this.generateKey);
     this.on('importKeys', this.importKeys);
     this.on('set-watch-list', this.setWatchList);
-    this.on('init-script-injection', initScriptInjection);
     this.on('get-all-keyring-attr', getAllKeyringAttr);
     this.on('set-keyring-attr', ({keyringId, keyringAttr}) => setKeyringAttr(keyringId, keyringAttr));
     this.on('get-active-keyring', sub.getActiveKeyringId);
@@ -71,6 +70,7 @@ export default class AppController extends sub.SubController {
     this.on('reload-keystore', ({keyringId}) => keyringById(keyringId).keystore.load());
     this.on('read-amored-keys', this.readArmoredKeys);
     this.on('key-lookup', this.keyLookup);
+    this.on('keyreg-source-labels', options => keyRegistry.getSourceLabels(options));
     this.on('get-default-key-fpr', ({keyringId}) => getDefaultKeyFpr(keyringId));
     this.on('get-signing-keys', ({keyringId}) => keyringById(keyringId).getValidSigningKeys());
     this.on('get-oauth-tokens', this.getOAuthTokens);
@@ -381,10 +381,15 @@ export default class AppController extends sub.SubController {
     return {keys: mappedKeys, errors, armoreds: validArmoreds};
   }
 
-  async keyLookup({email, keyringId}) {
-    const result = await keyRegistry.lookup(email, keyringId);
-    if (result) {
+  async keyLookup({query, keyringId, importKey, latest, externalOnly}) {
+    const result = await keyRegistry.lookup({query, identity: keyringId, latest, externalOnly});
+    if (!result) {
+      return;
+    }
+    if (importKey) {
       await keyringById(keyringId).importKeys([{type: 'public', armored: result.armored}]);
+    } else {
+      return result;
     }
   }
 

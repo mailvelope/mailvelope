@@ -72,7 +72,7 @@ export default class Settings extends React.Component {
                   <Route path="/settings/security-background" render={() => <SecurityBackground prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} />} />
                   <Route path="/settings/watchlist" component={WatchList} />
                   <Route path="/settings/security-log" component={SecurityLog} />
-                  <Route path="/settings/key-server" render={() => <KeyServer prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} onSetNotification={this.handleSetNotification} />} />
+                  <Route path="/settings/key-server" render={() => <KeyServer prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} />} />
                   <Route path="/settings/analytics" component={Analytics} />
                 </div>
               </div>

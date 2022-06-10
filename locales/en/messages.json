@@ -749,6 +749,10 @@
   },
   "key_import_default_description": {
     "description": "Key import dialog description.",
+    "message": "After confirmation, this key is transferred to the local keyring:"
+  },
+  "key_import_default_description_plural": {
+    "description": "Key import dialog description.",
     "message": "After confirmation, these keys are transferred to the local keyring:"
   },
   "key_import_default_headline": {
@@ -786,18 +790,6 @@
   "key_import_from_text_label": {
     "description": "Import keys from clipboard textarea label on key import page.",
     "message": "Text from clipboard"
-  },
-  "key_import_hkp_search_btn": {
-    "decryption": "Key search input button.",
-    "message": "Search"
-  },
-  "key_import_hkp_search_ph": {
-    "decryption": "Key search input place holder.",
-    "message": "By name, email address, or key ID"
-  },
-  "key_import_hkp_server": {
-    "decryption": "Key search server label.",
-    "message": "Key server"
   },
   "key_import_invalid_text": {
     "description": "Import error alert.",
@@ -858,6 +850,46 @@
   "key_import_rotation_headline": {
     "description": "Key import rotation dialog header.",
     "message": "The sender signed this message with a new key."
+  },
+  "key_import_search_btn": {
+    "description": "Key search input button.",
+    "message": "Search"
+  },
+  "key_import_search_found": {
+    "description": "Key search found label.",
+    "message": "Key found in:"
+  },
+  "key_import_search_found_source": {
+    "description": "Key search found label.",
+    "message": "Source:"
+  },
+  "key_import_search_found_modified": {
+    "description": "Key search found label.",
+    "message": "last modified on:"
+  },
+  "key_import_search_disabled": {
+    "description": "Key search disabled warning.",
+    "message": "Search disabled."
+  },
+  "key_import_search_disabled_descr": {
+    "description": "Key search disabled warning description.",
+    "message": "Activate at least one key source in the settings."
+  },
+  "key_import_search_invalid": {
+    "description": "Key search input has invalid content.",
+    "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)"
+  },
+  "key_import_search_not_found": {
+    "description": "Key search found no result error message.",
+    "message": "Key is not available in any of the searched key directories."
+  },
+  "key_import_search_not_found_header": {
+    "description": "Key search found no result header.",
+    "message": "No key found."
+  },
+  "key_import_search_ph": {
+    "description": "Key search input place holder.",
+    "message": "Email Address / Key ID / Fingerprint"
   },
   "key_import_textarea": {
     "description": "Key import box.",
@@ -1119,6 +1151,10 @@
     "description": "Title for generate key button",
     "message": "Generate a key"
   },
+  "keygrid_import_search_title": {
+    "description": "Title for Search key button.",
+    "message": "Search for public keys in external sources"
+  },
   "keygrid_import_title": {
     "description": "Title for Import key button.",
     "message": "Import a key"
@@ -1241,11 +1277,11 @@
   },
   "keyring_confirm_keys": {
     "description": "Tab of keyring to import keys.",
-    "message": "Confirm key"
+    "message": "Confirm key to import"
   },
   "keyring_confirm_keys_plural": {
     "description": "Tab of keyring to import keys.",
-    "message": "Confirm $1 keys"
+    "message": "Confirm $1 keys to import"
   },
   "keyring_export_keys": {
     "description": "Tab of keyring to export keys.",
@@ -1265,11 +1301,15 @@
   },
   "keyring_import_keys": {
     "description": "Tab of keyring to import keys.",
-    "message": "Add Keys"
+    "message": "Import Keys"
   },
   "keyring_import_search_description": {
     "description": "Description of key search for search tab of keyring import.",
-    "message": "Search on the key server for existing contacts."
+    "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use."
+  },
+  "keyring_import_search_keys": {
+    "description": "Tab of keyring to search keys.",
+    "message": "Search for keys"
   },
   "keyring_main": {
     "description": "Label for the main keyring",
@@ -1327,10 +1367,6 @@
     "description": "Enable Looking Up Keys Via Autocrypt",
     "message": "Use keys from Autocrypt headers of incoming email"
   },
-  "keyserver_hkp_url": {
-    "description": "HKP key server option: url.",
-    "message": "HKP key server"
-  },
   "keyserver_tofu_lookup": {
     "description": "Enable Mailvelope Key Server Auto Lookup",
     "message": "Use the Mailvelope key server"
@@ -1346,14 +1382,6 @@
   "keyserver_oks_lookup": {
     "description": "Enable keys.openpgp.org Auto Lookup",
     "message": "Automatically search for keys on <0>keys.openpgp.org</0>"
-  },
-  "keyserver_url_error": {
-    "description": "HKP key server URL error.",
-    "message": "Key server cannot be reached"
-  },
-  "keyserver_url_warning": {
-    "description": "HKP key server url warning.",
-    "message": "Key server URL must have the following format: http(s)://keys.example.com"
   },
   "keyserver_verifying_servers": {
     "description": "Label for verifying key servers.",
@@ -2017,7 +2045,7 @@
   },
   "settings_keyserver": {
     "description": "Tab of options to display key server settings.",
-    "message": "Key Sources"
+    "message": "Key Directories"
   },
   "settings_provider": {
     "description": "Tab of options to display provider (Gmail) settings.",
@@ -2121,7 +2149,7 @@
   },
   "user_keyserver_upload": {
     "description": "An upload request has been sent to the Mailvelope key server",
-    "message": "To synchronize with the Mailvelope server a confirmation email was sent to $1."
+    "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1."
   },
   "user_remove_btn": {
     "description": "Remove user button label",

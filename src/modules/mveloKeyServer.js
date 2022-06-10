@@ -8,12 +8,13 @@
  */
 import {prefs} from './prefs';
 import {key as openpgpKey} from 'openpgp';
-import {filterUserIdsByEmail} from './key';
+import {filterUserIdsByEmail, removeHexPrefix} from './key';
 
 /** The default URL of the mailvelope authenticating keyserver. */
-const DEFAULT_URL = 'https://keys.mailvelope.com';
+export const DEFAULT_URL = 'https://keys.mailvelope.com';
 
 export const name = 'MKS';
+export const label = 'keys.mailvelope.com';
 
 /**
 * Check if the Mailvelope Key Server is enabled.
@@ -31,23 +32,21 @@ export function isEnabled() {
  * The userIds from the json object are purely informational
  * as the userIds that are also on the key on the Key Server.
  *
- * @param {string} email       The user id's email address
- * @yield {String|{undefined}  Armored key with matching uid.
- *                             Undefined if no key was found.
+ * @param {Object<email, keyId, fingerprint>} query - query parameters to search key
+ * @yield {String|undefined} Armored key with matching uid. Undefined if no key was found.
  */
-export async function lookup(email) {
+export async function lookup(query) {
   let jsonKey;
-  if (!email) {
-    throw new Error('mveloKeyServer: Skipping lookup without email.');
+  if (!query) {
+    throw new Error('mveloKeyServer: Skipping lookup without query.');
   }
-  const response = await window.fetch(url({email}));
+  const response = await window.fetch(url(query));
   if (response.status === 200) {
     jsonKey = await response.json();
   }
   if (!jsonKey) {
     return;
   }
-
   // Only the userid matching the email should be imported.
   // This avoids usability problems and potentioal security issues
   // when unreleated userids are also part of the key.
@@ -59,8 +58,7 @@ export async function lookup(email) {
   if (keys.length !== 1) {
     throw new Error(`mveloKeyServer: Response '${jsonKey}': contained ${keys.length} keys.`);
   }
-  const filtered = filterUserIdsByEmail(keys[0], email);
-
+  const filtered = filterUserIdsByEmail(keys[0], query.email);
   if (!filtered.users.length) {
     throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
   }
@@ -75,9 +73,9 @@ export async function lookup(email) {
 /**
  * Get a verified public key either from the server by either key id, or fingerprint.
  *
- * @param {string} options.keyId         (optional) The long 16 char key id
- * @param {string} options.fingerprint   (optional) The 40 char v4 fingerprint
- * @yield {Object}                       The public key json object
+ * @param {String} [options.keyId] - The long 16 char key id
+ * @param {String} [options.fingerprint] - The 40 char v4 fingerprint
+ * @yield {Object} The public key json object
  */
 export async function fetch(options) {
   let jsonKey;
@@ -92,8 +90,8 @@ export async function fetch(options) {
  * Upload a public key to the server for verification by the user. Normally
  * a verification mail is sent out to all of the key's user ids, unless a primary
  * email attribute is supplied. In which case only one email is sent.
- * @param {Array} options.emails              (optional) Specify the user ids by email address to upload
- * @param {string} options.publicKeyArmored   The ascii armored key block
+ * @param {Array} [options.emails] - Specify the user ids by email address to upload
+ * @param {String} options.publicKeyArmored - The ascii armored key block
  * @yield {undefined}
  */
 export async function upload({emails, publicKeyArmored}) {
@@ -113,8 +111,8 @@ export async function upload({emails, publicKeyArmored}) {
  * Request deletion of a user's key from the keyserver. Either an email address or
  * the key id have to be specified. The user will receive a verification email
  * after the request to confirm deletion.
- * @param {string} options.email   (optional) The user id's email address
- * @param {string} options.keyId   (optional) The long 16 char key id
+ * @param {String} [options.email] - The user id's email address
+ * @param {String} [options.keyId] - The long 16 char key id
  * @yield {undefined}
  */
 export async function remove(options) {
@@ -127,28 +125,27 @@ export async function remove(options) {
 /**
  * Helper function to create a url with the proper query string for an
  * api request.
- * @param  {string} options.email         (optional) The user id's email address
- * @param  {string} options.keyId         (optional) The long 16 char key id
- * @param  {string} options.fingerprint   (optional) The 40 char v4 fingerprint
- * @return {string}                       The complete request url
+ * @param  {String} [options.email] - The user id's email address
+ * @param  {String} [options.keyId] - The long 16 char key id
+ * @param  {String} [options.fingerprint] - The 40 char v4 fingerprint
+ * @return {String} The complete request url
  */
-function url(options) {
-  let url = `${DEFAULT_URL}/api/v1/key`;
-  if (options && options.email) {
-    url += `?email=${encodeURIComponent(options.email)}`;
-  } else if (options && options.fingerprint) {
-    url += `?fingerprint=${encodeURIComponent(options.fingerprint)}`;
-  } else if (options && options.keyId) {
-    url += `?keyId=${encodeURIComponent(options.keyId)}`;
+function url({email, keyId, fingerprint} = {}) {
+  const url = `${DEFAULT_URL}/api/v1/key`;
+  if (email) {
+    return `${url}?email=${encodeURIComponent(email)}`;
+  } else if (fingerprint) {
+    return `${url}?fingerprint=${encodeURIComponent(removeHexPrefix(fingerprint))}`;
+  } else if (keyId) {
+    return `${url}?keyId=${encodeURIComponent(removeHexPrefix(keyId))}`;
   }
   return url;
 }
 
 /**
  * Helper function to deal with the HTTP response status
- * @param  {Object} response   The fetch api's response object
- * @return {Object|Error}      Either the response object in case of a successful
- *                             request or an Error containing the statusText
+ * @param  {Object} response - The fetch api's response object
+ * @return {Object|Error} Either the response object in case of a successful request or an Error containing the statusText
  */
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {

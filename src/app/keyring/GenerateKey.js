@@ -141,7 +141,6 @@ export default class GenerateKey extends React.Component {
         </nav>
         <div className="card-title d-flex flex-wrap align-items-center">
           <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_generate_key}</h1>
-          <button type="button" onClick={this.handleGenerate} disabled={Object.keys(this.state.errors).length || !this.state.modified} className="btn btn-primary">{l10n.map.key_gen_generate}</button>
         </div>
         <form className="form" autoComplete="off">
           <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} errors={this.state.errors} />
@@ -152,6 +151,9 @@ export default class GenerateKey extends React.Component {
           <div className={`form-group custom-control custom-checkbox ${this.context.demail ? 'd-none' : ''}`}>
             <input className="custom-control-input" checked={this.state.mveloKeyServerUpload} onChange={this.handleChange} type="checkbox" id="mveloKeyServerUpload" />
             <label className="custom-control-label" htmlFor="mveloKeyServerUpload"><span>{l10n.map.key_gen_upload}</span>. <a href="https://keys.mailvelope.com" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
+          </div>
+          <div className="form-group d-flex justify-content-end">
+            <button type="button" onClick={this.handleGenerate} disabled={Object.keys(this.state.errors).length || !this.state.modified} className="btn btn-primary">{l10n.map.key_gen_generate}</button>
           </div>
         </form>
         <Modal isOpen={this.state.generating} title={l10n.map.key_gen_wait_header} onShow={this.generateKey} keyboard={false} hideFooter={true} onHide={() => this.setState({generating: false})}>

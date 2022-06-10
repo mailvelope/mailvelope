@@ -173,7 +173,7 @@ export default class ImportController extends sub.SubController {
  *                                      and therefore newly discovered key could possibly be a key rotation event
  */
 export async function lookupKey({keyringId, email, rotation}) {
-  const result = await keyRegistry.lookup(email, keyringId);
+  const result = await keyRegistry.lookup({query: {email}, identity: keyringId});
   if (result) {
     try {
       await sub.factory.get('importKeyDialog').importKey(keyringId, result.armored, rotation);

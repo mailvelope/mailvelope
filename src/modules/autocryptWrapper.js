@@ -11,6 +11,9 @@ import {goog} from './closure-library/closure/goog/emailaddress';
 export {parse} from 'autocrypt';
 
 export const name = 'AC';
+export const label = 'Autocrypt';
+export const DEFAULT_URL = 'https://autocrypt.org';
+
 const stores = new Map();
 
 /**
@@ -31,6 +34,9 @@ export function stringify({keydata, addr}) {
 }
 
 async function autocrypt(id) {
+  if (!id) {
+    throw new MvError('Invalid Autocrypt Identity: id cannot be undefined', 'INVALID_ID');
+  }
   const key = `mvelo.autocrypt.${id}`;
   let storage = stores.get(key);
   if (!storage) {
@@ -44,11 +50,14 @@ async function autocrypt(id) {
 /**
  * Get a public key from autocrypt by email address.
  *
- * @param {String} email    - The user id's email address
- * @param {String} identity - The identity of the context the key is being looked up in
- * @return {String,undefined} - the found armored key if any.
+ * @param {String} options.email - The user id's email address
+ * @param {String} options.identity - The identity of the context the key is being looked up in
+ * @return {String|undefined} The found armored key if any.
  */
-export async function lookup(email, identity) {
+export async function lookup({email, identity}) {
+  if (!email) {
+    return;
+  }
   const ac = await autocrypt(identity);
   return new Promise((resolve, reject) => {
     ac.storage.get(email, (err, record) => {
@@ -68,7 +77,7 @@ export async function lookup(email, identity) {
 /**
  * Process an autocrypt Header to store a public key.
  *
- * @param {Object} headers  - The relevant headers of the email
+ * @param {Object} headers - The relevant headers of the email
  * @param {String} identity - The identity of the recipient
  * @return {undefined}
  * @throws {MvError}

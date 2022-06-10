@@ -749,6 +749,10 @@
   },
   "key_import_default_description": {
     "description": "Key import dialog description.",
+    "message": "Nach der Bestätigung wird dieser Schlüssel in den lokalen Schlüsselbund übernommen:"
+  },
+  "key_import_default_description_plural": {
+    "description": "Key import dialog description.",
     "message": "Nach der Bestätigung werden diese Schlüssel in den lokalen Schlüsselbund übernommen:"
   },
   "key_import_default_headline": {
@@ -786,18 +790,6 @@
   "key_import_from_text_label": {
     "description": "Import keys from clipboard textarea label on key import page.",
     "message": "Text aus Zwischenablage"
-  },
-  "key_import_hkp_search_btn": {
-    "decryption": "Key search input button.",
-    "message": "Suchen"
-  },
-  "key_import_hkp_search_ph": {
-    "decryption": "Key search input button.",
-    "message": "Nach Name, E-Mail-Adresse, oder Schlüssel-ID"
-  },
-  "key_import_hkp_server": {
-    "decryption": "Key search server label.",
-    "message": "Schlüssel-Server"
   },
   "key_import_invalid_text": {
     "description": "Import error alert.",
@@ -858,6 +850,46 @@
   "key_import_rotation_headline": {
     "description": "Key import rotation dialog header.",
     "message": "Der Absender hat diese Nachricht mit einem neuen Schlüssel signiert."
+  },
+  "key_import_search_btn": {
+    "description": "Key search input button.",
+    "message": "Suche"
+  },
+  "key_import_search_found": {
+    "description": "Key search found label.",
+    "message": "Schlüssel gefunden in:"
+  },
+  "key_import_search_found_source": {
+    "description": "Key search found label.",
+    "message": "Quelle:"
+  },
+  "key_import_search_found_modified": {
+    "description": "Key search found label.",
+    "message": "zuletzt geändert am:"
+  },
+  "key_import_search_disabled": {
+    "description": "Key search disabled warning.",
+    "message": "Suche deaktiviert."
+  },
+  "key_import_search_disabled_descr": {
+    "description": "Key search disabled warning description.",
+    "message": "Aktivieren Sie mindestens eine Schlüssel-Quelle in den Einstellungen."
+  },
+  "key_import_search_invalid": {
+    "description": "Key search input has invalid content.",
+    "message": "Geben Sie eine gültige E-Mail-Adresse, eine Schlüssel-ID (16 Stellen) oder einen Fingerprint (40 Stellen) ein."
+  },
+  "key_import_search_not_found": {
+    "description": "Key search found no result error message.",
+    "message": "Der Schlüssel ist in keinem der durchsuchten Schlüssel-Verzeichnissen vorhanden."
+  },
+  "key_import_search_not_found_header": {
+    "description": "Key search found no result header.",
+    "message": "Keinen Schlüssel gefunden."
+  },
+  "key_import_search_ph": {
+    "description": "Key search input place holder.",
+    "message": "Email-Adresse / Schlüssel-ID / Fingerprint"
   },
   "key_import_textarea": {
     "description": "Key import box.",
@@ -1117,6 +1149,10 @@
     "description": "Title for generate key button",
     "message": "Einen Schlüssel generieren"
   },
+  "keygrid_import_search_title": {
+    "description": "Title for Search key button.",
+    "message": "Suche nach öffentlichen Schlüsseln in externen Quellen"
+  },
   "keygrid_import_title": {
     "description": "Title for Import key button.",
     "message": "Einen Schlüssel importieren"
@@ -1127,7 +1163,7 @@
   },
   "keygrid_key_fingerprint": {
     "description": "Unique string identifier for a PGP key.",
-    "message": "Fingerabdruck"
+    "message": "Fingerprint"
   },
   "keygrid_key_length": {
     "description": "Key length of a PGP key.",
@@ -1239,11 +1275,11 @@
   },
   "keyring_confirm_keys": {
     "description": "Tab of keyring to import keys.",
-    "message": "Schlüssel bestätigen"
+    "message": "Schlüssel bestätigen für den Import"
   },
   "keyring_confirm_keys_plural": {
     "description": "Tab of keyring to import keys.",
-    "message": "$1 Schlüssel bestätigen"
+    "message": "$1 Schlüssel bestätigen für den Import"
   },
   "keyring_export_keys": {
     "description": "Tab of keyring to export keys.",
@@ -1263,11 +1299,15 @@
   },
   "keyring_import_keys": {
     "description": "Tab of keyring to import keys.",
-    "message": "Schlüssel hinzufügen"
+    "message": "Schlüssel importieren"
   },
   "keyring_import_search_description": {
     "description": "Description of key search for search tab of keyring import.",
-    "message": "Suche auf dem Schlüsselserver nach vorhandenen Kontakten."
+    "message": "Finden Sie öffentliche Schlüssel, die Sie Ihrem Schlüsselbund hinzufügen können. Mailvelope durchsucht mehrere Schlüssel-Verzeichnisse und schlägt den öffentlichen Schlüssel vor, der am wahrscheinlichsten in Gebrauch ist."
+  },
+  "keyring_import_search_keys": {
+    "description": "Tab of keyring to search keys.",
+    "message": "Suche nach Schlüsseln"
   },
   "keyring_main": {
     "description": "Label for the main keyring",
@@ -1325,10 +1365,6 @@
     "description": "Enable Looking Up Keys Via Autocrypt",
     "message": "Schlüssel aus Autocrypt Headern der ankommenden E-Mails verwenden"
   },
-  "keyserver_hkp_url": {
-    "description": "HKP key server option: url.",
-    "message": "HKP Schlüssel-Server"
-  },
   "keyserver_tofu_lookup": {
     "description": "Enable Mailvelope Key Server Auto Lookup",
     "message": "Den Mailvelope Schlüssel-Server benutzen"
@@ -1344,14 +1380,6 @@
   "keyserver_oks_lookup": {
     "description": "Enable keys.openpgp.org Auto Lookup",
     "message": "Automatisch auf <0>keys.openpgp.org</0> nach Schlüsseln suchen"
-  },
-  "keyserver_url_error": {
-    "description": "HKP key server url error.",
-    "message": "Schlüssel-Server ist nicht erreichbar"
-  },
-  "keyserver_url_warning": {
-    "description": "HKP key server url warning.",
-    "message": "Schlüssel-Server URL muss folgendes Format haben: http(s)://keys.example.com"
   },
   "keyserver_verifying_servers": {
     "description": "Label for verifying key servers.",
@@ -2015,7 +2043,7 @@
   },
   "settings_keyserver": {
     "description": "Tab of options to display key server settings.",
-    "message": "Schlüssel-Quellen"
+    "message": "Schlüssel-Verzeichnisse"
   },
   "settings_provider": {
     "description": "Tab of options to display provider (Gmail) settings.",
@@ -2119,7 +2147,7 @@
   },
   "user_keyserver_upload": {
     "description": "An upload request has been sent to the Mailvelope key server",
-    "message": "Zur Synchronisierung mit dem Mailvelope Server wurde eine Bestätigungs-E-Mail an $1 versandt."
+    "message": "Zur Synchronisierung mit dem Mailvelope Schlüssel-Server wurde eine Bestätigungs-E-Mail an $1 versandt."
   },
   "user_remove_btn": {
     "description": "Remove user button label",

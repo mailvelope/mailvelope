@@ -3,62 +3,92 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as l10n from '../../../lib/l10n';
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
+import * as l10n from '../../../lib/l10n';
+import Alert from '../../../components/util/Alert';
+import {checkEmail} from '../../../lib/util';
 import {port} from '../../app';
 
 l10n.register([
   'change_link',
-  'key_import_hkp_search_btn',
-  'key_import_hkp_search_ph',
-  'key_import_hkp_server'
+  'key_import_search_btn',
+  'key_import_search_disabled',
+  'key_import_search_disabled_descr',
+  'key_import_search_invalid',
+  'key_import_search_not_found',
+  'key_import_search_not_found_header',
+  'key_import_search_ph',
+  'settings_keyserver'
 ]);
 
-const KEY_ID_REGEX = /^([0-9a-f]{8}|[0-9a-f]{16}|[0-9a-f]{40})$/i;
+const KEY_ID_REGEX = /^(0x)?([0-9a-f]{16})$/;
+const FINGERPRINT_REGEX = /^(0x)?([0-9a-f]{40})$/;
 
-export default class KeySearch extends React.Component {
-  constructor(props) {
-    super(props);
-    this.query = null;
-    this.handleKeySearch = this.handleKeySearch.bind(this);
+export default function KeySearch(props) {
+  const [query, setQuery] = useState('');
+  const [invalid, setInvalid] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+
+  function handleInputChange(event) {
+    setQuery(event.target.value);
+    setInvalid(false);
+    setNotFound(false);
   }
 
-  handleKeySearch(event) {
+  async function handleKeySearch(event) {
     event.preventDefault();
-    let query = this.query.value;
-    query = KEY_ID_REGEX.test(query) ? (`0x${query}`) : query; // prepend '0x' to query for key IDs
-    let url = `${this.props.prefs.keyserver.hkp_base_url}/pks/lookup?op=index&search=${window.encodeURIComponent(query)}`;
-    if (url.includes('keys.mailvelope.com')) {
-      url = url.replace('op=index', 'op=get');
+    let search = query.replaceAll(/\s/g, '').toLowerCase();
+    setQuery(search);
+    if (checkEmail(search)) {
+      search = {email: search};
+    } else if (KEY_ID_REGEX.test(search)) {
+      search = {keyId: search};
+    } else if (FINGERPRINT_REGEX.test(search)) {
+      search = {fingerprint: search};
+    } else {
+      setInvalid(true);
+      return;
     }
-    port.emit('open-tab', {url});
+    const key = await port.send('key-lookup', {query: search, latest: true, externalOnly: true});
+    if (!key) {
+      setNotFound(true);
+      return;
+    }
+    props.onKeyFound(key);
   }
 
-  render() {
-    const hkp_base_url = this.props.prefs && this.props.prefs.keyserver.hkp_base_url;
-    const hkp_domain = hkp_base_url && hkp_base_url.replace(/https?:\/\//, '');
-    return (
-      <form className="form" onSubmit={this.handleKeySearch}>
-        <div className={`form-group ${this.props.className || ''}`}>
-          <div className="input-group">
-            <input id="keySearchInput" type="text" className="form-control" ref={query => this.query = query} placeholder={l10n.map.key_import_hkp_search_ph} aria-describedby="keySearchInputHelpBlock" />
-            <div className="input-group-append">
-              <button className="btn btn-primary" type="submit">{l10n.map.key_import_hkp_search_btn}</button>
-            </div>
+  const noKeySource = props.sourceLabels.length === 0;
+  return (
+    <form onSubmit={handleKeySearch}>
+      <div className="form-group">
+        <div className="input-group">
+          <input type="text" className={`form-control ${invalid || notFound ? 'is-invalid' : ''}`} value={query} placeholder={l10n.map.key_import_search_ph} aria-describedby="keySearchInputHelpBlock" onChange={handleInputChange} autoFocus disabled={noKeySource} />
+          <div className="input-group-append">
+            <button className="btn btn-primary" type="submit" disabled={noKeySource}>{l10n.map.key_import_search_btn}</button>
           </div>
-          <span id="keySearchInputHelpBlock" className="form-text">
-            {l10n.map.key_import_hkp_server} <a target="_blank" rel="noopener noreferrer" href={hkp_base_url}>{hkp_domain}</a> (<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)
-          </span>
         </div>
-      </form>
-    );
-  }
+        <div className={invalid ? 'invalid-feedback d-block' : 'd-none'}>{l10n.map.key_import_search_invalid}</div>
+      </div>
+      <div className="form-group">
+        {notFound && <Alert header={l10n.map.key_import_search_not_found_header} type="danger" className="mb-0">{l10n.map.key_import_search_not_found}</Alert>}
+      </div>
+      <div id="keySearchInputHelpBlock" className="form-text text-muted">
+        <u>{l10n.map.settings_keyserver}</u> <small>(<Link to="/settings/key-server"><em>{l10n.map.change_link}</em></Link>)</small>
+        <ul className="mb-0">
+          {props.sourceLabels.map((source, index) =>
+            <li key={index}><a target="_blank" rel="noopener noreferrer" href={source.url}>{source.label}</a></li>
+          )}
+          {noKeySource && <Alert header={l10n.map.key_import_search_disabled} type="warning" className="mb-0">{l10n.map.key_import_search_disabled_descr}</Alert>}
+        </ul>
+      </div>
+    </form>
+  );
 }
 
 KeySearch.propTypes = {
-  prefs: PropTypes.object,
-  className: PropTypes.string
+  onKeyFound: PropTypes.func.isRequired,
+  sourceLabels: PropTypes.array.isRequired
 };

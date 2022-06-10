@@ -102,6 +102,10 @@ Generated using nucleoapp.com
   content: "\e919";
 }
 
+.icon-search:before {
+  content: "\f002";
+}
+
 /* SVG Icons */
 .icon-svg {
   width: 24px;

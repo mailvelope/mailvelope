@@ -99,7 +99,7 @@ export default class Encrypt extends React.Component {
   }
 
   async handleAutoLocate({email}) {
-    await port.send('key-lookup', {email, keyringId: this.state.keyringId});
+    await port.send('key-lookup', {query: {email}, keyringId: this.state.keyringId, importKey: true});
     await this.initKeys();
   }
 

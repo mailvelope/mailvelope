@@ -15,6 +15,8 @@ import defaults from '../res/defaults.json';
 import browser from 'webextension-polyfill';
 
 export const name = 'WKD';
+export const label = 'Web Key Directory';
+export const DEFAULT_URL = 'https://wiki.gnupg.org/WKD';
 
 // For testing the following publicly available userIds can be used:
 //
@@ -47,23 +49,19 @@ export function isEnabled() {
 
 /**
  * Get a key from WKD by the email address.
- * @param {String}    email    The keys email address.
- * @yield {String|{undefined}  Armored key with matching uid.
- *                             Undefined if no key was found.
+ * @param {String} options.email - The keys email address.
+ * @yield {String|undefined} Armored key with matching uid. Undefined if no key was found.
  */
-export async function lookup(email) {
+export async function lookup({email}) {
   if (!email) {
-    throw new Error('WKD: Skipping lookup without email.');
+    // skipping lookup without email
+    return;
   }
-
   const [, domain] = /.*@(.*)/.exec(email);
-
   if (isBlacklisted(domain)) {
     return;
   }
-
   let data;
-
   /** For the WKD standard (draft version 13, https://datatracker.ietf.org/doc/draft-koch-openpgp-webkey-service/13/) it is important to check, if the subdomain openpgpkey exists. Only in that
   * case we should use the advanced method. The optimal way to do this check, is to try to
   * resolve the DNS name. On the 21st of November 2021 only Firefox (since version 60) supported the method dns.resolve()
@@ -78,7 +76,6 @@ export async function lookup(email) {
       }
       return false;
     }).catch(() => false);
-
     if (canDNSNameBeResolved) {
       data = await retrievePubKeyViaWKD(email, 'advanced');
     } else {
@@ -106,7 +103,6 @@ export async function lookup(email) {
   }
   // Now we should have binary keys in the response.
   const armored = await parseKeysForEMail(data, email);
-
   return {armored, date: new Date()};
 }
 
@@ -129,7 +125,6 @@ function isBlacklisted(domain) {
   if (typeof blacklist == 'undefined') {
     blacklist = (defaults.preferences.keyserver.wkd_blacklist || []).map(item => RegExp(item, 'i'));
   }
-
   for (const item of blacklist) {
     if (item.test(domain)) {
       return true;
@@ -209,15 +204,12 @@ async function parseKeysForEMail(data, email) {
   if (!openpgp.util.isUint8Array(data)) {
     throw new Error(`WKD: parseKeysForEMail invalid data type ${data.constructor.toString()}`);
   }
-
   const result = await openpgp.key.read(data);
   if (result.err) {
     throw new Error(`WKD: Failed to parse result for '${email}': ${result.err}`);
   }
-
   try {
     let candidate;
-
     for (const key of result.keys) {
       console.log(`WKD: inspecting: ${key.primaryKey.getFingerprint()}`);
       const filtered = filterUserIdsByEmail(key, email);
@@ -267,7 +259,6 @@ function sizeLimitResponse(response, limit) {
   if (response.status != 200) {
     return;
   }
-
   let reader;
   try {
     reader = response.body.getReader();

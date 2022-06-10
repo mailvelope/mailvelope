@@ -289,14 +289,6 @@
     },
     "keyserver": {
       "autocrypt_lookup": false,
-      "hkp_base_url": "https://keyserver.ubuntu.com",
-      "hkp_server_list":
-      [
-        "https://keyserver.ubuntu.com",
-        "http://pool.sks-keyservers.net:11371",
-        "https://pgp.mit.edu",
-        "https://keys.mailvelope.com"
-      ],
       "key_binding": true,
       "mvelo_tofu_lookup": true,
       "oks_lookup": true,

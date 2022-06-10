@@ -19,6 +19,7 @@ import './KeyGrid.scss';
 l10n.register([
   'form_import',
   'key_gen_generate',
+  'key_import_search_btn',
   'keygrid_all_keys',
   'keygrid_creation_date_short',
   'keygrid_default_label',
@@ -27,6 +28,7 @@ l10n.register([
   'keygrid_export_title',
   'keygrid_generate_title',
   'keygrid_import_title',
+  'keygrid_import_search_title',
   'keygrid_keyid',
   'keygrid_public_keys',
   'keygrid_refresh',
@@ -173,6 +175,9 @@ export default class KeyGrid extends React.Component {
             </Link>
             <Link className="btn btn-secondary" to="/keyring/import" replace tabIndex="0" title={l10n.map.keygrid_import_title}>
               <span className="icon icon-download" aria-hidden="true"></span> {l10n.map.form_import}
+            </Link>
+            <Link className={`btn btn-secondary ${this.context.demail ? 'd-none' : ''}`} to="/keyring/import/search" replace tabIndex="0" title={l10n.map.keygrid_import_search_title}>
+              <span className="icon icon-search" aria-hidden="true"></span> {l10n.map.key_import_search_btn}
             </Link>
             <button type="button" onClick={() => this.openExportKeyringDialog()} className="btn btn-secondary" title={l10n.map.keygrid_export_title}>
               <span className="icon icon-upload" aria-hidden="true"></span> {l10n.map.keygrid_export}

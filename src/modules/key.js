@@ -365,12 +365,15 @@ export function toPublic(key) {
 
 /**
  * Filter out any User IDs that do not have the email provided.
- * @param {openpgp.key.Key}  key    The key to filter
- * @param {String}           email  The email of userIds to keep
+ * @param {openpgp.key.Key}  key - The key to filter
+ * @param {String}           email - The email of userIds to keep, keep all userIds if empty
  *
  * @return {openpgp.key.Key} The key with only matching userIds
  */
 export function filterUserIdsByEmail(key, email) {
+  if (!email) {
+    return key;
+  }
   key.users = key.users.filter(user => user.userId &&
     user.userId.email.toLowerCase() === email.toLowerCase());
   return key;
@@ -435,4 +438,11 @@ export async function verifyForAddress(key, email) {
     } catch (e) {}
   }
   return false;
+}
+
+export function removeHexPrefix(keyId) {
+  if (/^0x/.test(keyId)) {
+    return keyId.substring(2);
+  }
+  return keyId;
 }

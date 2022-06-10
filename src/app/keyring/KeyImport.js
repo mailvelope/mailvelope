@@ -37,14 +37,18 @@ l10n.register([
   'key_import_bulk_success',
   'key_import_contacts_import_btn',
   'key_import_default_description',
+  'key_import_default_description_plural',
   'key_import_error',
   'key_import_exception',
   'key_import_file_label',
   'key_import_from_text_btn',
   'key_import_from_text_label',
-  'key_import_hkp_search_btn',
   'key_import_invalid_text',
   'key_import_number_of_failed',
+  'key_import_search_btn',
+  'key_import_search_found',
+  'key_import_search_found_source',
+  'key_import_search_found_modified',
   'key_import_textarea',
   'key_import_textarea',
   'key_import_too_big',
@@ -55,7 +59,8 @@ l10n.register([
   'keyring_confirm_keys',
   'keyring_import_description',
   'keyring_import_keys',
-  'keyring_import_search_description'
+  'keyring_import_search_description',
+  'keyring_import_search_keys'
 ]);
 
 export default class KeyImport extends React.Component {
@@ -72,24 +77,30 @@ export default class KeyImport extends React.Component {
       import: false,
       showImportModal: false,
       redirect: false,
-      activeTab: 'import'
+      activeTab: 'import',
+      keyRegSourceLabels: [],
+      keySourceName: '',
+      keyLastModified: null
     };
-    this.handlePreviewImport = this.handlePreviewImport.bind(this);
     this.handleHiddenModal = this.handleHiddenModal.bind(this);
-    this.toggleTab = this.toggleTab.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.fileUpload = new fileLib.FileUpload();
     // key import push scenario
     if (/\/push$/.test(this.props.location.pathname)) {
-      getAppDataSlot()
-      .then(armored => this.handlePreviewImport(armored));
+      const armored = await getAppDataSlot();
+      this.handlePreviewImport(armored);
     }
+    if (/\/search$/.test(this.props.location.pathname)) {
+      this.toggleTab('lookup');
+    }
+    const keyRegSourceLabels = await port.send('keyreg-source-labels', {externalOnly: true});
+    this.setState({keyRegSourceLabels});
   }
 
-  async handlePreviewImport(armored) {
-    this.setState({waiting: true, alert: []});
+  async handlePreviewImport(armored, keySource = {}) {
+    this.setState({waiting: true, alert: [], keySourceName: '', ...keySource});
     const armoreds = [];
     if (armored) {
       armoreds.push(armored);
@@ -198,6 +209,10 @@ export default class KeyImport extends React.Component {
     }
   }
 
+  async handleKeyFound(key) {
+    this.handlePreviewImport(key.armored, {keySourceName: key.source, keyLastModified: new Date(key.lastModified)});
+  }
+
   handleAddFile(files) {
     files = Array.from(files);
     const filesSize = files.reduce((total, file) => total + file.size, 0);
@@ -252,7 +267,9 @@ export default class KeyImport extends React.Component {
   toggleTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
+        textImport: '',
+        files: []
       });
     }
   }
@@ -263,6 +280,7 @@ export default class KeyImport extends React.Component {
         <Redirect to="/keyring/display/" />
       );
     }
+    const keySource = this.state.keyRegSourceLabels.find(source => source.name === this.state.keySourceName);
     return (
       <>
         <div className="keyImport card-body">
@@ -272,15 +290,8 @@ export default class KeyImport extends React.Component {
             </ol>
           </nav>
           <div className="card-title d-flex flex-wrap align-items-center">
-            <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_import_keys}</h1>
-            <button type="button" onClick={() => this.handlePreviewImport()} className="btn btn-primary" disabled={!this.state.files.length && !this.state.textImport}>{l10n.map.key_import_contacts_import_btn}</button>
+            <h1 className="flex-shrink-0 mr-auto">{this.state.activeTab === 'import' ? l10n.map.keyring_import_keys : l10n.map.keyring_import_search_keys}</h1>
           </div>
-          <nav>
-            <ul className="nav navbar-nav navbar-tabs" id="nav-tab" role="tablist">
-              <li className="nav-item" role="menuitem"><a className={`nav-link ${this.state.activeTab === 'import' ? 'active' : ''}`} onClick={() => this.toggleTab('import')} role="tab" aria-controls="nav-key-import" aria-selected="true">{l10n.map.form_import}</a></li>
-              {!this.context.demail && <li className="nav-item" role="menuitem"><a className={`nav-link ${this.state.activeTab === 'lookup' ? 'active' : ''}`} onClick={() => this.toggleTab('lookup')} role="tab" aria-controls="nav-key-search" aria-selected="false">{l10n.map.key_import_hkp_search_btn}</a></li>}
-            </ul>
-          </nav>
           <TabContent className="mt-4" activeTab={this.state.activeTab}>
             <TabPane tabId="import">
               <p>{l10n.map.keyring_import_description}</p>
@@ -294,16 +305,19 @@ export default class KeyImport extends React.Component {
                     <button type="button" onClick={() => this.setState({showTextInput: true})} className="btn btn-secondary">{l10n.map.key_import_from_text_btn}</button>
                   </div>
                 ) : (
-                  <React.Fragment>
+                  <>
                     <label>{l10n.map.key_import_from_text_label}</label>
                     <textarea id="textImport" className="form-control mb-0" value={this.state.textImport} onChange={event => this.setState({textImport: event.target.value})} rows={8} autoFocus spellCheck="false" autoComplete="off" />
-                  </React.Fragment>
+                  </>
                 )}
+              </div>
+              <div className="form-group d-flex justify-content-end">
+                <button type="button" onClick={() => this.handlePreviewImport()} className="btn btn-primary" disabled={!this.state.files.length && !this.state.textImport}>{l10n.map.key_import_contacts_import_btn}</button>
               </div>
             </TabPane>
             <TabPane tabId="lookup">
               <p>{l10n.map.keyring_import_search_description}</p>
-              <KeySearch prefs={this.props.prefs} />
+              <KeySearch onKeyFound={key => this.handleKeyFound(key)} sourceLabels={this.state.keyRegSourceLabels} />
             </TabPane>
           </TabContent>
         </div>
@@ -315,7 +329,14 @@ export default class KeyImport extends React.Component {
             </div>
           </div>
         }>
-          <p>{l10n.map.key_import_default_description}</p>
+          {this.state.keySourceName && <p>
+            {l10n.map.key_import_search_found}
+            <ul>
+              <li>{l10n.map.key_import_search_found_source} <strong key="1"><a target="_blank" rel="noopener noreferrer" href={keySource.url}>{keySource.label}</a></strong></li>
+              <li>{l10n.map.key_import_search_found_modified} <strong key="0">{this.state.keyLastModified.toLocaleDateString()}</strong></li>
+            </ul>
+          </p>}
+          <p>{this.state.keys.length > 1 ? l10n.map.key_import_default_description_plural : l10n.map.key_import_default_description}</p>
           {this.state.errors.length > 0 && <Alert header={l10n.map.alert_header_warning} type="danger">{this.state.errors.length > 1 ? l10n.get('key_import_number_of_failed_plural', [this.state.errors.length]) : l10n.map.key_import_number_of_failed}</Alert>}
           <div className="table-responsive" style={{maxHeight: '360px'}}>
             <table className="table table-custom table-sm">
@@ -357,6 +378,5 @@ KeyImport.contextType = KeyringOptions;
 KeyImport.propTypes = {
   onKeyringChange: PropTypes.func,
   onNotification: PropTypes.func,
-  prefs: PropTypes.object,
   location: PropTypes.object
 };

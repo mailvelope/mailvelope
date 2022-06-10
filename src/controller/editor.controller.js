@@ -258,7 +258,7 @@ export default class EditorController extends sub.SubController {
   async onKeyLookup(msg) {
     const options = msg.recipient;
     options.keyringId = this.keyringId;
-    const result = await keyRegistry.lookup(options.email, this.keyringId);
+    const result = await keyRegistry.lookup({query: {email: options.email}, identity: this.keyringId});
     if (result) {
       await getKeyringById(this.keyringId).importKeys([{type: 'public', armored: result.armored}]);
     }
