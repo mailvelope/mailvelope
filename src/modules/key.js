@@ -370,12 +370,19 @@ export function toPublic(key) {
  *
  * @return {openpgp.key.Key} The key with only matching userIds
  */
-export function filterUserIdsByEmail(key, email) {
-  if (!email) {
+export function filterUserIdsByEmail(key, filterEmail) {
+  if (!filterEmail) {
     return key;
   }
-  key.users = key.users.filter(user => user.userId &&
-    user.userId.email.toLowerCase() === email.toLowerCase());
+  key.users = key.users.filter(user => {
+    if (!user.userId) {
+      return;
+    }
+    const {userid: userId, name, email} = user.userId;
+    const id = {userId, name, email};
+    parseUserId(id);
+    return id.email.toLowerCase() === filterEmail.toLowerCase();
+  });
   return key;
 }
 
