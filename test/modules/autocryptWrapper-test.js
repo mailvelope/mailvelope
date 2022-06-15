@@ -24,7 +24,7 @@ describe('Test basic autocrypt wrapper functionality', () => {
   describe('receiving header', () => {
     it('parses and stores the key', async () => {
       await autocrypt.processHeader(testAutocryptHeaders, 'id');
-      const result = await autocrypt.lookup(addr, 'id');
+      const result = await autocrypt.lookup({email: addr}, 'id');
       // fixture keys have checksum which autocrypt keys do not.
       expect(result.armored.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
       const {keys: [key]} = await openpgp.key.readArmored(result.armored);
@@ -48,14 +48,14 @@ describe('Test basic autocrypt wrapper functionality', () => {
         date: Date.now().toString()
       };
       await autocrypt.processHeader(headers_with_name, 'id2');
-      const result = await autocrypt.lookup(addr, 'id2');
+      const result = await autocrypt.lookup({email: addr}, 'id2');
       // fixture keys have checksum which autocrypt keys do not.
       expect(result.armored.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
     });
 
     it('stores the keys separately per identity', async () => {
       await autocrypt.processHeader(testAutocryptHeaders, 'other id');
-      const result = await autocrypt.lookup(addr, 'yet another id');
+      const result = await autocrypt.lookup({email: addr}, 'yet another id');
       expect(result).to.be.undefined;
     });
   });
@@ -65,10 +65,10 @@ describe('Test basic autocrypt wrapper functionality', () => {
       await autocrypt.processHeader(testAutocryptHeaders, 'id');
       await autocrypt.processHeader(testAutocryptHeaders, 'other');
       await autocrypt.deleteIdentities(['id']);
-      const result = await autocrypt.lookup(addr, 'id');
+      const result = await autocrypt.lookup({email: addr}, 'id');
       // fixture keys have checksum which autocrypt keys do not.
       expect(result).to.not.exist;
-      const other = await autocrypt.lookup(addr, 'other');
+      const other = await autocrypt.lookup({email: addr}, 'other');
       expect(other.armored.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
     });
 
@@ -76,8 +76,8 @@ describe('Test basic autocrypt wrapper functionality', () => {
       await autocrypt.processHeader(testAutocryptHeaders, 'id');
       await autocrypt.processHeader(testAutocryptHeaders, 'other');
       await autocrypt.deleteIdentities(['id', 'other']);
-      const result = await autocrypt.lookup(addr, 'id');
-      const other = await autocrypt.lookup(addr, 'other');
+      const result = await autocrypt.lookup({email: addr}, 'id');
+      const other = await autocrypt.lookup({email: addr}, 'other');
       expect(result).to.not.exist;
       expect(other).to.not.exist;
     });

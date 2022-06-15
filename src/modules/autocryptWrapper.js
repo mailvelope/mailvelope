@@ -54,7 +54,7 @@ async function autocrypt(id) {
  * @param {String} options.identity - The identity of the context the key is being looked up in
  * @return {String|undefined} The found armored key if any.
  */
-export async function lookup({email, identity}) {
+export async function lookup({email}, identity) {
   if (!email) {
     return;
   }

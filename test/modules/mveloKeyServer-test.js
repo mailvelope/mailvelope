@@ -17,7 +17,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         status: 404,
         json() { return {}; }
       }));
-      await mveloKeyServer.lookup('test@mailvelope.com');
+      await mveloKeyServer.lookup({email: 'test@mailvelope.com'});
       expect(window.fetch.args[0][0]).to.equal('https://keys.mailvelope.com/api/v1/key?email=test%40mailvelope.com');
     });
 
@@ -27,7 +27,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {publicKeyArmored: testKeys.api_test_pub}; }
       }));
 
-      const result = await mveloKeyServer.lookup('test@mailvelope.com');
+      const result = await mveloKeyServer.lookup({email: 'test@mailvelope.com'});
       expect(Object.keys(result)).to.include('armored');
       expect(result.armored).to.include('PGP PUBLIC KEY BLOCK');
     });
@@ -38,7 +38,7 @@ describe('Talking to the Mailvelope Key Server', () => {
         json() { return {}; }
       }));
 
-      const result = await mveloKeyServer.lookup('asdf@asdf.de');
+      const result = await mveloKeyServer.lookup({email: 'asdf@asdf.de'});
       expect(result).to.not.exist;
     });
   });

@@ -51,7 +51,6 @@ function initialState({prefs}) {
     mvelo_tofu_lookup,
     oks_lookup,
     previousPrefs: prefs,
-    valid_base_url: true,
     wkd_lookup
   };
 }
@@ -133,7 +132,7 @@ export default class KeyServer extends React.Component {
             </div>
           </div>
           <div className="btn-bar">
-            <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!(this.state.modified && this.state.valid_base_url)}>{l10n.map.form_save}</button>
+            <button type="button" onClick={() => this.handleSave()} className="btn btn-primary" disabled={!this.state.modified}>{l10n.map.form_save}</button>
             <button type="button" onClick={() => this.setState(initialState(this.props))} className="btn btn-secondary" disabled={!this.state.modified}>{l10n.map.form_cancel}</button>
           </div>
         </form>
