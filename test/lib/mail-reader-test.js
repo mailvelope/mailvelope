@@ -36,6 +36,33 @@ describe('mail-reader', () => {
       expect(bodyParts[0].content).to.equal('asdasd');
     });
 
+    it('should parse empty text', () => {
+      const bodyParts = mailreader.parse([{
+        type: 'text',
+        raw: 'Content-Type: text/plain\r\nContent-Transfer-Encoding: 7bit\r\n\r\n'
+      }]);
+      expect(bodyParts[0].content).to.be.a('string');
+      expect(bodyParts[0].content).to.equal('');
+    });
+
+    it('should parse html', () => {
+      const bodyParts = mailreader.parse([{
+        type: 'html',
+        raw: 'Content-Type: text/html; charset="UTF-8"\r\n\r\n<pre>PGP MESSAGE</pre>\r\n'
+      }]);
+      expect(bodyParts[0].content).to.be.a('string');
+      expect(bodyParts[0].content).to.equal('<pre>PGP MESSAGE</pre>');
+    });
+
+    it('should parse empty html', () => {
+      const bodyParts = mailreader.parse([{
+        type: 'html',
+        raw: 'Content-Type: text/html; charset="UTF-8"\r\n\r\n'
+      }]);
+      expect(bodyParts[0].content).to.be.a('string');
+      expect(bodyParts[0].content).to.equal('');
+    });
+
     it('should parse attachment', () => {
       const bodyParts = mailreader.parse([{
         type: 'attachment',
@@ -92,6 +119,19 @@ describe('mail-reader', () => {
       expect(bodyParts[0].id).to.equal('9EC769A2-4AF4-4D47-A0AB-96CEA7CA5878');
     });
 
+    it('should parse empty attachment', () => {
+      const bodyParts = mailreader.parse([{
+        type: 'attachment',
+        raw: 'Content-Disposition: attachment; filename="nyS76EP.jpg"\r\n\r\n'
+      }]);
+      expect(bodyParts[0].content).to.be.a('uint8array');
+      expect(bodyParts[0].content.length).to.equal(0);
+      expect(Uint8Array2str(bodyParts[0].content)).to.equal('');
+      expect(bodyParts[0].raw).to.not.exist;
+      expect(bodyParts[0].filename).to.equal('nyS76EP.jpg');
+      expect(bodyParts[0].mimeType).to.exist;
+    });
+
     it('should parse encrypted', () => {
       const bodyParts = mailreader.parse([{
         type: 'encrypted',
@@ -99,6 +139,16 @@ describe('mail-reader', () => {
       }]);
       expect(bodyParts[0].content).to.not.be.empty;
       expect(bodyParts[0].content).to.match(/^-----BEGIN PGP MESSAGE-----/);
+      expect(bodyParts[0].raw).to.not.exist;
+    });
+
+    it('should parse empty encrypted', () => {
+      const bodyParts = mailreader.parse([{
+        type: 'encrypted',
+        raw: 'Content-Type: multipart/encrypted;\r\n boundary="----sinikael-?=_3-13993193614470.10911058727651834"\r\nContent-Description: OpenPGP encrypted message\r\nContent-Transfer-Encoding: base64\r\n\r\n------sinikael-?=_3-13993193614470.10911058727651834--\r\n'
+      }]);
+      expect(bodyParts[0].content).to.be.a('array');
+      expect(bodyParts[0].content).to.eql([]);
       expect(bodyParts[0].raw).to.not.exist;
     });
 

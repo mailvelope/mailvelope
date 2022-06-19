@@ -41,5 +41,4 @@ describe('Key server settings unit tests', () => {
       expect(keyserver.setState.withArgs({test: true, modified: true}).calledOnce).to.be.true;
     });
   });
-
 });

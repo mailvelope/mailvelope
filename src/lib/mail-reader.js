@@ -212,7 +212,7 @@ function normalize(node) {
   node.contentType.params ||= {};
   // normalize the contents
   node.raw ||= '';
-  node.content ||= '';
+  node.content ||= new Uint8Array();
   // optional
   if (node.headers['content-id']) {
     // node has content-id set, let's normalize it

@@ -39,7 +39,7 @@ export default class DecryptMessage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: '',
+      message: null,
       signer: null,
       showSig: false,
       waiting: true,
@@ -202,7 +202,7 @@ export default class DecryptMessage extends React.Component {
 
   handleDecrypt() {
     if (!this.state.showNotification && !this.state.waiting) {
-      if (this.state.message && !this.state.clearText) {
+      if (this.state.message !== null && !this.state.clearText) {
         this.setState({locked: false});
       } else {
         this.port.emit('decrypt-message');
@@ -292,7 +292,7 @@ export default class DecryptMessage extends React.Component {
       <SecurityBG className={`decrypt-msg ${this.props.embedded ? 'embedded' : ''}`} port={this.port}>
         <div className="modal d-block" style={{zIndex: 1035}}>
           <div ref={node => this.element = node} className="modal-dialog h-100 mw-100 m-0">
-            {((this.state.message || this.state.files.length || this.state.encFiles.length) && !this.state.locked) ? (
+            {((this.state.message !== null || this.state.files.length || this.state.encFiles.length) && !this.state.locked) ? (
               <div className="modal-content overflow-hidden shadow-lg border-0 h-100">
                 {this.state.files.length > 0 && (
                   <div className="modal-header flex-shrink-0">
@@ -307,7 +307,7 @@ export default class DecryptMessage extends React.Component {
                       <FileDownloadPanel files={this.state.encFiles} onClickFile={e => this.handleClickEncFile(e)} />
                     </div>
                   )}
-                  {this.state.message && this.state.clearText && (
+                  {this.state.message !== null && this.state.clearText && (
                     <Alert type="warning" className="align-self-start" header={l10n.map.alert_header_warning}>
                       {l10n.map.decrypt_cleartext_warning}
                     </Alert>
@@ -343,7 +343,7 @@ export default class DecryptMessage extends React.Component {
           </div>
         }
         {this.state.pwdDialog && <div className="modal-backdrop show"></div>}
-        {((this.state.message || this.state.files.length > 0 || this.state.encFiles.length > 0) && this.state.waiting && !this.state.locked) && <Spinner fullscreen={true} />}
+        {((this.state.message !== null || this.state.files.length > 0 || this.state.encFiles.length > 0) && this.state.waiting && !this.state.locked) && <Spinner fullscreen={true} />}
         {this.state.terminate && <Terminate />}
       </SecurityBG>
     );

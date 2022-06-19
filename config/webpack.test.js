@@ -17,7 +17,6 @@ conf.externals = {
 conf.resolve = {
   modules: [path.resolve('./src'), 'node_modules'],
   alias: {
-    'emailjs-stringencoding': path.resolve('./src/lib/string-encoding'),
     'text-encoding': path.resolve('./src/lib/string-encoding'),
     test$: path.resolve('./test/test.js'),
     utils$: path.resolve('./test/utils.js'),
