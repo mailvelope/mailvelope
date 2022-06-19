@@ -60,6 +60,11 @@ export function parseUserId(user) {
   }
 }
 
+export function formatEmailAddress(email, name) {
+  const emailAddress = new goog.format.EmailAddress(email, name);
+  return emailAddress.toString();
+}
+
 export function mapKeys(keys) {
   return Promise.all(keys.map(async key => {
     let uiKey = {};

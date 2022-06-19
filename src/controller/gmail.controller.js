@@ -9,6 +9,7 @@ import * as l10n from '../lib/l10n';
 import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
+import {formatEmailAddress} from '../modules/key';
 import {setAppDataSlot} from '../controller/sub.controller';
 
 export default class GmailController extends sub.SubController {
@@ -64,8 +65,8 @@ export default class GmailController extends sub.SubController {
       // send email via GMAIL api
       this.editorControl.ports.editor.emit('send-mail-in-progress');
       const userEmail = options.userInfo.email;
-      const toFormatted = to.map(({name, email}) => `${name} <${email}>`);
-      const ccFormatted = cc.map(({name, email}) => `${name} <${email}>`);
+      const toFormatted = to.map(({name, email}) => formatEmailAddress(email, name));
+      const ccFormatted = cc.map(({name, email}) => formatEmailAddress(email, name));
       const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: toFormatted, cc: ccFormatted});
       const accessToken = await this.editorControl.getAccessToken();
       const sendOptions = {
