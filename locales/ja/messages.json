@@ -96,7 +96,7 @@
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
-        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "message": "Mailvelopeと匿名化されたアクセス分析データを共有",
         "description": "Consent to share analytics information with mailvelope"
     },
     "auth_domain_api_label": {
@@ -248,11 +248,11 @@
         "description": ""
     },
     "editor_extra_key_checkbox": {
-        "message": "Add extra key",
+        "message": "予備鍵を追加",
         "description": "Extra key checkbox label."
     },
     "editor_extra_key_help": {
-        "message": "Email will be encrypted with this additional key",
+        "message": "メールはこの追加鍵で暗号化されます",
         "description": "Extra key help text."
     },
     "editor_header": {
@@ -268,7 +268,7 @@
         "description": "Test for auto sign link."
     },
     "editor_key_has_extra_msg": {
-        "message": "Email will be encrypted with the alternate key entered below.",
+        "message": "メールは別の鍵（以下）で暗号化されます",
         "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
@@ -748,6 +748,10 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
+        "message": "After confirmation, this key is transferred to the local keyring:",
+        "description": "Key import dialog description."
+    },
+    "key_import_default_description_plural": {
         "message": "確認後、鍵がローカル鍵リングに転送されます。",
         "description": "Key import dialog description."
     },
@@ -787,24 +791,12 @@
         "message": "クリップボードのテキスト",
         "description": "Import keys from clipboard textarea label on key import page."
     },
-    "key_import_hkp_search_btn": {
-        "message": "検索",
-        "description": ""
-    },
-    "key_import_hkp_search_ph": {
-        "message": "名前、アドレス、鍵ID",
-        "description": ""
-    },
-    "key_import_hkp_server": {
-        "message": "鍵サーバー",
-        "description": ""
-    },
     "key_import_invalid_text": {
         "message": "有効な鍵がありません",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
+        "message": "【注意】この連絡先の鍵が期限切れになっています。$1 の暗号通信はできません。連絡先が現在使っている公開鍵を取得する必要があります",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -844,20 +836,60 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
-        "message": "Add to keyring",
+        "message": "鍵リングに追加",
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
-        "message": "Not now",
+        "message": "今はしない",
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
-        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
+        "message": "古い鍵を使い続けると、宛先の相手があなたのメッセージを復号できなくなるかもしれません。心配な場合、メールとは別の手段で相手に確認してください。その後、鍵を追加したり削除したりできます。",
         "description": "Key import dialog description."
     },
     "key_import_rotation_headline": {
-        "message": "The sender signed this message with a new key.",
+        "message": "相手が新しい鍵でメッセージを暗号化しています",
         "description": "Key import rotation dialog header."
+    },
+    "key_import_search_btn": {
+        "message": "検索",
+        "description": "Key search input button."
+    },
+    "key_import_search_found": {
+        "message": "Key found in:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "Source:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "last modified on:",
+        "description": "Key search found label."
+    },
+    "key_import_search_disabled": {
+        "message": "Search disabled.",
+        "description": "Key search disabled warning."
+    },
+    "key_import_search_disabled_descr": {
+        "message": "Activate at least one key source in the settings.",
+        "description": "Key search disabled warning description."
+    },
+    "key_import_search_invalid": {
+        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "description": "Key search input has invalid content."
+    },
+    "key_import_search_not_found": {
+        "message": "Key is not available in any of the searched key directories.",
+        "description": "Key search found no result error message."
+    },
+    "key_import_search_not_found_header": {
+        "message": "No key found.",
+        "description": "Key search found no result header."
+    },
+    "key_import_search_ph": {
+        "message": "Email Address / Key ID / Fingerprint",
+        "description": "Key search input place holder."
     },
     "key_import_textarea": {
         "message": "テキスト形式で鍵をインポート",
@@ -960,7 +992,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Create a new recovery sheet here if:",
+        "message": "次の場合、新しいリカバリー（復旧）シートを作ります：",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1119,6 +1151,10 @@
         "message": "鍵の生成",
         "description": "Title for generate key button"
     },
+    "keygrid_import_search_title": {
+        "message": "Search for public keys in external sources",
+        "description": "Title for Search key button."
+    },
     "keygrid_import_title": {
         "message": "鍵のインポート",
         "description": "Title for Import key button."
@@ -1240,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "鍵の確認",
+        "message": "Confirm key to import",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": " $1 の鍵を確認",
+        "message": "Confirm $1 keys to import",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1264,12 +1300,16 @@
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "鍵の追加",
+        "message": "鍵をインポート",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "鍵サーバーで連絡先を検索",
+        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
         "description": "Description of key search for search tab of keyring import."
+    },
+    "keyring_import_search_keys": {
+        "message": "Search for keys",
+        "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
         "message": "主鍵リング",
@@ -1327,36 +1367,24 @@
         "message": "Autocryptのヘッダの鍵を使う",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_hkp_url": {
-        "message": "HKP鍵サーバー",
-        "description": "HKP key server option: url."
-    },
     "keyserver_tofu_lookup": {
         "message": "Mailvelopeキーサーバーの使用",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_key_binding_header": {
-        "message": "Key Detection",
+        "message": "鍵の検出",
         "description": "Header for key binding feature"
     },
     "keyserver_key_binding_label": {
-        "message": "Determine current key of contacts and perform key selection automatically",
+        "message": "相手が現在使用している鍵を決定し、自動で鍵選択をします",
         "description": "Label for key binding feature"
     },
     "keyserver_oks_lookup": {
-        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
+        "message": "自動で <0>keys.openpgp.org</0> から鍵を探す",
         "description": "Enable keys.openpgp.org Auto Lookup"
     },
-    "keyserver_url_error": {
-        "message": "鍵サーバーと通信できません。",
-        "description": "HKP key server URL error."
-    },
-    "keyserver_url_warning": {
-        "message": "鍵サーバーのURLは以下の形式でなければなりません:http(s)://keys.example.com",
-        "description": "HKP key server url warning."
-    },
     "keyserver_verifying_servers": {
-        "message": "Key server with email verification",
+        "message": "メールによる認証が可能な鍵サーバー",
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
@@ -2004,7 +2032,7 @@
         "description": "OpenPGP settings header"
     },
     "settings_analytics": {
-        "message": "Analytics",
+        "message": "使用分析",
         "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
@@ -2016,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Sources",
+        "message": "Key Directories",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2120,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "Mailvelope鍵サーバーと同期するため、確認メールが $1 に送られました.",
+        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {

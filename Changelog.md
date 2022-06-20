@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v4.6.0
+-------
+__Jun 20, 2022__
+
+  * Revise key search UI: search in verified key directories and WKD. Use key import preview for search results. Remove HKP server configuration.
+  * Fix decrypting email with empty MIME nodes
+  * [Gmail] Fix sending email with special characters in name associated with the email address
+
 v4.5.2
 -------
 __Apr 3, 2022__

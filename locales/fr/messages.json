@@ -104,7 +104,7 @@
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
-        "message": "Souhaitez-vous permettre l’autorisation de Mailvelope pour le domaine $1 ?",
+        "message": "Souhaitez-vous permettre l’autorisation de Mailvelope pour le domaine $1 ?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_headline": {
@@ -208,7 +208,7 @@
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Voulez-vous aussi déchiffrer un texte ?",
+        "message": "Voulez-vous aussi déchiffrer un texte ?",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
@@ -260,7 +260,7 @@
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "Souhaitez-vous signer tous vos courriels ?",
+        "message": "Souhaitez-vous signer tous vos courriels ?",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
@@ -400,7 +400,7 @@
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Souhaitez-vous aussi chiffrer un texte ?",
+        "message": "Souhaitez-vous aussi chiffrer un texte ?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
@@ -548,7 +548,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "GnuPG est-il installé ? Si ce n’est pas le cas, <0>Téléchargez-le ici</0>. Pour en revérifier la disponibilité, <1>Redémarrez Mailvelope</1>",
+        "message": "GnuPG est-il installé ? Si ce n’est pas le cas, <0>Téléchargez-le ici</0>. Pour en revérifier la disponibilité, <1>Redémarrez Mailvelope</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -556,7 +556,7 @@
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "Préférez-vous utiliser GnuPG ?",
+        "message": "Préférez-vous utiliser GnuPG ?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
@@ -564,7 +564,7 @@
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Quelle dorsale de chiffrement préférez-vous ?",
+        "message": "Quelle dorsale de chiffrement préférez-vous ?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
@@ -640,7 +640,7 @@
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Quelle clé souhaitez-vous exporter ?",
+        "message": "Quelle clé souhaitez-vous exporter ?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
@@ -748,6 +748,10 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
+        "message": "Après confirmation, cette clé sera transférée dans le trousseau local :",
+        "description": "Key import dialog description."
+    },
+    "key_import_default_description_plural": {
         "message": "Après confirmation, ces clés seront transférées dans le trousseau local :",
         "description": "Key import dialog description."
     },
@@ -786,18 +790,6 @@
     "key_import_from_text_label": {
         "message": "Texte du presse-papiers",
         "description": "Import keys from clipboard textarea label on key import page."
-    },
-    "key_import_hkp_search_btn": {
-        "message": "Rechercher",
-        "description": ""
-    },
-    "key_import_hkp_search_ph": {
-        "message": "Par nom, adresse courriel ou ID de clé",
-        "description": ""
-    },
-    "key_import_hkp_server": {
-        "message": "Serveur de clés",
-        "description": ""
     },
     "key_import_invalid_text": {
         "message": "Aucun texte de clé valide n’a été trouvé",
@@ -858,6 +850,46 @@
     "key_import_rotation_headline": {
         "message": "L’expéditeur a signé ce message avec une nouvelle clé.",
         "description": "Key import rotation dialog header."
+    },
+    "key_import_search_btn": {
+        "message": "Recherche",
+        "description": "Key search input button."
+    },
+    "key_import_search_found": {
+        "message": "La clé a été trouvée dans :",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "Source :",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "dernière modification le :",
+        "description": "Key search found label."
+    },
+    "key_import_search_disabled": {
+        "message": "La recherche est désactivée.",
+        "description": "Key search disabled warning."
+    },
+    "key_import_search_disabled_descr": {
+        "message": "Activez au moins une source de clés dans les paramètres.",
+        "description": "Key search disabled warning description."
+    },
+    "key_import_search_invalid": {
+        "message": "Saisissez une adresse courriel valide, un ID de clé (16 chiffres) ou une empreinte (40 chiffres)",
+        "description": "Key search input has invalid content."
+    },
+    "key_import_search_not_found": {
+        "message": "La clé est introuvable dans les annuaires de clés recherchés.",
+        "description": "Key search found no result error message."
+    },
+    "key_import_search_not_found_header": {
+        "message": "Aucune clé n’a été trouvée.",
+        "description": "Key search found no result header."
+    },
+    "key_import_search_ph": {
+        "message": "Adresse courriel / ID de clé / empreinte",
+        "description": "Key search input place holder."
     },
     "key_import_textarea": {
         "message": "Importer une clé en tant que texte",
@@ -936,7 +968,7 @@
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Souhaitez-vous quand même la révoquer ?",
+        "message": "Souhaitez-vous quand même la révoquer ?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
@@ -1088,7 +1120,7 @@
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "Voulez-vous vraiment supprimer cette clé ?",
+        "message": "Voulez-vous vraiment supprimer cette clé ?",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
@@ -1118,6 +1150,10 @@
     "keygrid_generate_title": {
         "message": "Générer une clé",
         "description": "Title for generate key button"
+    },
+    "keygrid_import_search_title": {
+        "message": "Chercher des clés publiques dans des sources externes",
+        "description": "Title for Search key button."
     },
     "keygrid_import_title": {
         "message": "Importer une clé",
@@ -1236,15 +1272,15 @@
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Voulez-vous supprimer le trousseau dont l’ID est $1 ?",
+        "message": "Voulez-vous supprimer le trousseau dont l’ID est $1 ?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirmer la clé",
+        "message": "Confirmer la clé à importer",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirmer $1 clés",
+        "message": "Confirmer $1 clés à importer",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1264,12 +1300,16 @@
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Ajouter des clés",
+        "message": "Importer des clés",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Chercher les contacts existants sur le serveur de clés",
+        "message": "Trouvez des clés publiques à ajouter à votre trousseau. Mailvelope analyse plusieurs annuaires de clés et suggère la clé publique la plus probablement utilisée.",
         "description": "Description of key search for search tab of keyring import."
+    },
+    "keyring_import_search_keys": {
+        "message": "Chercher des clés",
+        "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
         "message": "Trousseau principal",
@@ -1308,7 +1348,7 @@
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "Avez-vous déjà une biclé sur un autre appareil ? Vous pouvez importer vos clés existantes. Exportez simplement la biclé de l’autre appareil et importez-la ici.",
+        "message": "Avez-vous déjà une biclé sur un autre appareil ? Vous pouvez importer vos clés existantes. Exportez simplement la biclé de l’autre appareil et importez-la ici.",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
@@ -1327,10 +1367,6 @@
         "message": "Utiliser les clés des en-têtes Autocrypt du courriel entrant",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_hkp_url": {
-        "message": "Serveur de clés HKP",
-        "description": "HKP key server option: url."
-    },
     "keyserver_tofu_lookup": {
         "message": "Utiliser le serveur de clés de Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
@@ -1347,16 +1383,8 @@
         "message": "Chercher des clés automatiquement sur <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
     },
-    "keyserver_url_error": {
-        "message": "Impossible d’atteindre le serveur de clés",
-        "description": "HKP key server URL error."
-    },
-    "keyserver_url_warning": {
-        "message": "L’URL du serveur de clés doit être au format suivant : http(s)://cles.exemple.com",
-        "description": "HKP key server url warning."
-    },
     "keyserver_verifying_servers": {
-        "message": "Serveur de clé avec vérification par courriel",
+        "message": "Serveur de clés avec vérification par courriel",
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
@@ -1832,7 +1860,7 @@
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Où les messages déchiffrés sont-ils affichés ?",
+        "message": "Où les messages déchiffrés sont-ils affichés ?",
         "description": "Label for display options"
     },
     "security_display_inline": {
@@ -2016,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Source des clés",
+        "message": "Annuaires de clés",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2120,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "Pour le synchroniser avec le serveur de clés de Mailvelope, un courriel de confirmation a été envoyé à $1.",
+        "message": "Pour synchroniser avec le serveur de clés de Mailvelope, un courriel de confirmation a été envoyé à $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
@@ -2132,7 +2160,7 @@
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Souhaitez-vous supprimer cet ID utilisateur de votre clé ?",
+        "message": "Souhaitez-vous supprimer cet ID utilisateur de votre clé ?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
@@ -2152,7 +2180,7 @@
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Souhaitez-vous quand même la révoquer ?",
+        "message": "Souhaitez-vous quand même la révoquer ?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
@@ -2192,7 +2220,7 @@
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Voulez-vous vraiment supprimer ce site de la liste des domaines autorisés ?",
+        "message": "Voulez-vous vraiment supprimer ce site de la liste des domaines autorisés ?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {

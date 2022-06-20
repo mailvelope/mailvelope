@@ -748,6 +748,10 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
+        "message": "After confirmation, this key is transferred to the local keyring:",
+        "description": "Key import dialog description."
+    },
+    "key_import_default_description_plural": {
         "message": "بعد التأكيد، سوف تُنقَل هذه المفاتيح إلى المستودع المحلي للمفاتيح :",
         "description": "Key import dialog description."
     },
@@ -786,18 +790,6 @@
     "key_import_from_text_label": {
         "message": "نص من الحافظة",
         "description": "Import keys from clipboard textarea label on key import page."
-    },
-    "key_import_hkp_search_btn": {
-        "message": "بحث",
-        "description": ""
-    },
-    "key_import_hkp_search_ph": {
-        "message": "بالاسم أو بعنوان البريد الإلكتروني، أو بمُعرِّف المفتاح",
-        "description": ""
-    },
-    "key_import_hkp_server": {
-        "message": "خادم المفاتيح",
-        "description": ""
     },
     "key_import_invalid_text": {
         "message": "لم يعثر على نص صحيح للمفتاح",
@@ -858,6 +850,46 @@
     "key_import_rotation_headline": {
         "message": "The sender signed this message with a new key.",
         "description": "Key import rotation dialog header."
+    },
+    "key_import_search_btn": {
+        "message": "بحث",
+        "description": "Key search input button."
+    },
+    "key_import_search_found": {
+        "message": "Key found in:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "Source:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "last modified on:",
+        "description": "Key search found label."
+    },
+    "key_import_search_disabled": {
+        "message": "Search disabled.",
+        "description": "Key search disabled warning."
+    },
+    "key_import_search_disabled_descr": {
+        "message": "Activate at least one key source in the settings.",
+        "description": "Key search disabled warning description."
+    },
+    "key_import_search_invalid": {
+        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "description": "Key search input has invalid content."
+    },
+    "key_import_search_not_found": {
+        "message": "Key is not available in any of the searched key directories.",
+        "description": "Key search found no result error message."
+    },
+    "key_import_search_not_found_header": {
+        "message": "No key found.",
+        "description": "Key search found no result header."
+    },
+    "key_import_search_ph": {
+        "message": "Email Address / Key ID / Fingerprint",
+        "description": "Key search input place holder."
     },
     "key_import_textarea": {
         "message": "استيراد المفتاح كنص",
@@ -1119,6 +1151,10 @@
         "message": "ولِّد مفتاحا",
         "description": "Title for generate key button"
     },
+    "keygrid_import_search_title": {
+        "message": "Search for public keys in external sources",
+        "description": "Title for Search key button."
+    },
     "keygrid_import_title": {
         "message": "استورد مفتاحا",
         "description": "Title for Import key button."
@@ -1240,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "تأكيد المفتاح",
+        "message": "Confirm key to import",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "تأكيد $1 مفاتيح",
+        "message": "Confirm $1 keys to import",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1264,12 +1300,16 @@
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "أضف المفاتيح",
+        "message": "استيراد المفاتيح",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "البحث في خادم المفاتيح عن جهات الاتصال الموجودة.",
+        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
         "description": "Description of key search for search tab of keyring import."
+    },
+    "keyring_import_search_keys": {
+        "message": "Search for keys",
+        "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
         "message": "مستودع المفاتيح الأساسي",
@@ -1327,10 +1367,6 @@
         "message": "استخدم المفاتيح انطلاقا من ترويسات Autocrypt بالنسبة للرسائل الإلكترونية الواردة.",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_hkp_url": {
-        "message": "خادم المفاتيح HKP",
-        "description": "HKP key server option: url."
-    },
     "keyserver_tofu_lookup": {
         "message": "استخدم خادم المفاتيح Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
@@ -1346,14 +1382,6 @@
     "keyserver_oks_lookup": {
         "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
-    },
-    "keyserver_url_error": {
-        "message": "لم يتمكن من الوصول إلى خادم المفاتيح",
-        "description": "HKP key server URL error."
-    },
-    "keyserver_url_warning": {
-        "message": "يجب على عنوان خادم المفاتيح أن يتبع النسق التالي : http(s)://keys.example.com",
-        "description": "HKP key server url warning."
     },
     "keyserver_verifying_servers": {
         "message": "Key server with email verification",
@@ -2016,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Sources",
+        "message": "Key Directories",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2120,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "لقد أُرسلَت إليك رسالة تأكيد إلى العنوان $1 للمزامنة مع خادم Mailvelope.",
+        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {

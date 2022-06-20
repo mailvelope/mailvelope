@@ -320,7 +320,7 @@
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "Yalnız imzala",
+        "message": "Yalnızca imzala",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
@@ -748,6 +748,10 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
+        "message": "Onaylandıktan sonra bu anahtar yerel anahtarlığa aktarılacak:",
+        "description": "Key import dialog description."
+    },
+    "key_import_default_description_plural": {
         "message": "Onaylandıktan sonra bu anahtarlar yerel anahtarlığa aktarılacak:",
         "description": "Key import dialog description."
     },
@@ -786,18 +790,6 @@
     "key_import_from_text_label": {
         "message": "Panodan metin",
         "description": "Import keys from clipboard textarea label on key import page."
-    },
-    "key_import_hkp_search_btn": {
-        "message": "Arama",
-        "description": ""
-    },
-    "key_import_hkp_search_ph": {
-        "message": "Ada, e-posta adresine ya da anahtar koduna göre",
-        "description": ""
-    },
-    "key_import_hkp_server": {
-        "message": "Anahtar sunucusu",
-        "description": ""
     },
     "key_import_invalid_text": {
         "message": "Geçerli bir anahtar metni bulunamadı",
@@ -858,6 +850,46 @@
     "key_import_rotation_headline": {
         "message": "Gönderici bu iletiyi yeni bir anahtar ile imzaladı.",
         "description": "Key import rotation dialog header."
+    },
+    "key_import_search_btn": {
+        "message": "Ara",
+        "description": "Key search input button."
+    },
+    "key_import_search_found": {
+        "message": "Anahtar şurada bulundu:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "Kaynak:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "son değişiklik:",
+        "description": "Key search found label."
+    },
+    "key_import_search_disabled": {
+        "message": "Arama devre dışı",
+        "description": "Key search disabled warning."
+    },
+    "key_import_search_disabled_descr": {
+        "message": "Ayarlardan en az bir anahtar kaynağını etkinleştirin.",
+        "description": "Key search disabled warning description."
+    },
+    "key_import_search_invalid": {
+        "message": "Geçerli bir e-posta adresi, anahtasr kodu (16 rakam) ya da parmak izi (40 rakam) yazın",
+        "description": "Key search input has invalid content."
+    },
+    "key_import_search_not_found": {
+        "message": "Anahtar, aranan anahtar dizinlerinin hiç birinde bulunamadı.",
+        "description": "Key search found no result error message."
+    },
+    "key_import_search_not_found_header": {
+        "message": "Herhangi bir anahtar bulunamadı.",
+        "description": "Key search found no result header."
+    },
+    "key_import_search_ph": {
+        "message": "E-posta adresi / Anahtar kodu / Parmak izi",
+        "description": "Key search input place holder."
     },
     "key_import_textarea": {
         "message": "Anahtarı metin olarak içe aktar",
@@ -1119,6 +1151,10 @@
         "message": "Bir anahtar üretir",
         "description": "Title for generate key button"
     },
+    "keygrid_import_search_title": {
+        "message": "Dış kaynaklarda herkese açık anahtarları ara",
+        "description": "Title for Search key button."
+    },
     "keygrid_import_title": {
         "message": "Bir anahtarı içe aktarır",
         "description": "Title for Import key button."
@@ -1240,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Anahtarı onayla",
+        "message": "Anahtarın içe aktarılmasını onaylayın",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "$1 anahtarı onayla",
+        "message": "$1 anahtarın içe aktarılmasını onaylayın",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1264,12 +1300,16 @@
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Anahtar ekle",
+        "message": "Anahtarları içe aktar",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Var olan kişiler için anahtar sunucusunda arama yapabilirsiniz.",
+        "message": "Anahtarlığınıza eklenecek herkese açık anahtarları bulun. Mailvelope, birçok anahtar dizini tarar ve kullanılıyor olma olasılığı en yüksek olan herkese açık anahtarı önerir.",
         "description": "Description of key search for search tab of keyring import."
+    },
+    "keyring_import_search_keys": {
+        "message": "Anahtar arama",
+        "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
         "message": "Ana anahtarlık",
@@ -1327,10 +1367,6 @@
         "message": "Gelen e-postanın Autocrypt üst bilgisindeki anahtarlar kullanılsın",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_hkp_url": {
-        "message": "HKP anahtar sunucusu",
-        "description": "HKP key server option: url."
-    },
     "keyserver_tofu_lookup": {
         "message": "Mailvelope anahtar sunucusu kullanılsın",
         "description": "Enable Mailvelope Key Server Auto Lookup"
@@ -1346,14 +1382,6 @@
     "keyserver_oks_lookup": {
         "message": "Anahtarları otomatik olarak <0>keys.openpgp.org</0> üzerinde arayın ",
         "description": "Enable keys.openpgp.org Auto Lookup"
-    },
-    "keyserver_url_error": {
-        "message": "Anahtar sunucusuna erişilemiyor",
-        "description": "HKP key server URL error."
-    },
-    "keyserver_url_warning": {
-        "message": "Anahtar sunucusunun adresi şu biçimde olmalıdır: http(s)://keys.ornek.com",
-        "description": "HKP key server url warning."
     },
     "keyserver_verifying_servers": {
         "message": "E-posta doğrulaması ile anahtar sunucusu",
@@ -1772,11 +1800,11 @@
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "Şifreli iletişimi yalnız başkalarının erişemeyeceği güvenli aygıtlar üzerine kurun.",
+        "message": "Şifreli iletişimi yalnızca başkalarının erişemeyeceği güvenli aygıtlar üzerine kurun.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "Yedeklenmiş verilerinizin şifresi yalnız bu kurtarma sayfasındaki kurtarma kodu ile çözülebilir.",
+        "message": "Yedeklenmiş verilerinizin şifresi yalnızca bu kurtarma sayfasındaki kurtarma kodu ile çözülebilir.",
         "description": ""
     },
     "reload_tab": {
@@ -2016,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Anahtar kaynakları",
+        "message": "Anahtar dizinleri",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2120,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "Kullanıcı kodunu Mailvelope sunucusu ile eşitlemek için $1 adresine bir onay e-postası gönderildi.",
+        "message": "Kullanıcı kodunu Mailvelope anahtar sunucusu ile eşitlemek için $1 adresine bir onay e-postası gönderildi.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
@@ -2216,7 +2244,7 @@
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "Yalnız HTTPS",
+        "message": "Yalnızca HTTPS",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
