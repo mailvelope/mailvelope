@@ -631,7 +631,7 @@ export default class EditorController extends sub.SubController {
     if (this.keyFprBuffer) {
       keyFprs = this.keyFprBuffer;
     } else {
-      keyFprs = keys.map(key => key.fingerprint);
+      keyFprs = keys.map(key => key.fingerprint).filter(fpr => fpr);
     }
     if (prefs.general.auto_add_primary) {
       // get the sender key fingerprint
