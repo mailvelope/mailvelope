@@ -1,5 +1,5 @@
 {
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "jid1-AQqSMBYb0a8ADg@jetpack",
       "strict_min_version": "79.0"

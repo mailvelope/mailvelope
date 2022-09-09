@@ -748,7 +748,7 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, this key is transferred to the local keyring:",
+        "message": "לאחר אישור, מפתח זה יועבר אל מחזיק המפתחות המקומי:",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
@@ -856,11 +856,11 @@
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "Key found in:",
+        "message": "מפתח נמצא ב:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Source:",
+        "message": "מקור:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
@@ -868,7 +868,7 @@
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
-        "message": "Search disabled.",
+        "message": "חיפוש מושבת.",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
@@ -876,7 +876,7 @@
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "message": "הכנס כתובת דוא״ל תקפה, זהות מפתח תקפה (16 ספרות) או טביעת אצבע תקפה (40 ספרות)",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
@@ -884,11 +884,11 @@
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "No key found.",
+        "message": "מפתח לא נמצא.",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "Email Address / Key ID / Fingerprint",
+        "message": "כתובת דוא״ל / זהות מפתח / טביעת אצבע",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
@@ -1152,7 +1152,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "Search for public keys in external sources",
+        "message": "חפש מפתחות ציבוריים במקורות חיצוניים",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
@@ -1276,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirm key to import",
+        "message": "אשר מפתח ליבוא",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys to import",
+        "message": "אשר $1 מפתחות ליבוא",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1300,7 +1300,7 @@
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Import Keys",
+        "message": "ייבא מפתחות",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
@@ -1308,7 +1308,7 @@
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "Search for keys",
+        "message": "חפש מפתחות",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
@@ -2148,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "כדי לסנכרן עם שרת המפתחות של Mailvelope, דוא״ל אישור נשלח אל $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {

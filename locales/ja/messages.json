@@ -748,7 +748,7 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, this key is transferred to the local keyring:",
+        "message": "確認後、この鍵がローカル鍵リングに転送されます。",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
@@ -856,39 +856,39 @@
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "Key found in:",
+        "message": "キーが見つかりました:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Source:",
+        "message": "ソース:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "last modified on:",
+        "message": "最終更新日:",
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
-        "message": "Search disabled.",
+        "message": "検索は無効です",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
-        "message": "Activate at least one key source in the settings.",
+        "message": "設定で少なくとも１つの鍵ソースを有効化してください",
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "message": "有効なメールアドレス、鍵ID (16 digits) かフィンガープリント (40 digits)を入力してください",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
-        "message": "Key is not available in any of the searched key directories.",
+        "message": "検索した鍵ディレクトリに鍵がありません",
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "No key found.",
+        "message": "鍵が見つかりません",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "Email Address / Key ID / Fingerprint",
+        "message": "メールアドレス / 鍵ID / フィンガープリント",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
@@ -1152,7 +1152,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "Search for public keys in external sources",
+        "message": "外部ソースで公開鍵を検索",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
@@ -1276,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirm key to import",
+        "message": "インポートする鍵を確認",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys to import",
+        "message": "インポートする $1 個の鍵を確認",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1304,11 +1304,11 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
+        "message": "鍵リングに追加する公開鍵を検索。Mailvelopeは、利用されている可能性が高い鍵を複数の鍵ディレクトリで検索します",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "Search for keys",
+        "message": "鍵を検索",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
@@ -2044,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Directories",
+        "message": "鍵ディレクトリ",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2148,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "Mailvelope鍵サーバーと同期するため、確認メールが $1 に送られました.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {

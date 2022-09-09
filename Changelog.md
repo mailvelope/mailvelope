@@ -1,6 +1,15 @@
 Mailvelope Changelog
 ====================
 
+v4.6.1
+-------
+__Sep 9, 2022__
+
+  * PGP/MIME compatibility: detect messages starting with "Content-Class"
+  * Fix sending messages with defined alternative key where recipient does not have a key
+  * Fix update password caching settings not taking effect
+  * Fix issue with sending message when password cache is deactivated and email has attachments
+
 v4.6.0
 -------
 __Jun 20, 2022__

@@ -748,7 +748,7 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, this key is transferred to the local keyring:",
+        "message": "Після підтвердження цей ключ передається в локальну зв’язку:",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
@@ -856,39 +856,39 @@
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "Key found in:",
+        "message": "Ключ знайдено в:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Source:",
+        "message": "Джерело:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "last modified on:",
+        "message": "востаннє змінено:",
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
-        "message": "Search disabled.",
+        "message": "Пошук вимкнено.",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
-        "message": "Activate at least one key source in the settings.",
+        "message": "У налаштуваннях активуйте хоча б одне джерело ключа.",
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "message": "Введіть дійсну адресу електронної пошти, ідентифікатор ключа ID (16 цифр) або відбиток пальця (40 цифр)",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
-        "message": "Key is not available in any of the searched key directories.",
+        "message": "Ключ недоступний в жодному з пошукових каталогів ключів.",
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "No key found.",
+        "message": "Ключ не знайдено.",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "Email Address / Key ID / Fingerprint",
+        "message": "Адреса електронної пошти / ID ключа / Відбиток пальця",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
@@ -1152,7 +1152,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "Search for public keys in external sources",
+        "message": "Пошук відкритих ключів у зовнішніх джерелах",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
@@ -1276,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirm key to import",
+        "message": "Підтвердити ключ для імпорту",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys to import",
+        "message": "Підтвердити $1 ключі для імпорту",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1304,11 +1304,11 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
+        "message": "Знайдіть відкриті ключі, щоб додати їх до зв’язки. Mailvelope сканує декілька ключових каталогів і пропонує відкритий ключ, який найімовірніше використовується.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "Search for keys",
+        "message": "Пошук ключів",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
@@ -2044,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Directories",
+        "message": "Каталоги ключів",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2148,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "Для синхронізації із сервером ключів Mailvelope було надіслано електронний лист із підтвердженням на адресу $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
