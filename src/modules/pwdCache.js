@@ -38,15 +38,19 @@ function clearIntervals() {
   cache.forEach(entry => clearInterval(entry.tlTimer));
 }
 
-function update() {
-  if (active != prefs.prefs.security.password_cache ||
-      timeout != prefs.prefs.security.password_timeout) {
+function update(before, after) {
+  if (!after.security) {
+    return;
+  }
+  after.security.password_timeout ??= timeout;
+  if (active != after.security.password_cache ||
+      timeout != after.security.password_timeout) {
     // init cache
     clearTimeouts();
     clearIntervals();
     cache.clear();
-    active = prefs.prefs.security.password_cache;
-    timeout = prefs.prefs.security.password_timeout;
+    active = after.security.password_cache;
+    timeout = after.security.password_timeout;
   }
 }
 
