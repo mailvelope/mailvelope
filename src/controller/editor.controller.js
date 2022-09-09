@@ -478,6 +478,7 @@ export default class EditorController extends sub.SubController {
       const keyFprs = await this.getPublicKeyFprs(options.keys);
       let signKeyFpr;
       let unlockKey;
+      let unlockedSignKey;
       if (options.signMsg) {
         signKeyFpr = options.signKeyFpr;
         if (!signKeyFpr) {
@@ -491,7 +492,9 @@ export default class EditorController extends sub.SubController {
           options.noCache = noCache;
           options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
           options.sync = !prefs.security.password_cache;
-          return this.unlockKey(options);
+          options.key = unlockedSignKey ?? options.key;
+          unlockedSignKey = await this.unlockKey(options);
+          return unlockedSignKey;
         };
       }
       let data;

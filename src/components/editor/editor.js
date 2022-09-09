@@ -388,6 +388,15 @@ export default class Editor extends React.Component {
     this.setState({extraKeysError: hasError});
   }
 
+  onNotificationEnteredTransition() {
+    if (this.blurWarning) {
+      this.blurWarning.startBlurValid();
+    }
+    if (this.state.notification.autoHide) {
+      this.hideNotification(this.state.notification.hideDelay, this.state.notification.closeOnHide);
+    }
+  }
+
   render() {
     const hasExtraKey = Boolean(this.state.extraKey && this.state.extraKeys.length && !this.state.extraKeysError);
     return (
@@ -466,16 +475,11 @@ export default class Editor extends React.Component {
             </div>
           </div>
         </div>
+        {!this.state.embedded && <BlurWarning ref={node => this.blurWarning = node} />}
         {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
-        {!this.state.embedded && (
-          <>
-            <BlurWarning ref={node => this.blurWarning = node} />
-            {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
-          </>
-        )}
         {this.state.notification &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.state.notification.autoHide && this.hideNotification(this.state.notification.hideDelay, this.state.notification.closeOnHide); }}}>
+            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} transition={{timeout: 150, unmountOnExit: true, onEntered: () => this.onNotificationEnteredTransition()}}>
               {this.state.notification.message}
             </Toast>
           </div>

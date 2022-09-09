@@ -525,7 +525,7 @@
   },
   "form_submit": {
     "description": "Submit form button.",
-    "message": "Submit"
+    "message": "Send"
   },
   "form_undo": {
     "description": "Undo form button.",
