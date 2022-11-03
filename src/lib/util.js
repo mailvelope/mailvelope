@@ -388,13 +388,12 @@ export function firstParent(element, selector) {
   }
 }
 
-export function isWebEx() {
-  return typeof browser !== 'undefined';
-}
-
-export function isCRX() {
-  return typeof browser === 'undefined' && typeof chrome !== 'undefined';
-}
+const brands = navigator?.userAgentData?.brands;
+export const brand = !brands ? {other: true} : {
+  chrome: brands.some(({brand}) => brand === 'Google Chrome'),
+  edge: brands.some(({brand}) => brand === 'Microsoft Edge'),
+  chromium: brands.some(({brand}) => brand === 'Chromium')
+};
 
 export function parseViewName(viewName) {
   const pair = viewName.split('-');

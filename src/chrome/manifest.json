@@ -2,18 +2,11 @@
   "name": "__MSG_ext_name__",
   "version": "@@mvelo_version",
   "description": "__MSG_ext_description__",
-  "homepage_url":"https://www.mailvelope.com",
+  "homepage_url": "https://www.mailvelope.com",
   "manifest_version": 2,
-  "minimum_chrome_version": "86",
-  "icons": {
-    "32": "img/Mailvelope/logo_signet_32.png",
-    "48": "img/Mailvelope/logo_signet_48.png",
-    "64": "img/Mailvelope/logo_signet_64.png",
-    "96": "img/Mailvelope/logo_signet_96.png",
-    "120": "img/Mailvelope/logo_signet_120.png",
-    "128": "img/Mailvelope/logo_signet_128.png",
-    "152": "img/Mailvelope/logo_signet_152.png",
-    "180": "img/Mailvelope/logo_signet_180.png"
+  "minimum_chrome_version": "90",
+  "background": {
+    "scripts": ["background.bundle.js"]
   },
   "browser_action": {
     "default_icon": {
@@ -22,21 +15,38 @@
       "32": "img/Mailvelope/logo_signet_32.png",
       "48": "img/Mailvelope/logo_signet_48.png"
     },
-    "default_title": "__MSG_ext_name__",
-    "default_popup": "components/action-menu/actionMenu.html"
+    "default_popup": "components/action-menu/actionMenu.html",
+    "default_title": "__MSG_ext_name__"
   },
+  "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self';",
+  "default_locale": "en",
+  "icons": {
+    "120": "img/Mailvelope/logo_signet_120.png",
+    "128": "img/Mailvelope/logo_signet_128.png",
+    "152": "img/Mailvelope/logo_signet_152.png",
+    "180": "img/Mailvelope/logo_signet_180.png",
+    "32": "img/Mailvelope/logo_signet_32.png",
+    "48": "img/Mailvelope/logo_signet_48.png",
+    "64": "img/Mailvelope/logo_signet_64.png",
+    "96": "img/Mailvelope/logo_signet_96.png"
+  },
+  "oauth2": {
+    "client_id": "119074447949-cvf898un7sfnv2ib7r4hvunqd56jm4c4.apps.googleusercontent.com",
+    "scopes":[
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.send"
+    ]
+  },
+  "optional_permissions": ["nativeMessaging"],
   "options_page": "app/app.html",
-  "background": {
-    "scripts": ["background.bundle.js"]
-  },
   "permissions": [
     "*://*/*",
+    "identity",
     "storage",
     "tabs",
     "webNavigation"
   ],
-  "optional_permissions": ["nativeMessaging"],
-  "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self';",
   "web_accessible_resources": [
     "app/app.html",
     "client-API/mailvelope-client-api.js",
@@ -58,6 +68,5 @@
     "img/ok48.png",
     "img/verify-24.png",
     "main.css"
-  ],
-  "default_locale": "en"
+  ]
 }

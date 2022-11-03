@@ -1,21 +1,17 @@
 {
+  "name": "__MSG_ext_name__",
+  "version": "@@mvelo_version",
+  "description": "__MSG_ext_description__",
+  "homepage_url":"https://www.mailvelope.com",
+  "manifest_version": 2,
   "browser_specific_settings": {
     "gecko": {
       "id": "jid1-AQqSMBYb0a8ADg@jetpack",
       "strict_min_version": "79.0"
     }
   },
-  "name": "__MSG_ext_name__",
-  "version": "@@mvelo_version",
-  "description": "__MSG_ext_description__",
-  "homepage_url":"https://www.mailvelope.com",
-  "manifest_version": 2,
-  "icons": {
-    "32": "img/Mailvelope/logo_signet_32.png",
-    "48": "img/Mailvelope/logo_signet_48.png",
-    "64": "img/Mailvelope/logo_signet_64.png",
-    "96": "img/Mailvelope/logo_signet_96.png",
-    "128": "img/Mailvelope/logo_signet_128.png"
+  "background": {
+    "scripts": ["background.bundle.js"]
   },
   "browser_action": {
     "browser_style": false,
@@ -28,18 +24,32 @@
     "default_title": "__MSG_ext_name__",
     "default_popup": "components/action-menu/actionMenu.html"
   },
-  "background": {
-    "scripts": ["background.bundle.js"]
+  "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self' blob:;",
+  "default_locale": "en",
+  "icons": {
+    "32": "img/Mailvelope/logo_signet_32.png",
+    "48": "img/Mailvelope/logo_signet_48.png",
+    "64": "img/Mailvelope/logo_signet_64.png",
+    "96": "img/Mailvelope/logo_signet_96.png",
+    "128": "img/Mailvelope/logo_signet_128.png"
+  },
+  "oauth2": {
+    "client_id": "119074447949-cvf898un7sfnv2ib7r4hvunqd56jm4c4.apps.googleusercontent.com",
+    "scopes":[
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/gmail.readonly",
+      "https://www.googleapis.com/auth/gmail.send"
+    ]
   },
   "permissions": [
     "*://*/*",
     "dns",
+    "identity",
     "nativeMessaging",
     "storage",
     "tabs",
     "webNavigation"
   ],
-  "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self' blob:;",
   "web_accessible_resources": [
     "app/app.html",
     "client-API/mailvelope-client-api.js",
@@ -60,6 +70,5 @@
     "img/ok48.png",
     "img/verify-24.png",
     "main.css"
-  ],
-  "default_locale": "en"
+  ]
 }

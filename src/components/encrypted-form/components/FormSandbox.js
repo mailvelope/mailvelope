@@ -5,7 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {isCRX, MvError} from '../../../lib/util';
+import {brand, MvError} from '../../../lib/util';
 import $ from 'jquery';
 import {readUploadFile} from '../../../lib/file';
 
@@ -44,7 +44,7 @@ export default class FormSandbox extends React.Component {
     const height = `${this.sandbox.contentDocument.body.scrollHeight}px`;
     if (height !== this.sandbox.style.height) {
       let offset = 0;
-      if (!isCRX) {
+      if (!brand.chromium) {
         offset = 16;
       }
       const newHeight = this.sandbox.contentDocument.body.scrollHeight + offset;
