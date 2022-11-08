@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v4.7.0
+-------
+__Nov 8, 2022__
+
+  * [Gmail] Migrate deprecated OAuth out-of-band flow to browser.identity API
+
 v4.6.1
 -------
 __Sep 9, 2022__

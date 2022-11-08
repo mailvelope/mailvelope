@@ -13,6 +13,10 @@ window.chrome.runtime.getURL = function(name) {
   return location.href.split('/test/')[0] + '/' + name;
 };
 
+window.chrome.runtime.getManifest = function() {
+  return {oauth2: {client_id: '123'}};
+};
+
 (function() {
   const listeners = [];
 

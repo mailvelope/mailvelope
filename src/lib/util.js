@@ -388,7 +388,7 @@ export function firstParent(element, selector) {
   }
 }
 
-const brands = navigator?.userAgentData?.brands;
+const brands =  navigator && navigator.userAgentData && navigator.userAgentData.brands;
 export const brand = !brands ? {other: true} : {
   chrome: brands.some(({brand}) => brand === 'Google Chrome'),
   edge: brands.some(({brand}) => brand === 'Microsoft Edge'),

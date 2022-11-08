@@ -524,7 +524,7 @@
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "Pateikti",
+        "message": "Siųsti",
         "description": "Submit form button."
     },
     "form_undo": {
@@ -748,7 +748,7 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, this key is transferred to the local keyring:",
+        "message": "Patvirtinus, šis raktas bus perduotas į vietinę raktinę:",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
@@ -856,39 +856,39 @@
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "Key found in:",
+        "message": "Raktas rastas ties:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Source:",
+        "message": "Šaltinis:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "last modified on:",
+        "message": "paskutinį kartą modifikuotas:",
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
-        "message": "Search disabled.",
+        "message": "Paieška išjungta.",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
-        "message": "Activate at least one key source in the settings.",
+        "message": "Aktyvuokite nustatymuose bent vieną raktų šaltinį.",
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "message": "Įveskite tinkamą el. pašto adresą, rakto ID (16 skaitmenų) ar kontrolinį kodą (40 skaitmenų)",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
-        "message": "Key is not available in any of the searched key directories.",
+        "message": "Raktas nėra prieinamas nei viename apieškotame raktų kataloge.",
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "No key found.",
+        "message": "Nerasta jokių raktų.",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "Email Address / Key ID / Fingerprint",
+        "message": "El. pašto adresas / Rakto ID / Kontrolinis kodas",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
@@ -1024,7 +1024,7 @@
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Galės būti persiųstas į kitus įrenginius",
+        "message": "Galės būti perduotas į kitus įrenginius",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
@@ -1152,7 +1152,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "Search for public keys in external sources",
+        "message": "Ieškoti viešųjų raktų išoriniuose šaltiniuose",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
@@ -1276,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirm key to import",
+        "message": "Patvirtinti raktą, kurį importuoti",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys to import",
+        "message": "Patvirtinti $1 raktų(-us), kuriuos importuoti",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1304,11 +1304,11 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
+        "message": "Raskite viešuosius raktus, kuriuos pridėti į savo raktinę. Mailvelope peržiūri daugelį raktų katalogų ir pasiūlo viešąjį raktą, kuris veikiausiai, yra naudojamas.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "Search for keys",
+        "message": "Ieškoti raktų",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
@@ -2044,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Directories",
+        "message": "Raktų katalogai",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2148,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "Norint sinchronizuoti su Mailvelope raktų serveriu, buvo išsiųstas el. laiškas su patvirtinimu, adresu $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {

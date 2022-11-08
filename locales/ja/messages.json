@@ -524,7 +524,7 @@
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "生成",
+        "message": "送信",
         "description": "Submit form button."
     },
     "form_undo": {

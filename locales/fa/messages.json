@@ -1,50 +1,50 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "Udělit této doméně pověření",
+        "message": "Authorize this domain",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
-        "message": "Všechny předvolby",
+        "message": "همه ی گزینه ها",
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "Pokud chcete začít, <0>Mailvelope nastavte</0>!",
+        "message": "برای شروع <0>Mailvelope</0 را پیکر بندی کنید> ",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Zobrazit všechny možnosti nastavení.",
+        "message": "Display all configuration options.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
-        "message": "Přehled",
+        "message": "پنل",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_file_encryption_description": {
-        "message": "Zašifrovat jeden či více souborů.",
+        "message": "Encrypt one or multiple files.",
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "Šifrování souboru",
+        "message": "رمزنگاری فایل",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
-        "message": "Nápověda",
+        "message": "راهنما",
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "Spravovat veřejné a soukromé klíče.",
+        "message": "مدیریت کلید‌های خصوصی و عمومی",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "Klíčenka",
+        "message": "دسته کلید",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Hlavní nabídka Mailvelope",
+        "message": "منوی اصلی Mailvelope",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Znovu načíst Mailvelope",
+        "message": "بارگذاری مجدد Mailvelope",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
@@ -52,11 +52,11 @@
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "Záznam událostí v zabezpečení",
+        "message": "Security log",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Nabídka nastavení Mailvelope",
+        "message": "منوی برپایی Mailvelope",
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
@@ -64,27 +64,27 @@
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Začněme!",
+        "message": "شروع کنیم!",
         "description": "Start button label"
     },
     "alert_header_error": {
-        "message": "Chyba!",
+        "message": "خطا!",
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "Důležité!",
+        "message": "مهم!",
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Please note:",
+        "message": "لطفاً توجه داشته باشید:",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
-        "message": "Úspěch!",
+        "message": "موفقیت!",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "Varování!",
+        "message": "اخطار!",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
@@ -92,7 +92,7 @@
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "At least one domain match pattern is needed.",
+        "message": "حداقل یک الگوی تطبیق دامنه مورد نیاز است. ",
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
@@ -100,7 +100,7 @@
         "description": "Consent to share analytics information with mailvelope"
     },
     "auth_domain_api_label": {
-        "message": "Allow API",
+        "message": "اجازه به API",
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
@@ -112,15 +112,15 @@
         "description": "Headline of authorize domain dialog."
     },
     "change_link": {
-        "message": "Změnit",
+        "message": "تغییر",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Tuto nešifrovanou zprávu se nepodařilo číst: $1",
+        "message": "نمی تواند این پیام نوشته ساده را بخواند:  $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Šifrování",
+        "message": "رمزگذاری",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_manage_domains": {
@@ -128,123 +128,123 @@
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Spravovat klíče",
+        "message": "مدیریت کلید ها",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Záznamy událostí v zabezpečení",
+        "message": "Security logs",
         "description": "Dashboard view security logs link"
     },
     "decrypt_att_frame_help_text": {
-        "message": "Zprávu zobrazíte kliknutím sem",
+        "message": "Click here to view the message",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_attachment_label": {
-        "message": "Přílohy",
+        "message": "پیوست ها ",
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_cleartext_warning": {
-        "message": "Následující text nebyl zašifrován",
+        "message": "متن آمده رمزگذاری نشده بود.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Rozšifrované soubory",
+        "message": "فایل های رمزگشایی شده",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "Podepsáno",
+        "message": "امضا شده",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Neplatný podpis",
+        "message": "امضا نامعتبر",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "Neznámý podpis",
+        "message": "امضا ناشناخته",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "Klíč s identifikátorem $1 nenalezen.",
+        "message": "Key with ID $1 not found.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Klíč nenalezen",
+        "message": "کلید یافت نشد.",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "Rozšifrování souboru $1 není možné.",
+        "message": "Decryption of file $1 is not possible.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Kliknutím rozšifrujete",
+        "message": "برای رمزگشایی کلیک کنید",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "Rozšifrovat data",
+        "message": "رمزگشایی داده",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "Rozšifrování úspěšné",
+        "message": "رمزگشایی موفق بود",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
-        "message": "Rozšifrovat",
+        "message": "رمزگشایی",
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Otevřít v prohlížeči Mailvelope",
+        "message": "باز کردن در نمایش‌گر Mailvelope",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "Zobrazit zprávu",
+        "message": "نمایش پیام",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Odesílatel",
+        "message": "ارسال کننده",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "Text k rozšifrování",
+        "message": "متن برای رمزگشایی",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Chcete také rozšifrovat text?",
+        "message": "آیا می خواهید متن را هم رمزگشایی کنید؟",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Rozšifrování textu není možné.",
+        "message": "رمزگشایی متن ممکن نمی باشد.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
-        "message": "Zrušit",
+        "message": "لغو",
         "description": "Dialog cancel button label"
     },
     "dialog_no_btn": {
-        "message": "Ne",
+        "message": "خیر",
         "description": "Dialog no button label"
     },
     "dialog_popup_close": {
-        "message": "Zavřít",
+        "message": "بستن",
         "description": "Close decrypt popup."
     },
     "dialog_save_btn": {
-        "message": "Uložit",
+        "message": "ذخيره",
         "description": "Dialog save button label"
     },
     "dialog_yes_btn": {
-        "message": "Ano",
+        "message": "بله",
         "description": "Dialog yes button label"
     },
     "editor_blur_warn": {
-        "message": "Varování: textový editor ztratil zaměření.",
+        "message": "اخطار: ویرایشگر متن تمرکزش را از دست داد.",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "Zašifrovat",
+        "message": "رمزگزاری ",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "Chyba",
+        "message": "خطا ",
         "description": ""
     },
     "editor_extra_key_checkbox": {
@@ -256,15 +256,15 @@
         "description": "Extra key help text."
     },
     "editor_header": {
-        "message": "Napsat zabezpečený e-mail",
+        "message": "نوشتن ایمیل امن",
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "Chcete podepisovat všechny své e-maily?",
+        "message": "Would you like to sign all your emails?",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
-        "message": "Nastavení změníte zde",
+        "message": "Change settings here",
         "description": "Test for auto sign link."
     },
     "editor_key_has_extra_msg": {
@@ -272,19 +272,19 @@
         "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
-        "message": "Nepodepsáno",
+        "message": "Not signed",
         "description": "Label for not sign option in sign key select."
     },
     "editor_key_not_found": {
-        "message": "Klíč nenalezen!",
+        "message": "کلید یافت نشد!",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Aby bylo možné zašifrovat je třeba, aby všichni příjemci měli PGP klíč. I tak ale stále ještě můžete zprávu alespoň podepsat.",
+        "message": "همه گیرندگان نیاز به یک کلید PGP برای رمزگذاری دارند. هنوز هم می توانید پیام را امضا کنید.",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
-        "message": "Přílohy",
+        "message": "پیوست ها ",
         "description": "Label for attachments select/drop area."
     },
     "editor_label_copy_recipient": {
@@ -292,135 +292,135 @@
         "description": "Label for copy recipient text input."
     },
     "editor_label_message": {
-        "message": "Oznameni",
+        "message": "پیام",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "Příjemce",
+        "message": "گیرنده",
         "description": "Label for recipient input."
     },
     "editor_label_subject": {
-        "message": "Předmět",
+        "message": "موضوع",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
-        "message": "Zašifrovat soubory",
+        "message": "رمزگذاری فایلها",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "E-mail není možné digitálně podepsat, protože chybí výchozí klíč",
+        "message": "ایمیل نمی تواند به صورت دیجیتالی امضا شود زیرا کلید پیش فرض موجود نیست",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "E-mail nebylo možné digitálně podepsat",
+        "message": "ایمیل نمی تواند به صورت دیجیتالی امضا شود",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "Odstranit",
+        "message": "حذف ",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "Pouze podepsat",
+        "message": "فقط امضا کن",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "E-mail bude při odeslání také digitálně podepsán",
+        "message": "وقتی ایمیلی ارسال می شود، آن نیز به صورت دیجیتالی امضا خواهد شد",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "E-mail bude digitálně podepsán",
+        "message": "ایمیل به صورت دیجیتالی امضا خواهد شد",
         "description": ""
     },
     "editor_transfer": {
-        "message": "Přenést",
+        "message": "انتقال",
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "Vybrat podpis",
+        "message": "انتخاب امضا",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "Změnit podpis",
+        "message": "تغییر امضا",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Přidejte příjemce.",
+        "message": "لطفا گیرنده را اضافه کن",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "Stáhnout si vše",
+        "message": "دریافت همه",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "Šifrované soubory",
+        "message": "فایل های رمزگذاری شده",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Šifrováno pro",
+        "message": "رمزگذاری شده برای",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "Tuto zprávu se nepodařilo zašifrovat: $1",
+        "message": "نمی تواند این پیام را رمزگزاری کند:  $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Zašifrování souboru $1 není možné.",
+        "message": "رمزگذاری فایل $1 ممکن نیست.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Napsat zabezpečený e-mail",
+        "message": "نوشتن ایمیل امن",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "Zašifrovat data",
+        "message": "رمزگذاری داده",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "Šifrování úspěšné",
+        "message": "رمزگذاری موفق بود",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
-        "message": "Zašifrovat",
+        "message": "رمزگذاری",
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "Šifrovaná data nejsou podepisována",
+        "message": "داده رمزگذاری شده امضا نشده است",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "Odebrat podpis",
+        "message": "حذف امضا",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
-        "message": "Podepsáno",
+        "message": "امضا شده توسط",
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "Šifrovaná data jsou podepsána vaším klíčem ($1)",
+        "message": "داده رمزگذاری شده با کلید شما امضا شده است ($1)",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Chcete také zašifrovat text?",
+        "message": "Do you also want to encrypt a text?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Šifrování textu není možné.",
+        "message": "رمزگذاری متن ممکن نیست.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "Jeden ze souborů je příliš velký.",
+        "message": "یکی از فایل ها خیلی بزرگ است.",
         "description": "."
     },
     "ext_description": {
-        "message": "Enhance your email provider with end-to-end encryption. Secure email communication based on the OpenPGP standard.",
+        "message": "ارائه دهنده ایمیل خود را با استفاده از رمزنگاری پایان به پایان افزایش دهید. ارتباطات ایمن امن بر اساس استاندارد OpenPGP.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope",
+        "message": " میل ولپ",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Přizpůsobit si",
+        "message": "شخصی سازی همین الان",
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
@@ -428,151 +428,151 @@
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "Podpis není platný",
+        "message": "امضا نامعتبر است",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "Soubor není podepsaný",
+        "message": "فایل امضا نشده است",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
-        "message": "Tento soubor se nedaří rozšifrovat: $1",
+        "message": "امکان رمزنگاری این فایل وجود ندارد: $1",
         "description": ""
     },
     "file_signed": {
-        "message": "Soubor podepsán $1",
+        "message": "فایل توسط $1 امضا شده است",
         "description": "Text of signer field of file element."
     },
     "form_back": {
-        "message": "Zpět",
+        "message": " به عقب",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "Zpracovávání",
+        "message": "در حال پردازش",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "Zrušit",
+        "message": "لغو",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "Smazat",
+        "message": "پاک",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "Zavřít",
+        "message": "بستن",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "Potvrdit",
+        "message": "تایید ",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "Pokračovat",
+        "message": "ادامه",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "Pro adresu příjemce není k dispozici žádný platný šifrovací klíč.",
+        "message": "هیچ کلید رمزگذاری معتبر برای آدرس گیرنده.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "Podpis formuláře není platný.",
+        "message": "امضا فرم معتبر نیست.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "Cíl",
+        "message": "مقصد",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "Šifrovaná data budou vrácena stránce.",
+        "message": "داده رمزگذاری شده به صفحه برگردانده می شود.",
         "description": "Behavior when no action is specified in form"
     },
     "form_forward": {
-        "message": "Přeposlat",
+        "message": "به سمت جلو",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "Importovat",
+        "message": "وارد کردن",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Formulář se načítá",
+        "message": "بارگذاری فرم",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "Další",
+        "message": "بعدی",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "Ne",
+        "message": "نه",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "OK",
+        "message": "قبول",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "Příjemce",
+        "message": "دریافت کننده",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "Uložit",
+        "message": "ذخیره",
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "Pro podepsání obsahu formuláře není k dispozici žádný soukromý klíč. Naimportujte nebo vytvořte nějaký.",
+        "message": "هیچ کلید خصوصی در دسته کلید برای امضا محتوا فرم وجود ندارد. لطفا یک کلید خصوصی را وارد کنید یا ایجاد کنید.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "Odeslat",
+        "message": "ارسال",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "Zpět",
+        "message": "واگرد",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "Ano",
+        "message": "بله ",
         "description": "Yes form button."
     },
     "general_default_key_always": {
-        "message": "Vždy přidat můj výchozí klíč na seznam příjemců. (Toto vám umožní číst si odeslané e-maily)",
+        "message": "همیشه کلید پیش فرض من را به لیست گیرندگان اضافه کن. (این به شما اجازه میدهد تا ایمیل های ارسالی را رمزگشایی کنید)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Podepisovat veškeré odchozí zprávy.",
+        "message": "Sign all outgoing messages.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
-        "message": "Umožněte nám kontrolovat dostupnost",
+        "message": "دادن اجازه به ما برای بررسی در دسترس بودن",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Máte nainstalované GnuPG? Pokud ne <0>Stáhněte si ho zde</0>. Pokud chcete znovu zkontrolovat dostupnost tohoto nástroje, <1>restartujte Mailvelope</1>",
+        "message": "آیا GnuPG روی سیستم شما نصب می باشد؟ اگر نه از اینجا <0>دانلود کنید</0>. برای بررسی در دسترس بودن به صورت مجدد <1>Mailvelope را مجددا راه اندازی کنید</1>",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG není k dispozici",
+        "message": "GnuPG موجود نمی باشد",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "Upřednostňujete použití GnuPG?",
+        "message": "آیا ترجیح میدهید تا از GnuPG استفاده کنید؟",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "Nyní používáte",
+        "message": "شما هم اکنون در حال استفاده از",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Kterou podpůrnou vrstvu pro šifrování upřednostňujete?",
+        "message": "کدام رمزگذاری سپت سیستم را ترجیح میدهید؟",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
-        "message": "Předvolby pro OpenPGP",
+        "message": "ترجیحات OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Pozn.: veřejné klíče jsou synchronizovány mezi dostupnými klíčenkami. V závislosti na dostupnosti soukromých klíčů, Mailvelope může přepsat nastavení upřednostňované šifrovací knihovny.",
+        "message": "توجه: کلید های عمومی بین دسته کلید های موجود همگام شده اند. بسته به موجود بودن کلید های خصوصی، Mailvelope میتواند بر تنظیم کتابخانه رمزگذاری ترجیح داده شده برتری یابد.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
@@ -588,163 +588,163 @@
         "description": "Header for forwarded mail"
     },
     "gmail_integration_quoted_mail_header_reply": {
-        "message": "V $1, $2 napsal(a):",
+        "message": "On $1, $2 wrote:",
         "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
-        "message": "E-mail byl v pořádku odeslán.",
+        "message": "The email was sent successfully.",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
-        "message": "Spojení s GnuPG",
+        "message": "اتصال GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Zkontrolujte, zda se následující veřejné klíče nacházejí ve vaší GnuPG klíčence a jsou platné: $1",
+        "message": "لطفا بررسی کنید که آیا کلید های عمومی آمده در دسته کلید GnuPG شما موجود و معتبر هستند: $1",
         "description": ""
     },
     "import_frame_help_text": {
-        "message": "Klíč importujete kliknutím",
+        "message": "Click to import key",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
-        "message": "Kliknutím sem otevřete rozšíření.",
+        "message": "Click here, to open the extension.",
         "description": "Install landing page getting started hint"
     },
     "key_default_active_btn_title": {
-        "message": "Klíč je nastaven jako výchozí",
+        "message": "کلید به صورت کلید پیش فرض تنظیم شده است",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "Klíč není platný pro operace šifrování a podepisování",
+        "message": "کلید برای عملیات های رمزگذاری و امضا معتبر نیست",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Nastavit klíč jako výchozí",
+        "message": "تنظیم کلید به صورت کلید پیش فرض",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
-        "message": "Export",
+        "message": "صادر کردن ",
         "description": "Export key button label"
     },
     "key_export_btn_title": {
-        "message": "Exportovat klíč",
+        "message": "برون‌ریزی کلید",
         "description": "Title for export key button"
     },
     "key_export_create_file": {
-        "message": "Uložit",
+        "message": "ذخيره",
         "description": "Download file button."
     },
     "key_export_dialog_copy_to_clipboard": {
-        "message": "Kopírovat do schránky",
+        "message": "به حافظه کوتاه مدت کپی کن",
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Který z klíčů si přejete exportovat?",
+        "message": "مایل به برون‌ریزی کدام کلید می باشید؟",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
-        "message": "Exportovat klíč",
+        "message": "صادر کردن کلید",
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "Název souboru",
+        "message": "نام فایل ",
         "description": "Label of filename input."
     },
     "key_export_header": {
-        "message": "Exportovat klíče",
+        "message": "کلید خروجی ",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "This file also contains private keys. Keep the file in a safe place and do not share with others.",
+        "message": "فایل دارای کلید های خصوصی می باشد. فایل را در یک جا امن نگه دارید و آن را با دیگران اشتراک نگذارید.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Pokročilé",
+        "message": "پیشرفته ",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "Vytvořit další",
+        "message": "دیگری را بوجود بیاور ",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "De-Mail Address",
+        "message": "آدرس دی - ایمیل ",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "Chyba při vytváření klíče.",
+        "message": "خطا همزمان با ساخت کلید. ",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "experimentální",
+        "message": "آزمایشی",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "Datum skončení platnosti klíče",
+        "message": "تاریخ انقضا کلید",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Budoucí výchozí",
+        "message": "پیش فرض آینده",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "Generovat",
+        "message": "تولید",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "Neplatná emailová adresa",
+        "message": "آدرس ایمیل اشتباه",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "Velikost klíče",
+        "message": "نوع کلید ",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "Celé jméno vlastníka klíče",
+        "message": "نام کامل مالک کلید",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "Zadejte heslo",
+        "message": "رمز عبور را وارد کن ",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "Kolonka pro heslo je prázdná",
+        "message": "فیلد گذرواژه خالی است",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "Shoda zadání hesla",
+        "message": "تطبیق رمز عبور",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "Znovu zadejte heslo",
+        "message": "رمز عبور را دوباره وارد کن",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "Hesla se neschodují.",
+        "message": "رمز عبور‌ها مطابقت ندارند",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "Nový klíč vytvořen a naimportován do klíčenky",
+        "message": "کلید جدید تولید شد و به درون دسته کلید برده شد",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "Nahrát veřejný klíč na server s klíči projektu Mailvelope (kdykoli ho můžete vymazat)",
+        "message": "آپلود کلید عمومی به سرور کلید Mailvelope (در هر زمان می تواند حذف شود)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
-        "message": "Probíhá vytváření klíče",
+        "message": "تولید کلید در جریان است...",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Please wait, key generation can take up to several minutes depending on various factors, such as the key size.",
+        "message": "لطفا صبر داشته باشید، تولید کلید ممکن است چندین دقیقه به دلیل فاکتور های مختلف وقت بگیرد، مثل اندازه کلید.",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Klíče úspěšně naimportovány/zaktualizovány.",
+        "message": "Keys successfully imported/updated.",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Importovat klíče",
+        "message": "Import keys",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
@@ -752,47 +752,47 @@
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
-        "message": "Po potvrzení budou tyto klíče přeneseny do lokální klíčenky:",
+        "message": "After confirmation, these keys are transferred to the local keyring:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "Potvrdit klíč",
+        "message": "تایید کلید",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "Přidat klíč do klíčenky",
+        "message": "کلید را به دسته کلید اضافه کن ",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "Chyba importu.",
+        "message": "خطا را وارد کن.",
         "description": "Import error alert."
     },
     "key_import_error_no_uid": {
-        "message": "V klíči $1 nenalezen platný identifikátor uživatele",
+        "message": "No valid user ID found in key $1",
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Chyba při načítání chráněného PGP klíče: $1",
+        "message": "Error reading armored PGP key: $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "Při zpracovávání klíčů došlo k chybě",
+        "message": "یک خطا در هنگام پردازش کلید ها رخ داد",
         "description": "Import error alert."
     },
     "key_import_file_label": {
-        "message": "Vybrat soubory",
+        "message": "Select files",
         "description": "File selection label."
     },
     "key_import_from_text_btn": {
-        "message": "Import klíče ze schránky",
+        "message": "Import key from clipboard",
         "description": "Import keys from clipboard button label on key import page."
     },
     "key_import_from_text_label": {
-        "message": "Text ze schránky",
+        "message": "Text from clipboard",
         "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_invalid_text": {
-        "message": "Nenalezen žádný platný text klíče",
+        "message": "کلید معتبری پیدا نشد",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
@@ -800,39 +800,39 @@
         "description": ""
     },
     "key_import_number_of_failed": {
-        "message": "Klíč nebylo možné naimportovat kvůli chybám.",
+        "message": "A key could not be imported due to errors.",
         "description": "Error message with number of failed imports."
     },
     "key_import_number_of_failed_plural": {
-        "message": "$1 klíčů nebylo možné naimportovat kvůli chybám.",
+        "message": "$1 کلید به دلیل خطاها قابل وارد کردن نبود.",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "Private key part matching existing public key $1 of user $2 imported into keyring",
+        "message": "بخش کلید خصوصی تطابق داشته کلید عمومی موجود $1 کاربر $2 وارد دسته کلید شد",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "Nedaří se číst soukromý klíč: $1",
+        "message": "ناتوانی در خواندن یک کلید خصوصی: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "Private key $1 of user $2 imported into keyring",
+        "message": "کلید خصوصی $1 کاربر $2 وارد دسته کلید شد",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "Updated private key $1 of user $2",
+        "message": "کلید خصوصی $1 کاربر $2 بروزرسانی شد",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "Nedaří se číst veřejný klíč: $1",
+        "message": "ناتوانی در خواندن یک کلید عمومی: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "Veřejný klíč $1 uživatele $2 naimportován do klíčenky",
+        "message": "کلید عمومی $1 کاربر $2 وارد دسته کلید شد",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "Aktualizován veřejný klíč $1 uživatele $2",
+        "message": "کلید عمومی $1 کاربر $2 بروزرسانی شد ",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
@@ -840,7 +840,7 @@
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
-        "message": "Nyní ne",
+        "message": "الآن نه",
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
@@ -852,19 +852,19 @@
         "description": "Key import rotation dialog header."
     },
     "key_import_search_btn": {
-        "message": "Vyhledávání",
+        "message": "جستجو",
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "Klíč nalezen v:",
+        "message": "Key found in:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Zdroj:",
+        "message": "Source:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "naposledy upraveno:",
+        "message": "last modified on:",
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
@@ -884,7 +884,7 @@
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "Nenalezen žádný klíč.",
+        "message": "No key found.",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
@@ -892,103 +892,103 @@
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
-        "message": "Importovat klíč jako text",
+        "message": "وارد کردن کلید تحت متن",
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "The key text you tried to import is too long to handle. Try doing it in smaller parts.",
+        "message": "متن کلید که میخواستید وارد کنید بیش از حد برای کنترل کردن طولانی میباشد. آن را در بخش های کوچکتر انجام دهید.",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "Unable to import a key due to exception: $1",
+        "message": "ناتوانی در وارد کردن یک کلید به دلیل استثنا: $1",
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "Data klíče na serveru s klíči projektu Mailvelope už nejsou aktuální.",
+        "message": "داده های کلیدی روی سرور کلید Mailvelope دیگر به روز نیست.",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "Tento klíč není synchronizován se serverem s klíči, provozovaným projektem Mailvelope.",
+        "message": "کلید با سرور کلید Mailvelope همگام نشد.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
+        "message": "یک ایمیل تایید به تمام شناسه های کاربر برای حذف پایانی از سرور کلید Mailvelope ارسال شد.",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Odebrat veškeré identif. uživatele",
+        "message": "حذف تمام شناسه های کاربران",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "Odeslat znovu",
+        "message": "ارسال دوباره",
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "Data klíče na serveru s klíči projektu Mailvelope jsou aktuální.",
+        "message": "داده های کلیدی روی سرور کلید Mailvelope به روز است.",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "The key data has been updated on the Mailvelope key server.",
+        "message": "داده های کلیدی روی سرور کلید Mailvelope بروز رسانی شده است.",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
-        "message": "Aktualizovat",
+        "message": "به روز رسانی",
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
+        "message": "برای همگام کردن کلید با سرور کلید Mailvelope یک ایمیل تایید به تمام شناسه های کاربران ارسال شد.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
-        "message": "Synchronizovat",
+        "message": "هماهنگ سازی",
         "description": "Key server upload button label"
     },
     "key_recovery_failed": {
-        "message": "Obnovování klíče ze zálohy se nezdařilo.",
+        "message": "بازیابی کلید از پشتیبان ناموفق بود.",
         "description": ""
     },
     "key_remove_btn": {
-        "message": "Odstranit",
+        "message": "حذف",
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "Odebrat klíč z klíčenky",
+        "message": "حذف کلید از دسته کلید",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
-        "message": "Odebrat klíč",
+        "message": "حذف کلید",
         "description": "Title of delete key dialog."
     },
     "key_revoke_btn": {
-        "message": "Odvolat platnost",
+        "message": "فسخ",
         "description": "Revoke key button label"
     },
     "key_revoke_btn_title": {
-        "message": "Odvolat platnost klíče",
+        "message": "فسخ کلید",
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Pořád chcete platnost klíče odvolat?",
+        "message": "آیا همچنان مایل به فسخ کلید هستید؟",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "Pokud bude jeho platnost odvolána, klíč už bude navždy nepoužitelný.",
+        "message": "با فسخ کلید به صورت دائم ناپایدار خواهد ماند.",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
-        "message": "Odvolat platnost klíče",
+        "message": "فسخ کلید",
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "Nastavit jako výchozí",
+        "message": "تنظیم به صورت پیش فرض",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
-        "message": "Vytváření zálohy klíče se nezdařilo.",
+        "message": "ایجاد پشتیبان کلید ناموفق بود.",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "Obnovit zálohu",
+        "message": "نسخه پشتیبان را برگردان",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
@@ -996,159 +996,159 @@
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Doporučení: Vytvořit zálohu",
+        "message": "توصیه: ایجاد یک پشتیبان",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "Jste ho ztratili.",
+        "message": "شما برگه بازیابی را گم کرده اید.",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "Je třeba vytvořit nový list pro obnovení z bezpečnostních důvodů.",
+        "message": "یک برگه بازیابی باید به دلایل امنیتی ایجاد شود.",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "Vytvořit zálohu",
+        "message": "ایجاد یک پشتیبان",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "Záloha je potřebná pro zajištění toho, že vaše šifrovaná komunikace je:",
+        "message": "نسخه پشتیبان مورد نیاز است برای اطمینان از ارتباطات رمزگزاری شده شما :",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "Doporučení: Nastavit zálohu",
+        "message": "توصیه: برپا کردن یک پشتیبان",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "V pořádku pro obnovení v případě ztráty dat",
+        "message": "In order to restore it in case of data loss",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "V pořádku pro přenos na jiná zařízení",
+        "message": "In order to transfer it to other devices",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "Připravuje se dokument s vašimi klíči pro obnovení.",
+        "message": "یک سند با کد بازیابی شما در حال آماده شدن است.",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "Vytváří se záloha!",
+        "message": "ایجاد پشتیبان!",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "message": "تاریخ انقضا برای تمام زیرکلید ها تغییر یافته است. زیرکلید های نامعتبر یا زیرکلید هایی که انقضا یافته اند بدون تاثیر باقی خواهد ماند.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "Změnit datum skončení platnosti",
+        "message": "تغییر تاریخ انقضا",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "Dosavadní heslo",
+        "message": "گذرواژه قدیمی",
         "description": "Old password input label"
     },
     "keydetails_change_pwd_dialog_title": {
-        "message": "Změnit heslo",
+        "message": "تغییر رمز عبور",
         "description": "Title of change password dialog."
     },
     "keydetails_creation_date": {
-        "message": "Vytvořen",
+        "message": "ساخته شده",
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "Vyprší",
+        "message": "منقضی شده",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "nikdy",
+        "message": "هرگز",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
-        "message": "Heslo",
+        "message": "گذرواژه",
         "description": "Password of a PGP key."
     },
     "keydetails_title": {
-        "message": "Detaily klíče",
+        "message": "جزئیات کلید",
         "description": "Title of the key details panel"
     },
     "keygen_dialog_password_error_length": {
-        "message": "Je třeba, aby heslo bylo alespoň $1 znaků dlouhé",
+        "message": "Password requires at least $1 characters",
         "description": ""
     },
     "keygen_dialog_password_placeholder": {
-        "message": "přinejmenším 4 znaky",
+        "message": "حداقل 4 حرف",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Abyste ochránili svou šifrovanou komunikaci, přiřaďte svému klíči heslo:",
+        "message": "Please assign a password for your key to protect your encrypted communication:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Tento proces může trvat několik minut. Váš prohlížeč může přestat reagovat. Prosíme buďte trpěliví.",
+        "message": "This process can take several minutes. Your browser may become unresponsive. Please be patient.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "Nastavit šifrovanou komunikaci",
+        "message": "تنظیم کردن ارتباطات رمزگزاری شده",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "Algoritmus",
+        "message": "الگوریتم",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "Vše",
+        "message": "همه",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "Datum vytvoření",
+        "message": "ایجاد تاریخ",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "Vytvořen",
+        "message": "ساخته شده",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Výchozí klíč",
+        "message": "کلید پیش فرض",
         "description": "Default key in the keyring."
     },
     "keygrid_default_label": {
-        "message": "Výchozí",
+        "message": "پیش فرض",
         "description": "Label for the default key"
     },
     "keygrid_delete": {
-        "message": "Smazat",
+        "message": "پاک کردن",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "Opravdu chcete tento klíč odebrat?",
+        "message": "آیا از پاک کردن این کلید اطمینان دارید ؟ ",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "Zobrazit všechny klíče",
+        "message": "تمام کلیدها را نشان بده",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "Zobrazit soukromý klíč",
+        "message": "نمایش کلید خصوصی",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "Zobrazit veřejný klíč",
+        "message": "کلید های عمومی را نشان بده ",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "Datum vypršení platnosti",
+        "message": "تاریخ انقضا",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "Export",
+        "message": "خروجی ",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "Exportovat veškeré klíče z tohoto seznamu do souboru",
+        "message": "برون‌ریزی تمام کلیدهای این لیست به فایل",
         "description": "Title for Export key button."
     },
     "keygrid_generate_title": {
-        "message": "Vytvořit klíč",
+        "message": "تولید یک کلید",
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
@@ -1156,123 +1156,123 @@
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
-        "message": "Importovat klíč",
+        "message": "وارد کردن یک کلید",
         "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
-        "message": "Neplatný identif. uživatele",
+        "message": "شناسه کاربر نامعتبر",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "PGP otisk",
+        "message": "اثر انگشت PGP",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "Délka",
+        "message": "طول",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "Tento klíč platí napořád",
+        "message": "کلید انقضا نمی شود",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "ID klíče",
+        "message": "ID اصلی",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
-        "message": "Hlavní klíč",
+        "message": "کلید اصلی ",
         "description": "Main key in the PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Soukromé klíče",
+        "message": "کلیدهای خصوصی ",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "Veřejné klíče",
+        "message": "کلیدهای عمومی ",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "Obnovit",
+        "message": "تازه کردن",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Znovunačíst klíčenku",
+        "message": "بارگذاری مجدد دسته کلید",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "Poslat veřejný klíč e-mailem",
+        "message": "ارسال کلید عمومی از طریق ایمیل",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "Podepisující",
+        "message": "امضا کننده",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "Neznámý podepisující",
+        "message": "امضا کننده ناشناخته",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "Filtry",
+        "message": "فیلترها",
         "description": "Key grid sort selector."
     },
     "keygrid_status_expired": {
-        "message": "po epiraci",
+        "message": "سپری",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_invalid": {
-        "message": "neplatný",
+        "message": "نامعتبر",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_revoked": {
-        "message": "revokované",
+        "message": "لغو",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "platné",
+        "message": "معتبر ",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Podklíč",
+        "message": "زیرکلید",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "Podklíče",
+        "message": "کلید های فرعی ",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "E-mail",
+        "message": "پست الکترونیکی",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "Identifikátory uživatelů",
+        "message": "شناسه های کاربر",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "Jméno",
+        "message": "اسم",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "Hlavní",
+        "message": "اصلی ",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
-        "message": "Podpisy",
+        "message": "امضاها ",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "Status",
+        "message": "وضعیت ",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "Možná nastavení naleznete v:",
+        "message": "تنظیمات موجود را در اینجا ببینید:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "Záloha klíčenky",
+        "message": "پشتیبان دسته کلید",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Opravdu chcete smazat klíčenku s identifikátorem: $1?",
+        "message": "Do you want to delete the keyring with ID: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
@@ -1284,23 +1284,23 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
-        "message": "Exportovat klíčenku",
+        "message": "برون‌ریزی دسته کلید",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "Vytvořit klíč",
+        "message": "کلید را تولید کن  ",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "Správa klíčů",
+        "message": "مدیریت کلیدی ",
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Klíče je možné přidávat buď jako soubor nebo jako text ze schránky.",
+        "message": "You can add keys either as file or as text from the clipboard.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Importovat klíče",
+        "message": "وارد کردن کلید",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
@@ -1312,63 +1312,63 @@
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
-        "message": "Hlavní klíčenka",
+        "message": "دسته کلید اصلی",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "Soukromé ",
+        "message": "خصوصی ",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "Věřejné",
+        "message": "عمومی ",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "Dvojice klíčů",
+        "message": "جفت کلید ",
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Smazat klíčenku",
+        "message": "Delete keyring",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
-        "message": "Nastavit",
+        "message": "نصب",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "Vytvořit klíč",
+        "message": "ساخت کلید ",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Pokud toto rozšíření používáte poprvé a nemáte doposud dvojici klíčů, vytvořte si ji nyní.",
+        "message": "اگر در حال استفاده از این افزونه برای اولین بار میباشید و هنوز یک جفت کلید ندارید، لطفا همین الان یکی تولید کنید.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "Importovat klíč",
+        "message": "وارد کردن کلید",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "Do you already have a key pair on another device? You can import your existing keys. Just export the key pair from the other device and then import them here.",
+        "message": "شما هم اکنون دارای یک جفت کلید روی یک دستگاه دیگر می باشید؟ می توانید کلید های موجود خود را وارد کیند. فقط کافی است جفت کلید را از دستگاه دیگر بیرون آورده و در اینجا وارد کنید.",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Dvojice klíčů je zapotřebí pro šifrování a rozšifrovávání zpráv, stejně tak pro zvaní vašich kontaktů do komunikace, šifrované mezi koncovými body.",
+        "message": "یک جفت کلید برای رمزگشایی و رمزگذاری پیام ها ضروری است، همچنین برای دعوت مخاطبان خود به ارتباط رمزگذاری شده سر-تا-سر.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "Tato klíčenka ještě neobsahuje dvojici klíčů.",
+        "message": "دسته کلید هنوز دارای یک جفت کلید نمی باشد..",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "Další zdroje klíčů",
+        "message": "منابع کلید اضافی",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Use keys from Autocrypt headers of incoming email",
+        "message": "استفاده کلیدها از سرایندهای Autocrypt ایمیل دریافتی",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_tofu_lookup": {
-        "message": "Použít server s klíči, provozovaný projektem Mailvelope",
+        "message": "استفاده از کلید سرور Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_key_binding_header": {
@@ -1388,95 +1388,95 @@
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
-        "message": "Dotázat se na klíče poskytovatele e-mailu příjemců (webový adresář klíčů)",
+        "message": "کلید های پرس و جو از گیرندگان ارائه کنندگان ایمیل (دایرکتوری کلید وب)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
-        "message": "Přidat nového",
+        "message": "افزودن جدید",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Přidat nový identifikátor uživatele",
+        "message": "افزودن یک شناسه کاربر جدید",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
-        "message": "Server s klíči",
+        "message": "سرور کلید",
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "Nesynchronizováno",
+        "message": "همگام نشده",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
-        "message": "synchronizováno",
+        "message": "همگام سازی شده",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "neověřeno",
+        "message": "تائید نشده",
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "Přiřazené identif. uživatele",
+        "message": "شناسه های کاربر تخصیص داده شده",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
-        "message": "Zjistěte více",
+        "message": "بیشتر",
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "Pro tuto zprávu nebyl nalezen soukromý klíč. Identifikátory potřebných soukromých klíčů: $1",
+        "message": "هیچ کلید خصوصی در این پیام پیدا نشد. نیاز به کلید ID خصوصی است: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Tuto zprávu se nepodařilo rozšifrovat: $1",
+        "message": "ناتوانی در رمزگشایی این پیام: $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "Tuto e-mailovou adresu už někdo používá",
+        "message": "آدرس ایمیل هم اکنون در استفاده است",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Zadejte jméno",
+        "message": "لطفا یک نام وارد کنید",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
-        "message": "Text byl zkopírován do schránky.",
+        "message": "Text has been copied to clipboard.",
         "description": "Copy to clipboard toast message."
     },
     "options_docu": {
-        "message": "Dokumentace",
+        "message": "مدارک",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "Volby",
+        "message": "گزینه ",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "Nastavení",
+        "message": "تنظیمات ",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "Mailvelope Options",
+        "message": "گزینه میل ولپ",
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "upřednostněno",
+        "message": "ترجیح داده‌شده",
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
-        "message": "Pověření",
+        "message": "Authorizations",
         "description": "Authorizations"
     },
     "provider_gmail_auth_cancel_btn": {
-        "message": "Zrušit pověření",
+        "message": "Cancel authorization",
         "description": "Cancel authorization button"
     },
     "provider_gmail_auth_readonly": {
-        "message": "číst e-mail",
+        "message": "read email",
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "odeslat e-mail",
+        "message": "send email",
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
@@ -1484,7 +1484,7 @@
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "Přihlásit se prostřednictvím Google účtu",
+        "message": "ورود با Google",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
@@ -1504,7 +1504,7 @@
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Přečtete si naše zásady ochrany soukromí",
+        "message": "Please read our Privacy Policy",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
@@ -1512,7 +1512,7 @@
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Napojení na aplikační program. rozhraní (API) služby Gmail",
+        "message": "Gmail API Integration",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
@@ -1524,11 +1524,11 @@
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Komunikujeme bezpečně s organizacemi po celém světě",
+        "message": "Communicating securely with organizations worldwide",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "za uživatele a měsíc",
+        "message": "per user/month",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
@@ -1552,7 +1552,7 @@
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Je vyžadována licence Mailvelope pro podniky",
+        "message": "Mailvelope Business license required",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
@@ -1560,87 +1560,87 @@
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "Licence Mailvelope",
+        "message": "Mailvelope License",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
-        "message": "Zabezpečené přeposlání",
+        "message": "Secure forward",
         "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
-        "message": "Zabezpečená odpověď všem",
+        "message": "Secure reply all",
         "description": "Secure reply all button title/tooltip"
     },
     "provider_gmail_secure_reply_btn": {
-        "message": "Zabezpečená odpověď",
+        "message": "Secure reply",
         "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Dočasně zapamatovat heslo",
+        "message": "رمز عبور را بطور موقط به خاطر بسپار ",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "Odemykání klíčů bylo zrušeno.",
+        "message": "باز کردن کلیدها لغو شد.",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "Zadejte heslo klíče",
+        "message": "رمز عبور را وارد کن",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Zadejte své heslo",
+        "message": "لطفا رمز عبور را وارد کنید",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Please enter your key password to create the user ID.",
+        "message": "لطفا گذرواژه کلید خود را برای ایجاد شناسه کاربر وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Pokud chcete vytvořit list pro obnovení, zadejte heslo ke svému klíči.",
+        "message": "لطفا گذرواژه کلید خود برای ایجاد یک برگه بازیابی را وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "Pokud chcete koncept uložit, zadejte heslo pro klíč.",
+        "message": "گذرواژه کلید را برای ذخیره پیشنویس وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Pokud chcete tuto zprávu rozšifrovat, zadejte heslo ke svému klíči.",
+        "message": "لطفا گذرواژه کلید خود را برای رمزگشایی این پیام وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Pokud chcete aktualizovat nastavení pro šifrovanou komunikaci, zadejte heslo ke svému klíči.",
+        "message": "لطفا گذرواژه کلید خود را برای بروز رسانی تنظیمات برای ارتباط رمزگذاری شده وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Pokud chcete tento klíč zneplatnit, zadejte heslo k němu.",
+        "message": "گذرواژه کلید خود را برای فسخ این کلید وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Please enter your key password to revoke the user ID.",
+        "message": "لطفا گذرواژه کلید خود را برای فسخ شناسه کاربر وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Please enter your key password to set a new expiration date for the key.",
+        "message": "لطفا گذرواژه کلید خود را برای تنظیم یک تاریخ انقضا جدید برای کلید وارد کنید.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Pokud chcete tuto zprávu podepsat, zadejte heslo ke svému klíči.",
+        "message": "لطفا گذرواژه کلید خود را برای امضا این پیام وارد کنید.",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "Zadejte heslo | Mailvelope",
+        "message": "یک گذرواژه وارد کنید | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "Identif. uživatele:",
+        "message": "ID کاربری:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Nesprávné heslo",
+        "message": "رمز عبور اشتباه ",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "Záloha vašich dat",
+        "message": "پشتیبان گیری از داده هایتان",
         "description": ""
     },
     "recovery_sheet_backup_local": {
@@ -1652,27 +1652,27 @@
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "Please be aware",
+        "message": "لطفا آگاه باشید",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "Zkontrolujte nastavení ve svém účtu v sekci:",
+        "message": "لطفا تنظیمات در حساب کاربری خود را در اینجا بررسی کنید:",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "Datum vytvoření:",
+        "message": "تاریخ ساخت :",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!",
+        "message": "بدون یک پشتیبان، در صورت از دست دادن گذرواژه کلید خود یا در صورت یک دستگاه معیوب یا مشکلاتی با افزونه مرورگر پیام های رمزگذاری شده نمی توانند به صورت مجدد رمزگشایی شوند!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Rady pro šifrovanou komunikaci s $1",
+        "message": "Hints for encrypted communication with $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "Pokud chcete nainstalovat na jiné počítače, zadejte kód pro obnovení v nastavení v sekci:",
+        "message": "برای نصب روی دیگر کامپیوترها، کد بازیابی را در تنظیمات وارد کنید:",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
@@ -1680,11 +1680,11 @@
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "kvůli problémům s rozšířením pro prohlížeč",
+        "message": "بدلیل مشکلات با افزونه مرورگر",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "protože jste zapomněli heslo ke svému klíči",
+        "message": "بدلیل اینکه شما گذرواژه کلید خود را فراموش کردید",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
@@ -1692,11 +1692,11 @@
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "Důležitá informace!",
+        "message": "اطلاعات مهم!",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "Obecně, je důležité",
+        "message": "به صورت کلی، اهمیت دارد",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
@@ -1704,7 +1704,7 @@
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "Uložte si výtisk tohoto dokumentu na bezpečné místo a zajistěte, že ke kódu pro obnovení nemá nikdo jiný přístup.",
+        "message": "یک پرینت از این سند را در یک جا امن نگهداری کنید و مطمئن شوید که هیچکس به کد بازیابی دسترسی ندارد.",
         "description": ""
     },
     "recovery_sheet_key_server": {
@@ -1712,127 +1712,127 @@
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "Na mobilních zařízeních",
+        "message": "روی گوشی های همراه",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Pokud vaše šifrovaná komunikace nefunguje, např.:",
+        "message": "اگر ارتباط رمزگذاری شده شما دیگر کار نمی کند، مثلا:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "Na jiném počítači",
+        "message": "روی یک کامپیوتر متفاوت",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Šifrovaná komunikace s ostatními kontakty",
+        "message": "ارتباط رمزگذاری شده با دیگر مخاطبان",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "Šifrovaná komunikace na ostatních zařízeních",
+        "message": "ارتباط رمزگذاری شده روی دستگاه های دیگر",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Nastavení šifrované komunikace na jiných zařízeních",
+        "message": "تنظیم ارتباط رمزگذاری شده روی دستگاه های دیگر",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "z jiných důvodů",
+        "message": "به دلایل دیگر",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "S ostatními kontakty můžete komunikovat zabezpečeně, pokud také používají šifrovanou komunikaci (PGP).",
+        "message": "شما به صورتی امن می توانید با دیگر مخاطبان ارتباط برقرار کنید اگر آن ها هم در حال استفاده از ارتباط رمزگذاری شده هستند (PGP).",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "Prosíme uložte si tento dokument na bezpečném místě!",
+        "message": "لطفا این سند را در یک جا امن نگه دارید!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "Tisk",
+        "message": "چاپ",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "Prosíme vytiskněte si tento dokument a uložte si ho na bezpečném místě!",
+        "message": "لطفا این سند را پرینت کنید و در یک جا امن نگهداری کنید!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "Šifrovaná komunikace",
+        "message": "ارتباط رمزگذاری شده",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "Doručené",
+        "message": "اینباکس",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "Bezpečnost",
+        "message": "امنیت",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "Nastavení",
+        "message": "تنظیمات",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "Naskenujte QR kód vaším mobilním zařízením.",
+        "message": "اسکن کردن کد QR با دستگاه موبایل خود.",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "Doporučení",
+        "message": "توصیه",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "Obnovují se data",
+        "message": "بازیابی داده",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "Kód pro obnovení",
+        "message": "کد بازیابی",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "List pro obnovení šifrované komunikace",
+        "message": "برگه بازیابی برای ارتباط رمزگذاری شده",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Obnovit šifrovanou komunikaci",
+        "message": "بازیابی ارتباط رمزگذاری شده",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "V případě kontaktů u poskytovatele GMX si můžete být jistí, že zobrazení uživatelé jsou skutečně platní uživatelé. Nicméně měli byste vždy ověřit identitu kontaktů u e-mailových adres od jiného poskytovatele e-mailu.",
+        "message": "با مخاطبان GMX شما میتوانید مطمئن باشید که کاربران نمایش داده شده کاربران معتبر و حقیقی می باشند. شما هرچند باید هویت مخاطبان را با یک آدرس ایمیل از ارائه دهنده ایمیل دیگر تایید کنید.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "Šifrovanou komunikaci nastavujte pouze na bezpečných zařízeních, ke kterým máte přístup pouze vy.",
+        "message": "فقط ارتباط رمزگذاری شده روی دستگاه های امن برقرار سازید که قابل دسترسی توسط افراد ناشناس نمی باشد.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "Zálohu vašich dat je možné rozšifrovat pouze prostřednictvím obnovovacího kódu, uvedeného na tomto listu pro obnovení.",
+        "message": "پشتیبان داده های شما فقط با کمک کد بازیابی روی این برگه بازیابی قابل رمزگشایی است.",
         "description": ""
     },
     "reload_tab": {
-        "message": "Aby se nastavení projevila, znovu načtěte odpovídající stránky.",
+        "message": "لطفا صفحات متناظر را برای دیدن تاثیر آن بر تنظیمات به صورت مجدد بارگذاری کنید.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "Potvrdit",
+        "message": "تایید",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Zadejte svůj kód pro obnovení:",
+        "message": "لطفا کد بازیابی خود را وارد کنید:",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "Zobrazit",
+        "message": "نمایش",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "Heslo k vašemu klíči:",
+        "message": "گذرواژه کلید خود:",
         "description": ""
     },
     "security_background_color_text": {
-        "message": "2. Nyní si zvolte barvu, která se vám líbí",
+        "message": "2. Now choose a color that you like",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. Zvolte si ikonu, která se vám líbí",
+        "message": "1. Choose an icon that you like",
         "description": "Security background select icon text"
     },
     "security_background_text": {
@@ -1840,195 +1840,195 @@
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "Zapamatovat si heslo po dobu této relace v prohlížeči.",
+        "message": "به خاطر سپاردن گذرواژه ها برای این نشست مرورگر",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "Je třeba, aby bylo číslo z rozsahu 1-999",
+        "message": "باید عدد باشد بین 1-999",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "Ne.",
+        "message": "نه.",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "Ano, ponechat v paměti po dobu",
+        "message": "بله٬ در خاطر نگه دار برای ",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "minut.",
+        "message": "دقایق.",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Kde jsou rozšifrované zprávy zobrazovány?",
+        "message": "پیام های رمزگزاری شده کجا به نمایش در می آیند ؟ ",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "Na stránce poskytovatele e-mailu.",
+        "message": "روی صفحه ارائه دهنده ایمیل.",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "V odděleném vyskakovacím okně doplňku Mailvelope.",
+        "message": "در یک حبابک جداگانه Mailvelope",
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "Skrýt v PGP zprávách verzi Mailvelope a komentář.",
+        "message": "پنهان کردن نسخه Mailvelope و یادداشت کردن در پیام های PGP.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
-        "message": "Akce",
+        "message": "اقدام",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "Kliknuto na tlačítko přidání přílohy",
+        "message": "دکمه اضافه کردن ضمیمه کلیک شده ",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "Příloha stažena",
+        "message": "ضمیمه دانلود شد",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "Zálohu vytvoříte kliknutím",
+        "message": "برای ایجاد پشتیبان کلیک کنید",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Kliknutím obnovíte ze zálohy",
+        "message": "برای بازیابی پشتیبان کلیک کنید",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "Zkopírujete kliknutím v dialogu pro ověření",
+        "message": "کپی در دیالوگ تایید",
         "description": ""
     },
     "security_log_decrypt_ui": {
-        "message": "Rozšifrovat",
+        "message": "رمزگشایی",
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "Zpráva byla rozšifrována pomocí: $1",
+        "message": "Message has been decrypted with: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "V dialogu klikněte na Storno",
+        "message": "کلیک برای لغو در دیالوگ",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "Zašifrujete kliknutím v dialogu",
+        "message": "کلیک برای رمزگذاری در دیالوگ",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "Click to confirm in dialog",
+        "message": "کلیک برای تایید در دیالوگ",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Podepíšete kliknutím v dialogu",
+        "message": "کلیک برای امضا در دیالوگ",
         "description": ""
     },
     "security_log_editor": {
-        "message": "Editor v rámci doplňku Mailvelope",
+        "message": "Mailvelope Editor",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "Rozšifrovat PGP e-mail",
+        "message": "ایمیل PGP رمزگشایی شده",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "Dialog pro šifrování",
+        "message": "رمزگذاری دیالوگ",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "Zašifrovat formulář",
+        "message": "رمزگذاری فرم",
         "description": "Encrypt form as an event source"
     },
     "security_log_encrypt_ui": {
-        "message": "Zašifrovat",
+        "message": "رمزگذاری",
         "description": ""
     },
     "security_log_encryption_operation": {
-        "message": "Zpráva byla zašifrována pro: $1",
+        "message": "پیام رمزگذاری شده برای: $1",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "Dialog pro import",
+        "message": "وارد کردن دیالوگ",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "Záloha klíče",
+        "message": "پشتیبان گیری از کلید",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "Nástroj pro vytváření klíčů",
+        "message": "مولد کلید ",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "Klikněte v dialogu pro heslo",
+        "message": "کلیک در دیالوگ گذرواژه",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "Dialog pro heslo",
+        "message": "دیالوگ گذرواژه",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "Zadání v dialogu pro heslo",
+        "message": "ورودی در دیالوگ گذرواژه",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "Příloha odebrána",
+        "message": "ضمیمه حذف شد",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "Klikněte v dialogu obnovení zálohy",
+        "message": "کلیک در دیالوگ پشتیبان بازیابی",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Zpráva byla podepsána klíčem: $1",
+        "message": "پیام با این کلید امضا شده است: $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "Dialog pro podepsání zavřete kliknutím",
+        "message": "کلیک برای بستن دیالوگ امضا",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "Dialog pro podepsání otevřete kliknutím",
+        "message": "کلیک برای باز کردن دیالوگ امضا",
         "description": ""
     },
     "security_log_source": {
-        "message": "Zdrojový kód",
+        "message": "منبع ",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "The security log shows user actions in all components of Mailvelope.",
+        "message": "گزارش امنیتی نشان دهنده کنش های کاربر در تمام اجزا Mailvelope می باشد.",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "Psaní v textové kolonce",
+        "message": "ورودی در فیلد متن",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "Kliknutí do oblasti textu",
+        "message": "کلیک در ناحیه متن",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "Psaní v oblasti textu",
+        "message": "ورودی در ناحیه متن",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "Výběr v oblasti textu",
+        "message": "گزینش در ناحیه متن",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "Timestamp",
+        "message": "برچسب زمان ",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "Dialog pro ověření",
+        "message": "تایید دیالوگ",
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "Prohlížeč Mailvelope",
+        "message": "Mailvelope Viewer",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {
-        "message": "Nastavení pro OpenPGP",
+        "message": "تنظیمات OpenPGP",
         "description": "OpenPGP settings header"
     },
     "settings_analytics": {
@@ -2036,11 +2036,11 @@
         "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
-        "message": "Záloha",
+        "message": "پشتیبان گیری ",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "Hlavní",
+        "message": "عمومی ",
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
@@ -2052,99 +2052,99 @@
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
-        "message": "Bezpečnost",
+        "message": "امنیت ",
         "description": "Tab of options to display security settings."
     },
     "settings_security_background": {
-        "message": "Security Background",
+        "message": "پیش زمینه امنیتی ",
         "description": "Security background header"
     },
     "settings_security_log": {
-        "message": "Záznam událostí v zabezpečení",
+        "message": "ورودی امنیتی ",
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "Authorized Domains",
+        "message": "دامنه های مجاز",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Podepsat zprávu jako:",
+        "message": "پیام را به این عنوان امضا کن:",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "Tuto zprávu se nepodařilo podepsat: $1",
+        "message": "این پیام امضا نشد: $1",
         "description": "Error during signing process."
     },
     "signer_unknown": {
-        "message": "Neznámé",
+        "message": "ناشناخته",
         "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
-        "message": "Rozšifrovat",
+        "message": "رمزگشایی",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "Rozšifrování textu",
+        "message": "رمزگشایی متن",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "Šifrování textu",
+        "message": "رمزگذاری متن",
         "description": "Navigation link to text encryption feature"
     },
     "upload_aborting_warning": {
-        "message": "Nahrání souboru bude zrušeno.",
+        "message": "فایل بارگزاری شده لغو خواهد شد. ",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Přidat soubor",
+        "message": "افزودن فایل",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
-        "message": "Pokud ho chcete přidat jako přílohu, upusťte soubor do této oblasti",
+        "message": "Drop the file in this area to attach it",
         "description": "Text in file drop overlay area"
     },
     "upload_help": {
-        "message": "Přetáhněte soubor do tohoto okna nebo",
+        "message": "Drag file to this window or",
         "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
-        "message": "Nejvyšší umožněná velikost přílohy:",
+        "message": "اندازه پیوست مجاز:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "Příloha je příliš velká",
+        "message": "پیوست بیش از اندازه بزرگ می باشد",
         "description": ""
     },
     "user_create_btn": {
-        "message": "Vytvořit",
+        "message": "ایجاد کردن",
         "description": "Create user button label"
     },
     "user_create_title": {
-        "message": "Vytvořit identif. uživatele",
+        "message": "ایجاد شناسه کاربر",
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "The user ID is not synchronized with the Mailvelope key server.",
+        "message": "شناسه آیدی با سرور کلید Mailvelope همگام نشده است.",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "برای حذف پایانی از سرور کلید Mailvelope یک ایمیل تایید به $1 ارسال شد.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "Odebrat identif. uživatele",
+        "message": "حذف شناسه کاربر",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "Znovu poslat potvrzení",
+        "message": "ارسال دوباره تایید",
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "Identif. uživatele je synchronizován se serverem s klíči, provozovaným projektem Mailvelope.",
+        "message": "شناسه کاربر با سرور کلید Mailvelope همگام شده است.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
+        "message": "لطفا برای همگام کردن شناسه کاربر با سرور کلید Mailvelope آن را تایید کنید.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
@@ -2152,115 +2152,115 @@
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
-        "message": "Odstranit",
+        "message": "حذف",
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "Odebrat identif. uživatele",
+        "message": "حذف شناسه کاربر",
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Do you want to remove this user ID from your key?",
+        "message": "آیا میخواهید تا این شناسه کاربر را از کلید خود حذف کنید؟",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "User ID is also removed from the Mailvelope key server.",
+        "message": "شناسه کاربر همچنین از سرور کلید Mailvelope  حذف شده است.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
-        "message": "Odebrat identif. uživatele",
+        "message": "حذف شناسه کاربر",
         "description": "Title of remove user dialog."
     },
     "user_revoke_btn": {
-        "message": "Odvolat platnost",
+        "message": "فسخ",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Revoke user ID",
+        "message": "فسخ شناسه کاربر",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Would you still like to revoke?",
+        "message": "آیا همچنان مایل به فسخ می باشید؟",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "After revocation, the user ID for this key will permanently remain unusable.",
+        "message": "پس از فسخ، شناسه کاربر برای این کلید به صورت دائم غیرقابل استفاده خواهد بود.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "Revoke user ID",
+        "message": "فسخ شناسه کاربر",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
-        "message": "Identif. uživatele",
+        "message": "آیدی کاربر",
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "Ověřování",
+        "message": "تاییدها",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "Tuto zprávu se nepodařilo ověřit: $1",
+        "message": "نمی تواند این پیام را تایید کند:  $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "Kliknutím podpis ověříte",
+        "message": "Click to verify signature",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Rozšifrovávání se nezdařilo.",
+        "message": "Decryption failed.",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {
-        "message": "Přidat novou položku",
+        "message": "افزودن ورودی جدید",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "Editovat",
+        "message": "ویرایش",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Do you really want to remove this site from the list of authorized domains?",
+        "message": "آیا واقعا می خواهید این سایت را از لیست دامنه های مجاز حذف کنید؟",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
-        "message": "API",
+        "message": "رابط برنامه نویسی",
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Authorized Domain",
+        "message": "دامنه مجاز",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_remove_dialog_title": {
-        "message": "Odebrat doménu",
+        "message": "Remove domain",
         "description": "Title of delete watchlist dialog."
     },
     "watchlist_title_active": {
-        "message": "Zapnuto",
+        "message": "فعال شده",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "Domain pattern",
+        "message": "الگوی دامنه ",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "Pouze HTTPS",
+        "message": "فقط-HTTPS",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "Zapnuto",
+        "message": "فعال شده",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "Stránky",
+        "message": "سایت",
         "description": "Site in watchlist."
     },
     "word_or": {
-        "message": "nebo",
+        "message": "یا",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "Neplatný kód pro obnovení",
+        "message": "کد بازیابی نامعتبر",
         "description": ""
     }
 }

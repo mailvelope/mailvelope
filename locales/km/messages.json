@@ -524,7 +524,7 @@
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "បញ្ជូន",
+        "message": "ផ្ញើ",
         "description": "Submit form button."
     },
     "form_undo": {
