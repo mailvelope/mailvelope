@@ -12,12 +12,13 @@ import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
 
 const CLIENT_ID = browser.runtime.getManifest().oauth2.client_id;
+const CLIENT_SECRET = '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';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
 const GOOGLE_OAUTH_STORE = 'mvelo.oauth.gmail';
 export const GMAIL_SCOPE_USER_EMAIL = 'https://www.googleapis.com/auth/userinfo.email';
 export const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 export const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
-const GMAIL_SCOPES_DEFAULT = [GMAIL_SCOPE_USER_EMAIL];
+const GMAIL_SCOPES_DEFAULT = ['openid', GMAIL_SCOPE_USER_EMAIL];
 const MVELO_BILLING_API_HOST = 'https://license.mailvelope.com';
 
 export const MAIL_QUOTA = 25 * 1024 * 1024;
@@ -106,24 +107,24 @@ export async function sendMessageMeta({email, message, threadId, accessToken}) {
 export async function getAccessToken({email, scopes = []}) {
   scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   const storedTokens = await mvelo.storage.get(GOOGLE_OAUTH_STORE);
-  if (!storedTokens?.[email]) {
+  const storedToken = storedTokens?.[email];
+  if (!storedToken || !scopes.every(scope => storedToken.scope.split(' ').includes(scope))) {
     return;
   }
-  const storedToken = storedTokens[email];
-  if (storedToken.access_token) {
-    // revoke legacy access token
-    await revokeToken(storedToken.refresh_token);
-    delete storedTokens[email];
-    await mvelo.storage.set(GOOGLE_OAUTH_STORE, storedTokens);
-    return;
+  if (checkStoredToken(storedToken)) {
+    return storedToken.access_token;
   }
-  try {
-    // check if access token in cache
-    return await getAuthToken({email, interactive: false, scopes});
-  } catch (e) {
-    console.log('Retrieving Auth Token failed.', e);
-    return;
+  if (storedToken.refresh_token) {
+    const refreshedToken = await getRefreshedAccessToken(storedToken.refresh_token);
+    if (refreshedToken.access_token) {
+      await storeAuthData(email, buildAuthMeta(refreshedToken));
+      return refreshedToken.access_token;
+    }
   }
+}
+
+function checkStoredToken(storedData) {
+  return storedData.access_token && (storedData.access_token_exp  >= new Date().getTime());
 }
 
 function validateLicense(storedData) {
@@ -183,14 +184,22 @@ async function requestLicense(domain, gmail_account_id) {
 export async function authorize(email, legacyGsuite, scopes = browser.runtime.getManifest().oauth2.scopes) {
   scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   // incremental authorization to prevent checkboxes for the requested scopes on the consent screen
-  await getAuthToken({email, scopes: GMAIL_SCOPES_DEFAULT});
-  const token = await getAuthToken({email, scopes});
-  const userInfo = await getUserInfo(token);
+  const access_token = await getAuthToken(email, GMAIL_SCOPES_DEFAULT);
+  const userInfo = await getUserInfo(access_token);
   if (userInfo.email !== email) {
     throw new MvError('Email mismatch in user info from oauth2/v3/userinfo', 'OAUTH_VALIDATION_ERROR');
   }
-  await storeAuthData(email, buildAuthMeta({...userInfo, scope: scopes.join(' '), legacyGsuite}));
-  return token;
+  let auth = await getAuthCode(email, scopes);
+  if (!auth.code) {
+    throw new MvError('Authorization failed!', 'GOOGLE_OAUTH_ERROR');
+  }
+  if (auth.prompt === 'none') {
+    // re-authorize with consent as without prompt the refresh token is empty
+    auth = await getAuthCode(email, scopes, 'consent');
+  }
+  const tokens = await getAuthTokens(auth.code);
+  await storeAuthData(email, buildAuthMeta({...userInfo, ...tokens, legacyGsuite}));
+  return tokens.access_token;
 }
 
 export async function unauthorize(email) {
@@ -198,27 +207,51 @@ export async function unauthorize(email) {
   if (!authMetaData?.[email]) {
     return;
   }
-  let token = authMetaData[email].access_token;
-  if (!token) {
-    try {
-      token = await getAuthToken({email, interactive: false});
-      browser.identity.removeCachedAuthToken?.({token});
-    } catch (e) {
-      console.log('Failed to remove cached token.', e);
-    }
+  const token = authMetaData[email];
+  if (token.access_token) {
+    await revokeToken(token.access_token);
   }
-  if (token) {
-    await revokeToken(token);
+  if (token.refresh_token) {
+    await revokeToken(token.refresh_token);
   }
   delete authMetaData[email];
   await mvelo.storage.set(GOOGLE_OAUTH_STORE, authMetaData);
 }
 
-async function getAuthToken({email, interactive = true, scopes = browser.runtime.getManifest().oauth2.scopes}) {
+async function getAuthCode(email, scopes = browser.runtime.getManifest().oauth2.scopes, prompt) {
+  const redirectURL = browser.identity.getRedirectURL();
+  const state = getHash();
+  const auth_params = {
+    access_type: 'offline',
+    client_id: CLIENT_ID,
+    include_granted_scopes: true,
+    login_hint: email,
+    redirect_uri: redirectURL,
+    response_type: 'code',
+    scope: scopes.join(' '),
+    state
+  };
+  if (prompt) {
+    auth_params.prompt = prompt;
+  }
+  const url = `${GOOGLE_API_HOST}/o/oauth2/v2/auth?${new URLSearchParams(Object.entries(auth_params))}`;
+  const responseURL = await browser.identity.launchWebAuthFlow({url, interactive: true});
+  const search = new URL(responseURL).searchParams;
+  if (search.get('state') !== state) {
+    throw new Error('oauth2/v2/auth: wrong state parameter');
+  }
+  return {
+    code: search.get('code'),
+    prompt: search.get('prompt')
+  };
+}
+
+async function getAuthToken(email, scopes = browser.runtime.getManifest().oauth2.scopes) {
   const redirectURL = browser.identity.getRedirectURL();
   const state = getHash();
   const auth_params = {
     client_id: CLIENT_ID,
+    include_granted_scopes: true,
     login_hint: email,
     redirect_uri: redirectURL,
     response_type: 'token',
@@ -226,12 +259,51 @@ async function getAuthToken({email, interactive = true, scopes = browser.runtime
     state
   };
   const url = `${GOOGLE_API_HOST}/o/oauth2/v2/auth?${new URLSearchParams(Object.entries(auth_params))}`;
-  const responseURL = await browser.identity.launchWebAuthFlow({url, interactive});
+  const responseURL = await browser.identity.launchWebAuthFlow({url, interactive: true});
   const search = new URLSearchParams(new URL(responseURL).hash.replace(/^#/, ''));
   if (search.get('state') !== state) {
     throw new Error('oauth2/v2/auth: wrong state parameter');
   }
   return search.get('access_token');
+}
+
+async function getAuthTokens(authCode) {
+  const url = 'https://oauth2.googleapis.com/token';
+  const params = {
+    client_id: CLIENT_ID,
+    code: authCode,
+    client_secret: CLIENT_SECRET,
+    grant_type: 'authorization_code',
+    redirect_uri: browser.identity.getRedirectURL()
+  };
+  const result = await fetch(url, {
+    method: 'POST',
+    body: new URLSearchParams(Object.entries(params)).toString(),
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+  return result.json();
+}
+
+async function getRefreshedAccessToken(refresh_token) {
+  const url = 'https://oauth2.googleapis.com/token';
+  const params = {
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET,
+    grant_type: 'refresh_token',
+    refresh_token
+  };
+  const result = await fetch(url, {
+    method: 'POST',
+    body: new URLSearchParams(Object.entries(params)).toString(),
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+  return result.json();
 }
 
 async function getUserInfo(accessToken) {
@@ -255,9 +327,13 @@ async function revokeToken(token) {
 }
 
 function buildAuthMeta(token) {
-  const data = {};
-  if (token.scope) {
-    data.scope = token.scope;
+  const data = {
+    access_token: token.access_token,
+    access_token_exp: new Date().getTime() + token.expires_in * 1000,
+    scope: token.scope
+  };
+  if (token.refresh_token) {
+    data.refresh_token = token.refresh_token;
   }
   if (token.hd) {
     data.gsuite = token.hd;
