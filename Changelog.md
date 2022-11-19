@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v4.7.1
+-------
+__Nov 19, 2022__
+
+  * [Gmail] Fix Gmail API re-authentication required after browser restart
+
 v4.7.0
 -------
 __Nov 8, 2022__
