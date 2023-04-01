@@ -110,17 +110,18 @@ export default class PrivateKeyController extends sub.SubController {
     }
     this.ports.keyGenDialog.emit('show-waiting');
     getKeyringById(this.keyringId).generateKey({
+      keyAlgo: 'rsa',
       userIds: options.userIds,
       numBits: options.keySize,
       passphrase: password,
       unlocked: true
     }).then(data => {
-      this.ports.keyGenCont.emit('generate-done', {publicKey: data.publicKeyArmored});
+      this.ports.keyGenCont.emit('generate-done', {publicKey: data.publicKey.armor()});
       if (prefs.security.password_cache) {
-        pwdCache.set({key: data.key, password});
+        pwdCache.set({key: data.privateKey, password});
       }
       if (options.confirmRequired) {
-        this.newKeyFpr = data.key.primaryKey.getFingerprint();
+        this.newKeyFpr = data.publicKey.getFingerprint();
         this.rejectTimer = setTimeout(() => {
           this.rejectKey(this.newKeyFpr);
           this.rejectTimer = 0;

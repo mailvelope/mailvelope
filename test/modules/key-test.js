@@ -1,6 +1,7 @@
 import {expect} from 'test';
-import * as openpgp from 'openpgp';
+import {readKey} from 'openpgp';
 import {getUserInfo, parseUserId, mapKeys, mapSubKeys, mapUsers, minifyKey, verifyUserCertificate, checkKeyId, getLastModifiedDate, equalKey, toPublic, filterUserIdsByEmail} from 'modules/key';
+import {KEY_STATUS} from 'lib/constants';
 import testKeys from 'Fixtures/keys';
 
 describe('Key unit test', () => {
@@ -8,7 +9,7 @@ describe('Key unit test', () => {
     let key;
 
     beforeEach(async () => {
-      ({keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub));
+      key = await readKey({armoredKey: testKeys.maditab_pub});
     });
 
     it('should return primary or first available user id of key', () =>
@@ -21,7 +22,7 @@ describe('Key unit test', () => {
     it('should return first available user id when there is no valid user id on this key and validity check set to false', async () => {
       key.getPrimaryUser = () => null;
       const {userId} = await getUserInfo(key, {allowInvalid: true});
-      expect(userId).to.equal(key.users[0].userId.userid);
+      expect(userId).to.equal(key.users[0].userID.userID);
     });
   });
 
@@ -69,7 +70,7 @@ describe('Key unit test', () => {
       const keys = [];
       const armoredKeys = [testKeys.maditab_pub, testKeys.maditab_prv];
       for (const armoredKey of armoredKeys) {
-        const {keys: [key]} = await openpgp.key.readArmored(armoredKey);
+        const key = await readKey({armoredKey});
         keys.push(key);
       }
       const result = await  mapKeys(keys);
@@ -91,9 +92,9 @@ describe('Key unit test', () => {
 
   describe('mapSubKeys', () => {
     it('should map subkeys', async () => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const key = await readKey({armoredKey: testKeys.maditab_pub});
       const mapped = {};
-      await mapSubKeys(key.subKeys, mapped, key);
+      await mapSubKeys(key.subkeys, mapped, key);
       const {subkeys: mappedSubkeys} = mapped;
       expect(mappedSubkeys.length).to.equal(4);
       const subkey = mappedSubkeys.find(({keyId}) => keyId === 'A9C26FF01F6F59E2');
@@ -109,7 +110,7 @@ describe('Key unit test', () => {
 
   describe('mapUsers', () => {
     it('should map users', async () => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const key = await readKey({armoredKey: testKeys.maditab_pub});
       const mapped = {};
       await mapUsers(key.users, mapped, {}, key);
       const {users: mappedUsers} = mapped;
@@ -125,10 +126,10 @@ describe('Key unit test', () => {
 
   describe('minifyKey', () => {
     it('should return minimal key', async () => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const key = await readKey({armoredKey: testKeys.maditab_pub});
       const minimal = await minifyKey(key, {email: 'madita@mailvelope.com'});
       const keyMap = {};
-      await mapSubKeys(minimal.subKeys, keyMap, minimal);
+      await mapSubKeys(minimal.subkeys, keyMap, minimal);
       const {subkeys: mappedSubkeys} = keyMap;
       expect(mappedSubkeys.length).to.equal(1);
       const subkey = mappedSubkeys[0];
@@ -144,88 +145,94 @@ describe('Key unit test', () => {
 
   describe('verifyUserCertificate', () => {
     it('should verify user certificate', async () => {
-      const {keys: [{primaryKey, users}]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const key = await readKey({armoredKey: testKeys.maditab_pub});
       await Promise.all([
-        expect(verifyUserCertificate(users[0], primaryKey, users[0].selfCertifications[0])).to.eventually.equal(openpgp.enums.keyStatus.valid),
-        expect(verifyUserCertificate(users[1], primaryKey, users[1].selfCertifications[0])).to.eventually.equal(openpgp.enums.keyStatus.valid),
-        expect(verifyUserCertificate(users[2], primaryKey, users[2].selfCertifications[0])).to.eventually.equal(openpgp.enums.keyStatus.revoked)
+        expect(verifyUserCertificate(key.users[0], key.users[0].selfCertifications[0], key)).to.eventually.equal(KEY_STATUS.valid),
+        expect(verifyUserCertificate(key.users[1], key.users[1].selfCertifications[0], key)).to.eventually.equal(KEY_STATUS.valid),
+        expect(verifyUserCertificate(key.users[2], key.users[2].selfCertifications[0], key)).to.eventually.equal(KEY_STATUS.revoked)
       ]);
     });
   });
 
   describe('checkKeyId', () => {
-    class KeyStub {
-      constructor(id, primaryKey = null, subKeys = []) {
+    class KeyIDStub {
+      constructor(id) {
         this.id = id;
-        this.primaryKey = primaryKey === null ? new KeyStub(id, this) : primaryKey;
-        this.subKeys = [];
-        this.createSubKeys(subKeys);
       }
 
-      createSubKeys(keys) {
-        keys.forEach(key => {
-          this.subKeys.push(
-            {
-              keyPacket: key
-            }
-          );
-        });
+      toHex() {
+        return this.id;
       }
 
-      getKeyId() {
-        const id = this.id;
-        return {
-          toHex() { return id; },
-          equals(compareId) { return compareId.toHex() === id; }
-        };
-      }
-
-      getSubkeys() {
-        return this.subKeys;
+      equals(compareId) {
+        return compareId.toHex() === this.id;
       }
     }
 
-    const primaryKeyA = new KeyStub('ABC');
-    const primaryKeyB = new KeyStub('CBD');
-    const primaryKeyC = new KeyStub('654');
-    const subKeyA = new KeyStub('123', primaryKeyA);
-    const subKeyB = new KeyStub('321', primaryKeyA);
-    const subKeyC = new KeyStub('456', primaryKeyB);
-    const subKeyD = new KeyStub('654', primaryKeyB);
-    const subKeyE = new KeyStub('789', primaryKeyA);
-    const subKeyF = new KeyStub('ABC', primaryKeyB);
-    const subKeyG = new KeyStub('456', primaryKeyA);
-    const keyRingKeys = [primaryKeyA, primaryKeyB, subKeyA, subKeyB, subKeyC, subKeyD];
+    class KeyPacketStub {
+      constructor(id) {
+        this.keyID = new KeyIDStub(id);
+      }
+
+      getKeyID() {
+        return this.keyID;
+      }
+    }
+
+    class KeyStub {
+      constructor(keyPacket, subkeys = []) {
+        this.keyPacket = keyPacket;
+        this.subkeys = subkeys;
+      }
+
+      getKeyID() {
+        return this.keyPacket.keyID;
+      }
+
+      getSubkeys() {
+        return this.subkeys;
+      }
+    }
+
+    const keyPacketA = new KeyPacketStub('ABC');
+    const keyPacketB = new KeyPacketStub('CBD');
+    const keyPacketC = new KeyPacketStub('654');
+    const keyPacketD = new KeyPacketStub('789');
+    const keyPacketE = new KeyPacketStub('XYZ');
+    const keyPacketF = new KeyPacketStub('974');
+    const keyA = new KeyStub(keyPacketA, [keyPacketB]);
+    const keyB = new KeyStub(keyPacketC, [keyPacketD]);
+    const keyRingKeys = [keyA, keyB];
     const keyring = {
-      getKeysForId(keyId) { return keyRingKeys.filter(key => key.getKeyId().toHex() === keyId); }
+      getKeysForId(keyId) { return keyRingKeys.filter(key => key.getKeyID().toHex() === keyId || key.subkeys.some(subkey => subkey.getKeyID().toHex() === keyId)); }
     };
 
-    it('should pass', () => {
-      const testKey = new KeyStub('', primaryKeyA, [subKeyA, subKeyB]);
+    it('should pass same primary key, new sub key', () => {
+      const testKey = new KeyStub(keyPacketA, [keyPacketB, keyPacketE]);
       expect(() => checkKeyId(testKey, keyring)).to.not.throw();
     });
-    it('should pass', () => {
-      const testKey = new KeyStub('', primaryKeyA, [subKeyA, subKeyB, subKeyE]);
+    it('should pass new primary key, new sub key', () => {
+      const testKey = new KeyStub(keyPacketE, [keyPacketF]);
       checkKeyId(testKey, keyring);
       expect(() => checkKeyId(testKey, keyring)).to.not.throw();
     });
     it('should raise error', () => {
-      const testKey = new KeyStub('', primaryKeyC, [subKeyA, subKeyB]);
+      const testKey = new KeyStub(keyPacketB, [keyPacketF]);
       expect(() => checkKeyId(testKey, keyring)).to.throw().and.have.property('message', 'Primary keyId equals existing sub keyId.');
     });
     it('should raise error', () => {
-      const testKey = new KeyStub('', primaryKeyB, [subKeyC, subKeyF]);
+      const testKey = new KeyStub(keyPacketF, [keyPacketE, keyPacketA]);
       expect(() => checkKeyId(testKey, keyring)).to.throw().and.have.property('message', 'Sub keyId equals existing primary keyId.');
     });
     it('should raise error', () => {
-      const testKey = new KeyStub('', primaryKeyA, [subKeyA, subKeyG]);
+      const testKey = new KeyStub(keyPacketF, [keyPacketB]);
       expect(() => checkKeyId(testKey, keyring)).to.throw().and.have.property('message', 'Sub keyId equals existing sub keyId in key with different primary keyId.');
     });
   });
 
   describe('getLastModifiedDate', () => {
     it('should return the most recent created date field', async () => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const key = await readKey({armoredKey: testKeys.maditab_pub});
       const lastModDate = new Date(getLastModifiedDate(key));
       expect(lastModDate.toISOString()).to.equal('2021-05-04T15:10:20.000Z');
       const expDateString = `${lastModDate.getUTCDate()}.${(lastModDate.getUTCMonth() + 1)}.${lastModDate.getUTCFullYear()} ${lastModDate.getUTCHours()}:${lastModDate.getUTCMinutes()}:${lastModDate.getUTCSeconds()}`;
@@ -235,33 +242,33 @@ describe('Key unit test', () => {
 
   describe('equalKey', () => {
     it('should return true', async () => {
-      const {keys: [key1]} = await openpgp.key.readArmored(testKeys.maditab_pub);
-      const {keys: [key2]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const key1 = await readKey({armoredKey: testKeys.maditab_pub});
+      const key2 = await readKey({armoredKey: testKeys.maditab_pub});
       expect(equalKey(key1, key2)).to.be.true;
     });
   });
 
   describe('toPublic', () => {
     it('should return public key from private key', async () => {
-      const {keys: [privateKey]} = await openpgp.key.readArmored(testKeys.maditab_prv);
-      expect(privateKey.isPublic()).to.be.false;
+      const privateKey = await readKey({armoredKey: testKeys.maditab_prv});
+      expect(privateKey.isPrivate()).to.be.true;
       const publicKey = toPublic(privateKey);
-      expect(publicKey.isPublic()).to.be.true;
+      expect(publicKey.isPrivate()).to.be.false;
     });
   });
 
   describe('filterUserIdsByEmail', () => {
     it('should filter user by e-mail', async () => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.maditab_pub);
+      const key = await readKey({armoredKey: testKeys.maditab_pub});
       const {users} = filterUserIdsByEmail(key, 'madita@mailvelope.com');
       expect(users.length).to.equal(1);
-      expect(users[0].userId.name).to.equal('Madita Bernstone');
+      expect(users[0].userID.name).to.equal('Madita Bernstone');
     });
     it('should filter out user attributes', async () => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.wiktor_pub);
+      const key = await readKey({armoredKey: testKeys.wiktor_pub});
       const {users} = filterUserIdsByEmail(key, 'wiktor@metacode.biz');
       expect(users.length).to.equal(1);
-      expect(users[0].userId.email).to.equal('wiktor@metacode.biz');
+      expect(users[0].userID.email).to.equal('wiktor@metacode.biz');
     });
   });
 });

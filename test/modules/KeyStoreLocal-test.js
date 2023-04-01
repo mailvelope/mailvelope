@@ -1,5 +1,5 @@
 import {expect} from 'test';
-import * as openpgp from 'openpgp';
+import {readKey} from 'openpgp';
 import {LocalStorageStub} from 'utils';
 import {init as initKeyringAttrMap, getById as getKeryingById, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
 import {mapKeys} from 'modules/key.js';
@@ -26,6 +26,7 @@ describe('KeyStoreLocal unit tests', () => {
     });
     await initKeyringAttrMap();
     const keyRing = getKeryingById(keyringId);
+    keyRing.keystore.clear();
     keyStore = keyRing.keystore;
   });
 
@@ -39,10 +40,10 @@ describe('KeyStoreLocal unit tests', () => {
       await keyStore.load();
       expect(keyStore.publicKeys).not.to.be.undefined;
       expect(keyStore.publicKeys.keys.length).to.be.at.least(2);
-      expect(keyStore.publicKeys.keys[1].users[0].userId.userid).to.equal('Madita Bernstein <madita.bernstein@gmail.com>');
+      expect(keyStore.publicKeys.keys[1].users[0].userID.userID).to.equal('Madita Bernstein <madita.bernstein@gmail.com>');
       expect(keyStore.privateKeys).not.to.be.undefined;
       expect(keyStore.privateKeys.keys.length).to.be.at.least(2);
-      expect(keyStore.privateKeys.keys[1].users[0].userId.userid).to.equal('Madita Bernstein <madita.bernstein@gmail.com>');
+      expect(keyStore.privateKeys.keys[1].users[0].userID.userID).to.equal('Madita Bernstein <madita.bernstein@gmail.com>');
     });
   });
 
@@ -64,7 +65,7 @@ describe('KeyStoreLocal unit tests', () => {
 
   describe('store', () => {
     it('should store keys', async () => {
-      const {keys: [key]} = await openpgp.key.readArmored(testKeys.gordonf_pub);
+      const key = await readKey({armoredKey: testKeys.gordonf_pub});
       keyStore.publicKeys.push(key);
       await keyStore.store();
       const storedKeys = storage.storage.get('mvelo.keyring.test123.publicKeys');
@@ -81,7 +82,7 @@ describe('KeyStoreLocal unit tests', () => {
   describe('generateKey', function() {
     this.timeout(5000);
     it('should Generate a new PGP keypair', async () => {
-      const {key} = await keyStore.generateKey({keyAlgo: 'RSA', numBits: 2048, userIds: ['Gordon Freeman <g.freeman@blackmesa.org>', 'freeman@mailvelope.com'], passphrase: 'blackmesa', keyExpirationTime: 31536000});
+      const {publicKey: key} = await keyStore.generateKey({keyAlgo: 'rsa', numBits: 2048, userIds: [{name: 'Gordon Freeman', email: 'g.freeman@blackmesa.org'}, {email: 'freeman@mailvelope.com'}], passphrase: 'blackmesa', keyExpirationTime: 31536000});
       const mappedKeys = await mapKeys([key]);
       expect(mappedKeys[0].validity).to.equal(true);
       expect(mappedKeys[0].name).to.equal('Gordon Freeman');

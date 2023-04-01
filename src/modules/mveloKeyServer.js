@@ -7,7 +7,7 @@
  * @fileOverview A simple HTTP client for Mailvelope Key Server's REST api.
  */
 import {prefs} from './prefs';
-import {key as openpgpKey} from 'openpgp';
+import {readKey} from 'openpgp';
 import {filterUserIdsByEmail, removeHexPrefix} from './key';
 
 /** The default URL of the mailvelope authenticating keyserver. */
@@ -50,19 +50,17 @@ export async function lookup(query) {
   // Only the userid matching the email should be imported.
   // This avoids usability problems and potentioal security issues
   // when unreleated userids are also part of the key.
-  const parseResult = await openpgpKey.readArmored(jsonKey.publicKeyArmored);
-  if (parseResult.err) {
-    throw new Error(`mveloKeyServer: Failed to parse response '${jsonKey}': ${parseResult.err}`);
+  let key;
+  try {
+    key = await readKey({armoredKey: jsonKey.publicKeyArmored});
+  } catch (e) {
+    throw new Error(`mveloKeyServer: Failed to parse response '${jsonKey}': ${e.message}`);
   }
-  const keys = parseResult.keys;
-  if (keys.length !== 1) {
-    throw new Error(`mveloKeyServer: Response '${jsonKey}': contained ${keys.length} keys.`);
-  }
-  const filtered = filterUserIdsByEmail(keys[0], query.email);
+  const filtered = filterUserIdsByEmail(key, query.email);
   if (!filtered.users.length) {
     throw new Error(`mveloKeyServer: Response '${jsonKey}': contained no matching userIds.`);
   }
-  console.log(`mveloKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
+  console.log(`mveloKeyServer: fetched key: '${filtered.getFingerprint()}'`);
   const result = {
     armored: filtered.armor(),
     date: new Date()
@@ -151,7 +149,7 @@ function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
-    const error = new Error(response.statusText);
+    const error = new Error(response.statusText || 'Upload to Mailvelope key server failed.');
     error.response = response;
     throw error;
   }

@@ -25,7 +25,7 @@ export default function AdvKeyGenOptions({value: {keyAlgo, keySize, keyExpiratio
   const handleDateChange = moment => onChange({target: {id: 'keyExpirationTime', value: moment}});
   const keyAlgos = [
     <option value="rsa" key={0}>RSA</option>,
-    <option value="ecc" key={1}>{`ECC - Curve25519 (${l10n.map.key_gen_experimental})`}</option>
+    <option value="ecc" key={1}>ECC - Curve25519</option>
   ];
   const gpgKeyAlgos = [
     <option value="default" key={0}>{l10n.map.keygrid_default_label}</option>,

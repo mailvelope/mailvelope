@@ -5,14 +5,18 @@
 
 import * as l10n from '../lib/l10n';
 import {dataURL2str, str2Uint8Array, dataURL2base64, MvError} from '../lib/util';
-import * as openpgp from 'openpgp';
+import {
+  config as pgpConfig, readMessage as pgpReadMessage, createMessage, readCleartextMessage as pgpReadCleartextMessage,
+  readSignature, enums, decrypt as pgpDecrypt, PrivateKey, encrypt as pgpEncrypt, SecretKeyPacket, UserIDPacket, SignaturePacket, SecretSubkeyPacket
+} from 'openpgp';
+import {readToEnd} from '@openpgp/web-stream-tools';
 import * as defaults from './defaults';
 import * as prefs from './prefs';
 import * as pwdCache from './pwdCache';
 import {randomString, symEncrypt} from './crypto';
 import * as uiLog from './uiLog';
 import {getById as getKeyringById, getKeyringWithPrivKey, syncPublicKeys, getPreferredKeyring} from './keyring';
-import {getUserInfo, mapKeys} from './key';
+import {getUserInfo, mapKeys, keyIDfromHex} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 import {updateKeyBinding, init as initKeyBinding} from './keyBinding';
@@ -27,21 +31,20 @@ export async function init() {
 }
 
 export function initOpenPGP() {
-  openpgp.config.commentstring = 'https://www.mailvelope.com';
-  openpgp.config.versionstring = `Mailvelope v${defaults.getVersion()}`;
+  pgpConfig.commentString = 'https://mailvelope.com';
+  pgpConfig.versionString = `Mailvelope v${defaults.getVersion()}`;
   if (prefs.prefs.security.hide_armored_header) {
-    openpgp.config.show_version = false;
-    openpgp.config.show_comment = false;
+    pgpConfig.showVersion = false;
+    pgpConfig.showComment = false;
   } else {
-    openpgp.config.show_version = true;
-    openpgp.config.show_comment = true;
+    pgpConfig.showVersion = true;
+    pgpConfig.showComment = true;
   }
-  openpgp.initWorker({path: 'dep/openpgp.worker.js'});
 }
 
 /**
  * Decrypt armored PGP message
- * @param  {openppg.message.Message} options.message - optional PGP message object
+ * @param  {openpgp.Message} options.message - optional PGP message object
  * @param  {String} options.armored - armored PGP message
  * @param  {String} options.keyringId
  * @param  {Function} options.unlockKey - callback to unlock key
@@ -50,8 +53,8 @@ export function initOpenPGP() {
  * @return {Promise<Object>} - decryption result {data: String, signatures: Array}
  */
 export async function decryptMessage({message, armored, keyringId, unlockKey, senderAddress, selfSigned, uiLogSource, lookupKey}) {
-  message = message ? message : await readMessage({armoredText: armored});
-  const encryptionKeyIds = message.getEncryptionKeyIds();
+  message ??= await readMessage({armoredMessage: armored});
+  const encryptionKeyIds = message.getEncryptionKeyIDs();
   const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
   if (!keyring) {
     throw noKeyFoundError(encryptionKeyIds);
@@ -67,7 +70,7 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
       const unknownSig = signatures.find(sig => sig.valid === null);
       if (unknownSig) {
         // if local key existed, but unknown signature, we try key discovery
-        await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey, keyId: openpgp.Keyid.fromId(unknownSig.keyId)});
+        await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey, keyId: keyIDfromHex(unknownSig.keyId)});
       }
     }
     // collect fingerprints or keyIds of signatures
@@ -90,7 +93,7 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
  */
 async function addSigningKeyDetails(signature, keyring) {
   if (signature.valid !== null) {
-    const signingKey = keyring.keystore.getKeysForId(signature.fingerprint || signature.keyId, true);
+    const signingKey = keyring.keystore.getKeysForId(signature.fingerprint ?? signature.keyId, true);
     if (!signingKey) {
       return;
     }
@@ -110,27 +113,22 @@ export function noKeyFoundError(encryptionKeyIds) {
 
 /**
  * Parse armored PGP message
- * @param  {String} options.armoredText
- * @param  {Uint8Array} [options.binary]
- * @return {openppg.message.Message}
+ * @param  {String} [options.armoredMessage]
+ * @param  {Uint8Array} [options.binaryMessage]
+ * @return {openpgp.Message}
  */
-export async function readMessage({armoredText, binary}) {
-  if (armoredText) {
-    try {
-      return openpgp.message.readArmored(armoredText);
-    } catch (e) {
-      console.log('Error parsing armored text', e);
+export async function readMessage({armoredMessage, binaryMessage}) {
+  if (!armoredMessage && !binaryMessage) {
+    throw new Error('No message to read');
+  }
+  try {
+    return await pgpReadMessage({armoredMessage, binaryMessage});
+  } catch (e) {
+    console.log('Error in openpgp.readMessage', e);
+    if (armoredMessage) {
       throw new MvError(l10n.get('message_read_error', [e]), 'ARMOR_PARSE_ERROR');
     }
-  } else if (binary) {
-    try {
-      return openpgp.message.read(binary);
-    } catch (e) {
-      console.log('Error parsing binary file', e);
-      throw new MvError(l10n.get('file_read_error', [e]), 'BINARY_PARSE_ERROR');
-    }
-  } else {
-    throw new Error('No message to read');
+    throw new MvError(l10n.get('file_read_error', [e]), 'BINARY_PARSE_ERROR');
   }
 }
 
@@ -195,9 +193,9 @@ async function logDecryption(source, keyring, keyIds) {
 
 async function readCleartextMessage(armoredText) {
   try {
-    return openpgp.cleartext.readArmored(armoredText);
+    return await pgpReadCleartextMessage({cleartextMessage: armoredText});
   } catch (e) {
-    console.log('openpgp.cleartext.readArmored', e);
+    console.log('createCleartextMessage', e);
     throw new MvError(l10n.get('cleartext_read_error', [e]), 'VERIFY_ERROR');
   }
 }
@@ -205,7 +203,7 @@ async function readCleartextMessage(armoredText) {
 export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}) {
   try {
     const message = await readCleartextMessage(armored);
-    const signingKeyIds = message.getSigningKeyIds();
+    const signingKeyIds = message.getSigningKeyIDs();
     if (!signingKeyIds.length) {
       throw new MvError('No signatures found');
     }
@@ -229,14 +227,14 @@ export async function verifyDetachedSignature({plaintext, signerEmail, detachedS
   try {
     const keyring = getPreferredKeyring(keyringId);
     // determine issuer key id
-    const signature = await openpgp.signature.readArmored(detachedSignature);
-    const [sigPacket] = signature.packets.filterByTag(openpgp.enums.packet.signature);
-    const {issuerKeyId} = sigPacket;
+    const signature = await readSignature({armoredSignature: detachedSignature});
+    const [sigPacket] = signature.packets.filterByTag(enums.packet.signature);
+    const {issuerKeyID} = sigPacket;
     // sync keys to preferred keyring
-    await syncPublicKeys({keyring, keyIds: issuerKeyId, keyringId});
+    await syncPublicKeys({keyring, keyIds: issuerKeyID, keyringId});
     // get keys for signer email address from preferred keyring
-    const {signerKeys} = await acquireSigningKeys({signerEmail, keyring, lookupKey, keyId: issuerKeyId});
-    const signerKeyFprs = signerKeys.map(signerKey => signerKey.primaryKey.getFingerprint());
+    const {signerKeys} = await acquireSigningKeys({signerEmail, keyring, lookupKey, keyId: issuerKeyID});
+    const signerKeyFprs = signerKeys.map(signerKey => signerKey.getFingerprint());
     let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
     await updateKeyBinding(keyring, signerEmail, signatures);
     signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
@@ -298,9 +296,9 @@ export async function createPrivateKeyBackup(defaultKey, keyPwd = '') {
   // create backup code
   const backupCode = randomString(26);
   const text = `Version: 1\nPwd: ${keyPwd}\n`;
-  let msg = openpgp.message.fromText(text);
+  let msg = await createMessage({text});
   // append key to message
-  msg.packets.concat(defaultKey.toPacketlist());
+  msg.packets = msg.packets.concat(defaultKey.toPacketList());
   // symmetrically encrypt with backup code
   msg = await symEncrypt(msg, backupCode);
   return {backupCode, message: msg.armor()};
@@ -318,39 +316,42 @@ function parseMetaInfo(txt) {
 }
 
 export async function restorePrivateKeyBackup(armoredBlock, code) {
-  let message = await openpgp.message.readArmored(armoredBlock);
+  let message = await pgpReadMessage({armoredMessage: armoredBlock});
   if (!(message.packets.length === 2 &&
-        message.packets[0].tag === 3 && // Symmetric-Key Encrypted Session Key Packet
-        message.packets[0].sessionKeyAlgorithm === 'aes256' &&
-        (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === 'aes256') &&
-        message.packets[1].tag === 18 // Sym. Encrypted Integrity Protected Data Packet
+        message.packets[0].constructor.tag === enums.packet.symEncryptedSessionKey && // Symmetric-Key Encrypted Session Key Packet
+        message.packets[0].sessionKeyAlgorithm === enums.symmetric.aes256 &&
+        (message.packets[0].sessionKeyEncryptionAlgorithm === null || message.packets[0].sessionKeyEncryptionAlgorithm === enums.symmetric.aes256) &&
+        message.packets[1].constructor.tag === enums.packet.symEncryptedIntegrityProtectedData // Sym. Encrypted Integrity Protected Data Packet
   )) {
     throw new MvError('Illegal private key backup structure.');
   }
   try {
-    message = await message.decrypt(null, [code]);
+    message = await message.decrypt(null, [code], undefined, undefined, {...pgpConfig, additionalAllowedPackets: [SecretKeyPacket, UserIDPacket, SignaturePacket, SecretSubkeyPacket]});
   } catch (e) {
     throw new MvError('Could not decrypt message with this restore code', 'WRONG_RESTORE_CODE');
   }
   // extract password
-  const metaInfo = await openpgp.stream.readToEnd(message.getText());
+  const metaInfo = await readToEnd(message.getText());
   const pwd = parseMetaInfo(metaInfo).Pwd;
   // remove literal data packet
-  const keyPackets = await openpgp.stream.readToEnd(message.packets.stream, _ => _);
-  const privKey =  new openpgp.key.Key(keyPackets);
+  const keyPackets = await readToEnd(message.packets.stream, _ => _);
+  const privKey =  new PrivateKey(keyPackets);
   return {key: privKey, password: pwd};
 }
 
 /**
  * @param  {openpgp.key.Key} key - key to decrypt and verify signature
- * @param  {openpgp.message.Message} message - sync packet
+ * @param  {openpgp.Message} message - sync packet
  * @return {Promise<Object,Error>}
  */
 export async function decryptSyncMessage(key, message) {
-  const msg = await openpgp.decrypt({message, privateKeys: key, publicKeys: key});
+  const msg = await pgpDecrypt({message, decryptionKeys: key, verificationKeys: key});
   // check signature
   const [sig] = msg.signatures;
-  if (!(sig && sig.valid && await key.getSigningKey(sig.keyid))) {
+  try {
+    await sig.verified;
+    await key.getSigningKey(sig.keyID);
+  } catch (e) {
     throw new Error('Signature of synced keyring is invalid');
   }
   const syncData = JSON.parse(msg.data);
@@ -404,13 +405,12 @@ export async function encryptSyncMessage(key, changeLog, keyringId) {
     }
   }
   syncData = JSON.stringify(syncData);
-  const message = openpgp.message.fromText(syncData);
-  const {data} = await openpgp.encrypt({message, publicKeys: key, privateKeys: key});
-  return data;
+  const message = await createMessage({text: syncData});
+  return pgpEncrypt({message, encryptionKeys: key, signingKeys: key});
 }
 
 function convertChangeLog(key, changeLog, syncData) {
-  const fingerprint = key.primaryKey.getFingerprint();
+  const fingerprint = key.getFingerprint();
   const logEntry = changeLog[fingerprint];
   if (!logEntry) {
     console.log(`Key ${fingerprint} in keyring but not in changeLog.`);
@@ -458,17 +458,17 @@ export async function encryptFile({plainFile, keyringId, unlockKey, encryptionKe
  * @return {Object<name, content>} - content as JS binary string
  */
 export async function decryptFile({encryptedFile, unlockKey, uiLogSource}) {
-  let armoredText;
-  let binary;
+  let armoredMessage;
+  let binaryMessage;
   try {
     const content = dataURL2str(encryptedFile.content);
     if (/^-----BEGIN PGP MESSAGE-----/.test(content)) {
-      armoredText = content;
+      armoredMessage = content;
     } else {
-      binary = str2Uint8Array(content);
+      binaryMessage = str2Uint8Array(content);
     }
-    const message = await readMessage({armoredText, binary});
-    const encryptionKeyIds = message.getEncryptionKeyIds();
+    const message = await readMessage({armoredMessage, binaryMessage});
+    const encryptionKeyIds = message.getEncryptionKeyIDs();
     const keyring = getKeyringWithPrivKey(encryptionKeyIds);
     if (!keyring) {
       throw noKeyFoundError(encryptionKeyIds);

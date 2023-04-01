@@ -7,12 +7,14 @@
  * @fileOverview This file implements Web Key directory lookup.
  */
 
-import * as openpgp from 'openpgp';
+import {readKeys} from 'openpgp';
+import {isUint8Array, concatUint8Array} from '@openpgp/web-stream-tools';
 import {str2ab} from '../lib/util';
 import {prefs} from './prefs';
-import {filterUserIdsByEmail} from './key';
+import {filterUserIdsByEmail, verifyPrimaryKey} from './key';
 import defaults from '../res/defaults.json';
 import browser from 'webextension-polyfill';
+import {KEY_STATUS} from '../lib/constants';
 
 export const name = 'WKD';
 export const label = 'Web Key Directory';
@@ -151,7 +153,7 @@ export async function buildWKDUrl(email, methodOfWKD) {
   }
   const localPartBuffer = str2ab(localPart.toLowerCase());
   const digest = await crypto.subtle.digest('SHA-1', localPartBuffer);
-  const localEncoded = openpgp.util.encodeZBase32(new Uint8Array(digest));
+  const localEncoded = encodeZBase32(new Uint8Array(digest));
   const localPartEncoded = encodeURIComponent(localPart);
   // Create URL with Advanced Method
   if (methodOfWKD === 'advanced') {
@@ -201,41 +203,43 @@ function timeout(ms, promise) {
  * @returns {String}  An array of the ASCII armored filtered keys or only one armored key.
  */
 async function parseKeysForEMail(data, email) {
-  if (!openpgp.util.isUint8Array(data)) {
+  if (!isUint8Array(data)) {
     throw new Error(`WKD: parseKeysForEMail invalid data type ${data.constructor.toString()}`);
   }
-  const result = await openpgp.key.read(data);
-  if (result.err) {
-    throw new Error(`WKD: Failed to parse result for '${email}': ${result.err}`);
+  let keys;
+  try {
+    keys = await readKeys({binaryKeys: data});
+  } catch (e) {
+    throw new Error(`WKD: Failed to parse result for '${email}': ${e.message}`);
   }
   try {
     let candidate;
-    for (const key of result.keys) {
-      console.log(`WKD: inspecting: ${key.primaryKey.getFingerprint()}`);
+    for (const key of keys) {
+      console.log(`WKD: inspecting: ${key.getFingerprint()}`);
       const filtered = filterUserIdsByEmail(key, email);
       if (filtered.users.length) {
         if (!candidate) {
           candidate = filtered;
         } else { // More then one filtered in WKD is a rare case. Example can be found as "test-multikey@testkolab.intevation.de"
-          const newValid = await filtered.verifyPrimaryKey() === openpgp.enums.keyStatus.valid;
-          const oldValid = await candidate.verifyPrimaryfiltered() === openpgp.enums.keyStatus.valid;
+          const newValid = await verifyPrimaryKey(filtered) === KEY_STATUS.valid;
+          const oldValid = await verifyPrimaryKey(candidate) === KEY_STATUS.valid;
           // Prefer the one that is valid
           if (newValid && !oldValid) {
             candidate = filtered;
-            console.log(`WKD: Preferring ${filtered.primaryKey.getFingerprint()} over ${candidate.primaryKey.getFingerprint()} because of validity.`);
-          } else if (newValid === oldValid && filtered.primaryKey.created > candidate.primaryKey.created) {
+            console.log(`WKD: Preferring ${filtered.getFingerprint()} over ${candidate.getFingerprint()} because of validity.`);
+          } else if (newValid === oldValid && filtered.keyPacket.created > candidate.keyPacket.created) {
             // If both are valid or invalid check the creation date
-            console.log(`WKD: Preferring ${filtered.primaryKey.getFingerprint()} over ${candidate.primaryKey.getFingerprint()} because of cr date of primary.`);
+            console.log(`WKD: Preferring ${filtered.getFingerprint()} over ${candidate.getFingerprint()} because of cr date of primary.`);
             candidate = filtered;
           }
         }
       } else {
         // Example for this can be found as "test-not-matching@testkolab.intevation.de"
-        console.log(`WKD: skipping not matching key '${key.primaryKey.getFingerprint()}' (bad server)`);
+        console.log(`WKD: skipping not matching key '${key.getFingerprint()}' (bad server)`);
       }
     }
     if (candidate) {
-      console.log(`WKD: Fetched key: '${candidate.primaryKey.getFingerprint()}'`);
+      console.log(`WKD: Fetched key: '${candidate.getFingerprint()}'`);
       return candidate.armor();
     }
     throw new Error('WKD: Failed to parse any matching key from the result (bad server)');
@@ -281,7 +285,7 @@ function sizeLimitResponse(response, limit) {
   function pump() {
     return reader.read().then(({done, value}) => {
       if (done) {
-        return openpgp.util.concatUint8Array(results);
+        return concatUint8Array(results);
       }
       total += value.byteLength;
       results.push(new Uint8Array(value));
@@ -292,4 +296,42 @@ function sizeLimitResponse(response, limit) {
       return pump();
     });
   }
+}
+
+/**
+ * Encode input buffer using Z-Base32 encoding.
+ * See: https://tools.ietf.org/html/rfc6189#section-5.1.6
+ * Copyright (C) 2018 Wiktor Kwapisiewicz
+ * Licensed under the GNU Lesser General Public License version 3
+ *
+ * @param {Uint8Array} data - The binary data to encode
+ * @returns {String} Binary data encoded using Z-Base32.
+ */
+function encodeZBase32(data) {
+  if (data.length === 0) {
+    return '';
+  }
+  const ALPHABET = 'ybndrfg8ejkmcpqxot1uwisza345h769';
+  const SHIFT = 5;
+  const MASK = 31;
+  let buffer = data[0];
+  let index = 1;
+  let bitsLeft = 8;
+  let result = '';
+  while (bitsLeft > 0 || index < data.length) {
+    if (bitsLeft < SHIFT) {
+      if (index < data.length) {
+        buffer <<= 8;
+        buffer |= data[index++] & 0xff;
+        bitsLeft += 8;
+      } else {
+        const pad = SHIFT - bitsLeft;
+        buffer <<= pad;
+        bitsLeft += pad;
+      }
+    }
+    bitsLeft -= SHIFT;
+    result += ALPHABET[MASK & (buffer >> bitsLeft)];
+  }
+  return result;
 }

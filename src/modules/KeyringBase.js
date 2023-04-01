@@ -4,11 +4,11 @@
  */
 
 import {filterAsync, toArray, MvError} from '../lib/util';
-import * as openpgp from 'openpgp';
 import {getKeyringAttr} from './keyring';
-import {mapKeys, mapSubKeys, mapUsers, parseUserId, getUserInfo, isValidEncryptionKey, sortKeysByCreationDate, verifyForAddress} from './key';
+import {mapKeys, mapSubKeys, mapUsers, parseUserId, getUserInfo, isValidEncryptionKey, sortKeysByCreationDate, verifyForAddress, verifyPrimaryKey, verifyUser} from './key';
 import * as trustKey from './trustKey';
 import {upload as mveloKeyServerUpload} from './mveloKeyServer';
+import {KEY_STATUS} from '../lib/constants';
 
 export default class KeyringBase {
   constructor(keyringId, keyStore) {
@@ -66,7 +66,7 @@ export default class KeyringBase {
     if (keys) {
       const key = keys[0];
       // subkeys
-      await mapSubKeys(key.subKeys, details, key);
+      await mapSubKeys(key.subkeys, details, key);
       // users
       await mapUsers(key.users, details, this.keystore, key);
       // key is valid default key
@@ -86,20 +86,20 @@ export default class KeyringBase {
     const result = [];
     for (const key of this.keystore.getAllKeys()) {
       try {
-        if (await key.verifyPrimaryKey() !== openpgp.enums.keyStatus.valid ||
+        if (await verifyPrimaryKey(key) !== KEY_STATUS.valid ||
             await trustKey.isKeyPseudoRevoked(this.id, key)) {
           continue;
         }
         const keyData = {};
         keyData.key = key;
-        keyData.keyId = key.primaryKey.getKeyId().toHex().toUpperCase();
-        keyData.fingerprint = key.primaryKey.getFingerprint();
+        keyData.keyId = key.getKeyID().toHex().toUpperCase();
+        keyData.fingerprint = key.getFingerprint();
         if (options.allUsers) {
           // consider all user ids of key
           keyData.users = [];
           for (const keyUser of key.users) {
-            if (keyUser.userId && await keyUser.verify(key.primaryKey) === openpgp.enums.keyStatus.valid) {
-              const {userid: userId, name, email} = keyUser.userId;
+            if (keyUser.userID && await verifyUser(keyUser) === KEY_STATUS.valid) {
+              const {userID: userId, name, email} = keyUser.userID;
               const user = {userId, name, email};
               parseUserId(user);
               // check for valid email address
@@ -107,7 +107,7 @@ export default class KeyringBase {
                 continue;
               }
               // check for duplicates
-              if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
+              if (keyData.users.some(existingUser => existingUser.userID === user.userID)) {
                 continue;
               }
               keyData.users.push(user);
@@ -123,7 +123,7 @@ export default class KeyringBase {
         }
         result.push(keyData);
       } catch (e) {
-        console.log(`Error in KeyringBase.getKeyData for key ${key.keyPacket.getFingerprint()}.`, e);
+        console.log(`Error in KeyringBase.getKeyData for key ${key.getFingerprint()}.`, e);
       }
     }
     return result;
@@ -219,7 +219,6 @@ export default class KeyringBase {
              await defaultKey.getSigningKey() &&
              !await trustKey.isKeyPseudoRevoked(this.id, defaultKey);
     } catch (e) {
-      console.log(`Error in validateDefaultKey for key ${defaultKey.keyPacket.getFingerprint()}.`, e);
       return false;
     }
   }
@@ -274,7 +273,8 @@ export default class KeyringBase {
     if (keyArray.length > 1) {
       throw new MvError(`Collision of long key ID ${keyId}, more than one key found in keyring`, 'LONG_KEY_ID_COLLISION');
     }
-    const [{keyPacket}] = keyArray[0].getKeys(openpgp.Keyid.fromId(keyId));
+    const key = keyArray[0];
+    const [{keyPacket}] = key.getKeys(key.keyPacket.keyID.constructor.fromID(keyId));
     return keyPacket.getFingerprint();
   }
 
@@ -296,10 +296,10 @@ export default class KeyringBase {
   }
 
   addKey(key) {
-    if (key.isPublic()) {
-      this.keystore.publicKeys.push(key);
-    } else {
+    if (key.isPrivate()) {
       this.keystore.privateKeys.push(key);
+    } else {
+      this.keystore.publicKeys.push(key);
     }
     return key;
   }
@@ -319,12 +319,12 @@ export default class KeyringBase {
   async generateKey({keyAlgo, numBits, userIds, passphrase, uploadPublicKey, keyExpirationTime}) {
     userIds = userIds.map(userId => ({name: userId.fullName, email: userId.email}));
     const newKey = await this.keystore.generateKey({keyAlgo, userIds, passphrase, numBits: parseInt(numBits), keyExpirationTime});
-    this.keystore.privateKeys.push(newKey.key);
+    this.keystore.privateKeys.push(newKey.privateKey);
     // upload public key
     // currently only the Mailvelope key server is supported but Web Key Directory
     // publishing could also happen at this point.
     if (uploadPublicKey) {
-      await mveloKeyServerUpload({publicKeyArmored: newKey.publicKeyArmored});
+      await mveloKeyServerUpload({publicKeyArmored: newKey.publicKey.armor()});
     }
     return newKey;
   }

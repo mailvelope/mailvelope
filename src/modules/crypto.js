@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as openpgp from 'openpgp';
+import {SymEncryptedSessionKeyPacket, PacketList, SymEncryptedIntegrityProtectedDataPacket, Message, enums} from 'openpgp';
 
 export function randomString(length) {
   let result = '';
@@ -21,34 +21,33 @@ export function randomString(length) {
  *   https://tools.ietf.org/html/rfc4880#section-3.7.2.2
  * Copyright (C) 2015 Tankred Hase
  * @param {String} passphrase
- * @return {openpgp.message.Message} new message with encrypted content
+ * @return {openpgp.Message} new message with encrypted content
  */
 export async function symEncrypt(msg, passphrase) {
   if (!passphrase) {
     throw new Error('The passphrase cannot be empty!');
   }
-
-  const algo = openpgp.enums.read(openpgp.enums.symmetric, openpgp.enums.symmetric.aes256);
-  const packetlist = new openpgp.packet.List();
-
+  const sessionKeyAlgorithm = enums.symmetric.aes256;
+  const packetlist = new PacketList();
   // create a Symmetric-key Encrypted Session Key (ESK)
-  const symESKPacket = new openpgp.packet.SymEncryptedSessionKey();
+  const symESKPacket = new SymEncryptedSessionKeyPacket();
   symESKPacket.version = 4;
-  symESKPacket.sessionKeyAlgorithm = algo;
-  symESKPacket.s2k = new openpgp.S2K();
-  symESKPacket.s2k.salt = await openpgp.crypto.random.getRandomBytes(8);
-  await symESKPacket.decrypt(passphrase); // generate the session key
+  symESKPacket.sessionKeyAlgorithm = sessionKeyAlgorithm;
+  // call encrypt one time to init S2K
+  await symESKPacket.encrypt('123456');
+  symESKPacket.sessionKey = null;
+  symESKPacket.encrypted = null;
+  // call decrypt to generate the session key
+  await symESKPacket.decrypt(passphrase);
   packetlist.push(symESKPacket);
-
   // create integrity protected packet
-  const symEncryptedPacket = new openpgp.packet.SymEncryptedIntegrityProtected();
+  const symEncryptedPacket = new SymEncryptedIntegrityProtectedDataPacket();
   symEncryptedPacket.packets = msg.packets;
-  await symEncryptedPacket.encrypt(algo, symESKPacket.sessionKey);
+  await symEncryptedPacket.encrypt(sessionKeyAlgorithm, symESKPacket.sessionKey);
   packetlist.push(symEncryptedPacket);
-
   // remove packets after encryption
-  symEncryptedPacket.packets = new openpgp.packet.List();
-  return new openpgp.message.Message(packetlist);
+  symEncryptedPacket.packets = new PacketList();
+  return new Message(packetlist);
 }
 
 /**

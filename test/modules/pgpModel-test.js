@@ -57,7 +57,7 @@ describe('pgpModel unit tests', () => {
         unlockKey({key}) {
           return unlock({key, password: '1234'});
         },
-        encryptionKeyFprs: ['2cf63f4b3b4a51e446252247db187eb58a88aa05', '8f96b0094087a3499ed870ebe1ec3869e40bfe51'],
+        encryptionKeyFprs: ['771f9119b823e06c0de306d466663688a83e9763', '8f96b0094087a3499ed870ebe1ec3869e40bfe51'],
         signingKeyFpr: '771f9119b823e06c0de306d466663688a83e9763',
         uiLogSource: 'unit_test',
         noCache: false
@@ -105,22 +105,22 @@ describe('pgpModel unit tests', () => {
       const data = 'This is a test message!';
       const detachedSignature = `-----BEGIN PGP SIGNATURE-----
 Version: Mailvelope v@@mvelo_version
-Comment: https://www.mailvelope.com
+Comment: https://mailvelope.com
 
-wsFcBAEBCgAGBQJcCZzWAAoJEGZmNoioPpdjGtIQAKdEjYGAkdrLmTDUfhqf
-HsTrbjUYI9hZXsLcXRl0JzwnlHYkNHeqP5j4VoREOgsKBpO1tXHzh+7r8IH7
-CgnqWCfz0/HUqj7EP3tx6E/FnSEPmjTVOwZm/t4u/Kt0bvxuFKOM9r9DEATP
-mdMLl4u49m6/gS9neDEGb4+dt1L5idlLial11H58Mpc2pQLHOsrE+BT1tNZv
-+TxZyQQC6T4b5/k3XBfa7oqmVQbRlcejvsBnRrjdahOPjfcywJdtca2k7/q0
-PwRCZC+prVohIuDTNZoGcGZJC7/bWfon2yzIiJmF8YViRCqes4iaR1Q5XIgd
-XqIAn4bG1ACNN9yFECmi1ATv3qoJUQo7uMKcffWuJt+DXE/PVwnn7EK5nQei
-/UmwO82jF5VuA/so4foKDLGQpU71YfquZtwB0I2SmGnm3kyWqztp1yeW5FRb
-sKkKnKlas5ghJ78Z/GQQ1VfYzGsVmprwqpB0daKep6C5gPhAXpalI3TTRiPV
-lp2tMuvbQoDqXYL2NGgGH3cDNNrlLVBf84xSbTdi1ql/UHIzjB9ZLnVO5MKH
-lBrg/xJOaL87HJFcttZqTsNIO1sR/7e4RblYBfy/s+YCr5wA0GOTkstUHqFy
-CXmmY6KJsFRm5GV92cXlsDCF/eAgPY6tPAHN/OZmslykmhQJRAwJTCDGNX2V
-S8Xz
-=/Wh8
+wsFzBAEBCgAnBYJkJvqjCZBmZjaIqD6XYxYhBHcfkRm4I+BsDeMG1GZmNoio
+PpdjAAB5hg/+Kqg6cCd1EYAJlTrcmZ32G05BUIRtMfxtdmGJx1YoNXJUVurH
+7pR3A6ZW0pIeZo/UwMSoyTLwCDWmwRTl+o8vsAMO2cxXUONxlUVUsG0mj6GW
+FLxodn2QCrXt4Zzbwck5cQwkjY5r8hEoT8AGjnsJY3xYuPGQ+Zun6lDCO5dj
+ZQlhB5NSY092XvEJlRNaqWLk9piLRkQPNNSPUPbSzIkuK7HSrgK8f5HHwqHz
+8a3Akqu5hmY22Zi7uybr1VsBITHq+oqm/3pSCLfnhHN9iJPtRkS9UniR6Hy5
+2Ig1yXUrAVyooaUWJcGnQ6+EslLhBPcxfOuVzPAkACe5fGG4I78RyQg3nmRB
+DKlgc0J2zyxqhM3AD/oqTfN+onR4Do0pmAtOclImB9QY6LV5Z74X4eGjWOBT
+6ikq3WgoHGKSjqAT6J4MkWkyDFhqcqz0cmsg2crkhZ0E2pqph2Q5MVhm+wSD
+zzsZ9Bt8Yv+vqab65p2eUvT2i3c+ozVny08gMcmxt0kSgnYAWVJh6szoQlBE
+rwp9NbU8oADs/dYHYPlvGb6BoiZxXmUagdP9FmLaRenbqVipPTltFwhd5EHX
+45aev4chRIBZj7dD0kD4o5QtW7Nn7cwzXaEv0mJueDwrFmgOfBFaRmRZjpRu
+NqoPTk9p1pmbCsuZ4cQcFDDJrIeQcaE/uAU=
+=eESS
 -----END PGP SIGNATURE-----
 `;
       const result = await verifyDetachedSignature({
@@ -177,7 +177,7 @@ S8Xz
         }
       };
       const encrypted = await encryptSyncMessage(unlockedKey, changeLog, MAIN_KEYRING_ID);
-      const message = await readMessage({armoredText: encrypted});
+      const message = await readMessage({armoredMessage: encrypted});
       const decrypted = await decryptSyncMessage(unlockedKey, message);
       expect(decrypted.changeLog).to.deep.equal(changeLog);
     });
@@ -195,7 +195,7 @@ S8Xz
       const armored = await encryptFile({
         plainFile: file,
         keyringId: MAIN_KEYRING_ID,
-        encryptionKeyFprs: ['2cf63f4b3b4a51e446252247db187eb58a88aa05', '8f96b0094087a3499ed870ebe1ec3869e40bfe51'],
+        encryptionKeyFprs: ['771f9119b823e06c0de306d466663688a83e9763', '8f96b0094087a3499ed870ebe1ec3869e40bfe51'],
         armor: true
       });
       const decrypted = await decryptFile(

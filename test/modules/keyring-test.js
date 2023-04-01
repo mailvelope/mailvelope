@@ -59,7 +59,7 @@ describe('keyring unit tests', () => {
   describe('getKeyData', () => {
     it('Should get user id, key id, fingerprint, email and name for all keys in the preferred keyring queue', async () => {
       const keyData = await getKeyData(MAIN_KEYRING_ID);
-      expect(keyData.length).to.equal(5);
+      expect(keyData.length).to.equal(3);
       expect(keyData.some(({name}) => name === 'Madita Bernstone'));
     });
   });
@@ -67,9 +67,8 @@ describe('keyring unit tests', () => {
   describe('getKeyByAddress', () => {
     it('Should query keys in all keyrings by email address', async () => {
       const keysByAddress = await getKeyByAddress('test123', ['gordon.freeman@gmail.com', 'j.doe@gmail.com']);
-      for (const address of Object.keys(keysByAddress)) {
-        expect(keysByAddress[address]).to.not.equal(false);
-      }
+      expect(keysByAddress['gordon.freeman@gmail.com']).to.not.equal(false);
+      expect(keysByAddress['j.doe@gmail.com']).to.equal(false);
     });
   });
 

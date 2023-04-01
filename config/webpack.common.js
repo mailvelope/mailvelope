@@ -12,18 +12,32 @@ const prod = {
   }
 };
 
-function css(loader = 'style-loader') {
+function css() {
   return [
     {
       test: /\.css$/,
       use: [{
-        loader
+        loader: 'style-loader'
       },
       {
         loader: 'css-loader',
         options: {
+          url: false
+        }
+      }]
+    },
+  ];
+}
+
+function css2str() {
+  return [
+    {
+      test: /\.css$/,
+      use: [{
+        loader: 'css-loader',
+        options: {
           url: false,
-          esModule: loader === 'to-string-loader' ? false : true
+          exportType: 'string'
         }
       }]
     },
@@ -109,5 +123,5 @@ function resolve() {
 }
 
 exports.prod = prod;
-exports.module = {css, scss, react, replaceVersion};
+exports.module = {css, css2str, scss, react, replaceVersion};
 exports.resolve = resolve;

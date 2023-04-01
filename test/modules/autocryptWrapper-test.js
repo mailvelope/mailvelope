@@ -2,7 +2,7 @@ import {expect} from 'test';
 import {LocalStorageStub} from 'utils';
 import * as autocrypt from 'modules/autocryptWrapper';
 import {isValidEncryptionKey} from 'modules/key';
-import * as openpgp from 'openpgp';
+import {readKey} from 'openpgp';
 import {testAutocryptHeaders} from 'Fixtures/headers';
 import testKeys from 'Fixtures/keys';
 
@@ -27,7 +27,7 @@ describe('Test basic autocrypt wrapper functionality', () => {
       const result = await autocrypt.lookup({email: addr}, 'id');
       // fixture keys have checksum which autocrypt keys do not.
       expect(result.armored.slice(0, 17)).to.equal(testKeys.api_test_pub.slice(0, 17));
-      const {keys: [key]} = await openpgp.key.readArmored(result.armored);
+      const key = await readKey({armoredKey: result.armored});
       return expect(isValidEncryptionKey(key)).to.eventually.be.true;
     });
 

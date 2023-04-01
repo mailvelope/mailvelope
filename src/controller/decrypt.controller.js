@@ -85,16 +85,16 @@ export default class DecryptController extends sub.SubController {
     }
   }
 
-  async canUnlockKey(armoredText, keyringId) {
+  async canUnlockKey(armoredMessage, keyringId) {
     try {
-      this.message = await model.readMessage({armoredText});
-      const encryptionKeyIds = this.message.getEncryptionKeyIds();
+      this.message = await model.readMessage({armoredMessage});
+      const encryptionKeyIds = this.message.getEncryptionKeyIDs();
       const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
       if (!keyring) {
         throw model.noKeyFoundError(encryptionKeyIds);
       }
       const key = keyring.getPrivateKeyByIds(encryptionKeyIds);
-      const isKeyCached = isCached(key.primaryKey.getFingerprint());
+      const isKeyCached = isCached(key.getFingerprint());
       return isKeyCached;
     } catch (error) {
       if (this.ports.dDialog) {

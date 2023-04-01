@@ -72,12 +72,6 @@ module.exports = function(grunt) {
             cwd: 'node_modules/ng-tags-input/build/',
             src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
             dest: 'build/tmp/dep/ng-tags-input/'
-          },
-          {
-            expand: true,
-            flatten: true,
-            src: ['node_modules/openpgp/dist/openpgp.js', 'node_modules/openpgp/dist/openpgp.worker.js'],
-            dest: 'build/tmp/dep/'
           }
         ]
       },

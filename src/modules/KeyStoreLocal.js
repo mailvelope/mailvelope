@@ -4,13 +4,12 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import * as openpgp from 'openpgp';
+import {readKey, generateKey} from 'openpgp';
 import {KeyStoreBase} from './keyStore';
 import {getKeyringAttr, setKeyringAttr} from './keyring';
 
 export default class KeyStoreLocal extends KeyStoreBase {
   async load() {
-    await super.load();
     const pubArmored = await mvelo.storage.get(`mvelo.keyring.${this.id}.publicKeys`);
     await this.loadKeys(pubArmored, this.publicKeys);
     const privArmored = await mvelo.storage.get(`mvelo.keyring.${this.id}.privateKeys`);
@@ -21,12 +20,12 @@ export default class KeyStoreLocal extends KeyStoreBase {
     if (!keysArmored) {
       return;
     }
-    for (const keyArmored of keysArmored) {
-      const key = await openpgp.key.readArmored(keyArmored);
-      if (!key.err) {
-        keyArray.push(key.keys[0]);
-      } else {
-        console.log('Error parsing armored PGP key:', key.err);
+    for (const armoredKey of keysArmored) {
+      try {
+        const key = await readKey({armoredKey});
+        keyArray.push(key);
+      } catch (e) {
+        console.log('Error parsing armored PGP key:', e);
       }
     }
     return keyArray;
@@ -73,7 +72,7 @@ export default class KeyStoreLocal extends KeyStoreBase {
       await setKeyringAttr(this.id, {primary_key: undefined});
       return '';
     }
-    defaultKeyFpr = primaryKey.primaryKey.getFingerprint();
+    defaultKeyFpr = primaryKey.getFingerprint();
     await this.setDefaultKey(defaultKeyFpr);
     return defaultKeyFpr;
   }
@@ -82,8 +81,8 @@ export default class KeyStoreLocal extends KeyStoreBase {
     await setKeyringAttr(this.id, {default_key: fpr});
   }
 
-  async generateKey(options) {
-    const curve = options.keyAlgo === 'ecc' ? 'curve25519' : '';
-    return openpgp.generateKey({...options, curve});
+  async generateKey({keyAlgo, userIds, passphrase, numBits, keyExpirationTime}) {
+    const curve = keyAlgo === 'ecc' ? 'curve25519' : undefined;
+    return generateKey({userIDs: userIds, passphrase, type: keyAlgo, rsaBits: numBits, curve, keyExpirationTime, format: 'object'});
   }
 }

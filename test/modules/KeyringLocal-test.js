@@ -113,15 +113,15 @@ describe('KeyringLocal unit tests', () => {
 
   describe('getPrivateKeyByIds', () => {
     it('should return first private key that matches keyIds', async () => {
-      const privateKey = await keyRing.getPrivateKeyByIds(['f11db1250c3c3f1b', '66663688A83E9763'], {pub: true});
-      expect(privateKey.users[0].userId.email).to.equal('test@mailvelope.com');
+      const privateKey = await keyRing.getPrivateKeyByIds(['f47328454fa3ab54', '66663688A83E9763'], {pub: true});
+      expect(privateKey.users[0].userID.email).to.equal('test@mailvelope.com');
     });
   });
 
   describe('getKeysByFprs', () => {
     it('should get keys by fingerprints', () => {
       const key = keyRing.getKeysByFprs(['771f9119b823e06c0de306d466663688a83e9763']);
-      expect(key[0].users[0].userId.email).to.equal('madita.bernstein@gmail.com');
+      expect(key[0].users[0].userID.email).to.equal('madita.bernstein@gmail.com');
     });
   });
 
@@ -141,20 +141,20 @@ describe('KeyringLocal unit tests', () => {
 
   describe('getDefaultKey', () => {
     it('should retrieve default key. If no default key set then take newest private key available.', async () => {
-      setKeyringAttr(keyringId, {default_key: 'aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b'});
+      setKeyringAttr(keyringId, {default_key: 'add0c44ae80a572f3805729cf47328454fa3ab54'});
       const defaultKey = await keyRing.getDefaultKey();
-      expect(defaultKey.keyPacket.getFingerprint()).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');
+      expect(defaultKey.getFingerprint()).to.equal('add0c44ae80a572f3805729cf47328454fa3ab54');
     });
     it('should retrieve default key. If no default key set then take newest private key available.', async () => {
       setKeyringAttr(keyringId, {default_key: ''});
       const defaultKey = await keyRing.getDefaultKey();
-      expect(defaultKey.keyPacket.getFingerprint()).to.equal('771f9119b823e06c0de306d466663688a83e9763');
+      expect(defaultKey.getFingerprint()).to.equal('add0c44ae80a572f3805729cf47328454fa3ab54');
     });
   });
 
   describe('getDefaultKeyFpr', () => {
     it('should retrieve fingerprint of default key', async () => {
-      const default_key = 'aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b';
+      const default_key = 'add0c44ae80a572f3805729cf47328454fa3ab54';
       setKeyringAttr(keyringId, {default_key});
       const defaultKeyFpr = await keyRing.getDefaultKeyFpr();
       expect(defaultKeyFpr).to.equal(default_key);
@@ -169,7 +169,7 @@ describe('KeyringLocal unit tests', () => {
         expect(type).to.equal('success');
       }
       const newDefaultKey = await keyRing.getDefaultKeyFpr();
-      expect(newDefaultKey).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');
+      expect(newDefaultKey).to.equal('add0c44ae80a572f3805729cf47328454fa3ab54');
     });
   });
 
@@ -177,14 +177,14 @@ describe('KeyringLocal unit tests', () => {
     it('should remove key by fingerprint', async () => {
       await keyRing.removeKey('771f9119b823e06c0de306d466663688a83e9763', 'private');
       const newDefaultKey = await keyRing.getDefaultKeyFpr();
-      expect(newDefaultKey).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');
+      expect(newDefaultKey).to.equal('add0c44ae80a572f3805729cf47328454fa3ab54');
     });
   });
 
   describe('generateKey', function() {
     this.timeout(5000);
     it('should Generate a new PGP keypair and optionally upload to the publickey server', async () => {
-      await keyRing.generateKey({keyAlgo: 'RSA', numBits: 2048, userIds: [{email: 'g.freeman@blackmesa.org', fullName: 'Gordon Freeman'}, {email: 'freeman@mailvelope.com', fullName: 'G. Freeman'}], passphrase: 'blackmesa', uploadPublicKey: false, keyExpirationTime: 31536000});
+      await keyRing.generateKey({keyAlgo: 'rsa', numBits: 2048, userIds: [{email: 'g.freeman@blackmesa.org', fullName: 'Gordon Freeman'}, {email: 'freeman@mailvelope.com', fullName: 'G. Freeman'}], passphrase: 'blackmesa', uploadPublicKey: false, keyExpirationTime: 31536000});
       const compareKeys = await keyRing.getKeyByAddress(['freeman@mailvelope.com']);
       expect(compareKeys['freeman@mailvelope.com']).not.to.be.false;
       const mappedKeys = await mapKeys(compareKeys['freeman@mailvelope.com']);
@@ -202,11 +202,11 @@ describe('KeyringLocal unit tests', () => {
 
   describe('isRFC2822UserId', () => {
     it('valid user Id', () => {
-      const user = {userId: {userid: 'Demo <demo@mailvelope.com>'}};
+      const user = {userID: {name: 'Demo', email: 'demo@mailvelope.com', userID: 'Demo <demo@mailvelope.com>'}};
       expect(keyRing.isRFC2822UserId(user)).to.be.true;
     });
-    it.skip('invalid user Id', () => {
-      const user = {userId: {userid: '<demo@mailvelope.com>'}};
+    it('invalid user Id', () => {
+      const user = {userID: {name: '', email: 'demo@mailvelope.com', userID: 'demo@mailvelope.com'}};
       expect(keyRing.isRFC2822UserId(user)).to.be.false;
     });
   });

@@ -4,7 +4,7 @@
  */
 
 import {MvError} from '../lib/util';
-import * as openpgp from 'openpgp';
+import {enums, decryptKey} from 'openpgp';
 import * as prefs from './prefs';
 
 // password and key cache
@@ -112,7 +112,7 @@ export {deleteEntry as delete};
  */
 export function set({key, password, cacheTime, reservedOperations = 0}) {
   // primary key fingerprint is main key of cache
-  const primaryKeyFpr = key.primaryKey.getFingerprint();
+  const primaryKeyFpr = key.getFingerprint();
   let entry;
   if (cache.has(primaryKeyFpr)) {
     entry = cache.get(primaryKeyFpr);
@@ -143,9 +143,9 @@ export function set({key, password, cacheTime, reservedOperations = 0}) {
  * @return {Number} return the number of decryptable session keys
  */
 function getReservedOperations({key, message}) {
-  const pkESKeyPacketlist = message.packets.filterByTag(openpgp.enums.packet.publicKeyEncryptedSessionKey);
-  const keyIdsHex = key.getKeys().map(({keyPacket}) => keyPacket.getKeyId().toHex());
-  return pkESKeyPacketlist.filter(keyPacket => keyIdsHex.includes(keyPacket.publicKeyId.toHex())).length;
+  const pkESKeyPacketlist = message.packets.filterByTag(enums.packet.publicKeyEncryptedSessionKey);
+  const keyIdsHex = key.getKeys().map(({keyPacket}) => keyPacket.getKeyID().toHex());
+  return pkESKeyPacketlist.filter(keyPacket => keyIdsHex.includes(keyPacket.publicKeyID.toHex())).length;
 }
 
 /**
@@ -170,8 +170,7 @@ export async function unlock({key, password, message}) {
 
 async function unlockKey(privKey, passwd) {
   try {
-    const {key} = await openpgp.decryptKey({privateKey: privKey, passphrase: passwd});
-    return key;
+    return await decryptKey({privateKey: privKey, passphrase: passwd});
   } catch ({message = ''}) {
     if (message.includes('Incorrect key passphrase')) {
       throw new MvError('Could not unlock key: wrong password', 'WRONG_PASSWORD');

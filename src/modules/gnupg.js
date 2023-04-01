@@ -28,10 +28,10 @@ export async function decrypt({armored, base64, format, selfSigned, keyring, enc
     const privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
     signatures = signatures.filter(sig => {
       if (sig.fingerprint) {
-        return sig.fingerprint === privateKey.primaryKey.getFingerprint();
+        return sig.fingerprint === privateKey.getFingerprint();
       }
       if (sig.keyId) {
-        return sig.keyId === privateKey.primaryKey.getKeyId().toHex();
+        return sig.keyId === privateKey.getKeyID().toHex();
       }
     });
   }

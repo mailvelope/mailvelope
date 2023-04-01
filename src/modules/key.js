@@ -3,9 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as openpgp from 'openpgp';
+import {readKey, PacketList, SignaturePacket, enums} from 'openpgp';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import * as l10n from '../lib/l10n';
+import {KEY_STATUS} from '../lib/constants';
 import {isKeyPseudoRevoked} from './trustKey';
 
 /**
@@ -16,32 +17,36 @@ import {isKeyPseudoRevoked} from './trustKey';
  * @return {Object<userId, email, content>}
  */
 export async function getUserInfo(key, {allowInvalid = false, strict = false} = {}) {
-  let primaryUser = await key.getPrimaryUser();
-  primaryUser = primaryUser ? primaryUser.user : null;
+  let primaryUser;
+  try {
+    ({user: primaryUser} = await key.getPrimaryUser());
+  } catch (e) {
+    console.log('No valid primary user found for key', e);
+  }
   if (!primaryUser && strict) {
     return null;
   }
   if (!primaryUser && allowInvalid) {
     // take first available user with user ID
-    primaryUser = key.users.find(user => user.userId);
+    primaryUser = key.users.find(user => user.userID);
   }
   if (!primaryUser) {
     return {userId: l10n.get('keygrid_invalid_userid'), email: '', name: ''};
   }
-  const {userid: userId, name, email} = primaryUser.userId;
+  const {userID: userId, name, email} = primaryUser.userID;
   const result = {userId, name, email};
   parseUserId(result);
   return result;
 }
 
 export async function cloneKey(key) {
-  const binary = key.toPacketlist().write();
-  const packetList = new openpgp.packet.List();
-  await packetList.read(binary);
-  return new openpgp.key.Key(packetList);
+  const binaryKey = key.toPacketList().write();
+  return readKey({binaryKey});
 }
 
 export function parseUserId(user) {
+  user.name ??= '';
+  user.email ??= '';
   if (user.name || user.email) {
     // user ID already parsed correctly by OpenPGP.js
     return;
@@ -65,23 +70,67 @@ export function formatEmailAddress(email, name) {
   return emailAddress.toString();
 }
 
+export async function verifyPrimaryKey(key) {
+  try {
+    await key.verifyPrimaryKey();
+    return KEY_STATUS.valid;
+  } catch (e) {
+    switch (e.message) {
+      case 'Primary key is revoked':
+      case 'Primary user is revoked':
+        return KEY_STATUS.revoked;
+      case 'Primary key is expired':
+        return KEY_STATUS.expired;
+      default:
+        return KEY_STATUS.invalid;
+    }
+  }
+}
+
+export async function verifyUser(user) {
+  try {
+    await user.verify();
+    return KEY_STATUS.valid;
+  } catch (e) {
+    switch (e.message) {
+      case 'No self-certifications found':
+        return KEY_STATUS.no_self_cert;
+      case 'Self-certification is revoked':
+        return KEY_STATUS.revoked;
+      default:
+        return KEY_STATUS.invalid;
+    }
+  }
+}
+
+export async function verifySubKey(subKey) {
+  try {
+    await subKey.verify();
+    return KEY_STATUS.valid;
+  } catch (e) {
+    switch (e.message) {
+      case 'Subkey is revoked':
+        return KEY_STATUS.revoked;
+      case 'Subkey is expired':
+        return KEY_STATUS.expired;
+      default:
+        return KEY_STATUS.invalid;
+    }
+  }
+}
+
 export function mapKeys(keys) {
   return Promise.all(keys.map(async key => {
     let uiKey = {};
-    if (key.isPublic()) {
-      uiKey.type = 'public';
-    } else {
+    if (key.isPrivate()) {
       uiKey.type = 'private';
+    } else {
+      uiKey.type = 'public';
     }
-    try {
-      uiKey.status = await key.verifyPrimaryKey();
-    } catch (e) {
-      uiKey.status = openpgp.enums.keyStatus.invalid;
-      console.log(`Error in mapKeys on verifyPrimaryKey for key ${key.keyPacket.getFingerprint()}.`, e);
-    }
-    uiKey.validity = uiKey.status === openpgp.enums.keyStatus.valid;
-    uiKey.keyId = key.primaryKey.getKeyId().toHex().toUpperCase();
-    uiKey.fingerprint = key.primaryKey.getFingerprint();
+    uiKey.status = await verifyPrimaryKey(key);
+    uiKey.validity = uiKey.status === KEY_STATUS.valid;
+    uiKey.keyId = key.getKeyID().toHex().toUpperCase();
+    uiKey.fingerprint = key.getFingerprint();
     // primary user
     try {
       const userInfo = await getUserInfo(key, {allowInvalid: true});
@@ -89,19 +138,19 @@ export function mapKeys(keys) {
       uiKey.exDate = await key.getExpirationTime();
       if (uiKey.exDate === Infinity) {
         uiKey.exDate = false;
-      } else {
+      } else if (uiKey.exDate !== null) {
         uiKey.exDate = uiKey.exDate.toISOString();
       }
     } catch (e) {
       uiKey.name = uiKey.name || 'NO USERID FOUND';
       uiKey.email = uiKey.email || 'UNKNOWN';
-      uiKey.exDate = uiKey.exDate || 'UNKNOWN';
-      console.log(`Error in mapKeys on mapping primary user for key ${key.keyPacket.getFingerprint()}.`, e);
+      uiKey.exDate = uiKey.exDate || null;
+      console.log(`Error in mapKeys on mapping primary user for key ${key.getFingerprint()}.`, e);
     }
-    uiKey.crDate = key.primaryKey.created.toISOString();
-    const keyInfo = key.primaryKey.getAlgorithmInfo();
+    uiKey.crDate = key.keyPacket.created.toISOString();
+    const keyInfo = key.getAlgorithmInfo();
     uiKey.algorithm = getAlgorithmString(keyInfo);
-    uiKey.bitLength = keyInfo.bits;
+    uiKey.bitLength = getKeyBitLength(keyInfo);
     return uiKey;
   }));
 }
@@ -109,13 +158,13 @@ export function mapKeys(keys) {
 function getAlgorithmString({algorithm, curve}) {
   let result = '';
   switch (algorithm) {
-    case 'rsa_encrypt_sign':
+    case 'rsaEncryptSign':
       result = 'RSA (Encrypt or Sign)';
       break;
-    case 'rsa_encrypt':
+    case 'rsaEncrypt':
       result = 'RSA Encrypt-Only';
       break;
-    case 'rsa_sign':
+    case 'rsaSign':
       result = 'RSA Sign-Only';
       break;
     case 'elgamal':
@@ -142,27 +191,37 @@ function getAlgorithmString({algorithm, curve}) {
   return result;
 }
 
+function getKeyBitLength({bits, curve}) {
+  if (bits) {
+    return bits;
+  }
+  if (curve === enums.curve.ed25519 || curve === enums.curve.curve25519) {
+    return 256;
+  }
+  return 'UNKNOWN';
+}
+
 export async function mapSubKeys(subkeys = [], toKey, key) {
-  const primaryKey = key.primaryKey;
+  const primaryKey = key.keyPacket;
   toKey.subkeys = [];
   await Promise.all(subkeys.map(async subkey => {
     try {
       const skey = {};
-      const keyStatus = await key.verifyPrimaryKey();
-      const subKeyStatus = await subkey.verify(primaryKey);
+      const keyStatus = await verifyPrimaryKey(key);
+      const subKeyStatus = await verifySubKey(subkey);
       skey.status = subKeyStatus < keyStatus ? subKeyStatus : keyStatus;
       skey.crDate = subkey.keyPacket.created.toISOString();
       skey.exDate = await subkey.getExpirationTime(primaryKey);
       if (skey.exDate === Infinity) {
         skey.exDate = false;
-      } else {
+      } else if (skey.exDate !== null) {
         skey.exDate = skey.exDate.toISOString();
       }
-      skey.keyId = subkey.keyPacket.getKeyId().toHex().toUpperCase();
-      const keyInfo = subkey.keyPacket.getAlgorithmInfo();
+      skey.keyId = subkey.getKeyID().toHex().toUpperCase();
+      const keyInfo = subkey.getAlgorithmInfo();
       skey.algorithm = getAlgorithmString(keyInfo);
-      skey.bitLength = keyInfo.bits;
-      skey.fingerprint = subkey.keyPacket.getFingerprint();
+      skey.bitLength = getKeyBitLength(keyInfo);
+      skey.fingerprint = subkey.getFingerprint();
       toKey.subkeys.push(skey);
     } catch (e) {
       console.log('Exception in mapSubKeys', e);
@@ -172,22 +231,26 @@ export async function mapSubKeys(subkeys = [], toKey, key) {
 
 export async function mapUsers(users = [], toKey, keyring, key) {
   toKey.users = [];
-  const {user: {userId: {userid: primaryUserId}}} = await key.getPrimaryUser();
+  let primaryUserId;
+  try {
+    ({user: {userID: {userID: primaryUserId}}} = await key.getPrimaryUser());
+  } catch (e) {}
   for (const [index, user] of users.entries()) {
     try {
       const uiUser = {};
-      if (!user.userId) {
+      const {userID} = user;
+      if (!userID) {
         // filter out user attribute packages
         continue;
       }
       uiUser.id = index;
-      uiUser.userId = user.userId.userid;
-      uiUser.email = user.userId.email;
-      uiUser.name = user.userId.name;
+      uiUser.userId = userID.userID;
+      uiUser.email = userID.email;
+      uiUser.name = userID.name;
       parseUserId(uiUser);
-      uiUser.isPrimary = user.userId.userid === primaryUserId;
-      const keyStatus = await key.verifyPrimaryKey();
-      const userStatus = await user.verify(key.primaryKey);
+      uiUser.isPrimary = userID.userID === primaryUserId;
+      const keyStatus = await verifyPrimaryKey(key);
+      const userStatus = await verifyUser(user);
       uiUser.status = userStatus < keyStatus ? userStatus : keyStatus;
       uiUser.signatures = [];
       if (!user.selfCertifications) {
@@ -195,8 +258,8 @@ export async function mapUsers(users = [], toKey, keyring, key) {
       }
       for (const selfCert of user.selfCertifications) {
         const sig = {};
-        sig.signer = {userId: user.userId.userid, email: user.userId.email, name: user.userId.name};
-        sig.keyId = selfCert.issuerKeyId.toHex().toUpperCase();
+        sig.signer = {userId: userID.userID, email: userID.email, name: userID.name};
+        sig.keyId = selfCert.issuerKeyID.toHex().toUpperCase();
         sig.crDate = selfCert.created.toISOString();
         uiUser.signatures.push(sig);
       }
@@ -205,11 +268,10 @@ export async function mapUsers(users = [], toKey, keyring, key) {
       }
       for (const otherCert of user.otherCertifications) {
         const sig = {};
-        const keyidHex = otherCert.issuerKeyId.toHex();
+        const keyidHex = otherCert.issuerKeyID.toHex();
         const issuerKeys = keyring.getKeysForId(keyidHex, true);
         if (issuerKeys) {
-          const [{keyPacket: signingKeyPacket}] = issuerKeys[0].getKeys(otherCert.issuerKeyId);
-          if (signingKeyPacket && await verifyUserCertificate(user, key.primaryKey, otherCert, signingKeyPacket) === openpgp.enums.keyStatus.valid) {
+          if (await verifyUserCertificate(user, otherCert, issuerKeys[0]) === KEY_STATUS.valid) {
             sig.signer = await getUserInfo(issuerKeys[0]);
           } else {
             // invalid signature
@@ -246,60 +308,70 @@ export async function mapUsers(users = [], toKey, keyring, key) {
  * @return {openpgp.key.Key}
  */
 export async function minifyKey(key, userId) {
-  const {user: user} = await key.getPrimaryUser(undefined, userId);
+  let user;
+  try {
+    ({user} = await key.getPrimaryUser(undefined, userId));
+  } catch (e) {}
   if (!user) {
     return null;
   }
-  const signSubkey = await key.getSigningKey();
-  const encSubkey = await key.getEncryptionKey();
-  const p = new openpgp.packet.List();
-  p.push(key.primaryKey);
-  p.push(user.userId || user.userAttribute);
-  p.concat(user.selfCertifications);
-  if (key !== signSubkey) {
-    p.concat(signSubkey.toPacketlist());
-  }
-  if (key !== encSubkey && signSubkey !== encSubkey) {
-    p.concat(encSubkey.toPacketlist());
-  }
-
-  return new openpgp.key.Key(p);
+  let p = new PacketList();
+  p.push(key.keyPacket);
+  p.push(user.userID || user.userAttribute);
+  p = p.concat(user.selfCertifications);
+  let signSubkey;
+  try {
+    signSubkey = await key.getSigningKey();
+    if (key !== signSubkey) {
+      p = p.concat(signSubkey.toPacketList());
+    }
+  } catch (e) {}
+  try {
+    const encSubkey = await key.getEncryptionKey();
+    if (key !== encSubkey && signSubkey !== encSubkey) {
+      p = p.concat(encSubkey.toPacketList());
+    }
+  } catch (e) {}
+  const binaryKey = p.write();
+  return readKey({binaryKey});
 }
 
-export async function verifyUserCertificate(user, primaryKey, certificate, key = primaryKey) {
-  if (!(certificate.verified || await certificate.verify(key, openpgp.enums.signature.cert_generic, {userId: user.userId, userAttribute: user.userAttribute, key: primaryKey}))) {
-    return openpgp.enums.keyStatus.invalid;
+export async function verifyUserCertificate(user, certificate, key) {
+  try {
+    await user.verifyCertificate(certificate, [key]);
+    return KEY_STATUS.valid;
+  } catch (e) {
+    switch (e.message) {
+      case 'User certificate is revoked':
+      case 'Primary user is revoked':
+        return KEY_STATUS.revoked;
+      default:
+        return KEY_STATUS.invalid;
+    }
   }
-  if (certificate.revoked || await user.isRevoked(primaryKey, certificate, key)) {
-    return openpgp.enums.keyStatus.revoked;
-  }
-  if (certificate.isExpired()) {
-    return openpgp.enums.keyStatus.expired;
-  }
-  return openpgp.enums.keyStatus.valid;
 }
 
 export function checkKeyId(sourceKey, keyring) {
-  const primaryKeyId = sourceKey.primaryKey.getKeyId();
+  const primaryKeyId = sourceKey.getKeyID();
   const keys = keyring.getKeysForId(primaryKeyId.toHex(), true);
   if (keys) {
     for (const key of keys) {
-      if (!key.primaryKey.getKeyId().equals(primaryKeyId)) {
+      if (!key.getKeyID().equals(primaryKeyId)) {
         throw new Error('Primary keyId equals existing sub keyId.');
       }
     }
   }
   for (const subKey of sourceKey.getSubkeys()) {
-    const subKeyId = subKey.keyPacket.getKeyId();
+    const subKeyId = subKey.getKeyID();
     const keys = keyring.getKeysForId(subKeyId.toHex(), true);
     if (!keys) {
       continue;
     }
     for (const key of keys) {
-      if (key.primaryKey.getKeyId().equals(subKeyId)) {
+      if (key.getKeyID().equals(subKeyId)) {
         throw new Error('Sub keyId equals existing primary keyId.');
       }
-      if (!key.primaryKey.getKeyId().equals(primaryKeyId)) {
+      if (!key.getKeyID().equals(primaryKeyId)) {
         throw new Error('Sub keyId equals existing sub keyId in key with different primary keyId.');
       }
     }
@@ -313,7 +385,7 @@ export function checkKeyId(sourceKey, keyring) {
  */
 export function getLastModifiedDate(key) {
   let lastModified = new Date(0);
-  key.toPacketlist().forEach(packet => {
+  key.toPacketList().forEach(packet => {
     if (packet.created && packet.created > lastModified) {
       lastModified = packet.created;
     }
@@ -323,22 +395,21 @@ export function getLastModifiedDate(key) {
 
 export function mapAddressKeyMapToFpr(addressKeyMap = []) {
   for (const address in addressKeyMap) {
-    addressKeyMap[address] = addressKeyMap[address] && addressKeyMap[address].map(key => key.primaryKey.getFingerprint());
+    addressKeyMap[address] = addressKeyMap[address] && addressKeyMap[address].map(key => key.getFingerprint());
   }
   return addressKeyMap;
 }
 
 /**
- * Check if is key is valid and can be used for encryption
+ * Check if this key is valid and can be used for encryption
  * @param  {openpgp.key.Key}  key
  * @param  {String} - [keyringId] - if keyring is provided, pseudo-revoked status is checked
  * @return {Boolean}
  */
 export async function isValidEncryptionKey(key, keyringId) {
   try {
-    return await key.getEncryptionKey() !== null && !await isKeyPseudoRevoked(keyringId, key);
+    return await key.getEncryptionKey() && !await isKeyPseudoRevoked(keyringId, key);
   } catch (e) {
-    console.log(`Error in isValidEncryptionKey for key ${key.keyPacket.getFingerprint()}.`, e);
     return false;
   }
 }
@@ -346,23 +417,23 @@ export async function isValidEncryptionKey(key, keyringId) {
 export function sortKeysByCreationDate(keys, defaultKeyFpr) {
   keys.sort((a, b) => {
     if (defaultKeyFpr) {
-      if (defaultKeyFpr === a.primaryKey.getFingerprint()) {
+      if (defaultKeyFpr === a.getFingerprint()) {
         return -1;
       }
-      if (defaultKeyFpr === b.primaryKey.getFingerprint()) {
+      if (defaultKeyFpr === b.getFingerprint()) {
         return 1;
       }
     }
-    return b.primaryKey.created - a.primaryKey.created;
+    return b.keyPacket.created - a.keyPacket.created;
   });
 }
 
 export function equalKey(key1, key2) {
-  return key1.primaryKey.getFingerprint() === key2.primaryKey.getFingerprint();
+  return key1.getFingerprint() === key2.getFingerprint();
 }
 
 export function toPublic(key) {
-  if (key.isPublic()) {
+  if (!key.isPrivate()) {
     return key;
   }
   return key.toPublic();
@@ -380,10 +451,10 @@ export function filterUserIdsByEmail(key, filterEmail) {
     return key;
   }
   key.users = key.users.filter(user => {
-    if (!user.userId) {
+    if (!user.userID) {
       return;
     }
-    const {userid: userId, name, email} = user.userId;
+    const {userID: userId, name, email} = user.userID;
     const id = {userId, name, email};
     parseUserId(id);
     return id.email.toLowerCase() === filterEmail.toLowerCase();
@@ -401,9 +472,9 @@ export async function sanitizeKey(key) {
   const users = [];
   for (const user of key.users) {
     try {
-      const status = await user.verify(key.primaryKey);
-      if (status === openpgp.enums.keyStatus.no_self_cert ||
-          status === openpgp.enums.keyStatus.invalid) {
+      const status = await verifyUser(user);
+      if (status === KEY_STATUS.no_self_cert ||
+          status === KEY_STATUS.invalid) {
         continue;
       }
       users.push(user);
@@ -416,16 +487,16 @@ export async function sanitizeKey(key) {
   }
   // filter out sub keys with no or invalid binding signature
   const subKeys = [];
-  for (const subKey of key.subKeys) {
+  for (const subKey of key.subkeys) {
     try {
-      const status = await subKey.verify(key.primaryKey);
-      if (status === openpgp.enums.keyStatus.invalid) {
+      const status = await verifySubKey(subKey);
+      if (status === KEY_STATUS.invalid) {
         continue;
       }
       subKeys.push(subKey);
     } catch (e) {}
   }
-  key.subKeys = subKeys;
+  key.subkeys = subKeys;
   return key;
 }
 
@@ -433,17 +504,17 @@ export async function verifyForAddress(key, email) {
   email = email.toLowerCase();
   for (const keyUser of key.users) {
     try {
-      const userId = keyUser.userId;
-      if (!userId) {
+      const userID = keyUser.userID;
+      if (!userID) {
         continue;
       }
-      const user = {userId: userId.userid, name: userId.name, email: userId.email};
+      const user = {userId: userID.userID, name: userID.name, email: userID.email};
       parseUserId(user);
       if (email !== user.email.toLowerCase()) {
         continue;
       }
-      const status = await keyUser.verify(key.primaryKey);
-      if (status !== openpgp.enums.keyStatus.valid) {
+      const status = await verifyUser(keyUser);
+      if (status !== KEY_STATUS.valid) {
         continue;
       }
       return true;
@@ -457,4 +528,9 @@ export function removeHexPrefix(keyId) {
     return keyId.substring(2);
   }
   return keyId;
+}
+
+export function keyIDfromHex(keyIdHex) {
+  const sigPacket = new SignaturePacket();
+  return sigPacket.issuerKeyID.constructor.fromID(keyIdHex);
 }

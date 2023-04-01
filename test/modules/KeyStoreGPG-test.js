@@ -46,9 +46,8 @@ describe('KeyStoreGPG unit tests', () => {
 
   describe('generateKey', () => {
     it('should Generate a new PGP keypair', async () => {
-      const key = await keyStore.generateKey({algo: '', userIds: [{name: 'Test', email: 'test@mailvelope.com'}], expires: 0});
-      expect(key.key.isPrivate()).to.be.true;
-      expect(key.key.isPublic()).to.be.false;
+      const {privateKey} = await keyStore.generateKey({algo: '', userIds: [{name: 'Test', email: 'test@mailvelope.com'}], expires: 0});
+      expect(privateKey.isPrivate()).to.be.true;
     });
   });
 });

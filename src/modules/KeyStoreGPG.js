@@ -1,25 +1,26 @@
 /**
- * Copyright (C) 2018 Mailvelope GmbH
+ * Copyright (C) 2018-2022 Mailvelope GmbH
  * Licensed under the GNU Affero General Public License version 3
  */
 
 import {MvError} from '../lib/util';
 import {gpgme} from '../lib/browser.runtime';
-import * as openpgp from 'openpgp';
+import {readKey, readKeys, PublicKey, UserIDPacket} from 'openpgp';
 import {KeyStoreBase} from './keyStore';
 
 export default class KeyStoreGPG extends KeyStoreBase {
   async load() {
-    await super.load();
     let {armored, secret_fprs} = await gpgme.Keyring.getKeysArmored({with_secret_fpr: true});
     secret_fprs = secret_fprs.map(fpr => fpr.toLowerCase());
-    const {keys, err} = await openpgp.key.readArmored(armored);
-    if (err) {
-      console.log('Error parsing armored GnuPG key:', err);
+    let keys = [];
+    try {
+      keys = await readKeys({armoredKeys: armored});
+    } catch (e) {
+      console.log('Error parsing armored GnuPG key:', e);
     }
     for (const key of keys) {
-      if (secret_fprs.includes(key.primaryKey.getFingerprint())) {
-        const privKey = new PrivateKeyGPG(key.toPacketlist());
+      if (secret_fprs.includes(key.getFingerprint())) {
+        const privKey = new PrivateKeyGPG(key.toPacketList());
         this.privateKeys.push(privKey);
       } else {
         this.publicKeys.push(key);
@@ -55,8 +56,12 @@ export default class KeyStoreGPG extends KeyStoreBase {
 
   async addPublicKeys(fprs) {
     const {armored} = await gpgme.Keyring.getKeysArmored({pattern: fprs});
-    const {keys} = await openpgp.key.readArmored(armored);
-    this.publicKeys.keys.push(...keys);
+    try {
+      const keys = await readKeys({armoredKeys: armored});
+      this.publicKeys.keys.push(...keys);
+    } catch (e) {
+      console.log('Error parsing armored GnuPG key:', e);
+    }
   }
 
   async removeKey(fingerprint) {
@@ -64,18 +69,14 @@ export default class KeyStoreGPG extends KeyStoreBase {
   }
 
   async generateKey({keyAlgo, userIds, keyExpirationTime}) {
-    const userId = openpgp.util.formatUserId(userIds[0]);
-    const [gpgKey] = await gpgme.Keyring.generateKey({userId, algo: keyAlgo, expires: keyExpirationTime});
+    const {userID} = UserIDPacket.fromObject(userIds[0]);
+    const [gpgKey] = await gpgme.Keyring.generateKey({userId: userID, algo: keyAlgo, expires: keyExpirationTime});
     const publicKeyArmored = await gpgKey.getArmor();
-    return {key: await readArmoredPrivate(publicKeyArmored), publicKeyArmored};
+    return readArmoredPrivate(publicKeyArmored);
   }
 }
 
-class PrivateKeyGPG extends openpgp.key.Key {
-  isPublic() {
-    return false;
-  }
-
+class PrivateKeyGPG extends PublicKey {
   isPrivate() {
     return true;
   }
@@ -83,11 +84,10 @@ class PrivateKeyGPG extends openpgp.key.Key {
 
 async function readArmoredPrivate(armored) {
   try {
-    const {data} = await openpgp.armor.decode(armored);
-    const packetlist = new openpgp.packet.List();
-    await packetlist.read(data);
-    return new PrivateKeyGPG(packetlist);
+    const publicKey = await readKey({armoredKey: armored});
+    const privateKey = new PrivateKeyGPG(publicKey.toPacketList());
+    return {publicKey, privateKey};
   } catch (e) {
-    console.log('Parsing armored key failed', e);
+    console.log('Parsing armored key from GnuPG failed', e);
   }
 }

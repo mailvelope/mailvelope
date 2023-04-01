@@ -32,9 +32,7 @@ describe('Password controller unit tests', () => {
       };
       ctrl.options = {
         key: {
-          primaryKey: {
-            getKeyId() { return {toHex() { return 'asdf'; }}; }
-          }
+          getKeyID() { return {toHex() { return 'asdf'; }}; }
         },
         reason: 'test'
       };

@@ -14,7 +14,8 @@ const output = {
 const resolve = {
   modules: ['node_modules'],
   alias: {
-    'text-encoding': path.resolve('./src/lib/string-encoding')
+    'text-encoding': path.resolve('./src/lib/string-encoding'),
+    'openpgp': path.resolve('./node_modules/openpgp/dist/openpgp.mjs')
   }
 };
 

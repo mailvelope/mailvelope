@@ -147,6 +147,8 @@ export default class Key extends React.Component {
     try {
       await port.send('set-key-expiry-date', {fingerprint: this.state.keyDetails.fingerprint, keyringId: this.context.keyringId, newExDateISOString});
       this.props.onKeyringChange();
+    } catch (e) {
+      console.log('Setting new expiry date failed.', e);
     } finally {
       this.setState({processing: false});
     }

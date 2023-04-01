@@ -116,8 +116,8 @@ export class SyncController extends sub.SubController {
       return;
     }
     // new version available on server
-    const message = await readMessage({armoredText: download.keyringMsg});
-    const encryptionKeyIds = message.getEncryptionKeyIds();
+    const message = await readMessage({armoredMessage: download.keyringMsg});
+    const encryptionKeyIds = message.getEncryptionKeyIDs();
     let privKey = this.keyring.getPrivateKeyByIds(encryptionKeyIds);
     if (!privKey) {
       throw new Error('No private key found to decrypt the sync message');
@@ -180,17 +180,22 @@ export class SyncController extends sub.SubController {
       // key can always be unlocked with password
       return true;
     }
-    const isKeyCached = isCached(options.key.primaryKey.getFingerprint());
+    const isKeyCached = isCached(options.key.getFingerprint());
     if (isKeyCached) {
       return true;
     }
-    let keyPacket;
-    if (operation === 'sign') {
-      keyPacket = await options.key.getSigningKey();
-      return keyPacket && keyPacket.isDecrypted();
-    } else if (operation === 'decrypt') {
-      keyPacket = await options.key.getEncryptionKey();
-      return keyPacket && keyPacket.isDecrypted();
+    try {
+      let key;
+      if (operation === 'sign') {
+        key = await options.key.getSigningKey();
+        return key && key.isDecrypted();
+      } else if (operation === 'decrypt') {
+        key = await options.key.getEncryptionKey();
+        return key && key.isDecrypted();
+      }
+    } catch (e) {
+      console.log('No valid key for operation sign or decrypt', e);
+      return false;
     }
   }
 

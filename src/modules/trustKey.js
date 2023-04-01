@@ -4,15 +4,15 @@
  */
 
 import {someAsync} from '../lib/util';
-import {KEYRING_DELIMITER} from '../lib/constants';
-import * as openpgp from 'openpgp';
+import {KEYRING_DELIMITER, KEY_STATUS} from '../lib/constants';
+import {readKey} from 'openpgp';
 import * as certs from './certs';
 import {verifyUserCertificate} from './key';
 
 const keyMap = new Map();
 
 export async function init() {
-  const {keys: [key]} = await openpgp.key.readArmored(certs.c1und1);
+  const key = await readKey({armoredKey: certs.c1und1});
   keyMap.set('gmx.net', key);
   keyMap.set('web.de', key);
 }
@@ -30,26 +30,26 @@ export function isKeyPseudoRevoked(keyringId, key) {
   if (!trustKey) {
     return false;
   }
-  return someAsync(key.users, user => isUserPseudoRevoked(user, trustKey, key.primaryKey));
+  return someAsync(key.users, user => isUserPseudoRevoked(user, trustKey));
 }
 
-function isUserPseudoRevoked(user, trustKey, primaryKey) {
-  if (!user.revocationCertifications || !user.userId) {
+function isUserPseudoRevoked(user, trustKey) {
+  if (!user.revocationSignatures || !user.userID) {
     return false;
   }
-  return someAsync(user.revocationCertifications, async revCert => revCert.reasonForRevocationFlag === 101 &&
-           await verifyCert(revCert, user, trustKey, primaryKey) &&
-           !await hasNewerCert(user, trustKey, primaryKey, revCert.created));
+  return someAsync(user.revocationSignatures, async revCert => revCert.reasonForRevocationFlag === 101 &&
+           await verifyCert(revCert, user, trustKey) &&
+           !await hasNewerCert(user, trustKey, revCert.created));
 }
 
-function hasNewerCert(user, trustKey, primaryKey, sigDate) {
+function hasNewerCert(user, trustKey, sigDate) {
   if (!user.otherCertifications) {
     return false;
   }
-  return someAsync(user.otherCertifications, async otherCert => await verifyCert(otherCert, user, trustKey, primaryKey) && otherCert.created > sigDate);
+  return someAsync(user.otherCertifications, async otherCert => await verifyCert(otherCert, user, trustKey) && otherCert.created > sigDate);
 }
 
-async function verifyCert(cert, user, trustKey, primaryKey) {
-  return cert.issuerKeyId.equals(trustKey.primaryKey.getKeyId()) &&
-         await verifyUserCertificate(user, primaryKey, cert, trustKey.primaryKey) === openpgp.enums.keyStatus.valid;
+async function verifyCert(cert, user, trustKey) {
+  return cert.issuerKeyID.equals(trustKey.getKeyID()) &&
+         await verifyUserCertificate(user, cert, trustKey.keyPacket) === KEY_STATUS.valid;
 }

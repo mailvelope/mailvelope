@@ -22,7 +22,6 @@ module.exports = function(config) {
       {pattern: '../node_modules/bootstrap/dist/js/bootstrap.bundle.js', watched: false},
       {pattern: '../node_modules/angular/angular.js', watched: false},
       {pattern: '../node_modules/angular-mocks/angular-mocks.js', watched: false},
-      {pattern: '../node_modules/openpgp/dist/openpgp.worker.js', watched: false, included: false,  nocache: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.js', watched: false, included: false,  nocache: false},
       {pattern: '../src/client-API/main.js', watched: true},
       {pattern: '../src/img/**/*', watched: false, included: false},
@@ -42,7 +41,6 @@ module.exports = function(config) {
 
     proxies: {
       '/img': `/absolute${path.resolve('./src/img')}`,
-      '/dep/openpgp.worker.js': `/absolute${path.resolve('./node_modules/openpgp/dist/openpgp.worker.js')}`,
       '/dep/openpgp.js': `/absolute${path.resolve('./node_modules/openpgp/dist/openpgp.js')}`,
       '/context.html/client-API/mailvelope-client-api.js': `/absolute${path.resolve('./src/client-API/main.js')}`,
     },

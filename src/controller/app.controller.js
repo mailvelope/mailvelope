@@ -7,8 +7,8 @@ import mvelo from '../lib/lib-mvelo';
 import {getHash, filterAsync} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
-import {key as openpgpKey} from 'openpgp';
-import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey} from '../modules/key';
+import {readKey, readKeys} from 'openpgp';
+import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey, verifyUser} from '../modules/key';
 import * as keyRegistry from '../modules/keyRegistry';
 import * as gmail from '../modules/gmail';
 import {initOpenPGP, decryptFile, encryptMessage, decryptMessage, encryptFile} from '../modules/pgpModel';
@@ -101,41 +101,36 @@ export default class AppController extends sub.SubController {
   }
 
   async removeKey({fingerprint, type, keyringId}) {
-    const result = await keyringById(keyringId).removeKey(fingerprint, type);
+    await keyringById(keyringId).removeKey(fingerprint, type);
     this.sendKeyUpdate();
-    return result;
   }
 
   async removeUser({fingerprint, userId, keyringId}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
-    const result = await keyringById(keyringId).removeUser(privateKey, userId);
+    await keyringById(keyringId).removeUser(privateKey, userId);
     this.sendKeyUpdate();
-    return result;
   }
 
   async addUser({fingerprint, user, keyringId}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_ADD_USER'});
-    const result = await keyringById(keyringId).addUser(unlockedKey, user);
+    await keyringById(keyringId).addUser(unlockedKey, user);
     this.sendKeyUpdate();
     deletePwdCache(fingerprint);
-    return result;
   }
 
   async revokeUser({fingerprint, userId, keyringId}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_REVOKE_USER'});
-    const result = await keyringById(keyringId).revokeUser(unlockedKey, userId);
+    await keyringById(keyringId).revokeUser(unlockedKey, userId);
     this.sendKeyUpdate();
-    return result;
   }
 
   async revokeKey({fingerprint, keyringId}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_REVOKE'});
-    const result = await keyringById(keyringId).revokeKey(unlockedKey);
+    await keyringById(keyringId).revokeKey(unlockedKey);
     this.sendKeyUpdate();
-    return result;
   }
 
   async getKeyServerSync({fingerprint, keyringId}) {
@@ -155,8 +150,8 @@ export default class AppController extends sub.SubController {
         result.userIds[userId.email] = userId.verified;
       }
       // filter local user IDs to match remote userIDs
-      localKey.users = localKey.users.filter(({userId: {email}}) => Object.keys(result.userIds).includes(email) && result.userIds[email]);
-      const {keys: [remoteKey]} = await openpgpKey.readArmored(remote.publicKeyArmored);
+      localKey.users = localKey.users.filter(({userID: {email}}) => Object.keys(result.userIds).includes(email) && result.userIds[email]);
+      const remoteKey = await readKey({armoredKey: remote.publicKeyArmored});
       const remoteKeyModTime = new Date(getLastModifiedDate(remoteKey)).getTime();
       const localKeyModTime = new Date(getLastModifiedDate(localKey)).getTime();
       if (remoteKeyModTime !== localKeyModTime) {
@@ -178,7 +173,7 @@ export default class AppController extends sub.SubController {
       if (emails.length) {
         options = {email: emails[0]};
       } else {
-        const keyId = privateKey.primaryKey.getKeyId().toHex();
+        const keyId = privateKey.getKeyID().toHex();
         options = {keyId};
       }
       result = await mveloKeyServer.remove(options);
@@ -190,19 +185,17 @@ export default class AppController extends sub.SubController {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_SET_EXDATE'});
     const newExDate = newExDateISOString !== false ? new Date(newExDateISOString) : false;
-    const result = await keyringById(keyringId).setKeyExDate(unlockedKey, newExDate);
+    await keyringById(keyringId).setKeyExDate(unlockedKey, newExDate);
     this.sendKeyUpdate();
     deletePwdCache(fingerprint);
-    return result;
   }
 
   async setKeyPwd({fingerprint, keyringId, currentPassword, password}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await unlockKey({key: privateKey, password: currentPassword});
-    const result = await keyringById(keyringId).setKeyPwd(unlockedKey, password);
+    await keyringById(keyringId).setKeyPwd(unlockedKey, password);
     this.sendKeyUpdate();
     deletePwdCache(fingerprint);
-    return result;
   }
 
   async validateKeyPassword({fingerprint, keyringId, password}) {
@@ -229,10 +222,10 @@ export default class AppController extends sub.SubController {
   }
 
   async generateKey({parameters, keyringId}) {
-    const result = await keyringById(keyringId).generateKey(parameters);
-    result.keyId = result.key.primaryKey.getKeyId().toHex().toUpperCase();
+    const newKey = await keyringById(keyringId).generateKey(parameters);
+    const keyId = newKey.privateKey.getKeyID().toHex().toUpperCase();
     this.sendKeyUpdate();
-    return result;
+    return {keyId};
   }
 
   async importKeys({keys, keyringId}) {
@@ -327,23 +320,22 @@ export default class AppController extends sub.SubController {
       return;
     }
     for (const armoredKey of armoredKeys) {
-      const pgpKey = await openpgpKey.readArmored(armoredKey.armored);
-      if (pgpKey.err) {
-        for (const error of pgpKey.err) {
-          console.log('Error on openpgp.key.readArmored', error);
-          errors.push({msg: error.message, code: 'KEY_IMPORT_ERROR_PARSE'});
+      try {
+        const keys = await readKeys({armoredKeys: armoredKey.armored});
+        if (armoredKey.type === 'public') {
+          publicKeys.push(...keys);
+        } else {
+          privateKeys.push(...keys);
         }
-      }
-      if (armoredKey.type === 'public') {
-        publicKeys.push(...pgpKey.keys);
-      } else {
-        privateKeys.push(...pgpKey.keys);
+      } catch (e) {
+        console.log('Error on parsing armored key', e);
+        errors.push({msg: e.message, code: 'KEY_IMPORT_ERROR_PARSE'});
       }
     }
     // merge public into private
     publicKeys = await filterAsync(publicKeys, async pubKey => {
-      const pubFpr = pubKey.primaryKey.getFingerprint();
-      const privKey = privateKeys.find(priv => priv.primaryKey.getFingerprint() === pubFpr);
+      const pubFpr = pubKey.getFingerprint();
+      const privKey = privateKeys.find(priv => priv.getFingerprint() === pubFpr);
       if (!privKey) {
         return true;
       }
@@ -355,7 +347,7 @@ export default class AppController extends sub.SubController {
     for (const key of keys) {
       const saniKey = await sanitizeKey(key);
       if (!saniKey) {
-        errors.push({msg: key.primaryKey.getFingerprint().toUpperCase(), code: 'KEY_IMPORT_ERROR_NO_UID'});
+        errors.push({msg: key.getFingerprint().toUpperCase(), code: 'KEY_IMPORT_ERROR_NO_UID'});
       } else {
         sanitizedKeys.push(key);
       }
@@ -364,18 +356,18 @@ export default class AppController extends sub.SubController {
     for (const [keyIndex, mappedKey] of mappedKeys.entries()) {
       mappedKey.users = [];
       for (const [index, user] of keys[keyIndex].users.entries()) {
-        if (!user.userId) {
+        if (!user.userID) {
           // filter out user attribute packages
           continue;
         }
-        const userStatus = await user.verify(keys[keyIndex].primaryKey);
-        const uiUser = {id: index, userId: user.userId.userid, name: user.userId.name, email: user.userId.email, status: userStatus};
+        const userStatus = await verifyUser(user);
+        const uiUser = {id: index, userId: user.userID.userID, name: user.userID.name, email: user.userID.email, status: userStatus};
         parseUserId(uiUser);
         mappedKey.users.push(uiUser);
       }
     }
     const validArmoreds = sanitizedKeys.map(key => ({
-      type: key.isPublic() ? 'public' : 'private',
+      type: key.isPrivate() ? 'private' : 'public',
       armored: key.armor()
     }));
     return {keys: mappedKeys, errors, armoreds: validArmoreds};

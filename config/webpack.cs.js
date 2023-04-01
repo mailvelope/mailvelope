@@ -17,7 +17,7 @@ exports.prod = {
   entry,
   output,
   module: {
-    rules: [...common.module.replaceVersion(/main\.js$/, pjson.version), ...common.module.css('to-string-loader')]
+    rules: [...common.module.replaceVersion(/main\.js$/, pjson.version), ...common.module.css2str()]
   }
 };
 

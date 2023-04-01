@@ -2,7 +2,7 @@
 import {expect, sinon} from 'test';
 import {setupKeyring, teardownKeyring} from 'Fixtures/keyring';
 import {MAIN_KEYRING_ID} from 'lib/constants';
-import * as openpgp from 'openpgp';
+import {readKey} from 'openpgp';
 import * as autocrypt from 'modules/autocryptWrapper';
 import {mapSubKeys, mapUsers} from 'modules/key';
 import {prefs} from 'modules/prefs';
@@ -76,11 +76,10 @@ describe('Api controller unit tests', () => {
       const additional = await ctrl.additionalHeadersForOutgoing({keyringId, headers});
       const keydata = autocrypt.parse(additional.autocrypt).keydata;
       const armored = autocrypt.armor(keydata);
-      const keys = await openpgp.key.readArmored(armored);
-      const key = keys.keys[0];
+      const key = await readKey({armoredKey: armored});
       expect(key).to.be.ok;
       const keyMap = {};
-      await mapSubKeys(key.subKeys, keyMap, key);
+      await mapSubKeys(key.subkeys, keyMap, key);
       const {subkeys: mappedSubkeys} = keyMap;
       expect(mappedSubkeys.length).to.equal(1);
       const userMap = {};

@@ -30,3 +30,11 @@ export const SECURE_COLORS = ['#e9e9e9', '#c0c0c0', '#808080', '#ffce1e', '#ff00
 export const MAX_FILE_UPLOAD_SIZE = 50 * 1024 * 1024;
 // stable id if app runs in top frame
 export const APP_TOP_FRAME_ID = 'apptopframeid';
+// status of PGP key or user
+export const KEY_STATUS = {
+  invalid: 0,
+  expired: 1,
+  revoked: 2,
+  valid: 3,
+  no_self_cert: 4
+};

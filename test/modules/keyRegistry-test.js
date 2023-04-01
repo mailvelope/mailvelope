@@ -43,7 +43,7 @@ describe('Looking up keys from different services', () => {
       const result = await keyRegistry.lookup({query: {email: 'test@mailvelope.com'}, identity: 'id'});
       expect(result.armored).to.include('PGP PUBLIC KEY BLOCK');
       expect(result.source).to.equal('MKS');
-      expect(result.fingerprint).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');
+      expect(result.fingerprint).to.equal('add0c44ae80a572f3805729cf47328454fa3ab54');
     });
   });
 
@@ -71,7 +71,7 @@ describe('Looking up keys from different services', () => {
       const result = await keyRegistry.lookup({query: {email: testAutocryptHeaders.from}, identity: 'id'});
       expect(result.armored).to.include('-----BEGIN PGP PUBLIC KEY BLOCK-----');
       expect(result.source).to.be.equal('AC');
-      expect(result.fingerprint).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');
+      expect(result.fingerprint).to.equal('add0c44ae80a572f3805729cf47328454fa3ab54');
     });
   });
 
@@ -111,7 +111,7 @@ describe('Looking up keys from different services', () => {
       const result = await keyRegistry.lookup({query: {email: testAutocryptHeaders.from}, identity: 'id'});
       expect(result.armored).to.include('-----BEGIN PGP PUBLIC KEY BLOCK-----');
       expect(result.source).to.be.equal('AC');
-      expect(result.fingerprint).to.equal('aa1e01774bdf7d76a45bdc2df11db1250c3c3f1b');
+      expect(result.fingerprint).to.equal('add0c44ae80a572f3805729cf47328454fa3ab54');
     });
   });
 });

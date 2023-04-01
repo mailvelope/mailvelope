@@ -6,10 +6,9 @@
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
 import {getHash, MvError} from '../lib/util';
-import {MAIN_KEYRING_ID} from '../lib/constants';
+import {MAIN_KEYRING_ID, KEY_STATUS} from '../lib/constants';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
-import {minifyKey} from '../modules/key';
-import * as openpgp from 'openpgp';
+import {minifyKey, verifyPrimaryKey} from '../modules/key';
 import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
 import * as autocrypt from '../modules/autocryptWrapper';
 import * as keyRegistry from '../modules/keyRegistry';
@@ -56,7 +55,7 @@ export default class ApiController extends sub.SubController {
       if (keyMap[email]) {
         keyMap[email] = {
           keys: keyMap[email].map(key => ({
-            fingerprint: key.primaryKey.getFingerprint(),
+            fingerprint: key.getFingerprint(),
             lastModified: getLastModifiedDate(key).toISOString(),
             source: 'LOC' // local keyring
           }))
@@ -134,8 +133,8 @@ export default class ApiController extends sub.SubController {
       if (!key) {
         return false;
       }
-      const status = await key.verifyPrimaryKey();
-      return status === openpgp.enums.keyStatus.valid;
+      const status = await verifyPrimaryKey(key);
+      return status === KEY_STATUS.valid;
     } else {
       const hasPrivateKey = keyringById(keyringId).hasPrivateKey();
       return hasPrivateKey;

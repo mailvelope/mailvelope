@@ -1,6 +1,7 @@
 import {expect} from 'test';
 import {randomString, symEncrypt, getSecureRandom} from 'modules/crypto';
-import * as openpgp from 'openpgp';
+import {createMessage} from 'openpgp';
+import {readToEnd} from '@openpgp/web-stream-tools';
 
 describe('Crypto unit test', () => {
   describe('randomString', () => {
@@ -19,11 +20,11 @@ describe('Crypto unit test', () => {
   describe('symEncrypt', () => {
     it('should encrypt the message symmetrically using given passphrase', async () => {
       const msgText = 'This is a test message!';
-      const msg = openpgp.message.fromText(msgText);
+      const msg = await createMessage({text: msgText});
       const passphrase = 'p0kjb42gm1o76g5t2kdm3mejlo';
       const encMessage = await symEncrypt(msg, passphrase);
       const message = await encMessage.decrypt(null, [passphrase]);
-      const messageText = await openpgp.stream.readToEnd(message.getText());
+      const messageText = await readToEnd(message.getText());
       expect(messageText).to.equal(msgText);
     });
   });

@@ -4,7 +4,7 @@
  */
 
 import {isValidEncryptionKey, getLastModifiedDate} from './key';
-import * as openpgp from 'openpgp';
+import {readKey} from 'openpgp';
 import * as mveloKeyServer from './mveloKeyServer';
 import * as oks from './openpgpKeyServer';
 import * as wkd from './wkdLocate';
@@ -76,13 +76,18 @@ async function lookupKey({source, query, identity}) {
   if (!result) {
     return;
   }
-  const parsed = await openpgp.key.readArmored(result.armored);
-  const key = parsed.keys[0];
+  let key;
+  try {
+    key = await readKey({armoredKey: result.armored});
+  } catch (e) {
+    console.log('Failed parsing key from key source', e);
+    return;
+  }
   const valid = await isValidEncryptionKey(key);
   if (!valid) {
     return;
   }
-  const fingerprint = key.primaryKey.getFingerprint();
+  const fingerprint = key.getFingerprint();
   const lastModified = getLastModifiedDate(key).toISOString();
   return {
     source: source.name,

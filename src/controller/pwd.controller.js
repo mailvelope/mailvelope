@@ -39,7 +39,7 @@ export default class PwdController extends SubController {
     const {userId} = await getUserInfo(this.options.key, {allowInvalid: true});
     this.ports.pwdDialog.emit('set-init-data', {
       userId,
-      keyId: this.options.key.primaryKey.getKeyId().toHex().toUpperCase(),
+      keyId: this.options.key.getKeyID().toHex().toUpperCase(),
       cache: prefs.prefs.security.password_cache,
       reason: this.options.reason
     });
@@ -109,7 +109,7 @@ export default class PwdController extends SubController {
     if (typeof this.options.openPopup == 'undefined') {
       this.options.openPopup = true;
     }
-    const cacheEntry = pwdCache.get(this.options.key.primaryKey.getFingerprint(), options.message);
+    const cacheEntry = pwdCache.get(this.options.key.getFingerprint(), options.message);
     if (cacheEntry && !options.noCache) {
       return Promise.resolve(cacheEntry);
     } else {
@@ -152,6 +152,6 @@ export default class PwdController extends SubController {
    * @return {Boolean}
    */
   keyIsDecrypted({key}) {
-    return key.primaryKey.isDecrypted();
+    return key.isDecrypted();
   }
 }

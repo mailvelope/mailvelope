@@ -4,7 +4,7 @@
  */
 
 import {prefs} from './prefs';
-import {key as openpgpKey} from 'openpgp';
+import {readKey} from 'openpgp';
 import {filterUserIdsByEmail, removeHexPrefix} from './key';
 
 // The default URL of the keys.openpgp.org verifying key server.
@@ -43,19 +43,17 @@ export async function lookup(query) {
   // Only the userid matching the email should be imported.
   // This avoids usability problems and potential security issues
   // when unreleated userids are also part of the key.
-  const parseResult = await openpgpKey.readArmored(armoredKey);
-  if (parseResult.err) {
-    throw new Error(`openpgpKeyServer: Failed to parse response '${armoredKey}': ${parseResult.err}`);
+  let key;
+  try {
+    key = await readKey({armoredKey});
+  } catch (e) {
+    throw new Error(`openpgpKeyServer: Failed to parse response '${armoredKey}': ${e.message}`);
   }
-  const keys = parseResult.keys;
-  if (keys.length !== 1) {
-    throw new Error(`openpgpKeyServer: Response '${armoredKey}': contained ${keys.length} keys.`);
-  }
-  const filtered = filterUserIdsByEmail(keys[0], query.email);
+  const filtered = filterUserIdsByEmail(key, query.email);
   if (!filtered.users.length) {
     throw new Error(`openpgpKeyServer: Response '${armoredKey}': contained no matching userIds.`);
   }
-  console.log(`openpgpKeyServer: fetched key: '${filtered.primaryKey.getFingerprint()}'`);
+  console.log(`openpgpKeyServer: fetched key: '${filtered.getFingerprint()}'`);
   const result = {
     armored: filtered.armor(),
     date: new Date()
