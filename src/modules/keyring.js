@@ -11,7 +11,7 @@ import KeyringLocal from './KeyringLocal';
 import KeyStoreLocal from './KeyStoreLocal';
 import KeyringGPG from './KeyringGPG';
 import KeyStoreGPG from './KeyStoreGPG';
-import {gpgme} from '../lib/browser.runtime';
+import {gpgme, initNativeMessaging} from '../lib/browser.runtime';
 import {prefs} from './prefs';
 import {isValidEncryptionKey, getLastModifiedDate, toPublic} from './key';
 import {getKeyBinding, isKeyBound} from './keyBinding';
@@ -28,10 +28,10 @@ class KeyringAttrMap extends Map {
     if (!this.has(MAIN_KEYRING_ID)) {
       await this.create(MAIN_KEYRING_ID);
     }
-    await this.initGPG();
   }
 
   async initGPG() {
+    await initNativeMessaging();
     const hasGpgKeyring = this.has(GNUPG_KEYRING_ID);
     if (gpgme) {
       if (!hasGpgKeyring) {
@@ -100,11 +100,12 @@ export async function init() {
   await keyringAttr.init();
   const keyringIds = Array.from(keyringAttr.keys());
   await Promise.all(keyringIds.map(async keyringId => {
+    if (keyringId === GNUPG_KEYRING_ID) {
+      return;
+    }
     try {
       await buildKeyring(keyringId);
-      if (keyringId !== GNUPG_KEYRING_ID) {
-        await sanitizeKeyring(keyringId);
-      }
+      await sanitizeKeyring(keyringId);
     } catch (e) {
       // could not build keyring, remove from keyring attributes
       await keyringAttr.delete(keyringId);
@@ -112,6 +113,21 @@ export async function init() {
     }
   }));
   preVerifyKeys();
+}
+
+export async function initGPG() {
+  await keyringAttr.initGPG();
+  if (!keyringAttr.has(GNUPG_KEYRING_ID)) {
+    return;
+  }
+  try {
+    await buildKeyring(GNUPG_KEYRING_ID);
+    preVerifyKeys(GNUPG_KEYRING_ID);
+  } catch (e) {
+    // could not build GnuPG keyring, remove from keyring attributes
+    await keyringAttr.delete(GNUPG_KEYRING_ID);
+    console.log(`Building keyring for id ${GNUPG_KEYRING_ID} failed`, e);
+  }
 }
 
 /**
@@ -174,9 +190,10 @@ export async function deleteKeyring(keyringId) {
 
 /**
  * Improve performance of initial keyring operations by pre-verifying keys in large keyrings
+ * @param {String} keyringId
  */
-async function preVerifyKeys() {
-  for (const {keystore} of getAll()) {
+async function preVerifyKeys(keyringId) {
+  for (const {keystore} of keyringId ? [getById(keyringId)] : getAll()) {
     const keys = keystore.getAllKeys();
     if (keys.length < 10) {
       continue;
@@ -243,7 +260,11 @@ export function getAllKeyringAttr() {
   const attrObj = keyringAttr.toObject();
   if (keyringAttr.has(GNUPG_KEYRING_ID)) {
     const gpgKeyring = keyringMap.get(GNUPG_KEYRING_ID);
-    Object.assign(attrObj[GNUPG_KEYRING_ID], gpgKeyring.getAttr());
+    if (gpgKeyring) {
+      Object.assign(attrObj[GNUPG_KEYRING_ID], gpgKeyring.getAttr());
+    } else {
+      delete attrObj[GNUPG_KEYRING_ID];
+    }
   }
   return attrObj;
 }

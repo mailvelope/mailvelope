@@ -9,7 +9,7 @@ import gpgmejs from 'gpgmejs';
 
 export let gpgme = null;
 
-const GPGME_INIT_TIMEOUT = 3000;
+const GPGME_INIT_TIMEOUT = 10000;
 
 /**
  * Initialize browser runtime features.
