@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v5.0.0
+-------
+__Apr 2, 2023__
+
+  * Upgrade to OpenPGP.js v5
+  * Fix timeout error when loading large GnuPG keyrings
+
 v4.7.1
 -------
 __Nov 19, 2022__

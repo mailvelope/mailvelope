@@ -1,418 +1,418 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "اسمح لهذا النطاق",
+        "message": "Authorize this domain",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
-        "message": "كل الخيارات",
+        "message": "ตัวเลือกทั้งหมด",
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>هيءْ Mailvelope </0>للبدء !",
+        "message": "<0>กำหนดค่า Mailvelope </0>เพื่อเริ่มใช้งาน",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "عرض كل خيارات التهيئة.",
+        "message": "Display all configuration options.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
-        "message": "لوحة التحكم",
+        "message": "กระดานแสดงข้อมูล",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_file_encryption_description": {
-        "message": "تعمية ملف أو عدة ملفات.",
+        "message": "Encrypt one or multiple files.",
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "تعمية الملفات",
+        "message": "File encryption",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
-        "message": "المساعدة",
+        "message": "ช่วยเหลือ",
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "إدارة المفاتيح العمومية والخاصة.",
+        "message": "Manage public and private keys.",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "مستودع المفاتيح",
+        "message": "Keyring",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "قائمة Mailvelope الأوَّلية",
+        "message": "เมนูหลัก Mailvelope",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "أنعش Mailvelope",
+        "message": "Reload Mailvelope",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "راجع إجراءات المستخدم المتعلقة بالأمان.",
+        "message": "Review security relevant user actions.",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "سجل الأمان",
+        "message": "Security log",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "قائمة إعداد Mailvelope",
+        "message": "เมนูติดตั้ง Mailvelope",
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "إن آخر تحديث لـ Mailvelope يتطلب منك إعادة تهيئة خلفية الأمان.",
+        "message": "The last update of Mailvelope requires you to reconfigure your security background.",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "لنبدأ !",
+        "message": "Let's start!",
         "description": "Start button label"
     },
     "alert_header_error": {
-        "message": "خطأ !",
+        "message": "ผิดพลาด",
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "مهم !",
+        "message": "Important!",
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "يُرجى الملاحظة :",
+        "message": "Please note:",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
-        "message": "نجَح !",
+        "message": "สำเร็จแล้ว",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "تحذير !",
+        "message": "คำเตือน",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "يطابق اسم النطاق النمط ‪[*.]host.name.tld[:port]‬",
+        "message": "Domain match pattern is [*.]host.name.tld[:port].",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "يجب أن يتوفر نمط تطابق نطاق واحد على الأقل,",
+        "message": "โดเมนต้องจับคู่อย่างน้องหนึ่งรูปแบบ",
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
-        "message": "مشاركة بيانات استخدام التطبيق بشكل آمن مع Mailvelope",
+        "message": "Share aggregated and anonymized analytics information with Mailvelope",
         "description": "Consent to share analytics information with mailvelope"
     },
     "auth_domain_api_label": {
-        "message": "السماح لواجهة برمجة التطبيقات",
+        "message": "Allow API",
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
-        "message": "هل تود السماح باستخدام Mailvelope مع النطاق  $1 ؟",
+        "message": "Would you like to allow the use of Mailvelope for the domain $1?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_headline": {
-        "message": "السماح للنطاق",
+        "message": "Authorize domain",
         "description": "Headline of authorize domain dialog."
     },
     "change_link": {
-        "message": "تغيير",
+        "message": "เปลี่ยนแปลง",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "لم يتمكن من قراءة هذا النص الصِّرف للرسالة : $1",
+        "message": "ไม่สามารถอ่านเคลียร์เท็กซ์ได้ $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "‮التعمية",
+        "message": "การเข้ารหัสลับ",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_manage_domains": {
-        "message": "النطاقات المسموحة",
+        "message": "Authorized domains",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "إدارة المفاتيح",
+        "message": "จัดการกุญแจ",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "سجلات الأمان",
+        "message": "Security logs",
         "description": "Dashboard view security logs link"
     },
     "decrypt_att_frame_help_text": {
-        "message": "اضغط هنا لعرض الرسالة",
+        "message": "Click here to view the message",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_attachment_label": {
-        "message": "المرفقات",
+        "message": "เอกสารแนบ",
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_cleartext_warning": {
-        "message": "إن النص التالي غير مُعمَّى.",
+        "message": "The following text was not encrypted.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "الملفات التي فُكَّت تعميتها",
+        "message": "Decrypted files",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "مُوقَّع",
+        "message": "Signed",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "التوقيع باطل",
+        "message": "ลายเซ็นไม่ถูกต้อง",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null": {
-        "message": "التوقيع مجهول",
+        "message": "Signature unknown",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "لم يعثر على مفتاح ذو المُعرِّف  $1.",
+        "message": "Key with ID $1 not found.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "لم يعثر على المفتاح.",
+        "message": "Key not found.",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "فك تعمية الملف $1 غير ممكن.",
+        "message": "Decryption of file $1 is not possible.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "اضغط لفك التعمية.",
+        "message": "Click to decrypt",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "فك تعمية البيانات",
+        "message": "Decrypt data",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "فُكَّت التعمية بنجاح",
+        "message": "Decryption successful",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
-        "message": "فك التعمية",
+        "message": "ถอดรหัสลับ",
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "افتح في عارض Mailvelope",
+        "message": "Open in Mailvelope viewer",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "أظهر الرسالة",
+        "message": "Show message",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "المُرسِل",
+        "message": "Sender",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "النص المراد فك تعميته",
+        "message": "Text to decrypt",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "هل تود أيضا فك تعمية نص ؟",
+        "message": "Do you also want to decrypt a text?",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "فك تعمية النص غير ممكنة.",
+        "message": "Decryption of the text is not possible.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
-        "message": "إلغاء",
+        "message": "ยกเลิก",
         "description": "Dialog cancel button label"
     },
     "dialog_no_btn": {
-        "message": "‮لا",
+        "message": "ไม่",
         "description": "Dialog no button label"
     },
     "dialog_popup_close": {
-        "message": "أَغلِق",
+        "message": "ปิด",
         "description": "Close decrypt popup."
     },
     "dialog_save_btn": {
-        "message": "حفظ",
+        "message": "บันทึกข้อมูล",
         "description": "Dialog save button label"
     },
     "dialog_yes_btn": {
-        "message": "‮نعم",
+        "message": "ใช่",
         "description": "Dialog yes button label"
     },
     "editor_blur_warn": {
-        "message": "تحذير : محرر النصوص فقد التركيز عليه.",
+        "message": "คำเตือน Text editor โฟกัสอยู่ผิดตำแหน่ง",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "عَمِّ",
+        "message": "การเข้ารหัสลับ",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "خطأ",
+        "message": "ข้อผิดพลาด",
         "description": ""
     },
     "editor_extra_key_checkbox": {
-        "message": "إضافة مفتاح إضافي",
+        "message": "Add extra key",
         "description": "Extra key checkbox label."
     },
     "editor_extra_key_help": {
-        "message": "سوف تُعمَّى الرسالة الإلكترونية بواسطة هذا المفتاح الإضافي",
+        "message": "Email will be encrypted with this additional key",
         "description": "Extra key help text."
     },
     "editor_header": {
-        "message": "اكتب رسالة إلكترونية محمية",
+        "message": "Compose Secure Email",
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "هل تود توقيع كل رسائلك ؟",
+        "message": "Would you like to sign all your emails?",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
-        "message": "عدِّل الإعدادات هنا",
+        "message": "Change settings here",
         "description": "Test for auto sign link."
     },
     "editor_key_has_extra_msg": {
-        "message": "سوف تُعمَّى الرسالة الإلكترونية بواسطة المفتاح البديل الذي أدخلت أسفله.",
+        "message": "Email will be encrypted with the alternate key entered below.",
         "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
-        "message": "غير موقع",
+        "message": "Not signed",
         "description": "Label for not sign option in sign key select."
     },
     "editor_key_not_found": {
-        "message": "مفتاح غير موجود!",
+        "message": "ไม่พบกุญแจ",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "جميع المتلقين يحتاجون إلى مفتاح PGP للتشفير. بإمكانك توقيع الرسالة بالرغم من ذلك.",
+        "message": "ผู้รับทุกคนจำเป็นต้องมีกุญแจ PGP เพื่อเข้ารหัสลับ แต่คุณยังสามารถเซ็นข้อความได้",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
-        "message": "المرفقات",
+        "message": "เอกสารแนบ",
         "description": "Label for attachments select/drop area."
     },
     "editor_label_copy_recipient": {
-        "message": "نسخة إلى",
+        "message": "Cc",
         "description": "Label for copy recipient text input."
     },
     "editor_label_message": {
-        "message": "الرسالة",
+        "message": "ข้อความ",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "المتلقّي",
+        "message": "ผู้รับ",
         "description": "Label for recipient input."
     },
     "editor_label_subject": {
-        "message": "الموضوع",
+        "message": "Subject",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
-        "message": "تعمية الملفات",
+        "message": "เข้ารหัสลับ",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "لم يتمكن من توقيع الرسالة بسبب انعدام وجود المفتاح الافتراضي",
+        "message": "อีเมลไม่สามารถลงลายเซ็นดิจิตอลได้ เพราะกุญแจเริ่มต้นหายไป",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "لم يتمكن من توقيع الرسالة رقميا",
+        "message": "อีเมลไม่สามารถลงลายเซ็นดิจิตอลได้",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "إزالة",
+        "message": "ลบออก",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "وقّع فقط",
+        "message": "เซ็นเท่านั้น",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "عند إرسال الرسالة، سيتم أيضا توقيعها رقميا",
+        "message": "อีเมลจะเซ็นแบบดิจิตอล เมื่อส่งออก",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "سيتم توقيع الرسالة رقميا",
+        "message": "อีเมลจะถูกเซ็นแบบดิจิตอล",
         "description": ""
     },
     "editor_transfer": {
-        "message": "نقل",
+        "message": "ถ่ายโอน",
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "حدد التوقيع",
+        "message": "Select signature",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "عدِّل التوقيع",
+        "message": "Change signature",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "يُرجى إضافة مُستلِم.",
+        "message": "กรุณาเพิ่มผู้รับ",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "نزِّل الكل",
+        "message": "Download all",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "الملفات المعماة",
+        "message": "Encrypted files",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "مُعمَّى لأجل",
+        "message": "Encrypted for",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "لم يتمكن من تعمية هذه الرسالة : $1",
+        "message": "ไม่สามารถเข้ารหัสลับของข้อความ $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "لا يمكن تعمية الملف  $1.",
+        "message": "Encryption of file $1 is not possible.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "أكتب رسالة آمنة",
+        "message": "Write secure email",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "عمِّ البيانات",
+        "message": "Encrypt data",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "نجحت التعمية",
+        "message": "Encryption successful",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
-        "message": "تعمية",
+        "message": "การเข้ารหัสลับ",
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "البيانات المعماة غير موقعة",
+        "message": "Encrypted data is not signed",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "أزل التوقيع",
+        "message": "Remove signature",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
-        "message": "موقع من طرف",
+        "message": "เซ็นโดย",
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "إن البيانات المُعمَّاة موقعة بواسطة مفتاحك ($1)",
+        "message": "Encrypted data is signed with your key ($1)",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "هل تود تعمية نص ؟",
+        "message": "Do you also want to encrypt a text?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "تعمية النص غير ممكنة.",
+        "message": "Encryption of the text is not possible.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "أحد الملفات كبير جداً.",
+        "message": "หนึ่งในไฟล์มีขนาดใหญ่เกินไป",
         "description": "."
     },
     "ext_description": {
-        "message": "عزِّز قدرات مزود بريدك الإلكتروني بواسطة التعمية من الطرف إلى الطرف. وسيلة التواصل الآمنة بالبريد إلكتروني المبنية على المعيار OpenPGP.",
+        "message": "ขยายผู้ให้บริการอีเมลด้วยการเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง รักษาความปลอดภัยของระบบการสื่อสารของอีเมลบนมาตรฐาน OpenPGP",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -420,1807 +420,1807 @@
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "خصص الآن",
+        "message": "Personalize now",
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
-        "message": "اجعل Mailvelope أكثر أمانا عبر تخصيص خلفية الأمن لديك.",
+        "message": "Make Mailvelope even more secure by personalizing your security background.",
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "التوقيع باطل",
+        "message": "Signature is invalid",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "الملف غير موقع",
+        "message": "File not signed",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
-        "message": "لم يتمكن من فك تعمية الملف :  $1",
+        "message": "ไม่สามารถถอดรหัสลับของไฟล์ $1",
         "description": ""
     },
     "file_signed": {
-        "message": "وُقِّع الملف من طرف  $1\n",
+        "message": "File signed by $1",
         "description": "Text of signer field of file element."
     },
     "form_back": {
-        "message": "الرجوع",
+        "message": "ย้อนกลับ",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "تتم المعالجة",
+        "message": "กำลังดำเนินการ",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "إلغاء",
+        "message": "ยกเลิก",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "محو",
+        "message": "ล้าง",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "أَغلِق",
+        "message": "ปิด",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "تأكيد",
+        "message": "ยืนยัน",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "استمرار",
+        "message": "ดำเนินการต่อ",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "لا يوجد مفتاح تعمية ملائم لعنوان المُستلِم.",
+        "message": "ไม่พบกุญแจเข้ารหัสลับของผู้รับ",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "توقيع الاستمارة باطل.",
+        "message": "รูปแบบลายเซ็นไม่ถูกต้อง",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "اتجاه",
+        "message": "ปลายทาง",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "سيتم إرجاع البيانات المعماة إلى الصفحة.",
+        "message": "ข้อมูลที่เข้ารหัสแล้วจะกลับไปที่เพจ",
         "description": "Behavior when no action is specified in form"
     },
     "form_forward": {
-        "message": "الأمام",
+        "message": "ส่งต่อ",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "استيراد",
+        "message": "นำเข้า",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "الاستمارة قيد التنزيل",
+        "message": "กำลังโหลดฟอร์ม",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "التالي",
+        "message": "ต่อไป",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "لا",
+        "message": "ไม่",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "موافق",
+        "message": "ตกลง",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "المتلقّي",
+        "message": "ผู้รับ",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "حفظ",
+        "message": "บันทึก",
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "لم يعثر على أي مفتاح خاص في المستودع لكي يوقع به محتوى الاستمارة. يُرجى استيراده أو إنشاؤه.",
+        "message": "ไม่มีกุญแจส่วนตัวในห่วงกุญแจ กรุณานำเข้าหรือสร้างขึ้นใหม่",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "ارسال",
+        "message": "ส่ง",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "تراجع",
+        "message": "เลิกทำ",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "نعم",
+        "message": "ใช่",
         "description": "Yes form button."
     },
     "general_default_key_always": {
-        "message": "أضف دوما مفتاحي الافتراضي إلى قائمة المستلمين. (هذا الإجراء سيمكنك من فك تعمية رسائلك المرسَلة)",
+        "message": "เพิ่มกุญแจค่าเริ่มต้นในรายการของผู้รับเสมอ (สิ่งนี้จะอนุญาติให้คุณถอดรหัสลับในอีเมลที่ถูกส่งแล้ว)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "وقِّع كل الرسائل الصادرة.",
+        "message": "Sign all outgoing messages.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
-        "message": "اسمح لنا بالتحقق من وجوده",
+        "message": "ตรวจสอบความพร้อมในการใช้งาน",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "هل GnuPG مثبت ؟ إن لم يكن كذلك <0>نزِّله من هنا</0>. للتحقق من وجوده مرة أخرى<1>أعد تشغيل Mailvelope</1>",
+        "message": "คุณมี GnuPG ติดตั้งอยู่หรือไม่ ถ้าไม่ <0> ดาวโหลดที่นี่ </0> ตรวจสอบความพร้อมอีกครั้ง <1> รีสตาท Mailvelope </1> ",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG غير متاح",
+        "message": "GnuPG ไม่พร้อมใช้งาน",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "هل تفضل استخدام GnuPG ؟",
+        "message": "คุณชอบใช้ GnuPG หรือไม่",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "إنك تستخدم حاليا ",
+        "message": "คุณกำลังใช้งานอยู่ขณะนี้",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "ما هي أداة التعمية التي تفضل ؟",
+        "message": "หลังบ้านของการเข้ารหัสลับอันไหนที่คุณต้องการ",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
-        "message": "خيارات OpenPGP",
+        "message": "การปรับแต่ง OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "ملاحظة : كل المفاتيح العمومية تتزامن مع مستودع المفاتيح المتاح. يمكن لـ Mailvelope استخدام إعدادات أخرى لمكتبة التعمية المفضلة، وذلك حسب المفاتيح الخاصة المتاحة له.",
+        "message": "บันทึก ห่วงกุญแจที่มีอยู่และกุญแจสาธารณะถูกประสานรวมกัน  ทั้งนี้ขึ้นอยู่กับกุญแจส่วนตัวทีมีอยู่ Mailvelope  สามารถถูกเขียนทับได้ในคลังข้อมูลการตั้งค่าการเข้ารหัสลับที่ถูกเลือก   ",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "ليس لـ Mailvelope الصلاحية لتنزيل المرفقات. يجب عليك منح Mailvelope حق الوصول إلى واجهة برمجة تطبيقات Gmail لاستخدام هذه الوظيفة.",
+        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "ليس لـ Mailvelope الصلاحية لإرسال الرسائل الإلكترونية. يجب عليك منح Mailvelope حق الوصول إلى واجهة برمجة تطبيقات Gmail لاستخدام هذه الوظيفة.",
+        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- رسالة مُوجَّهة --------\nمن :  $1\nالتاريخ :  $2\nالموضوع :  $3\nإلى :  $4",
+        "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4",
         "description": "Header for forwarded mail"
     },
     "gmail_integration_quoted_mail_header_reply": {
-        "message": "في  $1، كتب  $2 :",
+        "message": "On $1, $2 wrote:",
         "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
-        "message": "أُرسِلت الرسالة الإلكترونية بنجاح.",
+        "message": "The email was sent successfully.",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
-        "message": "اتصال GnuPG ",
+        "message": "การเชื่อมต่อ GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "يُرجى التحقق من أن المفاتيح العمومية التالية متاحة في مستودع مفاتيح GnuPG وأنها صالحة : $1",
+        "message": "กรุณาตรวจสอบถ้ากุญแจสาธารณะเหล่านี้สามารถใช้ได้ในห่วงกญแจ GnuPG ของคุณและมีความเที่ยงตรง $1",
         "description": ""
     },
     "import_frame_help_text": {
-        "message": "اضغط لاستيراد المفتاح",
+        "message": "Click to import key",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
-        "message": "اضغط هنا لفتح الامتداد.",
+        "message": "Click here, to open the extension.",
         "description": "Install landing page getting started hint"
     },
     "key_default_active_btn_title": {
-        "message": "تم تحديد المفتاح كافتراضي",
+        "message": "กุญแจได้ตั้งเป็นกุญแจเริ่มต้น",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "المفتاح غير صالح لعمليات التعمية والتوقيع",
+        "message": "กุญแจไม่ถูกต้องในการเข้ารหัสลับและเข้าระบบปฏิบัติการเซ็นชื่อ",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "تحديد كمفتاح افتراضي",
+        "message": "ตั้งค่ากุญแจเป็นค่าเริ่มต้น",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
-        "message": "تصدير",
+        "message": "ส่งออก",
         "description": "Export key button label"
     },
     "key_export_btn_title": {
-        "message": "صَدِّر المفتاح",
+        "message": "ส่งออกกุญแจ",
         "description": "Title for export key button"
     },
     "key_export_create_file": {
-        "message": "حفظ",
+        "message": "บันทึกข้อมูล",
         "description": "Download file button."
     },
     "key_export_dialog_copy_to_clipboard": {
-        "message": "نسخ إلى الحافظة",
+        "message": "คัดลอกคลิปบอร์ด",
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "ما هو المفتاح الذي تود تصديره ؟",
+        "message": "กุญแจที่ต้องการส่งออก",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
-        "message": "صَدِّر المفتاح",
+        "message": "ส่งออกกุญแจ",
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "‮اسم الملف",
+        "message": "ชื่อไฟล์",
         "description": "Label of filename input."
     },
     "key_export_header": {
-        "message": "تصدير المفاتيح",
+        "message": "ส่งออกกุญแจ",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "إن هذا الملف يحوي مفاتيح خاصة. احفظ الملف في مكان آمن ولا تشاركه مع الآخرين.",
+        "message": "กุญแจส่วนตัวอยู่ในไฟล์นี้ กรุณาเก็บไฟล์ไว้ในที่ปลอดภัยและไม่แชร์กับผู้อื่น",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "متقدم",
+        "message": "ขั้นสูง",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "وَلِّد أخرى...",
+        "message": "สร้างอีกครั้ง",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "عنوان De-Mail",
+        "message": "ที่อยู่ De-mail",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "حدث خطأ خلال توليد المفتاح.",
+        "message": "เกิดข้อผิดพลาดขณะสร้างกุญแจ",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "تجريبي",
+        "message": "ทดลอง",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "تاريخ إنتهاء صلاحية المفتاح",
+        "message": "วันหมดอายุของกุญแจ",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "الافتراضي مستقبلا",
+        "message": "ค่าเริ่มต้นในอนาคต",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "توليد",
+        "message": "สร้าง",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "عنوان بريد إلكتروني غير صحيح",
+        "message": "ที่อยู่อีเมลไม่ถูกต้อง",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "طول المفتاح",
+        "message": "ขนาดกุญแจ",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "الاسم الكامل لمالك المفتاح",
+        "message": "ชื่อและนามสกุลของเจ้าของกุญแจ",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "أَدخِل كلمة السر",
+        "message": "ใส่รหัสผ่าน",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "حقل كلمة السر فارغ",
+        "message": "ช่องรหัสผ่านว่างเปล่า",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "كلمتا السر متطابقتان",
+        "message": "รหัสผ่านตรงกัน",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "أَعِد إدخال كلمة السر",
+        "message": "ใส่รหัสผ่านอีกครั้ง",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "كلمات السر غير متطابقة",
+        "message": "รหัสผ่านไม่ตรงกัน",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "لقد أنشئ مفتاح جديد وتم إستيراده إلى حافظة المفاتيح",
+        "message": "กุญแจใหม่ที่ถูกสร้างและถูกนำเข้าไปในห่วงกุญแจ",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "حمِّل المفتاح العام إلى خادم Mailvelope (يمكن حذفه في أي وقت)",
+        "message": "อัปโหลดกุญแจสาธารณะไปสู่กุญแจเซิร์ฟเวอร์ Mailvelope ( สามารถลบได้ตลอดเวลา)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
-        "message": "يجري توليد المفاتيح...",
+        "message": "กุญแจอยู่ในระหว่างการถูกสร้าง",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "الرجاء الإنتظار، توليد المفتاح يمكن أن يستغرق عدة دقائق وهو مرتبط بعدة عوامل مختلفة، مثل حجم المفتاح.",
+        "message": "โปรดรอสักครู การสร้างกุญแจอาจใช้เวลาหลายนาทีขึ้นอยู่กับปัจจัยที่หลากหลายเช่น ขนาดของกุญแจ",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "تم استيراد وتحديث المفاتيح بنجاح.",
+        "message": "Keys successfully imported/updated.",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "استيراد المفاتيح",
+        "message": "Import keys",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "بعد التأكيد، سوف يُنقَل هذا المفتاح إلى مستودع المفاتيح المحلي :",
+        "message": "After confirmation, this key is transferred to the local keyring:",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
-        "message": "بعد التأكيد، سوف تُنقَل هذه المفاتيح إلى المستودع المحلي للمفاتيح :",
+        "message": "After confirmation, these keys are transferred to the local keyring:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "تأكيد المفتاح",
+        "message": "ยืนยันกุญแจ",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "إضافة مفتاح إلى مستودع المفاتيح",
+        "message": "เพิ่มกุญแจไปยังห่วงกุญแจ",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "حدث خطأ في الاستيراد.",
+        "message": "การนำเข้าผิดพลาด",
         "description": "Import error alert."
     },
     "key_import_error_no_uid": {
-        "message": "لم يعثر على مُعرِّف المستخدم في المفتاح  $1",
+        "message": "No valid user ID found in key $1",
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "حدث خطأ أثناء قراءة مفتاح PGP المُدرَّع : $1",
+        "message": "Error reading armored PGP key: $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "حدث خطأ أثناء معالجة المفاتيح",
+        "message": "เกิดข้อผิดพลาดขณะประมวลผลกุญแจ",
         "description": "Import error alert."
     },
     "key_import_file_label": {
-        "message": "حدد الملفات",
+        "message": "Select files",
         "description": "File selection label."
     },
     "key_import_from_text_btn": {
-        "message": "استورد المفتاح من الحافظة",
+        "message": "Import key from clipboard",
         "description": "Import keys from clipboard button label on key import page."
     },
     "key_import_from_text_label": {
-        "message": "نص من الحافظة",
+        "message": "Text from clipboard",
         "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_invalid_text": {
-        "message": "لم يعثر على نص صحيح للمفتاح",
+        "message": "ไม่พบข้อความกุญแจที่ถูกต้อง",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "تحذير : لقد انتهت صلاحية مفتاح جهة الاتصال هذه. لن يصبح ممكنا بعد ذلك الاتصال المُعمَّى مع $1. يلزمك الحصول على المفتاح الحالي لجهة الاتصال هذه.",
+        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
         "description": ""
     },
     "key_import_number_of_failed": {
-        "message": "لم يتمكن من استيراد المفتاح بسبب أخطاء.",
+        "message": "A key could not be imported due to errors.",
         "description": "Error message with number of failed imports."
     },
     "key_import_number_of_failed_plural": {
-        "message": "لم يتمكن من استيراد $1 مفاتيح بسبب أخطاء.",
+        "message": "$1 ไม่สามารถนำเข้ากุญแจได้เนื่องจากเกิดข้อผิดพลาดต่าง ๆ",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "تم استيراد الجزء الخاص من المفتاح، الموافق للمفتاح العمومي الموجود $1 للمستخدم $2، نحو مستودع المفاتيح.",
+        "message": "กุญแจส่วนตัวที่ตรงกับกุญแจสาธาณะ$1 ของผู้ใช้ $2 ถูกนำเข้าสู่ห่วงกุญแจแล้ว",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "تعذر قراءة مفتاح خاص: $1",
+        "message": "ไม่สามารถอ่านกุญแจส่วนตัว $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "المفتاح الخاص $1 للمستخدم $2 تم استيراده إلى حافظة المفاتيح",
+        "message": "กุญแจส่วนตัว $1 ของผู้ใช้ $2 นำเข้าไปยังห่วงกุญแจ",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "المفتاح الخاص المحدث $1 للمستخدم $2",
+        "message": "กุญแจส่วนตัวที่อัปเดตแล้ว $1ของผู้ใช้ $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "تعذر قراءة مفتاح عام: $1",
+        "message": "ไม่สามารถอ่านกุญแจสาาธารณะ $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "المفتاح العام $1 للمستخدم $2 تم استيراده إلى حافظة المفاتيح",
+        "message": "กุญแจสาธารณะ $1 ของผู้ใช้ $2 ถูกนำเข้าไปยังห่วงกุญแจ",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "المفتاح العام المحدث $1 للمستخدم $2",
+        "message": "อัปเดตกุญแจสาธารณะ $1 ของผู้ใช้ $2",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
-        "message": "إضافة إلى مستودع المفاتيح",
+        "message": "Add to keyring",
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
-        "message": "في وقت آخر",
+        "message": "ไม่ใช่ตอนนี้",
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
-        "message": "لن يتمكن المرسل من فك تعمية رسائلك إذا استمررت في استخدام المفتاح القديم. إذا ساورك شك ما، يُرجى التواصل مع المرسل لكي يؤكد لك التغيير عبر قناة اتصال أخرى. يمكنك بعدها إضافة أو إزالة المفتاح لاحقا.",
+        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
         "description": "Key import dialog description."
     },
     "key_import_rotation_headline": {
-        "message": "لقد وقَّع المرسل هذه الرسالة بواسطة مفتاح جديد.",
+        "message": "The sender signed this message with a new key.",
         "description": "Key import rotation dialog header."
     },
     "key_import_search_btn": {
-        "message": "بحث",
+        "message": "ค้นหา",
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "عُثر على مفتاح في :",
+        "message": "Key found in:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "المصدر :",
+        "message": "Source:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "آخر تعديل :",
+        "message": "last modified on:",
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
-        "message": "بحث مُعطَّل.",
+        "message": "Search disabled.",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
-        "message": "يُرجى تفعيل مصدر واحد للمفاتيح على الأقل في الإعدادات.",
+        "message": "Activate at least one key source in the settings.",
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "يُرجى إدخال عنوان بريد إلكتروني صحيح، أو مُعرِّف المفتاح (مُكوَّن من 16 رقما) أو البصمة (40 رقما)",
+        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
-        "message": "لم يجد أي مفتاح في أي من مجلدات البحث عن المفاتيح.",
+        "message": "Key is not available in any of the searched key directories.",
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "لم يعثر على أي مفتاح.",
+        "message": "No key found.",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "عنوان البريد الإلكتروني / مُعرِّف المفتاح / البصمة",
+        "message": "Email Address / Key ID / Fingerprint",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
-        "message": "استيراد المفتاح كنص",
+        "message": "นำเข้ากุญแจเป็นแบบอักษร",
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "نص المفتاح الذي تحاول استيراده أكبر من أن تجري معالجته. حاول القيام بذلك بأجزاء أصغر.",
+        "message": "กุญแจตัวอักษรที่คุณพยายามจะนำเข้ายาวเกินไป ลองทำมันให้สั้นลง",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "غير قادر على إستيراد مفتاح بسبب استثناء: $1",
+        "message": "ไม่สามารถนำเข้ากุญแจเนื่องจากเกิดข้อผิดพลาด:$1",
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "إن بيانات المفتاح في خادم مفاتيح Mailvelope لم تعد مُحدَّثة.",
+        "message": "ข้อมูลกุญแจบนเซิร์ฟเวอร์กุญแจ Mailvelope ไม่ได้เป็นข้อมูลล่าสุด",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "إن المفتاح ليس متزامنا مع خادم مفاتيح Mailvelope.",
+        "message": "กุญแจไม่ได้ถูกเชื่อมต่อกับเซิร์ฟเวอร์กุญแจของ Mailvelope",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "لقد أُرسلَت رسالة تأكيد إلى كل مُعرِّفات المستخدمين للإزالة النهائية من خادم مفاتيح Mailvelope.",
+        "message": "การยืนยันอีเมลถูกส่งไปยังบัญชีผู้ใช้สำหรับลบจากเซิร์ฟเวอร์กุญแจ Mailvelope",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "أزل كل مُعرِّفات المستخدمين",
+        "message": "ลบบัญชีผู้ใช้ทั้งหมด",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "أعِد الإرسال",
+        "message": "ส่งอีกครั้ง",
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "إن بيانات المفتاح في خادم مفاتيح Mailvelope لم مُحدَّثة.",
+        "message": "ข้อมูลกุญแจบนเซิร์ฟเวอร์กุญแจ Mailvelope เป็นข้อมูลล่าสุด",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "لقد تم تحديث بيانات المفتاح في خادم مفاتيح Mailvelope.",
+        "message": "ข้อมูลกุญแจได้ถูกอัปเดตบนเซิร์ฟเวอร์กุญแจของ Mailvelope\n ",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
-        "message": "تحديث",
+        "message": "อัปเดท\n",
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "لقد أُرسلَت رسالة تأكيد إلى جميع مُعرٍّفات المستخدمين، لمزامنة المفتاح مع خادم مفاتيح Mailvelope.",
+        "message": "เพื่อเชื่อมต่อเซิร์ฟเวอร์ของ Mailvelope เข้ากับอีเมลยืนยันได้ถูกส่งไปที่บัญชีผู้ใช้ท้ังหมด",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
-        "message": "مزامنة",
+        "message": "เชื่อมข้อมูล\n",
         "description": "Key server upload button label"
     },
     "key_recovery_failed": {
-        "message": "فشلت استعادة المفتاح من النسخ الاحتياطي.",
+        "message": "ไม่สามารถกู้คืนกุญแจจากข้อมูลสำรองได้",
         "description": ""
     },
     "key_remove_btn": {
-        "message": "حذف",
+        "message": "ลบออก",
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "أزل المفتاح من مستودع المفاتيح",
+        "message": "ลบกญแจออกกจากห่วงกุญแจ",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
-        "message": "أزل المفتاح",
+        "message": "ลบกุญแจ\n",
         "description": "Title of delete key dialog."
     },
     "key_revoke_btn": {
-        "message": "أبطِلْ",
+        "message": "ยกเลิก",
         "description": "Revoke key button label"
     },
     "key_revoke_btn_title": {
-        "message": "أبطِل المفتاح",
+        "message": "ยกเลิกกุญแจ",
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "هل تود حقا إبطال المفتاح ؟",
+        "message": "คุณยังต้องการยกเลิกกุญแจหรือไม่",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "سيصبح المفتاح غير قابل للاستخدام إلى الأبد إذا أبطلته.",
+        "message": "การยกเลิกจะทำให้กุญแจไม่สามารถใช้ได้อีกต่อไป",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
-        "message": "أبطِل المفتاح",
+        "message": "ยกเลิกกุญแจ",
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "حدد كافتراضي",
+        "message": "กลับสู่ค่าเริ่มต้น",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
-        "message": "إنشاء نسخة احتياطية من المفتاح فشل.",
+        "message": "การสร้างข้อมูลสำรองล้มเหลว",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "إسترجاع النسخة الإحتياطية",
+        "message": "กู้คืนข้อมูลสำรอง",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "إنشاء ورقة جديدة للاستعادة هنا إذا :",
+        "message": "Create a new recovery sheet here if:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "توصية : إنشاء نسخة احتياطية",
+        "message": "คำแนะนำ สร้างข้อมูลสำรอง",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "لقد ضاعت ورقة استعادتك.",
+        "message": "เอกสารกู้คืนข้อมูลของคุณสูญหาย",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "تعين عليك إنشاء ورقة استعادة جديدة لأسباب أمنية.",
+        "message": "จำเป็นต้องสร้างเอกสารกู้คืนข้อมูลเพื่อเหตุผลด้านความปลอดภัย",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "أنشيءْ نسخة احتياط",
+        "message": "สร้างข้อมูลสำรอง",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "النسخة الاحتياطية مطلوبة لضمان أن تواصلك المُعمَّى هو :",
+        "message": "จำเป็นต้องมีการสำรองข้อมูล เพื่อให้แน่ใจว่าการสื่อสารแบบเข้ารหัสเป็น",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "توصية : قم بإعداد نسخة احتياطية",
+        "message": "คำแนะนำ ตั้งค่าข้อมูลสำรอง",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "لأجل استعادتها إذا فقدت البيانات",
+        "message": "In order to restore it in case of data loss",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "لأجل نقلها إلى أجهزة أخرى",
+        "message": "In order to transfer it to other devices",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "يجري حاليا إعداد ملف برمز الاستعادة",
+        "message": "เอกสารที่มีรหัสกู้คืนข้อมูลถูกเตรียมพร้อมแล้ว",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "إنشاء نسخة احتياطية!",
+        "message": "สร้างข้อมูลสำรอง",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "لقد تغير تاريخ انتهاء الصلاحية لجميع المفاتيح الفرعية. لن تتأثر المفاتيح الفرعية الباطلة والمفاتيح التي انتهت صلاحيتها.",
+        "message": "วันหมดอายุของกุญแจย่อยทั้งหมดถูกเปลี่ยนแปลงแล้ว ส่วนกุญแจที่ไม่ถูกใช้งานหรือกุญแจย่อยที่หมดอายุแล้วไม่ถูกเปลี่ยนแปลง",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "عدِّل تاريخ انتهاء الصلاحية",
+        "message": "เปลี่ยนแปลงวันหมดอายุ",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "كلمة المرور القديمة",
+        "message": "รหัสผ่านเดิม",
         "description": "Old password input label"
     },
     "keydetails_change_pwd_dialog_title": {
-        "message": "تغيير كلمة السر",
+        "message": "เปลี่ยนรหัสผ่าน",
         "description": "Title of change password dialog."
     },
     "keydetails_creation_date": {
-        "message": "أُنشيء",
+        "message": "สร้างแล้ว",
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "انتهاء الصلاحية",
+        "message": "หมดอายุ",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "أبدا",
+        "message": "ไม่เคย",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
-        "message": "‮كلمة السّر",
+        "message": "รหัสผ่าน",
         "description": "Password of a PGP key."
     },
     "keydetails_title": {
-        "message": "تفاصيل المفتاح ",
+        "message": "รายละเอียดของกุญแจ",
         "description": "Title of the key details panel"
     },
     "keygen_dialog_password_error_length": {
-        "message": "كلمة السر يجب أن تتكون من  $1 حروف على الأقل",
+        "message": "Password requires at least $1 characters",
         "description": ""
     },
     "keygen_dialog_password_placeholder": {
-        "message": "4 أحرف على الأقل",
+        "message": "อย่างน้อย 4 ตัวอักษร",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "يُرجى تعيين كلمة السر لمفتاحك لأجل حماية اتصالاتك المُعمَّاة :",
+        "message": "Please assign a password for your key to protect your encrypted communication:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "قد تتطلب العملية بعض دقائق. يُحتمل أن يتوقف متصفحك مؤقتا عن العمل، يُرجى منحه بعض الوقت.",
+        "message": "This process can take several minutes. Your browser may become unresponsive. Please be patient.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "إعداد تواصل مشفر",
+        "message": "สร้างการสื่อสารเมื่อเข้ารหัสลับแล้ว",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "الخوارزمية",
+        "message": "อัลกอริทึม",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "الكل",
+        "message": "ทั้งหมด",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "تاريخ الإنشاء",
+        "message": "วันที่สร้าง",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "أٌنشِيء",
+        "message": "ถูกสร้างแล้ว",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "المفتاح الافتراضي",
+        "message": "กุญแจตั้งค่าเริ่มต้น",
         "description": "Default key in the keyring."
     },
     "keygrid_default_label": {
-        "message": "‮المبدئيّ",
+        "message": "ค่าเริ่มต้น",
         "description": "Label for the default key"
     },
     "keygrid_delete": {
-        "message": "حذف",
+        "message": "ลบ",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "هل تريد حقا حذف هذا المفتاح ؟",
+        "message": "คุณแน่ใจที่จะย้ายกุญแจนี้หรือไม่",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "عرض جميع المفاتيح",
+        "message": "แสดงกุญแจทั้งหมด",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "عرض المفتاح الخاص",
+        "message": "แสดงกุญแจส่วนตัว",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "عرض المفتاح العلني",
+        "message": "แสดงกุญแจสาธารณะ",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "تاريخ الانتهاء",
+        "message": "วันหมดอายุ",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "تصدير",
+        "message": "ส่งออก",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "تصدير كل المفاتيح من هذه القائمة إلى ملف",
+        "message": "ส่งออกกุญแจทั้งหมดในรายการนี้ไปที่ไฟล์",
         "description": "Title for Export key button."
     },
     "keygrid_generate_title": {
-        "message": "ولِّد مفتاحا",
+        "message": "สร้างกุญแจ",
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "البحث عن المفاتيح العلنية في مصادر خارجية",
+        "message": "Search for public keys in external sources",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
-        "message": "استورد مفتاحا",
+        "message": "นำเข้ากุญแจ",
         "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
-        "message": "مُعرِّف المستخدم باطل",
+        "message": "เลขประจำตัวผู้ใช้ที่ไม่ได้ใช้งานแล้ว",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "بصمة PGP",
+        "message": "ลายนิ้วมือ PGP",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "الطول",
+        "message": "ความยาว",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "لا تنتهي صلاحية هذا المفتاح",
+        "message": "กุญแจที่ยังไม่หมดอายุ",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "مُعرِّف المفتاح",
+        "message": "เลขประจำตัวกุญแจ",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
-        "message": "المفتاح الرئيسي",
+        "message": "กุญแจหลัก",
         "description": "Main key in the PGP key."
     },
     "keygrid_private_keys": {
-        "message": "المفاتيح السرية",
+        "message": "กุญแจส่วนตัว",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "المفاتيح العلنية",
+        "message": "กุญแจสาธารณะ",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "تحديث",
+        "message": "รีเฟรช",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "أنعش مستودع المفاتيح",
+        "message": "โหลดห่วงกุญแจใหม่",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "أرسل المفتاح العمومي عبر البريد الإلكتروني",
+        "message": "ส่งกุญแจสาธารณะทางอีเมล",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "الموقعين",
+        "message": "ผู้เซ็น",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "الموقعين الغير معروفين",
+        "message": "ผู้เซ็นที่ไม่ทราบตัวตน",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "المُرشِّحات",
+        "message": "ตัวกรอง",
         "description": "Key grid sort selector."
     },
     "keygrid_status_expired": {
-        "message": "منتهي الصلاحية",
+        "message": "ที่หมดอายุแล้ว",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_invalid": {
-        "message": "غير صالح",
+        "message": "ไม่ถูกต้อง",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_revoked": {
-        "message": "ملغاة",
+        "message": "ที่ถูกยกเลิก",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "صالح",
+        "message": "ถูกต้อง",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "المفتاح الفرعي",
+        "message": "กุญแจย่อย",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "المفاتيح التابعة",
+        "message": "กุญแจย่อย",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "البريد الإلكتروني",
+        "message": "อีเมล",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "مُعرِّفات المستخدمين",
+        "message": "เลขประจำตัวผู้ใช้",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "الإسم",
+        "message": "ชื่อ",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "الأولي",
+        "message": "หลัก",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
-        "message": "التوقيعات",
+        "message": "ลายเซ็น",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "الحالة",
+        "message": "สถานะ",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "يُرجى الاطلاع على الإعدادات المتاحة في :",
+        "message": "ดูการตั้งค่าได้ที่",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "نسخ احتياطي لمستودع المفاتيح",
+        "message": "ข้อมูลสำรองห่วงกุญแจ",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "هل تريد حذف مستودع المفاتيح ذو المُعرِّف : $1 ؟",
+        "message": "Do you want to delete the keyring with ID: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "تأكيد المفتاح المراد استيراده",
+        "message": "Confirm key to import",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "تأكيد $1 مفاتيح المراد استيرادها",
+        "message": "Confirm $1 keys to import",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
-        "message": "تصدير المفاتيح",
+        "message": "นำห่วงกุญแจออก",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "توليد المفاتيح",
+        "message": "สร้างกุญแจ",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "إدارة المفاتيح",
+        "message": "การจัดการกุญแจ",
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "يمكنك إضافة المفاتيح إما على شكل ملفات أو كنصوص انطلاقا من الحافظة.",
+        "message": "You can add keys either as file or as text from the clipboard.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "استيراد المفاتيح",
+        "message": "นำเข้ากุญแจ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "يمكن البحث عن المفاتيح العلنية المراد إضافتها إلى مستوع مفاتيحك. يقوم Mailvelope بإجراء البحث في عدة مجلدات للمفاتيح ثم يقترح عليك المفتاح العلني الأكثر ملائمة للاستخدام.",
+        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "البحث عن المفاتيح",
+        "message": "Search for keys",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
-        "message": "مستودع المفاتيح الأساسي",
+        "message": "ห่วงกุญแจหลัก",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "خاص",
+        "message": "ส่วนตัว",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "عمومي",
+        "message": "สาธารณะ",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "أزواج المفاتيح",
+        "message": "คู่กุญแจ",
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "احذف مستودع المفاتيح",
+        "message": "Delete keyring",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
-        "message": "الإعداد",
+        "message": "ติดตั้ง",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "توليد المفاتيح",
+        "message": "สร้างกุญแจ",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "إذا كنت تستخدم هذه الإضافة للمرة الأولى، وإذا لم يكن لديك زوج مفاتيح، يرجى إنشاء واحد الآن.",
+        "message": "ถ้าคุณใช้โปรแกรมเสริมเป็นครั้งแรกและยังไม่มีคู่กุญแจ กรุณาสร้างกุญแจตอนนี้",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "إستيراد مفتاح",
+        "message": "นำเข้ากุญแจ",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "هل لديك زوج مفاتيح على جهازٍ آخر؟ يمكنك إستيراد مفاتيحك الموجودة. فقط قم بتصدير زوج المفاتيح من الجهاز الآخر ثم قم بإستيرادهما هنا.",
+        "message": "คุณมีคู่กุญแจบนอุปกรณ์อื่นแล้วหรือไม่ คุณสามารถนำเข้ากุญแจที่มีอยู่แล้วได้ เพียงแค่นำออกคู่กุญแจจากอุปกรณ์อื่น แล้วนำเข้ากุญแจนั้นๆ บนอุปกรณ์นี้",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "من الضروري وجود مفتاحَين لتعمية الرسائل وفك تعميتها، وكذا دعوة جهات اتصالك للتواصل من طرف إلى طرف بشكل مُعمَّى.",
+        "message": "คู่กุญแจเป็นสิ่งจำเป็นในการเข้ารหัสลับและถอดรหัสลับของข้อความ ไปจนถึงการเชิญผู้ติดต่อของคุณให้ใช้การเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "حافظة المفاتيح هذه لا تتضمن حتى الآن زوج مفاتيح.",
+        "message": "ห่วงกุญแจยังไม่มีคู่กุญแจ",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "مصادر إضافية للمفاتيح",
+        "message": "แหล่งข้อมูลกุญแจเพิ่มเติม",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "استخدم المفاتيح انطلاقا من ترويسات Autocrypt بالنسبة للرسائل الإلكترونية الواردة.",
+        "message": "ใช้กุญแจจากส่วนหัวของ AutoCrypt สำหรับอีเมลที่เข้ามา",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_tofu_lookup": {
-        "message": "استخدم خادم المفاتيح Mailvelope",
+        "message": "ใช้เซิร์ฟเวอร์กุญแจของ Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_key_binding_header": {
-        "message": "كشاف مفتاح",
+        "message": "Key Detection",
         "description": "Header for key binding feature"
     },
     "keyserver_key_binding_label": {
-        "message": "تحديد المفاتيح الحالية لجهات الاتصال ثم تنفيذ اختيار المفاتيح تلقائيا",
+        "message": "Determine current key of contacts and perform key selection automatically",
         "description": "Label for key binding feature"
     },
     "keyserver_oks_lookup": {
-        "message": "البحث تلقائيا عن المفاتيح في <0>keys.openpgp.org</0>",
+        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
     },
     "keyserver_verifying_servers": {
-        "message": "التحقق من خادم المفاتيح بواسطة رسالة إلكترونية",
+        "message": "Key server with email verification",
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
-        "message": "طلب المفاتيح من مزود البريد الإلكتروني للمُستلِمين (دليل المفاتيح)",
+        "message": "กุญแจ Query จากผู้ให้บริการอีเมลของผู้รับ (ไดเรกทอรีกุญแจเว็บ)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
-        "message": "أضف",
+        "message": "เพิ่มใหม่",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "أضف مُعرِّف مستخدم جديد",
+        "message": "เพิ่มเลขประจำตัวผู้ใช้ใหม่",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
-        "message": "خادم المفاتيح",
+        "message": "กุญแจเซิร์ฟเวอร์",
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "غير مُزامَن",
+        "message": "ยังไม่ประสานรวม",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
-        "message": "مُزامَن",
+        "message": "ประสานรวมแล้ว",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "غير متحقق منه",
+        "message": "ยังไม่ได้ตรวจยืนยัน",
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "مُعرِّفات المستخدمين المخصصة لهم",
+        "message": "กำหนดเลขประจำตัวผู้ใช้",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
-        "message": "أعرف أكثر",
+        "message": "เรียนรู้เพิ่มเติม",
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "لم يجد المفتاح السري في هذه الرسالة. مُعرِّفات المفاتيح السرية المطلوبة : $1",
+        "message": "ไม่พบกุญแจส่วนตัวสำหรับข้อความนี้ เลขประจำตัวของกุญแจส่วนตัวที่ต้องการคือ $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "لم يتمكن من فك تشفير هذه الرسالة: $1",
+        "message": "ข้อความที่ไม่สามารถถอดรหัสลับได้คือ $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "عنوان البريد الإلكتروني مستعمل مسبقا",
+        "message": "ที่อยู่อีเมลนี้ถูกใช้แล้ว",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "يُرجى إدخال اسم",
+        "message": "กรุณาใส่ชื่อ",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
-        "message": "حُفظ النص في الحافظة.",
+        "message": "Text has been copied to clipboard.",
         "description": "Copy to clipboard toast message."
     },
     "options_docu": {
-        "message": "الدليل",
+        "message": "คู่มือการใช้",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "خيارات",
+        "message": "ตัวเลือก",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "الإعدادات",
+        "message": "การตั้งค่า",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "خيارات Mailvelope",
+        "message": "ตัวเลือกของ Mailvelope",
         "description": "Title of options page."
     },
     "preferred": {
-        "message": "تم تفضيل",
+        "message": "ที่ต้องการ",
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
-        "message": "التصريحات",
+        "message": "Authorizations",
         "description": "Authorizations"
     },
     "provider_gmail_auth_cancel_btn": {
-        "message": "ألغ التصريح",
+        "message": "Cancel authorization",
         "description": "Cancel authorization button"
     },
     "provider_gmail_auth_readonly": {
-        "message": "اقرأ الرسالة",
+        "message": "read email",
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "أرسل الرسالة",
+        "message": "send email",
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
-        "message": "صلاحيات واجهة برمجة تطبيقات Google",
+        "message": "Google API Authorizations",
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "لِج بواسطة Google",
+        "message": "Sign in with Google",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
-        "message": "لاستخدام اندماج Gmail بالنسبة لـ <0></0>، يجب منح Mailvelope هذه الصلاحيات :",
+        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_auth_outro": {
-        "message": "إذا ضغطت على زر الولوج، ستظهر نافذة تصريح استخدام خدمات Google، عليك بتحديد حساب Gmail بالنسبة عنوان البريد الإلكتروني <0></0> ثم اتباع التعليمات.",
+        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_description": {
-        "message": "استخدم واجهة برمجة تطبيقات Gmail لتمديد وظائف Mailvelope بواسطة Gmail والتي تسهِّل إرسال وقراءة الرسائل الإلكترونية والمرفقات المُعمَّاة.",
+        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "إن هذه الميزة متاحة مجانا لحسابات ‍‍‍‍‍‍‍‍Gmail. إذا كنت ضمن منظمة تستخدم G Suite (<0>‏gsuite.google.com</0>)، من الضروري عليك شراء ترخيص الاستخدام عبر <1>صفحة منتجات Mailvelope</1>.",
+        "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "يُرجى الاطلاع على سياسة خصوصيتنا",
+        "message": "Please read our Privacy Policy",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
-        "message": "باستخدام واجهة برمجة تطبيقات Gmail",
+        "message": "Using the Gmail API",
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "اندماج واجهة برمجة تطبيقات Gmail",
+        "message": "Gmail API Integration",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "يحتاج Mailvelope لصلاحيات إضافية للوصول إلى واجهة برمجة تطبيقات Gmail. سيتم إرشادك لذلك عبر عملية الحصول على التصريح، طالما تستخدم وظائف تعمية Mailvelope في Gmail. يتطلب منك هذا الأمر الولوج إلى حسابك في Google.",
+        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "غير مسموع لـ Gmail بواسطة نمط البحث هذا <0></0>. يُرجى التحقق من الإعدادات في <1></1>.",
+        "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "التواصل بأمان عالميا مع المنظمات",
+        "message": "Communicating securely with organizations worldwide",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "مستخدم كل شهر",
+        "message": "per user/month",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "الاستمرار بدون واجهة برمجة تطبيقات Gmail",
+        "message": "Continue without Gmail API",
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "استخدم واجهة برمجة تطبيقات Gmail مع G Suite للمنظمات، والتي <0>تخضع للرسوم</0>.",
+        "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
-        "message": "يمكنك الاستمرار في الاستخدام المجاني لـ Mailvelope مع Gmail، لكن بوجود <0>واجهة برمجة تطبيقاتك، سيكون سير عملك</0><1>أسرع وأيسر</1> عند كتابة أو قراءة رسائلك ومرفقاتك المُعمَّاة.",
+        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API, your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "اختبار Mailvelope للأعمال لمدة<0>14 يوما مجانا</0>، باستخدام واجهة برمجة تطبيقات Gmail :",
+        "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
-        "message": "اختبار واجهة برمجة تطبيقات Gmail مجانا",
+        "message": "Test Gmail API for free",
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "ترخيص استخدام Mailvelope للأعمال ضروري",
+        "message": "Mailvelope Business license required",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "إن ترخيص استخدام واجهة برمجة تطبيقات ‍‍‍‍‍‍‍‍Gmail عند استعمالك G Suite (<0>‏gsuite.google.com</0>)، يمكن شراؤه عبر <1>صفحة منتجات Mailvelope</1>.",
+        "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "ترخيص Mailvelope",
+        "message": "Mailvelope License",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
-        "message": "تمرير آمن",
+        "message": "Secure forward",
         "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
-        "message": "رد آمن للجميع",
+        "message": "Secure reply all",
         "description": "Secure reply all button title/tooltip"
     },
     "provider_gmail_secure_reply_btn": {
-        "message": "رد آمن",
+        "message": "Secure reply",
         "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "تذكر كلمة السر مؤقتا",
+        "message": "จดจำรหัสผ่านชั่วคราว",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "تم إلغاء فتح قفل المفاتيح.",
+        "message": "การปลดล็อคกุญแจถูกยกเลิก",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "أدخل كلمة سر المفتاح",
+        "message": "กรอกรหัสผ่านกุญแจ",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "يُرجى إدخال كلمة السر",
+        "message": "กรุณากรอกรหัสผ่านของคุณ",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "يُرجى إدخال كلمة سر مفتاحك لإنشاء مُعرِّف المستخدم.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจเพื่อสร้างเลขประจำตัวผู้ใช้",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "الرجاء إدخال كلمة السر الخاصة بمفتاحك لإنشاء ورقة إستعادة.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจของคุณเพื่อสร้างเอกสารการกู้คืนข้อมูล",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "أدخل كلمة سر المفتاح لحفظ المسودة.",
+        "message": "กรอกรหัสผ่านกุญแจเพื่อบันทึกร่างข้อความ",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "الرجاء إدخال كلمة السر الخاصة بمفتاحك لفك تشفير هذه الرسالة.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจของคุณเพื่อถอดรหัสลับข้อความนี้",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "الرجاء إدخال كلمة السر الخاصة بمفتاحك لتحديث إعدادات الاتصالات المشفرة.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจของคุณเพื่ออัปเดตการตั้งค่าสำหรับการสื่อสารที่เข้ารหัสลับแล้ว",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "يُرجى إدخال كلمة السر لإبطال هذا المفتاح.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจของคุณเพื่อยกเลิกกุญแจอันนี้",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "يُرجى إدخال كلمة السر لإبطال مُعرِّف المستخدم.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจของคุณเพื่อยกเลิกเลขประจำตัวผู้ใช้",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "يُرجى إدخال كلمة السر لتحديد تاريخ جديد لانتهاء الصلاحية لهذا المفتاح.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจของคุณเพื่อตั้งวันหมดอายุของกุญแจ",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "الرجاء إدخال كلمة السر الخاصة بمفتاحك لتوقيع هذه الرسالة.",
+        "message": "กรุณากรอกรหัสผ่านกุญแจของคุณเพื่อเซ็นข้อความนี้",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "أدخِل كلمة سر | Mailvelope",
+        "message": "กรุณากรอกรหัสผ่าน | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "مُعرِّف المستخدم :",
+        "message": "เลขประจำตัวผู้ใช้ คือ",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "كلمة السر غير صحيحة",
+        "message": "รหัสผ่านผิด",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "نسخة احتياطية من بياناتك",
+        "message": "สำรองข้อมูลของคุณ",
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "إن شئت حفظ بياناتك محليا بشكل حصري في حاسوبك، يمكنك العثور على هذا الخيار في إعدادات الاتصالات المُعمَّاة لحسابك $1.",
+        "message": "If you would like to exclusively save your data locally on your computer, you will find this option in the encrypted communication settings of your $1 account. ",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "للحفظ الاحتياطي للبيانات المهمة للاتصالات المُعمَّاة (مثلا، كلمة سر المفتاح)، ستُحفَظ تلك البيانات بشكل مُعمَّى في $1 خوادمنا بواسطة شركاء أمان Mailvelope.",
+        "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "الرجاء كن على علم",
+        "message": "กรุณาระมัดระวัง",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "يُرجى التحقق من إعدادات حسابك في :",
+        "message": "กรุณาตรวจสอบการตั้งค่าในบัญชีของคุณด้านล่าง",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "تاريخ الإنشاء:",
+        "message": "วันที่สร้าง คือ",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "من دون نسخ احتياطي، لن يتم فك تعمية الرسائل المُعمَّاة مرة أخرى في حال ضياع كلمة سرك أو في حال وقوع خلل في عتادك أو في حال وقوع مشاكل مع امتداد متصفحك !",
+        "message": "ถ้าไม่มีการสำรองข้อมูล ข้อความที่เข้ารหัสแล้วจะไม่สามารถถูกถอดรหัสลับได้อีกครั้งถ้าคุณลืมรหัสผ่านกุญแจหรือในกรณีที่อุปกรณ์ชำรุดหรือมีปัญหากับโปรแกรมเสริมเบราว์เซอร์",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "اقتراحات الاتصالات المُعمَّاة مع $1",
+        "message": "Hints for encrypted communication with $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "للتثبيت على حواسب أخرى، أدخل رمز الاستعادة في الإعدادات فوق : ",
+        "message": "สำหรับการติดตั้งในคอมพิวเตอร์เครื่องอื่น ต้องกรอกรหัสกู้คืนข้อมูลได้ที่",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "إن اتصال المُعمَّى مع $1 يوافق الإجراءات المعتمدة على PGP. إنها تمكّنك من إرسال الرسائل الإلكترونية المُعمَّاة، وفي نفس الوقت، تضمن لك ولمتلقي الرسالة القدرة على قراءتها.",
+        "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "بسبب مشاكل في إضافات المتصفح",
+        "message": "เพราะปัญหาของโปรแกรมเสริมเบราว์เซอร์",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "لأنك نسيت كلمة السر الخاصة بمفتاحك",
+        "message": "เพราะว่าคุณลืมรหัสผ่านเข้าสู่กุญแจของคุณ",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "يمكنك العثور على المزيد من خيارات المعلومات والإعدادات في حسابك $1 هنا",
+        "message": "You can find more information and setting options in your $1 account under",
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "معلومات مهمة!",
+        "message": "ข้อมูลสำคัญ",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "بشكل عام، مهم",
+        "message": "โดยทั่วไปแล้ว เป็นสิ่งสำคัญ",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "في إعدادات اتصالاتك المُعمَّاة في حسابك $1، لديك إمكانية دعوة جهات اتصال إضافية لاستخدام الاتصال المُعمَّى بواسطة PGP. يمكن التعرف على جهات الاتصال التي تمت دعوتها بالفعل بنجاح من خلال رمز القفل الموجود بجوار عنوان البريد الإلكتروني.",
+        "message": "In your encrypted communication settings of your $1 account, you have the possibility to invite additional contacts to use encrypted communication via PGP. Contacts that have already been invited successfully can be recognized by the padlock icon next to the email address. ",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "اخزن طباعة لهذه الوثيقة في مكان آمن ثم تأكد من عدم وجود أي شخص لديه إمكانية الوصول لوضع الاستعادة.",
+        "message": "เก็บเอกสารที่พิมพ์ออกมาในสถานที่ปลอดภัย และตรวจสอบให้แน่ใจว่าไม่มีใครคนอื่นสามารถเข้าถึงรหัสกู้คืนข้อมูลนี้ได้",
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "يمكن العثور على $1 مستخدمين آخرين، الذين يستخدمون إجراءات PGP الخاصة بـ GMX مباشرة في دليل مركزي في حسابك $1. إذا كنت لا تريد أن يكون لديك أي مُدخلات في هذا الدليل، يُرجى إلغاء تنشيط هذه الوظيفة في إعدادات حسابك $1.",
+        "message": "Other $1 users who are using the PGP procedure of GMX can be directly found in a central directory in your $1 account. If you do not want to have any entries in this directory, please deactivate this function in your $1 account settings.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "على الهواتف المحمولة",
+        "message": "บนอุปกรณ์เคลื่อนที่",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "إذا لم تعد تعمل اتصالاتك المُعمَّاة، مثلا :",
+        "message": "ถ้าการสื่อสารแบบเข้ารหัสลับแล้วของคุณไม่สามารถทำงานได้ เช่น",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "على كمبيوتر آخر",
+        "message": "บนคอมพิวเตอร์เครื่องอื่น",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "الإتصالات المشفرة مع جهات إتصال أخرى",
+        "message": "การสื่อสารที่เข้ารหัสลับแล้วกับผู้อื่น",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "الإتصالات المشفرة على أجهزة أخرى",
+        "message": "เข้ารหัสลับการสื่อสารบนอุปกรณ์อื่น",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "إعداد اتصال مشفر على أجهزة أخرى",
+        "message": "ติดตั้งการสื่อสารแบบเข้ารหัสลับบนอุปกรณ์อื่น",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "لأسباب أخرى",
+        "message": "สำหรับเหตุผลอื่น",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "يمكنك التواصل بشكل آمن مع جهات إتصال أخرى إذا كانوا أيضاً يستخدمون الاتصالات المشفرة (PGP).",
+        "message": "คุณสามารถสื่อสารอย่างปลอดภัยกับคนอื่น ถ้าพวกเขาใช้การสื่อสารที่เข้ารหัสแล้ว (PGP) เหมือนกัน",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "الرجاء تخزين هذه الوثيقة في مكان آمن!",
+        "message": "กรุณาเก็บเอกสารนี้ไว้ในสถานที่ปลอดภัย",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "إطبع",
+        "message": "สั่งพิมพ์",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "الرجاء طباعة هذه الوثيقة وتخزينها في مكان آمن!",
+        "message": "กรุณาสั่งพิมพ์เอกสารนี้และเก็บไว้ในสถานที่ปลอดภัย",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "إتصالات مشفرة",
+        "message": "การสื่อสารที่เข้ารหัสลับแล้ว",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "البريد الوارد",
+        "message": "กล่องข้อความ",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "الأمان",
+        "message": "ความปลอดภัย",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "الإعدادات",
+        "message": "การตั้งค่า",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "إمسح رمز الباركود بواسطة هاتفك المحمول.",
+        "message": "สแกน QR code ด้วยอุปกรณ์เคลื่อนที่ของคุณ",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "توصية",
+        "message": "คำแนะนำ",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "إستعادة البيانات",
+        "message": "กำลังกู้คืนข้อมูล",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "رمز الإستعادة",
+        "message": "รหัสกู้คืนข้อมูล",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "ورقة الإستعادة للاتصال المشفر",
+        "message": "เอกสารกู้คืนข้อมูลสำหรับการสื่อสารที่เข้ารหัสลับแล้ว",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "إستعادة الإتصالات المشفرة",
+        "message": "กู้คืนข้อมูลการสื่อสารที่เข้ารหัสลับแล้ว",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "مع جهات اتصالك في GMX، يمكنك التأكد من أن المستخدمين المعروضين هم في الواقع مستخدمون حقيقيون. ومع ذلك، يجب عليك دائما التحقق من هوية جهات الاتصال، وذلك باستخدام عنوان بريد إلكتروني من مزود بريد إلكتروني آخر.",
+        "message": "ด้วยรายชื่อผู้ติดต่อบน GMX คุณสามารถมั่นใจได้ว่าผู้ใช้ที่ถูกแสดงเป็นผู้ใช้ที่ถูกต้อง อย่างไรก็ตาม คุณควรตรวจยืนยันและยืนยันตัวตนด้วยที่อยู่อีเมลจากผู้ให้บริการอีเมลของอีกฝ่ายเสมอ",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "قم فقط بتنصيب التواصل المشفر على الأجهزة الآمنة التي لا يمكن الوصول إليها من قبل الغرباء.",
+        "message": "เฉพาะอุปกรณ์ที่เข้ารหัสลับบนเครื่องสื่อสารที่ปลอดภัยเท่านั้นที่จะไม่สามารถเข้าถึงข้อมูลได้โดยผู้ที่ไม่ได้รับอนุญาต",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "النسخ الاحتياطي لبياناتك الخاصة يمكن فقط فك تشفيره بمساعدة رمز الاسترداد الموجود على ورقة الاسترداد هذه.",
+        "message": "การสำรองข้อมูลของคุณจะถูกถอดรหัสลับได้ต่อเมื่อมีรหัสกู้คืนข้อมูลจากเอกสารกู้คืนข้อมูลนี้เท่านั้น",
         "description": ""
     },
     "reload_tab": {
-        "message": "يرجى إعادة تحميل الصفحات الحالية حتى تدخل الإعدادات حيز التنفيذ.",
+        "message": "กรุณาโหลดเพจใหม่เพื่อให้การตั้งค่ามีผล",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "أكِّد",
+        "message": "ยืนยัน",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "يُرجى إدخال رمز الاستعادة :",
+        "message": "กรุณาใส่รหัสกู้คืนของคุณ",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "اعرض",
+        "message": "แสดง",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "كلمة سر مفتاحك :",
+        "message": "รหัสผ่านกุญแจของคุณ คือ",
         "description": ""
     },
     "security_background_color_text": {
-        "message": "2. الآن اختر اللون الذي تحبه",
+        "message": "2. Now choose a color that you like",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. اختر الأيقونة التي تحبها",
+        "message": "1. Choose an icon that you like",
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "يتم عرض خلفيتك الأمنية وراء كل بريد إلكتروني مُعمَّى. لجعلها آمنة حقا، يجب عليك تخصيصها. هذه هي الطريقة التي تضمن بها عدم تمكن أي شخص من إعادة بناء واجهة Mailvelope للوصول إلى بياناتك الشخصية.",
+        "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data.",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "تذكر كلمات السر لجلسة التصفح هذه.",
+        "message": "จำรหัสผ่านสำหรับเบราว์เซอร์เซสชั่นนี้",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "يجب أن يكون العدد ضمن نطاق 1-999",
+        "message": "ต้องเป็นตัวเลขระหว่าง 1-999",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "لا.",
+        "message": "ไม่",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "نعم، احفظ في الذاكرة لمدة",
+        "message": "ใช่ เก็บไว้ในหน่วยความจำเพื่อ",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "دقائق",
+        "message": "นาที",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "أين تُعرَض الرسائل التي فُكَّت تعميتها ؟",
+        "message": "แสดงข้อความที่ถอดรหัสลับแล้วที่ไหน",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "في صفحة مزود البريد الإلكتروني.",
+        "message": "บนเพจของผู้ให้บริการอีเมล",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "في نافذة Mailvelope المنبثقة.",
+        "message": "ในหน้าต่าง Mailvelope ที่แยกต่างหาก",
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "اخفِ إصدار وتعليق Mailvelope في الرسائل PGP.",
+        "message": "ซ่อนเวอร์ชันของ Mailvelope และแสดงความคิดเห็นในกลุ่มข้อความ PGP",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
-        "message": "نشاط",
+        "message": "การกระทำ",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "إضافة زر المرفقات المنقور عليه",
+        "message": "ปุ่มแนบเอกสารถูกคลิก",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "نُزِّلت المرفق",
+        "message": "ดาวน์โหลดเอกสารแนบแล้ว",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "اضغط لإنشاء نسخة احتياطية",
+        "message": "การคลิกเพื่อสร้างข้อมูลสำรอง",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "اضغط لاستعادة نسخة احتياطية.",
+        "message": "การคลิกเพื่อกู้คืนข้อมูลสำรอง",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "انسخ في مربع حوار التحقق",
+        "message": "การคัดลอกในหน้าต่างยืนยัน",
         "description": ""
     },
     "security_log_decrypt_ui": {
-        "message": "فك التعمية",
+        "message": "ถอดรหัสลับ",
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "فُكّت تعمية الرسالة بواسطة :  $1",
+        "message": "Message has been decrypted with: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "اضغط على إلغاء في مربع الحوار",
+        "message": "การคลิกปุ่มยกเลิกในหน้าต่าง",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "اضغط على عمِّ في مربع الحوار",
+        "message": "การคลิกปุ่มเข้ารหัสลับในหน้าต่าง",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "اضغط على أكِّد",
+        "message": "การคลิกปุ่มยืนยันในหน้าต่าง",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "اضغط للولوج إلى مربع الحوار",
+        "message": "คลิกเพื่อเซ็นในหน้าต่างข้อความ",
         "description": ""
     },
     "security_log_editor": {
-        "message": "محرر Mailvelope",
+        "message": "Mailvelope Editor",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "الرسالة بعد فك التعمية",
+        "message": "ถอดรหัสลับอีเมล PGP",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "مربع حوار التعمية",
+        "message": "เข้ารหัสลับหน้าต่างข้อความ",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "عمِّ الاستمارة",
+        "message": "เข้ารหัสลับแบบฟอร์ม",
         "description": "Encrypt form as an event source"
     },
     "security_log_encrypt_ui": {
-        "message": "تعمية",
+        "message": "การเข้ารหัสลับ",
         "description": ""
     },
     "security_log_encryption_operation": {
-        "message": "لقد عُمِّيت الرسالة لـ : $1",
+        "message": "การเข้ารหัสลับข้อความสำหรับ $1",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "مربح حوار استيراد المفاتيح",
+        "message": "หน้าต่างเพื่อนำเข้า",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "نسخ المفتاح احتياطيا",
+        "message": "การสำรองข้อมูลกุญแจ",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "مولِّد المفاتيح",
+        "message": "ตัวสร้างกุญแจ",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "اضغط على مربع حوار كلمة السر",
+        "message": "คลิกในหน้าต่างของรหัสผ่าน",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "مربع حوار كلمة السر",
+        "message": "หน้าต่างของรหัสผ่าน",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "أدخل في مربع الحوار كلمة السر",
+        "message": "กรอกในหน้าต่างข้อความของรหัสผ่าน",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "أُزيل المرفق",
+        "message": "เอกสารแนบถูกลบแล้ว",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "اضغط على مربع حوار استعادة نسخة الاحتياط",
+        "message": "คลิกเพื่อกู้คืนหน้าต่างข้อความสำรอง",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "وُقعت الرسالة بواسطة المفتاح :  $1",
+        "message": "ข้อความนี้เซ็นด้วยกุญแจ $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "اضغط لإغلاق مربع الحوار التوقيع",
+        "message": "คลิกเพื่อปิดหน้าต่างข้อความของลายเซ็น",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "اضغط لفتح مربع الحوار التوقيع",
+        "message": "คลิกเพื่อเปิดหน้าต่างข้อความของลายเซ็น",
         "description": ""
     },
     "security_log_source": {
-        "message": "المصدر",
+        "message": "แหล่งข้อมูล",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "يظهر سجل الأمان نشاط المستخدم في جميع مكونات Mailvelope.",
+        "message": "ล็อกความปลอดภัยแสดงผลกิจกรรมของผู้ใช้จากทุกส่วนของ Mailvelope",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "أدخل في خانة النص",
+        "message": "อินพุทในบรรทัด",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "اضغط داخل خانة النص",
+        "message": "คลิกในพื้นที่ตัวอักษร",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "اكتب في خانة النصوص",
+        "message": "กรอกในพื้นที่ตัวอักษร",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "التحديد في خانة النصوص",
+        "message": "การเลือกในพื้นที่ตัวอักษร",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "التوقيت الزمني",
+        "message": "ตราประทับเวลา",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "تأكيد الحوار",
+        "message": "ยืนยันหน้าต่างข้อความ",
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "عارض Mailvelope",
+        "message": "Mailvelope Viewer",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {
-        "message": "إعدادات  OpenPGP",
+        "message": "การตั้งค่า OpenPGP",
         "description": "OpenPGP settings header"
     },
     "settings_analytics": {
-        "message": "إحصائيات",
+        "message": "Analytics",
         "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
-        "message": "النسخ الاحتياطي",
+        "message": "สำรอง",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "عام",
+        "message": "ทั่วไป",
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "مجلدات المفاتيح",
+        "message": "Key Directories",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "واجهة برمجة تطبيقات Gmail",
+        "message": "Gmail API",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
-        "message": "الأمان",
+        "message": "ความปลอดภัย",
         "description": "Tab of options to display security settings."
     },
     "settings_security_background": {
-        "message": "خلفية الأمان",
+        "message": "พื้นหลังเพื่อความปลอดภัย",
         "description": "Security background header"
     },
     "settings_security_log": {
-        "message": "سجل الأمان",
+        "message": "ล็อกความปลอดภัย",
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "النطاقات المأذون له",
+        "message": "โดเมนที่ได้รับอนุญาต",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "وقع الرسالة الكترونيا بصفة:",
+        "message": "Sign message as:",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "لم يتمكن من توقيع هذه الرسالة :  $1",
+        "message": "ไม่สามารถเซ็นข้อความนี้ $1",
         "description": "Error during signing process."
     },
     "signer_unknown": {
-        "message": "غير معروف",
+        "message": "ไม่ทราบ",
         "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
-        "message": "فك التعمية",
+        "message": "ถอดรหัสลับ",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "فك التعمية النص",
+        "message": "การถอดรหัสลับของข้อความ",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "تعمية النص",
+        "message": "การเข้ารหัสลับของข้อความ",
         "description": "Navigation link to text encryption feature"
     },
     "upload_aborting_warning": {
-        "message": "سيُجهَض تحميل المرفق.",
+        "message": "การอัปโหลดไฟล์จะถูกยกเลิก",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "اضف ملف",
+        "message": "เพิ่มไฟล์",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
-        "message": "ألقِ الملف في هذه المساحة لإرفاقه",
+        "message": "Drop the file in this area to attach it",
         "description": "Text in file drop overlay area"
     },
     "upload_help": {
-        "message": "اسحب الملف إلى هذه النافذة أو",
+        "message": "Drag file to this window or",
         "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
-        "message": "حجم المرفق المسموح به:",
+        "message": "ขนาดเอกสารแนบที่อนุญาตคือ",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "المرفق كبير جدًا",
+        "message": "ขนาดเอกสารแนบใหญ่เกินไป",
         "description": ""
     },
     "user_create_btn": {
-        "message": "إنشاء",
+        "message": "สร้าง",
         "description": "Create user button label"
     },
     "user_create_title": {
-        "message": "أنشيء معرِّف المستخدم",
+        "message": "สร้างบัญชีผู้ใช้",
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "معرِّف المستخدم غير متزامن مع خادم مفاتيح Mailvelope",
+        "message": "บัญชีผู้ใช้นี้ไม่เชื่อมต่อกับเซิร์ฟเวอร์กุญแจของ Mailvelope",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "لقد أُرسِلت رسالة تأكيد إلى  $1 للإزالة النهائية من خادم مفاتيح Mailvelope.",
+        "message": "สำหรับการยกเลิกขั้นสุดท้ายจากเซิร์ฟเวอร์กุญแจของ Mailvelope อีเมลยืนยันได้ถูกส่งไปที่ $1",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "أزل معرِّف المستخدم",
+        "message": "ลบบัญชีผู้ใช้",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "أعد إرسال التأكيد",
+        "message": "ส่งคำยืนยันอีกครั้ง",
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "تمت مزامنة مُعرِّف المستخدم مع خادم مفاتيح Mailvelope.",
+        "message": "บัญชีผู้ใช้นี้เชื่อมอยู่กับเซิร์ฟเวอร์กุญแจของ Mailvelope ",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "يُرجى تأكيد معرِّف المستخدم لمزامنته مع خادم مفاتيح Mailvelope.",
+        "message": "กรุณายืนยันบัญชีผู้ใช้เพื่อเชื่อมต่อกับเซิร์ฟเวอร์กุญแจของ Mailvelope",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "لقد تم إرسال رسالة تأكيد إلى $1 للمزامنة مع خادم مفاتيح Mailvelope.",
+        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
-        "message": "حذف",
+        "message": "ลบออก",
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "أزل معرِّف المستخدم",
+        "message": "ลบบัญชีผู้ใช้",
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "ألديك الرغبة في إزالة مُعرِّف هذا المستخدم من مفتاحك ؟",
+        "message": "คุณต้องการลบบัญชีนี้ออกจากกุญแจของคุณหรือไม่",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "لقد أُزيل مُعرٍّف المستخدم أيضا من خادم مفاتيح Mailvelope.",
+        "message": "บัญชีผู้ใช้จะถูกลบออกจาก Mailvelope เซิร์ฟเวอร์เช่นกัน",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
-        "message": "أزل معرِّف المستخدم",
+        "message": "ลบบัญชีผู้ใช้",
         "description": "Title of remove user dialog."
     },
     "user_revoke_btn": {
-        "message": "أبطِلْ",
+        "message": "ยกเลิก",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "أبطِلْ معرِّف المستخدم",
+        "message": "ยกเลิกบัญชีผู้ใช้",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "هل تود رغم ذلك إبطاله ؟",
+        "message": "คุณยังต้องการยกเลิกหรือไม่",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "بعد الإبطال، سيصبح معرِّف المستخدم لهذا المفتاح غير قابل للاستخدام بشكل نهائي.",
+        "message": "หลังจากทำการยกเลิก บัญชีผู้ใช้สำหรับกุญแจนี้จะไม่สามารถใช้งานได้อย่างถาวร ",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "أبطِلْ معرِّف المستخدم",
+        "message": "ยกเลิกบัญชีผู้ใช้",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
-        "message": "معرِّف المستخدم",
+        "message": "บัญชีผู้ใช้",
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "صحة التوقيعات",
+        "message": "การตรวจยืนยัน",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "لم يتمكن من التحقق من هذه الرسالة : $1",
+        "message": "ไม่สามารถตรวจยืนยันข้อความนี้ได้ $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "اضغط للتحقق من التوقيع",
+        "message": "Click to verify signature",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "فشل فك التعمية.",
+        "message": "Decryption failed.",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {
-        "message": "إضافة إدخال جديد",
+        "message": "เพิ่มข้อมูลใหม่",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "تحرير",
+        "message": "แก้ไข",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "هل ترغب/ين حقّا في إزالة هذا الموقع من قائمة النطاقات المسموح بها؟",
+        "message": "คุณต้องการลบเว็บไซต์นี้ออกจากโดเมนที่ได้รับอนุญาตหรือไม่",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -2228,39 +2228,39 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "النطاق المصرح به",
+        "message": "โดเมนที่ได้รับอนุญาต",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_remove_dialog_title": {
-        "message": "أزل النطاق",
+        "message": "Remove domain",
         "description": "Title of delete watchlist dialog."
     },
     "watchlist_title_active": {
-        "message": "مفعل",
+        "message": "เปิดใช้งาน",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "نمط النطاق",
+        "message": "รูปแบบโดเมน",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "HTTPS فقط",
+        "message": "เฉพาะ HTTPS ",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "مفعل",
+        "message": "เปิดใช้งาน",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "الموقع",
+        "message": "เว็บไซต์",
         "description": "Site in watchlist."
     },
     "word_or": {
-        "message": "أو",
+        "message": "หรือ",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "رمز الاسترجاع غير صالح",
+        "message": "รหัสกู้คืนไม่ถูกต้อง",
         "description": ""
     }
 }
