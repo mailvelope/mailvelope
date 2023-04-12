@@ -107,7 +107,7 @@ export default class KeyringBase {
                 continue;
               }
               // check for duplicates
-              if (keyData.users.some(existingUser => existingUser.userID === user.userID)) {
+              if (keyData.users.some(existingUser => existingUser.userId === user.userId)) {
                 continue;
               }
               keyData.users.push(user);
