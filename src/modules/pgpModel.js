@@ -70,7 +70,8 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
       const unknownSig = signatures.find(sig => sig.valid === null);
       if (unknownSig) {
         // if local key existed, but unknown signature, we try key discovery
-        await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey, keyId: keyIDfromHex(unknownSig.keyId)});
+        const keyId = keyIDfromHex(unknownSig.keyId ?? unknownSig.fingerprint.slice(-16));
+        await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey, keyId});
       }
     }
     // collect fingerprints or keyIds of signatures
