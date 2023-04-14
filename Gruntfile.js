@@ -57,12 +57,6 @@ module.exports = function(grunt) {
           },
           {
             expand: true,
-            cwd: 'node_modules/qrcodejs/',
-            src: 'qrcode.js',
-            dest: 'build/tmp/dep/qrcodejs/'
-          },
-          {
-            expand: true,
             cwd: 'node_modules/angular/',
             src: ['angular.min.js', 'angular-csp.css'],
             dest: 'build/tmp/dep/angular/'

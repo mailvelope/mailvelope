@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
 import EventHandler from '../../lib/EventHandler';
 import SecurityBG from '../util/SecurityBG';
+import {QRCodeCanvas} from 'qrcode.react';
 
 import './recoverySheet.css';
 
@@ -66,20 +67,8 @@ export default class RecoverySheet extends React.Component {
   }
 
   registerEventListeners() {
-    this.port.on('set-backup-code', ({backupCode}) => this.setBackupCode(backupCode));
+    this.port.on('set-backup-code', ({backupCode}) => this.setState({backupCode}, this.port.emit('backup-code-window-init')));
     this.port.on('set-logo-image', ({image}) => this.setState({logoDataUrl: image}));
-  }
-
-  setBackupCode(code) {
-    new QRCode(this.qrCode, {// eslint-disable-line no-undef
-      text: code,
-      width: 175,
-      height: 175,
-      colorDark: '#000000',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.H // eslint-disable-line no-undef
-    });
-    this.setState({backupCode: code}, this.port.emit('backup-code-window-init'));
   }
 
   setBrand(brandId) {
@@ -189,7 +178,7 @@ export default class RecoverySheet extends React.Component {
                   </div>
                   <div className="recovery-sheet_devices-split-content">
                     <p>{l10n.map.recovery_sheet_qr_code}</p>
-                    <div id="qrcode" ref={ref => this.qrCode = ref}></div>
+                    <QRCodeCanvas value={this.state.backupCode} size={175} level="H" title={this.state.backupCode} />
                   </div>
                 </div>
               </div>
