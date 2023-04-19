@@ -1,6 +1,14 @@
 Mailvelope Changelog
 ====================
 
+v5.0.1
+-------
+__Apr 19, 2023__
+
+  * Replace QR code library
+  * Fix showing only first email address of key in recipient selection of Mailvelope editor
+  * Fix unknown signature has fingerprint instead keyId (GnuPG backend)
+
 v5.0.0
 -------
 __Apr 2, 2023__

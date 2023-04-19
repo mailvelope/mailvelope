@@ -59,7 +59,7 @@ describe('keyring unit tests', () => {
   describe('getKeyData', () => {
     it('Should get user id, key id, fingerprint, email and name for all keys in the preferred keyring queue', async () => {
       const keyData = await getKeyData(MAIN_KEYRING_ID);
-      expect(keyData.length).to.equal(3);
+      expect(keyData.length).to.equal(4);
       expect(keyData.some(({name}) => name === 'Madita Bernstone'));
     });
   });
