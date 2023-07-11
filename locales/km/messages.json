@@ -60,7 +60,7 @@
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_new_bg_description": {
-        "message": "The last update of Mailvelope requires you to reconfigure your security background.",
+        "message": "បច្ចុប្បន្នភាពចុងក្រោយរបស់ Mailvelope តម្រូវឱ្យអ្នកកំណត់រចនាសម្ព័ន្ធផ្ទៃខាងក្រោយនៃសុវត្ថិភាពរបស់អ្នកឡើងវិញ។",
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
@@ -76,7 +76,7 @@
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Please note:",
+        "message": "សូមចំណាំ៖",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
@@ -88,7 +88,7 @@
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Domain match pattern is [*.]host.name.tld[:port].",
+        "message": "លំនាំផ្គូផ្គងដូមែនគឺ [*.]host.name.tld[:port]។",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
@@ -96,7 +96,7 @@
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
-        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "message": "ចែករំលែកព័ត៌មានស្ថិតិវិភាគដែលបានផ្គុំគ្នា និងអនាមិកជាមួយ Mailvelope",
         "description": "Consent to share analytics information with mailvelope"
     },
     "auth_domain_api_label": {
@@ -148,7 +148,7 @@
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Decrypted files",
+        "message": "ឯកសារដែលបានដោះកូដសាររួច",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
@@ -172,7 +172,7 @@
         "description": "Digital signature unknown short info message"
     },
     "decrypt_file_error_header": {
-        "message": "Decryption of file $1 is not possible.",
+        "message": "ការដោះកូដសារឯកសារ $1 គឺមិនអាចធ្វើបានទេ។",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
@@ -212,7 +212,7 @@
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Decryption of the text is not possible.",
+        "message": "ការដោះកូដសារអត្ថបទ គឺមិនអាចធ្វើបានទេ។",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
@@ -248,11 +248,11 @@
         "description": ""
     },
     "editor_extra_key_checkbox": {
-        "message": "Add extra key",
+        "message": "បន្ថែមសោច្រើនទៀត",
         "description": "Extra key checkbox label."
     },
     "editor_extra_key_help": {
-        "message": "Email will be encrypted with this additional key",
+        "message": "អ៊ីមែលនឹងត្រូវបានបំប្លែងកូដដោយប្រើសោបន្ថែមទៀតនេះ",
         "description": "Extra key help text."
     },
     "editor_header": {
@@ -268,7 +268,7 @@
         "description": "Test for auto sign link."
     },
     "editor_key_has_extra_msg": {
-        "message": "Email will be encrypted with the alternate key entered below.",
+        "message": "អ៊ីមែលនឹងត្រូវបានបំប្លែងកូដដោយប្រើសោផ្សេងទៀតជំនួសដែលបានបញ្ចូលខាងក្រោម។",
         "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
@@ -364,7 +364,7 @@
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Encryption of file $1 is not possible.",
+        "message": "ការបំប្លែងឯកសារ $1 គឺមិនអាចធ្វើបានទេ។",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
@@ -404,7 +404,7 @@
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Encryption of the text is not possible.",
+        "message": "ការ​បំប្លែងអត្ថបទ​មិន​អាច​ធ្វើ​​បាន​ទេ។",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
@@ -540,7 +540,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Sign all outgoing messages.",
+        "message": "ភ្ជាប់ហត្ថលេខាឌីជីថលទៅសារដែលបានផ្ញើចេញទាំងអស់។",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
@@ -576,11 +576,11 @@
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope is not authorized to download attachments. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "Mailvelope មិនបានអនុញ្ញាតឱ្យទាញយកឯកសារភ្ជាប់ទេ។ អ្នកត្រូវផ្តល់ការអនុញ្ញាតឲ្យចូលប្រើ Mailvelope ទៅ Gmail API ដើម្បីប្រើប្រាស់មុខងារនេះជាមុនសិន។",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function.",
+        "message": "Mailvelope មិនបានអនុញ្ញាតឱ្យផ្ញើអ៊ីមែលទេ។ អ្នកត្រូវផ្តល់ការអនុញ្ញាតឲ្យចូលប្រើ Mailvelope ទៅ Gmail API ដើម្បីប្រើប្រាស់មុខងារនេះជាមុនសិន។",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
@@ -612,7 +612,7 @@
         "description": "Install landing page getting started hint"
     },
     "key_default_active_btn_title": {
-        "message": "Key is set as default key",
+        "message": "សោបានកំណត់ជាសោលំនាំដើម",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
@@ -740,19 +740,19 @@
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Keys successfully imported/updated.",
+        "message": "សោបាននាំចូល/បានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ។",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Import keys",
+        "message": "នាំចូលសោនានា",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, this key is transferred to the local keyring:",
+        "message": "បន្ទាប់ពីធ្វើការបញ្ជាក់រួច សោនេះត្រូវផ្ទេរទៅកាន់ចង្កោមសោក្នុងឃ្លាំងផ្ទុកមូលដ្ឋាននេះ៖",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
-        "message": "After confirmation, these keys are transferred to the local keyring:",
+        "message": "បន្ទាប់ពីធ្វើការបញ្ជាក់រួច សោទាំងនេះត្រូវផ្ទេរទៅកាន់ចង្កោមសោក្នុងឃ្លាំងផ្ទុកមូលដ្ឋាន៖",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
@@ -796,7 +796,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
+        "message": "ការព្រមាន៖ សោសម្រាប់បញ្ជីទំនាក់ទំនងនេះបានផុតកំណត់ហើយ។ ការប្រាស្រ័យទាក់ទងដែលបានបំប្លែងកូដជាមួយ $1 គឺមិនអាចប្រើប្រាស់បានទៀតទេ។ អ្នកត្រូវយកសោបច្ចុប្បន្នពីបញ្ជីទំនាក់ទំនងនេះ។",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -836,7 +836,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
-        "message": "Add to keyring",
+        "message": "បន្ថែមទៅកាន់ចង្កោមសោ",
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
@@ -844,11 +844,11 @@
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
-        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
+        "message": "ប្រសិនបើអ្នកបន្តប្រើសោចាស់ អ្នកផ្ញើប្រហែលជាមិនអាចដោះសោសាររបស់អ្នកបានទេ។ ប្រសិនបើអ្នកមានការសង្ស័យ សូមសួរទៅអ្នកផ្ញើឱ្យបញ្ជាក់ពីការផ្លាស់ប្តូរនៅក្នុងបណ្តាញទំនាក់ទំនងផ្សេងទៀត។ អ្នកអាចបន្ថែម ឬលុបសោនៅពេលក្រោយបាន។",
         "description": "Key import dialog description."
     },
     "key_import_rotation_headline": {
-        "message": "The sender signed this message with a new key.",
+        "message": "អ្នកផ្ញើបានចុះហត្ថលេខាលើសារនេះដោយប្រើសោថ្មី។",
         "description": "Key import rotation dialog header."
     },
     "key_import_search_btn": {
@@ -856,39 +856,39 @@
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "Key found in:",
+        "message": "បានរកឃើញសោនៅក្នុង៖",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Source:",
+        "message": "ប្រភព៖",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "last modified on:",
+        "message": "បានកែសម្រួលចុងក្រោយនៅ៖",
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
-        "message": "Search disabled.",
+        "message": "បានបិទការស្វែងរក។",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
-        "message": "Activate at least one key source in the settings.",
+        "message": "យ៉ាងហោចណាស់បើកដំណើការប្រភពសោមួយនៅក្នុងការកំណត់នេះ។",
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "message": "បញ្ចូលអាសយដ្ឋានអ៊ីមែលត្រឹមត្រូវ លេខសម្គាល់សោ (16 ខ្ទង់) ឬស្នាមម្រាមដៃ (40 ខ្ទង់)",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
-        "message": "Key is not available in any of the searched key directories.",
+        "message": "សោមិនមាននៅក្នុងបញ្ជីសោរដែលបានស្វែងរកណាមួយទេ។",
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "No key found.",
+        "message": "រកមិនឃើញសោទេ។",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "Email Address / Key ID / Fingerprint",
+        "message": "អាសយដ្ឋានអ៊ីមែល / លេខសម្គាល់សោ / ស្នាមម្រាមដៃ",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
@@ -904,15 +904,15 @@
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "The key data on the Mailvelope key server is no longer up to date.",
+        "message": "ទិន្នន័យសម្រាប់សោនៅលើម៉ាស៊ីនមេសោ Mailvelope លែងមានបច្ចុប្បន្នភាពទៀតហើយ។",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "The key is not synchronized with the Mailvelope key server.",
+        "message": "សោនេះមិនបានធ្វើសមកាលកម្មជាមួយនឹងម៉ាស៊ីនមេសោ Mailvelope ទេ។",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "A confirmation email was sent to all user IDs for final removal from the Mailvelope key server.",
+        "message": "បានផ្ញើអ៊ីមែលបញ្ជាក់ទៅកាន់លេខសម្គាល់អ្នកប្រើទាំងអស់ដើម្បីដកចេញជាចុងក្រោយពីម៉ាស៊ីនមេសោ Mailvelope។",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
@@ -928,7 +928,7 @@
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "The key data has been updated on the Mailvelope key server.",
+        "message": "ទិន្នន័យសម្រាប់សោបានធ្វើបច្ចុប្បន្នភាពនៅលើម៉ាស៊ីនមេសោ Mailvelope។",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
@@ -936,7 +936,7 @@
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "To synchronize the key with the Mailvelope key server a confirmation email was sent to all user IDs.",
+        "message": "ដើម្បីធ្វើសមកាលកម្មសោជាមួយម៉ាស៊ីនមេសោ Mailvelope នោះនឹងមានផ្ញើអ៊ីមែលបញ្ជាក់ទៅកាន់លេខសម្គាល់អ្នកប្រើទាំងអស់។",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
@@ -968,11 +968,11 @@
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Would you still like to revoke the key?",
+        "message": "តើអ្នកនៅតែចង់បន្តលុបសោនេះចេញមែនទេ?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "With the revocation the key remains permanently unusable.",
+        "message": "ការលុបចោលនេះ នោះសោនេះនឹងមិនអាចប្រើប្រាស់ឡើងវិញបានជារហូត។",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
@@ -992,7 +992,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Create a new recovery sheet here if:",
+        "message": "បង្កើតសន្លឹកស្តារឡើងវិញថ្មីនៅទីនេះ ប្រសិនបើ៖",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1036,7 +1036,7 @@
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "The expiration date is also changed for all subkeys. Invalid subkeys or subkeys that have already expired remain unaffected.",
+        "message": "កាលបរិច្ឆេទផុតកំណត់ក៏បានប្តូរផងដែរសម្រាប់សោរងទាំងអស់។ សោរងមិនត្រឹមត្រូវ ឬសោរងផុតកំណត់ហើយ នៅតែមិនមានឥទ្ធិពលដដែល។",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
@@ -1152,7 +1152,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "Search for public keys in external sources",
+        "message": "ស្វែងរកសោសាធារណៈនៅក្នុងប្រភពខាងក្រៅ",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
@@ -1276,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirm key to import",
+        "message": "បញ្ជាក់ដោយដាកសោដើម្បីនាំចូល",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys to import",
+        "message": "បញ្ជាក់ដោយវាយបញ្ចូលសោ $1 ដើម្បីនាំចូល",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1296,19 +1296,19 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "You can add keys either as file or as text from the clipboard.",
+        "message": "អ្នកអាចបន្ថែមសោបានអាចជាឯកសារ ឬជាអត្ថបទពីឃ្លីបបតនេះ។",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Import Keys",
+        "message": "នាំចូលសោ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
+        "message": "ស្វែងរកសោសាធារណៈដើម្បីបន្ថែមទៅកាន់ចង្កោមសោរបស់អ្នក។ Mailvelope ស្កេនថតឯកសារសំខាន់ៗជាច្រើន ហើយណែនាំសោសាធារណៈ ដែលទំនងជាកំពុងប្រើភាគច្រើនបំផុត។",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "Search for keys",
+        "message": "ស្វែងរកសោ",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
@@ -1364,7 +1364,7 @@
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Use keys from Autocrypt headers of incoming email",
+        "message": "ប្រើប្រាស់សោពីបឋមកថាដែលបានបានបំប្លែងកូដដោយស្វ័យប្រវត្តិនៃអ៊ីមែលផ្ញើចូល",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_tofu_lookup": {
@@ -1372,19 +1372,19 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_key_binding_header": {
-        "message": "Key Detection",
+        "message": "ការរកឃើញសោ",
         "description": "Header for key binding feature"
     },
     "keyserver_key_binding_label": {
-        "message": "Determine current key of contacts and perform key selection automatically",
+        "message": "កំណត់សោបច្ចុប្បន្នសម្រាប់បញ្ជីទំនាក់ទំនង និងធ្វើការជ្រើសរើសសោដោយស្វ័យប្រវត្តិ",
         "description": "Label for key binding feature"
     },
     "keyserver_oks_lookup": {
-        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
+        "message": "ស្វែងរកសោដោយស្វ័យប្រវត្តិនៅលើ <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
     },
     "keyserver_verifying_servers": {
-        "message": "Key server with email verification",
+        "message": "ម៉ាស៊ីនមេសោដោយមានការផ្ទៀងផ្ទាត់អ៊ីមែល",
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
@@ -1436,7 +1436,7 @@
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Please enter a name",
+        "message": "សូមបញ្ចូលឈ្មោះ",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
@@ -1480,43 +1480,43 @@
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
-        "message": "Google API Authorizations",
+        "message": "ការអនុញ្ញាត Google API",
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "Sign in with Google",
+        "message": "ចូលដោយប្រើ Google",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
-        "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:",
+        "message": "ដើម្បីប្រើការរួមបញ្ចូល Gmail សម្រាប់ <0></0> ការអនុញ្ញាតខាងក្រោមត្រូវតែផ្តល់ទៅឱ្យ Mailvelope៖",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_auth_outro": {
-        "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions.",
+        "message": "ប្រសិនបើអ្នកចុចលើប៊ូតុងចូល ផ្ទាំងវីនដូការអនុញ្ញាត Google នឹងបើក។ ជ្រើសរើសគណនី Gmail របស់អ្នកសម្រាប់អាសយដ្ឋានអ៊ីមែល <0></0> ហើយធ្វើតាមការណែនាំ។",
         "description": "Outro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_description": {
-        "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments.",
+        "message": "ការប្រើប្រាស់ Gmail API ដើម្បីបន្ថែមមុខងាររបស់ Mailvelope ជាមួយ Gmail និងសម្រួលទៅដល់ការផ្ញើ និងអានអ៊ីមែល និងឯកសារភ្ជាប់ដែលបានបំប្លែងកូដរួចហើយ។",
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>.",
+        "message": "មុខងារនេះអាចប្រើប្រាស់បានដោយសេរីសម្រាប់គណនី Gmail។ ប្រសិនបើអ្នកបានចូលរួមប្រើប្រាស់ឈុត G Suite (<0>gsuite.google.com</0>) អ្នកចាំបាច់ត្រូវតែទិញអាជ្ញាបណ្ណនៅលើ <1>ទំព័រផលិតផល Mailvelope</1>។",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Please read our Privacy Policy",
+        "message": "សូមអានគោលការណ៍ឯកជនភាពរបស់យើង",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
-        "message": "Using the Gmail API",
+        "message": "ការប្រើប្រាស់ Gmail API",
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API Integration",
+        "message": "ការរួមបញ្ចូល Gmail API",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account.",
+        "message": "Mailvelope តម្រូវឱ្យមានការអនុញ្ញាតបន្ថែម ដើម្បីចូលប្រើប្រាស់ Gmail API ។ នៅពេលណាអ្នកចាប់ផ្តើមប្រើប្រាស់មុខងារបំប្លែងកូដរបស់ Mailvelope ក្នុង Gmail នោះអ្នកនឹងត្រូវណែនាំតាមរយៈដំណើរការអនុញ្ញាត។ ដំណើរការអនុញ្ញាតនេះតម្រូវឱ្យអ្នក ចូល គណនី Google របស់អ្នក។",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
@@ -1524,43 +1524,43 @@
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Communicating securely with organizations worldwide",
+        "message": "ការប្រាស្រ័យទាក់ទងប្រកបដោយសុវត្ថិភាពជាមួយអង្គការនានានៅទូទាំងពិភពលោក",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "per user/month",
+        "message": "សម្រាប់អ្នកប្រើ/ខែ",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Continue without Gmail API",
+        "message": "បន្តដោយមិនមាន Gmail API",
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>.",
+        "message": "ការប្រើប្រាស់ Gmail API នៅក្នុងឈុត G Suite គឺ <0>តម្រូវឲ្យគិតថ្លៃ</0>។",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
-        "message": "You can continue to use Mailvelope with Gmail for free, but <0>with the API, your workflow</0> for writing and reading encrypted emails and their attachments will be <1>much faster and easier</1>.",
+        "message": "អ្នកអាចបន្តប្រើប្រាស់ Mailvelope ជាមួយ Gmail ដោយឥតគិតថ្លៃ ប៉ុន្តែ <0>ជាមួយ API ដំណើរការការងាររបស់អ្នក</0> សម្រាប់ការសរសេរ និងអានអ៊ីមែលដែលបានបំប្លែងកូដហើយ និងឯកសារភ្ជាប់របស់ពួកវានឹង <1>កាន់តែលឿន និងងាយស្រួលជាងមុន</1>។",
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Test Mailvelope Business with activated Gmail API <0>14 days for free</0>:",
+        "message": "សាកល្បង Mailvelope Business ជាមួយ Gmail API ដែលបានបើកដំណើរការ <0>14 ថ្ងៃដោយឥតគិតថ្លៃ</0>៖",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
-        "message": "Test Gmail API for free",
+        "message": "សាកល្បង Gmail API ដោយឥតគិតថ្លៃ",
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Mailvelope Business license required",
+        "message": "តម្រូវឲ្យមានអាជ្ញាបណ្ណអាជីវកម្ម Mailvelope",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>.",
+        "message": "អាជ្ញាបណ្ណនានាសម្រាប់ការប្រើប្រាស់ការរួមបញ្ចូល Gmail-API នៅពេលប្រើប្រាស់ឈុត G Suite (<0>gsuite.google.com</0>) អាចទិញបាននៅលើ <1>ទំព័រផលិតផល Mailvelope</1>។",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "Mailvelope License",
+        "message": "អាជ្ញាបណ្ណ Mailvelope",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
@@ -1592,7 +1592,7 @@
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Please enter your key password to create the user ID.",
+        "message": "សូមបញ្ចូលពាក្យសម្ងាត់នៃសោរបស់អ្នក ដើម្បីបង្កើតលេខសម្គាល់អ្នកប្រើ។",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
@@ -1616,11 +1616,11 @@
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Please enter your key password to revoke the user ID.",
+        "message": "សូមបញ្ចូលពាក្យសម្ងាត់នៃសោរបស់អ្នក ដើម្បីដកចេញលេខសម្គាល់អ្នកប្រើ។",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Please enter your key password to set a new expiration date for the key.",
+        "message": "សូមបញ្ចូលពាក្យសម្ងាត់នៃសោរបស់អ្នក ដើម្បីកំណត់កាលបរិច្ឆេទផុតកំណត់ថ្មីសម្រាប់សោនេះ។",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
@@ -2032,7 +2032,7 @@
         "description": "OpenPGP settings header"
     },
     "settings_analytics": {
-        "message": "Analytics",
+        "message": "ស្ថិតិ​វិភាគ",
         "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
@@ -2044,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Directories",
+        "message": "បញ្ជីសោ",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2124,11 +2124,11 @@
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "The user ID is not synchronized with the Mailvelope key server.",
+        "message": "លេខសម្គាល់អ្នកប្រើមិនបានធ្វើសមកាលកម្មជាមួយម៉ាស៊ីនមេសោ Mailvelope ទេ។",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "សម្រាប់ការដកចេញសោសារធារណៈចេញពីម៉ាស៊ីនមេសោ Mailvelope ជាជាចុងក្រោយ នោះនឹងការផ្ញើអ៊ីមែលបញ្ជាក់ទៅ $1។",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
@@ -2140,15 +2140,15 @@
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "The user ID is synchronized with the Mailvelope key server.",
+        "message": "លេខសម្គាល់អ្នកប្រើបានធ្វើសមកាលកម្មជាមួយម៉ាស៊ីនមេសោ Mailvelope។",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Please confirm the user ID to synchronize it with the Mailvelope key server.",
+        "message": "សូមបញ្ជាក់លេខសម្គាល់អ្នកប្រើដើម្បីធ្វើសមកាលកម្មវាជាមួយម៉ាស៊ីនមេសោ Mailvelope។",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "ដើម្បីធ្វើសមកាលកម្មជាមួយម៉ាស៊ីនមេសោ Mailvelope នោះនឹងមានអ៊ីមែលបានផ្ញើទៅបញ្ជាក់ $1។",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
@@ -2160,11 +2160,11 @@
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Do you want to remove this user ID from your key?",
+        "message": "តើអ្នកចង់លុបចេញលេខសម្គាល់អ្នកប្រើនេះពីសោរបស់អ្នកឬទេ?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "User ID is also removed from the Mailvelope key server.",
+        "message": "ក៏ត្រូវដកចេញលេខសម្គាល់អ្នកប្រើពីម៉ាស៊ីនមេសោ Mailvelope ផងដែរ។",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
@@ -2184,7 +2184,7 @@
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "After revocation, the user ID for this key will permanently remain unusable.",
+        "message": "បន្ទាប់ពីលុបចោល លេខសម្គាល់អ្នកប្រើសម្រាប់សោនេះនឹងមិនអាចប្រើប្រាស់ឡើងវិញបានជារហូត។",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
@@ -2204,7 +2204,7 @@
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "Click to verify signature",
+        "message": "ចុចដើម្បីផ្ទៀងផ្ទាត់ហត្ថលេខា",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {

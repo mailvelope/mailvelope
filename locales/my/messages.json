@@ -96,7 +96,7 @@
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
-        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "message": "Mailvelope ဖြင့် စုစည်းထားပြီး အမည်ဝှက်ထား၍ ပိုင်းခြားစိတ်ဖြာထားသောသတင်းအချက်အလက်များကို မျှဝေပါ",
         "description": "Consent to share analytics information with mailvelope"
     },
     "auth_domain_api_label": {
@@ -248,11 +248,11 @@
         "description": ""
     },
     "editor_extra_key_checkbox": {
-        "message": "Add extra key",
+        "message": "အပိုစကားဝှက်သော့ ပေါင်းထည့်ပါ",
         "description": "Extra key checkbox label."
     },
     "editor_extra_key_help": {
-        "message": "Email will be encrypted with this additional key",
+        "message": "အီးမေးလ်အား ထိုထပ်ပေါင်းထည့်လိုက်သောစကားဝှက်သော့ဖြင့် ပြောင်းလဲဝှက်လိမ့်မည်",
         "description": "Extra key help text."
     },
     "editor_header": {
@@ -268,7 +268,7 @@
         "description": "Test for auto sign link."
     },
     "editor_key_has_extra_msg": {
-        "message": "Email will be encrypted with the alternate key entered below.",
+        "message": "အီးမေးလ်အား အောက်တွင်ထည့်သွင်းလိုက်သော တခြားစကားဝှက်သော့ဖြင့် ပြောင်းလဲဝှက်လိမ့်မည်။",
         "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
@@ -748,7 +748,7 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "After confirmation, this key is transferred to the local keyring:",
+        "message": "အတည်ပြုပြီးနောက် ထိုစကားဝှက်သော့အား ကိုယ်ပိုင်သော့ချိတ်သို့ လွှဲပြောင်းလိုက်ပြီဖြစ်သည်:",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
@@ -796,7 +796,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact.",
+        "message": "သတိပေးချက်: ထိုအဆက်အသွယ်အတွက် စကားဝှက်သော့မှာ သက်တမ်းကုန်သွားပြီဖြစ်သည်။ $1နှင့် ကုဒ်ဖြင့်ပြောင်းပြီးဆက်သွယ်ခြင်းမှာ မဖြစ်နိုင်တော့ပါ။ သင် ထိုအဆက်အသွယ်ထံမှ လက်ရှိသုံးနေသောစကားဝှက်သော့ရရန် လိုအပ်သည်။",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -836,7 +836,7 @@
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
-        "message": "Add to keyring",
+        "message": "သော့ချိတ်တွင် ပေါင်းထည့်ပါ",
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
@@ -844,11 +844,11 @@
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
-        "message": "If you continue to use the old key, the sender might not be able to decrypt your messages. If you are suspicious, ask the sender to confirm the change in another communication channel. You can add or remove the key later.",
+        "message": "စကားဝှက်သော့အဟောင်းကို သင်ဆက်လက်အသုံးပြုနေလျှင် ပေးပို့သူသည် သင်၏မက်ဆေ့ချ်များကို ပြန်ဖြည်နိုင်မည်မဟုတ်ပေ။ အကယ်၍ သင်သံသယရှိပါက တခြားဆက်သွယ်ရေးချန်နယ်တစ်ခုတွင် ပြောင်းလဲမှုကိုအတည်ပြုရန် ပေးပို့သူကို ဆက်သွယ်မေးမြန်းပါ။ နောက်ပိုင်းတွင် သင် စကားဝှက်သော့ကို ထပ်မံပေါင်းထည့်နိုင် သို့မဟုတ် ဖယ်ရှားနိုင်သည်။",
         "description": "Key import dialog description."
     },
     "key_import_rotation_headline": {
-        "message": "The sender signed this message with a new key.",
+        "message": "ပေးပို့သူမှ ထိုမက်ဆေ့ချ်ကို စကားဝှက်သော့အသစ်ဖြင့် လက်မှတ်ထိုးခဲ့သည်။",
         "description": "Key import rotation dialog header."
     },
     "key_import_search_btn": {
@@ -856,39 +856,39 @@
         "description": "Key search input button."
     },
     "key_import_search_found": {
-        "message": "Key found in:",
+        "message": "စကားဝှက်သော့ကို အထဲတွင်ရှာတွေ့နိုင်သည်:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Source:",
+        "message": "ရင်းမြစ်:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "last modified on:",
+        "message": "နောက်ဆုံးပြင်ဆင်ခဲ့သည်:",
         "description": "Key search found label."
     },
     "key_import_search_disabled": {
-        "message": "Search disabled.",
+        "message": "ရှာဖွေခြင်းကို ပိတ်ထားသည်။",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
-        "message": "Activate at least one key source in the settings.",
+        "message": "အပြင်အဆင်များထဲတွင် အနည်းဆုံးစကားဝှက်သော့ရင်းမြစ်တစ်ခုအား အသက်သွင်းပါ။",
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "Enter valid email address, key ID (16 digits) or fingerprint (40 digits)",
+        "message": "ဆီလျော်မှန်ကန်သည့်အီးမေးလ်လိပ်စာ ထည့်ပါ၊ စကားဝှက်သော့ ID (ဂဏန်း၁၆လုံး) သို့မဟုတ် လက်ဗွေ (ဂဏန်း၄၀လုံး)",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
-        "message": "Key is not available in any of the searched key directories.",
+        "message": "စကားဝှက်သော့အား ရှာဖွေထားသော မည်သည့်စကားဝှက်သော့ရင်းမြစ်လမ်းညွှန်များထဲတွင်မှ မရရှိနိုင်ပေ။",
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "No key found.",
+        "message": "စကားဝှက်သော့အား ရှာမတွေ့ပါ။",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "Email Address / Key ID / Fingerprint",
+        "message": "အီးမေးလ်လိပ်စာ / စကားဝှက်သော့အမှတ်အသား / လက်ဗွေ",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
@@ -992,7 +992,7 @@
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Create a new recovery sheet here if:",
+        "message": "ဖြစ်နိုင်လျှင် ဤနေရာတွင် ပြန်လည်ရယူရေး စာရင်းစာရွက်အသစ်တစ်ခုကို ဖန်တီးပါ:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
@@ -1152,7 +1152,7 @@
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "Search for public keys in external sources",
+        "message": "ပြင်ပရင်းမြစ်များထဲတွင် အများသုံးစကားဝှက်သော့များကို ရှာဖွေပါ",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
@@ -1276,11 +1276,11 @@
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Confirm key to import",
+        "message": "စကားဝှက်သော့ကို ထည့်သွင်းရန် အတည်ပြုပါ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Confirm $1 keys to import",
+        "message": "$1 စကားဝှက်သော့များ ထည့်သွင်းရန် အတည်ပြုပါ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
@@ -1300,15 +1300,15 @@
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Import Keys",
+        "message": "စကားဝှက်သော့များထည့်သွင်းပါ",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Find public keys to add to your keyring. Mailvelope scans multiple key directories and suggests the public key that is most likely in use.",
+        "message": "သင်၏ သော့ချိတ်ထဲသို့ပေါင်းထည့်ရန် အများသုံးစကားဝှက်သော့များကို ရှာပါ။ Mailvelope သည် များစွာသောစကားဝှက်သော့ရင်းမြစ်လမ်းညွှန်များအား စေ့စေ့စပ်စပ်ရှာဖွေကြည့်နိုင်ပြီး အသုံးများသည်ဟုထင်ရသော အများသုံးစကားဝှက်သော့ကိုလည်း အကြံပြုနိုင်သည်။",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "Search for keys",
+        "message": "စကားဝှက်သော့များကို ရှာဖွေပါ",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
@@ -1372,19 +1372,19 @@
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_key_binding_header": {
-        "message": "Key Detection",
+        "message": "စကားဝှက်သော့ကို ထုတ်ဖော်ခြင်း",
         "description": "Header for key binding feature"
     },
     "keyserver_key_binding_label": {
-        "message": "Determine current key of contacts and perform key selection automatically",
+        "message": "အဆက်အသွယ်များ၏ လက်ရှိစကားဝှက်သော့အား ဆုံးဖြတ်ပါ ပြီးနောက် စကားဝှက်သော့ရွေးချယ်ခြင်းအား အလိုအလျောက်လုပ်ဆောင်ပါ",
         "description": "Label for key binding feature"
     },
     "keyserver_oks_lookup": {
-        "message": "Automatically search for keys on <0>keys.openpgp.org</0>",
+        "message": "<0>keys.openpgp.org</0>တွင် စကားဝှက်သော့များအား အလိုအလျောက်ရှာဖွေသည်",
         "description": "Enable keys.openpgp.org Auto Lookup"
     },
     "keyserver_verifying_servers": {
-        "message": "Key server with email verification",
+        "message": "အီးမေးလ်အတည်ပြုခြင်းနှင့် စကားဝှက်သော့ဆာဗာ",
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
@@ -2032,7 +2032,7 @@
         "description": "OpenPGP settings header"
     },
     "settings_analytics": {
-        "message": "Analytics",
+        "message": "ပိုင်းခြားစိတ်ဖြာသည်",
         "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
@@ -2044,7 +2044,7 @@
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Key Directories",
+        "message": "စကားဝှက်သော့ရင်းမြစ်လမ်းညွှန်များ",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
@@ -2148,7 +2148,7 @@
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1.",
+        "message": "Mailvelope စကားဝှက်သော့ဆာဗာနှင့်ပေါင်းစပ်ရန်အတွက် $1 ဆီသို့ အတည်ပြုခြင်းအီးမေးလ်တစ်စောင်ပေးပို့ခဲ့သည်။",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {

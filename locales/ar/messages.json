@@ -8,7 +8,7 @@
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>هيءْ Mailvelope </0>للبدء !",
+        "message": "‫<0>هيءْ Mailvelope </0>للبدء !‬",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
@@ -64,7 +64,7 @@
         "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
-        "message": "لنبدأ !",
+        "message": "لنبدأ !‏",
         "description": "Start button label"
     },
     "alert_header_error": {
@@ -424,7 +424,7 @@
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
-        "message": "اجعل Mailvelope أكثر أمانا عبر تخصيص خلفية الأمن لديك.",
+        "message": "‫اجعل Mailvelope أكثر أمانا عبر تخصيص خلفية الأمن لديك.‬",
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {

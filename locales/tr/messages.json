@@ -12,7 +12,7 @@
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Tüm yapılandırma seçeneklerini görüntüler.",
+        "message": "Tüm yapılandırma ayarlarını görüntüler.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
@@ -48,7 +48,7 @@
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Güvenlik ile ilgili kullanıcı işlemlerini gözden geçirin.",
+        "message": "Güvenlik ile ilgili kullanıcı işlemlerini görüntüler.",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
@@ -164,7 +164,7 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "ID $1 kodlu anahtar bulunamadı.",
+        "message": "$1 kimlikli anahtar bulunamadı.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
@@ -260,7 +260,7 @@
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "Tüm e-postalarınız imzalansın mı?",
+        "message": "Tüm e-postalarım imzalansın",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
@@ -368,7 +368,7 @@
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Güvenli e-posta yazın",
+        "message": "Güvenli e-posta oluştur",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
@@ -656,7 +656,7 @@
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "Bu dosyada ayrıca kişisel anahtarlar bulunur. Anahtarı güvenli bir yerde saklayın ve hiç  kimse ile paylaşmayın.",
+        "message": "Bu dosyada kişisel anahtarlar da bulunur. Dosyayı güvenli bir yerde saklayın ve hiç  kimse ile paylaşmayın.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
@@ -796,7 +796,7 @@
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Uyarı: Bu kişinin anahtarının kullanım süresi dolmuş. Bu nedenle artık $1 ile şifreli iletişim kurulamaz. Bu kişinin geçerli anahtarını almanız gerekir.",
+        "message": "Uyarı: Bu kişinin anahtarının kullanım süresi dolmuş. Bu nedenle artık $1 ile şifrelenmiş iletişim kurulamaz. Bu kişinin geçerli anahtarını almanız gerekir.",
         "description": ""
     },
     "key_import_number_of_failed": {
@@ -876,7 +876,7 @@
         "description": "Key search disabled warning description."
     },
     "key_import_search_invalid": {
-        "message": "Geçerli bir e-posta adresi, anahtasr kodu (16 rakam) ya da parmak izi (40 rakam) yazın",
+        "message": "Geçerli bir e-posta adresi, anahtar kimliği (16 rakam) ya da parmak izi (40 rakam) yazın",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
@@ -888,7 +888,7 @@
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "E-posta adresi / Anahtar kodu / Parmak izi",
+        "message": "E-posta adresi / Anahtar kimliği / Parmak izi",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
@@ -1012,7 +1012,7 @@
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "Yedekleme ile şifreli iletişiminiz için şundan emin olunur:",
+        "message": "Yedekleme ile şifrelenmiş iletişiminiz için şundan emin olunur:",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
@@ -1080,15 +1080,15 @@
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Lütfen şifreli iletişiminizi korumak için anahtarınıza bir parola atayın:",
+        "message": "Lütfen şifrelenmiş iletişiminizi korumak için anahtarınıza bir parola atayın:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Bu işlem birkaç dakika sürebilir. Bu sırada web tarayıcınız yanıt vermeyi durdurabilir. Lütfen sabırla bekleyin.",
+        "message": "Bu işlem birkaç dakika sürebilir. Bu sırada tarayıcınız yanıt vermeyi durdurabilir. Lütfen sabırla bekleyin.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "Şifreli iletişim kuruluyor",
+        "message": "Şifrelenmiş iletişim kuruluyor",
         "description": ""
     },
     "keygrid_algorithm": {
@@ -1176,7 +1176,7 @@
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "Anahtar kodu",
+        "message": "Anahtar kimliği",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
@@ -1272,7 +1272,7 @@
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "$1 kodlu anahtarlığı silmek istediğinize emin misiniz?",
+        "message": "$1 kimlikli anahtarlığı silmek istediğinize emin misiniz?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
@@ -1352,7 +1352,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "İletileri şifreleyip çözmek ve kişileri uçtan uca şifreli iletişim kullanmaya çağırmak için bir anahtar çifti gereklidir. ",
+        "message": "İletileri şifreleyip çözmek ve kişileri uçtan uca şifrelenmiş iletişim kullanmaya çağırmak için bir anahtar çifti gereklidir. ",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
@@ -1376,7 +1376,7 @@
         "description": "Header for key binding feature"
     },
     "keyserver_key_binding_label": {
-        "message": "Kişilerin geçerli anahtarını belirleyerek anahtar seçimini otomatik olarak gerçekleştirin",
+        "message": "Kişilerin geçerli anahtarı belirlensin ve anahtar otomatik olarak seçilsin",
         "description": "Label for key binding feature"
     },
     "keyserver_oks_lookup": {
@@ -1388,7 +1388,7 @@
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
-        "message": "Anahtarlar alıcının e-posta hizmeti sağlayıcısı tarafından sorulsun (Web Anahtar Dizini)",
+        "message": "Anahtarlar alıcının e-posta hizmeti sağlayıcısı tarafından sorulsun (İnternet anahtar dizini)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
@@ -1424,7 +1424,7 @@
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "Bu ileti için bir kişisel anahtar bulunamadı. Gerekli kişisel anahtar kodları: $1",
+        "message": "Bu ileti için bir kişisel anahtar bulunamadı. Gerekli kişisel anahtar kimlikleri: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
@@ -1448,7 +1448,7 @@
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "Seçenekler",
+        "message": "Ayarlar",
         "description": "Options navigation: Home."
     },
     "options_settings": {
@@ -1508,7 +1508,7 @@
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
-        "message": "Gmail API kullanılarak",
+        "message": "Gmail API uygulamasını kullanmak",
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
@@ -1608,7 +1608,7 @@
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Lütfen şifreli iletişim ayarlarını güncellemek için anahtar parolanızı yazın.",
+        "message": "Lütfen şifrelenmiş iletişim ayarlarını güncellemek için anahtar parolanızı yazın.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
@@ -1644,11 +1644,11 @@
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Verilerinizi yerel olarak bilgisayarınıza da yedeklemek isterseniz bununla ilgili seçeneği $1 hesabınızın şifreli iletişim bölümünde bulabilirsiniz.",
+        "message": "Verilerinizi yerel olarak bilgisayarınıza da yedeklemek isterseniz bununla ilgili seçeneği $1 hesabınızın şifrelenmiş iletişim bölümünde bulabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Şifreli iletişim için önemli veriler (anahtar parolası gibi) yedeklenirken, $1 sunucuları üzerine güvenlik iş ortağımız Mailvelope tarafından şifrelenerek kaydedilir. ",
+        "message": "Şifrelenmiş iletişim için önemli veriler (anahtar parolası gibi) yedeklenirken, $1 sunucuları üzerine güvenlik iş ortağımız Mailvelope tarafından şifrelenerek kaydedilir. ",
         "description": ""
     },
     "recovery_sheet_be_aware": {
@@ -1664,11 +1664,11 @@
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "Yedek almazsanız, anahtar parolanızı kaybetmeniz, aygıtınızın bozulması ya da web tarayıcı eklentisinde sorun çıkması gibi durumlarda şifrelenmiş iletilerinizin şifresini bir daha çözemezsiniz!",
+        "message": "Yedek almazsanız, anahtar parolanızı kaybetmeniz, aygıtınızın bozulması ya da tarayıcı eklentisinde sorun çıkması gibi durumlarda şifrelenmiş iletilerinizin şifresini bir daha çözemezsiniz!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "$1 ile şifreli iletişim kullanmanın incelikleri",
+        "message": "$1 ile şifrelenmiş iletişim kullanmanın incelikleri",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
@@ -1676,11 +1676,11 @@
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "$1 ile şifreli iletişim PGP temeline göre geliştirilmiştir. Şifrelenmiş e-postalar göndermenizi ve alıcının iletiyi okuyabileceğinden emin olmanızı sağlar.",
+        "message": "$1 ile şifrelenmiş iletişim PGP temeline göre geliştirilmiştir. Şifrelenmiş e-postalar göndermenizi ve alıcının iletiyi okuyabileceğinden emin olmanızı sağlar.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "web tarayıcı eklentisinde çıkabilecek sorunlar nedeniyle",
+        "message": "tarayıcı eklentisinde çıkabilecek sorunlar nedeniyle",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
@@ -1688,7 +1688,7 @@
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "$1 hesabınızın şu bölümünde ayrıntılı bilgi ve ayar seçenekleri bulabilirsiniz:",
+        "message": "$1 hesabınızın şu bölümünde ayrıntılı bilgi ve yapılandırma ayarlarını bulabilirsiniz:",
         "description": ""
     },
     "recovery_sheet_header": {
@@ -1700,7 +1700,7 @@
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "$1 hesabınızın şifreli iletişim ayarlarında, başka kişileri PGP kullanarak şifreli iletişim kurmaya  çağırabilirsiniz. Daha önce çağrılmış kişiler e-posta adresinin yanındaki asma kilit simgesi ile anlaşılabilir.",
+        "message": "$1 hesabınızın şifrelenmiş iletişim ayarlarında, başka kişileri PGP kullanarak şifrelenmiş iletişim kurmaya  çağırabilirsiniz. Daha önce çağrılmış kişiler e-posta adresinin yanındaki asma kilit simgesi ile anlaşılabilir.",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
@@ -1716,7 +1716,7 @@
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Şu örnekteki gibi şifreli iletişiminiz artık çalışmıyorsa:",
+        "message": "Şu örnekteki gibi şifrelenmiş iletişiminiz artık çalışmıyorsa:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
@@ -1724,15 +1724,15 @@
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Diğer kişiler ile şifreli iletişim",
+        "message": "Diğer kişiler ile şifrelenmiş iletişim",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "Diğer aygıtlarda şifreli ileitşim",
+        "message": "Diğer aygıtlarda şifrelenmiş iletişim",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Diğer aygıtlar üzerine şifreli iletişim kurmak",
+        "message": "Diğer aygıtlar üzerine şifrelenmiş iletişim kurmak",
         "description": ""
     },
     "recovery_sheet_other_problems": {
@@ -1740,7 +1740,7 @@
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "Şifreli iletişim (PGP) kullanan başkaları varsa onlarla güvenli iletişim kurabilirsiniz.",
+        "message": "Şifrelenmiş iletişim (PGP) kullanan başkaları varsa onlarla güvenli iletişim kurabilirsiniz.",
         "description": ""
     },
     "recovery_sheet_print_block": {
@@ -1756,7 +1756,7 @@
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "Şifreli iletişim",
+        "message": "Şifrelenmiş iletişim",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
@@ -1788,11 +1788,11 @@
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Şifreli iletişim kurtarma sayfası",
+        "message": "Şifrelenmiş iletişim kurtarma sayfası",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Şifreli iletişimi kurtar",
+        "message": "Şifrelenmiş iletişimi kurtar",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
@@ -1800,7 +1800,7 @@
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "Şifreli iletişimi yalnızca başkalarının erişemeyeceği güvenli aygıtlar üzerine kurun.",
+        "message": "Şifrelenmiş iletişimi yalnızca başkalarının erişemeyeceği güvenli aygıtlar üzerine kurun.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
@@ -1840,7 +1840,7 @@
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "Parolalar bu tarayıcı oturumu için anımsansın.",
+        "message": "Parolalar bu tarayıcı oturumunda anımsansın",
         "description": "Password cache header"
     },
     "security_cache_help": {
@@ -1860,7 +1860,7 @@
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Şifresi çözülen iletiler nerede görüntülensin?",
+        "message": "Şifresi çözülen iletiler şurada görüntülensin",
         "description": "Label for display options"
     },
     "security_display_inline": {
@@ -2068,7 +2068,7 @@
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "İletiyi şu kimlikle imzala:",
+        "message": "İleti şu kimlikle imzalansın:",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
@@ -2084,7 +2084,7 @@
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "Şifreli metni çözme",
+        "message": "Şifrelenmiş metni çözme",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {

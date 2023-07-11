@@ -1,6 +1,17 @@
 Mailvelope Changelog
 ====================
 
+v5.1.0
+-------
+__Jul 11, 2023__
+
+  * Support signature verification independent of sender identity
+  * Display signature verification results in the file decryption UI
+  * Warn about signature inconsistency between message and attachments
+  * Improve detection of messages with detached signatures
+  * Fix key import not updating existing keys properly
+  * Fix undefined password in private key backup after prior usage of password cache
+
 v5.0.1
 -------
 __Apr 19, 2023__
