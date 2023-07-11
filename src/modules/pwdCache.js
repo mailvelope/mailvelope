@@ -157,7 +157,7 @@ function getReservedOperations({key, message}) {
  */
 export async function unlock({key, password, message}) {
   const unlockedKey = await unlockKey(key, password);
-  const options = {key: unlockedKey};
+  const options = {key: unlockedKey, password};
   if (message) {
     options.reservedOperations = getReservedOperations({key: unlockedKey, message});
   }
