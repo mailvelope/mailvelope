@@ -534,7 +534,7 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
     return;
   }
   // get all relevant source keyrings
-  if (allKeyrings) {
+  if (allKeyrings || !keyringId) {
     srcKeyrings = getAll();
   } else {
     srcKeyrings = getPreferredKeyringQueue(keyringId);

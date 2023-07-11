@@ -370,7 +370,7 @@ async function fetchJSON(resource, options) {
   const response = await fetch(resource, options);
   const json = await response.json();
   if (!response.ok) {
-    throw new MvError(json.error_description, 'GMAIL_API_ERROR');
+    throw new MvError(json.error_description ?? json.error?.message, 'GMAIL_API_ERROR');
   }
   return json;
 }

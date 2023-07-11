@@ -210,7 +210,7 @@ ${this.formSignature}
 
     const {signatures} = await verifyDetachedSignature({
       plaintext: rawHtml,
-      signerEmail: this.formRecipientEmail,
+      senderAddress: this.formRecipientEmail,
       detachedSignature,
       keyringId: this.keyringId,
       lookupKey: () => lookupKey({keyringId: this.keyringId, email: this.formRecipientEmail})

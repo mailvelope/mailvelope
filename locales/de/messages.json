@@ -159,6 +159,14 @@
     "description": "Caption digital signature",
     "message": "Signatur fehlerhaft"
   },
+  "decrypt_digital_signature_inconsistent": {
+    "description": "Warning message if digital signature is inconsistent",
+    "message": "Inkonsistente Signaturen: Nachricht und Datei nicht mit demselben Schlüssel signiert"
+  },
+  "decrypt_digital_signature_missing": {
+    "description": "Digital signature is missing",
+    "message": "Fehlende Signatur"
+  },
   "decrypt_digital_signature_null": {
     "description": "Caption digital signature",
     "message": "Signatur unbekannt"
@@ -170,6 +178,18 @@
   "decrypt_digital_signature_null_info_short": {
     "description": "Digital signature unknown short info message",
     "message": "Schlüssel nicht gefunden."
+  },
+  "decrypt_digital_signature_sender_mismatch": {
+    "description": "Alert label in the case of sender email address mismatch",
+    "message": "Absenderadresse nicht übereinstimmend"
+  },
+  "decrypt_digital_signature_sender_mismatch_tooltip": {
+    "description": "Tooltip for alert label in the case of sender email address mismatch",
+    "message": "Diese Nachricht enthält eine digitale Unterschrift, aber es gab einen Fehler bei der Übereinstimmung. Die Nachricht wurde von einer E-Mail-Adresse gesendet, welche nicht mit der im öffentlichen Schlüssel des Unterschriftengebers übereinstimmt."
+  },
+  "decrypt_digital_signature_uncertain_sender": {
+    "description": "Digital signature link to more information in the case of uncertain sender identity",
+    "message": "Unklare Absenderidentität"
   },
   "decrypt_file_error_header": {
     "description": "Header of file decryption error on decrypt result page.",

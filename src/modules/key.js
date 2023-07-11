@@ -530,7 +530,7 @@ export function removeHexPrefix(keyId) {
   return keyId;
 }
 
-export function keyIDfromHex(keyIdHex) {
+export function keyIDfromHex({keyId, fingerprint}) {
   const sigPacket = new SignaturePacket();
-  return sigPacket.issuerKeyID.constructor.fromID(keyIdHex);
+  return sigPacket.issuerKeyID.constructor.fromID(keyId ?? fingerprint.slice(-16));
 }

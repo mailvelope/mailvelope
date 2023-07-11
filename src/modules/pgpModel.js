@@ -61,17 +61,21 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
   }
   let local;
   if (lookupKey) {
-    ({local} = await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey}));
+    ({local} = await acquireSigningKeys({senderAddress, keyring, lookupKey}));
   }
   try {
-    let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, unlockKey: options => unlockKey({message, ...options}), senderAddress, selfSigned, encryptionKeyIds});
+    let {data, signatures} = await keyring.getPgpBackend().decrypt({armored, message, keyring, encryptionKeyIds, unlockKey: options => unlockKey({message, ...options})});
     await logDecryption(uiLogSource, keyring, encryptionKeyIds);
+    if (selfSigned) {
+      // filter out foreign signatures
+      signatures = signatures.filter(sig => keyring.getPrivateKeyByIds(sig.fingerprint || sig.keyId));
+    }
     if (local) {
       const unknownSig = signatures.find(sig => sig.valid === null);
       if (unknownSig) {
         // if local key existed, but unknown signature, we try key discovery
-        const keyId = keyIDfromHex(unknownSig.keyId ?? unknownSig.fingerprint.slice(-16));
-        await acquireSigningKeys({signerEmail: senderAddress, keyring, lookupKey, keyId});
+        const keyId = keyIDfromHex(unknownSig);
+        await acquireSigningKeys({senderAddress, keyring, lookupKey, keyId});
       }
     }
     // collect fingerprints or keyIds of signatures
@@ -79,8 +83,8 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
     // sync public keys for the signatures
     await syncPublicKeys({keyring, keyIds: sigKeyIds, keyringId});
     await updateKeyBinding(keyring, senderAddress, signatures);
-    signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
-    return {data, signatures, keyringId: keyring.id};
+    await addSignatureDetails({signatures, keyring, senderAddress});
+    return {data, signatures};
   } catch (e) {
     console.log('getPgpBackend().decrypt() error', e);
     throw e;
@@ -88,19 +92,37 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
 }
 
 /**
- * Add signing key details to signature.
- * @param {Object} signature
+ * Add signing key details to signature. Validate if sender identity matches signature.
+ * @param {Array} signatures
  * @param {KeyringBase} keyring
  */
-async function addSigningKeyDetails(signature, keyring) {
-  if (signature.valid !== null) {
-    const signingKey = keyring.keystore.getKeysForId(signature.fingerprint ?? signature.keyId, true);
-    if (!signingKey) {
-      return;
-    }
-    [signature.keyDetails] = await mapKeys(signingKey);
+async function addSignatureDetails({signatures = [], keyring, senderAddress}) {
+  let senderKeys;
+  if (senderAddress) {
+    // valid sender keys for verification of the message are keys with the sender email address as user ID
+    ({[senderAddress]: senderKeys} = await keyring.getKeyByAddress(senderAddress));
   }
-  return signature;
+  for (const signature of signatures) {
+    if (signature.valid === null) {
+      continue;
+    }
+    const signingKey = keyring.keystore.getKeysForId(signature.fingerprint ?? signature.keyId, true);
+    if (signingKey) {
+      [signature.keyDetails] = await mapKeys(signingKey);
+    }
+    if (!signature.valid) {
+      continue;
+    }
+    if (senderKeys) {
+      if (!senderKeys.length) {
+        // we don't have the sender email and therefore the connection between this signature and the sender is uncertain
+        signature.uncertainSender = true;
+      } else if (!senderKeys.some(key => key.getKeys(keyIDfromHex(signature)).length)) {
+        // sender email is not present in user ID of key that created this signature
+        signature.senderMismatch = true;
+      }
+    }
+  }
 }
 
 export function noKeyFoundError(encryptionKeyIds) {
@@ -143,14 +165,15 @@ export async function readMessage({armoredMessage, binaryMessage}) {
  * @param {String} options.uiLogSource - UI source that triggered encryption, used for logging
  * @param {String} [options.filename] - file name set for this message
  * @param {Boolean} [noCache] - if true, no password cache should be used to unlock signing keys
+ * @param {Boolean} [allKeyrings] - use all keyrings for public key sync
  * @return {Promise<String>} - armored PGP message
  */
-export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, filename, noCache}) {
+export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, filename, noCache, allKeyrings}) {
   const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId, noCache);
   if (!keyring) {
     throw new MvError('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
-  await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId});
+  await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId, allKeyrings});
   try {
     const result = await keyring.getPgpBackend().encrypt({data, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, armor: true, filename});
     await logEncryption(uiLogSource, keyring, encryptionKeyFprs);
@@ -201,7 +224,7 @@ async function readCleartextMessage(armoredText) {
   }
 }
 
-export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}) {
+export async function verifyMessage({armored, keyringId, senderAddress, lookupKey}) {
   try {
     const message = await readCleartextMessage(armored);
     const signingKeyIds = message.getSigningKeyIDs();
@@ -210,43 +233,42 @@ export async function verifyMessage({armored, keyringId, signerEmail, lookupKey}
     }
     const keyring = getPreferredKeyring(keyringId);
     await syncPublicKeys({keyring, keyIds: signingKeyIds, keyringId});
-    if (signerEmail) {
+    if (senderAddress) {
       for (const signingKeyId of signingKeyIds) {
-        await acquireSigningKeys({signerEmail, keyring, lookupKey, keyId: signingKeyId});
+        await acquireSigningKeys({senderAddress, keyring, lookupKey, keyId: signingKeyId});
       }
     }
-    let {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring, signingKeyIds});
-    await updateKeyBinding(keyring, signerEmail, signatures);
-    signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
+    const {data, signatures} = await keyring.getPgpBackend().verify({armored, message, keyring});
+    await updateKeyBinding(keyring, senderAddress, signatures);
+    await addSignatureDetails({signatures, keyring, senderAddress});
     return {data, signatures};
   } catch (e) {
     throw new MvError(l10n.get('verify_error', [e]), 'VERIFY_ERROR');
   }
 }
 
-export async function verifyDetachedSignature({plaintext, signerEmail, detachedSignature, keyringId, lookupKey}) {
+export async function verifyDetachedSignature({plaintext, senderAddress, detachedSignature, keyringId, lookupKey}) {
   try {
     const keyring = getPreferredKeyring(keyringId);
     // determine issuer key id
     const signature = await readSignature({armoredSignature: detachedSignature});
-    const [sigPacket] = signature.packets.filterByTag(enums.packet.signature);
-    const {issuerKeyID} = sigPacket;
+    const sigPackets = signature.packets.filterByTag(enums.packet.signature);
+    const issuerKeyIDs = sigPackets.map(sigPacket => sigPacket.issuerKeyID);
     // sync keys to preferred keyring
-    await syncPublicKeys({keyring, keyIds: issuerKeyID, keyringId});
-    // get keys for signer email address from preferred keyring
-    const {signerKeys} = await acquireSigningKeys({signerEmail, keyring, lookupKey, keyId: issuerKeyID});
-    const signerKeyFprs = signerKeys.map(signerKey => signerKey.getFingerprint());
-    let {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring, signingKeyIds: signerKeyFprs});
-    await updateKeyBinding(keyring, signerEmail, signatures);
-    signatures = await Promise.all(signatures.map(sig => addSigningKeyDetails(sig, keyring)));
+    await syncPublicKeys({keyring, keyIds: issuerKeyIDs, keyringId});
+    // check if we have signing keys in local keyring and if not try key discovery
+    await Promise.all(issuerKeyIDs.map(keyId => acquireSigningKeys({senderAddress, keyring, lookupKey, keyId})));
+    const {signatures} = await keyring.getPgpBackend().verify({plaintext, detachedSignature, keyring});
+    await updateKeyBinding(keyring, senderAddress, signatures);
+    await addSignatureDetails({signatures, keyring, senderAddress});
     return {signatures};
   } catch (e) {
     throw new MvError(l10n.get('verify_error', [e]), 'VERIFY_ERROR');
   }
 }
 
-async function acquireSigningKeys({signerEmail, keyring, lookupKey, keyId}) {
-  let {[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId});
+async function acquireSigningKeys({senderAddress, keyring, lookupKey, keyId}) {
+  let {[senderAddress]: signerKeys} = await keyring.getKeyByAddress(senderAddress, {keyId});
   if (signerKeys) {
     return {
       signerKeys,
@@ -256,14 +278,14 @@ async function acquireSigningKeys({signerEmail, keyring, lookupKey, keyId}) {
   // if no keys in local keyring, try key discovery mechanisms
   let rotation;
   if (keyId) {
-    ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail));
+    ({[senderAddress]: signerKeys} = await keyring.getKeyByAddress(senderAddress));
     if (signerKeys) {
       // potential key rotation event
       rotation = true;
     }
   }
   await lookupKey(rotation);
-  ({[signerEmail]: signerKeys} = await keyring.getKeyByAddress(signerEmail, {keyId}));
+  ({[senderAddress]: signerKeys} = await keyring.getKeyByAddress(senderAddress, {keyId}));
   return {
     signerKeys: signerKeys || [],
     discovery: true
@@ -436,12 +458,12 @@ function convertChangeLog(key, changeLog, syncData) {
  * @param  {Boolean} options.armor - request the output as armored block
  * @return {String} - encrypted file as armored block or JS binary string
  */
-export async function encryptFile({plainFile, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, armor, noCache}) {
+export async function encryptFile({plainFile, keyringId, unlockKey, encryptionKeyFprs, signingKeyFpr, uiLogSource, armor, noCache, allKeyrings}) {
   const keyring = getKeyringWithPrivKey(signingKeyFpr, keyringId, noCache);
   if (!keyring) {
     throw new MvError('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
-  await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId});
+  await syncPublicKeys({keyring, keyIds: encryptionKeyFprs, keyringId, allKeyrings});
   try {
     const result = await keyring.getPgpBackend().encrypt({dataURL: plainFile.content, keyring, unlockKey, encryptionKeyFprs, signingKeyFpr, armor, filename: plainFile.name});
     await logEncryption(uiLogSource, keyring, encryptionKeyFprs);
@@ -456,7 +478,7 @@ export async function encryptFile({plainFile, keyringId, unlockKey, encryptionKe
  * Decrypt File
  * @param  {Object} encryptedFile - {content, name} with contant as dataURL and name as filename
  * @param  {Function} unlockKey - callback to unlock key
- * @return {Object<name, content>} - content as JS binary string
+ * @return {Object<data, signatures, filename>} - data as JS binary string
  */
 export async function decryptFile({encryptedFile, unlockKey, uiLogSource}) {
   let armoredMessage;
@@ -474,12 +496,15 @@ export async function decryptFile({encryptedFile, unlockKey, uiLogSource}) {
     if (!keyring) {
       throw noKeyFoundError(encryptionKeyIds);
     }
-    const result = await keyring.getPgpBackend().decrypt({base64: dataURL2base64(encryptedFile.content), message, keyring, unlockKey: options => unlockKey({message, ...options}), encryptionKeyIds, format: 'binary'});
+    const result = await keyring.getPgpBackend().decrypt({base64: () => dataURL2base64(encryptedFile.content), message, keyring, unlockKey: options => unlockKey({message, ...options}), encryptionKeyIds, format: 'binary'});
     await logDecryption(uiLogSource, keyring, encryptionKeyIds);
     if (!result.filename) {
       result.filename = encryptedFile.name.slice(0, -4);
     }
-    result.keyringId = keyring.id;
+    const sigKeyIds = result.signatures.map(sig => sig.fingerprint || sig.keyId);
+    // sync public keys for the signatures
+    await syncPublicKeys({keyring, keyIds: sigKeyIds});
+    await addSignatureDetails({signatures: result.signatures, keyring});
     return result;
   } catch (error) {
     console.log('pgpModel.decryptFile() error', error);

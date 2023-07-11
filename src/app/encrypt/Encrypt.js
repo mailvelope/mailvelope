@@ -137,7 +137,8 @@ export default class Encrypt extends React.Component {
         signingKeyFpr: this.state.signingKey ? this.state.signingKey.fingerprint : '',
         uiLogSource: 'security_log_encrypt_ui',
         noCache: false,
-        armor: true
+        armor: true,
+        allKeyrings: true
       });
       this.setState(prevState => ({encrypted: [...prevState.encrypted, this.createFileObject({content: encrypted, filename: 'text.txt', mimeType: 'text/plain'})]}));
     } catch (error) {
@@ -156,7 +157,8 @@ export default class Encrypt extends React.Component {
           signingKeyFpr: this.state.signingKey ? this.state.signingKey.fingerprint : '',
           uiLogSource: 'security_log_encrypt_ui',
           noCache: false,
-          armor: fileExt === 'txt'
+          armor: fileExt === 'txt',
+          allKeyrings: true
         });
         this.setState(prevState => ({encrypted: [...prevState.encrypted, this.createFileObject({content: encrypted, filename: plainFile.name, mimeType: 'application/octet-stream'})]}));
       } catch (error) {

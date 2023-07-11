@@ -125,10 +125,10 @@ NqoPTk9p1pmbCsuZ4cQcFDDJrIeQcaE/uAU=
 `;
       const result = await verifyDetachedSignature({
         plaintext: data,
-        signerEmail: 'madita.bernstein@gmail.com',
+        senderAddress: 'madita.bernstein@gmail.com',
         detachedSignature,
         keyringId: 'test123',
-        autoLocate() {}
+        lookupKey() {}
       });
       expect(result.signatures[0].keyId).to.equal('66663688a83e9763');
       expect(result.signatures[0].valid).to.be.true;

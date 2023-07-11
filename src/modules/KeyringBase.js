@@ -131,7 +131,7 @@ export default class KeyringBase {
 
   /**
    * Query keys by email address
-   * @param  {Array<String>} emailAddr
+   * @param  {Array<String>|String} emailAddr
    * @param  {Boolean} [options.pub = true] - query for public keys
    * @param  {Bolean} [options.priv = true] - query for private keys
    * @param  {Boolean} [options.sort = false] - sort results by key creation date and default key status

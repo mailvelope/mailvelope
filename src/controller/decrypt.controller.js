@@ -74,7 +74,7 @@ export default class DecryptController extends sub.SubController {
     if (msg.options && msg.options.senderAddress) {
       this.sender = msg.options.senderAddress;
     }
-    if (msg.keyringId) {
+    if (msg.keyringId ?? msg.allKeyrings) {
       this.keyringId = msg.keyringId;
     }
     this.armored = msg.data;
@@ -127,8 +127,9 @@ export default class DecryptController extends sub.SubController {
         unlockKey: this.unlockKey.bind(this),
         senderAddress: this.sender,
         uiLogSource: 'security_log_viewer',
-        lookupKey: rotation => lookupKey({keyringId, email: this.sender, rotation})
+        lookupKey: keyringId ? rotation => lookupKey({keyringId, email: this.sender, rotation}) : undefined
       });
+      this.signatures = signatures;
       const ports = this.ports;
       const handlers = {
         noEvent: true,

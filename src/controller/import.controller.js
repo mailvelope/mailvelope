@@ -7,7 +7,7 @@ import mvelo from '../lib/lib-mvelo';
 import {getHash, MvError} from '../lib/util';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
-import {mapKeys, cloneKey, parseUserId, sanitizeKey, verifyPrimaryKey, verifyUser} from '../modules/key';
+import {mapKeys, parseUserId, sanitizeKey, verifyPrimaryKey, verifyUser} from '../modules/key';
 import {readKey} from 'openpgp';
 import * as uiLog from '../modules/uiLog';
 import {getLastModifiedDate} from '../modules/key';
@@ -120,10 +120,8 @@ export default class ImportController extends sub.SubController {
 
   async updateKey(fingerprint, stockKey, newKey) {
     const statusBefore = await verifyPrimaryKey(stockKey);
-    // clone key to check how update would affect validity of key
-    const stockKeyClone = await cloneKey(stockKey);
-    await stockKeyClone.update(newKey);
-    const statusAfter = await verifyPrimaryKey(stockKeyClone);
+    const updatedKey = await stockKey.update(newKey);
+    const statusAfter = await verifyPrimaryKey(updatedKey);
     if (statusBefore !== statusAfter) {
       // key validity changes -> User confirmation required
       if (statusAfter !== KEY_STATUS.valid) {
@@ -132,7 +130,7 @@ export default class ImportController extends sub.SubController {
       return this.openPopup();
     }
     const beforeLastModified = getLastModifiedDate(stockKey);
-    const afterLastModified = getLastModifiedDate(stockKeyClone);
+    const afterLastModified = getLastModifiedDate(updatedKey);
     if (beforeLastModified.valueOf() !== afterLastModified.valueOf()) {
       // update is non-critical, no user confirmation required
       const [importResult] = await this.keyring.importKeys([{type: 'public', armored: this.armored}]);

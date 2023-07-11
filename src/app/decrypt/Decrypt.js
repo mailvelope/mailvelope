@@ -9,7 +9,7 @@ import {port} from '../app';
 import Spinner from '../../components/util/Spinner';
 import Notifications from '../../components/util/Notifications';
 import FileUpload from '../../components/util/FileUpload';
-import {GNUPG_KEYRING_ID, MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
+import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
 import * as fileLib from '../../lib/file';
 import {FileDownloadPanel} from '../../components/util/FilePanel';
 import {normalizeArmored, getHash, str2ab, encodeUtf8} from '../../lib/util';
@@ -40,10 +40,8 @@ export default class Decrypt extends React.Component {
   constructor() {
     super();
     this.state = {
-      initializing: true,
+      initializing: false,
       waiting: false,
-      keyringId: '',
-      keys: [],
       files: [],
       showTextInput: false,
       message: '',
@@ -55,23 +53,7 @@ export default class Decrypt extends React.Component {
   }
 
   componentDidMount() {
-    this.init();
     this.fileUpload = new fileLib.FileUpload();
-  }
-
-  async init() {
-    const keyringId = await port.send('get-active-keyring');
-    const defaultKeyFpr = await port.send('get-default-key-fpr', {keyringId});
-    this.setState({
-      keyringId,
-      defaultKeyFpr,
-      initializing: false
-    });
-  }
-
-  async initKeys() {
-    const keys = await port.send('get-all-key-data');
-    this.setState({keys});
   }
 
   async handleDecrypt() {
@@ -92,13 +74,12 @@ export default class Decrypt extends React.Component {
   async decryptMessage(message) {
     try {
       const armored = normalizeArmored(message, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
-      const {data, signatures, keyringId} = await port.send('decrypt-message', {
+      const {data, signatures} = await port.send('decrypt-message', {
         armored,
-        keyringId: this.state.keyringId,
         uiLogSource: 'security_log_decrypt_ui'
       });
       const content = encodeUtf8(data);
-      const signer = await this.getSignerDetails(signatures, keyringId);
+      const signer = await this.getSignerDetails(signatures);
       this.setState(prevState => ({decrypted: [...prevState.decrypted, this.createFileObject({content, armored: message, filename: 'text.txt', signer, mimeType: 'text/plain'})]}));
     } catch (error) {
       this.setErrorNotification(error);
@@ -108,11 +89,11 @@ export default class Decrypt extends React.Component {
   decryptFiles(encryptedFiles) {
     return Promise.all(encryptedFiles.map(async encryptedFile => {
       try {
-        const {data: content, filename, signatures, keyringId} = await port.send('decrypt-file', {
+        const {data: content, filename, signatures} = await port.send('decrypt-file', {
           encryptedFile,
           uiLogSource: 'security_log_decrypt_ui'
         });
-        const signer = await this.getSignerDetails(signatures, keyringId);
+        const signer = await this.getSignerDetails(signatures);
         this.setState(prevState => ({decrypted: [...prevState.decrypted, this.createFileObject({content, filename, signer, mimeType: 'application/octet-stream'})]}));
       } catch (error) {
         this.setErrorNotification(error, encryptedFile.name);
@@ -133,10 +114,7 @@ export default class Decrypt extends React.Component {
     this.setState(prevState => ({notifications: [...prevState.notifications, notification]}));
   }
 
-  async getSignerDetails(signatures, keyringId) {
-    if (keyringId !== GNUPG_KEYRING_ID) {
-      return;
-    }
+  async getSignerDetails(signatures) {
     if (!signatures.length) {
       return {label: l10n.map.file_not_signed, type: 'info'};
     }
@@ -146,10 +124,7 @@ export default class Decrypt extends React.Component {
       return {label: `${l10n.get('file_signed', l10n.map.signer_unknown)} (${l10n.map.keygrid_keyid} ${keyId.toUpperCase()})`, type: 'warning'};
     }
     if (signature.valid) {
-      if (!this.state.keys.length) {
-        await this.initKeys();
-      }
-      const {name = l10n.map.signer_unknown} = signature.keyDetails || this.state.keys.find(key => key.fingerprint === signature.fingerprint) || {};
+      const {name = l10n.map.signer_unknown} = signature.keyDetails || {};
       return {label: `${l10n.get('file_signed', name)} (${l10n.map.keygrid_keyid} ${keyId.toUpperCase()})`, type: 'success'};
     } else  {
       return {label: l10n.map.file_invalid_signed, type: 'danger'};
@@ -174,7 +149,7 @@ export default class Decrypt extends React.Component {
 
   async handleOpenDecryptMessagePopup(armored) {
     await port.send('decrypt-message-init');
-    port.emit('decrypt-message-popup', {armored, keyringId: this.state.keyringId});
+    port.emit('decrypt-message-popup', {armored});
   }
 
   handleAddFile(files) {

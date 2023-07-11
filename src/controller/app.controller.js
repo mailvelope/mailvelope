@@ -307,9 +307,9 @@ export default class AppController extends sub.SubController {
     return this.decryptMessageCtrl.id;
   }
 
-  async openPopupDecryptMessage({armored, keyringId}) {
+  async openPopupDecryptMessage({armored}) {
     await this.decryptMessageCtrl.onDframeDisplayPopup();
-    this.decryptMessageCtrl.on('decrypt-message-init', () => this.decryptMessageCtrl.onSetArmored({data: armored, keyringId, options: {}}));
+    this.decryptMessageCtrl.on('decrypt-message-init', () => this.decryptMessageCtrl.onSetArmored({data: armored, allKeyrings: true, options: {}}));
   }
 
   async readArmoredKeys({armoredKeys}) {
@@ -335,11 +335,11 @@ export default class AppController extends sub.SubController {
     // merge public into private
     publicKeys = await filterAsync(publicKeys, async pubKey => {
       const pubFpr = pubKey.getFingerprint();
-      const privKey = privateKeys.find(priv => priv.getFingerprint() === pubFpr);
-      if (!privKey) {
+      const privKeyIndex = privateKeys.findIndex(priv => priv.getFingerprint() === pubFpr);
+      if (privKeyIndex === -1) {
         return true;
       }
-      await privKey.update(pubKey);
+      privateKeys[privKeyIndex] = await privateKeys[privKeyIndex].update(pubKey);
     });
     const keys = [...publicKeys, ...privateKeys];
     // sanitize keys

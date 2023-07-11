@@ -75,7 +75,7 @@ export default class gmailDecryptController extends DecryptController {
     this.clipped = clipped;
     this.ascAttachments = encAttFileNames.filter(fileName => extractFileExtension(fileName) === 'asc');
     let accessToken;
-    if (clipped || this.isPotentialPpgMime()) {
+    if (clipped || this.attachments.length) {
       accessToken = await this.gmailCtrl.checkAuthorization(this.userInfo);
       if (!accessToken) {
         lock = true;
@@ -94,16 +94,12 @@ export default class gmailDecryptController extends DecryptController {
     }
   }
 
-  isPotentialPpgMime() {
-    return this.attachments.length === 1 && this.ascAttachments.length === 1;
-  }
-
   async processData(accessToken) {
     if (this.armored) {
       await super.decrypt(this.armored, this.keyringId);
     }
     try {
-      if (!accessToken && (this.clipped || this.isPotentialPpgMime())) {
+      if (!accessToken && (this.clipped || this.attachments.length)) {
         accessToken = await this.getAccessToken();
       }
       if (this.clipped) {
@@ -138,17 +134,21 @@ export default class gmailDecryptController extends DecryptController {
   }
 
   async getMimeType(accessToken) {
-    if (this.attachments.length > 1) {
+    if (this.attachments.length > 2 || !this.ascAttachments.length) {
       return;
     }
-    if (this.ascAttachments.length === 1) {
-      const {mimeType} = await gmail.getMessageMimeType({msgId: this.msgId, email: this.userInfo.email, accessToken});
-      if (mimeType === 'multipart/signed' || mimeType === 'multipart/encrypted') {
-        return mimeType;
-      }
+    const {mimeType} = await gmail.getMessageMimeType({msgId: this.msgId, email: this.userInfo.email, accessToken});
+    if (mimeType === 'multipart/signed' || mimeType === 'multipart/encrypted') {
+      return mimeType;
     }
     if (this.ascAttachments.includes('encrypted.asc')) {
       return 'multipart/encrypted';
+    }
+    if (mimeType !== 'multipart/mixed') {
+      return;
+    }
+    if (this.ascAttachments.some(attachment => /.*signature\.asc$/.test(attachment))) {
+      return 'multipart/signed';
     }
   }
 
@@ -236,10 +236,10 @@ export default class gmailDecryptController extends DecryptController {
         attachment = await model.decryptFile({
           encryptedFile: {content: data, name: fileName},
           unlockKey: this.unlockKey.bind(this),
-          uiLogSource: 'security_log_viewer'
+          uiLogSource: 'security_log_viewer',
         });
       }
-      this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName}});
+      this.ports.dDialog.emit('add-decrypted-attachment', {attachment: {...attachment, encFileName: fileName, rootSignatures: this.signatures}});
     } catch (error) {
       this.ports.dDialog.emit('error-message', {error: error.message});
     }
@@ -250,7 +250,7 @@ export default class gmailDecryptController extends DecryptController {
     try {
       const {signatures} = await model.verifyDetachedSignature({
         plaintext: this.signedText,
-        signerEmail: this.sender,
+        senderAddress: this.sender,
         detachedSignature: armored,
         keyringId,
         lookupKey: rotation => lookupKey({keyringId, email: this.sender, rotation})

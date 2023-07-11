@@ -44,7 +44,7 @@ export default class VerifyController extends SubController {
       const {data, signatures} = await verifyMessage({
         armored: this.armored,
         keyringId: this.keyringId,
-        signerEmail: sender,
+        senderAddress: sender,
         lookupKey: rotation => lookupKey({keyringId: this.keyringId, email: sender, rotation})
       });
       this.ports.dDialog.emit('verified-message', {

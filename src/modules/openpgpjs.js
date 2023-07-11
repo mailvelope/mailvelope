@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {toArray, Uint8Array2str, dataURL2str, str2Uint8Array} from '../lib/util';
+import {Uint8Array2str, dataURL2str, str2Uint8Array} from '../lib/util';
 import {
   decrypt as pgpDecrypt, createMessage, encrypt as pgpEncrypt, createCleartextMessage,
   sign as pgpSign, readSignature, verify as pgpVerify
@@ -13,34 +13,16 @@ import {
  * Decrypt message
  * @param  {openpgp.Message} options.message - message that will be decrypted
  * @param  {KeyringBase} options.keyring - keyring used for decryption
- * @param  {String} options.senderAddress - email address of sender, used for signature verification
- * @param  {Boolean} options.selfSigned - message is signed by user, therefore encryption key used for signature verification
  * @param  {Array<openpgp.Keyid>} options.encryptionKeyIds - message encrypted for keyIds
  * @param  {Function} options.unlockKey - callback that unlocks private key
  * @param  {String} options.format - default is 'utf8', other value: 'binary'
  * @return {Object}
  */
-export async function decrypt({message, keyring, senderAddress, selfSigned, encryptionKeyIds, unlockKey, format}) {
+export async function decrypt({message, keyring, encryptionKeyIds, unlockKey, format}) {
   let privateKey = keyring.getPrivateKeyByIds(encryptionKeyIds);
   privateKey = await unlockKey({key: privateKey});
-  let signingKeys;
-  // normalize sender address to array
-  senderAddress = toArray(senderAddress);
-  // verify signatures if sender address provided or self signed message (draft)
-  if (senderAddress.length || selfSigned) {
-    signingKeys = [];
-    if (senderAddress.length) {
-      signingKeys = await keyring.getKeyByAddress(senderAddress);
-      signingKeys = senderAddress.reduce((result, email) => result.concat(signingKeys[email] || []), []);
-    }
-    // if no signing keys found we use decryption key for verification
-    // this covers the self signed message (draft) use case
-    // also signingKeys parameter in decryptAndVerifyMessage has to contain at least one key
-    if (!signingKeys.length) {
-      signingKeys = [privateKey];
-    }
-  }
-  const result = await pgpDecrypt({message, decryptionKeys: privateKey, verificationKeys: signingKeys, format});
+  const verificationKeys = keyring.keystore.getAllKeys();
+  const result = await pgpDecrypt({message, decryptionKeys: privateKey, verificationKeys, format});
   result.signatures = await mapSignatures(result.signatures, keyring);
   if (format === 'binary') {
     result.data = Uint8Array2str(result.data);
@@ -125,24 +107,16 @@ export async function sign({data, keyring, unlockKey, signingKeyFpr}) {
  * @param {String} [options.plaintext] - message to be verified as plaintext
  * @param {String} [detachedSignature] - signature as armored block
  * @param  {KeyringBase} options.keyring - keyring used for verification
- * @param  {Array<openpgp:type/keyid~KeyID|String>} options.signingKeyIds - fingerprints or KeyID objects of signing keys
  * @return {{data: String, signatures: Array<{keyId: String, fingerprint: String, valid: Boolean}>}}
  */
-export async function verify({message, plaintext, detachedSignature, keyring, signingKeyIds}) {
-  const signingKeys = [];
-  for (const keyId of signingKeyIds) {
-    const keys = keyring.keystore.getKeysForId(typeof keyId === 'string' ? keyId : keyId.toHex(), true);
-    if (keys) {
-      const key = keys[0];
-      signingKeys.push(key);
-    }
-  }
+export async function verify({message, plaintext, detachedSignature, keyring}) {
   let signature;
   if (plaintext && detachedSignature) {
     signature = await readSignature({armoredSignature: detachedSignature});
     message = await createMessage({text: plaintext});
   }
-  let {data, signatures} = await pgpVerify({message, verificationKeys: signingKeys, signature});
+  const verificationKeys = keyring.keystore.getAllKeys();
+  let {data, signatures} = await pgpVerify({message, verificationKeys, signature});
   signatures = await mapSignatures(signatures, keyring);
   return {data, signatures};
 }
