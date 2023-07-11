@@ -258,6 +258,9 @@ module.exports = function(grunt) {
       },
       karma_test_dev: {
         command: 'node --max_old_space_size=4608 node_modules/karma/bin/karma start --single-run --browsers ChromeHeadless test/karma.conf.js --dev'
+      },
+      karma_test_debug: {
+        command: 'node --max_old_space_size=4608 node_modules/karma/bin/karma start --browsers Chrome test/karma.conf.js --dev'
       }
     },
 
@@ -316,4 +319,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['shell:karma_test']);
 
   grunt.registerTask('test-dev', ['shell:karma_test_dev']);
+
+  grunt.registerTask('test-debug', ['shell:karma_test_debug']);
 };
