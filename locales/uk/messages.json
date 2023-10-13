@@ -159,6 +159,14 @@
         "message": "Підпис невірний",
         "description": "Caption digital signature"
     },
+    "decrypt_digital_signature_inconsistent": {
+        "message": "Неузгодженість підписів: повідомлення та файл підписано різними ключами",
+        "description": "Warning message if digital signature is inconsistent"
+    },
+    "decrypt_digital_signature_missing": {
+        "message": "Відсутній підпис",
+        "description": "Digital signature is missing"
+    },
     "decrypt_digital_signature_null": {
         "message": "Цифровий підпис не ідентифіковано",
         "description": "Caption digital signature"
@@ -170,6 +178,18 @@
     "decrypt_digital_signature_null_info_short": {
         "message": "Ключ не знайдено!",
         "description": "Digital signature unknown short info message"
+    },
+    "decrypt_digital_signature_sender_mismatch": {
+        "message": "Невідповідність адреси відправника",
+        "description": "Alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_sender_mismatch_tooltip": {
+        "message": "Це повідомлення містить цифровий підпис, але виявлено невідповідність. Повідомлення було надіслано з адреси електронної пошти, яка не відповідає відкритому ключу підписувача.",
+        "description": "Tooltip for alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_uncertain_sender": {
+        "message": "Невизначена особа відправника",
+        "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
         "message": "Розшифрування файла $1 неможливе.",

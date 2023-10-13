@@ -159,6 +159,14 @@
         "message": "Parašas negalioja",
         "description": "Caption digital signature"
     },
+    "decrypt_digital_signature_inconsistent": {
+        "message": "Prieštaringi parašai: laiškas ir failas pasirašyti ne tuo pačiu raktu",
+        "description": "Warning message if digital signature is inconsistent"
+    },
+    "decrypt_digital_signature_missing": {
+        "message": "Trūksta parašo",
+        "description": "Digital signature is missing"
+    },
     "decrypt_digital_signature_null": {
         "message": "Nežinomas parašas",
         "description": "Caption digital signature"
@@ -170,6 +178,18 @@
     "decrypt_digital_signature_null_info_short": {
         "message": "Rastas nerastas.",
         "description": "Digital signature unknown short info message"
+    },
+    "decrypt_digital_signature_sender_mismatch": {
+        "message": "Siuntėjo adreso neatitikimas",
+        "description": "Alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_sender_mismatch_tooltip": {
+        "message": "Šiame laiške yra skaitmeninis parašas, bet yra aptiktas neatitikimas. Laiškas buvo išsiųstas iš el. pašto adreso, kuris neatitinka pasirašiusio asmens viešojo rakto.",
+        "description": "Tooltip for alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_uncertain_sender": {
+        "message": "Abejotina siuntėjo tapatybė",
+        "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
         "message": "Failo $1 iššifravimas yra neįmanomas.",

@@ -159,6 +159,14 @@
         "message": "Firma no válida",
         "description": "Caption digital signature"
     },
+    "decrypt_digital_signature_inconsistent": {
+        "message": "Inconsistent signatures: message and file not signed with same key",
+        "description": "Warning message if digital signature is inconsistent"
+    },
+    "decrypt_digital_signature_missing": {
+        "message": "Signature missing",
+        "description": "Digital signature is missing"
+    },
     "decrypt_digital_signature_null": {
         "message": "Firma desconocida",
         "description": "Caption digital signature"
@@ -170,6 +178,18 @@
     "decrypt_digital_signature_null_info_short": {
         "message": "Llave no encontrada.",
         "description": "Digital signature unknown short info message"
+    },
+    "decrypt_digital_signature_sender_mismatch": {
+        "message": "Sender address mismatch",
+        "description": "Alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_sender_mismatch_tooltip": {
+        "message": "This message contains a digital signature, but a mismatch was detected. The message was sent from an email address that doesn't match the signer's public key.",
+        "description": "Tooltip for alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_uncertain_sender": {
+        "message": "Uncertain sender identity",
+        "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
         "message": "No es posible descifrar el archivo $1.",

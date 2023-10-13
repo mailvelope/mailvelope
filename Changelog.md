@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v5.1.1
+-------
+__Oct 13, 2023__
+
+  * [Gmail] Fix detection of encrypted attachments
+
 v5.1.0
 -------
 __Jul 11, 2023__

@@ -159,6 +159,14 @@
         "message": "التوقيع باطل",
         "description": "Caption digital signature"
     },
+    "decrypt_digital_signature_inconsistent": {
+        "message": "تواقيع غير متناسقة: لم يتم توقيع الرسالة والملف بنفس المفتاح",
+        "description": "Warning message if digital signature is inconsistent"
+    },
+    "decrypt_digital_signature_missing": {
+        "message": "التوقيع مفقود",
+        "description": "Digital signature is missing"
+    },
     "decrypt_digital_signature_null": {
         "message": "التوقيع مجهول",
         "description": "Caption digital signature"
@@ -170,6 +178,18 @@
     "decrypt_digital_signature_null_info_short": {
         "message": "لم يعثر على المفتاح.",
         "description": "Digital signature unknown short info message"
+    },
+    "decrypt_digital_signature_sender_mismatch": {
+        "message": "عنوان المرسل غير متطابق",
+        "description": "Alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_sender_mismatch_tooltip": {
+        "message": "تحتوي هذه الرسالة على توقيع رقمي، ولكن تم اكتشاف عدم تطابق. تم إرسال الرسالة من عنوان بريد إلكتروني لا يتطابق مع المفتاح العمومي للموقِّع.",
+        "description": "Tooltip for alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_uncertain_sender": {
+        "message": "هوية المرسل غير مؤكدة",
+        "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
         "message": "فك تعمية الملف $1 غير ممكن.",
@@ -2248,7 +2268,7 @@
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "مفعل",
+        "message": "مُفعَّل",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {

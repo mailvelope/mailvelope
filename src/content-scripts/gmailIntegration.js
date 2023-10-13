@@ -239,7 +239,7 @@ export default class GmailIntegration {
   }
 
   getEncryptedAttachments(msgElem) {
-    const attachmentElems = msgElem.querySelectorAll('.zzV0ie');
+    const attachmentElems = msgElem.querySelectorAll('.aV3');
     const regex = /.*\.(gpg|pgp|asc)/;
     const attachments = [];
     for (const attachmentElem of attachmentElems) {

@@ -159,6 +159,14 @@
         "message": "İmza geçersiz",
         "description": "Caption digital signature"
     },
+    "decrypt_digital_signature_inconsistent": {
+        "message": "İmzalar tutarsız: İleti ve dosya aynı anahtar ile imzalanmamış",
+        "description": "Warning message if digital signature is inconsistent"
+    },
+    "decrypt_digital_signature_missing": {
+        "message": "İmza eksik",
+        "description": "Digital signature is missing"
+    },
     "decrypt_digital_signature_null": {
         "message": "İmza bilinmiyor",
         "description": "Caption digital signature"
@@ -170,6 +178,18 @@
     "decrypt_digital_signature_null_info_short": {
         "message": "Anahtar bulunamadı.",
         "description": "Digital signature unknown short info message"
+    },
+    "decrypt_digital_signature_sender_mismatch": {
+        "message": "Gönderici adresi uyuşmazlığı",
+        "description": "Alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_sender_mismatch_tooltip": {
+        "message": "Bu iletide bir dijital imza var, ancak bir uyuşmazlık var. İleti, imzalayanın herkese açık anahtarıyla eşleşmeyen bir e-posta adresinden gönderilmiş.",
+        "description": "Tooltip for alert label in the case of sender email address mismatch"
+    },
+    "decrypt_digital_signature_uncertain_sender": {
+        "message": "Göndericinin kimliği kesin değil",
+        "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
         "message": "$1 dosyasının şifresi çözülemiyor.",
