@@ -6,7 +6,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
-import moment from 'moment';
 import {KeyringOptions} from '../KeyringOptions';
 import DatePicker from './DatePicker';
 
@@ -48,7 +47,7 @@ export default function AdvKeyGenOptions({value: {keyAlgo, keySize, keyExpiratio
       </div>
       <div className="form-group key-expiration-group">
         <label htmlFor="keyExpirationTime">{l10n.map.key_gen_expiration}</label>
-        <DatePicker id="keyExpirationTime" value={keyExpirationTime} onChange={handleDateChange} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} maxDate={moment('2080-12-31')} disabled={disabled} />
+        <DatePicker id="keyExpirationTime" value={keyExpirationTime} onChange={handleDateChange} placeholder={l10n.map.keygrid_key_not_expire} minDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000)} maxDate={new Date(2080, 11, 31)} disabled={disabled} />
       </div>
     </div>
   );

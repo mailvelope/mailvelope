@@ -34,7 +34,7 @@
     "prop-types": "15.8.1",
     "qrcode.react": "3.1.0",
     "react": "16.14.0",
-    "react-datepicker": "1.7.0",
+    "react-datepicker": "4.25.0",
     "react-dom": "16.14.0",
     "react-router-dom": "5.2.0",
     "reactstrap": "8.10.1",

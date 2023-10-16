@@ -166,7 +166,7 @@ export default class Provider extends React.Component {
 
   async loadWatchList() {
     const watchList = await port.send('getWatchList');
-    this.setState({watchList});
+    return new Promise(resolve => this.setState({watchList}, resolve));
   }
 
   async removeAuthorisation(email) {
