@@ -46,7 +46,7 @@ export default class ContentSandbox extends React.PureComponent {
     `;
     return (
       <iframe style={{border: '1px solid lightgray', backgroundColor: 'white', borderRadius: '2px'}}
-        srcDoc={sandboxContent} sandbox="allow-same-origin allow-popups"
+        srcDoc={sandboxContent} sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"
         frameBorder="0" ref={node => this.sandbox = node} onLoad={() => this.setContent(this.props.value)} />
     );
   }
