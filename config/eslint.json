@@ -82,7 +82,8 @@
     "prefer-arrow-callback": ["warn", {"allowNamedFunctions": true}], // require arrow functions as callbacks
     "prefer-const": ["warn", {"destructuring": "all"}], // require const declarations for variables that are never reassigned after declared
     "prefer-template": 1, // require template literals instead of string concatenation
-    "template-curly-spacing": ["warn", "never"] // require or disallow spacing around embedded expressions of template strings
+    "template-curly-spacing": ["warn", "never"], // require or disallow spacing around embedded expressions of template strings
+    "no-template-curly-in-string": "warn"
   }
 
 }
