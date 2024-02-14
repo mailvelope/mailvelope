@@ -23,27 +23,6 @@ mvelo.browserAction.state = function(options) {
   }
 };
 
-mvelo.data = {};
-
-mvelo.data.load = function(path) {
-  return new Promise((resolve, reject) => {
-    const req = new XMLHttpRequest();
-    req.open('GET', browser.runtime.getURL(path));
-    req.responseType = 'text';
-    req.onload = function() {
-      if (req.status == 200) {
-        resolve(req.response);
-      } else {
-        reject(new Error(req.statusText));
-      }
-    };
-    req.onerror = function() {
-      reject(new Error('Network Error'));
-    };
-    req.send();
-  });
-};
-
 mvelo.storage = {};
 
 mvelo.storage.get = function(id) {
@@ -88,10 +67,7 @@ mvelo.tabs.attach = function(tabId, options) {
 
 mvelo.tabs.query = function(url) {
   return browser.tabs.query({url, currentWindow: true})
-  .catch(error => {
-    console.log('Error calling tabs.query()', error);
-    return [];
-  });
+  .catch(() => []);
 };
 
 mvelo.tabs.create = function(url, complete) {

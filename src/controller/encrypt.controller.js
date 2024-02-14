@@ -47,7 +47,6 @@ export default class EncryptController extends sub.SubController {
         this.emit('mail-editor-close');
         return;
       }
-      console.log(err);
     });
   }
 
