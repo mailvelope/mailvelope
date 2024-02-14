@@ -1,6 +1,13 @@
 Mailvelope Changelog
 ====================
 
+v5.1.2
+-------
+__Feb 14, 2024__
+
+  * Fix click on links in decrypted message leading to page loading errors
+  * Update dependencies
+
 v5.1.1
 -------
 __Oct 13, 2023__

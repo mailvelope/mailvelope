@@ -104,7 +104,7 @@
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
-        "message": "Souhaitez-vous permettre l’autorisation de Mailvelope pour le domaine $1 ?",
+        "message": "Voulez-vous permettre l’autorisation de Mailvelope pour le domaine $1 ?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_headline": {
@@ -116,7 +116,7 @@
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Impossible de lire ce message en clair : $1",
+        "message": "Impossible de lire ce courriel en clair : $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
@@ -136,7 +136,7 @@
         "description": "Dashboard view security logs link"
     },
     "decrypt_att_frame_help_text": {
-        "message": "Cliquez ici pour visualiser le message",
+        "message": "Cliquez ici pour visualiser le courriel",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_attachment_label": {
@@ -160,11 +160,11 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_inconsistent": {
-        "message": "Inconsistent signatures: message and file not signed with same key",
+        "message": "Signatures incohérentes : le courriel et le fichier ne sont pas signés avec la même clé",
         "description": "Warning message if digital signature is inconsistent"
     },
     "decrypt_digital_signature_missing": {
-        "message": "Signature missing",
+        "message": "Absence de signature",
         "description": "Digital signature is missing"
     },
     "decrypt_digital_signature_null": {
@@ -180,15 +180,15 @@
         "description": "Digital signature unknown short info message"
     },
     "decrypt_digital_signature_sender_mismatch": {
-        "message": "Sender address mismatch",
+        "message": "L’adresse de l'expéditeur ne correspond pas",
         "description": "Alert label in the case of sender email address mismatch"
     },
     "decrypt_digital_signature_sender_mismatch_tooltip": {
-        "message": "This message contains a digital signature, but a mismatch was detected. The message was sent from an email address that doesn't match the signer's public key.",
+        "message": "Ce courriel comprend une signature numérique, mais une incohérence a été détectée. Le courriel a été envoyé à partir d’une adresse courriel qui ne correspond pas à la clé publique du signataire.",
         "description": "Tooltip for alert label in the case of sender email address mismatch"
     },
     "decrypt_digital_signature_uncertain_sender": {
-        "message": "Uncertain sender identity",
+        "message": "L’identité de l’expéditeur est incertaine",
         "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
@@ -216,7 +216,7 @@
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "Afficher le message",
+        "message": "Afficher le courriel",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
@@ -272,7 +272,7 @@
         "description": "Extra key checkbox label."
     },
     "editor_extra_key_help": {
-        "message": "Le courriel sera chiffré avec cette clé supplémentaire",
+        "message": "Le courriel sera chiffré avec cette clé supplémentaire.",
         "description": "Extra key help text."
     },
     "editor_header": {
@@ -280,7 +280,7 @@
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "Souhaitez-vous signer tous vos courriels ?",
+        "message": "Voulez-vous signer tous vos courriels ?",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
@@ -300,7 +300,7 @@
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Pour rendre le chiffrement possible, tous les destinataires doivent avoir une clé PGP. Vous pouvez quand même signer le message.",
+        "message": "Pour rendre le chiffrement possible, tous les destinataires doivent avoir une clé PGP. Vous pouvez quand même signer le courriel.",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
@@ -312,7 +312,7 @@
         "description": "Label for copy recipient text input."
     },
     "editor_label_message": {
-        "message": "Message",
+        "message": "Courriel",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
@@ -380,7 +380,7 @@
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "Impossible de chiffrer ce message : $1",
+        "message": "Impossible de chiffrer ce courriel : $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
@@ -420,7 +420,7 @@
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Souhaitez-vous aussi chiffrer un texte ?",
+        "message": "Voulez-vous aussi chiffrer un texte ?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
@@ -560,7 +560,7 @@
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Signer tous les messages sortants.",
+        "message": "Signer tous les courriels sortants.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
@@ -604,7 +604,7 @@
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- Message réacheminé ---------\nDe : $1\nDate : $2\nObjet : $3\nÀ : $4",
+        "message": "---------- Courriel réacheminé ---------\nDe : $1\nDate : $2\nObjet : $3\nÀ : $4",
         "description": "Header for forwarded mail"
     },
     "gmail_integration_quoted_mail_header_reply": {
@@ -632,7 +632,7 @@
         "description": "Install landing page getting started hint"
     },
     "key_default_active_btn_title": {
-        "message": "La clé est définie en tant que clé par défaut",
+        "message": "La clé est définie comme clé par défaut",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
@@ -640,7 +640,7 @@
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Définir la clé en tant que clé par défaut",
+        "message": "Définir la clé comme clé par défaut",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
@@ -660,7 +660,7 @@
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Quelle clé souhaitez-vous exporter ?",
+        "message": "Quelle clé voulez-vous exporter ?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
@@ -864,11 +864,11 @@
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
-        "message": "Si vous continuez à utiliser cette ancienne clé, l’expéditeur ne pourra peut-être pas déchiffrer vos messages. Si vous avez des doutes, demandez à l’expéditeur de confirmer le changement par un autre moyen de communication. Vous pourrez ajouter ou supprimer la clé ultérieurement.",
+        "message": "Si vous continuez à utiliser cette ancienne clé, l’expéditeur ne pourra peut-être pas déchiffrer vos courriels. Si vous avez des doutes, demandez à l’expéditeur de confirmer le changement par un autre moyen de communication. Vous pourrez ajouter ou supprimer la clé ultérieurement.",
         "description": "Key import dialog description."
     },
     "key_import_rotation_headline": {
-        "message": "L’expéditeur a signé ce message avec une nouvelle clé.",
+        "message": "L’expéditeur a signé ce courriel avec une nouvelle clé.",
         "description": "Key import rotation dialog header."
     },
     "key_import_search_btn": {
@@ -912,7 +912,7 @@
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
-        "message": "Importer une clé en tant que texte",
+        "message": "Importer une clé sous forme de texte",
         "description": "Key import box."
     },
     "key_import_too_big": {
@@ -988,7 +988,7 @@
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Souhaitez-vous quand même la révoquer ?",
+        "message": "Voulez-vous quand même la révoquer ?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
@@ -1000,7 +1000,7 @@
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "Définir en tant que clé par défaut",
+        "message": "Définir comme clé par défaut",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
@@ -1316,7 +1316,7 @@
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Vous pouvez ajouter des clés soit en tant que fichier soit en tant que texte du presse-papiers.",
+        "message": "Vous pouvez ajouter des clés soit sous forme de fichier soit sous forme de texte provenant du presse-papiers.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
@@ -1360,7 +1360,7 @@
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Si vous utilisez cette extension pour la première fois et n’avez pas encore de biclé (paire de clés), veuillez en générer une maintenant.",
+        "message": "Si vous utilisez cette extension pour la première fois et n’avez pas encore de biclé, veuillez en générer une maintenant.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
@@ -1372,7 +1372,7 @@
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Une biclé (ensemble de deux clés) est exigée pour chiffrer, déchiffrer les messages et pour inviter vos contacts à des communications chiffrées de bout en bout.",
+        "message": "Une biclé (ensemble de deux clés) est exigée pour chiffrer, déchiffrer les courriels et pour inviter vos contacts à des communications chiffrées de bout en bout.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
@@ -1444,11 +1444,11 @@
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "Aucune clé privée n’a été trouvée pour ce message. Les ID de clé privée exigés sont : $1",
+        "message": "Aucune clé privée n’a été trouvée pour ce courriel. Les ID de clé privée exigés sont : $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Impossible de déchiffrer ce message : $1",
+        "message": "Impossible de déchiffrer ce courriel : $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
@@ -1524,7 +1524,7 @@
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Veuillez lire notre Politique de confidentialité",
+        "message": "Veuillez lire notre Politique de protection des renseignements personnels",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
@@ -1532,7 +1532,7 @@
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Intégration de l’API Gmail",
+        "message": "Intégration dans l’API Gmail",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
@@ -1564,7 +1564,7 @@
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Essayez Mailvelope pour entreprise avec activation le l’API Gmail <0>gratuitement pendant 14 jours</0> :",
+        "message": "Essayez Mailvelope Pour entreprise avec activation le l’API Gmail <0>gratuitement pendant 14 jours</0> :",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
@@ -1572,11 +1572,11 @@
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Une licence Mailvelope pour entreprise est exigée",
+        "message": "Une licence Mailvelope Pour entreprise est exigée",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Les licences pour l’intégration de l’API Gmail tout en utilisant G Suite <0>gsuite.google.com</0>) peuvent être achetées sur la <1>page des produits de Mailvelope</1>.",
+        "message": "Les licences pour l’intégration dans l’API de Gmail tout en utilisant G Suite <0>gsuite.google.com</0>) peuvent être achetées sur la <1>page des produits de Mailvelope</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
@@ -1624,7 +1624,7 @@
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour déchiffrer ce message.",
+        "message": "Veuillez saisir le mot de passe de votre clé pour déchiffrer ce courriel.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
@@ -1644,7 +1644,7 @@
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour signer ce message.",
+        "message": "Veuillez saisir le mot de passe de votre clé pour signer ce courriel.",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1664,7 +1664,7 @@
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Si vous souhaitez n’enregistrer vos données que localement sur votre ordinateur, vous trouverez cette option dans les paramètres de communication chiffrée de votre compte $1.",
+        "message": "Si vous ne voulez enregistrer vos données que localement sur votre ordinateur, vous trouverez cette option dans les paramètres de communication chiffrée de votre compte $1.",
         "description": ""
     },
     "recovery_sheet_backup_server": {
@@ -1684,7 +1684,7 @@
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "Sans sauvegarde, vos messages chiffrés ne pourront pas être déchiffrés en cas de perte de votre mot de passe, si votre appareil est défectueux ou si vous éprouvez des problèmes avec l’extension pour navigateur.",
+        "message": "Sans sauvegarde, vos courriels chiffrés ne pourront pas être déchiffrés en cas de perte de votre mot de passe, si votre appareil est défectueux ou si vous éprouvez des problèmes avec l’extension pour navigateur.",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
@@ -1728,7 +1728,7 @@
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "D’autres utilisateurs de $1 qui utilisent la procédure PGP de GMX peuvent être trouvés directement dans un annuaire central de votre compte $1 Si vous ne souhaitez pas avoir d’entrées dans cet annuaire, veuillez désactiver cette fonction dans les paramètres de votre compte $1.",
+        "message": "D’autres utilisateurs de $1 qui utilisent la procédure PGP de GMX peuvent être trouvés directement dans un annuaire central de votre compte $1 Si vous ne voulez avoir aucune entrée dans cet annuaire, veuillez désactiver cette fonction dans les paramètres de votre compte $1.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
@@ -1880,7 +1880,7 @@
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Où les messages déchiffrés sont-ils affichés ?",
+        "message": "Où les courriels déchiffrés sont-ils affichés ?",
         "description": "Label for display options"
     },
     "security_display_inline": {
@@ -1892,7 +1892,7 @@
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "Cacher la version et le commentaire de Mailvelope dans les messages PGP.",
+        "message": "Cacher la version et le commentaire de Mailvelope dans les courriels PGP.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
@@ -1924,7 +1924,7 @@
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "Le message a été déchiffré avec : $1",
+        "message": "Le courriel a été déchiffré avec : $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
@@ -1964,7 +1964,7 @@
         "description": ""
     },
     "security_log_encryption_operation": {
-        "message": "Le message a été chiffré pour : $1",
+        "message": "Le courriel a été chiffré pour : $1",
         "description": ""
     },
     "security_log_import_dialog": {
@@ -2000,7 +2000,7 @@
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Le message a été signé avec la clé :$1",
+        "message": "Le courriel a été signé avec la clé :$1",
         "description": ""
     },
     "security_log_signature_modal_close": {
@@ -2088,11 +2088,11 @@
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Signer le message en tant que :",
+        "message": "Signer le courriel en tant que :",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "Impossible de signer ce message :$1",
+        "message": "Impossible de signer ce courriel :$1",
         "description": "Error during signing process."
     },
     "signer_unknown": {
@@ -2180,7 +2180,7 @@
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Souhaitez-vous supprimer cet ID utilisateur de votre clé ?",
+        "message": "Voulez-vous supprimer cet ID utilisateur de votre clé ?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
@@ -2200,7 +2200,7 @@
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Souhaitez-vous quand même la révoquer ?",
+        "message": "Voulez-vous quand même la révoquer ?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
@@ -2220,7 +2220,7 @@
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "Impossible de vérifier ce message : $1",
+        "message": "Impossible de vérifier ce courriel : $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
