@@ -67,7 +67,7 @@ export default class AppController extends sub.SubController {
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));
     this.on('get-app-data-slot', ({slotId}) => sub.getAppDataSlot(slotId));
     this.on('get-gnupg-status', () => Boolean(gpgme));
-    this.on('reload-keystore', ({keyringId}) => keyringById(keyringId).keystore.load());
+    this.on('reload-keystore', this.reloadKeystore);
     this.on('read-amored-keys', this.readArmoredKeys);
     this.on('key-lookup', this.keyLookup);
     this.on('keyreg-source-labels', options => keyRegistry.getSourceLabels(options));
@@ -131,6 +131,12 @@ export default class AppController extends sub.SubController {
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_REVOKE'});
     await keyringById(keyringId).revokeKey(unlockedKey);
     this.sendKeyUpdate();
+  }
+
+  async reloadKeystore({keyringId}) {
+    const keyring = keyringById(keyringId);
+    keyring.keystore.clear();
+    await keyring.keystore.load();
   }
 
   async getKeyServerSync({fingerprint, keyringId}) {
