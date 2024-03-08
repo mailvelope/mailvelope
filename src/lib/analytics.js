@@ -13,11 +13,14 @@ const NON_DEFAULT_PROVIDER = 'Non-default Provider';
 const PROVIDER_SCENE_PATH = 'webmail provider';
 
 export const ONBOARDING_CAMPAIGN = 'onboarding';
+const ONBOARDING_CATEGORY = 'onboarding';
+// DO NOT DEPLOY: Change to 1% for deployement.
 export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 100;
 
 export const ci = new CleanInsights({
   'server': 'https://metrics.cleaninsights.org/cleaninsights.php',
-  'siteId': 22,  // Mailvelope's site ID on Clean Insights Matomo instance.
+  // DO NOT DEPLOY: Testing ID
+  'siteId': 37,  // Mailvelope's site ID on Clean Insights Matomo instance.
   'persistEveryNTimes': 1,
   'debug': false,
   'campaigns': {
@@ -61,4 +64,9 @@ export function measureWatchListHit(url) {
   if (!measured) {
     ci.measureVisit([PROVIDER_SCENE_PATH, NON_DEFAULT_PROVIDER], PROVIDER_CAMPAIGN);
   }
+}
+
+export function measureOnboardingStep(step) {
+  ci.measureEvent(ONBOARDING_CATEGORY, step, ONBOARDING_CAMPAIGN);
+  console.log('measured onboarding step:', step);
 }

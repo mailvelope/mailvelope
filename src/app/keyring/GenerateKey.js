@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
 import {checkEmail} from '../../lib/util';
+import {measureOnboardingStep} from '../../lib/analytics';
 import {port} from '../app';
 import {KeyringOptions} from './KeyringOptions';
 import moment from 'moment';
@@ -121,6 +122,7 @@ export default class GenerateKey extends React.Component {
         await this.props.onKeyringChange();
       }
       this.setState({key: newKey}, () => this.props.onNotification({id: Date.now(), header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'}));
+      measureOnboardingStep('Key Generated');
     } catch (error) {
       this.setState({generating: false, modified: false}, () => this.props.onNotification({id: Date.now(), header: l10n.map.key_gen_error, message: error.message, type: 'error'}));
     }

@@ -6,6 +6,7 @@
 import {port, getAppDataSlot} from '../app';
 import {KeyringOptions} from './KeyringOptions';
 import {TabContent, TabPane} from 'reactstrap';
+import {measureOnboardingStep} from '../../lib/analytics';
 import * as l10n from '../../lib/l10n';
 import {normalizeArmored, formatFpr, dataURL2str} from '../../lib/util';
 import * as fileLib from '../../lib/file';
@@ -202,6 +203,7 @@ export default class KeyImport extends React.Component {
         hideDelay += 1000;
       }
       this.setState({redirect: true, amoredKeys: [], keys: [], textImport: ''});
+      measureOnboardingStep('Key(s) imported');
     } catch (error) {
       console.log('Error on key import:', error);
       this.props.onNotification({id: Date.now(), header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'error'});
