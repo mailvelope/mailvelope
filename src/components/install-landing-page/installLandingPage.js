@@ -5,7 +5,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {measureOnboardingStep} from '../../lib/analytics';
 import * as l10n from '../../lib/l10n';
 import './InstallLandingPage.scss';
 

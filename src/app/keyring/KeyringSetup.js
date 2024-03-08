@@ -3,10 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
+import {port} from '../app';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {measureOnboardingStep} from '../../lib/analytics';
 import * as l10n from '../../lib/l10n';
 import {KeyringOptions} from './KeyringOptions';
 import KeyringSelect from './components/KeyringSelect';
@@ -30,7 +30,13 @@ export default function KeyringSetup({hasPrivateKey, keyringAttr, onChangeKeyrin
   // This is the first event we log
   // It would be nice to log installLandingPage instead,
   // but we don't have consent at that time.
-  measureOnboardingStep('Keyring Setup Page Shown');
+  port.emit(
+    'record-onboarding-step',
+    {
+      'category': 'onboarding',
+      'action': 'load',
+      'campaign': 'onboarding'
+    });
   const context = React.useContext(KeyringOptions);
   return (
     <div className="card-body">
