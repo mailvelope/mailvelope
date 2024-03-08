@@ -33,9 +33,8 @@ export default function KeyringSetup({hasPrivateKey, keyringAttr, onChangeKeyrin
   port.emit(
     'record-onboarding-step',
     {
-      'category': 'onboarding',
       'action': 'load',
-      'campaign': 'onboarding'
+      'name': 'Keyring Setup Page'
     });
   const context = React.useContext(KeyringOptions);
   return (

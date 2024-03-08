@@ -205,9 +205,7 @@ export default class KeyImport extends React.Component {
       port.emit(
         'record-onboarding-step',
         {
-          'category': 'onboarding',
           'action': 'ADD KEY',
-          'campaign': 'onboarding',
           'name': 'Import'
         });
     } catch (error) {

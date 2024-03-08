@@ -124,9 +124,7 @@ export default class GenerateKey extends React.Component {
       port.emit(
         'record-onboarding-step',
         {
-          'category': 'onboarding',
           'action': 'ADD KEY',
-          'campaign': 'onboarding',
           'name': 'Generate'
         });
     } catch (error) {

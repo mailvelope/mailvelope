@@ -13,12 +13,12 @@ const NON_DEFAULT_PROVIDER = 'Non-default Provider';
 const PROVIDER_SCENE_PATH = 'webmail provider';
 
 export const ONBOARDING_CAMPAIGN = 'onboarding';
-// const ONBOARDING_CATEGORY = 'onboarding';
-export const FIRST_LOAD = 'Load Keyring Setup Page';
+const ONBOARDING_CATEGORY = 'onboarding';
+export const LOAD_EXTENSION = 'Load Keyring Setup Page';
 export const ADD_KEY = 'Added Key';
 export const COMMUNIATION = 'Communication';
 // const ONBOARDING_STEPS = [
-//   FIRST_LOAD,
+//   LOAD_EXTENSION,
 //   ADD_KEY,
 //   COMMUNIATION,
 // ];
@@ -74,7 +74,7 @@ export function measureWatchListHit(url) {
   }
 }
 
-export function recordOnboardingStep(category, action, campaign, name) {
-  console.log('Recording onboarding step:', category, action, campaign, name);
-  ci.measureEvent(category, action, campaign, name);
+export function recordOnboardingStep(action, name) {
+  console.log('Recording onboarding step:', ONBOARDING_CATEGORY, action, ONBOARDING_CAMPAIGN, name);
+  ci.measureEvent(ONBOARDING_CATEGORY, action, ONBOARDING_CAMPAIGN, name);
 }
