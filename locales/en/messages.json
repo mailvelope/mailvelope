@@ -99,6 +99,18 @@
     "description": "Consent to share analytics information with mailvelope",
     "message": "Share aggregated & anonymized analytics information with Mailvelope"
   },
+  "analytics_interstitial_header": {
+    "description": "Header of analytics consent dialog.",
+    "message": "Help us improve?"
+  },
+  "analytics_consent_interstitial_message": {
+    "description": "Request for consent from selected users.",
+    "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful transactions in the system. Will you contribute?"
+  },
+  "analytics_consent_interstitial_learn_more": {
+    "description": "Label for expandable section",
+    "message": "Learn how metrics are safe"
+  },
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
     "message": "Allow API"

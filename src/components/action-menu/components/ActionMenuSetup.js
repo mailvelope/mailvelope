@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 import Trans from '../../util/Trans';
 import EventHandler from '../../../lib/EventHandler';
@@ -20,10 +19,15 @@ export default class ActionMenuSetup extends React.Component {
     super(props);
     this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
     this.handleClickThrough = this.handleClickThrough.bind(this);
+    this.isSelected = Math.random() < (1 / 100);
   }
 
-  handleClickThrough(event) {
-    this.props.onMenuItemClickHandler(event);
+  handleClickThrough() {
+    if (this.isSelected) {
+      this.port.emit('browser-action', {action: 'analytics-consent'});
+    } else {
+      this.port.emit('browser-action', {action: 'setup-keys'});
+    }
   }
 
   render() {
@@ -40,7 +44,3 @@ export default class ActionMenuSetup extends React.Component {
     );
   }
 }
-
-ActionMenuSetup.propTypes = {
-  onMenuItemClickHandler: PropTypes.func
-};
