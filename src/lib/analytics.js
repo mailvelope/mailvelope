@@ -12,6 +12,9 @@ export const PROVIDER_CAMPAIGN = 'provider';
 const NON_DEFAULT_PROVIDER = 'Non-default Provider';
 const PROVIDER_SCENE_PATH = 'webmail provider';
 
+export const ONBOARDING_CAMPAIGN = 'onboarding';
+export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 100;
+
 export const ci = new CleanInsights({
   'server': 'https://metrics.cleaninsights.org/cleaninsights.php',
   'siteId': 22,  // Mailvelope's site ID on Clean Insights Matomo instance.
@@ -24,6 +27,14 @@ export const ci = new CleanInsights({
       'aggregationPeriodLength': 7, // days
       'numberOfPeriods': 53,
       // Record which sites are used each day.  Subsequent same-day visits aren't interesting.
+      'onlyRecordOnce': true,
+    },
+    [ONBOARDING_CAMPAIGN]: {
+      'start': '2024-03-01T00:00:00-00:00',
+      'end': '2024-12-31T23:59:59-00:00',
+      'aggregationPeriodLength': 1, // days
+      'numberOfPeriods': 30,
+      // We only care *that* a step was completed, not e.g. how many times you decrypted a message.
       'onlyRecordOnce': true,
     },
   }

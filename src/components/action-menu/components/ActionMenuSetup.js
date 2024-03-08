@@ -7,6 +7,7 @@ import React from 'react';
 import * as l10n from '../../../lib/l10n';
 import Trans from '../../util/Trans';
 import EventHandler from '../../../lib/EventHandler';
+import {PERCENT_OF_ONBOARDERS_TO_PROMPT} from '../../../lib/analytics';
 
 l10n.register([
   'action_menu_configure_mailvelope',
@@ -19,7 +20,7 @@ export default class ActionMenuSetup extends React.Component {
     super(props);
     this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
     this.handleClickThrough = this.handleClickThrough.bind(this);
-    this.isSelected = Math.random() < (1 / 100);
+    this.isSelected = Math.random() < (PERCENT_OF_ONBOARDERS_TO_PROMPT / 100);
   }
 
   handleClickThrough() {

@@ -639,22 +639,28 @@ dt {
   width: 200px;
   height: 200px;
   border-radius: 100%;
-  overflow: hidden; /* Para asegurar que la imagen no se desborde del contenedor */
+  overflow: hidden; /* To ensure that the image does not overflow from the container */
 }
 .round-container img {
   max-width: 100%;
   max-height: 100%;
   border-radius: 50%;
 }
-
 .btn-consent {
   width: 150px;
-  color: red; /* Color del texto */
-  background-color: white; /* Fondo blanco */
-  border: 1px solid red; /* Borde rojo */
-  transition: border-color 0.3s ease; /* Transición para el hover */
+  color: red;
+  background-color: white;
+  border: 1px solid red;
+  transition: border-color 0.3s ease;
 }
-
 .btn-consent:hover {
-  border-color: #cc0000; /* Borde rojo más intenso en hover */
+  border-color: #cc0000; 
+}
+.learnhow{
+  font-weight: bold;
+  cursor: pointer;
+}
+.collapse-icon img {
+  width: 10px;
+  color: #0000;
 }
