@@ -10,6 +10,7 @@ import {Link} from 'react-router-dom';
 import * as l10n from '../../lib/l10n';
 import {KeyringOptions} from './KeyringOptions';
 import KeyringSelect from './components/KeyringSelect';
+import {LOAD_EXTENSION} from '../../lib/analytics';
 
 l10n.register([
   'general_openpgp_preferences',
@@ -33,7 +34,7 @@ export default function KeyringSetup({hasPrivateKey, keyringAttr, onChangeKeyrin
   port.emit(
     'record-onboarding-step',
     {
-      'action': 'load',
+      'action': LOAD_EXTENSION,
       'name': 'Keyring Setup Page'
     });
   const context = React.useContext(KeyringOptions);

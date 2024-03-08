@@ -17,6 +17,7 @@ import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from '../../components/util/DefinePassword';
 import Modal from '../../components/util/Modal';
 import {Redirect, Link} from 'react-router-dom';
+import {ADD_KEY} from '../../lib/analytics';
 
 l10n.register([
   'alert_header_success',
@@ -124,7 +125,7 @@ export default class GenerateKey extends React.Component {
       port.emit(
         'record-onboarding-step',
         {
-          'action': 'ADD KEY',
+          'action': ADD_KEY,
           'name': 'Generate'
         });
     } catch (error) {

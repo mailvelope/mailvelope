@@ -17,6 +17,7 @@ import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 import Spinner from '../../components/util/Spinner';
 import FileUpload from '../../components/util/FileUpload';
+import {ADD_KEY} from '../../lib/analytics';
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
@@ -205,7 +206,7 @@ export default class KeyImport extends React.Component {
       port.emit(
         'record-onboarding-step',
         {
-          'action': 'ADD KEY',
+          'action': ADD_KEY,
           'name': 'Import'
         });
     } catch (error) {

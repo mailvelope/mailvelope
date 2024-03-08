@@ -14,7 +14,7 @@ const PROVIDER_SCENE_PATH = 'webmail provider';
 
 export const ONBOARDING_CAMPAIGN = 'onboarding';
 const ONBOARDING_CATEGORY = 'onboarding';
-export const LOAD_EXTENSION = 'Load Keyring Setup Page';
+export const LOAD_EXTENSION = 'Load Extension';
 export const ADD_KEY = 'Added Key';
 export const COMMUNIATION = 'Communication';
 // const ONBOARDING_STEPS = [
