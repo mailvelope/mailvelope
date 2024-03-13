@@ -76,7 +76,7 @@ export function binInto10sIncrements(milliseconds) {
  */
 export function recordOnboardingStep(action, name) {
   const this_step_performed_at = Date.now();
-  if (!store.get(action) !== undefined) {
+  if (store.get(action) === undefined) {
     // Save the timestamp of the first time this action was performed.
     store.set(action, this_step_performed_at);
   }
