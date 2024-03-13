@@ -47,7 +47,6 @@ const store = new BrowserStoreWithKV();
 export const ci = new CleanInsights(
   {
     'server': 'https://metrics.cleaninsights.org/cleaninsights.php',
-    // DO NOT DEPLOY: Testing ID
     'siteId': 22,
     'persistEveryNTimes': 1,
     'campaigns': {
