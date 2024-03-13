@@ -14,6 +14,7 @@ l10n.register([
   'provider_analytics_consent',
   'settings_analytics',
   'analytics_consent_description',
+  'analytics_consent_disabled_tooltip',
 ]);
 
 export default class Analytics extends React.Component {
@@ -72,8 +73,14 @@ export default class Analytics extends React.Component {
         <h2 className="mb-4">{l10n.map.settings_analytics}</h2>
         <div className="form-group mb-4">
           <h3>{l10n.map.provider_analytics_consent}</h3>
-          <div className="custom-control custom-checkbox">
-            <input className="custom-control-input" type="checkbox" checked={this.state.onboardingConsent} onChange={this.handleChange} id="onboardingConsent" name="onboardingConsent"></input>
+          <div className="custom-control custom-checkbox" title={!this.state.onboardingConsent && !this.state.modified && l10n.map.analytics_consent_disabled_tooltip}>
+            <input className="custom-control-input"
+              type="checkbox"
+              checked={this.state.onboardingConsent}
+              disabled={!this.state.onboardingConsent && !this.state.modified}
+              onChange={this.handleChange}
+              id="onboardingConsent"
+              name="onboardingConsent"></input>
             <label className="custom-control-label" htmlFor="onboardingConsent">{l10n.map.analytics_consent_description} <a href="https://www.mailvelope.com/faq#analytics" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></label>
           </div>
         </div>
