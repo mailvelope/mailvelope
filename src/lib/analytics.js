@@ -6,20 +6,20 @@
 import {BrowserStore, CleanInsights, ConsentState} from 'clean-insights-sdk';
 
 export const ONBOARDING_CAMPAIGN = 'onboarding';
-const ONBOARDING_CATEGORY = 'onboarding';
 export const LOAD_EXTENSION = 'Load Extension';
 export const ADD_KEY = 'Added Key';
 export const COMMUNICATION = 'Communication';
+export const KEYSERVER_ADDRESS = 'noreply@mailvelope.com';
+
+const ONBOARDING_CATEGORY = 'onboarding';
 const ONBOARDING_STEPS = [
   LOAD_EXTENSION,
   ADD_KEY,
   COMMUNICATION,
 ];
-export const KEYSERVER_ADDRESS = 'noreply@mailvelope.com';
 
-// DO NOT DEPLOY: Change to 1% for deployement.
 const SELECTED_FOR_EXPERIMENT_KEY = 'Selected for Onboarding Experiment';
-export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 100;
+export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 1;
 
 // Add basic K:V storage so we can keep timestamps and deduplicate actions.
 class BrowserStoreWithKV extends BrowserStore {
@@ -28,20 +28,16 @@ class BrowserStoreWithKV extends BrowserStore {
     const data = this.load();
     if (data && data.kv) {
       this.kv = data.kv;
+    } else {
+      this.kv = {};
     }
   }
 
-  setItem(key, value) {
-    if (!this.kv) {
-      this.kv = {};
-    }
+  set(key, value) {
     this.kv[key] = value;
   }
 
-  getItem(key) {
-    if (!this.kv) {
-      this.kv = {};
-    }
+  get(key) {
     return this.kv[key];
   }
 }
@@ -67,44 +63,50 @@ export const ci = new CleanInsights(
   store
 );
 
+function binInto10sIncrements(milliseconds) {
+  return Math.floor(milliseconds / (10 * 1000)) * 10;
+}
+
 /* Record that an onboarding step was completed and how long it's been since the first time the
- * previous step was completed.
+ * previous action was completed.
  *
  * Pre-requisite actions are listed in ONBOARDING_STEPS.  Names capture the specific mechanism
- * used to perform the action e.g. "Generate" or "Import".
+ * used to perform the action e.g. "Generate" or "Import".  The same action will be recorded once
+ * for each unique name.
  */
 export function recordOnboardingStep(action, name) {
-  const this_action_already_recorded = store.getItem(action) !== undefined;
   const this_step_performed_at = Date.now();
-  if (!this_action_already_recorded) {
+  if (!store.get(action) !== undefined) {
     // Save the timestamp of the first time this action was performed.
-    store.setItem(action, this_step_performed_at);
+    store.set(action, this_step_performed_at);
   }
-  const last_step_timestamp = store.getItem(ONBOARDING_STEPS[ONBOARDING_STEPS.indexOf(action) - 1]);
+  const last_step_timestamp = store.get(ONBOARDING_STEPS[ONBOARDING_STEPS.indexOf(action) - 1]);
   let elapsed = null;
   if (last_step_timestamp) {
     // TODO: De-rezz this.
-    elapsed = (this_step_performed_at - last_step_timestamp) / 1000;  // Report seconds, not milliseconds.
+    elapsed = (this_step_performed_at - last_step_timestamp);  // Report seconds, not milliseconds.
+    elapsed = binInto10sIncrements(elapsed);
   }
 
-  // For this campaign, onlyRecordOnce isn't quite right.  We want to record once *ever*,
-  // not once per aggregation period.  So we'll use the store to deduplicate.
+  // For this campaign, onlyRecordOnce isn't quite right.  We want to record once *ever*
+  // for a given action/name pair, not once per aggregation period.  So we'll use the
+  // store to deduplicate.
   const can_tuple = [ONBOARDING_CATEGORY, action, name];
-  if (!store.getItem(can_tuple)) {
+  if (!store.get(can_tuple)) {
     ci.measureEvent(ONBOARDING_CATEGORY, action, ONBOARDING_CAMPAIGN, name, elapsed);
-    store.setItem(can_tuple, true);
+    store.set(can_tuple, true);
     ci.persist();
   }
 }
 
 /* Decide once whether the user is selected for the experiment.  If they're selected and
-* haven't responded to the consent dialog, we'll show it.
-*/
+ * haven't yet responded to the consent dialog, show it.
+ */
 export function shouldSeeConsentDialog() {
-  let selected = store.getItem(SELECTED_FOR_EXPERIMENT_KEY);
+  let selected = store.get(SELECTED_FOR_EXPERIMENT_KEY);
   if (selected === undefined) {
     selected = Math.random() < (PERCENT_OF_ONBOARDERS_TO_PROMPT / 100);
-    store.setItem(SELECTED_FOR_EXPERIMENT_KEY, selected);
+    store.set(SELECTED_FOR_EXPERIMENT_KEY, selected);
     ci.persist();
   }
   const hasResponded = ci.stateOfCampaign(ONBOARDING_CAMPAIGN) !== ConsentState.unknown;
