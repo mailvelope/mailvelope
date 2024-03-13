@@ -53,10 +53,8 @@ export default class Analytics extends React.Component {
 
   handleSave() {
     if (this.state.onboardingConsent) {
-      console.log('grant');
       port.emit('grant-consent', {campaignId: ONBOARDING_CAMPAIGN});
     } else {
-      console.log('deny');
       port.emit('deny-consent', {campaignId: ONBOARDING_CAMPAIGN});
     }
     this.setState({modified: false});
