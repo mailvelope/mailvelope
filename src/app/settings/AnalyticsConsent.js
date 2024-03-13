@@ -20,7 +20,6 @@ l10n.register([
 
 function withHistory(Component) {
   return function WrapperComponent(props) {
-    // const navigate = () => {};
     const history = useHistory();
     return <Component {...props} history={history} />;
   };
@@ -54,18 +53,18 @@ class AnalyticsConsent extends React.Component {
   render() {
     return (
       <div className="jumbotron">
-        <section className="card  text-center">
+        <section className="card text-center">
           <div className="container">
-            <div className=" row justify-content-center">
-              <div className=" round-container my-4 d-flex justify-content-center align-items-center ">
+            <div className="row justify-content-center">
+              <div className="round-container my-4 d-flex justify-content-center align-items-center">
                 <img className="img-fluid" src="/img/hands.svg" />
               </div>
             </div>
           </div>
           <div className="container">
-            <div className=" row justify-content-center">
+            <div className="row justify-content-center">
               <div className="col-md-12 mt-2">
-                <h2 className="text-center ">{l10n.map.analytics_interstitial_header}</h2>
+                <h2 className="text-center">{l10n.map.analytics_interstitial_header}</h2>
               </div>
               <div className="col-md-12 my-2 d-flex justify-content-center">
                 <p className="text-center w-50 mx-2 desc-analitycs">{l10n.map.analytics_consent_interstitial_message}</p>

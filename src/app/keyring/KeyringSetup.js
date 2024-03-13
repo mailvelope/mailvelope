@@ -28,8 +28,7 @@ l10n.register([
 ]);
 
 export default function KeyringSetup({hasPrivateKey, keyringAttr, onChangeKeyring, prefs}) {
-  // This is the first event we log
-  // It would be nice to log installLandingPage instead,
+  // This is the first event we log. It would be nice to log installLandingPage instead,
   // but we don't have consent at that time.
   port.emit(
     'record-onboarding-step',
