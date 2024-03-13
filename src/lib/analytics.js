@@ -4,13 +4,6 @@
  */
 
 import {BrowserStore, CleanInsights, ConsentState} from 'clean-insights-sdk';
-import {matchPattern2RegEx} from './util';
-import mvelo from './lib-mvelo';
-import defaults from '../res/defaults.json';
-
-export const PROVIDER_CAMPAIGN = 'provider';
-const NON_DEFAULT_PROVIDER = 'Non-default Provider';
-const PROVIDER_SCENE_PATH = 'webmail provider';
 
 export const ONBOARDING_CAMPAIGN = 'onboarding';
 const ONBOARDING_CATEGORY = 'onboarding';
