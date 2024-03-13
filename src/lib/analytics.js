@@ -28,6 +28,14 @@ export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 100;
 
 // Add basic K:V storage so we can keep timestamps and deduplicate actions.
 class BrowserStoreWithKV extends BrowserStore {
+  constructor() {
+    super();
+    const data = this.load();
+    if (data && data.kv) {
+      this.kv = data.kv;
+    }
+  }
+
   setItem(key, value) {
     if (!this.kv) {
       this.kv = {};
@@ -117,9 +125,7 @@ export function recordOnboardingStep(action, name) {
   // For this campaign, onlyRecordOnce isn't quite right.  We want to record once *ever*,
   // not once per aggregation period.  So we'll use the store to deduplicate.
   const can_tuple = [ONBOARDING_CATEGORY, action, name];
-  console.log(store.getItem(can_tuple));
   if (!store.getItem(can_tuple)) {
-    console.log('Recording onboarding step:', ONBOARDING_CATEGORY, action, ONBOARDING_CAMPAIGN, name, elapsed);
     ci.measureEvent(ONBOARDING_CATEGORY, action, ONBOARDING_CAMPAIGN, name, elapsed);
     store.setItem(can_tuple, true);
     ci.persist();
