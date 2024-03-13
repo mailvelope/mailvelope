@@ -38,7 +38,6 @@ class AnalyticsConsent extends React.Component {
 
   handleSelection(event) {
     const consented = event.target.getAttribute('data-selection') === 'yes';
-    console.log('User has reported their consent:', consented);
     if (consented) {
       port.emit('grant-consent', {campaignId: ONBOARDING_CAMPAIGN});
     } else {
@@ -74,12 +73,10 @@ class AnalyticsConsent extends React.Component {
               <button className="btn btn-consent mx-2" type="button" data-selection="yes" onClick={this.handleSelection}>{l10n.map.dialog_yes_btn}</button>
             </div>
           </div>
-          <p className="learnhow my-4" onClick={this.toggleExpansion}>{l10n.map.analytics_consent_interstitial_learn_more} <span className="collapse-icon"><img className="img-fluid" src="/img/arrow.svg" /></span></p>
+          <p className="accordion-control my-4" onClick={this.toggleExpansion}>{l10n.map.analytics_consent_interstitial_learn_more} <span className="collapse-icon"><img className="img-fluid" src="/img/arrow.svg" /></span></p>
           <div id="learnhow" className={`collapse ${this.state.expanded ? 'show' : ''}`}>
-            <div className="card card-body">
-              <div className="row justify-content-center">
-                <p className="text-center w-50 mb-0">{l10n.map.analytics_consent_interstitial_learn_more_explanation}</p>
-              </div>
+            <div className="row justify-content-center">
+              <p className="text-center w-50">{l10n.map.analytics_consent_interstitial_learn_more_explanation}</p>
             </div>
           </div>
         </section>
