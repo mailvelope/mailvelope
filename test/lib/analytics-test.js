@@ -1,4 +1,4 @@
-import {expect, sinon} from 'test';
+import {expect} from 'test';
 import {binInto10sIncrements} from 'lib/analytics';
 
 describe('analytics tests', () => {

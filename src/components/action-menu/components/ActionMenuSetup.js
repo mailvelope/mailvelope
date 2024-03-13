@@ -20,7 +20,7 @@ export default class ActionMenuSetup extends React.Component {
     this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
     this.handleClickThrough = this.handleClickThrough.bind(this);
     this.shouldSeeConsentDialog = false;
-    this.port.send('should-see-consent-dialog').then((shouldPrompt) => {
+    this.port.send('should-see-consent-dialog').then(shouldPrompt => {
       this.shouldSeeConsentDialog = shouldPrompt;
     });
   }
