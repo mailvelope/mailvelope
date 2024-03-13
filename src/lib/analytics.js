@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {BrowserStore, CleanInsights} from 'clean-insights-sdk';
+import {BrowserStore, CleanInsights, ConsentState} from 'clean-insights-sdk';
 import {matchPattern2RegEx} from './util';
 import mvelo from './lib-mvelo';
 import defaults from '../res/defaults.json';
@@ -25,6 +25,7 @@ const ONBOARDING_STEPS = [
 export const KEYSERVER_ADDRESS = 'noreply@mailvelope.com';
 
 // DO NOT DEPLOY: Change to 1% for deployement.
+const SELECTED_FOR_EXPERIMENT_KEY = 'Selected for Onboarding Experiment';
 export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 100;
 
 // Add basic K:V storage so we can keep timestamps and deduplicate actions.
@@ -132,4 +133,18 @@ export function recordOnboardingStep(action, name) {
     store.setItem(can_tuple, true);
     ci.persist();
   }
+}
+
+/* Decide once whether the user is selected for the experiment.  If they're selected and
+* haven't responded to the consent dialog, we'll show it.
+*/
+export function shouldSeeConsentDialog() {
+  let selected = store.getItem(SELECTED_FOR_EXPERIMENT_KEY);
+  if (selected === undefined) {
+    selected = Math.random() < (PERCENT_OF_ONBOARDERS_TO_PROMPT / 100);
+    store.setItem(SELECTED_FOR_EXPERIMENT_KEY, selected);
+    ci.persist();
+  }
+  const hasResponded = ci.stateOfCampaign(ONBOARDING_CAMPAIGN) !== ConsentState.unknown;
+  return selected && !hasResponded;
 }

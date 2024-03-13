@@ -8,7 +8,7 @@ import {getHash} from '../lib/util';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
-import {ci} from '../lib/analytics';
+import {ci, shouldSeeConsentDialog} from '../lib/analytics';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -22,7 +22,7 @@ export default class MenuController extends sub.SubController {
     this.on('grant-consent', ({campaignId}) => ci.grantCampaign(campaignId));
     this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
     this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
-    this.on('has-granted-or-denied-consent', this.hasGrantedOrDeniedConsent);
+    this.on('should-see-consent-dialog', shouldSeeConsentDialog);
   }
 
   async hasGrantedOrDeniedConsent({campaignId}) {
