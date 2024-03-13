@@ -48,9 +48,8 @@ export const ci = new CleanInsights(
   {
     'server': 'https://metrics.cleaninsights.org/cleaninsights.php',
     // DO NOT DEPLOY: Testing ID
-    'siteId': 37,  // Mailvelope's site ID on Clean Insights Matomo instance.
+    'siteId': 22,
     'persistEveryNTimes': 1,
-    'debug': true, // DO NOT DEPLOY: Debug off for deployment.
     'campaigns': {
       [ONBOARDING_CAMPAIGN]: {
         'start': '2024-03-01T00:00:00-00:00',
@@ -62,6 +61,9 @@ export const ci = new CleanInsights(
   },
   store
 );
+// By calling this when the extension is initialized, we can make sure we
+// flush the last events out.
+ci.persistAndSend();
 
 export function binInto10sIncrements(milliseconds) {
   return Math.floor(milliseconds / (10 * 1000)) * 10;
