@@ -14,6 +14,7 @@ l10n.register([
   'analytics_interstitial_header',
   'analytics_consent_interstitial_message',
   'analytics_consent_interstitial_learn_more',
+  'analytics_consent_interstitial_learn_more_explanation',
   'dialog_no_button',
   'dialog_yes_button',
 ]);
@@ -67,7 +68,7 @@ class AnalyticsConsent extends React.Component {
                 <h2 className="text-center">{l10n.map.analytics_interstitial_header}</h2>
               </div>
               <div className="col-md-12 my-2 d-flex justify-content-center">
-                <p className="text-center w-50 mx-2 desc-analitycs">{l10n.map.analytics_consent_interstitial_message}</p>
+                <p className="text-center w-50 mx-2">{l10n.map.analytics_consent_interstitial_message}</p>
               </div>
               <button className="btn btn-consent mx-2" type="button" data-selection="no" onClick={this.handleSelection}>{l10n.map.dialog_no_btn}</button>
               <button className="btn btn-consent mx-2" type="button" data-selection="yes" onClick={this.handleSelection}>{l10n.map.dialog_yes_btn}</button>
@@ -76,7 +77,9 @@ class AnalyticsConsent extends React.Component {
           <p className="learnhow my-4" onClick={this.toggleExpansion}>{l10n.map.analytics_consent_interstitial_learn_more} <span className="collapse-icon"><img className="img-fluid" src="/img/arrow.svg" /></span></p>
           <div id="learnhow" className={`collapse ${this.state.expanded ? 'show' : ''}`}>
             <div className="card card-body">
-              <p>Insert copy here</p>
+              <div className="row justify-content-center">
+                <p className="text-center w-50 mb-0">{l10n.map.analytics_consent_interstitial_learn_more_explanation}</p>
+              </div>
             </div>
           </div>
         </section>
