@@ -16,12 +16,13 @@ export const ONBOARDING_CAMPAIGN = 'onboarding';
 const ONBOARDING_CATEGORY = 'onboarding';
 export const LOAD_EXTENSION = 'Load Extension';
 export const ADD_KEY = 'Added Key';
-export const COMMUNIATION = 'Communication';
+export const COMMUNICATION = 'Communication';
 const ONBOARDING_STEPS = [
   LOAD_EXTENSION,
   ADD_KEY,
-  COMMUNIATION,
+  COMMUNICATION,
 ];
+export const KEYSERVER_ADDRESS = 'noreply@mailvelope.com';
 
 // DO NOT DEPLOY: Change to 1% for deployement.
 export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 100;
@@ -119,9 +120,10 @@ export function recordOnboardingStep(action, name) {
   const last_step_timestamp = store.getItem(ONBOARDING_STEPS[ONBOARDING_STEPS.indexOf(action) - 1]);
   let elapsed = null;
   if (last_step_timestamp) {
+    // TODO: De-rezz this.
     elapsed = (this_step_performed_at - last_step_timestamp) / 1000;  // Report seconds, not milliseconds.
   }
-  
+
   // For this campaign, onlyRecordOnce isn't quite right.  We want to record once *ever*,
   // not once per aggregation period.  So we'll use the store to deduplicate.
   const can_tuple = [ONBOARDING_CATEGORY, action, name];
