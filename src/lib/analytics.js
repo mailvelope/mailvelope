@@ -63,14 +63,6 @@ export const ci = new CleanInsights(
     'persistEveryNTimes': 1,
     'debug': true, // DO NOT DEPLOY: Debug off for deployment.
     'campaigns': {
-      [PROVIDER_CAMPAIGN]: {
-        'start': '2022-02-01T00:00:00-00:00',
-        'end': '2023-01-31T23:59:59-00:00',
-        'aggregationPeriodLength': 7, // days
-        'numberOfPeriods': 53,
-        // Record which sites are used each day.  Subsequent same-day visits aren't interesting.
-        'onlyRecordOnce': true,
-      },
       [ONBOARDING_CAMPAIGN]: {
         'start': '2024-03-01T00:00:00-00:00',
         'end': '2024-12-31T23:59:59-00:00',
@@ -81,29 +73,6 @@ export const ci = new CleanInsights(
   },
   store
 );
-
-/* Record a hit to a domain in the watchList (i.e. where the mvelo content script was injected).
- *
- * To preserve privacy, we record only the matching site & frame and discard the remaining
- * information in the URL.
- */
-export function measureWatchListHit(url) {
-  let measured = false;
-  defaults.watch_list.forEach(site => {
-    site.frames.forEach(frame => {
-      const re = matchPattern2RegEx(frame.frame);
-      if (re.test(mvelo.util.getDomain(url))) {
-        ci.measureVisit([PROVIDER_SCENE_PATH, site.site, frame.frame], PROVIDER_CAMPAIGN);
-        measured = true;
-      }
-    });
-  });
-  // When the script was injected, but not into a default site, do not disclose *which* site,
-  // but do record that some non-default site was visited.
-  if (!measured) {
-    ci.measureVisit([PROVIDER_SCENE_PATH, NON_DEFAULT_PROVIDER], PROVIDER_CAMPAIGN);
-  }
-}
 
 /* Record that an onboarding step was completed and how long it's been since the first time the
  * previous step was completed.
