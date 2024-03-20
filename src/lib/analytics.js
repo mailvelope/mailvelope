@@ -11,11 +11,25 @@ export const ADD_KEY = 'Added Key';
 export const COMMUNICATION = 'Communication';
 export const KEYSERVER_ADDRESS = 'noreply@mailvelope.com';
 
+const TRACKTYPES = {
+  FIRST_PER_ACTION: 'first per action',
+  FIRST_PER_NAME: 'first per name',
+};
+
 const ONBOARDING_CATEGORY = 'onboarding';
 const ONBOARDING_STEPS = [
-  LOAD_EXTENSION,
-  ADD_KEY,
-  COMMUNICATION,
+  {
+    name: LOAD_EXTENSION,
+    trackType: TRACKTYPES.FIRST_PER_ACTION,
+  },
+  {
+    name: ADD_KEY,
+    trackType: TRACKTYPES.FIRST_PER_ACTION,
+  },
+  {
+    name: COMMUNICATION,
+    trackType: TRACKTYPES.FIRST_PER_NAME,
+  },
 ];
 
 const SELECTED_FOR_EXPERIMENT_KEY = 'Selected for Onboarding Experiment';
@@ -68,6 +82,15 @@ export function binInto10sIncrements(milliseconds) {
   return Math.floor(milliseconds / (10 * 1000)) * 10;
 }
 
+function getStep(action) {
+  return ONBOARDING_STEPS.find(step => step.name === action);
+}
+
+function getPrecedingStep(action) {
+  const index = ONBOARDING_STEPS.indexOf(getStep(action));
+  return index > 0 ? ONBOARDING_STEPS[index - 1] : null;
+}
+
 /* Record that an onboarding step was completed and how long it's been since the first time the
  * previous action was completed.
  *
@@ -77,21 +100,22 @@ export function binInto10sIncrements(milliseconds) {
  */
 export function recordOnboardingStep(action, name) {
   const this_step_performed_at = Date.now();
-  if (store.get(action) === undefined) {
-    // Save the timestamp of the first time this action was performed.
-    store.set(action, this_step_performed_at);
-  }
-  const last_step_timestamp = store.get(ONBOARDING_STEPS[ONBOARDING_STEPS.indexOf(action) - 1]);
+  const last_step = getPrecedingStep(action);
+  const last_step_timestamp = last_step && store.get(last_step.name);
   let elapsed = null;
   if (last_step_timestamp) {
-    // TODO: De-rezz this.
     elapsed = (this_step_performed_at - last_step_timestamp);  // Report seconds, not milliseconds.
     elapsed = binInto10sIncrements(elapsed);
   }
 
-  // For this campaign, onlyRecordOnce isn't quite right.  We want to record once *ever*
-  // for a given action/name pair, not once per aggregation period.  So we'll use the
-  // store to deduplicate.
+  if (store.get(action) === undefined) {
+    // Save the timestamp of the first time this action was performed.
+    store.set(action, this_step_performed_at);
+  } else if (getStep(action).trackType === TRACKTYPES.FIRST_PER_ACTION) {
+    return;
+  }
+
+  // Never record a category, action, name tuple more than once.
   const can_tuple = [ONBOARDING_CATEGORY, action, name];
   if (!store.get(can_tuple)) {
     ci.measureEvent(ONBOARDING_CATEGORY, action, ONBOARDING_CAMPAIGN, name, elapsed);
