@@ -30,6 +30,7 @@ import Keyring from './keyring/Keyring';
 import Encrypt from './encrypt/Encrypt';
 import Decrypt from './decrypt/Decrypt';
 import Settings from './settings/Settings';
+import AnalyticsConsent from './settings/AnalyticsConsent';
 
 import './app.scss';
 
@@ -143,6 +144,7 @@ class App extends React.Component {
             <Route path="/encrypt" component={Encrypt} />
             <Route path="/decrypt" component={Decrypt} />
             <Route path="/settings" render={() => <Settings prefs={this.state.prefs} onChangePrefs={this.handleChangePrefs} />} />
+            <Route path="/analytics-consent" component={AnalyticsConsent} />
           </AppOptions.Provider>
         </main>
         <footer className="container-lg">
