@@ -636,10 +636,11 @@ dt {
 
 .round-container {
   background-color: #d0eadf; 
-  width: 200px;
-  height: 200px;
+  width: 230px;
+  height: 230px;
   border-radius: 100%;
   overflow: hidden; /* To ensure that the image does not overflow from the container */
+  padding: 15px;
 }
 .round-container img {
   max-width: 100%;
