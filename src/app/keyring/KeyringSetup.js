@@ -3,14 +3,12 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {port} from '../app';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as l10n from '../../lib/l10n';
 import {KeyringOptions} from './KeyringOptions';
 import KeyringSelect from './components/KeyringSelect';
-import {LOAD_EXTENSION} from '../../lib/analytics';
 
 l10n.register([
   'general_openpgp_preferences',
@@ -28,14 +26,6 @@ l10n.register([
 ]);
 
 export default function KeyringSetup({hasPrivateKey, keyringAttr, onChangeKeyring, prefs}) {
-  // This is the first event we log. It would be nice to log installLandingPage instead,
-  // but we don't have consent at that time.
-  port.emit(
-    'record-onboarding-step',
-    {
-      'action': LOAD_EXTENSION,
-      'name': 'Keyring Setup Page'
-    });
   const context = React.useContext(KeyringOptions);
   return (
     <div className="card-body">

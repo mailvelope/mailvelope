@@ -6,7 +6,7 @@
 import {BrowserStore, CleanInsights, ConsentState} from 'clean-insights-sdk';
 
 export const ONBOARDING_CAMPAIGN = 'onboarding';
-export const LOAD_EXTENSION = 'Load Extension';
+export const BEGIN = 'Load Extension';
 export const ADD_KEY = 'Added Key';
 export const COMMUNICATION = 'Communication';
 export const KEYSERVER_ADDRESS = 'noreply@mailvelope.com';
@@ -19,7 +19,7 @@ const TRACKTYPES = {
 const ONBOARDING_CATEGORY = 'onboarding';
 const ONBOARDING_STEPS = [
   {
-    name: LOAD_EXTENSION,
+    name: BEGIN,
     trackType: TRACKTYPES.FIRST_PER_ACTION,
   },
   {

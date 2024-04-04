@@ -17,7 +17,6 @@ import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 import Spinner from '../../components/util/Spinner';
 import FileUpload from '../../components/util/FileUpload';
-import {ADD_KEY} from '../../lib/analytics';
 
 const PUBLIC_KEY_REGEX = /-----BEGIN PGP PUBLIC KEY BLOCK-----[\s\S]+?-----END PGP PUBLIC KEY BLOCK-----/g;
 const PRIVATE_KEY_REGEX = /-----BEGIN PGP PRIVATE KEY BLOCK-----[\s\S]+?-----END PGP PRIVATE KEY BLOCK-----/g;
@@ -203,12 +202,6 @@ export default class KeyImport extends React.Component {
         hideDelay += 1000;
       }
       this.setState({redirect: true, amoredKeys: [], keys: [], textImport: ''});
-      port.emit(
-        'record-onboarding-step',
-        {
-          'action': ADD_KEY,
-          'name': 'Import'
-        });
     } catch (error) {
       console.log('Error on key import:', error);
       this.props.onNotification({id: Date.now(), header: l10n.map.key_import_error, message: error.type === 'error' ? error.message : l10n.map.key_import_exception, type: 'error'});

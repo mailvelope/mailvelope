@@ -21,7 +21,7 @@ import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 import * as mveloKeyServer from '../modules/mveloKeyServer';
 import * as autocrypt from '../modules/autocryptWrapper';
-import {ci, recordOnboardingStep} from '../lib/analytics';
+import {ci, recordOnboardingStep, ADD_KEY, BEGIN, ONBOARDING_CAMPAIGN} from '../lib/analytics';
 
 export default class AppController extends sub.SubController {
   constructor(port) {
@@ -77,7 +77,7 @@ export default class AppController extends sub.SubController {
     this.on('remove-oauth-token', this.removeOAuthToken);
     this.on('authorize-gmail', this.authorizeGmail);
     this.on('check-license', this.checkLicense);
-    this.on('grant-consent', ({campaignId}) => ci.grantCampaign(campaignId));
+    this.on('grant-consent', ({campaignId}) => this.grantCampaignConsent(campaignId));
     this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
     this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
     this.on('record-onboarding-step', ({action, name}) => recordOnboardingStep(action, name));
@@ -226,12 +226,16 @@ export default class AppController extends sub.SubController {
     const newKey = await keyringById(keyringId).generateKey(parameters);
     const keyId = newKey.privateKey.getKeyID().toHex().toUpperCase();
     this.sendKeyUpdate();
+    recordOnboardingStep(ADD_KEY, 'Generate');
     return {keyId};
   }
 
   async importKeys({keys, keyringId}) {
     const result = await keyringById(keyringId).importKeys(keys);
     this.sendKeyUpdate();
+    if (result.some(({type}) => type === 'success')) {
+      recordOnboardingStep(ADD_KEY, 'Import');
+    }
     return result;
   }
 
@@ -407,5 +411,12 @@ export default class AppController extends sub.SubController {
 
   async checkLicense({email}) {
     return gmail.checkLicense({email});
+  }
+
+  grantCampaignConsent(campaignId) {
+    ci.grantCampaign(campaignId);
+    if (campaignId === ONBOARDING_CAMPAIGN) {
+      recordOnboardingStep(BEGIN, 'Consent Granted');
+    }
   }
 }
