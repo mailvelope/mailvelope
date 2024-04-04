@@ -80,7 +80,6 @@ export default class AppController extends sub.SubController {
     this.on('grant-consent', ({campaignId}) => this.grantCampaignConsent(campaignId));
     this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
     this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
-    this.on('record-onboarding-step', ({action, name}) => recordOnboardingStep(action, name));
   }
 
   async updatePreferences(options) {
