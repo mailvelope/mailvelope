@@ -97,7 +97,7 @@
   },
   "analytics_consent_description": {
     "description": "Consent to share analytics information with mailvelope",
-    "message": "Share aggregated & anonymized analytics information with Mailvelope"
+    "message": "Share aggregated & anonymized analytics information with Mailvelope."
   },
   "analytics_consent_disabled_tooltip": {
     "description": "Explanation for why user cannot opt in to analytics",
