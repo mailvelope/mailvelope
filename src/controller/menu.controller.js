@@ -19,15 +19,7 @@ export default class MenuController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('get-is-bg-customized', this.getIsBGCustomized);
-    this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
-    this.on('should-see-consent-dialog', shouldSeeConsentDialog);
-  }
-
-  async hasGrantedOrDeniedConsent({campaignId}) {
-    if (ci.campaignConsents.indexOf(campaignId) === -1) {
-      return false;
-    }
-    return true;
+    this.on('analytics-consent', this.analyticsConsent);
   }
 
   onBrowserAction({action}) {
@@ -104,5 +96,13 @@ export default class MenuController extends sub.SubController {
       sub.setAppDataSlot(slotId, {domain, protocol});
       mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
     });
+  }
+
+  analyticsConsent() {
+    if (shouldSeeConsentDialog()) {
+      this.onBrowserAction({action: 'analytics-consent'});
+    } else {
+      this.onBrowserAction({action: 'setup-keys'});
+    }
   }
 }

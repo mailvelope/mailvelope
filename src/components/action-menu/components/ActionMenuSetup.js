@@ -19,18 +19,10 @@ export default class ActionMenuSetup extends React.Component {
     super(props);
     this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
     this.handleClickThrough = this.handleClickThrough.bind(this);
-    this.shouldSeeConsentDialog = false;
-    this.port.send('should-see-consent-dialog').then(shouldPrompt => {
-      this.shouldSeeConsentDialog = shouldPrompt;
-    });
   }
 
   handleClickThrough() {
-    if (this.shouldSeeConsentDialog) {
-      this.port.emit('browser-action', {action: 'analytics-consent'});
-    } else {
-      this.port.emit('browser-action', {action: 'setup-keys'});
-    }
+    this.port.emit('analytics-consent');
   }
 
   render() {
