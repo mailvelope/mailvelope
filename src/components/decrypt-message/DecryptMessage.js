@@ -114,7 +114,7 @@ export default class DecryptMessage extends React.Component {
 
   onDecryptedMessage({message, clearText}) {
     if (clearText) {
-      message = `<pre style="color: inherit; font-size: inherit;">${encodeHTML(message)}</pre>`;
+      message = `<pre style="color: inherit; font-size: inherit; white-space: pre-wrap;">${encodeHTML(message)}</pre>`;
     }
     this.setState({message, clearText});
   }
