@@ -15,6 +15,15 @@ l10n.register([
   'analytics_consent_interstitial_message',
   'analytics_consent_interstitial_learn_more',
   'analytics_consent_interstitial_learn_more_explanation',
+  'analytics_consent_interstitial_We_Collect_Minimal_Data_Title',
+  'analytics_consent_interstitial_We_Collect_Minimal_Data',
+  'analytics_consent_interstitial_We_Respect_your_Choice_Title',
+  'analytics_consent_interstitial_We_Respect_your_Choice',
+  'analytics_consent_interstitial_Your_Privacy_is_Preserved_Title',
+  'analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1',
+  'analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2',
+  'analytics_consent_interstitial_Faq',
+  'analytics_consent_interstitial_Btn_Learn_More',
   'dialog_no_button',
   'dialog_yes_button',
 ]);
@@ -50,6 +59,10 @@ class AnalyticsConsent extends React.Component {
     this.setState(prevState => ({expanded: !prevState.expanded}));
   }
 
+  redirectToLink() {
+    window.open('https://mailvelope.com/en/faq#analytics', '_blank');
+  }
+
   render() {
     return (
       <div className="jumbotron">
@@ -74,9 +87,36 @@ class AnalyticsConsent extends React.Component {
             </div>
           </div>
           <p className="accordion-control my-4" onClick={this.toggleExpansion}>{l10n.map.analytics_consent_interstitial_learn_more} <span className="collapse-icon"><img className="img-fluid" src="/img/arrow.svg" /></span></p>
-          <div id="learnhow" className={`collapse ${this.state.expanded ? 'show' : ''}`}>
-            <div className="row justify-content-center">
-              <p className="text-center w-50">{l10n.map.analytics_consent_interstitial_learn_more_explanation}</p>
+          <div id="learnhow" className={`collapse ${this.state.expanded ? 'show mx-5' : ''}`} >
+            <div className="row mx-5">
+              <div className="col-md-1">
+                <span className="collapse-icon"><img className="img-fluid w-100" src="/img/minimaldata.svg" /></span>
+              </div>
+              <div className="col-md-5 text-left">
+                <p className="font-weight-bold  mb-0">{l10n.map.analytics_consent_interstitial_We_Collect_Minimal_Data_Title}</p>
+                <p className="text-left">{l10n.map.analytics_consent_interstitial_We_Collect_Minimal_Data}</p>
+              </div>
+              <div className="col-md-1">
+                <span className="collapse-icon"><img className="img-fluid w-100" src="/img/respectChoise.svg" /></span>
+              </div>
+              <div className="col-md-5 text-left">
+                <p className="font-weight-bold  mb-0">{l10n.map.analytics_consent_interstitial_We_Respect_your_Choice_Title}</p>
+                <p className="text-left">{l10n.map.analytics_consent_interstitial_We_Respect_your_Choice}</p>
+              </div>
+              <div className="col-md-1">
+                <span className="collapse-icon"><img className="img-fluid w-100" src="/img/privacyReserved.svg" /></span>
+              </div>
+              <div className="col-md-5 text-left">
+                <p className="font-weight-bold  mb-0">{l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Title}</p>
+                <p className="">{l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1} <a href='https://cleaninsights.org/'>Clean Insights</a> {l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2}</p>
+              </div>
+              <div className="col-md-1">
+                <span className="collapse-icon"><img className="img-fluid w-100" src="/img/faqInfo.svg" /></span>
+              </div>
+              <div className="col-md-5 text-left">
+                <p className="">{l10n.map.analytics_consent_interstitial_Faq}</p>
+                <button className="btn btn-consent" type="button" data-selection="no" onClick={this.redirectToLink}>{l10n.map.analytics_consent_interstitial_Btn_Learn_More}</button>
+              </div>
             </div>
           </div>
         </section>

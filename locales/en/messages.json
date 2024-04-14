@@ -119,6 +119,54 @@
     "description": "Expandable section explaining how analytics protect privacy",
     "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute."
   },
+  "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "We Collect Minimal Data"
+  },
+  "analytics_consent_interstitial_We_Collect_Minimal_Data": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make."
+  },
+  "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "We Respect your Choice"
+  },
+  "analytics_consent_interstitial_We_Respect_your_Choice": {
+    "description": "We Respect your Choice",
+    "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings."
+  },
+  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Your Privacy is Preserved"
+  },
+  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
+    "description": "We Respect your Choice",
+    "message": "Mailvelope uses"
+  },
+  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
+    "description": "We Respect your Choice",
+    "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed."
+  },
+  "analytics_consent_interstitial_Faq": {
+    "description": "FAQ",
+    "message": " Read more about Mailvelope metrics in our FAQ."
+  },
+  "analytics_consent_interstitial_Btn_Learn_More": {
+    "description": "Btn FAQ",
+    "message": "Learn More"
+  },
+
+  "dialog_yes_button": {
+    "description": "Dialog button yes",
+    "message": "Yes"
+  },
+
+  "dialog_no_button": {
+    "description": "Dialog button no",
+    "message": "Skip"
+  },
+
+  
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
     "message": "Allow API"

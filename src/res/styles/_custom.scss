@@ -660,6 +660,14 @@ dt {
 .accordion-control {
   font-weight: bold;
   cursor: pointer;
+  background-color: #F2F4F4;
+  border-radius: 80px;
+  width: 35%;
+  height: 43px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .collapse-icon img {
   width: 10px;

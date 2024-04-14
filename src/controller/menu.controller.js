@@ -8,7 +8,7 @@ import {getHash} from '../lib/util';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
-import {ci, shouldSeeConsentDialog} from '../lib/analytics';
+import {shouldSeeConsentDialog} from '../lib/analytics';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
