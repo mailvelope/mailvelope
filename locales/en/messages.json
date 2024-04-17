@@ -166,6 +166,20 @@
     "message": "Skip"
   },
 
+ "header_analyticsconsent_modal": {
+    "description": "h2 modal analytics consent",
+    "message": "Thank you for helping!"
+  },
+
+  "paragraph_analyticsconsent_modal": {
+    "description": "p modal analytics consent",
+    "message": "You can opt out at any time from settings."
+  },
+
+  "button_analyticsconsent_modal": {
+    "description": "button modal analytics consent",
+    "message": "Continue"
+  },
   
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
