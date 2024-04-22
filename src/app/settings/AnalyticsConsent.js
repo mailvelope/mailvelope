@@ -103,7 +103,7 @@ class AnalyticsConsent extends React.Component {
             </div>
           </div>
           <p className="accordion-control my-4" onClick={this.toggleExpansion}>{l10n.map.analytics_consent_interstitial_learn_more} <span className="collapse-icon"><img className="img-fluid" src="/img/arrow.svg" /></span></p>
-          <div id="learnhow" className={`collapse ${this.state.expanded ? 'show mx-5' : ''}`} >
+          <div id="learnhow" className={`collapse my-4 ${this.state.expanded ? 'show mx-5' : ''}`} >
             <div className="row mx-5">
               <div className="col-md-1">
                 <span className="collapse-icon"><img className="img-fluid w-100" src="/img/minimaldata.svg" /></span>
