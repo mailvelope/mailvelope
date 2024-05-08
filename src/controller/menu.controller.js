@@ -18,7 +18,6 @@ export default class MenuController extends sub.SubController {
     this.on('browser-action', this.onBrowserAction);
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
-    this.on('get-is-bg-customized', this.getIsBGCustomized);
     this.on('analytics-consent', this.analyticsConsent);
   }
 
@@ -39,11 +38,8 @@ export default class MenuController extends sub.SubController {
       case 'manage-keys':
         this.openApp('/keyring');
         break;
-      case 'setup-keys':
-        this.openApp('/keyring/setup');
-        break;
-      case 'analytics-consent':
-        this.openApp('/analytics-consent');
+      case 'lets-start':
+        this.analyticsConsent();
         break;
       case 'encrypt-file':
         this.openApp('/encrypt');
@@ -57,10 +53,6 @@ export default class MenuController extends sub.SubController {
       case 'email-providers':
         this.openApp('/settings/watchlist');
         break;
-      case 'setup-new-bg':
-        this.cleanupPrefs();
-        this.openApp('/settings/security-background');
-        break;
       default:
         console.log('unknown browser action');
     }
@@ -70,11 +62,6 @@ export default class MenuController extends sub.SubController {
     // check if at least one keyring has a private key
     const hasPrivateKey = getAllKeyring().some(keyring => keyring.hasPrivateKey());
     return {isSetupDone: hasPrivateKey};
-  }
-
-  getIsBGCustomized() {
-    // check for old security bg values in local storage
-    return {isBGCustomized: !Object.keys(prefs.prefs.security).some(key => key.includes('secureBgnd'))};
   }
 
   async cleanupPrefs() {
@@ -100,9 +87,9 @@ export default class MenuController extends sub.SubController {
 
   analyticsConsent() {
     if (shouldSeeConsentDialog()) {
-      this.onBrowserAction({action: 'analytics-consent'});
+      this.openApp('/analytics-consent');
     } else {
-      this.onBrowserAction({action: 'setup-keys'});
+      this.openApp('/keyring/setup');
     }
   }
 }

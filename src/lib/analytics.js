@@ -130,7 +130,7 @@ export function recordOnboardingStep(action, name) {
 export function shouldSeeConsentDialog() {
   let selected = store.get(SELECTED_FOR_EXPERIMENT_KEY);
   if (selected === undefined) {
-    selected = Math.random() < (PERCENT_OF_ONBOARDERS_TO_PROMPT / 1);
+    selected = Math.random() < (PERCENT_OF_ONBOARDERS_TO_PROMPT / 100);
     store.set(SELECTED_FOR_EXPERIMENT_KEY, selected);
     ci.persist();
   }

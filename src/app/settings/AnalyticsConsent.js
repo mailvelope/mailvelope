@@ -58,18 +58,14 @@ class AnalyticsConsent extends React.Component {
     } else {
       port.emit('deny-consent', {campaignId: ONBOARDING_CAMPAIGN});
     }
-    this.props.history.push('/keyring/setup');
+    this.props.history.push('/keyring');
   }
 
   toggleExpansion() {
     this.setState(prevState => ({expanded: !prevState.expanded}));
   }
 
-  redirectToLink() {
-    window.open('https://mailvelope.com/en/faq#analytics', '_blank');
-  }
-
-  toggleModal() { 
+  toggleModal() {
     this.setState(prevState => ({showModal: !prevState.showModal}));
   }
 
@@ -124,14 +120,14 @@ class AnalyticsConsent extends React.Component {
               </div>
               <div className="col-md-5 text-left">
                 <p className="font-weight-bold  mb-0">{l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Title}</p>
-                <p className="">{l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1} <a href="https://cleaninsights.org/">Clean Insights</a> {l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2}</p>
+                <p className="">{l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1} <a href="https://cleaninsights.org/" target="_blank" rel="noopener noreferrer">Clean Insights</a> {l10n.map.analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2}</p>
               </div>
               <div className="col-md-1">
                 <span className="collapse-icon"><img className="img-fluid w-100" src="/img/faqInfo.svg" /></span>
               </div>
               <div className="col-md-5 text-left">
                 <p className="">{l10n.map.analytics_consent_interstitial_Faq}</p>
-                <button className="btn btn-consent" type="button" data-selection="no" onClick={this.redirectToLink}>{l10n.map.analytics_consent_interstitial_Btn_Learn_More}</button>
+                <a className="btn btn-consent" href="https://mailvelope.com/faq#analytics" target="_blank" rel="noopener noreferrer" role="button">{l10n.map.analytics_consent_interstitial_Btn_Learn_More}</a>
               </div>
             </div>
           </div>

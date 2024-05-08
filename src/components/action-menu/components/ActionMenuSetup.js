@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
 import Trans from '../../util/Trans';
-import EventHandler from '../../../lib/EventHandler';
 
 l10n.register([
   'action_menu_configure_mailvelope',
@@ -14,28 +14,20 @@ l10n.register([
   'action_menu_setup_start_label'
 ]);
 
-export default class ActionMenuSetup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.port = EventHandler.connect('menu-59edbbeb9affc4004a916276');
-    this.handleClickThrough = this.handleClickThrough.bind(this);
-  }
-
-  handleClickThrough() {
-    this.port.emit('analytics-consent');
-  }
-
-  render() {
-    return (
-      <>
-        <div className="action-menu-content card-body" role="menu" aria-label={l10n.map.action_menu_setup_menu_aria_label}>
-          <img src="../../../img/Mailvelope/seal.svg" className=" mx-auto d-block mb-3" alt="..." />
-          <p><Trans id={l10n.map.action_menu_configure_mailvelope} components={[<strong key="0"></strong>]} /></p>
-        </div>
-        <div className="action-menu-footer card-footer text-center pt-1 pb-4">
-          <button type="button" className="btn btn-primary" id="lets-start" role="button" onClick={this.handleClickThrough}>{l10n.map.action_menu_setup_start_label}</button>
-        </div>
-      </>
-    );
-  }
+export default function ActionMenuSetup(props) {
+  return (
+    <>
+      <div className="action-menu-content card-body" role="menu" aria-label={l10n.map.action_menu_setup_menu_aria_label}>
+        <img src="../../../img/Mailvelope/seal.svg" className="mx-auto d-block mb-3" alt="..." />
+        <p><Trans id={l10n.map.action_menu_configure_mailvelope} components={[<strong key="0"></strong>]} /></p>
+      </div>
+      <div className="action-menu-footer card-footer text-center pt-1 pb-4">
+        <button type="button" className="btn btn-primary" id="lets-start" role="button" onClick={props.onMenuItemClickHandler}>{l10n.map.action_menu_setup_start_label}</button>
+      </div>
+    </>
+  );
 }
+
+ActionMenuSetup.propTypes = {
+  onMenuItemClickHandler: PropTypes.func
+};
