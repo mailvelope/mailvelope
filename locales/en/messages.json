@@ -569,7 +569,7 @@
   },
   "general_gnupg_installed_question": {
     "description": "Status message with available user options",
-    "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>"
+    "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly"
   },
   "general_gnupg_not_available": {
     "description": "Indicator if GnuPG is not available",
