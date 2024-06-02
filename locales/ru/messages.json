@@ -568,7 +568,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "У вас установлена программа GnuPG? Если нет, <0>скачайте ее отсюда</0>. Чтобы снова проверить доступность программы, <1>перезапустите Mailvelope</1>",
+        "message": "У вас установлена программа GnuPG? Если нет, <0>скачайте ее отсюда</0>. Чтобы снова проверить доступность программы, <1>перезапустите Mailvelope</1>. Если вы уверены, что она установлена, воспользуйтесь <2>этой вики</2>, чтобы убедиться, что она настроена правильно",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {

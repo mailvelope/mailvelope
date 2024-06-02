@@ -125,7 +125,8 @@ export default class General extends React.Component {
                         <div>
                           <Trans id={l10n.map.general_gnupg_installed_question} components={[
                             <a key="0" href="https://www.gnupg.org/download/index.html" target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm my-1" role="button"></a>,
-                            <button key="1" type="button" onClick={() => chrome.runtime.reload()} className="btn btn-secondary btn-sm"></button>
+                            <button key="1" type="button" onClick={() => chrome.runtime.reload()} className="btn btn-secondary btn-sm"></button>,
+                            <a key="2" href="https://github.com/mailvelope/mailvelope/wiki/Mailvelope-GnuPG-integration" target="_blank" rel="noopener noreferrer"></a>
                           ]} />
                         </div>
                       </div>

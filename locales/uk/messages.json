@@ -568,7 +568,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Чи встановлено у вас GnuPG? Якщо ні, <0>завантажте тут</0>. Щоб знову перевірити доступність, <1>перезапустіть Mailvelope</1>",
+        "message": "Чи встановлено у вас GnuPG? Якщо ні, <0>завантажте тут</0>. Щоб знову перевірити доступність, <1>перезапустіть Mailvelope</1>. Якщо ви впевнені що у вас є GnuPG, будь ласка почитайте <2>цю вікі</2>, щоб впевнитися, що все налаштовано правильно",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
