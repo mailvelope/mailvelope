@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {UncontrolledTooltip} from 'reactstrap';
 import * as l10n from '../../lib/l10n';
 import {LARGE_FRAME} from '../../lib/constants';
-import {encodeHTML, getHash, str2ab} from '../../lib/util';
+import {encodeHTML, getUUID, str2ab} from '../../lib/util';
 import EventHandler from '../../lib/EventHandler';
 import ContentSandbox from './components/ContentSandbox';
 import {FileDownloadPanel} from '../util/FilePanel';
@@ -121,7 +121,7 @@ export default class DecryptMessage extends React.Component {
 
   onDecryptedAttachment({attachment}) {
     const file = {
-      id: getHash(),
+      id: getUUID(),
       name: attachment.filename
     };
     const content = str2ab(attachment.content || attachment.data);

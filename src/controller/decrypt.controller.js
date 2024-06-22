@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as l10n from '../lib/l10n';
-import {getHash, mapError} from '../lib/util';
+import {getUUID, mapError} from '../lib/util';
 import {DISPLAY_INLINE} from '../lib/constants';
 import {prefs} from '../modules/prefs';
 import {getKeyringWithPrivKey} from '../modules/keyring';
@@ -23,7 +23,7 @@ export default class DecryptController extends sub.SubController {
     super(port);
     if (!port) {
       this.mainType = 'decryptCont';
-      this.id = getHash();
+      this.id = getUUID();
     }
     this.armored = null;
     this.message = null;

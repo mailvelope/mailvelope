@@ -4,7 +4,7 @@
  */
 
 import {PGP_MESSAGE} from '../lib/constants';
-import {getHash, MvError} from '../lib/util';
+import {getUUID, MvError} from '../lib/util';
 import {getMessageType} from './main';
 import EventHandler from '../lib/EventHandler';
 
@@ -13,7 +13,7 @@ export default class EditorContainer {
     this.selector = selector;
     this.keyringId = keyringId;
     this.options = options;
-    this.id = getHash();
+    this.id = getUUID();
     this.port = EventHandler.connect(`editorCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;

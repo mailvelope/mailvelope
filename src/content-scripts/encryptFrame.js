@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash, normalizeArmored, encodeHTML, parseHTML} from '../lib/util';
+import {getUUID, normalizeArmored, encodeHTML, parseHTML} from '../lib/util';
 import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, PLAIN_TEXT} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import * as l10n from '../lib/l10n';
@@ -19,7 +19,7 @@ l10n.mapToLocal();
 
 export default class EncryptFrame {
   constructor() {
-    this.id = getHash();
+    this.id = getUUID();
     this.editElement = null;
     this.eFrame = null;
     this.port = null;

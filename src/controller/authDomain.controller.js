@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getHash, PromiseQueue} from '../lib/util';
+import {getUUID, PromiseQueue} from '../lib/util';
 import {getWatchList, setWatchList} from '../modules/prefs';
 import {initScriptInjection, watchlistRegex} from '../lib/inject';
 import * as uiLog from '../modules/uiLog';
@@ -18,7 +18,7 @@ export default class AuthDomainController extends sub.SubController {
     super(null);
     this.persistent = true;
     this.mainType = 'authDomainDialog';
-    this.id = getHash();
+    this.id = getUUID();
     this.queue = new PromiseQueue();
     this.resolve = null;
     this.popup = null;

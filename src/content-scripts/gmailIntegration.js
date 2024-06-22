@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 import EventHandler from '../lib/EventHandler';
-import {getHash, parseHTML, parseViewName} from '../lib/util';
+import {getUUID, parseHTML, parseViewName} from '../lib/util';
 import {FRAME_STATUS, FRAME_ATTACHED} from '../lib/constants';
 import * as l10n from '../lib/l10n';
 import gmailIntegrationCsss from './gmailIntegration.css';
@@ -21,7 +21,7 @@ const MSG_BODY_SELECTOR = '.a3s.aXjCH, .a3s.aiL';
 
 export default class GmailIntegration {
   constructor() {
-    this.id = getHash();
+    this.id = getUUID();
     this.port = null;
     this.editorBtnRoot = null;
     this.editorBtn = null;

@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {html2text, encodeHTML, ab2str, byteCount, MvError, getHash} from '../lib/util';
+import {html2text, encodeHTML, ab2str, byteCount, MvError, getUUID} from '../lib/util';
 import * as mailreader from '../lib/mail-reader';
 import MimeBuilder from 'emailjs-mime-builder';
 
@@ -158,7 +158,7 @@ export function buildMailWithHeader({message, attachments, sender, to, cc, subje
   if (attachments && attachments.length > 0) {
     for (const attachment of attachments) {
       quotaSize += attachment.size;
-      const id = `mv_${getHash()}`;
+      const id = `mv_${getUUID()}`;
       const attachmentMime = new MimeBuilder('multipart/mixed')
       .createChild(null, {filename: attachment.name, continuationEncode})
       .setHeader({

@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash} from '../lib/util';
+import {getUUID} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 import {clientPort} from './clientAPI';
 
@@ -14,7 +14,7 @@ export default class SyncHandler {
    */
   constructor(keyringId) {
     this.keyringId = keyringId;
-    this.id = getHash();
+    this.id = getUUID();
     this.port = EventHandler.connect(`syncHandler-${this.id}`, this);
     this.registerEventListener();
     this.port.emit('init', {keyringId: this.keyringId});

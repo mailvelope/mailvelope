@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash} from '../lib/util';
+import {getUUID} from '../lib/util';
 import * as sub from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {isCached} from '../modules/pwdCache';
@@ -201,7 +201,7 @@ export class SyncController extends sub.SubController {
 
   sync(type, data) {
     return new Promise((resolve, reject) => {
-      const id = getHash();
+      const id = getUUID();
       const timeout = setTimeout(() => {
         delete this.syncDoneHandler[id];
         reject(new Error('Sync timeout'));

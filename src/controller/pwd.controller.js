@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as l10n from '../lib/l10n';
-import {PromiseQueue, getHash, MvError} from '../lib/util';
+import {PromiseQueue, getUUID, MvError} from '../lib/util';
 import * as prefs from '../modules/prefs';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
@@ -20,7 +20,7 @@ export default class PwdController extends SubController {
     super(null);
     this.persistent = true;
     this.mainType = 'pwdDialog';
-    this.id = getHash();
+    this.id = getUUID();
     this.queue = new PromiseQueue();
     this.pwdPopup = null;
     this.receivedPortMsg = false;

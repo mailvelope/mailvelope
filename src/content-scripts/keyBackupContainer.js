@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash} from '../lib/util';
+import {getUUID} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 import {host} from './main';
 
@@ -18,7 +18,7 @@ export default class KeyBackupContainer {
     this.selector = selector;
     this.keyringId = keyringId;
     this.options = options;
-    this.id = getHash();
+    this.id = getUUID();
     this.port = EventHandler.connect(`keyBackupCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;

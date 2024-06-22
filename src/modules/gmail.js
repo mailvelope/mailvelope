@@ -7,7 +7,7 @@ import browser from 'webextension-polyfill';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
 import {MvError, deDup, str2ab, ab2hex} from '../lib/util';
-import {getHash, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
+import {getUUID, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
 
@@ -220,7 +220,7 @@ export async function unauthorize(email) {
 
 async function getAuthCode(email, scopes = browser.runtime.getManifest().oauth2.scopes, prompt) {
   const redirectURL = browser.identity.getRedirectURL();
-  const state = getHash();
+  const state = getUUID();
   const auth_params = {
     access_type: 'offline',
     client_id: CLIENT_ID,
@@ -248,7 +248,7 @@ async function getAuthCode(email, scopes = browser.runtime.getManifest().oauth2.
 
 async function getAuthToken(email, scopes = browser.runtime.getManifest().oauth2.scopes) {
   const redirectURL = browser.identity.getRedirectURL();
-  const state = getHash();
+  const state = getUUID();
   const auth_params = {
     client_id: CLIENT_ID,
     include_granted_scopes: true,

@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash} from '../lib/util';
+import {getUUID} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 
 export default class AppContainer {
@@ -19,7 +19,7 @@ export default class AppContainer {
       this.fullName = `&fname=${encodeURIComponent(options.fullName)}`;
     }
     this.hasPrivateKey = options.hasPrivateKey;
-    this.id = getHash();
+    this.id = getUUID();
     this.port = EventHandler.connect(`appCont-${this.id}`, this);
     this.parent = null;
     this.container = null;

@@ -4,7 +4,7 @@
  */
 
 import {MAX_FILE_UPLOAD_SIZE} from './constants';
-import {getHash} from './util';
+import {getUUID} from './util';
 
 /**
  * @param {File} file
@@ -32,7 +32,7 @@ export function readUploadFile(file, onLoadEnd) {
     fileReader.onload = function() {
       resolve({
         content: this.result,
-        id: getHash(),
+        id: getUUID(),
         name: file.name,
         size: file.size,
         type: file.type

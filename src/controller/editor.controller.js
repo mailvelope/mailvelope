@@ -9,7 +9,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getHash, deDup, sortAndDeDup, mapError, MvError, byteCount, normalizeArmored, dataURL2str} from '../lib/util';
+import {getUUID, deDup, sortAndDeDup, mapError, MvError, byteCount, normalizeArmored, dataURL2str} from '../lib/util';
 import {extractFileExtension} from '../lib/file';
 import * as l10n from '../lib/l10n';
 import {prefs} from '../modules/prefs';
@@ -29,7 +29,7 @@ export default class EditorController extends sub.SubController {
     super(port);
     if (!port) {
       this.mainType = 'editor';
-      this.id = getHash();
+      this.id = getUUID();
     }
     this.encryptPromise = null;
     this.keyringId = null;

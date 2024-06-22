@@ -12,7 +12,7 @@ import FileUpload from '../../components/util/FileUpload';
 import {MAX_FILE_UPLOAD_SIZE} from '../../lib/constants';
 import * as fileLib from '../../lib/file';
 import {FileDownloadPanel} from '../../components/util/FilePanel';
-import {normalizeArmored, getHash, str2ab, encodeUtf8} from '../../lib/util';
+import {normalizeArmored, getUUID, str2ab, encodeUtf8} from '../../lib/util';
 
 import './Decrypt.scss';
 
@@ -133,7 +133,7 @@ export default class Decrypt extends React.Component {
 
   createFileObject({content, filename, signer, mimeType, armored}) {
     const file = {
-      id: getHash(),
+      id: getUUID(),
       name: filename,
       signer,
     };

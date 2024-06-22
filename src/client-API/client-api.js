@@ -700,14 +700,8 @@ function disconnectListener() {
   connected = false;
 }
 
-function getHash() {
-  let result = '';
-  const buf = new Uint16Array(6);
-  window.crypto.getRandomValues(buf);
-  for (let i = 0; i < buf.length; i++) {
-    result += buf[i].toString(16);
-  }
-  return result;
+function getUUID() {
+  return crypto.randomUUID().replaceAll('-', '');
 }
 
 function mapError(obj) {
@@ -740,7 +734,7 @@ function emit(event, data) {
 function send(event, data) {
   checkConnection();
   return new Promise((resolve, reject) => {
-    const message = {...data, event, mvelo_client: true, _reply: getHash()};
+    const message = {...data, event, mvelo_client: true, _reply: getUUID()};
     callbacks[message._reply] = (err, data) => err ? reject(err) : resolve(data);
     window.postMessage(message, window.location.origin);
   });

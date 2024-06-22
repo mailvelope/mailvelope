@@ -4,7 +4,7 @@
  */
 
 import {PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY, KEYRING_DELIMITER, MAIN_KEYRING_ID} from '../lib/constants';
-import {MvError, getHash, mapError} from '../lib/util';
+import {MvError, getUUID, mapError} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 import {prefs, host, getMessageType} from './main';
 import {checkTypes} from './clientAPITypeCheck';
@@ -41,7 +41,7 @@ export function init() {
     element.dataset.version = prefs.version;
     document.head.append(element);
   }
-  controllerPort = EventHandler.connect(`api-${getHash()}`);
+  controllerPort = EventHandler.connect(`api-${getUUID()}`);
   const port = {
     onMessage: {
       addListener(listener) {

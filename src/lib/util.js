@@ -59,15 +59,8 @@ export function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// random hash generator
-export function getHash() {
-  let result = '';
-  const buf = new Uint16Array(6);
-  window.crypto.getRandomValues(buf);
-  for (let i = 0; i < buf.length; i++) {
-    result += buf[i].toString(16);
-  }
-  return result;
+export function getUUID() {
+  return crypto.randomUUID().replaceAll('-', '');
 }
 
 export function encodeHTML(text) {

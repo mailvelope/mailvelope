@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash, normalizeArmored, parseHTML} from '../lib/util';
+import {getUUID, normalizeArmored, parseHTML} from '../lib/util';
 import {LARGE_FRAME, FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import {currentProvider} from './main';
@@ -12,7 +12,7 @@ import encryptContainerCSS from './extractFrame.css';
 
 export default class ExtractFrame {
   constructor() {
-    this.id = getHash();
+    this.id = getUUID();
     // range element with armored message
     this.pgpRange = null;
     // HTMLElement that contains complete ASCII Armored Message

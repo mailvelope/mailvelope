@@ -11,7 +11,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getHash} from '../../../lib/util';
+import {getUUID} from '../../../lib/util';
 import * as l10n from '../../../lib/l10n';
 
 import './RecipientInput.scss';
@@ -34,7 +34,7 @@ const contrCompStack = [];
 export class RecipientInput extends React.Component {
   constructor(props) {
     super(props);
-    this.id = getHash();
+    this.id = getUUID();
   }
 
   propsOnStack() {

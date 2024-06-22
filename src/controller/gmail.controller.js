@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getHash, mapError} from '../lib/util';
+import {getUUID, mapError} from '../lib/util';
 import * as l10n from '../lib/l10n';
 import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
@@ -207,7 +207,7 @@ export default class GmailController extends sub.SubController {
     try {
       await gmail.checkLicense(userInfo);
     } catch (e) {
-      const slotId = getHash();
+      const slotId = getUUID();
       setAppDataSlot(slotId, {email: userInfo.email});
       await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/license`);
       throw e;
@@ -219,7 +219,7 @@ export default class GmailController extends sub.SubController {
     if (activeTab) {
       this.tabId = activeTab.id;
     }
-    const slotId = getHash();
+    const slotId = getUUID();
     setAppDataSlot(slotId, {email, legacyGsuite, scopes, gmailCtrlId: this.id});
     await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
   }

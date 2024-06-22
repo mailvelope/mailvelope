@@ -3,14 +3,14 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getHash, MvError} from '../lib/util';
+import {getUUID, MvError} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 
 export default class EncryptedFormContainer {
   constructor(selector, html, signature) {
     this.baseValidate(selector, html, signature);
     this.selector = selector;
-    this.id = getHash();
+    this.id = getUUID();
     this.port = EventHandler.connect(`encryptedFormCont-${this.id}`, this);
     this.registerEventListener();
     this.parent = null;

@@ -4,7 +4,7 @@
  */
 
 import {FRAME_STATUS, FRAME_ATTACHED, FRAME_DETACHED, PGP_MESSAGE, PGP_SIGNATURE, PGP_PUBLIC_KEY, PGP_PRIVATE_KEY} from '../lib/constants';
-import {getHash, matchPattern2RegEx, isVisible, firstParent} from '../lib/util';
+import {getUUID, matchPattern2RegEx, isVisible, firstParent} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 
 import * as clientAPI from './clientAPI';
@@ -35,7 +35,7 @@ function connect() {
   if (document.mveloControl) {
     return;
   }
-  port = EventHandler.connect(`mainCS-${getHash()}`);
+  port = EventHandler.connect(`mainCS-${getUUID()}`);
   registerEventListener();
   port.emit('ready');
   //initContextMenu();
