@@ -11,7 +11,7 @@ import {prefs, getWatchList} from '../modules/prefs';
 import {measureWatchListHit} from './analytics';
 
 // watchlist match patterns as regex for URL
-let watchlistRegex;
+export let watchlistRegex;
 
 export async function initScriptInjection() {
   try {
@@ -124,10 +124,6 @@ export function initAuthRequestApi() {
 
 async function authRequest({tabId, url}) {
   const tab = await browser.tabs.get(tabId);
-  const match = watchlistRegex.some(urlRegex => urlRegex.test(tab.url));
-  if (match) {
-    return;
-  }
   const tmpApiUrl = new URL(url);
   const api = str2bool(tmpApiUrl.searchParams.get('api') || false);
   const targetUrl = new URL(tab.url);
@@ -136,6 +132,6 @@ async function authRequest({tabId, url}) {
   if (hostname.startsWith('www.')) {
     hostname = hostname.slice(4);
   }
-  const authDomainCtrl = sub.factory.get('authDomainCont');
-  authDomainCtrl.setFrame({hostname, protocol, api, tabId});
+  const authDomainCtrl = sub.factory.get('authDomainDialog');
+  authDomainCtrl.authorizeDomain({hostname, protocol, api, tabId, url: tab.url});
 }

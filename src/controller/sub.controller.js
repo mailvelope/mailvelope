@@ -40,15 +40,14 @@ export class SubController extends EventHandler {
   }
 
   removePort(port) {
-    if (Object.keys(this.ports).length === 0) {
-      // controllers instantiated without port should not be deleted
-      return false;
-    }
     const view = parseViewName(port.name);
     if (view.id !== this.id) {
       throw new Error('View ID mismatch.');
     }
     delete this.ports[view.type];
+    if (view.type === this.mainType) {
+      super.removePort();
+    }
     return Object.keys(this.ports).length === 0;
   }
 
@@ -163,8 +162,8 @@ export function removePort(port) {
 }
 
 function removeId(id, port) {
-  const del = controllers.has(id) && !controllers.get(id).persistent && controllers.get(id).removePort(port);
-  if (del) {
+  const del = controllers.has(id) && controllers.get(id).removePort(port);
+  if (del && !controllers.get(id).persistent) {
     // last port removed from controller, delete controller
     controllers.delete(id);
   }

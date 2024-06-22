@@ -48,7 +48,7 @@ sub.factory.register('appCont',             AppController,           ['app']);
 sub.factory.register('menu',                MenuController,          []);
 sub.factory.register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
 sub.factory.register('api',                 ApiController,           []);
-sub.factory.register('authDomainCont',      AuthDomainController,    ['authDomainDialog']);
+sub.factory.register('authDomainDialog',    AuthDomainController,    []);
 
 export function initController() {
   // store incoming connections by name and id

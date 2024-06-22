@@ -37,6 +37,10 @@ export default class EventHandler {
     this._port.onMessage.addListener(this.handlePortMessage.bind(this));
   }
 
+  removePort() {
+    this._port = null;
+  }
+
   /**
    * Disconnect port
    */

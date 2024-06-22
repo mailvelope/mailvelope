@@ -4,19 +4,23 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getHash} from '../lib/util';
+import {getHash, PromiseQueue} from '../lib/util';
 import {getWatchList, setWatchList} from '../modules/prefs';
-import {initScriptInjection} from '../lib/inject';
+import {initScriptInjection, watchlistRegex} from '../lib/inject';
 import * as uiLog from '../modules/uiLog';
 import * as sub from './sub.controller';
 
 export default class AuthDomainController extends sub.SubController {
   constructor(port) {
-    super(port);
-    if (!port) {
-      this.mainType = 'authDomainDialog';
-      this.id = getHash();
+    if (port) {
+      throw new Error('Do not instantiate AuthDomainController with a port');
     }
+    super(null);
+    this.persistent = true;
+    this.mainType = 'authDomainDialog';
+    this.id = getHash();
+    this.queue = new PromiseQueue();
+    this.resolve = null;
     this.popup = null;
     this.options = {};
     this.on('auth-domain-dialog-ok', this.onOk);
@@ -25,12 +29,24 @@ export default class AuthDomainController extends sub.SubController {
     this.on('auth-domain-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  async setFrame(options) {
+  async authorizeDomain(options) {
+    if (this.options.hostname === options.hostname) {
+      return;
+    }
+    await this.queue.push(this, 'authorize', [options]);
+  }
+
+  async authorize(options) {
+    const match = watchlistRegex.some(urlRegex => urlRegex.test(options.url));
+    if (match) {
+      return;
+    }
     this.options = options;
     this.popup = await mvelo.windows.openPopup(`components/auth-domain/authDomain.html?id=${this.id}`, {width: 742, height: 385}, options.tabId);
     this.popup.addRemoveListener(() => {
       this.popup = null;
     });
+    return new Promise(resolve => this.resolve = resolve);
   }
 
   onInitPopup() {
@@ -40,7 +56,7 @@ export default class AuthDomainController extends sub.SubController {
   async onOk() {
     const authDomainList = await getWatchList();
     await setWatchList([...authDomainList, {site: this.options.hostname, active: true, https_only: this.options.protocol === 'https:' ? true : false, frames: [{scan: true, frame: `*.${this.options.hostname}`, api: this.options.api}]}]);
-    initScriptInjection();
+    await initScriptInjection();
     this.closePopup();
   }
 
@@ -48,6 +64,8 @@ export default class AuthDomainController extends sub.SubController {
     if (this.popup) {
       this.popup.close();
       this.popup = null;
+      this.options = {};
     }
+    this.resolve();
   }
 }
