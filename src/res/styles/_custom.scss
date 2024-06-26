@@ -631,3 +631,46 @@ dt {
   font-weight: 500;
   font-style: normal;
 }
+
+// Analytics Consent Prompt
+
+.round-container {
+  background-color: #d0eadf; 
+  width: 230px;
+  height: 230px;
+  border-radius: 100%;
+  overflow: hidden; /* To ensure that the image does not overflow from the container */
+  padding: 15px;
+}
+.round-container img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+}
+.btn-consent {
+  width: 150px;
+  color: red;
+  background-color: white;
+  border: 1px solid red;
+  transition: border-color 0.3s ease;
+}
+.btn-consent:hover {
+  border-color: #cc0000; 
+}
+.accordion-control {
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #F2F4F4;
+  border-radius: 80px;
+  width: 35%;
+  height: 43px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.collapse-icon img {
+  color: #0000;
+  margin-left: 10px;
+  width: 10px;
+}

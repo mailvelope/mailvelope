@@ -1,40 +1,13 @@
-import {expect, sinon} from 'test';
-import * as analytics from 'lib/analytics';
+import {expect} from 'test';
+import {binInto10sIncrements} from 'lib/analytics';
 
 describe('analytics tests', () => {
-  const sandbox = sinon.createSandbox();
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
-  describe('measureWatchListHit', () => {
-    beforeEach(() => {
-      sandbox.spy(analytics.ci);
-    });
-
-    it('should record hits to a bare domain matching defaults', () => {
-      expect(analytics.ci.measureVisit.called).to.equal(false);
-      analytics.measureWatchListHit('https://mail.google.com');
-      expect(analytics.ci.measureVisit.calledOnce).to.equal(true);
-    });
-    it('should record hits to a subdomain matching defaults', () => {
-      analytics.measureWatchListHit('https://sub.mail.google.com');
-      expect(analytics.ci.measureVisit.calledOnce).to.equal(true);
-    });
-    it('should record hits to a path matching defaults', () => {
-      analytics.measureWatchListHit('https://mail.google.com/some/path');
-      expect(analytics.ci.measureVisit.calledOnce).to.equal(true);
-    });
-    it('should record hits to a domain not in defaults but not include domain', () => {
-      analytics.measureWatchListHit('https://mail.notanalyzed.com');
-      const expected = [['webmail provider', 'Non-default Provider'], 'provider'];
-      expect(analytics.ci.measureVisit.calledOnceWithExactly(...expected)).to.equal(true);
-    });
-    it('should only capture matched site and frame pattern', () => {
-      analytics.measureWatchListHit('https://sub.gmx.net/some/path');
-      const expected = [['webmail provider', 'GMX', '*.gmx.net'], 'provider'];
-      expect(analytics.ci.measureVisit.calledOnceWithExactly(...expected)).to.equal(true);
+  describe('time derezzing', () => {
+    it('should derezz time to 10s increments', () => {
+      expect(binInto10sIncrements(1000)).to.equal(0);
+      expect(binInto10sIncrements(10000)).to.equal(10);
+      expect(binInto10sIncrements(11111)).to.equal(10);
+      expect(binInto10sIncrements(99999)).to.equal(90);
     });
   });
 });

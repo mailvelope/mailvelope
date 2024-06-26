@@ -8,7 +8,7 @@ import {getUUID} from '../lib/util';
 import * as sub from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
-import {ci} from '../lib/analytics';
+import {shouldSeeConsentDialog} from '../lib/analytics';
 
 export default class MenuController extends sub.SubController {
   constructor(port) {
@@ -19,17 +19,7 @@ export default class MenuController extends sub.SubController {
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
     this.on('get-is-bg-customized', this.getIsBGCustomized);
-    this.on('grant-consent', ({campaignId}) => ci.grantCampaign(campaignId));
-    this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
-    this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
-    this.on('has-granted-or-denied-consent', this.hasGrantedOrDeniedConsent);
-  }
-
-  async hasGrantedOrDeniedConsent({campaignId}) {
-    if (ci.campaignConsents.indexOf(campaignId) === -1) {
-      return false;
-    }
-    return true;
+    this.on('analytics-consent', this.analyticsConsent);
   }
 
   onBrowserAction({action}) {
@@ -51,6 +41,9 @@ export default class MenuController extends sub.SubController {
         break;
       case 'setup-keys':
         this.openApp('/keyring/setup');
+        break;
+      case 'analytics-consent':
+        this.openApp('/analytics-consent');
         break;
       case 'encrypt-file':
         this.openApp('/encrypt');
@@ -103,5 +96,13 @@ export default class MenuController extends sub.SubController {
       sub.setAppDataSlot(slotId, {domain, protocol});
       mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
     });
+  }
+
+  analyticsConsent() {
+    if (shouldSeeConsentDialog()) {
+      this.onBrowserAction({action: 'analytics-consent'});
+    } else {
+      this.onBrowserAction({action: 'setup-keys'});
+    }
   }
 }
