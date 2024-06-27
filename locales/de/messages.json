@@ -95,6 +95,62 @@
     "description": "Consent to share analytics information with mailvelope",
     "message": "Aggregierte und anonymisierte Analysedaten mit Mailvelope teilen"
   },
+  "analytics_consent_disabled_tooltip": {
+    "description": "Explanation for why user cannot opt in to analytics",
+    "message": "Die Auswahl der Analyse ist nur zum Zeitpunkt der Installation und nur bei zufälliger Auswahl möglich."
+  },
+  "analytics_consent_interstitial_Btn_Learn_More": {
+    "description": "Btn FAQ",
+    "message": "Mehr erfahren"
+  },
+  "analytics_consent_interstitial_Faq": {
+    "description": "FAQ",
+    "message": " Weitere Infos zur Verwendung von Analysedaten in unserer FAQ."
+  },
+  "analytics_consent_interstitial_We_Collect_Minimal_Data": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Mailvelope erkennt nur die Schritte die benötigt werden um die Einrichtung mit Ihrem Email Anbieter abzuschließen. Es wird nicht jede Nutzeraktion aufgezeichnet."
+  },
+  "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Möglichst wenig Daten werden erfasst"
+  },
+  "analytics_consent_interstitial_We_Respect_your_Choice": {
+    "description": "We Respect your Choice",
+    "message": "Wenn Sie nicht zustimmen, wird nichts aufgezeichnet. Wenn Sie sich für einen Beitrag von Analysedaten entscheiden, können Sie Ihre Entscheidung jederzeit in den Einstellungen widerrufen."
+  },
+  "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Wir respektieren Ihre Entscheidung"
+  },
+  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
+    "description": "We Respect your Choice",
+    "message": "Mailvelope verwendet"
+  },
+  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
+    "description": "We Respect your Choice",
+    "message": "das die Daten sicher speichert, ohne sie mit identifizierbaren Informationen zu verbinden. Außerdem wird Ihre IP-Adresse nicht aufgezeichnet oder verarbeitet."
+  },
+  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Ihre Privatsphäre wird gewahrt"
+  },
+  "analytics_consent_interstitial_learn_more": {
+    "description": "Label for expandable section",
+    "message": "Wie werden Analysedaten verwendet"
+  },
+  "analytics_consent_interstitial_learn_more_explanation": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Wenn Sie zustimmen, werden die Analysedaten mit Hilfe von Clean Insights aggregiert und minimiert, wobei diese Daten ohne Verbindung zu persönlichen Merkmalen gespeichert werden. Wir respektieren Ihre Entscheidung und erfassen keine Daten, wenn Sie ablehnen."
+  },
+  "analytics_consent_interstitial_message": {
+    "description": "Request for consent from selected users.",
+    "message": "Mailvelope bittet 1% der neuen Benutzer, mit anonymen Analysedaten zur Verbesserung von Mailvelope beizutragen. Wenn Sie zustimmen, werden erfolgreiche Schritte bei der Einrichtung von Mailvelope erfasst. Wollen Sie der Erfassung zustimmen?"
+  },
+  "analytics_interstitial_header": {
+    "description": "Header of analytics consent dialog.",
+    "message": "Helfen Sie uns, besser zu werden?"
+  },
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
     "message": "API erlaubt"
@@ -106,6 +162,10 @@
   "auth_domain_headline": {
     "description": "Headline of authorize domain dialog.",
     "message": "Domain autorisieren"
+  },
+  "button_analyticsconsent_modal": {
+    "description": "button modal analytics consent",
+    "message": "Weiter"
   },
   "change_link": {
     "description": "Navigation link to change this setting.",
@@ -239,6 +299,10 @@
     "description": "Dialog no button label",
     "message": "Nein"
   },
+  "dialog_no_button": {
+    "description": "Dialog button no",
+    "message": "Überspringen"
+  },
   "dialog_popup_close": {
     "description": "Close decrypt popup.",
     "message": "Schließen"
@@ -249,6 +313,10 @@
   },
   "dialog_yes_btn": {
     "description": "Dialog yes button label",
+    "message": "Ja"
+  },
+  "dialog_yes_button": {
+    "description": "Dialog button yes",
     "message": "Ja"
   },
   "editor_blur_warn": {
@@ -565,7 +633,7 @@
   },
   "general_gnupg_installed_question": {
     "description": "Status message with available user options",
-    "message": "Haben Sie GnuPG installiert? Falls nicht <0>Hier herunterladen</0> oder die Verfügbarkeit erneut überprüfen <1>Mailvelope neu starten</1>. Wenn Sie sicher sind, dass es installiert ist, folgen Sie bitte <2>diesem Wiki</2>, um sicherzustellen, dass es richtig eingerichtet wurde"
+    "message": "Haben Sie GnuPG installiert? Falls nicht <0>Hier herunterladen</0> oder die Verfügbarkeit erneut überprüfen <1>Mailvelope neu starten</1>. Wenn Sie sicher sind, dass es installiert ist, folgen Sie bitte <2>diesem Wiki</2>, um sicherzustellen, dass es richtig eingerichtet wurde."
   },
   "general_gnupg_not_available": {
     "description": "Indicator if GnuPG is not available",
@@ -618,6 +686,10 @@
   "gnupg_error_unusable_pub_key": {
     "description": "",
     "message": "Bitte überprüfen Sie ob die folgenden öffentlichen Schlüssel in ihrem GnuPG Schlüsselbund vorhanden und valide sind: $1"
+  },
+  "header_analyticsconsent_modal": {
+    "description": "h2 modal analytics consent",
+    "message": "Vielen Dank für Ihre Hilfe!"
   },
   "import_frame_help_text": {
     "description": "Help text on import frame.",
@@ -871,18 +943,6 @@
     "description": "Key search input button.",
     "message": "Suche"
   },
-  "key_import_search_found": {
-    "description": "Key search found label.",
-    "message": "Schlüssel gefunden in:"
-  },
-  "key_import_search_found_source": {
-    "description": "Key search found label.",
-    "message": "Quelle:"
-  },
-  "key_import_search_found_modified": {
-    "description": "Key search found label.",
-    "message": "zuletzt geändert am:"
-  },
   "key_import_search_disabled": {
     "description": "Key search disabled warning.",
     "message": "Suche deaktiviert."
@@ -890,6 +950,18 @@
   "key_import_search_disabled_descr": {
     "description": "Key search disabled warning description.",
     "message": "Aktivieren Sie mindestens eine Schlüssel-Quelle in den Einstellungen."
+  },
+  "key_import_search_found": {
+    "description": "Key search found label.",
+    "message": "Schlüssel gefunden in:"
+  },
+  "key_import_search_found_modified": {
+    "description": "Key search found label.",
+    "message": "zuletzt geändert am:"
+  },
+  "key_import_search_found_source": {
+    "description": "Key search found label.",
+    "message": "Quelle:"
   },
   "key_import_search_invalid": {
     "description": "Key search input has invalid content.",
@@ -1381,10 +1453,6 @@
     "description": "Enable Looking Up Keys Via Autocrypt",
     "message": "Schlüssel aus Autocrypt Headern der ankommenden E-Mails verwenden"
   },
-  "keyserver_tofu_lookup": {
-    "description": "Enable Mailvelope Key Server Auto Lookup",
-    "message": "Den Mailvelope Schlüssel-Server benutzen"
-  },
   "keyserver_key_binding_header": {
     "description": "Header for key binding feature",
     "message": "Schlüssel Erkennung"
@@ -1396,6 +1464,10 @@
   "keyserver_oks_lookup": {
     "description": "Enable keys.openpgp.org Auto Lookup",
     "message": "Automatisch auf <0>keys.openpgp.org</0> nach Schlüsseln suchen"
+  },
+  "keyserver_tofu_lookup": {
+    "description": "Enable Mailvelope Key Server Auto Lookup",
+    "message": "Den Mailvelope Schlüssel-Server benutzen"
   },
   "keyserver_verifying_servers": {
     "description": "Label for verifying key servers.",
@@ -1472,6 +1544,10 @@
   "options_title": {
     "description": "Title of options page.",
     "message": "Mailvelope-Optionen"
+  },
+  "paragraph_analyticsconsent_modal": {
+    "description": "p modal analytics consent",
+    "message": "Sie können die Entscheidung jederzeit in den Einstellungen widerrufen."
   },
   "preferred": {
     "description": "Indicates if a keyring is preferred",

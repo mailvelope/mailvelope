@@ -1,6 +1,16 @@
 Mailvelope Changelog
 ====================
 
+v5.2.0
+-------
+__Jun 27, 2024__
+
+  * Measure onboarding success with opt-in for 1% of users (Clean Insights)
+  * Auto text wrap in display container for cleartext signed messages
+  * Fix duplicate key entries in the keyring after reload of GnuPG keyring
+  * Add better hint when GnuPG is installed but not detected
+  * Use crypto.randomUUID() for unique identifiers
+
 v5.1.2
 -------
 __Feb 14, 2024__

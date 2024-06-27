@@ -99,41 +99,29 @@
     "description": "Explanation for why user cannot opt in to analytics",
     "message": "You can only opt-in to analytics upon installation and only if randomly selected."
   },
-  "analytics_interstitial_header": {
-    "description": "Header of analytics consent dialog.",
-    "message": "Help us improve?"
+  "analytics_consent_interstitial_Btn_Learn_More": {
+    "description": "Btn FAQ",
+    "message": "Learn More"
   },
-  "analytics_consent_interstitial_message": {
-    "description": "Request for consent from selected users.",
-    "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?"
-  },
-  "analytics_consent_interstitial_learn_more": {
-    "description": "Label for expandable section",
-    "message": "Learn how metrics are safe"
-  },
-  "analytics_consent_interstitial_learn_more_explanation": {
-    "description": "Expandable section explaining how analytics protect privacy",
-    "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute."
-  },
-  "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-    "description": "Expandable section explaining how analytics protect privacy",
-    "message": "We Collect Minimal Data"
+  "analytics_consent_interstitial_Faq": {
+    "description": "FAQ",
+    "message": " Read more about Mailvelope metrics in our FAQ."
   },
   "analytics_consent_interstitial_We_Collect_Minimal_Data": {
     "description": "Expandable section explaining how analytics protect privacy",
     "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make."
   },
-  "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+  "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
     "description": "Expandable section explaining how analytics protect privacy",
-    "message": "We Respect your Choice"
+    "message": "We Collect Minimal Data"
   },
   "analytics_consent_interstitial_We_Respect_your_Choice": {
     "description": "We Respect your Choice",
     "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings."
   },
-  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+  "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
     "description": "Expandable section explaining how analytics protect privacy",
-    "message": "Your Privacy is Preserved"
+    "message": "We Respect your Choice"
   },
   "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
     "description": "We Respect your Choice",
@@ -143,40 +131,26 @@
     "description": "We Respect your Choice",
     "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed."
   },
-  "analytics_consent_interstitial_Faq": {
-    "description": "FAQ",
-    "message": " Read more about Mailvelope metrics in our FAQ."
+  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "Your Privacy is Preserved"
   },
-  "analytics_consent_interstitial_Btn_Learn_More": {
-    "description": "Btn FAQ",
-    "message": "Learn More"
+  "analytics_consent_interstitial_learn_more": {
+    "description": "Label for expandable section",
+    "message": "Learn how metrics are safe"
   },
-
-  "dialog_yes_button": {
-    "description": "Dialog button yes",
-    "message": "Yes"
+  "analytics_consent_interstitial_learn_more_explanation": {
+    "description": "Expandable section explaining how analytics protect privacy",
+    "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute."
   },
-
-  "dialog_no_button": {
-    "description": "Dialog button no",
-    "message": "Skip"
+  "analytics_consent_interstitial_message": {
+    "description": "Request for consent from selected users.",
+    "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?"
   },
-
- "header_analyticsconsent_modal": {
-    "description": "h2 modal analytics consent",
-    "message": "Thank you for helping!"
+  "analytics_interstitial_header": {
+    "description": "Header of analytics consent dialog.",
+    "message": "Help us improve?"
   },
-
-  "paragraph_analyticsconsent_modal": {
-    "description": "p modal analytics consent",
-    "message": "You can opt out at any time from settings."
-  },
-
-  "button_analyticsconsent_modal": {
-    "description": "button modal analytics consent",
-    "message": "Continue"
-  },
-  
   "auth_domain_api_label": {
     "description": "Label for API allowed info",
     "message": "Allow API"
@@ -188,6 +162,10 @@
   "auth_domain_headline": {
     "description": "Headline of authorize domain dialog.",
     "message": "Authorize domain"
+  },
+  "button_analyticsconsent_modal": {
+    "description": "button modal analytics consent",
+    "message": "Continue"
   },
   "change_link": {
     "description": "Navigation link to change this setting.",
@@ -321,6 +299,10 @@
     "description": "Dialog no button label",
     "message": "No"
   },
+  "dialog_no_button": {
+    "description": "Dialog button no",
+    "message": "Skip"
+  },
   "dialog_popup_close": {
     "description": "Close decrypt popup.",
     "message": "Close"
@@ -331,6 +313,10 @@
   },
   "dialog_yes_btn": {
     "description": "Dialog yes button label",
+    "message": "Yes"
+  },
+  "dialog_yes_button": {
+    "description": "Dialog button yes",
     "message": "Yes"
   },
   "editor_blur_warn": {
@@ -647,7 +633,7 @@
   },
   "general_gnupg_installed_question": {
     "description": "Status message with available user options",
-    "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly"
+    "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly."
   },
   "general_gnupg_not_available": {
     "description": "Indicator if GnuPG is not available",
@@ -700,6 +686,10 @@
   "gnupg_error_unusable_pub_key": {
     "description": "",
     "message": "Please check if the following public keys are available in your GnuPG keyring and valid: $1"
+  },
+  "header_analyticsconsent_modal": {
+    "description": "h2 modal analytics consent",
+    "message": "Thank you for helping!"
   },
   "import_frame_help_text": {
     "description": "Help text on import frame.",
@@ -953,18 +943,6 @@
     "description": "Key search input button.",
     "message": "Search"
   },
-  "key_import_search_found": {
-    "description": "Key search found label.",
-    "message": "Key found in:"
-  },
-  "key_import_search_found_source": {
-    "description": "Key search found label.",
-    "message": "Source:"
-  },
-  "key_import_search_found_modified": {
-    "description": "Key search found label.",
-    "message": "last modified on:"
-  },
   "key_import_search_disabled": {
     "description": "Key search disabled warning.",
     "message": "Search disabled."
@@ -972,6 +950,18 @@
   "key_import_search_disabled_descr": {
     "description": "Key search disabled warning description.",
     "message": "Activate at least one key source in the settings."
+  },
+  "key_import_search_found": {
+    "description": "Key search found label.",
+    "message": "Key found in:"
+  },
+  "key_import_search_found_modified": {
+    "description": "Key search found label.",
+    "message": "last modified on:"
+  },
+  "key_import_search_found_source": {
+    "description": "Key search found label.",
+    "message": "Source:"
   },
   "key_import_search_invalid": {
     "description": "Key search input has invalid content.",
@@ -1465,10 +1455,6 @@
     "description": "Enable Looking Up Keys Via Autocrypt",
     "message": "Use keys from Autocrypt headers of incoming email"
   },
-  "keyserver_tofu_lookup": {
-    "description": "Enable Mailvelope Key Server Auto Lookup",
-    "message": "Use the Mailvelope key server"
-  },
   "keyserver_key_binding_header": {
     "description": "Header for key binding feature",
     "message": "Key Detection"
@@ -1480,6 +1466,10 @@
   "keyserver_oks_lookup": {
     "description": "Enable keys.openpgp.org Auto Lookup",
     "message": "Automatically search for keys on <0>keys.openpgp.org</0>"
+  },
+  "keyserver_tofu_lookup": {
+    "description": "Enable Mailvelope Key Server Auto Lookup",
+    "message": "Use the Mailvelope key server"
   },
   "keyserver_verifying_servers": {
     "description": "Label for verifying key servers.",
@@ -1556,6 +1546,10 @@
   "options_title": {
     "description": "Title of options page.",
     "message": "Mailvelope Options"
+  },
+  "paragraph_analyticsconsent_modal": {
+    "description": "p modal analytics consent",
+    "message": "You can opt out at any time from settings."
   },
   "preferred": {
     "description": "Indicates if a keyring is preferred",
