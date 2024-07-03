@@ -13,7 +13,6 @@ import {str2ab} from '../lib/util';
 import {prefs} from './prefs';
 import {filterUserIdsByEmail, verifyPrimaryKey} from './key';
 import defaults from '../res/defaults.json';
-import browser from 'webextension-polyfill';
 import {KEY_STATUS} from '../lib/constants';
 
 export const name = 'WKD';
@@ -70,9 +69,9 @@ export async function lookup({email}) {
   * (https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/dns/resolve).
   * That's why we check first, if this method exists.
   */
-  if (typeof browser.dns !== 'undefined') {
+  if (typeof chrome.dns !== 'undefined') {
     const host = `openpgpkey.${domain}`;
-    const canDNSNameBeResolved = await browser.dns.resolve(host).then(result => {
+    const canDNSNameBeResolved = await chrome.dns.resolve(host).then(result => {
       if (result.addresses.length > 0) {
         return true;
       }
@@ -111,7 +110,7 @@ export async function lookup({email}) {
 async function retrievePubKeyViaWKD(email, methodOfWKD) {
   const url = await buildWKDUrl(email, methodOfWKD);
   // Impose a size limit and timeout similar to that of gnupg.
-  return timeout(TIMEOUT * 1000, window.fetch(url)).then(
+  return timeout(TIMEOUT * 1000, fetch(url)).then(
     res => sizeLimitResponse(res, SIZE_LIMIT * 1024));
 }
 

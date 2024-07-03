@@ -3,41 +3,39 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import browser from 'webextension-polyfill';
 import {encodeHTML} from './util';
-import dompurify from 'dompurify';
 import autoLink from './autolink';
 
 const mvelo = {};
 
 export default mvelo;
 
-mvelo.browserAction = {};
+mvelo.action = {};
 
-mvelo.browserAction.state = function(options) {
+mvelo.action.state = function(options) {
   if (typeof options.badge !== 'undefined') {
-    browser.browserAction.setBadgeText({text: options.badge});
+    chrome.action.setBadgeText({text: options.badge});
   }
   if (typeof options.badgeColor !== 'undefined') {
-    browser.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
+    chrome.action.setBadgeBackgroundColor({color: options.badgeColor});
   }
 };
 
 mvelo.storage = {};
 
 mvelo.storage.get = function(id) {
-  return browser.storage.local.get(id)
+  return chrome.storage.local.get(id)
   .then(items => items[id]);
 };
 
 mvelo.storage.set = function(id, obj) {
-  return browser.storage.local.set({[id]: obj});
+  return chrome.storage.local.set({[id]: obj});
 };
 
 mvelo.storage.remove = function(id) {
   id = typeof id === 'string' ? [id] : id;
   if (id.length === 1) {
-    return browser.storage.local.remove(id[0]);
+    return chrome.storage.local.remove(id[0]);
   } else {
     return mvelo.storage.get(id[0])
     .then(data => {
@@ -56,17 +54,12 @@ mvelo.tabs = {};
 
 mvelo.tabs.getActive = function(url = '*://*/*') {
   // get selected tab, "*://*/*" filters out non-http(s)
-  return browser.tabs.query({active: true, currentWindow: true, url})
+  return chrome.tabs.query({active: true, currentWindow: true, url})
   .then(tabs => tabs[0]);
 };
 
-mvelo.tabs.attach = function(tabId, options) {
-  return browser.tabs.executeScript(tabId, options)
-  .catch(() => []);
-};
-
 mvelo.tabs.query = function(url) {
-  return browser.tabs.query({url, currentWindow: true})
+  return chrome.tabs.query({url, currentWindow: true})
   .catch(() => []);
 };
 
@@ -75,16 +68,16 @@ mvelo.tabs.create = function(url, complete) {
     let newTab;
     if (complete) {
       // wait for tab to be loaded
-      browser.tabs.onUpdated.addListener(function updateListener(tabid, info) {
+      chrome.tabs.onUpdated.addListener(function updateListener(tabid, info) {
         if (tabid === newTab.id && info.status === 'complete') {
-          browser.tabs.onUpdated.removeListener(updateListener);
+          chrome.tabs.onUpdated.removeListener(updateListener);
           resolve(newTab);
         }
       });
     }
-    browser.tabs.create({url})
+    chrome.tabs.create({url})
     .then(tab => {
-      browser.windows.update(tab.windowId, {focused: true});
+      chrome.windows.update(tab.windowId, {focused: true});
       if (complete) {
         newTab = tab;
       } else {
@@ -97,11 +90,7 @@ mvelo.tabs.create = function(url, complete) {
 
 mvelo.tabs.activate = function(tab, options = {}) {
   options.active = true;
-  return browser.tabs.update(tab.id, options);
-};
-
-mvelo.tabs.sendMessage = function(tab, msg) {
-  return browser.tabs.sendMessage(tab.id, msg);
+  return chrome.tabs.update(tab.id, options);
 };
 
 mvelo.tabs.loadAppTab = function(hash = '') {
@@ -110,7 +99,7 @@ mvelo.tabs.loadAppTab = function(hash = '') {
 
 mvelo.tabs.loadTab = function({path = '', hash = ''}) {
   // Check if tab already exists.
-  const url = browser.runtime.getURL(path);
+  const url = chrome.runtime.getURL(path);
   return mvelo.tabs.query(`${url}*`)
   .then(tabs => {
     if (tabs.length === 0) {
@@ -123,30 +112,39 @@ mvelo.tabs.loadTab = function({path = '', hash = ''}) {
   });
 };
 
-mvelo.tabs.close = function(tab) {
-  return browser.tabs.remove(tab.id);
-};
-
 mvelo.util = {};
 
-// Add a hook to make all links open a new window
-// attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
-dompurify.addHook('afterSanitizeAttributes', node => {
-  // set all elements owning target to target=_blank
-  if ('target' in node) {
-    node.setAttribute('target', '_blank');
-    node.setAttribute('rel', 'noreferrer noopener');
-  }
-  // set MathML links to xlink:show=new
-  if (!node.hasAttribute('target') &&
-      (node.hasAttribute('xlink:href') ||
-       node.hasAttribute('href'))) {
-    node.setAttribute('xlink:show', 'new');
-  }
-});
+mvelo.util.offscreenCreating = null;
 
-mvelo.util.sanitizeHTML = function(html) {
-  const saniHtml = dompurify.sanitize(html);
+mvelo.util.setupOffscreenDocument = async function() {
+  const offscreenUrl = chrome.runtime.getURL('lib/offscreen/offscreen.html');
+  const contexts = await chrome.runtime.getContexts({
+    contextTypes: ['OFFSCREEN_DOCUMENT'],
+    documentUrls: [offscreenUrl]
+  });
+  if (contexts.length > 0) {
+    return;
+  }
+  if (this.offscreenCreating) {
+    await this.offscreenCreating;
+  } else {
+    this.offscreenCreating = chrome.offscreen.createDocument({
+      url: offscreenUrl,
+      reasons: ['DOM_PARSER'],
+      justification: 'Mailvelope requires offscreen documents to securely filter the content of an email',
+    });
+    await this.offscreenCreating;
+    this.offscreenCreating = null;
+  }
+};
+
+mvelo.util.sendOffscreenMessage = async function(type, data) {
+  await this.setupOffscreenDocument();
+  return chrome.runtime.sendMessage({type, target: 'offscreen', data});
+};
+
+mvelo.util.sanitizeHTML = async function(html) {
+  const saniHtml = await this.sendOffscreenMessage('sanitize-html', html);
   return saniHtml;
 };
 
@@ -197,20 +195,20 @@ mvelo.windows.popupMap = new mvelo.windows.PopupMap();
  * @return {BrowserWindow}
  */
 mvelo.windows.openPopup = async function(url, {width, height} = {}, tabId) {
-  const currentWindow = await browser.windows.getCurrent({populate: true});
-  if (currentWindow.id === browser.windows.WINDOW_ID_NONE) {
+  const currentWindow = await chrome.windows.getCurrent({populate: true});
+  if (currentWindow.id === chrome.windows.WINDOW_ID_NONE) {
     throw new Error('Browser window does not exist');
   }
   if (!tabId) {
     const activeTab = currentWindow.tabs.find(tab => tab.active);
     tabId = activeTab.id;
   }
-  if (window.navigator.platform.indexOf('Win') >= 0 && height) {
+  if (navigator.platform.indexOf('Win') >= 0 && height) {
     height += 36;
   }
   const top = height && parseInt(currentWindow.top + (currentWindow.height - height) / 2);
   const left = width && parseInt(currentWindow.left + (currentWindow.width - width) / 2);
-  const popup = await browser.windows.create({url, width, height, top, left, type: 'popup'});
+  const popup = await chrome.windows.create({url, width, height, top, left, type: 'popup'});
   return new this.BrowserWindow({popup, openerTabId: tabId});
 };
 
@@ -226,19 +224,19 @@ mvelo.windows.BrowserWindow = class {
     mvelo.windows.popupMap.set(this.tabId, this.id, this);
     this._tabActivatedChangeHandler = this._tabActivatedChangeHandler.bind(this);
     this._windowRemovedHandler = this._windowRemovedHandler.bind(this);
-    browser.tabs.onActivated.addListener(this._tabActivatedChangeHandler);
-    browser.windows.onRemoved.addListener(this._windowRemovedHandler);
-    browser.tabs.update(openerTabId, {active: true});
+    chrome.tabs.onActivated.addListener(this._tabActivatedChangeHandler);
+    chrome.windows.onRemoved.addListener(this._windowRemovedHandler);
+    chrome.tabs.update(openerTabId, {active: true});
   }
 
   activate() {
-    browser.tabs.update(this.tabId, {active: true});
-    browser.windows.update(this.id, {focused: true})
+    chrome.tabs.update(this.tabId, {active: true});
+    chrome.windows.update(this.id, {focused: true})
     .catch(() => {});
   }
 
   close() {
-    browser.windows.remove(this.id)
+    chrome.windows.remove(this.id)
     .catch(() => {});
   }
 
@@ -246,7 +244,7 @@ mvelo.windows.BrowserWindow = class {
     if (tabId === this.tabId) {
       // opener tab gets focus, set focus on us
       const offset = this.index * 40;
-      browser.windows.update(this.id, {focused: true, top: this.popup.top + offset, left: this.popup.left + offset})
+      chrome.windows.update(this.id, {focused: true, top: this.popup.top + offset, left: this.popup.left + offset})
       // error occurs when browser window closed directly
       .catch(() => {});
     }
@@ -255,8 +253,8 @@ mvelo.windows.BrowserWindow = class {
   _windowRemovedHandler(closedWindowId) {
     if (closedWindowId === this.id) {
       mvelo.windows.popupMap.delete(this.tabId, this.id);
-      browser.tabs.onActivated.removeListener(this._tabActivatedChangeHandler);
-      browser.windows.onRemoved.removeListener(this._windowRemovedHandler);
+      chrome.tabs.onActivated.removeListener(this._tabActivatedChangeHandler);
+      chrome.windows.onRemoved.removeListener(this._windowRemovedHandler);
       this._onRemove();
     }
   }

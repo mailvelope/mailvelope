@@ -168,7 +168,7 @@ export function ab2str(buf) {
 
 export function Uint8Array2str(ab) {
   let str = '';
-  const CHUNK_SIZE = Math.pow(2, 16);
+  const CHUNK_SIZE = Math.pow(2, 15);
   let offset;
   let len;
   let subab;
@@ -220,7 +220,7 @@ export function base64DecodeUrl(str) {
 
 export function dataURL2str(dataURL) {
   const base64 = dataURL2base64(dataURL);
-  return window.atob(base64);
+  return atob(base64);
 }
 
 export function dataURL2base64(dataURL) {

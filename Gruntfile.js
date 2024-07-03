@@ -123,7 +123,7 @@ module.exports = function(grunt) {
             'components/**/*.html',
             'components/recovery-sheet/assets/**/*',
             'img/{*,Mailvelope/*,security/*}',
-            'lib/{constants,EventHandler,l10n,util,svg-file-parser}.js',
+            'lib/offscreen/offscreen.html',
           ],
           dest: 'build/tmp'
         }, {

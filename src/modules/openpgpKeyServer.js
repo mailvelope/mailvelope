@@ -33,7 +33,7 @@ export async function lookup(query) {
   if (!query) {
     throw new Error('openpgpKeyServer: Skipping lookup without query.');
   }
-  const response = await window.fetch(url(query));
+  const response = await self.fetch(url(query));
   if (response.status === 200) {
     armoredKey = await response.text();
   }

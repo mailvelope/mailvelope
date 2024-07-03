@@ -5,5 +5,6 @@ module.exports = [
   require('./webpack.background').dev,
   require('./webpack.css').dev,
   require('./webpack.cs').dev,
-  require('./webpack.api').dev
+  require('./webpack.api').dev,
+  require('./webpack.offscreen').dev
 ];

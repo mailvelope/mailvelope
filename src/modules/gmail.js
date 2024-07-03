@@ -3,7 +3,6 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import browser from 'webextension-polyfill';
 import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
 import {MvError, deDup, str2ab, ab2hex} from '../lib/util';
@@ -11,7 +10,7 @@ import {getUUID, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from 
 import {buildMailWithHeader, filterBodyParts} from './mime';
 import * as mailreader from '../lib/mail-reader';
 
-const CLIENT_ID = browser.runtime.getManifest().oauth2.client_id;
+const CLIENT_ID = chrome.runtime.getManifest().oauth2.client_id;
 const CLIENT_SECRET = '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';
 const GOOGLE_API_HOST = 'https://accounts.google.com';
 const GOOGLE_OAUTH_STORE = 'mvelo.oauth.gmail';
@@ -172,7 +171,7 @@ export async function checkLicense({email, legacyGsuite}) {
 
 async function requestLicense(domain, gmail_account_id) {
   const ab = str2ab(gmail_account_id);
-  const abHash = await window.crypto.subtle.digest('SHA-256', ab);
+  const abHash = await crypto.subtle.digest('SHA-256', ab);
   const hexHash = ab2hex(abHash);
   const url = `${MVELO_BILLING_API_HOST}/api/v1/getLicense`;
   const data = {
@@ -193,7 +192,7 @@ async function requestLicense(domain, gmail_account_id) {
   }
 }
 
-export async function authorize(email, legacyGsuite, scopes = browser.runtime.getManifest().oauth2.scopes) {
+export async function authorize(email, legacyGsuite, scopes = chrome.runtime.getManifest().oauth2.scopes) {
   scopes = deDup([...GMAIL_SCOPES_DEFAULT, ...scopes]);
   // incremental authorization to prevent checkboxes for the requested scopes on the consent screen
   const access_token = await getAuthToken(email, GMAIL_SCOPES_DEFAULT);
@@ -230,8 +229,8 @@ export async function unauthorize(email) {
   await mvelo.storage.set(GOOGLE_OAUTH_STORE, authMetaData);
 }
 
-async function getAuthCode(email, scopes = browser.runtime.getManifest().oauth2.scopes, prompt) {
-  const redirectURL = browser.identity.getRedirectURL();
+async function getAuthCode(email, scopes = chrome.runtime.getManifest().oauth2.scopes, prompt) {
+  const redirectURL = chrome.identity.getRedirectURL();
   const state = getUUID();
   const auth_params = {
     access_type: 'offline',
@@ -247,7 +246,7 @@ async function getAuthCode(email, scopes = browser.runtime.getManifest().oauth2.
     auth_params.prompt = prompt;
   }
   const url = `${GOOGLE_API_HOST}/o/oauth2/v2/auth?${new URLSearchParams(Object.entries(auth_params))}`;
-  const responseURL = await browser.identity.launchWebAuthFlow({url, interactive: true});
+  const responseURL = await chrome.identity.launchWebAuthFlow({url, interactive: true});
   const search = new URL(responseURL).searchParams;
   if (search.get('state') !== state) {
     throw new Error('oauth2/v2/auth: wrong state parameter');
@@ -258,8 +257,8 @@ async function getAuthCode(email, scopes = browser.runtime.getManifest().oauth2.
   };
 }
 
-async function getAuthToken(email, scopes = browser.runtime.getManifest().oauth2.scopes) {
-  const redirectURL = browser.identity.getRedirectURL();
+async function getAuthToken(email, scopes = chrome.runtime.getManifest().oauth2.scopes) {
+  const redirectURL = chrome.identity.getRedirectURL();
   const state = getUUID();
   const auth_params = {
     client_id: CLIENT_ID,
@@ -271,7 +270,7 @@ async function getAuthToken(email, scopes = browser.runtime.getManifest().oauth2
     state
   };
   const url = `${GOOGLE_API_HOST}/o/oauth2/v2/auth?${new URLSearchParams(Object.entries(auth_params))}`;
-  const responseURL = await browser.identity.launchWebAuthFlow({url, interactive: true});
+  const responseURL = await chrome.identity.launchWebAuthFlow({url, interactive: true});
   const search = new URLSearchParams(new URL(responseURL).hash.replace(/^#/, ''));
   if (search.get('state') !== state) {
     throw new Error('oauth2/v2/auth: wrong state parameter');
@@ -286,7 +285,7 @@ async function getAuthTokens(authCode) {
     code: authCode,
     client_secret: CLIENT_SECRET,
     grant_type: 'authorization_code',
-    redirect_uri: browser.identity.getRedirectURL()
+    redirect_uri: chrome.identity.getRedirectURL()
   };
   const result = await fetch(url, {
     method: 'POST',

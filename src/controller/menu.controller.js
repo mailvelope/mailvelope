@@ -71,18 +71,16 @@ export default class MenuController extends sub.SubController {
     }
   }
 
-  addToWatchList() {
-    mvelo.tabs.getActive()
-    .then(tab => {
-      if (!tab) {
-        throw new Error('No tab found');
-      }
-      const url = new URL(tab.url);
-      const domain = mvelo.util.normalizeDomain(url.hostname);
-      const slotId = getUUID();
-      sub.setAppDataSlot(slotId, {domain, protocol: url.protocol, port: url.port});
-      mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
-    });
+  async addToWatchList() {
+    const tab = await mvelo.tabs.getActive();
+    if (!tab) {
+      throw new Error('No tab found');
+    }
+    const url = new URL(tab.url);
+    const domain = mvelo.util.normalizeDomain(url.hostname);
+    const slotId = getUUID();
+    sub.setAppDataSlot(slotId, {domain, protocol: url.protocol, port: url.port});
+    mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
   }
 
   analyticsConsent() {
