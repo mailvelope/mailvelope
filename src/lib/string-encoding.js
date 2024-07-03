@@ -1,2 +1,2 @@
 
-export const {TextEncoder, TextDecoder} = window;
+export const {TextEncoder, TextDecoder} = self;

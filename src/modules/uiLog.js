@@ -49,7 +49,7 @@ function showIndicator(duration = 2000) {
 }
 
 function setBadge() {
-  mvelo.browserAction.state({
+  mvelo.action.state({
     badge: 'Ok',
     badgeColor: '#29A000'
   });
@@ -57,7 +57,7 @@ function setBadge() {
 
 function clearBadge() {
   logTimer = 0;
-  mvelo.browserAction.state({
+  mvelo.action.state({
     badge: ''
   });
 }

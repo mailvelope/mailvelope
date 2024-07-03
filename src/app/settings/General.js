@@ -42,7 +42,7 @@ export default class General extends React.Component {
 
   componentDidMount() {
     this.loadPrefs();
-    chrome.permissions && chrome.permissions.contains({permissions: ['nativeMessaging']}, nativeMessaging => this.setState({nativeMessaging}));
+    chrome.permissions.contains({permissions: ['nativeMessaging']}, nativeMessaging => this.setState({nativeMessaging}));
   }
 
   async loadPrefs() {

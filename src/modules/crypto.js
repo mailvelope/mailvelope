@@ -9,7 +9,7 @@ export function randomString(length) {
   let result = '';
   const base = 32;
   const buf = new Uint8Array(length);
-  window.crypto.getRandomValues(buf);
+  crypto.getRandomValues(buf);
   for (let i = 0; i < buf.length; i++) {
     result += (buf[i] % base).toString(base);
   }
@@ -68,6 +68,6 @@ export function getSecureRandom(from, to) {
 function getSecureRandomUint() {
   const buf = new Uint8Array(4);
   const dv = new DataView(buf.buffer);
-  window.crypto.getRandomValues(buf);
+  crypto.getRandomValues(buf);
   return dv.getUint32(0);
 }

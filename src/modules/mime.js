@@ -23,7 +23,7 @@ export function parseMessage(rawText, handlers, encoding) {
   }
 }
 
-function parseMIME(rawText, handlers, encoding) {
+async function parseMIME(rawText, handlers, encoding) {
   const parsed = mailreader.parse([{raw: rawText}]);
   if (parsed && parsed.length > 0) {
     const htmlParts = [];
@@ -31,12 +31,12 @@ function parseMIME(rawText, handlers, encoding) {
     if (encoding === 'html') {
       filterBodyParts(parsed, 'html', htmlParts);
       if (htmlParts.length) {
-        const sanitized = mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
+        const sanitized = await mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
         handlers.onMessage(sanitized);
       } else {
         filterBodyParts(parsed, 'text', textParts);
         if (textParts.length) {
-          handlers.onMessage(textParts.map(part => mvelo.util.text2autoLinkHtml(part.content)).join('<hr>'));
+          handlers.onMessage(await mvelo.util.text2autoLinkHtml(textParts.map(part => part.content).join('\n<hr>\n')));
         }
       }
     } else if (encoding === 'text') {
@@ -63,9 +63,9 @@ function parseMIME(rawText, handlers, encoding) {
   }
 }
 
-function parseInline(rawText, handlers, encoding) {
+async function parseInline(rawText, handlers, encoding) {
   if (encoding === 'html') {
-    handlers.onMessage(mvelo.util.text2autoLinkHtml(rawText));
+    handlers.onMessage(await mvelo.util.text2autoLinkHtml(rawText));
   } else {
     if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
       // legacy html mode

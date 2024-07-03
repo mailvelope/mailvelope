@@ -2,13 +2,11 @@
   "name": "__MSG_ext_name__",
   "version": "@@mvelo_version",
   "description": "__MSG_ext_description__",
-  "homepage_url": "https://www.mailvelope.com",
-  "manifest_version": 2,
-  "minimum_chrome_version": "90",
-  "background": {
-    "scripts": ["background.bundle.js"]
-  },
-  "browser_action": {
+  "homepage_url": "https://mailvelope.com",
+  "author": "info@mailvelope.com",
+  "manifest_version": 3,
+  "minimum_chrome_version": "122",
+  "action": {
     "default_icon": {
       "16": "img/Mailvelope/logo_signet_16.png",
       "24": "img/Mailvelope/logo_signet_24.png",
@@ -18,18 +16,26 @@
     "default_popup": "components/action-menu/actionMenu.html",
     "default_title": "__MSG_ext_name__"
   },
-  "content_security_policy": "script-src 'self'; object-src 'self'; frame-src 'self';",
-  "default_locale": "en",
   "icons": {
-    "120": "img/Mailvelope/logo_signet_120.png",
-    "128": "img/Mailvelope/logo_signet_128.png",
-    "152": "img/Mailvelope/logo_signet_152.png",
-    "180": "img/Mailvelope/logo_signet_180.png",
     "32": "img/Mailvelope/logo_signet_32.png",
     "48": "img/Mailvelope/logo_signet_48.png",
     "64": "img/Mailvelope/logo_signet_64.png",
-    "96": "img/Mailvelope/logo_signet_96.png"
+    "96": "img/Mailvelope/logo_signet_96.png",
+    "120": "img/Mailvelope/logo_signet_120.png",
+    "128": "img/Mailvelope/logo_signet_128.png",
+    "152": "img/Mailvelope/logo_signet_152.png",
+    "180": "img/Mailvelope/logo_signet_180.png"
   },
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; style-src 'unsafe-inline'; img-src data:; connect-src https:;"
+  },
+  "default_locale": "en",
+  "host_permissions": [
+    "*://*/*"
+  ],
   "oauth2": {
     "client_id": "119074447949-cvf898un7sfnv2ib7r4hvunqd56jm4c4.apps.googleusercontent.com",
     "scopes":[
@@ -38,35 +44,41 @@
       "https://www.googleapis.com/auth/gmail.send"
     ]
   },
-  "optional_permissions": ["nativeMessaging"],
+  "optional_permissions": [
+    "nativeMessaging"
+  ],
   "options_page": "app/app.html",
   "permissions": [
-    "*://*/*",
     "identity",
+    "offscreen",
+    "scripting",
     "storage",
     "tabs",
     "webNavigation"
   ],
-  "web_accessible_resources": [
-    "app/app.html",
-    "client-API/mailvelope-client-api.js",
-    "components/decrypt-message/decryptMessage.html",
-    "components/generate-key/genKey.html",
-    "components/key-backup/backupKey.html",
-    "components/restore-backup/backupRestore.html",
-    "components/editor/editor.html",
-    "components/encrypted-form/encryptedForm.html",
-    "res/fonts/*.woff2",
-    "img/edit_add-22.png",
-    "img/key-24.png",
-    "img/key-icon-blue96.png",
-    "img/loading.gif",
-    "img/mail_locked_96.png",
-    "img/mail_signed_96.png",
-    "img/mail_open_96.png",
-    "img/mail_new.png",
-    "img/ok48.png",
-    "img/verify-24.png",
-    "main.css"
-  ]
+  "web_accessible_resources": [{
+    "resources": [
+      "app/app.html",
+      "client-API/mailvelope-client-api.js",
+      "components/decrypt-message/decryptMessage.html",
+      "components/generate-key/genKey.html",
+      "components/key-backup/backupKey.html",
+      "components/restore-backup/backupRestore.html",
+      "components/editor/editor.html",
+      "components/encrypted-form/encryptedForm.html",
+      "res/fonts/*.woff2",
+      "img/edit_add-22.png",
+      "img/key-24.png",
+      "img/key-icon-blue96.png",
+      "img/loading.gif",
+      "img/mail_locked_96.png",
+      "img/mail_signed_96.png",
+      "img/mail_open_96.png",
+      "img/mail_new.png",
+      "img/ok48.png",
+      "img/verify-24.png",
+      "main.css"
+    ],
+    "matches": ["*://*/*"]
+  }]
 }

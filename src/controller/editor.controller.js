@@ -363,7 +363,7 @@ export default class EditorController extends sub.SubController {
         data = decodeURIComponent(escape(data));
       } else {
         // clear text only
-        data = mvelo.util.sanitizeHTML(armored);
+        data = await mvelo.util.sanitizeHTML(armored);
       }
       const options = this.options;
       const ports = this.ports;

@@ -40,7 +40,7 @@ export async function lookup(query) {
   if (!query) {
     throw new Error('mveloKeyServer: Skipping lookup without query.');
   }
-  const response = await window.fetch(url(query));
+  const response = await self.fetch(url(query));
   if (response.status === 200) {
     jsonKey = await response.json();
   }
@@ -77,7 +77,7 @@ export async function lookup(query) {
  */
 export async function fetch(options) {
   let jsonKey;
-  const response = await window.fetch(url(options));
+  const response = await self.fetch(url(options));
   if (response.status === 200) {
     jsonKey = await response.json();
   }
@@ -97,7 +97,7 @@ export async function upload({emails, publicKeyArmored}) {
   if (emails) {
     body.emails = emails;
   }
-  const response = await window.fetch(url(), {
+  const response = await self.fetch(url(), {
     method: 'POST',
     headers: new Headers({'Content-Type': 'application/json'}),
     body: JSON.stringify(body)
@@ -114,7 +114,7 @@ export async function upload({emails, publicKeyArmored}) {
  * @yield {undefined}
  */
 export async function remove(options) {
-  const response = await window.fetch(url(options), {
+  const response = await self.fetch(url(options), {
     method: 'DELETE'
   });
   checkStatus(response);

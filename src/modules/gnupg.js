@@ -23,7 +23,7 @@ export async function decrypt({armored, base64, format, keyring}) {
   });
   signatures = mapSignatures(signatures, keyring);
   if (resultFormat === 'base64') {
-    data = window.atob(data);
+    data = atob(data);
   }
   return {data, signatures, filename: file_name};
 }
@@ -50,7 +50,7 @@ export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, 
       additional
     });
     if (result.format === 'base64') {
-      return window.atob(result.data);
+      return atob(result.data);
     }
     return result.data;
   } catch (e) {

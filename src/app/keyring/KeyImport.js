@@ -329,13 +329,13 @@ export default class KeyImport extends React.Component {
             </div>
           </div>
         }>
-          {this.state.keySourceName && <p>
+          {this.state.keySourceName && <div>
             {l10n.map.key_import_search_found}
             <ul>
               <li>{l10n.map.key_import_search_found_source} <strong key="1"><a target="_blank" rel="noopener noreferrer" href={keySource.url}>{keySource.label}</a></strong></li>
               <li>{l10n.map.key_import_search_found_modified} <strong key="0">{this.state.keyLastModified.toLocaleDateString()}</strong></li>
             </ul>
-          </p>}
+          </div>}
           <p>{this.state.keys.length > 1 ? l10n.map.key_import_default_description_plural : l10n.map.key_import_default_description}</p>
           {this.state.errors.length > 0 && <Alert header={l10n.map.alert_header_warning} type="danger">{this.state.errors.length > 1 ? l10n.get('key_import_number_of_failed_plural', [this.state.errors.length]) : l10n.map.key_import_number_of_failed}</Alert>}
           <div className="table-responsive" style={{maxHeight: '360px'}}>
