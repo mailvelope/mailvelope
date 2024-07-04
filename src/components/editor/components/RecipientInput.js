@@ -10,10 +10,10 @@
  */
 
 import PropTypes from 'prop-types';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {WithContext as ReactTags} from 'react-tag-input';
 import * as l10n from '../../../lib/l10n';
-import {getUUID} from '../../../lib/util';
+import {checkEmail, getUUID} from '../../../lib/util';
 
 import './RecipientInput.scss';
 
@@ -59,25 +59,18 @@ export function RecipientInput(props) {
   const id = getUUID();
 
   /**
-   * Returns a CSS class for the tag object
-   * @param {bool} success shall be tag should be successfull (green)
-   * @returns {string} CSS tag for the recepient
-   */
-  const getTagColorClass = success => `tag-${success ? 'success' : (props.extraKey ? 'info' : 'danger')}`;
-
-  /**
    *
    * @param {Recipient} recipient
    * @returns {Tag}
    */
-  function recipientToTag(recipient) {
-    return {
-      id: recipient.email,
-      text: recipient.displayId,
-      className: getTagColorClass(recipient.key),
-      recipient
-    };
-  }
+  // The function doesn't change state, disabling the check
+  const recipientToTag = useCallback(recipient => ({
+    id: recipient.email,
+    text: recipient.displayId,
+    // Calc a CSS class for the tag object
+    className: `tag-${recipient.key ? 'success' : (props.extraKey ? 'info' : 'danger')}`,
+    recipient
+  }), [props.extraKey]);
 
   /**
    * Verifies a recipient after input, gets their key, colors the
@@ -85,7 +78,21 @@ export function RecipientInput(props) {
    * @param  {Object|Recipient} data
    * @returns {Recipient}
    */
-  function createRecipient(data) {
+  const createRecipient = useCallback(data => {
+    /**
+     * Finds the recipient's corresponding public key and sets it
+     * on the 'key' attribute on the recipient object.
+     * @param  {Recipient} recipient   The recipient object
+     * @return {Key|undefined}         The key object (undefined if none found)
+    */
+    function findKey(recipient) {
+      return props.keys.find(key => {
+        const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
+        const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
+        return fprMatch && emailMatch || emailMatch;
+      });
+    }
+
     if (!data) {
       return;
     }
@@ -107,80 +114,56 @@ export function RecipientInput(props) {
       recipient.fingerprint = recipient.key.fingerprint;
     }
     if (!recipient.key && !recipient.checkedServer) {
-      // no local key found ... lookup on the server
-      autoLocate(recipient);
+      /**
+       * No local key found
+       * Do a search with the autoLocate module
+       * if a key was not found in the local keyring.
+       */
+      recipient.checkedServer = true;
+      props.onAutoLocate(recipient);
     }
     return recipient;
-  }
-
-  /**
-   * Finds the recipient's corresponding public key and sets it
-   * on the 'key' attribute on the recipient object.
-   * @param  {Recipient} recipient   The recipient object
-   * @return {Key|undefined}         The key object (undefined if none found)
-  */
-  function findKey(recipient) {
-    return props.keys.find(key => {
-      const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
-      const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
-      return fprMatch && emailMatch || emailMatch;
-    });
-  }
-
-  /**
-   * Checks if all recipients have a public key and prevents encryption
-   * if one of them does not have a key.
-   */
-  function checkEncryptStatus() {
-    // TODO this seems like a bit of an extra work
-    const hasError = tags.some(t => !t.recepient.key) && !props.extraKey;
-    setHasError(hasError && !props.hideErrorMsg);
-    props.onChangeRecipient && props.onChangeRecipient({hasError});
-  }
-
-  /**
-   * Do a search with the autoLocate module
-   * if a key was not found in the local keyring.
-   * @param  {Recipient} recipient   The recipient object
-   * @return {undefined}
-   */
-  function autoLocate(recipient) {
-    recipient.checkedServer = true;
-    this.props.onAutoLocate(recipient);
-  }
+  }, [props]);
 
   const [tags, setTags] = useState(
     props.recipients.map(r => recipientToTag(props, r))
   );
+  // Listen for changes in props.recipients
+  useEffect(() => {
+    setTags(props.recipients.map(r => recipientToTag(r)));
+  }, [props.recipients, recipientToTag]);
   const [hasError, setHasError] = useState(false);
+  /**
+   * Checks if all recipients have a public key and prevents encryption
+   * if one of them does not have a key.
+   */
+  const checkEncryptStatus = useCallback(tags => {
+    // TODO this seems like a bit of an extra work to iterate over the whole array
+    const hasError = tags.some(t => !t.recipient.key) && !props.extraKey;
+    setHasError(hasError && !props.hideErrorMsg);
+    props.onChangeRecipient && props.onChangeRecipient({hasError});
+  }, [props]); // TODO Be more granular with deps (split props)
+
   const onDelete = useCallback(tagIndex => {
     setTags(tags.filter((_, i) => i !== tagIndex));
-  }, [tags]);
+    checkEncryptStatus(tags);
+  }, [tags, checkEncryptStatus]);
 
   const onAddition = useCallback(
   /**
    * @param {Tag} newTag
    */
     newTag => {
-      if (isEmail(newTag.id)) {
+      if (checkEmail(newTag.id)) {
         const recipient = createRecipient(newTag);
-        if (recipient.key || recipient.checkedServer) {
-          checkEncryptStatus();
-        }
         setTags([...tags, recipientToTag(recipient)]);
+        if (recipient.key || recipient.checkedServer) {
+          checkEncryptStatus(tags);
+        }
       }
     },
-    [tags]
+    [tags, checkEncryptStatus, createRecipient, recipientToTag]
   );
-
-  /**
-   *
-   * @param {string} input a string with user input
-   * @returns {boolean} if the input string is an email
-   */
-  function isEmail(input) {
-    return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(input);
-  }
 
   const suggestions = props.keys.map(key => ({
     id: key.email,
@@ -188,13 +171,14 @@ export function RecipientInput(props) {
   }));
 
   return (
+    // TODO replace `has-error` class with bootstrap validation
     <div id={id} className={`recipients-input ${hasError ? 'has-error' : ''}`}>
       <ReactTags
         tags={tags}
         suggestions={suggestions}
         handleDelete ={onDelete}
         handleAddition ={onAddition}
-        placeholder={undefined}
+        placeholder={null}
         allowDragDrop={false}
         minQueryLength={1} />
       {!props.hideErrorMsg && hasError && (
