@@ -27,7 +27,6 @@ l10n.register([
  * @returns {Boolean} true if any recipient is unencrypted
  */
 function isAnyRecipientUnencrypted(tags, keys, extraKey) {
-  // TODO calling findRecipientKey is suboptimal
   return tags.some(t => !findRecipientKey(keys, t.id)) && !extraKey;
 }
 
@@ -97,10 +96,9 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
       recipient.key = key;
       recipient.fingerprint = key.fingerprint;
     }
-    if (!recipient.key && !recipient.checkedServer) {
+    if (!recipient.key && !recipient.checkServer) {
       // No local key found, do a search with the autoLocate module
-      // TODO rename `checkedServer`
-      recipient.checkedServer = true;
+      recipient.checkServer = true;
     }
     return recipient;
   }, [keys]);
@@ -117,7 +115,6 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
     // as a dependency for `useEffect`
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys, extraKey]);
-  // TODO Follow up for proper state managament
 
   useEffect(() => {
     onChangeRecipients && onChangeRecipients({recipients: tags.map(t => tagToRecipient(t)), hasError});
@@ -133,7 +130,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
   const onAddition = useCallback(newTag => {
     if (checkEmail(newTag.id)) {
       const recipient = tagToRecipient(newTag);
-      if (recipient.checkedServer) {
+      if (recipient.checkServer) {
         // No local key found, do a search with the autoLocate module
         onAutoLocate(recipient);
       }
