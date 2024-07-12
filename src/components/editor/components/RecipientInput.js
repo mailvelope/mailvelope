@@ -55,10 +55,10 @@ function recipientToTag(recipient, hasExtraKey) {
 }
 
 /**
-   * Finds the recipient's corresponding public key.
-   * @param {Key[]} keys - array of keys to search for match
-   * @param {String} email - recipient's email
-   */
+ * Finds the recipient's corresponding public key.
+ * @param {Key[]} keys - array of keys to search for match
+ * @param {String} email - recipient's email
+*/
 function findRecipientKey(keys, email) {
   return keys.find(key => key.email && key.email.toLowerCase() === email.toLowerCase());
 }
@@ -67,7 +67,7 @@ function findRecipientKey(keys, email) {
  * Component that inputs recipient email
  * @param {Props} props - Component properties
  * @returns {React.JSX.Element}
- */
+*/
 export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onChangeRecipients, recipients}) {
   const id = getUUID();
 
@@ -75,6 +75,15 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
     recipients.map(r => recipientToTag(r, extraKey))
   );
   const hasError = isAnyRecipientUnencrypted(tags, keys, extraKey) && !hideErrorMsg;
+  /*
+   * Circumventing input value manipulation (marking with #circumventing-input)
+   * 1. We use **undocumented** `inputValue` property of `ReactTags`
+   *    @see https://github.com/react-tags/react-tags/blob/v6.5.4/src/components/ReactTags.js#L469
+   * 2. We manipulate with `allowDeleteFromEmptyInput` to disable `event.stopPropagation()` when backspace key pressed
+   *    @see https://github.com/react-tags/react-tags/blob/v6.5.4/src/components/ReactTags.js#L163
+   */
+  const [inputValue, setInputValue] = useState('');
+  const [allowDeleteFromEmptyInput, setAllowDeleteFromEmptyInput] = useState(true);
 
   /**
    * Converts a tag into recipient object
@@ -124,8 +133,15 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
   }, [tags, hasError]);
 
   const onDelete = useCallback(tagIndex => {
-    setTags(tags.filter((_, i) => i !== tagIndex));
-  }, [tags]);
+    setTags(tags.filter((tag, i) => {
+      const match = i == tagIndex;
+      if (match) { // #circumventing-input
+        setAllowDeleteFromEmptyInput(false);
+        setInputValue(tag.id);
+      }
+      return !match;
+    }));
+  }, [tags, setAllowDeleteFromEmptyInput, setInputValue]);
 
   const onAddition = useCallback(newTag => {
     if (checkEmail(newTag.id)) {
@@ -135,8 +151,19 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         onAutoLocate(recipient);
       }
       setTags([...tags, recipientToTag(recipient, extraKey)]);
+      // #circumventing-input
+      setInputValue('');
+      setAllowDeleteFromEmptyInput(true);
     }
-  }, [tags, extraKey, tagToRecipient, onAutoLocate]);
+  }, [tags, extraKey, setAllowDeleteFromEmptyInput, tagToRecipient, onAutoLocate]);
+
+  // #circumventing-input
+  const onChange = useCallback(value => {
+    setInputValue(value);
+    if (value.length === 0) {
+      setAllowDeleteFromEmptyInput(true);
+    }
+  }, [setAllowDeleteFromEmptyInput, setInputValue]);
 
   const suggestions = keys.map(key => ({
     id: key.email,
@@ -150,9 +177,12 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         suggestions={suggestions}
         handleDelete ={onDelete}
         handleAddition ={onAddition}
+        handleInputChange={onChange} // #circumventing-input
         placeholder={null}
         allowDragDrop={false}
         minQueryLength={1}
+        allowDeleteFromEmptyInput={allowDeleteFromEmptyInput} // #circumventing-input
+        inputValue={inputValue} // #circumventing-input
         id="recipients-input"
         classNames={{
           tags: 'recipients-input',
