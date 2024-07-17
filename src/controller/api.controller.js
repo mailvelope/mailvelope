@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as sub from './sub.controller';
-import {getUUID, MvError} from '../lib/util';
+import {MvError} from '../lib/util';
 import {MAIN_KEYRING_ID, KEY_STATUS} from '../lib/constants';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
 import {minifyKey, verifyPrimaryKey} from '../modules/key';
@@ -16,10 +16,6 @@ import * as keyRegistry from '../modules/keyRegistry';
 export default class ApiController extends sub.SubController {
   constructor(port) {
     super(port);
-    if (!port) {
-      this.mainType = 'api';
-      this.id = getUUID();
-    }
     // register event handlers
     this.on('get-keyring', this.getKeyring);
     this.on('create-keyring', this.createKeyring);

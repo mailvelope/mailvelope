@@ -13,11 +13,8 @@ import {getUserInfo} from '../modules/key';
 import * as pwdCache from '../modules/pwdCache';
 
 export default class PwdController extends SubController {
-  constructor(port) {
-    if (port) {
-      throw new Error('Do not instantiate PwdController with a port');
-    }
-    super(null);
+  constructor() {
+    super();
     this.persistent = true;
     this.mainType = 'pwdDialog';
     this.id = getUUID();

@@ -94,6 +94,9 @@ const keyringAttr = new KeyringAttrMap();
 // map keyringId to keyring objects (classes extending KeyringBase)
 const keyringMap = new Map();
 
+let keyringInitDone;
+export const keyringInitialized = new Promise(resolve => keyringInitDone = resolve);
+
 export async function init() {
   keyringMap.clear();
   keyringAttr.clear();
@@ -112,6 +115,7 @@ export async function init() {
       console.log(`Building keyring for id ${keyringId} failed`, e);
     }
   }));
+  keyringInitDone();
   preVerifyKeys();
 }
 

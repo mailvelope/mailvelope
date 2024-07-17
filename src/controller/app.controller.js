@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getUUID, filterAsync} from '../lib/util';
+import {filterAsync} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
 import * as sub from './sub.controller';
 import {readKey, readKeys} from 'openpgp';
@@ -26,10 +26,6 @@ import {ci, recordOnboardingStep, ADD_KEY, BEGIN, ONBOARDING_CAMPAIGN} from '../
 export default class AppController extends sub.SubController {
   constructor(port) {
     super(port);
-    if (!port) {
-      this.mainType = 'app';
-      this.id = getUUID();
-    }
     // register event handlers
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);

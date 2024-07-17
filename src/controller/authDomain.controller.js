@@ -11,11 +11,8 @@ import * as uiLog from '../modules/uiLog';
 import * as sub from './sub.controller';
 
 export default class AuthDomainController extends sub.SubController {
-  constructor(port) {
-    if (port) {
-      throw new Error('Do not instantiate AuthDomainController with a port');
-    }
-    super(null);
+  constructor() {
+    super();
     this.persistent = true;
     this.mainType = 'authDomainDialog';
     this.id = getUUID();
