@@ -89,7 +89,7 @@ export default class ExtractFrame {
   registerEventListener() {
     document.addEventListener('mailvelope-observe', this.setFrameDim);
     this.port.on('destroy', () => this.closeFrame(true, true));
-    this.port.onDisconnect.addListener(() => this.closeFrame(true, false));
+    this.port.onUninstall.addListener(() => this.closeFrame(true, false));
   }
 
   clickHandler(callback, ev) {

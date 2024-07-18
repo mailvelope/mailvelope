@@ -11,13 +11,16 @@ import {mapError} from './util.js';
  * @param {Map} handlers - handler map of parent event handler
  */
 export default class EventHandler {
+  #reply;
+  #replyCount = 0;
+  #uninstallListener = [];
+  #uninstallInterval;
+
   constructor(port, handlers) {
     if (port) {
       this.initPort(port);
     }
     this._handlers = handlers || new Map();
-    this._reply = null;
-    this._replyCount = 0;
     this._handlerObject = null;
   }
 
@@ -50,9 +53,33 @@ export default class EventHandler {
     }
   }
 
+  /**
+   * We can detect an uninstall event if the field chrome.runtime.id is cleared
+   */
+  #checkUninstall() {
+    if (chrome.runtime?.id) {
+      return;
+    }
+    for (const listener of this.#uninstallListener) {
+      listener();
+    }
+    clearInterval(this.#uninstallInterval);
+  }
+
   get onDisconnect() {
     const obj = {};
     obj.addListener = listener => this._port.onDisconnect.addListener(listener);
+    return obj;
+  }
+
+  get onUninstall() {
+    const obj = {};
+    obj.addListener = listener => {
+      this.#uninstallListener.push(listener);
+      if (!this.#uninstallInterval) {
+        this.#uninstallInterval = setInterval(() => this.#checkUninstall(), 2000);
+      }
+    };
     return obj;
   }
 
@@ -77,8 +104,8 @@ export default class EventHandler {
       }
     } else if (options.event === '_reply') {
       // we have received a reply
-      const replyHandler = this._reply.get(options._reply);
-      this._reply.delete(options._reply);
+      const replyHandler = this.#reply.get(options._reply);
+      this.#reply.delete(options._reply);
       if (options.error) {
         replyHandler.reject(options.error);
       } else {
@@ -127,12 +154,12 @@ export default class EventHandler {
       if (!event || typeof event !== 'string') {
         return reject(new Error('Invalid event!'));
       }
-      if (!this._reply) {
-        this._reply = new Map();
+      if (!this.#reply) {
+        this.#reply = new Map();
       }
       options.event = event;
-      options._reply = ++this._replyCount;
-      this._reply.set(options._reply, {resolve, reject});
+      options._reply = ++this.#replyCount;
+      this.#reply.set(options._reply, {resolve, reject});
       this._port.postMessage(options);
     });
   }
