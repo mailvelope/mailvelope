@@ -38,7 +38,7 @@ export default class GmailIntegration {
 
   establishConnection() {
     this.port = EventHandler.connect(`gmailInt-${this.id}`, this);
-    this.port.onDisconnect.addListener(this.deactivate.bind(this));
+    this.port.onUninstall.addListener(this.deactivate.bind(this));
   }
 
   registerEventListener() {

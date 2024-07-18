@@ -48,8 +48,8 @@ export default class EncryptFrame {
 
   establishConnection() {
     this.port = EventHandler.connect(`eFrame-${this.id}`, this);
-    // attach port disconnect handler
-    this.port.onDisconnect.addListener(this.closeFrame.bind(this, false));
+    // attach extension unload handler
+    this.port.onUninstall.addListener(this.closeFrame.bind(this, false));
   }
 
   registerEventListener() {

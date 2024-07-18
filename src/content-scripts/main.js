@@ -68,7 +68,7 @@ function registerEventListener() {
   port.on('destroy', onDestroy);
   port.on('init', ({prefs, watchList}) => init(prefs, watchList));
   port.on('set-prefs', msg => prefs = msg.prefs);
-  port.onDisconnect.addListener(off);
+  port.onUninstall.addListener(off);
 }
 
 function onDestroy() {

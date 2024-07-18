@@ -1,7 +1,7 @@
 {
 
   "parserOptions": {
-    "ecmaVersion": 2021,
+    "ecmaVersion": 2022,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -56,7 +56,7 @@
     "key-spacing": ["warn", { "mode": "minimum" }], // enforce consistent spacing before and after keywords
     "keyword-spacing": 1, // enforce consistent spacing between keys and values in object literal properties
     "linebreak-style": 1, // enforce consistent linebreak style
-    "lines-between-class-members": 1, // require or disallow an empty line between class members
+    "lines-between-class-members": ["warn", {"enforce": [{"blankLine": "always", "prev": "*", "next": "method"}, {"blankLine": "never", "prev": "field", "next": "field"}]}], // require or disallow an empty line between class members
     "new-parens": ["warn"], // require parens when invoking constructors
     "no-multiple-empty-lines": ["warn", {"max": 1}], // disallow multiple empty lines
     "no-trailing-spaces": 1, // disallow trailing whitespace at the end of lines
