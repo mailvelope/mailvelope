@@ -5,6 +5,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import {addDays, addYears} from 'date-fns';
 import * as l10n from '../../../lib/l10n';
 import {KeyringOptions} from '../KeyringOptions';
 import DatePicker from './DatePicker';
@@ -21,7 +23,11 @@ l10n.register([
 
 export default function AdvKeyGenOptions({value: {keyAlgo, keySize, keyExpirationTime}, onChange, disabled}) {
   const context = React.useContext(KeyringOptions);
-  const handleDateChange = moment => onChange({target: {id: 'keyExpirationTime', value: moment}});
+  const tomorrow = addDays(new Date(), 1);
+  const farFuture = addYears(tomorrow, 80);
+  // TODO #moment-to-data-fns-migration
+  const keyExpirationTimeJsDate = keyExpirationTime ? keyExpirationTime.toDate() : null;
+  const handleDateChange = date => onChange({target: {id: 'keyExpirationTime', value: date && moment(date)}}); // TODO #moment-to-data-fns-migration
   const keyAlgos = [
     <option value="rsa" key={0}>RSA</option>,
     <option value="ecc" key={1}>ECC - Curve25519</option>
@@ -47,7 +53,7 @@ export default function AdvKeyGenOptions({value: {keyAlgo, keySize, keyExpiratio
       </div>
       <div className="form-group key-expiration-group">
         <label htmlFor="keyExpirationTime">{l10n.map.key_gen_expiration}</label>
-        <DatePicker id="keyExpirationTime" value={keyExpirationTime} onChange={handleDateChange} placeholder={l10n.map.keygrid_key_not_expire} minDate={new Date(new Date().getTime() + 24 * 60 * 60 * 1000)} maxDate={new Date(2080, 11, 31)} disabled={disabled} />
+        <DatePicker id="keyExpirationTime" value={keyExpirationTimeJsDate} onChange={handleDateChange} placeholder={l10n.map.keygrid_key_not_expire} minDate={tomorrow} maxDate={farFuture} disabled={disabled} />
       </div>
     </div>
   );
