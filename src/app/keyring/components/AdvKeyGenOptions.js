@@ -25,9 +25,8 @@ export default function AdvKeyGenOptions({value: {keyAlgo, keySize, keyExpiratio
   const context = React.useContext(KeyringOptions);
   const tomorrow = addDays(new Date(), 1);
   const farFuture = addYears(tomorrow, 80);
-  // TODO #moment-to-data-fns-migration
   const keyExpirationTimeJsDate = keyExpirationTime ? keyExpirationTime.toDate() : null;
-  const handleDateChange = date => onChange({target: {id: 'keyExpirationTime', value: date && moment(date)}}); // TODO #moment-to-data-fns-migration
+  const handleDateChange = date => onChange({target: {id: 'keyExpirationTime', value: date && moment(date)}});
   const keyAlgos = [
     <option value="rsa" key={0}>RSA</option>,
     <option value="ecc" key={1}>ECC - Curve25519</option>
