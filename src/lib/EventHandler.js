@@ -15,6 +15,7 @@ export default class EventHandler {
   #replyCount = 0;
   #uninstallListener = [];
   #uninstallInterval;
+  #portName;
 
   constructor(port, handlers) {
     if (port) {
@@ -35,9 +36,19 @@ export default class EventHandler {
     return eventHandler;
   }
 
+  #checkConnection() {
+    if (this._port) {
+      return;
+    }
+    const port = chrome.runtime.connect({name: this.#portName});
+    this.initPort(port);
+  }
+
   initPort(port) {
     this._port = port;
     this._port.onMessage.addListener(this.handlePortMessage.bind(this));
+    this._port.onDisconnect.addListener(() => this.removePort());
+    this.#portName = port.name;
   }
 
   removePort() {
@@ -137,6 +148,7 @@ export default class EventHandler {
     if (!event || typeof event !== 'string') {
       throw new Error('Invalid event!');
     }
+    this.#checkConnection();
     options.event = event;
     this._port.postMessage(options);
   }
@@ -154,6 +166,7 @@ export default class EventHandler {
       if (!event || typeof event !== 'string') {
         return reject(new Error('Invalid event!'));
       }
+      this.#checkConnection();
       if (!this.#reply) {
         this.#reply = new Map();
       }
