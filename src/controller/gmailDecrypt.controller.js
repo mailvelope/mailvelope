@@ -137,8 +137,8 @@ export default class gmailDecryptController extends DecryptController {
     if (this.attachments.length > 2 || !this.ascAttachments.length) {
       return;
     }
-    const {mimeType} = await gmail.getMessageMimeType({msgId: this.msgId, email: this.userInfo.email, accessToken});
-    if (mimeType === 'multipart/signed' || mimeType === 'multipart/encrypted') {
+    const {mimeType, protocol} = await gmail.getMessageMimeType({msgId: this.msgId, email: this.userInfo.email, accessToken});
+    if (mimeType === 'multipart/signed' && protocol === 'application/pgp-signature' || mimeType === 'multipart/encrypted') {
       return mimeType;
     }
     if (this.ascAttachments.includes('encrypted.asc')) {

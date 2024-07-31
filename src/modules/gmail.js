@@ -48,7 +48,19 @@ export async function getMessageMimeType({msgId, email, accessToken}) {
 export async function getAttachment({email, msgId, attachmentId, fileName, accessToken}) {
   if (!attachmentId) {
     const msg = await getMessage({msgId, email, accessToken});
-    ({body: {attachmentId}} = msg.payload.parts.find(part => part.filename === fileName));
+    // aggregate parts of first and second level of MIME tree
+    const parts = msg.payload.parts.reduce((acc, part) => {
+      acc.push(part);
+      if (part.parts?.length) {
+        acc.push(...part.parts);
+      }
+      return acc;
+    }, []);
+    const part = parts.find(part => part.filename === fileName);
+    if (!part) {
+      throw new Error(`Could not find MIME node with file name ${fileName}`);
+    }
+    ({body: {attachmentId}} = part);
   }
   const options = {
     method: 'GET',
