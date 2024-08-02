@@ -5,6 +5,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {addDays, addYears} from 'date-fns';
 import moment from 'moment';
 import {KeyringOptions} from './../KeyringOptions';
 import {formatFpr} from '../../../lib/util';
@@ -176,6 +177,9 @@ export default class KeyDetails extends React.Component {
 
   render() {
     const selectedKey = this.state.keys[this.state.selectedKeyIdx];
+    const tomorrow = addDays(new Date(), 1);
+    const farFuture = addYears(tomorrow, 80);
+    const keyExpirationTimeJsDate = this.state.keyExpirationTime ? this.state.keyExpirationTime.toDate() : null;
     return (
       <div className="keyDetails">
         <div className="card card-clean">
@@ -242,7 +246,7 @@ export default class KeyDetails extends React.Component {
         <Modal isOpen={this.state.showExDateModal} toggle={() => this.setState(prevState => ({showExDateModal: !prevState.showExDateModal}))} size="medium" title={l10n.map.keydetails_change_exp_date_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
           <>
             <div className="form-group">
-              <DatePicker value={this.state.keyExpirationTime} onChange={moment => this.handleChange({target: {id: 'keyExpirationTime', value: moment}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={moment().add({days: 1})} maxDate={moment('2080-12-31')} disabled={false} />
+              <DatePicker value={keyExpirationTimeJsDate} onChange={date => this.handleChange({target: {id: 'keyExpirationTime', value: date && moment(date)}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={tomorrow} maxDate={farFuture} disabled={false} />
             </div>
             <Alert type="warning" header={l10n.map.alert_header_warning}>
               {l10n.map.keydetails_change_exp_date_dialog_note}
