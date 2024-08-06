@@ -1,0 +1,12 @@
+{
+    "recommendations": [        
+        "KnisterPeter.vscode-commitizen",
+        "mikestead.dotenv",
+        "xabikos.JavaScriptSnippets",
+        "dbaeumer.vscode-eslint",
+        "Gruntfuggly.todo-tree",
+        "GitHub.vscode-pull-request-github",
+        "ypresto.vscode-intelli-refactor",
+        "donjayamanne.githistory"        
+    ]
+}
