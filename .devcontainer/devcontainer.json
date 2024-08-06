@@ -1,0 +1,51 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+	"name": "mailvelope",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2.4.5": {
+			"upgradePackages": true,
+			"configureZshAsDefaultShell": true,
+			"nonFreePackages": true
+		},
+		"ghcr.io/kreemer/features/chrometesting:1": {}
+	},
+
+	"privileged": true, // this is for Chrome Headless to work without `--no-sandbox`
+	"containerEnv": {
+		"CHROME_BIN": "/opt/chrome/chrome-wrapper"
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "npm i -g grunt-cli; npm i && grunt",
+
+	// If you'd like to expose your webext build folder, configure the soure path and uncomment
+	// for instance, if running inside WSL, you can use "/mnt/d/Temp/webext-build"
+	// "mounts": [
+	// 	"source=<SOURCE>,target=${containerWorkspaceFolder}/build,type=bind,consistency=cached"
+	// ],
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"KnisterPeter.vscode-commitizen",
+				"mikestead.dotenv",
+				"dbaeumer.vscode-eslint",
+				"GitHub.vscode-pull-request-github",
+				"lucono.karma-test-explorer",
+				"dotenv.dotenv-vscode"
+			]
+		}
+	},
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+
+	// You can pass your local dev vars into the container safely, it is excluded from the version control
+	"runArgs": ["--env-file", ".devcontainer/.env.container.dev"]
+}
