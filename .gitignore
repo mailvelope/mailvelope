@@ -13,6 +13,9 @@ apidoc/
 cert/
 .eslintcache
 
+# devcontainer's env var configuration
+/.devcontainer/.env.container.dev
+
 # editors
 *.sublime*
 atlassian-ide-plugin.xml

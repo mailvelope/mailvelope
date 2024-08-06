@@ -1,0 +1,14 @@
+{
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2.4.5": {
+      "version": "2.4.5",
+      "resolved": "ghcr.io/devcontainers/features/common-utils@sha256:e232c240319c4e019467c1099536c5eefebd762cf017d6d50353ed50fbf66ba3",
+      "integrity": "sha256:e232c240319c4e019467c1099536c5eefebd762cf017d6d50353ed50fbf66ba3"
+    },
+    "ghcr.io/kreemer/features/chrometesting:1": {
+      "version": "1.0.0",
+      "resolved": "ghcr.io/kreemer/features/chrometesting@sha256:4ddd0cddfa9ebd82733f50bd3f14f79b93e439d4c212a001c7578b8eb1cf9df0",
+      "integrity": "sha256:4ddd0cddfa9ebd82733f50bd3f14f79b93e439d4c212a001c7578b8eb1cf9df0"
+    }
+  }
+}
