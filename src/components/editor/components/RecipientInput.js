@@ -149,7 +149,6 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
   }));
 
   return (
-    // TODO replace `has-error` class with bootstrap validation
     <div id={id} className="input-group mb-3">
       <ReactTags
         tags={tags}
