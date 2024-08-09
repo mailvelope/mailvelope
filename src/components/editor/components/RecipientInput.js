@@ -48,7 +48,7 @@ const getTagClassName = (isSuccess, hasExtraKey) =>
 function recipientToTag(recipient, hasExtraKey) {
   return {
     id: recipient.email,
-    text: recipient.displayId,
+    text: recipient.displayId || recipient.email,
     // Calc a CSS class for the tag object
     className: getTagClassName(recipient.key, hasExtraKey)
   };
