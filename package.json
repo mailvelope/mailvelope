@@ -37,6 +37,7 @@
     "react-datepicker": "1.7.0",
     "react-dom": "16.14.0",
     "react-router-dom": "5.2.0",
+    "react-tag-input": "6.5.4",
     "reactstrap": "8.10.1",
     "webextension-polyfill": "0.12.0"
   },
