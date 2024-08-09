@@ -1,104 +1,78 @@
 @import "../../../res/styles/_required";
 
-// TODO Utilize bootstrap classes instead of custom styling
-// eg. use @extend to extend bootstrap classes
-// or use the component's `classNames` to point on bootstrap classes directly
-// see https://getbootstrap.com/docs/4.6/components/forms/
+@import "/node_modules/bootstrap/scss/badge";
+@import "/node_modules/bootstrap/scss/dropdown";
+@import "/node_modules/bootstrap/scss/forms";
 
 .recipients-input {
-  .react-tags-wrapper {
-    position: relative;
-    padding: 6px 0 0 6px;
-    border: $border-width solid $input-border-color;
-    border-radius: $input-border-radius;
+  @extend .form-control;
+  padding: 1px;
+  position: relative; // for the dropdown
+  height: initial; // input should be stretchable
 
-    /* shared font styles */
-    font-size: 1em;
-    line-height: 1.2;
-
-    /* clicking anywhere will focus the input */
-    cursor: text;
-
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  &:focus-within {
+    @extend .form-control:focus;
   }
 
-  .react-tags-wrapper.is-focused {
-    background-color: $input-focus-bg;
-    border-color: $input-focus-border-color;
-    box-shadow: $input-focus-box-shadow;
-  }
-
-  .ReactTags__selected {
-    display: inline;
+  .tag-selected-list {
+    /* The layout has to be stretchable because the input should take all the space left */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
     .tag-wrapper {
-      display: inline-block;
-      box-sizing: border-box;
-      margin: 0 6px 6px 0;
-      padding: 6px 8px;
-      border-radius: 2px;
-      font-family: $font-family-base;
-      font-weight: 500;
-      background-color: theme-color-level("primary", $alert-bg-level);
-      border-color: theme-color-level("primary", $alert-border-level);
-      transition: background-color 0.3s, border-color 0.3s;
+      @extend .badge;
+      margin: 2px;
 
-      /* match the font styles */
-      font-size: inherit;
-      line-height: inherit;
-
-      .ReactTags__remove {
-        color: #AAA;
+      .tag-remove {
+        /* Reset button styles */
+        padding: 0;
+        border: none;
+        background: none;
+        font-weight: 700;
+        font-size: 16px;
         margin-left: 8px;
       }
 
-      :hover,
-      :focus {
-        border-color: #B1B1B1;
+      &::before {
+        font: normal normal normal 14px/1 'MailvelopeIcons';
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
-    }
-
-    .tag-wrapper::before {
-      font: normal normal normal 14px/1 'MailvelopeIcons';
-      line-height: 1;
-
-      /* Better Font Rendering =========== */
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
     @each $color, $value in $theme-colors {
-      .tag-#{$color} {
+      .badge-#{$color} {
         @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color($color));
       }
 
-      .tag-#{$color} .ReactTags__remove {
+      .badge-#{$color} .tag-remove {
         color: theme-color($color);
       }
     }
 
-    .tag-success::before {
+    .badge-success::before {
       content: "\e90f \00a0";
     }
 
-    .tag-danger::before {
+    .badge-danger::before {
       content: "\e909 \00a0";
     }
   }
 
-  .ReactTags__tagInput {
-    display: inline-block;
+  .tag-input-wrapper {
+    flex: 1;
 
     /* match tag layout */
     padding: 7px 2px;
-    margin-bottom: 6px;
+    margin: 2px;
 
-    /* prevent autoresize overflowing the container */
-    max-width: 100%;
-
-    .ReactTags__tagInputField {
-      /* prevent autoresize overflowing the container */
-      max-width: 100%;
+    .tag-input-field {      
+      width: 100%;
+      min-width: 12rem;
 
       /* remove styles and layout from this element */
       margin: 0;
@@ -116,61 +90,32 @@
     }
   }
 
-  @media screen and (min-width: 30em) {
-
-    .ReactTags__tagInput {
-      /* this will become the offsetParent for suggestions */
-      position: relative;
-    }
-
-  }
-
-  .ReactTags__suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    z-index: 2;
+  .suggestions {
+    @extend .dropdown-menu;
+    /* `react-tags` adds menu to the DOM instead of hiding it, so we override bootstap */
+    display: block;
 
     ul {
-      margin: 4px -1px;
+      /* Reset `ul`s padding */
       padding: 0;
-      list-style: none;
-      background: white;
-      border: 1px solid #D1D1D1;
-      border-radius: 2px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      margin: 0
     }
 
     li {
-      border-bottom: 1px solid #ddd;
-      padding: 6px 8px;
+      @extend .dropdown-item;
     }
 
+    /* `react-tags` does not set the focus state on keyboard navigation */
+    li.active-suggestion {
+      @extend .dropdown-item:hover;
+    }
+
+    /* Text highlighted by search */
     li mark {
+      padding: 0px;
       text-decoration: underline;
       background: none;
       font-weight: 600;
-    }
-
-    li:hover {
-      cursor: pointer;
-      background: #eee;
-    }
-
-    li.is-active {
-      background: #b7cfe0;
-    }
-
-    li.is-disabled {
-      opacity: 0.5;
-      cursor: auto;
-    }
-  }
-
-  @media screen and (min-width: 30em) {
-    .ReactTags__suggestions {
-      width: 240px;
     }
   }
 }
