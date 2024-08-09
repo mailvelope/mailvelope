@@ -1,82 +1,166 @@
 @import "../../../res/styles/_required";
 
-.recipients-input tags-input .tags .tag-item {
-  font-family: $font-family-base;
-  font-weight: 500;
-  background-color: theme-color-level("primary", $alert-bg-level);
-  border-color: theme-color-level("primary", $alert-border-level);
-  transition: background-color 0.3s, border-color 0.3s;
-}
+.recipients-input {
+  .react-tags {
+    position: relative;
+    padding: 6px 0 0 6px;
+    border: $border-width solid $input-border-color;
+    border-radius: $input-border-radius;
 
-@mixin tag-variant($background, $border, $color) {
-  color: $color;
-  @include gradient-bg($background);
-  border-color: $border;
-}
+    /* shared font styles */
+    font-size: 1em;
+    line-height: 1.2;
 
-.recipients-input tags-input .tags .remove-button {
-  color: inherit;
-}
+    /* clicking anywhere will focus the input */
+    cursor: text;
 
-@each $color, $value in $theme-colors {
-  .recipients-input tags-input .tags .tag-#{$color} {
-    @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color($color));
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
-  .recipients-input tags-input .tags .tag-#{$color} .remove-button {
-    color: theme-color($color);
-  }  
+
+  .react-tags.is-focused {
+    background-color: $input-focus-bg;
+    border-color: $input-focus-border-color;
+    box-shadow: $input-focus-box-shadow;
+  }
+
+  .react-tags__selected {
+    display: inline;
+  }
+
+  .react-tags__selected-tag {
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0 6px 6px 0;
+    padding: 6px 8px;
+    border-radius: 2px;
+    font-family: $font-family-base;
+    font-weight: 500;
+    background-color: theme-color-level("primary", $alert-bg-level);
+    border-color: theme-color-level("primary", $alert-border-level);
+    transition: background-color 0.3s, border-color 0.3s;
+
+    /* match the font styles */
+    font-size: inherit;
+    line-height: inherit;
+
+    :after {
+      content: '\2715';
+      color: #AAA;
+      margin-left: 8px;
+    }
+
+    :hover,
+    :focus {
+      border-color: #B1B1B1;
+    }
+
+    ::before {
+      font-family: 'MailvelopeIcons' !important;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+
+      /* Better Font Rendering =========== */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .tag-success:before {
+      content: "\e90f \00a0";
+    }
+
+    .tag-danger:before {
+      content: "\e909 \00a0";
+    }
+  }
+
+  .react-tags__search {
+    display: inline-block;
+
+    /* match tag layout */
+    padding: 7px 2px;
+    margin-bottom: 6px;
+
+    /* prevent autoresize overflowing the container */
+    max-width: 100%;
+  }
+
+  @media screen and (min-width: 30em) {
+
+    .react-tags__search {
+      /* this will become the offsetParent for suggestions */
+      position: relative;
+    }
+
+  }
+
+  .react-tags__search-input {
+    /* prevent autoresize overflowing the container */
+    max-width: 100%;
+
+    /* remove styles and layout from this element */
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+
+    /* match the font styles */
+    font-size: inherit;
+    line-height: inherit;
+
+    ::-ms-clear {
+      display: none;
+    }
+  }
+
+  .react-tags__suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+
+    ul {
+      margin: 4px -1px;
+      padding: 0;
+      list-style: none;
+      background: white;
+      border: 1px solid #D1D1D1;
+      border-radius: 2px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    li {
+      border-bottom: 1px solid #ddd;
+      padding: 6px 8px;
+    }
+
+    li mark {
+      text-decoration: underline;
+      background: none;
+      font-weight: 600;
+    }
+
+    li:hover {
+      cursor: pointer;
+      background: #eee;
+    }
+
+    li.is-active {
+      background: #b7cfe0;
+    }
+
+    li.is-disabled {
+      opacity: 0.5;
+      cursor: auto;
+    }
+  }
+
+  @media screen and (min-width: 30em) {
+    .react-tags__suggestions {
+      width: 240px;
+    }
+  }
 }
-
-.recipients-input tags-input .tags.focused {
-  background-color: $input-focus-bg;
-  border-color: $input-focus-border-color;
-  box-shadow: $input-focus-box-shadow;
-}
-
-.recipients-input tags-input .tags .tag-item:before {
-  font-family: 'MailvelopeIcons' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.recipients-input tags-input .tags .tag-success:before {
-  content: "\e90f \00a0";
-}
-
-.recipients-input tags-input .tags .tag-danger:before {
-  content: "\e909 \00a0";
-}
-
-.recipients-input tags-input.ng-invalid .tags,
-.recipients-input.has-error tags-input .tags {
-  border-color: $form-feedback-invalid-color;
-  box-shadow: none;
-}
-
-.recipients-input tags-input.ng-invalid .tags.focused,
-.recipients-input.has-error tags-input .tags.focused {
-  border-color: $form-feedback-invalid-color;
-  box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
-}
-
-.recipients-input tags-input .tags .input {
-  font-family: $font-family-base;
-  width: auto !important;
-}
-
-.recipients-input .alert {
-  margin: 10px 0 5px; 
-}
-
-.recipients-input tags-input .tags {
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
