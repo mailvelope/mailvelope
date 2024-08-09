@@ -1,7 +1,12 @@
 @import "../../../res/styles/_required";
 
+// TODO Utilize bootstrap classes instead of custom styling
+// eg. use @extend to extend bootstrap classes
+// or use the component's `classNames` to point on bootstrap classes directly
+// see https://getbootstrap.com/docs/4.6/components/forms/
+
 .recipients-input {
-  .react-tags {
+  .react-tags-wrapper {
     position: relative;
     padding: 6px 0 0 6px;
     border: $border-width solid $input-border-color;
@@ -17,49 +22,44 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
-  .react-tags.is-focused {
+  .react-tags-wrapper.is-focused {
     background-color: $input-focus-bg;
     border-color: $input-focus-border-color;
     box-shadow: $input-focus-box-shadow;
   }
 
-  .react-tags__selected {
+  .ReactTags__selected {
     display: inline;
-  }
 
-  .react-tags__selected-tag {
-    display: inline-block;
-    box-sizing: border-box;
-    margin: 0 6px 6px 0;
-    padding: 6px 8px;
-    border-radius: 2px;
-    font-family: $font-family-base;
-    font-weight: 500;
-    background-color: theme-color-level("primary", $alert-bg-level);
-    border-color: theme-color-level("primary", $alert-border-level);
-    transition: background-color 0.3s, border-color 0.3s;
+    .tag-wrapper {
+      display: inline-block;
+      box-sizing: border-box;
+      margin: 0 6px 6px 0;
+      padding: 6px 8px;
+      border-radius: 2px;
+      font-family: $font-family-base;
+      font-weight: 500;
+      background-color: theme-color-level("primary", $alert-bg-level);
+      border-color: theme-color-level("primary", $alert-border-level);
+      transition: background-color 0.3s, border-color 0.3s;
 
-    /* match the font styles */
-    font-size: inherit;
-    line-height: inherit;
+      /* match the font styles */
+      font-size: inherit;
+      line-height: inherit;
 
-    :after {
-      content: '\2715';
-      color: #AAA;
-      margin-left: 8px;
+      .ReactTags__remove {
+        color: #AAA;
+        margin-left: 8px;
+      }
+
+      :hover,
+      :focus {
+        border-color: #B1B1B1;
+      }
     }
 
-    :hover,
-    :focus {
-      border-color: #B1B1B1;
-    }
-
-    ::before {
-      font-family: 'MailvelopeIcons' !important;
-      font-style: normal;
-      font-weight: normal;
-      font-variant: normal;
-      text-transform: none;
+    .tag-wrapper::before {
+      font: normal normal normal 14px/1 'MailvelopeIcons';
       line-height: 1;
 
       /* Better Font Rendering =========== */
@@ -67,16 +67,26 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    .tag-success:before {
+    @each $color, $value in $theme-colors {
+      .tag-#{$color} {
+        @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color($color));
+      }
+
+      .tag-#{$color} .ReactTags__remove {
+        color: theme-color($color);
+      }
+    }
+
+    .tag-success::before {
       content: "\e90f \00a0";
     }
 
-    .tag-danger:before {
+    .tag-danger::before {
       content: "\e909 \00a0";
     }
   }
 
-  .react-tags__search {
+  .ReactTags__tagInput {
     display: inline-block;
 
     /* match tag layout */
@@ -85,37 +95,37 @@
 
     /* prevent autoresize overflowing the container */
     max-width: 100%;
+
+    .ReactTags__tagInputField {
+      /* prevent autoresize overflowing the container */
+      max-width: 100%;
+
+      /* remove styles and layout from this element */
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: none;
+
+      /* match the font styles */
+      font-size: inherit;
+      line-height: inherit;
+
+      ::-ms-clear {
+        display: none;
+      }
+    }
   }
 
   @media screen and (min-width: 30em) {
 
-    .react-tags__search {
+    .ReactTags__tagInput {
       /* this will become the offsetParent for suggestions */
       position: relative;
     }
 
   }
 
-  .react-tags__search-input {
-    /* prevent autoresize overflowing the container */
-    max-width: 100%;
-
-    /* remove styles and layout from this element */
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: none;
-
-    /* match the font styles */
-    font-size: inherit;
-    line-height: inherit;
-
-    ::-ms-clear {
-      display: none;
-    }
-  }
-
-  .react-tags__suggestions {
+  .ReactTags__suggestions {
     position: absolute;
     top: 100%;
     left: 0;
@@ -159,7 +169,7 @@
   }
 
   @media screen and (min-width: 30em) {
-    .react-tags__suggestions {
+    .ReactTags__suggestions {
       width: 240px;
     }
   }
