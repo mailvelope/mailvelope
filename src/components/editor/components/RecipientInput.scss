@@ -93,8 +93,10 @@ $sp-1: map-get($spacers, 1);
   }
 
   .suggestions {
-    @extend .dropdown-menu, .d-block;
-    /* `react-tags` adds menu to the DOM instead of hiding it, so we override bootstap */    
+    @extend .dropdown-menu, 
+            .d-block; /* `react-tags` adds menu to the DOM instead of hiding it, so we override bootstap */    
+    width: 100%;
+    overflow-x: auto;
 
     ul {
       /* Reset `ul`s padding */
