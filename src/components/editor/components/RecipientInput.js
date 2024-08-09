@@ -18,7 +18,6 @@ l10n.register([
   'editor_key_not_found_msg'
 ]);
 
-// TODO convert to function declation
 /**
  * Checks if all recipients have a public key and prevents encryption
  * if one of them does not have a key.
@@ -70,7 +69,6 @@ function findRecipientKey(keys, email) {
  * @param {Props} props - Component properties
  * @returns {React.JSX.Element}
  */
-// TODO make params in one line
 export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onChangeRecipients, recipients}) {
   const id = getUUID();
 
