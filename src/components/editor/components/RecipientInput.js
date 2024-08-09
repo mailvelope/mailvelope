@@ -55,10 +55,10 @@ function recipientToTag(recipient, hasExtraKey) {
 }
 
 /**
-   * Finds the recipient's corresponding public key.
-   * @param {Key[]} keys - array of keys to search for match
-   * @param {String} email - recipient's email
-   */
+ * Finds the recipient's corresponding public key.
+ * @param {Key[]} keys - array of keys to search for match
+ * @param {String} email - recipient's email
+*/
 function findRecipientKey(keys, email) {
   return keys.find(key => key.email && key.email.toLowerCase() === email.toLowerCase());
 }
@@ -90,6 +90,15 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
 
   // this is a callback function because we need to update it with new tags before rerender happened
   const hasError = useCallback(tags => hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg, [keys, extraKey, hideErrorMsg]);
+  /*
+   * Circumventing input value manipulation (marking with #circumventing-input)
+   * 1. We use **undocumented** `inputValue` property of `ReactTags`
+   *    @see https://github.com/react-tags/react-tags/blob/v6.5.4/src/components/ReactTags.js#L469
+   * 2. We manipulate with `allowDeleteFromEmptyInput` to disable `event.stopPropagation()` when backspace key pressed
+   *    @see https://github.com/react-tags/react-tags/blob/v6.5.4/src/components/ReactTags.js#L163
+   */
+  const [inputValue, setInputValue] = useState('');
+  const [allowDeleteFromEmptyInput, setAllowDeleteFromEmptyInput] = useState(true);
 
   /**
    * Converts a tag into recipient object
@@ -128,12 +137,22 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   );
 
   const onDelete = useCallback(tagIndex => {
-    updateParentRecipients(tags.filter((_, i) => i !== tagIndex));
+    updateParentRecipients(tags.filter((tag, i) => {
+      const match = i == tagIndex;
+      if (match) { // #circumventing-input
+        setAllowDeleteFromEmptyInput(false);
+        setInputValue(tag.id);
+      }
+      return !match;
+    }));
   }, [tags, updateParentRecipients]);
 
   const onAddition = useCallback(newTag => {
     if (checkEmail(newTag.id)) {
       updateParentRecipients([...tags, newTag]);
+      // #circumventing-input
+      setInputValue('');
+      setAllowDeleteFromEmptyInput(true);
       // After updating the tags, refocus the input field using the constant id
       // This is the only way because <ReactTags> doesn't give access to it's children, nor gives an API to set focus
       setTimeout(() => {
@@ -144,6 +163,14 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
       }, 0);
     }
   }, [idRef, tags, updateParentRecipients]);
+
+  // #circumventing-input
+  const onChange = useCallback(value => {
+    setInputValue(value);
+    if (value.length === 0) {
+      setAllowDeleteFromEmptyInput(true);
+    }
+  }, [setAllowDeleteFromEmptyInput, setInputValue]);
 
   const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
     const lowerCaseQuery = textInputValue.toLowerCase();
@@ -167,10 +194,13 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
         suggestions={suggestions}
         handleDelete={onDelete}
         handleAddition={onAddition}
+        handleInputChange={onChange} // #circumventing-input
         handleFilterSuggestions={onFilterSuggestions}
         placeholder={null}
         allowDragDrop={false}
         minQueryLength={2}
+        allowDeleteFromEmptyInput={allowDeleteFromEmptyInput} // #circumventing-input
+        inputValue={inputValue} // #circumventing-input
         separators={['Enter', 'Tab', 'Space']}
         classNames={{
           tags: 'recipients-input mb-0 form-control',
