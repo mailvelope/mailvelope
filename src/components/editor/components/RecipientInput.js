@@ -73,7 +73,7 @@ export function RecipientInput({
   hideErrorMsg,
   keys,
   onAutoLocate,
-  onChangeRecipient,
+  onChangeRecipients,
   recipients,
 }) {
   const id = getUUID();
@@ -171,11 +171,11 @@ export function RecipientInput({
   }, [keys, tags, extraKey, hideErrorMsg, updateRecipientKey, recipientToTag]);
 
   useEffect(() => {
-    onChangeRecipient && onChangeRecipient({hasError});
+    onChangeRecipients && onChangeRecipients({recipients: tags.map(t => t.recipient), hasError});
     // We do not want circular dependency, hence we do not set onChangeRecipient
     // as a dependency for `useEffect`
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasError]);
+  }, [hasError, tags]);
 
   const onDelete = useCallback(tagIndex => {
     setTags(tags.filter((_, i) => i !== tagIndex));
@@ -238,7 +238,7 @@ export function RecipientInput({
  * @property {boolean} hideErrorMsg - Flag indicating whether error message should be hidden
  * @property {Array<Key>} keys - Array of public keys
  * @property {Function} onAutoLocate - Callback function for auto-locating keys
- * @property {Function} onChangeRecipient - Callback function for recipient changes
+ * @property {Function} onChangeRecipients - Callback function for recipient changes
  * @property {Array<Recipient>} recipients - Array of recipients
  */
 RecipientInput.propTypes = {
@@ -246,6 +246,6 @@ RecipientInput.propTypes = {
   hideErrorMsg: PropTypes.bool,
   keys: PropTypes.array,
   onAutoLocate: PropTypes.func,
-  onChangeRecipient: PropTypes.func,
+  onChangeRecipients: PropTypes.func,
   recipients: PropTypes.array
 };
