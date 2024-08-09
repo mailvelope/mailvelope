@@ -3,14 +3,9 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-/**
- * Parts of the recipient input is based on Hoodiecrow (MIT License)
- * Copyright (c) 2014 Whiteout Networks GmbH.
- * See https://github.com/tanx/hoodiecrow/blob/master/LICENSE
- */
-
 import PropTypes from 'prop-types';
 import React, {useCallback, useState, useEffect} from 'react';
+// `WithContext` as `ReactTags` is taken from the official example
 import {WithContext as ReactTags} from 'react-tag-input';
 import * as l10n from '../../../lib/l10n';
 import {checkEmail, getUUID} from '../../../lib/util';
@@ -23,33 +18,7 @@ l10n.register([
   'editor_key_not_found_msg'
 ]);
 
-/// DATA TYPES ///
-/**
- * @typedef {Object} Recipient
- * @property {String} email Email address of the recipient
- * @property {String} displayId Display name of the recipient
- * @property {String} fingerprint Fingerprint of the recipient's public key
- * @property {Object} key Public key of the recipient
- */
-
-/**
- * @typedef {Object} Key
- * @property {String} userId User ID of the key owner (name or email)
- * @property {String} keyId Key ID of the key
- * @property {String} email Email address of the key owner
- * @property {String} fingerprint Fingerprint (hash) of the key
- */
-
-/**
- * @typedef {Object} Tag
- * Represents id/value combination for the _ReactTags_ component
- * @property {String} id Email address of the recipient
- * @property {String} text Display text of the recipient
- * @property {String} className CSS class for the label
- */
-/// END DATA TYPES ///
-
-/// "STATIC" FUNCTIONS
+// TODO convert to function declation
 /**
  * Checks if all recipients have a public key and prevents encryption
  * if one of them does not have a key.
@@ -58,18 +27,19 @@ l10n.register([
  * @param {Boolean} extraKey - Flag indicating whether extra key input is enabled
  * @returns {Boolean} true if any recipient is unencrypted
  */
-const isAnyRecipientUnencrypted = (tags, keys, extraKey) =>
+function isAnyRecipientUnencrypted(tags, keys, extraKey) {
   // TODO calling findRecipientKey is suboptimal
-  tags.some(t => !findRecipientKey(keys, t.id)) && !extraKey;
+  return tags.some(t => !findRecipientKey(keys, t.id)) && !extraKey;
+}
 
 /**
- * Creates a tag class name
+ * Creates a bootstrap badge class name
  * @param {Boolean} isSuccess - Flag indicating whether the recipient has a key
  * @param {Boolean} hasExtraKey - Flag indicating whether extra key input is enabled
  * @returns {String} CSS class name for the tag
  */
 const getTagClassName = (isSuccess, hasExtraKey) =>
-  `tag-${isSuccess ? 'success' : (hasExtraKey ? 'info' : 'danger')}`;
+  `badge-${isSuccess ? 'success' : (hasExtraKey ? 'info' : 'danger')}`;
 
 /**
  * Converts a recipient object to a tag object.
@@ -94,22 +64,21 @@ function recipientToTag(recipient, hasExtraKey) {
 function findRecipientKey(keys, email) {
   return keys.find(key => key.email && key.email.toLowerCase() === email.toLowerCase());
 }
-/// END
 
 /**
  * Component that inputs recipient email
  * @param {Props} props - Component properties
  * @returns {React.JSX.Element}
  */
-export function RecipientInput({
-  extraKey,
-  hideErrorMsg,
-  keys,
-  onAutoLocate,
-  onChangeRecipients,
-  recipients,
-}) {
+// TODO make params in one line
+export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onChangeRecipients, recipients}) {
   const id = getUUID();
+
+  const [tags, setTags] = useState(
+    recipients.map(r => recipientToTag(r, extraKey))
+  );
+  const hasError = isAnyRecipientUnencrypted(tags, keys, extraKey) && !hideErrorMsg;
+
   /**
    * Converts a tag into recipient object
    * Also performs a key search in a key array for a matching key.
@@ -131,37 +100,29 @@ export function RecipientInput({
       recipient.fingerprint = key.fingerprint;
     }
     if (!recipient.key && !recipient.checkedServer) {
-      // No local key found
-      // Do a search with the autoLocate module
-      // if a key was not found in the local keyring.
+      // No local key found, do a search with the autoLocate module
+      // TODO rename `checkedServer`
       recipient.checkedServer = true;
     }
     return recipient;
   }, [keys]);
 
-  const [tags, setTags] = useState(
-    recipients.map(r => recipientToTag(r, extraKey))
-  );
-  const hasError = isAnyRecipientUnencrypted(tags, keys, extraKey) && !hideErrorMsg;
-  console.debug('RecipientInput hasError', hasError);
-
   // Listen for changes in keys (also if updated externally)
   useEffect(() => {
     // Update tags's recipients with new keys
     const newTags = tags.map(tag => ({
-      ...tag, // Spread existing properties
+      ...tag,
       className: getTagClassName(findRecipientKey(keys, tag.id), extraKey)
     }));
     setTags(newTags);
-    console.debug('useEffect changed keys');
     // We do not want circular dependency, hence we do not set `tags`
     // as a dependency for `useEffect`
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys, extraKey]);
+  // TODO Follow up for proper state managament
 
   useEffect(() => {
     onChangeRecipients && onChangeRecipients({recipients: tags.map(t => tagToRecipient(t)), hasError});
-    console.debug('useEffect onChangeRecipients');
     // We do not want circular dependency, hence we do not set onChangeRecipients
     // as a dependency for `useEffect`
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -171,24 +132,16 @@ export function RecipientInput({
     setTags(tags.filter((_, i) => i !== tagIndex));
   }, [tags]);
 
-  const onAddition = useCallback(
-  /**
-   * @param {Tag} newTag
-   */
-    newTag => {
-      if (checkEmail(newTag.id)) {
-        const recipient = tagToRecipient(newTag);
-        if (recipient.checkedServer) {
-          // No local key found
-          // Do a search with the autoLocate module
-          // if a key was not found in the local keyring.
-          onAutoLocate(recipient);
-        }
-        setTags([...tags, recipientToTag(recipient, extraKey)]);
+  const onAddition = useCallback(newTag => {
+    if (checkEmail(newTag.id)) {
+      const recipient = tagToRecipient(newTag);
+      if (recipient.checkedServer) {
+        // No local key found, do a search with the autoLocate module
+        onAutoLocate(recipient);
       }
-    },
-    [tags, extraKey, tagToRecipient, onAutoLocate]
-  );
+      setTags([...tags, recipientToTag(recipient, extraKey)]);
+    }
+  }, [tags, extraKey, tagToRecipient, onAutoLocate]);
 
   const suggestions = keys.map(key => ({
     id: key.email,
@@ -197,7 +150,7 @@ export function RecipientInput({
 
   return (
     // TODO replace `has-error` class with bootstrap validation
-    <div id={id} className={`recipients-input ${hasError ? 'has-error' : ''}`}>
+    <div id={id} className="input-group mb-3">
       <ReactTags
         tags={tags}
         suggestions={suggestions}
@@ -205,7 +158,18 @@ export function RecipientInput({
         handleAddition ={onAddition}
         placeholder={null}
         allowDragDrop={false}
-        minQueryLength={1} />
+        minQueryLength={1}
+        id="recipients-input"
+        classNames={{
+          tags: 'recipients-input',
+          tagInput: 'tag-input-wrapper',
+          tagInputField: 'tag-input-field',
+          selected: 'tag-selected-list',
+          tag: 'tag',
+          remove: 'tag-remove',
+          suggestions: 'suggestions',
+          activeSuggestion: 'active-suggestion'
+        }} />
       {!hideErrorMsg && hasError && (
         <div className="alert alert-danger mb-0" role="alert">
           <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
@@ -237,3 +201,27 @@ RecipientInput.propTypes = {
   onChangeRecipients: PropTypes.func,
   recipients: PropTypes.array
 };
+
+/**
+ * @typedef {Object} Recipient
+ * @property {String} email Email address of the recipient
+ * @property {String} displayId Display name of the recipient
+ * @property {String} fingerprint Fingerprint of the recipient's public key
+ * @property {Object} key Public key of the recipient
+ */
+
+/**
+ * @typedef {Object} Key
+ * @property {String} userId User ID of the key owner (name or email)
+ * @property {String} keyId Key ID of the key
+ * @property {String} email Email address of the key owner
+ * @property {String} fingerprint Fingerprint (hash) of the key
+ */
+
+/**
+ * @typedef {Object} Tag
+ * Represents id/value combination for the _ReactTags_ component
+ * @property {String} id Email address of the recipient
+ * @property {String} text Display text of the recipient
+ * @property {String} className CSS class for the label
+ */
