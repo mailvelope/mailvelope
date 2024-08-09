@@ -41,10 +41,6 @@ $sp-1: map-get($spacers, 1);
       &::before {
         font: normal normal normal 14px/1 'MailvelopeIcons';
         line-height: 1;
-
-        /* Better Font Rendering =========== */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
       }
     }
 
