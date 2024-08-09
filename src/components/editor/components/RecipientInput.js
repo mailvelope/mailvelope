@@ -172,7 +172,7 @@ export function RecipientInput({
 
   useEffect(() => {
     onChangeRecipients && onChangeRecipients({recipients: tags.map(t => t.recipient), hasError});
-    // We do not want circular dependency, hence we do not set onChangeRecipient
+    // We do not want circular dependency, hence we do not set onChangeRecipients
     // as a dependency for `useEffect`
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasError, tags]);
