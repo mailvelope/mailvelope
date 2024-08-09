@@ -45,25 +45,10 @@ l10n.register([
  * Represents id/value combination for the _ReactTags_ component
  * @property {string} id Email address of the recipient
  * @property {string} text Display text of the recipient
+ * @property {string} className CSS class for the label
+ * @property {Recipient} recipient Store recipient within a tag
  */
 /// END DATA TYPES ///
-
-/// UTILS ///
-/**
- * 
- * @param {Recipient} recipient
- * @returns {Tag}
- */
-function recipientToTag(recipient) {
-  return {
-    id: recipient.email,
-    text: recipient.displayId
-  };
-}
-
-
-
-/// END UTILS ///
 
 /**
  * Component that inputs recipient email
@@ -73,12 +58,101 @@ function recipientToTag(recipient) {
 export function RecipientInput(props) {
   const id = getUUID();
 
+  /**
+   * Returns a CSS class for the tag object
+   * @param {bool} success shall be tag should be successfull (green)
+   * @returns {string} CSS tag for the recepient
+   */
+  const getTagColorClass = success => `tag-${success ? 'success' : (props.extraKey ? 'info' : 'danger')}`;
+
+  /**
+   *
+   * @param {Recipient} recipient
+   * @returns {Tag}
+   */
+  function recipientToTag(recipient) {
+    return {
+      id: recipient.email,
+      text: recipient.displayId,
+      className: getTagColorClass(recipient.key),
+      recipient
+    };
+  }
+
+  /**
+   * Verifies a recipient after input, gets their key, colors the
+   * input tag accordingly and checks if encryption is possible.
+   * @param  {Object|Recipient} data
+   * @returns {Recipient}
+   */
+  function createRecipient(data) {
+    if (!data) {
+      return;
+    }
+    const recipient = {
+      email: data.email ? data.email : data.id,
+      displayId: data.displayId,
+      fingerprint: data.fingerprint
+    };
+    if (recipient.email) {
+      // display only address from autocomplete
+      recipient.displayId = recipient.email;
+    } else {
+      // set address after manual input
+      recipient.email = recipient.displayId;
+    }
+    // lookup key in local cache
+    recipient.key = findKey(recipient);
+    if (recipient.key) {
+      recipient.fingerprint = recipient.key.fingerprint;
+    }
+    if (!recipient.key && !recipient.checkedServer) {
+      // no local key found ... lookup on the server
+      autoLocate(recipient);
+    }
+    return recipient;
+  }
+
+  /**
+   * Finds the recipient's corresponding public key and sets it
+   * on the 'key' attribute on the recipient object.
+   * @param  {Recipient} recipient   The recipient object
+   * @return {Key|undefined}         The key object (undefined if none found)
+  */
+  function findKey(recipient) {
+    return props.keys.find(key => {
+      const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
+      const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
+      return fprMatch && emailMatch || emailMatch;
+    });
+  }
+
+  /**
+   * Checks if all recipients have a public key and prevents encryption
+   * if one of them does not have a key.
+   */
+  function checkEncryptStatus() {
+    // TODO this seems like a bit of an extra work
+    const hasError = tags.some(t => !t.recepient.key) && !props.extraKey;
+    setHasError(hasError && !props.hideErrorMsg);
+    props.onChangeRecipient && props.onChangeRecipient({hasError});
+  }
+
+  /**
+   * Do a search with the autoLocate module
+   * if a key was not found in the local keyring.
+   * @param  {Recipient} recipient   The recipient object
+   * @return {undefined}
+   */
+  function autoLocate(recipient) {
+    recipient.checkedServer = true;
+    this.props.onAutoLocate(recipient);
+  }
+
   const [tags, setTags] = useState(
-    props.recipients.map(r => ({
-      id: r.email,
-      text: r.displayId
-    }))
+    props.recipients.map(r => recipientToTag(props, r))
   );
+  const [hasError, setHasError] = useState(false);
   const onDelete = useCallback(tagIndex => {
     setTags(tags.filter((_, i) => i !== tagIndex));
   }, [tags]);
@@ -89,9 +163,11 @@ export function RecipientInput(props) {
    */
     newTag => {
       if (isEmail(newTag.id)) {
-        setTags([...tags, newTag]);
-      } else {
-        setHasError(true);
+        const recipient = createRecipient(newTag);
+        if (recipient.key || recipient.checkedServer) {
+          checkEncryptStatus();
+        }
+        setTags([...tags, recipientToTag(recipient)]);
       }
     },
     [tags]
@@ -105,7 +181,6 @@ export function RecipientInput(props) {
   function isEmail(input) {
     return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(input);
   }
-  const [hasError, setHasError] = useState(false);
 
   const suggestions = props.keys.map(key => ({
     id: key.email,
@@ -153,126 +228,3 @@ RecipientInput.propTypes = {
   onChangeRecipient: PropTypes.func,
   recipients: PropTypes.array
 };
-
-/**
- * Controller for the recipient input
- * TODO Is going to be removed completely
- */
-class RecipientInputCtrl {
-  constructor($timeout, props) {
-    this._timeout = $timeout;
-    this.props = props;
-    this.recipients = props.recipients;
-  }
-
-  update() {
-    this._timeout(() => { // trigger $scope.$digest() after async call
-      this.recipients.forEach(this.verify.bind(this));
-      this.checkEncryptStatus();
-    });
-  }
-
-  /**
-   * Verifies a recipient after input, gets their key, colors the
-   * input tag accordingly and checks if encryption is possible.
-   * @param  {Recipient} recipient   The recipient object
-   */
-  verify(recipient) {
-    if (!recipient) {
-      return;
-    }
-    if (recipient.email) {
-      // display only address from autocomplete
-      recipient.displayId = recipient.email;
-    } else {
-      // set address after manual input
-      recipient.email = recipient.displayId;
-    }
-    // lookup key in local cache
-    recipient.key = this.getKey(recipient);
-    if (recipient.key) {
-      recipient.fingerprint = recipient.key.fingerprint;
-    }
-    if (recipient.key || recipient.checkedServer) {
-      // color tag only if a local key was found, or after server lookup
-      this.colorTag(recipient);
-      this.checkEncryptStatus();
-    } else {
-      // no local key found ... lookup on the server
-      this.autoLocate(recipient);
-    }
-  }
-
-  /**
-   * Finds the recipient's corresponding public key and sets it
-   * on the 'key' attribute on the recipient object.
-   * @param  {Recipient} recipient   The recipient object
-   * @return {Key|undefined}         The key object (undefined if none found)
-  */
-  getKey(recipient) {
-    return this.props.keys.find(key => {
-      const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
-      const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
-      return fprMatch && emailMatch || emailMatch;
-    });
-  }
-
-  /**
-   * Color the recipient's input tag depending on
-   * whether they have a key or not.
-   * @param  {Recipient} recipient   The recipient object
-   */
-  colorTag(recipient) {
-    this._timeout(() => { // wait for html tag to appear
-      const tags = document.querySelectorAll('tags-input li.tag-item');
-      for (const tag of tags) {
-        if (tag.textContent.indexOf(recipient.email) !== -1) {
-          tag.classList.remove('tag-success', 'tag-info', 'tag-danger');
-          if (recipient.key) {
-            tag.classList.add('tag-success');
-          } else {
-            tag.classList.add(`tag-${this.props.extraKey ? 'info' : 'danger'}`);
-          }
-        }
-      }
-    });
-  }
-
-  /**
-   * Checks if all recipients have a public key and prevents encryption
-   * if one of them does not have a key.
-   */
-  checkEncryptStatus() {
-    const hasError = this.recipients.some(r => !r.key) && !this.props.extraKey;
-    this.hasError = hasError && !this.props.hideErrorMsg;
-    this.hasExtraKey = this.props.extraKey;
-    this.props.onChangeRecipient && this.props.onChangeRecipient({hasError});
-  }
-
-  /**
-   * Do a search with the autoLocate module
-   * if a key was not found in the local keyring.
-   * @param  {Recipient} recipient   The recipient object
-   * @return {undefined}
-   */
-  autoLocate(recipient) {
-    recipient.checkedServer = true;
-    this.props.onAutoLocate(recipient);
-  }
-
-  /**
-   * Queries the local cache of key objects to find a matching user ID
-   * @param  {String} query     The autocomplete query
-   * @return {Array<Recipient>} A list of filtered items that match the query
-   */
-  autocomplete(query) {
-    const cache = this.props.keys.map(key => ({
-      email: key.email,
-      fingerprint: key.fingerprint,
-      displayId: `${key.userId} - ${key.keyId}`
-    }));
-    // filter by display ID and ignore duplicates
-    return cache.filter(i => i.displayId.toLowerCase().includes(query.toLowerCase()) &&
-        !this.recipients.some(recipient => recipient.email === i.email));
-  }
-}
