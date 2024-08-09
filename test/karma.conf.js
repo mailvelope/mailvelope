@@ -20,8 +20,6 @@ module.exports = function(config) {
       {pattern: 'polyfills.js', watched: false},
       {pattern: '../node_modules/jquery/dist/jquery.slim.js', watched: false},
       {pattern: '../node_modules/bootstrap/dist/js/bootstrap.bundle.js', watched: false},
-      {pattern: '../node_modules/angular/angular.js', watched: false},
-      {pattern: '../node_modules/angular-mocks/angular-mocks.js', watched: false},
       {pattern: '../node_modules/openpgp/dist/openpgp.js', watched: false, included: false,  nocache: false},
       {pattern: '../src/client-API/main.js', watched: true},
       {pattern: '../src/img/**/*', watched: false, included: false},
