@@ -50,12 +50,32 @@ l10n.register([
  */
 /// END DATA TYPES ///
 
+/// "STATIC" FUNCTIONS
+/**
+ * Checks if all recipients have a public key and prevents encryption
+ * if one of them does not have a key.
+ * @param {Tag[]} tags - Array of tags
+ * @param {string} extraKey - Flag indicating whether extra key input is enabled
+ * @returns {boolean} true if any recipient is unencrypted
+ */
+const isAnyRecipientUnencrypted = (tags, extraKey) =>
+  tags.some(t => !t.recipient.key) && !extraKey;
+
+/// END
+
 /**
  * Component that inputs recipient email
  * @param {Props} props - Component properties
  * @returns {React.JSX.Element}
  */
-export function RecipientInput(props) {
+export function RecipientInput({
+  extraKey,
+  hideErrorMsg,
+  keys,
+  onAutoLocate,
+  onChangeRecipient,
+  recipients,
+}) {
   const id = getUUID();
 
   /**
@@ -63,41 +83,50 @@ export function RecipientInput(props) {
    * @param {Recipient} recipient
    * @returns {Tag}
    */
-  // The function doesn't change state, disabling the check
   const recipientToTag = useCallback(recipient => ({
     id: recipient.email,
     text: recipient.displayId,
     // Calc a CSS class for the tag object
-    className: `tag-${recipient.key ? 'success' : (props.extraKey ? 'info' : 'danger')}`,
+    className: `tag-${recipient.key ? 'success' : (extraKey ? 'info' : 'danger')}`,
     recipient
-  }), [props.extraKey]);
+  }), [extraKey]);
 
   /**
-   * Verifies a recipient after input, gets their key, colors the
-   * input tag accordingly and checks if encryption is possible.
+   * Finds the recipient's corresponding public key and sets it
+   * on the 'key' attribute on the recipient object.
+   * @param  {Recipient} recipient   The recipient object
+   * @return {Key|undefined}         The key object (undefined if none found)
+  */
+  const findKey = useCallback(recipient =>
+    keys.find(key => {
+      const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
+      const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
+      return fprMatch && emailMatch || emailMatch;
+    }), [keys]);
+
+  /**
+   * Update recipient's key
+   * @param {Recipient} recipient
+   */
+  const updateRecipientKey = useCallback(recipient => {
+    const key = findKey(recipient);
+    if (key) {
+      recipient.key = key;
+      recipient.fingerprint = key.fingerprint;
+    }
+  }, [findKey]);
+
+  /**
+   * Verifies a recipient after input, gets their key
    * @param  {Object|Recipient} data
    * @returns {Recipient}
    */
   const createRecipient = useCallback(data => {
-    /**
-     * Finds the recipient's corresponding public key and sets it
-     * on the 'key' attribute on the recipient object.
-     * @param  {Recipient} recipient   The recipient object
-     * @return {Key|undefined}         The key object (undefined if none found)
-    */
-    function findKey(recipient) {
-      return props.keys.find(key => {
-        const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
-        const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
-        return fprMatch && emailMatch || emailMatch;
-      });
-    }
-
     if (!data) {
       return;
     }
     const recipient = {
-      email: data.email ? data.email : data.id,
+      email: data.email || data.id,
       displayId: data.displayId,
       fingerprint: data.fingerprint
     };
@@ -108,46 +137,49 @@ export function RecipientInput(props) {
       // set address after manual input
       recipient.email = recipient.displayId;
     }
-    // lookup key in local cache
-    recipient.key = findKey(recipient);
-    if (recipient.key) {
-      recipient.fingerprint = recipient.key.fingerprint;
-    }
-    if (!recipient.key && !recipient.checkedServer) {
-      /**
-       * No local key found
-       * Do a search with the autoLocate module
-       * if a key was not found in the local keyring.
-       */
-      recipient.checkedServer = true;
-      props.onAutoLocate(recipient);
-    }
+    updateRecipientKey(recipient);
     return recipient;
-  }, [props]);
+  }, [updateRecipientKey]);
 
   const [tags, setTags] = useState(
-    props.recipients.map(r => recipientToTag(props, r))
+    recipients.map(r => recipientToTag(r))
   );
-  // Listen for changes in props.recipients
+  const [hasError, setHasError] = useState(isAnyRecipientUnencrypted(tags, extraKey) && !hideErrorMsg);
+
+  // Update external `recipients` prop.
+  // TODO This in fact doesn't work, and I am not sure we actually need to do that
+  recipients = tags.map(t => t.recipient);
+
+  // Listen for changes in keys (also if updated externally)
   useEffect(() => {
-    setTags(props.recipients.map(r => recipientToTag(r)));
-  }, [props.recipients, recipientToTag]);
-  const [hasError, setHasError] = useState(false);
-  /**
-   * Checks if all recipients have a public key and prevents encryption
-   * if one of them does not have a key.
-   */
-  const checkEncryptStatus = useCallback(tags => {
-    // TODO this seems like a bit of an extra work to iterate over the whole array
-    const hasError = tags.some(t => !t.recipient.key) && !props.extraKey;
-    setHasError(hasError && !props.hideErrorMsg);
-    props.onChangeRecipient && props.onChangeRecipient({hasError});
-  }, [props]); // TODO Be more granular with deps (split props)
+    // Update tags's recipients with new keys
+    tags.forEach(t => {
+      if (t.recipient.checkedServer) {
+        updateRecipientKey(t.recipient);
+
+        // Here we update a tag to indicate visual changes after key retrival
+        t.className = recipientToTag(t.recipient).className;
+
+        // This is the wrong way of updating tags, `setTags` should be called instead.
+        // But it causes circular dependency in `useEffect`, because it depends on `tags`.
+        // We can remove it from deps and supress lint, but we want to watch `tags` too.
+        // TODO Find a better way
+      }
+    });
+    const hasError = isAnyRecipientUnencrypted(tags, extraKey) && !hideErrorMsg;
+    setHasError(hasError);
+  }, [keys, tags, extraKey, hideErrorMsg, updateRecipientKey, recipientToTag]);
+
+  useEffect(() => {
+    onChangeRecipient && onChangeRecipient({hasError});
+    // We do not want circular dependency, hence we do not set onChangeRecipient
+    // as a dependency for `useEffect`
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasError]);
 
   const onDelete = useCallback(tagIndex => {
     setTags(tags.filter((_, i) => i !== tagIndex));
-    checkEncryptStatus(tags);
-  }, [tags, checkEncryptStatus]);
+  }, [tags]);
 
   const onAddition = useCallback(
   /**
@@ -156,16 +188,21 @@ export function RecipientInput(props) {
     newTag => {
       if (checkEmail(newTag.id)) {
         const recipient = createRecipient(newTag);
-        setTags([...tags, recipientToTag(recipient)]);
-        if (recipient.key || recipient.checkedServer) {
-          checkEncryptStatus(tags);
+        if (!recipient.key && !recipient.checkedServer) {
+          // No local key found
+          // Do a search with the autoLocate module
+          // if a key was not found in the local keyring.
+          recipient.checkedServer = true;
+          onAutoLocate(recipient);
         }
+        setTags([...tags, recipientToTag(recipient)]);
       }
     },
-    [tags, checkEncryptStatus, createRecipient, recipientToTag]
+    [tags, createRecipient, recipientToTag, onAutoLocate]
   );
 
-  const suggestions = props.keys.map(key => ({
+  // TODO Update suggestions on keys change
+  const suggestions = keys.map(key => ({
     id: key.email,
     text: `${key.userId} - ${key.keyId}`
   }));
@@ -181,12 +218,12 @@ export function RecipientInput(props) {
         placeholder={null}
         allowDragDrop={false}
         minQueryLength={1} />
-      {!props.hideErrorMsg && hasError && (
+      {!hideErrorMsg && hasError && (
         <div className="alert alert-danger mb-0" role="alert">
           <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
         </div>
       )}
-      {props.extraKey && (
+      {extraKey && (
         <div className="alert alert-info mb-0" role="alert">
           <span>{l10n.map.editor_key_has_extra_msg}</span>
         </div>
