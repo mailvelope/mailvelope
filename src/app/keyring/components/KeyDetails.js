@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {addDays, addYears} from 'date-fns';
-import moment from 'moment';
+import {formatDateWithLocale as formatDate} from '../../util/util';
 import {KeyringOptions} from './../KeyringOptions';
 import {formatFpr} from '../../../lib/util';
 import * as l10n from '../../../lib/l10n';
@@ -39,9 +39,6 @@ l10n.register([
   'keygrid_validity_status',
   'pwd_dialog_wrong_pwd',
 ]);
-
-// set locale
-moment.locale(navigator.language);
 
 export default class KeyDetails extends React.Component {
   constructor(props) {
@@ -77,7 +74,7 @@ export default class KeyDetails extends React.Component {
   }
 
   normalizeDate(date) {
-    return date !== false ? moment(date) : null;
+    return date !== false ? date : null;
   }
 
   getAllKeys({status, algorithm, bitLength, crDate, exDate, fingerprint, keyId, subkeys}) {
@@ -179,7 +176,6 @@ export default class KeyDetails extends React.Component {
     const selectedKey = this.state.keys[this.state.selectedKeyIdx];
     const tomorrow = addDays(new Date(), 1);
     const farFuture = addYears(tomorrow, 80);
-    const keyExpirationTimeJsDate = this.state.keyExpirationTime ? this.state.keyExpirationTime.toDate() : null;
     return (
       <div className="keyDetails">
         <div className="card card-clean">
@@ -194,18 +190,18 @@ export default class KeyDetails extends React.Component {
                   <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keygrid_validity_status}</dt>
                   <dd className="col-md-8 col-xl-9"><KeyStatus status={selectedKey.status} /></dd>
                   <dt className="col-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keydetails_creation_date}</dt>
-                  <dd className="col-md-8 col-xl-9">{moment(selectedKey.crDate).format('L')}</dd>
+                  <dd className="col-md-8 col-xl-9">{formatDate(selectedKey.crDate, 'L')}</dd>
                   <dt className="col-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keydetails_expiration_date}</dt>
                   <dd className="col-md-8 col-xl-9">
                     {!this.context.gnupg && this.props.keyDetails.type !== 'public' && this.state.selectedKeyIdx === 0 ? (
                       <div className="input-group input-group-sm" style={{width: '155px'}}>
-                        <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.state.exDateInput.format('L') : l10n.map.keydetails_key_not_expire} />
+                        <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? formatDate(this.state.exDateInput) : l10n.map.keydetails_key_not_expire} />
                         <div className="input-group-append">
                           <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
                         </div>
                       </div>
                     ) : (
-                      <div>{selectedKey.exDate ? moment(selectedKey.exDate).format('L') : l10n.map.keydetails_key_not_expire}</div>
+                      <div>{selectedKey.exDate ? formatDate(selectedKey.exDate, 'L') : l10n.map.keydetails_key_not_expire}</div>
                     )}
                   </dd>
                   {this.props.keyDetails.type !== 'public' &&
@@ -246,7 +242,7 @@ export default class KeyDetails extends React.Component {
         <Modal isOpen={this.state.showExDateModal} toggle={() => this.setState(prevState => ({showExDateModal: !prevState.showExDateModal}))} size="medium" title={l10n.map.keydetails_change_exp_date_dialog_title} hideFooter={true} onHide={this.handleHiddenModal}>
           <>
             <div className="form-group">
-              <DatePicker value={keyExpirationTimeJsDate} onChange={date => this.handleChange({target: {id: 'keyExpirationTime', value: date && moment(date)}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={tomorrow} maxDate={farFuture} disabled={false} />
+              <DatePicker value={this.state.keyExpirationTime} onChange={date => this.handleChange({target: {id: 'keyExpirationTime', value: date}})} placeholder={l10n.map.keygrid_key_not_expire} minDate={tomorrow} maxDate={farFuture} disabled={false} />
             </div>
             <Alert type="warning" header={l10n.map.alert_header_warning}>
               {l10n.map.keydetails_change_exp_date_dialog_note}

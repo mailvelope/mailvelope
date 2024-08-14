@@ -1,6 +1,9 @@
 /* eslint strict: 0 */
 
 const jsonImporter  = require('node-sass-json-importer');
+const path = require('path');
+const fs = require('fs');
+const webpack = require('webpack');
 
 const prod = {
   mode: 'production',
@@ -9,7 +12,13 @@ const prod = {
   },
   performance: {
     hints: false
-  }
+  },
+  plugins: [
+    new webpack.ContextReplacementPlugin(
+      /date-fns[/\\]locale/,
+      new RegExp(`(${getLocales().join('|')})\.mjs$`),
+    ),
+  ]
 };
 
 function css() {
@@ -118,8 +127,37 @@ function replaceVersion(test, version) {
 
 function resolve() {
   return {
+    // workaround for https://github.com/webpack/webpack/issues/13865
+    alias: {
+      'date-fns-locale': path.dirname(
+        require.resolve('date-fns/package.json')
+      ),
+    },
     modules: ['node_modules'],
   };
+}
+
+/**
+ * Resolves languages supported by the webextension.
+ * @returns {string[]} - list of locales from `locales` folder
+ */
+function getLocales() {
+  try {
+    const localesDir = path.resolve(__dirname, '..', 'locales');
+    // Read the directory
+    const files = fs.readdirSync(localesDir);
+
+    // Filter and map the files to get their paths
+    const locales = files
+    .filter(file => fs.statSync(path.join(localesDir, file)).isDirectory())
+    .map(locale => locale);
+
+    console.log(`Locales resolved: ${locales.join(', ')}`);
+    return locales;
+  } catch (err) {
+    console.error('Error reading locales directory:', err);
+    return [];
+  }
 }
 
 exports.prod = prod;

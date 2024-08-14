@@ -42,3 +42,20 @@ NavPill.propTypes = {
   to: PropTypes.string,
   children: PropTypes.node
 };
+
+/**
+ * Dates
+ */
+import {formatDate} from '../../lib/date';
+/**
+ * Call's `date-fns/format` with a locale from `navigator.language`
+ *
+ * This overloads `utils/date.js/formatDate`
+ * @param {Date | number | string} date - a date to format
+ * @param {string} formatStyle - a format string (eg 'DD.MM.YYY')
+ * @param {Locale} locale - date-fns locale object
+ * @returns {string} formatted string
+ */
+export function formatDateWithLocale(date, formatStyle) {
+  return formatDate(date, formatStyle, navigator.language);
+}

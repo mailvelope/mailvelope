@@ -6,16 +6,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDatePicker, {registerLocale} from 'react-datepicker';
-import {ar, cs, da, de, es, faIR as fa, fr, he, id, ja, km, lt, ru, tr, uk} from 'date-fns/locale';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.scss';
+import {loadLocale} from '../../../lib/date';
 
-const language = navigator.language.substring(0, 2);
-const locales = {ar, cs, da, de, es, fa, fr, he, id, ja, km, lt, ru, tr, uk};
-if (locales[language]) {
-  registerLocale(language, locales[language]);
-}
+const language = navigator.language;
+registerLocale(language, loadLocale(language));
 
 class CustomInput extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {

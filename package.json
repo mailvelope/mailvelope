@@ -29,7 +29,6 @@
     "gpgmejs": "github:mailvelope/gpgmejs#c412917b2a111d99d9a1bb746dcc29b9802c869e",
     "jquery": "3.7.1",
     "linkifyjs": "2.1.9",
-    "moment": "2.30.1",
     "ng-tags-input": "3.2.0",
     "openpgp": "5.11.2",
     "prop-types": "15.8.1",
@@ -83,7 +82,7 @@
     "string-replace-loader": "^3.1.0",
     "style-loader": "^4.0.0",
     "web-ext": "^8.2.0",
-    "webpack": "^5.92.1",
+    "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4"
   },
   "engines": {

@@ -9,7 +9,7 @@ import * as l10n from '../../lib/l10n';
 import {checkEmail} from '../../lib/util';
 import {port} from '../app';
 import {KeyringOptions} from './KeyringOptions';
-import moment from 'moment';
+import {startOfDay, addYears, getUnixTime} from 'date-fns';
 
 import NameAddrInput from './components/NameAddrInput';
 import AdvancedExpand from './components/AdvancedExpand';
@@ -32,9 +32,6 @@ l10n.register([
   'learn_more_link'
 ]);
 
-// set locale
-moment.locale(navigator.language);
-
 export default class GenerateKey extends React.Component {
   constructor(props) {
     super(props);
@@ -54,7 +51,7 @@ export default class GenerateKey extends React.Component {
       email: this.props.defaultEmail,
       keyAlgo: gnupg ? 'default' : 'rsa',
       keySize: '4096',
-      keyExpirationTime: gnupg ? moment().startOf('day').add(2, 'years') : null,
+      keyExpirationTime: gnupg ? addYears(startOfDay(new Date()), 2) : null,
       password: '',
       mveloKeyServerUpload: demail ? false : true,
       generating: false, // key generation in progress
@@ -113,7 +110,7 @@ export default class GenerateKey extends React.Component {
       email: this.state.email
     }];
     if (this.state.keyExpirationTime) {
-      parameters.keyExpirationTime = Math.abs(this.state.keyExpirationTime.unix() - moment().startOf('day').unix());
+      parameters.keyExpirationTime = Math.abs(getUnixTime(this.state.keyExpirationTime) - getUnixTime(startOfDay(new Date())));
     }
     try {
       const newKey = await port.send('generateKey', {parameters, keyringId: this.context.keyringId});
