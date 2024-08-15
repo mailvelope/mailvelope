@@ -138,26 +138,47 @@ function resolve() {
 }
 
 /**
+ * Verify that all locales we support exist in date-fns locales
+ * @param {string[]} locales - list of locales (languages) resolved from webext locales dir
+ * @throws
+ */
+function verifyLocalesExist(locales) {
+  const localesDir = path.resolve(__dirname, '../node_modules/date-fns/locale');
+  if (!fs.existsSync(localesDir)) {
+    throw new Error('Error reading date-fns locales directory. Make sure date-fns lib is installed, run `npm i`');
+  }
+  locales.forEach(locale => {
+    const localeDir = path.resolve(localesDir, locale);
+    if (!fs.existsSync(localeDir)) {
+      throw new Error(`Locale ${locale} is not found in date-fns/locale directory.`);
+    }
+  });
+}
+
+/**
  * Resolves languages supported by the webextension.
  * @returns {string[]} - list of locales from `locales` folder
+ * @throws
  */
 function getLocales() {
-  try {
-    const localesDir = path.resolve(__dirname, '..', 'locales');
-    // Read the directory
-    const files = fs.readdirSync(localesDir);
+  // we use simple lang prefixes contrary to `date-fns` for some languages
+  const lang_correction = {
+    'en': 'en-US', // this is a tricky assumption
+    'fa': 'fa-IR',
+    'my': 'en-GB' // https://wikitravel.org/en/Myanmar#Talk
+  };
 
-    // Filter and map the files to get their paths
-    const locales = files
-    .filter(file => fs.statSync(path.join(localesDir, file)).isDirectory())
-    .map(locale => locale);
+  const localesDir = path.resolve(__dirname, '..', 'locales');
+  const files = fs.readdirSync(localesDir);
 
-    console.log(`Locales resolved: ${locales.join(', ')}`);
-    return locales;
-  } catch (err) {
-    console.error('Error reading locales directory:', err);
-    return [];
-  }
+  // Filter and map the files to get their paths
+  const locales = files
+  .filter(file => fs.statSync(path.join(localesDir, file)).isDirectory())
+  .map(locale => lang_correction[locale] || locale);
+  verifyLocalesExist(locales);
+
+  console.log(`Locales resolved: ${locales.join(', ')}`);
+  return locales;
 }
 
 exports.prod = prod;
