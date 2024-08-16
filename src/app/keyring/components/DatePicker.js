@@ -3,13 +3,13 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDatePicker, {registerLocale} from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.scss';
-import {loadLocale} from '../../../lib/date';
+import {getDefaultLocale} from '../../util/util';
 
 class CustomInput extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -38,14 +38,8 @@ CustomInput.propTypes = {
 };
 
 export default function DatePicker({value, onChange, placeholder, minDate, maxDate, disabled}) {
-  const [locale, setLocale] = useState();
-  useEffect(() => {
-    const language = navigator.language;
-    loadLocale(language).then(locale => {
-      registerLocale(language, locale);
-      setLocale(locale);
-    });
-  }, []);
+  const locale = getDefaultLocale();
+  registerLocale(locale.code, locale);
   // ReactDatePicker maps placeholderText to placeholder prop of customInput
   return (
     <ReactDatePicker

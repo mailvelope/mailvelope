@@ -5,10 +5,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {addDays, addYears, parseISO, format} from 'date-fns';
-import {loadLocale} from '../../../lib/date';
+import {addDays, addYears, parseISO} from 'date-fns';
 import {KeyringOptions} from './../KeyringOptions';
 import {formatFpr} from '../../../lib/util';
+import {formatDateWithLocale as formatDate} from '../../util/util';
 import * as l10n from '../../../lib/l10n';
 import DatePicker from './DatePicker';
 import DefinePassword from '../../../components/util/DefinePassword';
@@ -173,19 +173,6 @@ export default class KeyDetails extends React.Component {
     this.cleanUpPwdData();
   }
 
-  componentDidMount() {
-    loadLocale(navigator.language).then(locale => this.setState({locale}));
-  }
-
-  /**
-   * A shortcut to `date-fns/format`
-   * @param {Date | number | string} date - a date to format
-   * @returns {string} formatted string
-   */
-  formatDate(date) {
-    return format(date, 'P', {locale: this.state.locale});
-  }
-
   render() {
     const selectedKey = this.state.keys[this.state.selectedKeyIdx];
     const tomorrow = addDays(new Date(), 1);
@@ -204,18 +191,18 @@ export default class KeyDetails extends React.Component {
                   <dt className="col-md-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keygrid_validity_status}</dt>
                   <dd className="col-md-8 col-xl-9"><KeyStatus status={selectedKey.status} /></dd>
                   <dt className="col-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keydetails_creation_date}</dt>
-                  <dd className="col-md-8 col-xl-9">{this.formatDate(selectedKey.crDate)}</dd>
+                  <dd className="col-md-8 col-xl-9">{formatDate(selectedKey.crDate)}</dd>
                   <dt className="col-4 col-xl-3 mb-2 text-nowrap">{l10n.map.keydetails_expiration_date}</dt>
                   <dd className="col-md-8 col-xl-9">
                     {!this.context.gnupg && this.props.keyDetails.type !== 'public' && this.state.selectedKeyIdx === 0 ? (
                       <div className="input-group input-group-sm" style={{width: '155px'}}>
-                        <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? this.formatDate(this.state.exDateInput) : l10n.map.keydetails_key_not_expire} />
+                        <input type="text" readOnly className="form-control" value={this.state.exDateInput !== null ? formatDate(this.state.exDateInput) : l10n.map.keydetails_key_not_expire} />
                         <div className="input-group-append">
                           <button onClick={() => this.setState({showExDateModal: true})} className="btn btn-secondary" type="button" disabled={!this.props.keyDetails.validity}>{l10n.map.change_link}</button>
                         </div>
                       </div>
                     ) : (
-                      <div>{selectedKey.exDate ? this.formatDate(selectedKey.exDate) : l10n.map.keydetails_key_not_expire}</div>
+                      <div>{selectedKey.exDate ? formatDate(selectedKey.exDate) : l10n.map.keydetails_key_not_expire}</div>
                     )}
                   </dd>
                   {this.props.keyDetails.type !== 'public' &&

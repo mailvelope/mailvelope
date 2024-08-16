@@ -3,7 +3,6 @@
 
 module.exports = function(grunt) {
   const pkg = grunt.file.readJSON('package.json');
-
   grunt.initConfig({
 
     clean: ['build/**/*', 'dist/**/*'],
@@ -310,11 +309,26 @@ module.exports = function(grunt) {
   grunt.registerTask('copy2tmp', ['copy:common', 'copy:locale', 'copy:dep']);
   grunt.registerTask('tmp2browser', ['copy:tmp2chrome', 'copy:tmp2firefox']);
 
+  // source code generation
+  grunt.registerTask('date-fns-locales', 'Generate date-fns locales JS file to be later used.', () => {
+    try {
+      const locales = getLocales();
+      const template = `export default {${locales.map(locale => `'${locale}': require('date-fns/locale/${locale}').${locale.replace('-', '')}`).join(', ')}};\n`;
+      const dir = path.resolve('tmp/gen');
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+      }
+      fs.writeFileSync(path.resolve(dir, 'date-fns-locales.js'), template);
+    } catch (e) {
+      grunt.fail.warn(e.message);
+    }
+  });
+
   // development build
-  grunt.registerTask('default', ['clean', 'eslint', 'browser', 'copy2tmp', 'copy:dep_dev', 'webpack:dev', 'tmp2browser']);
+  grunt.registerTask('default', ['clean', 'eslint', 'browser', 'copy2tmp', 'date-fns-locales', 'copy:dep_dev', 'webpack:dev', 'tmp2browser']);
 
   // production build
-  grunt.registerTask('prod', ['clean', 'eslint', 'browser', 'copy2tmp', 'copy:dep_prod', 'webpack:prod', 'tmp2browser']);
+  grunt.registerTask('prod', ['clean', 'eslint', 'browser', 'copy2tmp', 'date-fns-locales', 'copy:dep_prod', 'webpack:prod', 'tmp2browser']);
 
   grunt.registerTask('test', ['shell:karma_test']);
 
@@ -322,3 +336,50 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test-debug', ['shell:karma_test_debug']);
 };
+
+const path = require('path');
+const fs = require('fs');
+/**
+ * Verify that all locales we support exist in date-fns locales
+ * @param {string[]} locales - list of locales (languages) resolved from webext locales dir
+ * @throws
+ */
+function verifyLocalesExist(locales) {
+  const localesDir = path.resolve(__dirname, 'node_modules/date-fns/locale');
+  if (!fs.existsSync(localesDir)) {
+    throw new Error('Error reading date-fns locales directory. Make sure date-fns lib is installed, run `npm i`');
+  }
+  locales.forEach(locale => {
+    const localeDir = path.resolve(localesDir, locale);
+    if (!fs.existsSync(localeDir)) {
+      throw new Error(`Locale ${locale} is not found in date-fns/locale directory.`);
+    }
+  });
+}
+
+/**
+ * Resolves languages supported by the webextension.
+ * @returns {string[]} - list of locales from `locales` folder
+ * @throws
+ */
+// eslint-disable-next-line no-unused-vars
+function getLocales() {
+  // we use simple lang prefixes contrary to `date-fns` for some languages
+  const lang_correction = {
+    'en': 'en-US', // this is a tricky assumption
+    'fa': 'fa-IR',
+    'my': 'en-GB' // https://wikitravel.org/en/Myanmar#Talk
+  };
+
+  const localesDir = path.resolve(__dirname, 'locales');
+  const files = fs.readdirSync(localesDir);
+
+  // Filter and map the files to get their paths
+  const locales = files
+  .filter(file => fs.statSync(path.join(localesDir, file)).isDirectory())
+  .map(locale => lang_correction[locale] || locale);
+  verifyLocalesExist(locales);
+
+  console.log(`Locales resolved: ${locales.join(', ')}`);
+  return locales;
+}
