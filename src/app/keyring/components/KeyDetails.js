@@ -47,7 +47,6 @@ export default class KeyDetails extends React.Component {
     const defaultKeyIdx = 0;
     const normalizedExDate = this.normalizeDate(keys[defaultKeyIdx].exDate);
     this.state = {
-      locale: undefined,
       showExDateModal: false,
       showPwdModal: false,
       action: '',

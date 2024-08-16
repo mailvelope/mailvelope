@@ -3,6 +3,7 @@
 
 module.exports = function(grunt) {
   const pkg = grunt.file.readJSON('package.json');
+
   grunt.initConfig({
 
     clean: ['build/**/*', 'dist/**/*'],
