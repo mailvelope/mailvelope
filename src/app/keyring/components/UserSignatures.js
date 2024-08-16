@@ -3,10 +3,11 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+import {format} from 'date-fns';
 import * as l10n from '../../../lib/l10n';
-import {formatDateWithLocale as formatDate} from '../../util/util';
+import {loadLocale} from '../../../lib/date';
 
 l10n.register([
   'usersignatures_title',
@@ -18,6 +19,8 @@ l10n.register([
 ]);
 
 export default function UserSignatures({signatures}) {
+  const [locale, setLocale] = useState();
+  useEffect(() => { loadLocale(navigator.language).then(locale => setLocale(locale)); }, []);
   return (
     <div className="userSignatures">
       <div className="card card-clean-table">
@@ -39,7 +42,7 @@ export default function UserSignatures({signatures}) {
                 <tr key={index}>
                   <td>{signature.signer.name !== null ? signature.signer.name : l10n.map.keygrid_signer_unknown}</td>
                   <td>{signature.signer.email !== null ? signature.signer.email : l10n.map.keygrid_signer_unknown}</td>
-                  <td>{formatDate(signature.crDate, 'L')}</td>
+                  <td>{format(signature.crDate, 'P', {locale})}</td>
                   <td>{signature.keyId}</td>
                 </tr>
               )}
