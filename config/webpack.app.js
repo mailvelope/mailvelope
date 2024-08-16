@@ -3,7 +3,6 @@
 
 const path = require('path');
 const common = require('./webpack.common');
-const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 
 const entry = ['./src/app/router.js'];
 const output = {
@@ -24,13 +23,7 @@ const prod = {
   externals,
   module: {
     rules: [...common.module.react(), ...common.module.css(), ...common.module.scss()]
-  },
-  plugins: [
-    new StatoscopeWebpackPlugin({
-      saveReportTo: 'build/reports/report-[name]-[hash].html',
-      normalizeStats: true,
-    }),
-  ]
+  }
 };
 
 const dev = {
