@@ -15,8 +15,8 @@ const localeCache = {};
  */
 export async function loadLocale(language) {
   if (!localeCache[language]) {
+    // using alias to workaround https://github.com/webpack/webpack/issues/13865
     localeCache[language] = (await import(`date-fns-locale/locale/${language}.mjs`)).default;
   }
-  // using alias to workaround https://github.com/webpack/webpack/issues/13865
   return localeCache[language];
 }
