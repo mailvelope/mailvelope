@@ -47,7 +47,7 @@ NavPill.propTypes = {
  * Dates
  */
 import {format} from 'date-fns';
-import {getLocale} from '../../lib/util';
+import * as locales from 'date-fns/locale'; // we are ok with importing all languages
 /**
  * Call's `date-fns/format` with a locale from `navigator.language`
  *
@@ -65,5 +65,5 @@ export function formatDateWithLocale(date, formatStyle) {
  * @returns {import('date-fns').Locale} - locale from navigator.language setting
  */
 export function getDefaultLocale() {
-  return getLocale(navigator.language);
+  return locales[navigator.language.replace('-', '')];
 }
