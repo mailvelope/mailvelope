@@ -22,7 +22,7 @@
     "autocrypt": "0.10.0",
     "bootstrap": "4.4.1",
     "clean-insights-sdk": "2.6.2",
-    "date-fns": "^3.6.0",
+    "date-fns": "3.6.0",
     "dompurify": "3.1.5",
     "emailjs-mime-builder": "github:mailvelope/emailjs-mime-builder#bf4cea3bdf50bb26b0f86ee9b1e9ee7063b5a8cc",
     "emailjs-mime-parser": "2.0.7",
