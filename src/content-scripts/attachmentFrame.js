@@ -36,7 +36,7 @@ export default class AttachmentFrame extends ExtractFrame {
     }
     this.pgpElement.style.display = 'inline-block';
     // let the element to take as much as it wants if there is a message text, like in `decryptFrame`
-    // but limit it in case it is empty; we then do simillar for the height in `#setFrameDim()`
+    // but set min height when empty; we then do simillar for the height in `setFrameDim()`
     this.pgpElement.style['min-height'] = '400px';
     // set status to attached
     this.pgpElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
