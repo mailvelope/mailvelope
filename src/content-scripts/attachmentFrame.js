@@ -35,6 +35,9 @@ export default class AttachmentFrame extends ExtractFrame {
       this.pgpElement.classList.add('m-extract-wrapper');
     }
     this.pgpElement.style.display = 'inline-block';
+    // let the element to take as much as it wants if there is a message text, like in `decryptFrame`
+    // but set min height when empty; we then do similar for the height in `setFrameDim()`
+    this.pgpElement.style['min-height'] = '400px';
     // set status to attached
     this.pgpElement.dataset[FRAME_STATUS] = FRAME_ATTACHED;
     this.pgpRange.append(this.pgpElement);
@@ -113,15 +116,14 @@ export default class AttachmentFrame extends ExtractFrame {
   }
 
   setFrameDim() {
+    let {width, height} = this.pgpElement.getBoundingClientRect();
     if (this.dDialog === null) {
-      const width = 500;
-      const height = 400;
-      this.pgpElement.style.width = `${width}px`;
-      this.pgpElement.style.height = `${height}px`;
+      if (!width) { // if no message contents
+        width = 500;
+      }
       this.eFrame.style.width = `${width}px`;
       this.eFrame.style.height = `${height}px`;
     } else {
-      const {height} = this.pgpRange.getBoundingClientRect();
       let {width} = this.pgpElement.parentElement.getBoundingClientRect();
       // less 1px border and 2 pixel box-shadow
       width -= 3;
