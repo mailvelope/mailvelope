@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../../lib/l10n';
-import moment from 'moment';
+import {formatDateWithLocale as formatDate} from '../../util/util';
 
 l10n.register([
   'usersignatures_title',
@@ -16,9 +16,6 @@ l10n.register([
   'keygrid_keyid',
   'keygrid_signer_unknown'
 ]);
-
-// set locale
-moment.locale(navigator.language);
 
 export default function UserSignatures({signatures}) {
   return (
@@ -42,7 +39,7 @@ export default function UserSignatures({signatures}) {
                 <tr key={index}>
                   <td>{signature.signer.name !== null ? signature.signer.name : l10n.map.keygrid_signer_unknown}</td>
                   <td>{signature.signer.email !== null ? signature.signer.email : l10n.map.keygrid_signer_unknown}</td>
-                  <td>{moment(signature.crDate).format('L')}</td>
+                  <td>{formatDate(signature.crDate)}</td>
                   <td>{signature.keyId}</td>
                 </tr>
               )}

@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
+import {formatDateWithLocale as formatDate} from '../util/util';
 import {KeyringOptions} from './KeyringOptions';
 import Spinner from '../../components/util/Spinner';
 import KeyExport from './components/KeyExport';
@@ -47,6 +48,7 @@ export default class KeyGrid extends React.Component {
     this.rowRefs = {};
     const {keyId} = props.match.params;
     this.state = {
+      locale: undefined,
       keyTypeFilter: 'allkeys',
       selectedKey: null,
       activeKey: keyId ? keyId : null,
@@ -219,7 +221,7 @@ export default class KeyGrid extends React.Component {
                   <td><strong className="mr-2">{key.name}</strong>{this.props.defaultKeyFpr === key.fingerprint && <span className="badge badge-info text-nowrap" aria-hidden="true">{l10n.map.keygrid_default_label}</span>}</td>
                   <td className="emailCell">{key.email}</td>
                   <td className="monospaced">{key.keyId}</td>
-                  <td className="monospaced">{key.crDate.slice(0, 10)}</td>
+                  <td className="monospaced">{formatDate(key.crDate)}</td>
                   <td className="text-center text-nowrap">
                     <div className="actions">
                       {!(this.context.gnupg && key.type === 'private') && <button type="button" onClick={e => { e.stopPropagation(); this.setState({showDeleteKeyModal: true, activeKey: key.keyId}); }} className="btn btn-secondary keyDeleteBtn"><span className="icon icon-delete" aria-hidden="true"></span></button>}

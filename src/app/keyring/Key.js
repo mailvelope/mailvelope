@@ -6,7 +6,6 @@
 import React from 'react';
 import {Redirect, Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import * as l10n from '../../lib/l10n';
 import {port} from '../app';
 
@@ -46,9 +45,6 @@ l10n.register([
   'key_revoke_dialog_confirm',
   'key_revoke_dialog_confirm'
 ]);
-
-// set locale
-moment.locale(navigator.language);
 
 export default class Key extends React.Component {
   constructor(props) {

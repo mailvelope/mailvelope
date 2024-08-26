@@ -6,7 +6,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Redirect, Link} from 'react-router-dom';
-import moment from 'moment';
 import {PGP_KEYSTATUS_VALID} from '../../lib/constants';
 import {checkEmail} from '../../lib/util';
 import * as l10n from '../../lib/l10n';
@@ -47,9 +46,6 @@ l10n.register([
   'user_revoke_dialog_title',
   'user_title',
 ]);
-
-// set locale
-moment.locale(navigator.language);
 
 export default class User extends React.Component {
   constructor(props) {
