@@ -536,7 +536,8 @@ export default class EditorController extends sub.SubController {
         data: options.message,
         signKeyFpr: this.signKeyFpr
       });
-      return {armored};
+      // we do not sign attachments
+      return {armored, encFiles: options.attachments};
     }
   }
 
