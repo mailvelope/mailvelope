@@ -49,7 +49,7 @@ async function getWatchListFilterURLs() {
     });
   });
   // add hkp key server to enable key import
-  let hkpHost = mvelo.util.getDomain(prefs.keyserver.hkp_base_url);
+  let hkpHost = mvelo.util.normalizeDomain(new URL(prefs.keyserver.hkp_base_url).hostname);
   hkpHost = reduceHosts([hkpHost]);
   hkpHost.forEach(host => {
     // add default schemes to key server hosts

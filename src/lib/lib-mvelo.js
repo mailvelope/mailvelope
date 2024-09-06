@@ -154,20 +154,7 @@ mvelo.util.text2autoLinkHtml = function(text) {
   return mvelo.util.sanitizeHTML(autoLink(text, {defaultProtocol: 'https', escapeFn: encodeHTML}));
 };
 
-mvelo.util.getHostname = function(url) {
-  const a = document.createElement('a');
-  a.href = url;
-  return a.hostname;
-};
-
-mvelo.util.getProtocol = function(url) {
-  const a = document.createElement('a');
-  a.href = url;
-  return a.protocol.replace(/:/g, '');
-};
-
-mvelo.util.getDomain = function(url) {
-  const hostname = mvelo.util.getHostname(url);
+mvelo.util.normalizeDomain = function(hostname) {
   // limit to 3 labels per domain
   return hostname.split('.').slice(-3).join('.');
 };
