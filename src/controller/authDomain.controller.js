@@ -50,12 +50,14 @@ export default class AuthDomainController extends sub.SubController {
   }
 
   onInitPopup() {
-    this.emit('set-frame', {hostname: this.options.hostname, urlPattern: `${this.options.protocol}//*.${this.options.hostname}`, api: this.options.api});
+    const port = this.options.port ? `:${this.options.port}` : '';
+    this.emit('set-frame', {hostname: this.options.hostname, urlPattern: `${this.options.protocol}//*.${this.options.hostname}${port}`, api: this.options.api});
   }
 
   async onOk() {
     const authDomainList = await getWatchList();
-    await setWatchList([...authDomainList, {site: this.options.hostname, active: true, https_only: this.options.protocol === 'https:' ? true : false, frames: [{scan: true, frame: `*.${this.options.hostname}`, api: this.options.api}]}]);
+    const port = this.options.port ? `:${this.options.port}` : '';
+    await setWatchList([...authDomainList, {site: `${this.options.hostname}${port}`, active: true, https_only: this.options.protocol === 'https:' ? true : false, frames: [{scan: true, frame: `*.${this.options.hostname}${port}`, api: this.options.api}]}]);
     await initScriptInjection();
     this.closePopup();
   }
