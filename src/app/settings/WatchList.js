@@ -158,12 +158,12 @@ export default class WatchList extends React.Component {
     if (domain.startsWith('www.')) {
       domain = domain.slice(4);
     }
-    const hostPort = `${domain}${port ? `:${port}` : ''}`;
+    const hostAndPort = `${domain}${port ? `:${port}` : ''}`;
     this.setState(prevState => {
       let watchListIndex;
       const site = prevState.watchList.find((site, index) => {
         watchListIndex = index;
-        return site.site === hostPort;
+        return site.site === hostAndPort;
       });
       if (site) {
         return {
@@ -174,7 +174,7 @@ export default class WatchList extends React.Component {
         };
       } else {
         return {
-          editorSite: {site: hostPort, active: true, https_only: protocol === 'https' ? true : false, frames: [{scan: true, frame: `*.${hostPort}`, api: false}]},
+          editorSite: {site: hostAndPort, active: true, https_only: protocol === 'https' ? true : false, frames: [{scan: true, frame: `*.${hostAndPort}`, api: false}]},
           editorIndex: prevState.watchList.length,
           modified: true,
           showEditor: true
