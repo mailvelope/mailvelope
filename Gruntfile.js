@@ -11,15 +11,17 @@ module.exports = function(grunt) {
     eslint: {
       options: {
         maxWarnings: 1,
-        overrideConfigFile: 'config/eslint.json',
+        overrideConfigFile: 'config/eslint.jsonc',
         cache: true,
         fix: grunt.option('fix'),
         reportUnusedDisableDirectives: 'warn'
       },
       target: [
         '*.js',
+        '*.ts',
         'config/*.js',
         'src/**/*.js',
+        'src/**/*.ts',
         '!src/modules/closure-library/**/*.js',
         'test/**/*.js'
       ]

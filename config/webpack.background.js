@@ -13,6 +13,7 @@ const output = {
 };
 const resolve = {
   modules: ['node_modules'],
+  extensions: ['.ts', '.tsx', '.js'],
   alias: {
     'text-encoding': path.resolve('./src/lib/string-encoding'),
     'openpgp': path.resolve('./node_modules/openpgp/dist/openpgp.mjs')
@@ -25,7 +26,10 @@ const prod = {
   output,
   resolve,
   module: {
-    rules: [...common.module.replaceVersion(/defaults\.json$/, pjson.version)],
+    rules: [
+      ...common.module.replaceVersion(/defaults\.json$/, pjson.version),
+      ...common.module.typescript()
+    ],
     noParse: /openpgp\.js$/
   }
 };
@@ -35,7 +39,10 @@ const dev = {
   mode: 'development',
   devtool: 'inline-cheap-module-source-map',
   module: {
-    rules: [...common.module.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`)],
+    rules: [
+      ...common.module.replaceVersion(/defaults\.json$/, `${pjson.version} build: ${(new Date()).toISOString().slice(0, 19)}`),
+      ...common.module.typescript()
+    ],
     noParse: /openpgp\.js$/
   }
 };

@@ -1,5 +1,5 @@
 {
-
+  "$schema": "https://json.schemastore.org/eslintrc.json",
   "parserOptions": {
     "ecmaVersion": 2021,
     "sourceType": "module",
@@ -84,6 +84,22 @@
     "prefer-template": 1, // require template literals instead of string concatenation
     "template-curly-spacing": ["warn", "never"], // require or disallow spacing around embedded expressions of template strings
     "no-template-curly-in-string": "warn"
-  }
+  },
 
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["@typescript-eslint"],
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-namespace": "error",
+        "@typescript-eslint/no-empty-interface": "error",
+        // "@typescript-eslint/no-restricted-types": [], // see https://typescript-eslint.io/rules/no-restricted-types        
+        "@typescript-eslint/no-redeclare": "error",
+        "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}] // enforce consistent indentation
+      }
+    }
+  ]
 }
