@@ -241,7 +241,7 @@ ${this.formSignature}
   }
 
   async unlockKey({key}) {
-    const pwdControl = sub.factory.get('pwdDialog');
+    const pwdControl = await sub.factory.get('pwdDialog');
     const {key: unlocked} = await pwdControl.unlockKey({key, reason: 'PWD_DIALOG_REASON_SIGN'});
     return unlocked;
   }

@@ -181,7 +181,7 @@ export default class DecryptController extends sub.SubController {
   }
 
   async unlockKey({key, message}) {
-    const pwdControl = sub.factory.get('pwdDialog');
+    const pwdControl = await sub.factory.get('pwdDialog');
     const openPopup = this.ports.decryptCont || (!this.popup && this.ports.dDialog);
     const beforePasswordRequest = id => this.popup && this.ports.dDialog.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({

@@ -144,7 +144,7 @@ export default class PrivateKeyController extends sub.SubController {
     if (!defaultKey) {
       throw new MvError('No private key for backup', 'NO_PRIVATE_KEY');
     }
-    this.pwdControl = sub.factory.get('pwdDialog');
+    this.pwdControl = await sub.factory.get('pwdDialog');
     try {
       // get password from cache or ask user
       const unlockedKey = await this.pwdControl.unlockKey({
@@ -153,7 +153,7 @@ export default class PrivateKeyController extends sub.SubController {
       });
       sync.triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
       this.keyBackup = await createPrivateKeyBackup(defaultKey, unlockedKey.password);
-      await sync.getByKeyring(this.keyringId).backup({backup: this.keyBackup.message});
+      await (await sync.getByKeyring(this.keyringId)).backup({backup: this.keyBackup.message});
       let page = 'recoverySheet.html';
       switch (this.host) {
         case 'web.de':
@@ -181,7 +181,8 @@ export default class PrivateKeyController extends sub.SubController {
 
   restorePrivateKeyBackup(code) {
     let backup;
-    sync.getByKeyring(this.keyringId).restore()
+    sync.getByKeyring(this.keyringId)
+    .then(ctrl => ctrl.restore())
     .then(data => restorePrivateKeyBackup(data.backup, code))
     .then(keyBackup => backup = keyBackup)
     .then(() => getKeyringById(this.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]))

@@ -103,6 +103,6 @@ async function authRequest({tabId, url}) {
   if (hostname.startsWith('www.')) {
     hostname = hostname.slice(4);
   }
-  const authDomainCtrl = sub.factory.get('authDomainDialog');
+  const authDomainCtrl = await sub.factory.get('authDomainDialog');
   authDomainCtrl.authorizeDomain({hostname, port, protocol, api, tabId, url: tab.url});
 }

@@ -13,8 +13,10 @@ import * as sub from './sub.controller';
 export default class EncryptController extends sub.SubController {
   constructor(port) {
     super(port);
-    this.editorControl = null;
-    this.editorContentModified = false;
+    this.state = {
+      editorContentModified: false
+    };
+    this.peerType = 'encryptController';
     // register event handlers
     this.on('eframe-display-editor', this.onEncryptFrameDisplayEditor);
   }
@@ -24,38 +26,32 @@ export default class EncryptController extends sub.SubController {
    * input to their public keys.
    * @param  {String} options.text   The plaintext input to encrypt
    */
-  onEncryptFrameDisplayEditor(options) {
-    if (this.editorControl) {
-      this.editorControl.activateComponent();
+  async onEncryptFrameDisplayEditor(options) {
+    await this.createPeer('editorController');
+    if (await this.peers.editorController.getPopup()) {
+      await this.peers.editorController.activateComponent();
       return;
     }
-    this.editorControl = sub.factory.get('editor');
-    return this.editorControl.encrypt({
+    this.peers.editorController.openEditor({
       predefinedText: options.text,
       quotedMail: options.quotedMail,
-      quotedMailIndent: !this.editorContentModified,
-      getRecipients: this.getRecipients.bind(this)
-    })
-    .then(({armored, to, cc}) => {
-      this.emit('set-editor-output', {text: armored, to, cc});
-      this.editorContentModified = true;
-      this.editorControl = null;
-    })
-    .catch(err => {
-      if (err.code == 'EDITOR_DIALOG_CANCEL') {
-        this.editorControl = null;
-        this.emit('mail-editor-close');
-        return;
-      }
+      quotedMailIndent: !this.state.editorContentModified,
+      recipients: {to: options.recipients, cc: []}
     });
   }
 
-  /**
-   * Get recipients from the encrypt frame
-   * @return  {Promise<Array<Objects>>} - The recipient objects in the form: [{ email: 'jon@example.com' }]
-   */
-  async getRecipients() {
-    const recipients = await this.send('get-recipients');
-    return {to: recipients, cc: []};
+  async encryptedMessage({armored, to, cc}) {
+    this.emit('set-editor-output', {text: armored, to, cc});
+    this.setState({editorContentModified: true});
+    await this.removePeer('editorController');
+  }
+
+  async encryptError(err) {
+    if (err.code == 'EDITOR_DIALOG_CANCEL') {
+      await this.removePeer('editorController');
+      this.emit('mail-editor-close');
+      return;
+    }
+    console.log('Error calling editor in encrypt controller', err);
   }
 }

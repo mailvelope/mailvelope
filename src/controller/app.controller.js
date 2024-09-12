@@ -84,7 +84,7 @@ export default class AppController extends sub.SubController {
     const reloadExtensionFlag = options.prefs.provider && options.prefs.provider.gmail_integration !== prefs.prefs.provider.gmail_integration;
     await prefs.update(options.prefs);
     // update content scripts
-    sub.getByMainType('mainCS').forEach(mainCScontrl => mainCScontrl.updatePrefs());
+    (await sub.getByMainType('mainCS')).forEach(mainCScontrl => mainCScontrl.updatePrefs());
     if (updateOpenPGPFlag) {
       initOpenPGP();
     }
@@ -98,20 +98,20 @@ export default class AppController extends sub.SubController {
 
   async removeKey({fingerprint, type, keyringId}) {
     await keyringById(keyringId).removeKey(fingerprint, type);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
   }
 
   async removeUser({fingerprint, userId, keyringId}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     await keyringById(keyringId).removeUser(privateKey, userId);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
   }
 
   async addUser({fingerprint, user, keyringId}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_ADD_USER'});
     await keyringById(keyringId).addUser(unlockedKey, user);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
     deletePwdCache(fingerprint);
   }
 
@@ -119,14 +119,14 @@ export default class AppController extends sub.SubController {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_REVOKE_USER'});
     await keyringById(keyringId).revokeUser(unlockedKey, userId);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
   }
 
   async revokeKey({fingerprint, keyringId}) {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_REVOKE'});
     await keyringById(keyringId).revokeKey(unlockedKey);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
   }
 
   async reloadKeystore({keyringId}) {
@@ -188,7 +188,7 @@ export default class AppController extends sub.SubController {
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_SET_EXDATE'});
     const newExDate = newExDateISOString !== false ? new Date(newExDateISOString) : false;
     await keyringById(keyringId).setKeyExDate(unlockedKey, newExDate);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
     deletePwdCache(fingerprint);
   }
 
@@ -196,7 +196,7 @@ export default class AppController extends sub.SubController {
     const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await unlockKey({key: privateKey, password: currentPassword});
     await keyringById(keyringId).setKeyPwd(unlockedKey, password);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
     deletePwdCache(fingerprint);
   }
 
@@ -226,22 +226,22 @@ export default class AppController extends sub.SubController {
   async generateKey({parameters, keyringId}) {
     const newKey = await keyringById(keyringId).generateKey(parameters);
     const keyId = newKey.privateKey.getKeyID().toHex().toUpperCase();
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
     recordOnboardingStep(ADD_KEY, 'Generate');
     return {keyId};
   }
 
   async importKeys({keys, keyringId}) {
     const result = await keyringById(keyringId).importKeys(keys);
-    this.sendKeyUpdate();
+    await this.sendKeyUpdate();
     if (result.some(({type}) => type === 'success')) {
       recordOnboardingStep(ADD_KEY, 'Import');
     }
     return result;
   }
 
-  sendKeyUpdate() {
-    sub.getByMainType('editor').forEach(editorCntrl => editorCntrl.sendKeyUpdate());
+  async sendKeyUpdate() {
+    (await sub.getByMainType('editor')).forEach(editorCntrl => editorCntrl.sendKeyUpdate());
   }
 
   async setWatchList({data}) {
@@ -308,8 +308,8 @@ export default class AppController extends sub.SubController {
     return decryptMessage(options);
   }
 
-  initDecryptMessage() {
-    this.decryptMessageCtrl = sub.factory.get('decryptCont');
+  async initDecryptMessage() {
+    this.decryptMessageCtrl = await sub.factory.get('decryptCont');
     return this.decryptMessageCtrl.id;
   }
 
@@ -392,7 +392,7 @@ export default class AppController extends sub.SubController {
   }
 
   async unlockKey(options) {
-    const pwdControl = sub.factory.get('pwdDialog');
+    const pwdControl = await sub.factory.get('pwdDialog');
     const {key} = await pwdControl.unlockKey(options);
     return key;
   }
@@ -406,7 +406,7 @@ export default class AppController extends sub.SubController {
   }
 
   async authorizeGmail({email, legacyGsuite, scopes, gmailCtrlId}) {
-    const gmailCtrl = sub.getById(gmailCtrlId);
+    const gmailCtrl = await sub.getById(gmailCtrlId);
     return gmailCtrl.onAuthorize({email, legacyGsuite, scopes});
   }
 

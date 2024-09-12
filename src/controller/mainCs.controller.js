@@ -12,9 +12,9 @@ export default class MainCsController extends SubController {
     this.on('ready', this.handleContentReady);
   }
 
-  handleContentReady() {
-    getWatchList()
-    .then(watchList => this.emit('init', {prefs, watchList}));
+  async handleContentReady() {
+    const watchList = await getWatchList();
+    this.emit('init', {prefs, watchList});
   }
 
   updatePrefs() {

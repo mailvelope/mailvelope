@@ -58,7 +58,7 @@ export default class gmailDecryptController extends DecryptController {
    */
   async onSetData({userInfo, msgId, sender, armored, clearText, clipped, encAttFileNames, gmailCtrlId}) {
     let lock = false;
-    this.gmailCtrl = sub.getById(gmailCtrlId);
+    this.gmailCtrl = await sub.getById(gmailCtrlId);
     this.userInfo = userInfo;
     this.msgId = msgId;
     if (armored) {
@@ -274,7 +274,7 @@ export default class gmailDecryptController extends DecryptController {
   }
 
   async importKey(armored) {
-    const importControl = sub.factory.get('importKeyDialog');
+    const importControl = await sub.factory.get('importKeyDialog');
     const result = await importControl.importKey(this.keyringId, armored);
     if (result === 'IMPORTED' || result === 'UPDATED') {
       this.ports.dDialog.emit('show-notification', {

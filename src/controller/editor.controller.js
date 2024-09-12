@@ -31,14 +31,18 @@ export default class EditorController extends sub.SubController {
       this.mainType = 'editor';
       this.id = getUUID();
     }
-    this.encryptPromise = null;
-    this.keyringId = null;
+    this.state = {
+      popupId: null,
+      popupOpenerTabId: null,
+      keyringId: null,
+      integration: false
+    };
+    this.peerType = 'editorController';
     this.popup = null;
-    this.signKey = null;
+    this.signKeyFpr = null;
     this.pwdControl = null;
     this.pgpMIME = false;
     this.options = {};
-    this.integration = false;
     // register event handlers
     this.on('editor-mount', this.onEditorMount);
     this.on('editor-load', this.onEditorLoad);
@@ -58,10 +62,9 @@ export default class EditorController extends sub.SubController {
   async onEditorMount() {
     this.ports.editor.emit('set-mode', {
       embedded: Boolean(this.ports.editorCont),
-      integration: this.integration
+      integration: this.state.integration
     });
-    if (this.integration) {
-      this.gmailCtrl = sub.getById(this.options.gmailCtrlId);
+    if (this.state.integration) {
       try {
         await this.getAccessToken();
       } catch (error) {
@@ -78,7 +81,7 @@ export default class EditorController extends sub.SubController {
   }
 
   async getAccessToken() {
-    return this.gmailCtrl.getAccessToken({
+    return this.peers.gmailController.getAccessToken({
       ...this.options.userInfo,
       beforeAuth: () => this.beforeAuthorization(),
       afterAuth: () => this.afterAuthorization()
@@ -101,10 +104,18 @@ export default class EditorController extends sub.SubController {
     this.activateComponent();
   }
 
-  activateComponent() {
+  async getPopup() {
     if (this.popup) {
-      this.popup.activate();
+      return this.popup;
     }
+    if (this.state.popupId) {
+      this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
+      return this.popup;
+    }
+  }
+
+  async activateComponent() {
+    (await this.getPopup())?.activate();
   }
 
   async onEditorLoad() {
@@ -112,16 +123,9 @@ export default class EditorController extends sub.SubController {
       this.ports.editorCont.emit('editor-ready');
     } else {
       // non-container case, set options
-      this.onEditorOptions({
-        keyringId: getPreferredKeyringId(),
-        options: this.options,
-      });
+      this.onEditorOptions({options: this.options});
       // transfer recipient proposal and public key info to the editor
-      let recipients;
-      if (this.options.getRecipients) {
-        recipients = await this.options.getRecipients();
-      }
-      await this.setRecipientData(recipients);
+      await this.setRecipientData(this.options.recipients);
     }
   }
 
@@ -143,13 +147,13 @@ export default class EditorController extends sub.SubController {
       // get all public keys from required keyrings
     }
     const keys = await getKeyData({keyringId: this.keyringId});
-    this.emit('public-key-userids', {keys, to, cc});
+    this.ports.editor.emit('public-key-userids', {keys, to, cc});
   }
 
   async onEditorOptions(msg) {
-    this.keyringId = msg.keyringId;
+    this.setState({keyringId: msg.keyringId || getPreferredKeyringId()});
     this.options = msg.options;
-    const keyring = getKeyringById(this.keyringId);
+    const keyring = getKeyringById(this.state.keyringId);
     const defaultKeyFpr = await keyring.getDefaultKeyFpr();
     const data = {
       signMsg: this.options.signMsg || prefs.general.auto_sign_msg,
@@ -172,25 +176,28 @@ export default class EditorController extends sub.SubController {
     if (this.options.attachments) {
       this.setAttachments(this.options.attachments);
     }
-    triggerSync({keyringId: this.keyringId, force: true});
+    triggerSync({keyringId: this.state.keyringId, force: true});
     this.ports.editor.emit('set-init-data', data);
   }
 
-  onEditorClose(option = {cancel: false}) {
+  async onEditorClose(option = {cancel: false}) {
     const {cancel} = option;
-    if (this.popup) {
-      this.popup.close();
+    const popup = await this.getPopup();
+    if (popup) {
+      popup.close();
       this.popup = null;
+      this.setState({popupId: null, popupOpenerTabId: null});
       if (cancel) {
-        this.encryptPromise.reject(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
+        const peerController = this.peers.gmailController ?? this.peers.encryptController;
+        peerController.encryptError(new MvError('Editor dialog canceled.', 'EDITOR_DIALOG_CANCEL'));
       }
     }
   }
 
   async onEditorContainerEncrypt(msg) {
     this.pgpMIME = true;
-    this.keyringId = msg.keyringId;
-    const keyMap = await getKeyByAddress(this.keyringId, msg.recipients);
+    this.setState({keyringId: msg.keyringId});
+    const keyMap = await getKeyByAddress(this.state.keyringId, msg.recipients);
     await this.lookupMissingKeys(keyMap);
     const keyFprMap = mapAddressKeyMapToFpr(keyMap);
     if (Object.values(keyFprMap).some(keys => keys === false)) {
@@ -207,16 +214,16 @@ export default class EditorController extends sub.SubController {
     });
     this.keyFprBuffer = sortAndDeDup(keyFprs);
     // ensure that all keys are available in the API keyring
-    syncPublicKeys({keyringId: this.keyringId, keyIds: this.keyFprBuffer});
+    syncPublicKeys({keyringId: this.state.keyringId, keyIds: this.keyFprBuffer});
     this.ports.editor.emit('get-plaintext', {action: 'encrypt'});
   }
 
   async lookupMissingKeys(keyMap) {
     for (const [email, keys] of Object.entries(keyMap)) {
       if (!keys) {
-        await lookupKey({keyringId: this.keyringId, email});
+        await lookupKey({keyringId: this.state.keyringId, email});
         // check if lookup successful
-        const {[email]: keys} = await getKeyByAddress(this.keyringId, email);
+        const {[email]: keys} = await getKeyByAddress(this.state.keyringId, email);
         keyMap[email] = keys;
       }
     }
@@ -224,9 +231,9 @@ export default class EditorController extends sub.SubController {
 
   async onEditorContainerCreateDraft(msg) {
     this.pgpMIME = true;
-    this.keyringId = msg.keyringId;
+    this.setState({keyringId: msg.keyringId});
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
+    const defaultKeyFpr = await getKeyringById(this.state.keyringId).getDefaultKeyFpr();
     if (defaultKeyFpr) {
       this.keyFprBuffer = [defaultKeyFpr];
     } else {
@@ -242,7 +249,7 @@ export default class EditorController extends sub.SubController {
 
   onSignOnly(msg) {
     this.signKeyFpr = msg.signKeyFpr;
-    this.emit('get-plaintext', {action: 'sign'});
+    this.ports.editor.emit('get-plaintext', {action: 'sign'});
   }
 
   onEditorUserInput(msg) {
@@ -256,47 +263,39 @@ export default class EditorController extends sub.SubController {
    * @return {undefined}
    */
   async onKeyLookup(msg) {
-    const options = msg.recipient;
-    options.keyringId = this.keyringId;
-    const result = await keyRegistry.lookup({query: {email: options.email}, identity: this.keyringId});
+    const result = await keyRegistry.lookup({query: {email: msg.recipient.email}, identity: this.state.keyringId});
     if (result) {
-      await getKeyringById(this.keyringId).importKeys([{type: 'public', armored: result.armored}]);
+      await getKeyringById(this.state.keyringId).importKeys([{type: 'public', armored: result.armored}]);
     }
     await this.sendKeyUpdate();
   }
 
   async sendKeyUpdate() {
     // send updated key cache to editor
-    const keys = await getKeyData({keyringId: this.keyringId});
+    const keys = await getKeyData({keyringId: this.state.keyringId});
     this.ports.editor.emit('key-update', {keys});
   }
 
   /**
-   * Encrypt operation called by other controllers, opens editor popup
+   * Open editor popup, called by other controllers.
    * @param {Boolean} options.signMsg - sign message option is active
-   * @param {String} options.predefinedText - text that will be added to the editor
    * @param {String} options.predefinedText - text that will be added to the editor
    * @param {String} quotedMail - mail that should be quoted
    * @param {boolean} quotedMailIndent - if true the quoted mail will be indented
-   * @param {Function} getRecipients - retrieve recipient email addresses
-   * @return {Promise<Object>} - {armored, recipients}
+   * @param {Object} recipients - recipient email addresses, in the form {to: [{email}], cc: [{email}]}
    */
-  encrypt(options) {
+  async openEditor(options) {
     this.options = options;
     this.options.privKeys = true; // send private keys for signing key selection to editor
     let height = 680;
     if (this.options.integration) {
-      this.integration = this.options.integration;
+      this.setState({integration: this.options.integration});
       height = 740;
     }
-    return new Promise((resolve, reject) => {
-      this.encryptPromise = {resolve, reject};
-      mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}${this.integration ? `&quota=${gmail.MAIL_QUOTA}` : ''}`, {width: 820, height})
-      .then(popup => {
-        this.popup = popup;
-        popup.addRemoveListener(() => this.onEditorClose({cancel: true}));
-      });
-    });
+    const popup = await mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}${this.state.integration ? `&quota=${gmail.MAIL_QUOTA}` : ''}`, {width: 820, height});
+    this.popup = popup;
+    popup.addRemoveListener(() => this.onEditorClose({cancel: true}));
+    await this.setState({popupId: popup.id, popupOpenerTabId: popup.tabId});
   }
 
   /**
@@ -304,7 +303,7 @@ export default class EditorController extends sub.SubController {
    * @param  {String} armored
    */
   scheduleDecrypt(armored) {
-    if (armored.length > 400000 && !this.popup) {
+    if (armored.length > 400000 && !this.state.popupId) {
       // show spinner for large messages
       this.ports.editor.emit('decrypt-in-progress');
     }
@@ -338,7 +337,7 @@ export default class EditorController extends sub.SubController {
     try {
       const unlockKey = async options => {
         const result = await this.unlockKey(options);
-        if (this.popup) {
+        if (this.state.popupId) {
           this.ports.editor.emit('hide-pwd-dialog');
         }
         return result;
@@ -349,7 +348,7 @@ export default class EditorController extends sub.SubController {
         const normalized = normalizeArmored(armored, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
         ({data, signatures} = await model.decryptMessage({
           armored: normalized,
-          keyringId: this.keyringId,
+          keyringId: this.state.keyringId,
           unlockKey,
           selfSigned: Boolean(this.options.armoredDraft),
           uiLogSource: 'security_log_editor'
@@ -357,7 +356,7 @@ export default class EditorController extends sub.SubController {
       } else if (/BEGIN\sPGP\sSIGNED\sMESSAGE/.test(armored)) {
         ({data, signatures} = await model.verifyMessage({
           armored,
-          keyringId: this.keyringId,
+          keyringId: this.state.keyringId,
           uiLogSource: 'security_log_editor'
         }));
         data = decodeURIComponent(escape(data));
@@ -405,7 +404,7 @@ export default class EditorController extends sub.SubController {
     try {
       const unlockKey = async options => {
         const result = await this.unlockKey(options);
-        if (this.popup) {
+        if (this.state.popupId) {
           this.ports.editor.emit('hide-pwd-dialog');
         }
         return result;
@@ -441,14 +440,14 @@ export default class EditorController extends sub.SubController {
     try {
       const {armored, encFiles} = await this.signAndEncrypt(options);
       this.ports.editor.emit('encrypt-end');
-      if (!this.integration) {
+      if (!this.state.integration) {
         this.onEditorClose();
       }
       this.transferEncrypted({armored, encFiles, subject: options.subject, to: options.keysTo, cc: options.keysCc});
     } catch (err) {
-      if (this.popup && err.code === 'PWD_DIALOG_CANCEL') {
+      if (this.state.popupId && err.code === 'PWD_DIALOG_CANCEL') {
         // popup case
-        this.emit('hide-pwd-dialog');
+        this.ports.editor.emit('hide-pwd-dialog');
         return;
       }
       console.log(err);
@@ -482,7 +481,7 @@ export default class EditorController extends sub.SubController {
       if (options.signMsg) {
         signKeyFpr = options.signKeyFpr;
         if (!signKeyFpr) {
-          const defaultKeyFpr = await getDefaultKeyFpr(this.keyringId);
+          const defaultKeyFpr = await getDefaultKeyFpr(this.state.keyringId);
           signKeyFpr = defaultKeyFpr;
         }
         if (!signKeyFpr) {
@@ -501,7 +500,7 @@ export default class EditorController extends sub.SubController {
       let files = [];
       let encFiles = [];
       options.pgpMIME = this.pgpMIME;
-      if (this.integration && !this.pgpMIME) {
+      if (this.state.integration && !this.pgpMIME) {
         ({attachments: files, ...options} = options);
       }
       try {
@@ -550,7 +549,7 @@ export default class EditorController extends sub.SubController {
     this.ports.editor.emit('encrypt-in-progress');
     return model.encryptMessage({
       data,
-      keyringId: this.keyringId,
+      keyringId: this.state.keyringId,
       encryptionKeyFprs: keyFprs,
       signingKeyFpr: signKeyFpr,
       unlockKey,
@@ -566,7 +565,7 @@ export default class EditorController extends sub.SubController {
       const encrypted = await model.encryptFile({
         plainFile: file,
         armor: fileExt === 'txt',
-        keyringId: this.keyringId,
+        keyringId: this.state.keyringId,
         encryptionKeyFprs: keyFprs,
         signingKeyFpr: signKeyFpr,
         unlockKey,
@@ -590,7 +589,7 @@ export default class EditorController extends sub.SubController {
     };
     return model.signMessage({
       data,
-      keyringId: this.keyringId,
+      keyringId: this.state.keyringId,
       unlockKey,
       signingKeyFpr: signKeyFpr
     });
@@ -607,18 +606,19 @@ export default class EditorController extends sub.SubController {
     } else {
       to = to.map(key => ({name: key.name, email: key.email}));
       cc = cc.map(key => ({name: key.name, email: key.email}));
-      this.encryptPromise.resolve({armored, encFiles, subject, to, cc});
+      const peerController = this.peers.gmailController ?? this.peers.encryptController;
+      peerController.encryptedMessage({armored, encFiles, subject, to, cc});
     }
   }
 
   async unlockKey({key, noCache, reason = 'PWD_DIALOG_REASON_DECRYPT', sync = true}) {
-    const pwdControl = sub.factory.get('pwdDialog');
-    const openPopup = !this.popup;
-    const beforePasswordRequest = id => this.popup && this.ports.editor.emit('show-pwd-dialog', {id});
+    const pwdControl = await sub.factory.get('pwdDialog');
+    const openPopup = !this.state.popupId;
+    const beforePasswordRequest = id => this.state.popupId && this.ports.editor.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({key, reason, openPopup, noCache, beforePasswordRequest});
     this.ports.editor.emit('encrypt-in-progress');
     if (sync) {
-      triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+      triggerSync({keyringId: this.state.keyringId, key: unlockedKey.key, password: unlockedKey.password});
     }
     return unlockedKey.key;
   }
@@ -638,7 +638,7 @@ export default class EditorController extends sub.SubController {
     }
     if (prefs.general.auto_add_primary) {
       // get the sender key fingerprint
-      const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
+      const defaultKeyFpr = await getKeyringById(this.state.keyringId).getDefaultKeyFpr();
       if (defaultKeyFpr) {
         keyFprs.push(defaultKeyFpr);
       }

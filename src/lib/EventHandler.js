@@ -47,11 +47,11 @@ export default class EventHandler {
   initPort(port) {
     this._port = port;
     this._port.onMessage.addListener(this.handlePortMessage.bind(this));
-    this._port.onDisconnect.addListener(() => this.removePort());
+    this._port.onDisconnect?.addListener(() => this.clearPort());
     this.#portName = port.name;
   }
 
-  removePort() {
+  clearPort() {
     this._port = null;
   }
 
@@ -151,6 +151,18 @@ export default class EventHandler {
     this.#checkConnection();
     options.event = event;
     this._port.postMessage(options);
+  }
+
+  trigger(event, options = {}) {
+    if (!event || typeof event !== 'string') {
+      throw new Error('Invalid event!');
+    }
+    options.event = event;
+    if (!this._handlers.has(options.event)) {
+      throw new Error('Unknown event!');
+    }
+    const handler = this._handlers.get(options.event);
+    handler.call(this, options);
   }
 
   /**

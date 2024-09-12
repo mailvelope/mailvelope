@@ -37,7 +37,7 @@ sub.factory.register('importKeyDialog',     ImportController,        ['dDialog']
 sub.factory.register('mainCS',              MainCsController,        []);
 sub.factory.register('vFrame',              VerifyController,        ['vDialog', 'dDialog']);
 sub.factory.register('pwdDialog',           PwdController,           []);
-sub.factory.register('editor',              EditorController,        []);
+sub.factory.register('editor',              EditorController,        ['editorCont']);
 sub.factory.register('editorCont',          EditorController,        ['editor']);
 sub.factory.register('syncHandler',         SyncController,          []);
 sub.factory.register('keyGenCont',          PrivateKeyController,    ['keyGenDialog']);
@@ -49,6 +49,9 @@ sub.factory.register('menu',                MenuController,          []);
 sub.factory.register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
 sub.factory.register('api',                 ApiController,           []);
 sub.factory.register('authDomainDialog',    AuthDomainController,    []);
+
+// Register peer controllers
+sub.factory.registerPeer('editorController', EditorController);
 
 export function initController() {
   // store incoming connections by name and id

@@ -8,15 +8,17 @@ import {getUUID, mapError} from '../lib/util';
 import * as l10n from '../lib/l10n';
 import * as gmail from '../modules/gmail';
 import * as sub from './sub.controller';
-import {getPreferredKeyringId} from '../modules/keyring';
 import {formatEmailAddress} from '../modules/key';
 import {setAppDataSlot} from '../controller/sub.controller';
 
 export default class GmailController extends sub.SubController {
   constructor(port) {
     super(port);
-    this.editorControl = null;
-    this.keyringId = getPreferredKeyringId();
+    this.state = {
+      userInfo: null,
+      threadId: null
+    };
+    this.peerType = 'gmailController';
     this.authorizationRequest = null;
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
@@ -27,87 +29,89 @@ export default class GmailController extends sub.SubController {
     mvelo.tabs.activate({id: this.tabId});
   }
 
+  async onOpenEditor(options) {
+    await this.createPeer('editorController');
+    if (await this.peers.editorController.getPopup()) {
+      await this.peers.editorController.activateComponent();
+      return;
+    }
+    options.recipientsTo ||= [];
+    options.recipientsCc ||= [];
+    this.openEditor(options);
+  }
+
   /**
    * Opens a new editor control and gets the recipients to encrypt plaintext
    * input to their public keys.
    * @param  {String} options.text   The plaintext input to encrypt
    */
-
   openEditor(options) {
-    this.editorControl = sub.factory.get('editor');
-    return this.editorControl.encrypt({
+    this.setState({userInfo: options.userInfo, threadId: options.threadId});
+    this.peers.editorController.openEditor({
       integration: true,
-      gmailCtrlId: this.id,
       predefinedText: options.text,
       quotedMail: options.quotedMail,
       quotedMailIndent: options.quotedMailIndent === undefined ? true : options.quotedMailIndent,
       quotedMailHeader: options.quotedMailHeader,
       subject: options.subject,
-      getRecipients: () => ({
+      recipients: {
         to: options.recipientsTo.map(email => ({email})),
         cc: options.recipientsCc.map(email => ({email}))
-      }),
+      },
       userInfo: options.userInfo,
       attachments: options.attachments,
       keepAttachments: options.keepAttachments
     });
   }
 
-  async onOpenEditor(options) {
-    if (this.editorControl && this.editorControl.popup) {
-      this.editorControl.activateComponent();
-      return;
+  async encryptedMessage({armored, encFiles, subject, to, cc}) {
+    // send email via GMAIL api
+    this.peers.editorController.ports.editor.emit('send-mail-in-progress');
+    const userEmail = this.state.userInfo.email;
+    const toFormatted = to.map(({name, email}) => formatEmailAddress(email, name));
+    const ccFormatted = cc.map(({name, email}) => formatEmailAddress(email, name));
+    const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: toFormatted, cc: ccFormatted});
+    const accessToken = await this.peers.editorController.getAccessToken();
+    const sendOptions = {
+      email: userEmail,
+      message: mail,
+      accessToken
+    };
+    if (this.state.threadId) {
+      sendOptions.threadId = this.state.threadId;
     }
     try {
-      options.recipientsTo = options.recipientsTo || [];
-      options.recipientsCc = options.recipientsCc || [];
-      const {armored, encFiles, subject, to, cc} = await this.openEditor(options);
-      // send email via GMAIL api
-      this.editorControl.ports.editor.emit('send-mail-in-progress');
-      const userEmail = options.userInfo.email;
-      const toFormatted = to.map(({name, email}) => formatEmailAddress(email, name));
-      const ccFormatted = cc.map(({name, email}) => formatEmailAddress(email, name));
-      const mail = gmail.buildMail({message: armored, attachments: encFiles, subject, sender: userEmail, to: toFormatted, cc: ccFormatted});
-      const accessToken = await this.editorControl.getAccessToken();
-      const sendOptions = {
-        email: userEmail,
-        message: mail,
-        accessToken
-      };
-      if (options.threadId) {
-        sendOptions.threadId = options.threadId;
-      }
-      try {
-        await gmail.sendMessageMeta(sendOptions);
-        this.editorControl.ports.editor.emit('show-notification', {
-          message: l10n.get('gmail_integration_sent_success'),
-          type: 'success',
-          autoHide: true,
-          hideDelay: 2000,
-          closeOnHide: true,
-          dismissable: false
-        });
-      } catch (error) {
-        this.editorControl.ports.editor.emit('error-message', {
-          error: Object.assign(mapError(error), {
-            autoHide: false,
-            dismissable: true
-          })
-        });
-      }
-      this.editorControl = null;
+      await gmail.sendMessageMeta(sendOptions);
+      this.peers.editorController.ports.editor.emit('show-notification', {
+        message: l10n.get('gmail_integration_sent_success'),
+        type: 'success',
+        autoHide: true,
+        hideDelay: 2000,
+        closeOnHide: true,
+        dismissable: false
+      });
     } catch (error) {
-      if (error.code == 'EDITOR_DIALOG_CANCEL') {
-        this.editorControl = null;
-        return;
-      }
-      this.editorControl.ports.editor.emit('error-message', {
+      this.peers.editorController.ports.editor.emit('error-message', {
         error: Object.assign(mapError(error), {
           autoHide: false,
-          dismissable: false
+          dismissable: true
         })
       });
     }
+    await this.removePeer('editorController');
+  }
+
+  async encryptError(error) {
+    if (error.code == 'EDITOR_DIALOG_CANCEL') {
+      await this.removePeer('editorController');
+      return;
+    }
+    this.peers.editorController.ports.editor.emit('error-message', {
+      error: Object.assign(mapError(error), {
+        autoHide: false,
+        dismissable: false
+      })
+    });
   }
 
   async onSecureBtn({type, msgId, all, userInfo}) {
@@ -144,7 +148,6 @@ export default class GmailController extends sub.SubController {
         quotedMailHeader += '\n';
         attachments = await gmail.getMailAttachments({payload, userEmail, msgId, accessToken});
       }
-
       const options = {
         userInfo,
         subject,

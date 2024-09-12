@@ -212,6 +212,11 @@ mvelo.windows.openPopup = async function(url, {width, height} = {}, tabId) {
   return new this.BrowserWindow({popup, openerTabId: tabId});
 };
 
+mvelo.windows.getPopup = async function(popupId, openerTabId) {
+  const popup = await chrome.windows.get(popupId, {windowTypes: ['popup']});
+  return new this.BrowserWindow({popup, openerTabId});
+};
+
 mvelo.windows.BrowserWindow = class {
   constructor({popup, openerTabId}) {
     // window id of this popup

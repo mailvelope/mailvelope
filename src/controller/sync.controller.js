@@ -133,7 +133,7 @@ export class SyncController extends sub.SubController {
       password = options.password;
     }
     // unlock key if still locked
-    this.pwdControl = sub.factory.get('pwdDialog');
+    this.pwdControl = await sub.factory.get('pwdDialog');
     const unlockedKey = await this.pwdControl.unlockKey({
       key: privKey,
       reason: 'PWD_DIALOG_REASON_EDITOR',
@@ -158,7 +158,7 @@ export class SyncController extends sub.SubController {
       password: options.password,
       reason: 'PWD_DIALOG_REASON_EDITOR'
     };
-    this.pwdControl = this.pwdControl || sub.factory.get('pwdDialog');
+    this.pwdControl = this.pwdControl || await sub.factory.get('pwdDialog');
     const unlockedKey = await this.pwdControl.unlockKey(keyOptions);
     // encrypt keyring sync message
     const armored = await encryptSyncMessage(unlockedKey.key, this.keyring.sync.data.changeLog, this.keyringId);
@@ -248,8 +248,9 @@ export class SyncController extends sub.SubController {
   }
 }
 
-export function getByKeyring(keyringId) {
-  return sub.getByMainType('syncHandler').filter(obj => obj.keyringId === keyringId)[0];
+export async function getByKeyring(keyringId) {
+  const syncController = await sub.getByMainType('syncHandler');
+  return syncController.filter(obj => obj.keyringId === keyringId)[0];
 }
 
 /**
@@ -259,8 +260,8 @@ export function getByKeyring(keyringId) {
  * @param {Key} [options.key] - unlocked private key used for sync
  * @param {String} [options.password] - password for options.key
  */
-export function triggerSync(options) {
-  const syncCtrl = getByKeyring(options.keyringId);
+export async function triggerSync(options) {
+  const syncCtrl = await getByKeyring(options.keyringId);
   if (syncCtrl) {
     setTimeout(() => {
       syncCtrl.triggerSync(options);

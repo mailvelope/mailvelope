@@ -55,7 +55,6 @@ export default class EncryptFrame {
   registerEventListener() {
     // attach event handlers
     document.addEventListener('mailvelope-observe', this.setFrameDim);
-    this.port.on('get-recipients', this.getRecipients);
     this.port.on('set-editor-output', this.setEditorOutput);
     this.port.on('destroy', this.closeFrame.bind(this, true));
     this.port.on('mail-editor-close', this.onMailEditorClose);
@@ -130,7 +129,7 @@ export default class EncryptFrame {
     this.eFrame.style.right = '20px';
   }
 
-  showMailEditor() {
+  async showMailEditor() {
     const options = {};
     const emailContent = this.getEmailText(this.editorType == PLAIN_TEXT ? 'text' : 'html');
     if (/BEGIN\sPGP\sMESSAGE/.test(emailContent)) {
@@ -142,11 +141,8 @@ export default class EncryptFrame {
     } else {
       options.text = emailContent;
     }
+    options.recipients = await this.currentProvider.getRecipients(this.editElement);
     this.port.emit('eframe-display-editor', options);
-  }
-
-  getRecipients() {
-    return this.currentProvider.getRecipients(this.editElement);
   }
 
   getEmailText(type) {

@@ -98,8 +98,9 @@ export default class ApiController extends sub.SubController {
     }
   }
 
-  importPubKey({keyringId, armored}) {
-    return sub.factory.get('importKeyDialog').importKey(keyringId, armored);
+  async importPubKey({keyringId, armored}) {
+    const importCtrl = await sub.factory.get('importKeyDialog');
+    return importCtrl.importKey(keyringId, armored);
   }
 
   processAutocryptHeader({headers, keyringId}) {
