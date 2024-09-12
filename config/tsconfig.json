@@ -2,30 +2,26 @@
     "extends": "@tsconfig/recommended/tsconfig.json",
     "compilerOptions": {
         "module": "ES6",
-        "moduleResolution": "Bundler",
+        "moduleResolution": "bundler",
         "sourceMap": true,
         "strict": false,
         // Tells TypeScript to read JS files, as
         // normally they are ignored as source files
         "allowJs": true,
+
+        /** This block is responsible for generating d.ts files 
+        * We are keeping it commented until needed */
         // // Generate d.ts files
-        // "declaration": true,
-        // // This compiler run should
+        // "declaration": true,        
         // // only output d.ts files
         // "emitDeclarationOnly": true,
-        // // Types should go into this directory.
-        // // Removing this would place the .d.ts files
-        // // next to the .js files
-        "outDir": "../dist",
         // // go to js file when using IDE functions like
         // // "Go to Definition" in VSCode
         // "declarationMap": true
+
+        // a workaround for "cannot write file ..." tsc errors
+        "outDir": "../dist",
     },
-    "include": [
-        "../src/**/*.ts",
-        "../src/**/*.js"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+    "include": ["../src/**/*.ts"],
+    "exclude": ["node_modules"]
 }
