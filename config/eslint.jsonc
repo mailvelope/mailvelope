@@ -96,9 +96,14 @@
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-namespace": "error",
         "@typescript-eslint/no-empty-interface": "error",
-        // "@typescript-eslint/no-restricted-types": [], // see https://typescript-eslint.io/rules/no-restricted-types        
         "@typescript-eslint/no-redeclare": "error",
-        "indent": ["warn", 2, {"MemberExpression": 0, "SwitchCase": 1}] // enforce consistent indentation
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "TSTypeParameterInstantiation", // AST query
+            "message": "Generics are not allowed."
+          }
+        ]
       }
     }
   ]
