@@ -7,7 +7,7 @@ import mvelo from './lib-mvelo';
 import * as sub from '../controller/sub.controller';
 import {str2bool, matchPattern2RegExString, sortAndDeDup} from './util';
 import browser from 'webextension-polyfill';
-import {prefs, getWatchList} from '../modules/prefs';
+import {getWatchList} from '../modules/prefs';
 
 // watchlist match patterns as regex for URL
 export let watchlistRegex;
@@ -48,38 +48,10 @@ async function getWatchListFilterURLs() {
       frame.scan && result.push({schemes: site.https_only ? ['https'] : schemes, host: frame.frame});
     });
   });
-  // add hkp key server to enable key import
-  let hkpHost = mvelo.util.normalizeDomain(new URL(prefs.keyserver.hkp_base_url).hostname);
-  hkpHost = reduceHosts([hkpHost]);
-  hkpHost.forEach(host => {
-    // add default schemes to key server hosts
-    result.push({schemes, host});
-  });
   if (result.length !== 0) {
     result = sortAndDeDup(result, (a, b) => a.host.localeCompare(b.host));
   }
   return result;
-}
-
-function reduceHosts(hosts) {
-  const reduced = [];
-  hosts.forEach(element => {
-    const labels = element.split('.');
-    if (labels.length < 2) {
-      return;
-    }
-    if (labels.length <= 3) {
-      if (/www.*/.test(labels[0])) {
-        labels[0] = '*';
-      } else {
-        labels.unshift('*');
-      }
-      reduced.push(labels.join('.'));
-    } else {
-      reduced.push(`*.${labels.slice(-3).join('.')}`);
-    }
-  });
-  return sortAndDeDup(reduced);
 }
 
 async function injectOpenTabs(filterURL) {

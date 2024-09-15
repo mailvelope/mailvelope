@@ -60,7 +60,17 @@ export function wait(ms) {
 }
 
 export function getUUID() {
-  return crypto.randomUUID().replaceAll('-', '');
+  if (crypto.randomUUID) {
+    return crypto.randomUUID().replaceAll('-', '');
+  } else {
+    let result = '';
+    const buf = new Uint16Array(8);
+    crypto.getRandomValues(buf);
+    for (let i = 0; i < buf.length; i++) {
+      result += buf[i].toString(16);
+    }
+    return result;
+  }
 }
 
 export function encodeHTML(text) {
