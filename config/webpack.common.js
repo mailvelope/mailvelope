@@ -99,6 +99,21 @@ function react() {
   ];
 }
 
+function typescript() {
+  return  [
+    {
+      test: /\.tsx?$/,
+      use: {
+        loader: 'ts-loader',
+        options: {
+          configFile: 'config/tsconfig.json'
+        },
+      },
+      exclude: /node_modules/
+    }
+  ];
+}
+
 function replaceVersion(test, version) {
   return [
     {
@@ -119,9 +134,10 @@ function replaceVersion(test, version) {
 function resolve() {
   return {
     modules: ['node_modules'],
+    extensions: ['.ts', '.tsx', '.js']
   };
 }
 
 exports.prod = prod;
-exports.module = {css, css2str, scss, react, replaceVersion};
+exports.module = {css, css2str, scss, react, typescript, replaceVersion};
 exports.resolve = resolve;

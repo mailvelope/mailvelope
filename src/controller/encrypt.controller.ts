@@ -9,9 +9,14 @@
  */
 
 import * as sub from './sub.controller';
+import type EditorController from './editor.controller';
 
 export default class EncryptController extends sub.SubController {
-  constructor(port) {
+  editorControl: EditorController;
+
+  editorContentModified: boolean;
+
+  constructor(port: any) {
     super(port);
     this.editorControl = null;
     this.editorContentModified = false;
