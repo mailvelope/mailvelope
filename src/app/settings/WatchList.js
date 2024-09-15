@@ -154,15 +154,16 @@ export default class WatchList extends React.Component {
     this.modifyEditorSite(site => site.frames.splice(index, 1));
   }
 
-  addToWatchList({domain, protocol}) {
+  addToWatchList({domain, protocol, port}) {
     if (domain.startsWith('www.')) {
       domain = domain.slice(4);
     }
+    const hostAndPort = `${domain}${port ? `:${port}` : ''}`;
     this.setState(prevState => {
       let watchListIndex;
       const site = prevState.watchList.find((site, index) => {
         watchListIndex = index;
-        return site.site === domain;
+        return site.site === hostAndPort;
       });
       if (site) {
         return {
@@ -173,7 +174,7 @@ export default class WatchList extends React.Component {
         };
       } else {
         return {
-          editorSite: {site: domain, active: true, https_only: protocol === 'https' ? true : false, frames: [{scan: true, frame: `*.${domain}`, api: false}]},
+          editorSite: {site: hostAndPort, active: true, https_only: protocol === 'https' ? true : false, frames: [{scan: true, frame: `*.${hostAndPort}`, api: false}]},
           editorIndex: prevState.watchList.length,
           modified: true,
           showEditor: true

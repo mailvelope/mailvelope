@@ -77,10 +77,10 @@ export default class MenuController extends sub.SubController {
       if (!tab) {
         throw new Error('No tab found');
       }
-      const domain = mvelo.util.getDomain(tab.url);
-      const protocol = mvelo.util.getProtocol(tab.url);
+      const url = new URL(tab.url);
+      const domain = mvelo.util.normalizeDomain(url.hostname);
       const slotId = getUUID();
-      sub.setAppDataSlot(slotId, {domain, protocol});
+      sub.setAppDataSlot(slotId, {domain, protocol: url.protocol, port: url.port});
       mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
     });
   }
