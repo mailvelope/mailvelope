@@ -334,7 +334,11 @@ export default class Editor extends React.Component {
       throw new Error('File is too big');
     }
     this.fileUpload.readFile(file)
-    .then(file => this.setState(prevState => ({files: [...prevState.files, file]})))
+    .then(file => this.setState(prevState => {
+      const files = [...prevState.files, file];
+      // allow to sign if no files are uploaded
+      return ({files, signMsg: files.length === 0});
+    }))
     .catch(error => console.log(error));
   }
 
@@ -347,14 +351,22 @@ export default class Editor extends React.Component {
 
   handleRemoveFile(id) {
     this.logUserInput('security_log_remove_attachment');
-    this.setState(prevState => ({files: prevState.files.filter(file => file.id !== id)}));
+    this.setState(prevState => {
+      // allow to sign if all files are removed
+      const files = prevState.files.filter(file => file.id !== id);
+      return ({files, signMsg: files.length === 0});
+    });
   }
 
   handleChangeSignKey(value) {
     if (value === 'nosign') {
       this.setState({signMsg: false});
     } else {
-      this.setState({signKey: value, signMsg: true});
+      this.setState(prevState => {
+        // only allow signing if no files are uploaded or if a sign key is provided
+        const filesEmpty = prevState.files.length === 0;
+        return {signKey: value, signMsg: filesEmpty};
+      });
     }
   }
 
