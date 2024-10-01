@@ -40,7 +40,7 @@ export default class PrivateKeyController extends sub.SubController {
     this.on('restore-backup-dialog-init', () => this.ports.restoreBackupCont.emit('dialog-done'));
     this.on('restore-backup-code', msg => this.restorePrivateKeyBackup(msg.code));
     this.on('backup-code-window-init', () => this.ports.keyBackupCont.emit('popup-isready'));
-    this.on('get-logo-image', () => this.ports.recoverySheet.emit('set-logo-image', {image: this.getLogoImage()}));
+    this.on('get-logo-image', async () => this.ports.recoverySheet.emit('set-logo-image', {image: await this.getLogoImage()}));
     this.on('get-backup-code', () => this.ports.recoverySheet.emit('set-backup-code', {backupCode: this.getBackupCode()}));
     this.on('create-backup-code-window', this.createBackupCodeWindow);
   }
@@ -102,45 +102,49 @@ export default class PrivateKeyController extends sub.SubController {
     }
   }
 
-  generateKey(password, options) {
+  async generateKey(password, options) {
     if (options.keySize !== 2048 && options.keySize !== 4096) {
       this.ports.keyGenDialog.emit('show-password');
       this.ports.keyGenCont.emit('generate-done', {error: {message: 'Invalid key length', code: 'KEY_LENGTH_INVALID'}});
       return;
     }
     this.ports.keyGenDialog.emit('show-waiting');
-    getKeyringById(this.keyringId).generateKey({
-      keyAlgo: 'rsa',
-      userIds: options.userIds,
-      numBits: options.keySize,
-      passphrase: password,
-      unlocked: true
-    }).then(data => {
-      this.ports.keyGenCont.emit('generate-done', {publicKey: data.publicKey.armor()});
+    try {
+      const keyring = await getKeyringById(this.keyringId);
+      const {publicKey, privateKey} = await keyring.generateKey({
+        keyAlgo: 'rsa',
+        userIds: options.userIds,
+        numBits: options.keySize,
+        passphrase: password,
+        unlocked: true
+      });
+      this.ports.keyGenCont.emit('generate-done', {publicKey: publicKey.armor()});
       if (prefs.security.password_cache) {
-        pwdCache.set({key: data.privateKey, password});
+        pwdCache.set({key: privateKey, password});
       }
       if (options.confirmRequired) {
-        this.newKeyFpr = data.publicKey.getFingerprint();
+        this.newKeyFpr = publicKey.getFingerprint();
         this.rejectTimer = setTimeout(() => {
           this.rejectKey(this.newKeyFpr);
           this.rejectTimer = 0;
         }, 10000); // trigger timeout after 10s
       }
-    }).catch(err => {
+    } catch (err) {
       this.ports.keyGenCont.emit('generate-done', {error: mapError(err)});
-    });
+    }
   }
 
-  rejectKey() {
-    getKeyringById(this.keyringId).removeKey(this.newKeyFpr, 'private');
+  async rejectKey() {
+    const keyring = await getKeyringById(this.keyringId);
+    await keyring.removeKey(this.newKeyFpr, 'private');
     if (prefs.security.password_cache) {
       pwdCache.delete(this.newKeyFpr);
     }
   }
 
   async createPrivateKeyBackup() {
-    const defaultKey = await getKeyringById(this.keyringId).getDefaultKey();
+    const keyring = await getKeyringById(this.keyringId);
+    const defaultKey = await keyring.getDefaultKey();
     if (!defaultKey) {
       throw new MvError('No private key for backup', 'NO_PRIVATE_KEY');
     }
@@ -179,14 +183,14 @@ export default class PrivateKeyController extends sub.SubController {
     }
   }
 
-  restorePrivateKeyBackup(code) {
-    let backup;
-    sync.getByKeyring(this.keyringId)
-    .then(ctrl => ctrl.restore())
-    .then(data => restorePrivateKeyBackup(data.backup, code))
-    .then(keyBackup => backup = keyBackup)
-    .then(() => getKeyringById(this.keyringId).importKeys([{armored: backup.key.armor(), type: 'private'}]))
-    .then(result => {
+  async restorePrivateKeyBackup(code) {
+    try {
+      const ctrl = await sync.getByKeyring(this.keyringId);
+      const data = await ctrl.restore();
+      const backup = await restorePrivateKeyBackup(data.backup, code);
+      const keyring = await getKeyringById(this.keyringId);
+      const result = await keyring.importKeys([{armored: backup.key.armor(), type: 'private'}]);
+      // Check for errors in the result array
       for (let i = 0; i < result.length; i++) {
         if (result[i].type === 'error') {
           throw result[i].message;
@@ -197,17 +201,17 @@ export default class PrivateKeyController extends sub.SubController {
       }
       this.ports.restoreBackupCont.emit('restore-backup-done', {data: backup.key.toPublic().armor()});
       sync.triggerSync({keyringId: this.keyringId, key: backup.key, password: backup.password});
-    })
-    .catch(err => {
+    } catch (err) {
       this.ports.restoreBackupDialog.emit('error-message', {error: mapError(err)});
       if (err.code !== 'WRONG_RESTORE_CODE') {
         this.ports.restoreBackupCont.emit('restore-backup-done', {error: mapError(err)});
       }
-    });
+    }
   }
 
-  getLogoImage() {
-    const attr = getKeyringById(this.keyringId).getAttributes();
+  async getLogoImage() {
+    const keyring = await getKeyringById(this.keyringId);
+    const attr = await keyring.getAttributes();
     return (attr && attr.logo_data_url) ? attr.logo_data_url : null;
   }
 

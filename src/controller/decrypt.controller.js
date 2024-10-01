@@ -29,7 +29,6 @@ export default class DecryptController extends sub.SubController {
     this.message = null;
     this.sender = null;
     this.popup = null;
-    this.keyringId = getPreferredKeyringId();
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
     this.on('decrypt-message-init', this.onDecryptMessageInit);
@@ -50,6 +49,7 @@ export default class DecryptController extends sub.SubController {
       this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
       return;
     }
+    this.keyringId = await getPreferredKeyringId();
     const dFrame = Object.keys(this.ports).find(key => key.includes('dFrame'));
     const port = this.ports[dFrame || 'decryptCont'];
     // get armored message
@@ -89,7 +89,7 @@ export default class DecryptController extends sub.SubController {
     try {
       this.message = await model.readMessage({armoredMessage});
       const encryptionKeyIds = this.message.getEncryptionKeyIDs();
-      const keyring = getKeyringWithPrivKey(encryptionKeyIds, keyringId);
+      const keyring = await getKeyringWithPrivKey(encryptionKeyIds, keyringId);
       if (!keyring) {
         throw model.noKeyFoundError(encryptionKeyIds);
       }

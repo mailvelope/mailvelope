@@ -14,18 +14,24 @@ export class KeyringSync {
   constructor(keyringId) {
     this.keyringId = keyringId;
     this.SYNC_DATA = 'sync_data';
-    this.data = getKeyringAttr(this.keyringId, this.SYNC_DATA);
     this.muted = false;
+    this.initialized = this.init();
   }
 
-  activate() {
+  async init() {
+    this.data = await getKeyringAttr(this.keyringId, this.SYNC_DATA);
+  }
+
+  async activate() {
+    await this.initialized;
     if (!this.data) {
       this.clear();
     }
     return this.save();
   }
 
-  clear() {
+  async clear() {
+    await this.initialized;
     this.data = {
       eTag: '',
       changeLog: {},
@@ -33,7 +39,8 @@ export class KeyringSync {
     };
   }
 
-  add(keyFpr, type) {
+  async add(keyFpr, type) {
+    await this.initialized;
     if (!this.data || this.muted) {
       return;
     }
@@ -51,6 +58,7 @@ export class KeyringSync {
   }
 
   async save() {
+    await this.initialized;
     if (!this.data) {
       return;
     }
@@ -58,6 +66,7 @@ export class KeyringSync {
   }
 
   async commit() {
+    await this.initialized;
     if (!this.data || this.muted) {
       return;
     }
@@ -65,7 +74,7 @@ export class KeyringSync {
     await triggerSync({keyringId: this.keyringId});
   }
 
-  merge(update) {
+  async merge(update) {
     if (!this.data) {
       return;
     }
@@ -76,7 +85,8 @@ export class KeyringSync {
     }
   }
 
-  getDeleteEntries() {
+  async getDeleteEntries() {
+    await this.initialized;
     const result = [];
     for (const fingerprint in this.data.changeLog) {
       if (this.data.changeLog[fingerprint].type === DELETE) {

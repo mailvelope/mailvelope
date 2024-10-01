@@ -36,7 +36,7 @@ export default class AppController extends sub.SubController {
     this.on('encrypt-message', this.encryptMessage);
     this.on('encrypt-file', this.encryptFile);
     this.on('getWatchList', prefs.getWatchList);
-    this.on('getKeys', ({keyringId}) => keyringById(keyringId).getKeys());
+    this.on('getKeys', async ({keyringId}) => (await keyringById(keyringId)).getKeys());
     this.on('removeKey', this.removeKey);
     this.on('revokeKey', this.revokeKey);
     this.on('get-keyserver-sync', this.getKeyServerSync);
@@ -68,7 +68,7 @@ export default class AppController extends sub.SubController {
     this.on('key-lookup', this.keyLookup);
     this.on('keyreg-source-labels', options => keyRegistry.getSourceLabels(options));
     this.on('get-default-key-fpr', ({keyringId}) => getDefaultKeyFpr(keyringId));
-    this.on('get-signing-keys', ({keyringId}) => keyringById(keyringId).getValidSigningKeys());
+    this.on('get-signing-keys', async ({keyringId}) => (await keyringById(keyringId)).getValidSigningKeys());
     this.on('get-oauth-tokens', this.getOAuthTokens);
     this.on('remove-oauth-token', this.removeOAuthToken);
     this.on('authorize-gmail', this.authorizeGmail);
@@ -89,7 +89,7 @@ export default class AppController extends sub.SubController {
       initOpenPGP();
     }
     if (disabledAutocryptFlag) {
-      await autocrypt.deleteIdentities(getAllKeyringIds());
+      await autocrypt.deleteIdentities(await getAllKeyringIds());
     }
     if (reloadExtensionFlag) {
       sub.reloadFrames();
@@ -97,40 +97,45 @@ export default class AppController extends sub.SubController {
   }
 
   async removeKey({fingerprint, type, keyringId}) {
-    await keyringById(keyringId).removeKey(fingerprint, type);
+    const keyring = await keyringById(keyringId);
+    await keyring.removeKey(fingerprint, type);
     await this.sendKeyUpdate();
   }
 
   async removeUser({fingerprint, userId, keyringId}) {
-    const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
-    await keyringById(keyringId).removeUser(privateKey, userId);
+    const keyring = await keyringById(keyringId);
+    const privateKey = keyring.getPrivateKeyByFpr(fingerprint);
+    await keyring.removeUser(privateKey, userId);
     await this.sendKeyUpdate();
   }
 
   async addUser({fingerprint, user, keyringId}) {
-    const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
+    const keyring = await keyringById(keyringId);
+    const privateKey = keyring.getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_ADD_USER'});
-    await keyringById(keyringId).addUser(unlockedKey, user);
+    await keyring.addUser(unlockedKey, user);
     await this.sendKeyUpdate();
     deletePwdCache(fingerprint);
   }
 
   async revokeUser({fingerprint, userId, keyringId}) {
-    const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
+    const keyring = await keyringById(keyringId);
+    const privateKey = keyring.getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_REVOKE_USER'});
-    await keyringById(keyringId).revokeUser(unlockedKey, userId);
+    await keyring.revokeUser(unlockedKey, userId);
     await this.sendKeyUpdate();
   }
 
   async revokeKey({fingerprint, keyringId}) {
-    const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
+    const keyring = await keyringById(keyringId);
+    const privateKey = keyring.getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_REVOKE'});
-    await keyringById(keyringId).revokeKey(unlockedKey);
+    await keyring.revokeKey(unlockedKey);
     await this.sendKeyUpdate();
   }
 
   async reloadKeystore({keyringId}) {
-    const keyring = keyringById(keyringId);
+    const keyring = await keyringById(keyringId);
     keyring.keystore.clear();
     await keyring.keystore.load();
   }
@@ -141,7 +146,8 @@ export default class AppController extends sub.SubController {
       userIds: {}
     };
     try {
-      const localKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint).toPublic();
+      const keyring = await keyringById(keyringId);
+      const localKey = keyring.getPrivateKeyByFpr(fingerprint).toPublic();
       const remote = await mveloKeyServer.fetch({fingerprint});
       if (!remote) {
         return result;
@@ -167,7 +173,8 @@ export default class AppController extends sub.SubController {
 
   async syncKeyServer({emails, fingerprint, keyringId, sync}) {
     let result;
-    const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
+    const keyring = await keyringById(keyringId);
+    const privateKey = keyring.getPrivateKeyByFpr(fingerprint);
     if (sync) {
       result = await mveloKeyServer.upload({emails, publicKeyArmored: privateKey.toPublic().armor()});
     } else {
@@ -184,18 +191,20 @@ export default class AppController extends sub.SubController {
   }
 
   async setKeyExDate({fingerprint, keyringId, newExDateISOString}) {
-    const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
+    const keyring = await keyringById(keyringId);
+    const privateKey = keyring.getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await this.unlockKey({key: privateKey, reason: 'PWD_DIALOG_REASON_SET_EXDATE'});
     const newExDate = newExDateISOString !== false ? new Date(newExDateISOString) : false;
-    await keyringById(keyringId).setKeyExDate(unlockedKey, newExDate);
+    await keyring.setKeyExDate(unlockedKey, newExDate);
     await this.sendKeyUpdate();
     deletePwdCache(fingerprint);
   }
 
   async setKeyPwd({fingerprint, keyringId, currentPassword, password}) {
-    const privateKey = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
+    const keyring = await keyringById(keyringId);
+    const privateKey = keyring.getPrivateKeyByFpr(fingerprint);
     const unlockedKey = await unlockKey({key: privateKey, password: currentPassword});
-    await keyringById(keyringId).setKeyPwd(unlockedKey, password);
+    await keyring.setKeyPwd(unlockedKey, password);
     await this.sendKeyUpdate();
     deletePwdCache(fingerprint);
   }
@@ -205,7 +214,7 @@ export default class AppController extends sub.SubController {
     if (cached && cached.password) {
       return password === cached.password;
     } else {
-      const key = keyringById(keyringId).getPrivateKeyByFpr(fingerprint);
+      const key = (await keyringById(keyringId)).getPrivateKeyByFpr(fingerprint);
       try {
         await unlockKey({key, password});
         return true;
@@ -215,16 +224,19 @@ export default class AppController extends sub.SubController {
     }
   }
 
-  getArmoredKeys({keyFprs, options, keyringId}) {
-    return keyringById(keyringId).getArmoredKeys(keyFprs, options);
+  async getArmoredKeys({keyFprs, options, keyringId}) {
+    const keyring = await keyringById(keyringId);
+    return keyring.getArmoredKeys(keyFprs, options);
   }
 
-  getKeyDetails({fingerprint, keyringId}) {
-    return keyringById(keyringId).getKeyDetails(fingerprint);
+  async getKeyDetails({fingerprint, keyringId}) {
+    const keyring = await keyringById(keyringId);
+    return keyring.getKeyDetails(fingerprint);
   }
 
   async generateKey({parameters, keyringId}) {
-    const newKey = await keyringById(keyringId).generateKey(parameters);
+    const keyring = await keyringById(keyringId);
+    const newKey = await keyring.generateKey(parameters);
     const keyId = newKey.privateKey.getKeyID().toHex().toUpperCase();
     await this.sendKeyUpdate();
     recordOnboardingStep(ADD_KEY, 'Generate');
@@ -232,7 +244,8 @@ export default class AppController extends sub.SubController {
   }
 
   async importKeys({keys, keyringId}) {
-    const result = await keyringById(keyringId).importKeys(keys);
+    const keyring = await keyringById(keyringId);
+    const result = await keyring.importKeys(keys);
     await this.sendKeyUpdate();
     if (result.some(({type}) => type === 'success')) {
       recordOnboardingStep(ADD_KEY, 'Import');
@@ -385,7 +398,8 @@ export default class AppController extends sub.SubController {
       return;
     }
     if (importKey) {
-      await keyringById(keyringId).importKeys([{type: 'public', armored: result.armored}]);
+      const keyring = await keyringById(keyringId);
+      await keyring.importKeys([{type: 'public', armored: result.armored}]);
     } else {
       return result;
     }

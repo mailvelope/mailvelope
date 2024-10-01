@@ -20,13 +20,11 @@ l10n.set([
 export default class EncryptedFormController extends sub.SubController {
   constructor(port) {
     super(port);
-    this.keyringId = getPreferredKeyringId();
     this.formAction = null;
     this.formRecipientEmail = null;
     this.formSignature = null;
     this.recipientFpr = null;
     this.fileExtension = null;
-
     this.on('encrypted-form-init', this.onFormInit);
     this.on('encrypted-form-definition', this.onFormDefinition);
     this.on('encrypted-form-error', this.onFormError);
@@ -34,7 +32,8 @@ export default class EncryptedFormController extends sub.SubController {
     this.on('encrypted-form-resize', this.onFormResize);
   }
 
-  onFormInit() {
+  async onFormInit() {
+    this.keyringId = await getPreferredKeyringId();
     this.ports.encryptedFormCont.emit('encrypted-form-ready');
   }
 
@@ -225,7 +224,8 @@ ${this.formSignature}
   }
 
   async signAndEncrypt(data) {
-    const defaultKeyFpr = await getKeyringById(this.keyringId).getDefaultKeyFpr();
+    const keyring = await getKeyringById(this.keyringId);
+    const defaultKeyFpr = await keyring.getDefaultKeyFpr();
     if (!defaultKeyFpr) {
       throw new MvError(l10n.map.form_sign_error_no_default_key, 'NO_DEFAULT_KEY_FOUND');
     }

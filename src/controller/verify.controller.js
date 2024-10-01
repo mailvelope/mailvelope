@@ -13,7 +13,6 @@ import {lookupKey} from './import.controller';
 export default class VerifyController extends SubController {
   constructor(port) {
     super(port);
-    this.keyringId = getPreferredKeyringId();
     this.verifyPopup = null;
     this.armored = null;
     // register event handlers
@@ -25,7 +24,8 @@ export default class VerifyController extends SubController {
     this.on('vframe-armored-message', this.onArmoredMessage);
   }
 
-  onVerifyInit() {
+  async onVerifyInit() {
+    this.keyringId = await getPreferredKeyringId();
     this.ports.vFrame.emit('armored-message');
   }
 

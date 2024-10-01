@@ -95,7 +95,7 @@ const keyringAttr = new KeyringAttrMap();
 const keyringMap = new Map();
 
 let keyringInitDone;
-export const keyringInitialized = new Promise(resolve => keyringInitDone = resolve);
+const keyringInitialized = new Promise(resolve => keyringInitDone = resolve);
 
 export async function init() {
   keyringMap.clear();
@@ -140,6 +140,7 @@ export async function initGPG() {
  * @return {KeyringBase}
  */
 export async function createKeyring(keyringId) {
+  await keyringInitialized;
   if (keyringAttr.has(keyringId)) {
     throw new MvError(`Keyring for id ${keyringId} already exists.`, 'KEYRING_ALREADY_EXISTS');
   }
@@ -182,6 +183,7 @@ async function buildKeyring(keyringId) {
  * @return {Promise<undefined>}
  */
 export async function deleteKeyring(keyringId) {
+  await keyringInitialized;
   if (!keyringAttr.has(keyringId)) {
     throw new MvError(`Keyring for id ${keyringId} does not exist.`, 'NO_KEYRING_FOR_ID');
   }
@@ -197,7 +199,7 @@ export async function deleteKeyring(keyringId) {
  * @param {String} keyringId
  */
 async function preVerifyKeys(keyringId) {
-  for (const {keystore} of keyringId ? [getById(keyringId)] : getAll()) {
+  for (const {keystore} of keyringId ? [await getById(keyringId)] : await getAll()) {
     const keys = keystore.getAllKeys();
     if (keys.length < 10) {
       continue;
@@ -231,7 +233,8 @@ async function sanitizeKeyring(keyringId) {
  * @param  {String} keyringId
  * @return {KeyringBase}
  */
-export function getById(keyringId) {
+export async function getById(keyringId) {
+  await keyringInitialized;
   const keyring = keyringMap.get(keyringId);
   if (keyring) {
     return keyring;
@@ -244,7 +247,8 @@ export function getById(keyringId) {
  * Get all keyrings
  * @return {Array<KeyringBase>}
  */
-export function getAll() {
+export async function getAll() {
+  await keyringInitialized;
   return Array.from(keyringMap.values());
 }
 
@@ -252,7 +256,8 @@ export function getAll() {
  * Get all keyrings
  * @return {Array<String>}
  */
-export function getAllKeyringIds() {
+export async function getAllKeyringIds() {
+  await keyringInitialized;
   return Array.from(keyringMap.keys());
 }
 
@@ -260,7 +265,8 @@ export function getAllKeyringIds() {
  * Get all keyring attributes as an object map
  * @return {Object<keyringId, KeyringBase>}
  */
-export function getAllKeyringAttr() {
+export async function getAllKeyringAttr() {
+  await keyringInitialized;
   const attrObj = keyringAttr.toObject();
   if (keyringAttr.has(GNUPG_KEYRING_ID)) {
     const gpgKeyring = keyringMap.get(GNUPG_KEYRING_ID);
@@ -279,6 +285,7 @@ export function getAllKeyringAttr() {
  * @param {Object<key, value>} attrMap
  */
 export async function setKeyringAttr(keyringId, attrMap) {
+  await keyringInitialized;
   await keyringAttr.set(keyringId, attrMap);
 }
 
@@ -288,7 +295,8 @@ export async function setKeyringAttr(keyringId, attrMap) {
  * @param  {String} [attrKey]
  * @return {Any} either the attribute value if attrKey is provided, or an object map with all attributes
  */
-export function getKeyringAttr(keyringId, attrKey) {
+export async function getKeyringAttr(keyringId, attrKey) {
+  await keyringInitialized;
   return keyringAttr.get(keyringId, attrKey);
 }
 
@@ -298,6 +306,7 @@ export function getKeyringAttr(keyringId, attrKey) {
  * @return {String} fingerprint of default key
  */
 export async function getDefaultKeyFpr(keyringId) {
+  await keyringInitialized;
   const keyrings = getPreferredKeyringQueue(keyringId);
   for (const keyring of keyrings) {
     const defaultKeyFpr = await keyring.getDefaultKeyFpr();
@@ -314,12 +323,13 @@ export async function getDefaultKeyFpr(keyringId) {
  * @return {Array<Object>} list of recipients objects in the form {keyId, fingerprint, userId, email, name}
  */
 export async function getKeyData({keyringId, allUsers = true}) {
+  await keyringInitialized;
   let result = [];
   let keyrings;
   if (keyringId) {
     keyrings = getPreferredKeyringQueue(keyringId);
   } else {
-    keyrings = getAll();
+    keyrings = await getAll();
   }
   for (const keyring of keyrings) {
     const keyDataArray = await keyring.getKeyData({allUsers});
@@ -351,16 +361,17 @@ export async function getKeyData({keyringId, allUsers = true}) {
   }
   if (prefs.keyserver.key_binding) {
     expanded.sort((a, b) => a.email.localeCompare(b.email));
-    expanded = expanded.reduce((accumulator, current) => {
+    expanded = await expanded.reduce(async (accPromise, current) => {
+      const accumulator = await accPromise;
       const length = accumulator.length;
       const last = length && accumulator[length - 1];
       if (length === 0 || last.email !== current.email) {
         accumulator.push(current);
         return accumulator;
       }
-      last.binding = typeof last.binding === 'undefined' ? isKeyBound(last.keyring, last.email, last.key) : last.binding;
+      last.binding = typeof last.binding === 'undefined' ? await isKeyBound(last.keyring, last.email, last.key) : last.binding;
       last.lastModified = last.lastModified || getLastModifiedDate(last.key);
-      current.binding = typeof current.binding === 'undefined' ? isKeyBound(current.keyring, current.email, current.key) : current.binding;
+      current.binding = typeof current.binding === 'undefined' ? await isKeyBound(current.keyring, current.email, current.key) : current.binding;
       current.lastModified = current.lastModified || getLastModifiedDate(current.key);
       if (!last.binding && current.binding ||
           last.binding === current.binding && last.lastModified < current.lastModified) {
@@ -368,7 +379,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
         accumulator.push(current);
       }
       return accumulator;
-    }, []);
+    }, Promise.resolve([]));
   }
   expanded = expanded.map(keyDetails => {
     const {key, users, keyring, binding, lastModified, ...keyPart} = keyDetails;
@@ -388,6 +399,7 @@ export async function getKeyData({keyringId, allUsers = true}) {
  * @return {Object} - map in the form {address: [key]}
  */
 export async function getKeyByAddress(keyringId, emails, {validForEncrypt = true, verifyUser = true} = {}) {
+  await keyringInitialized;
   const result = Object.create(null);
   emails = toArray(emails);
   const keyrings = getPreferredKeyringQueue(keyringId);
@@ -396,7 +408,7 @@ export async function getKeyByAddress(keyringId, emails, {validForEncrypt = true
     const boundKey = [];
     for (const keyring of keyrings) {
       if (prefs.keyserver.key_binding) {
-        const fpr = getKeyBinding(keyring, email);
+        const fpr = await getKeyBinding(keyring, email);
         if (fpr) {
           try {
             const [key] = keyring.getKeysByFprs([fpr], true);
@@ -456,11 +468,12 @@ function getPreferredKeyringQueue(keyringId) {
  * @param {Boolean} [noCache] - if true, no password cache should be used to unlock signing keys
  * @return {KeyringBase}
  */
-export function getKeyringWithPrivKey(keyIds, keyringId, noCache) {
+export async function getKeyringWithPrivKey(keyIds, keyringId, noCache) {
+  await keyringInitialized;
   keyIds = toArray(keyIds);
   let keyrings;
   if (!keyringId) {
-    keyrings = getAll();
+    keyrings = await getAll();
     if (keyringMap.has(GNUPG_KEYRING_ID)) {
       // sort keyrings according to preference
       keyrings.sort(compareKeyringsByPreference);
@@ -492,7 +505,8 @@ export function getKeyringWithPrivKey(keyIds, keyringId, noCache) {
  * @param  {String} [keyringId] - requested keyring, the leading keyring of a scenario
  * @return {KeyringBase}
  */
-export function getPreferredKeyring(keyringId) {
+export async function getPreferredKeyring(keyringId) {
+  await keyringInitialized;
   return getKeyringWithPrivKey(null, keyringId);
 }
 
@@ -528,9 +542,10 @@ function compareKeyringsByPreference(a, b) {
  * @param {Stringt} [keyringId] - the leading keyring of a scenario
  */
 export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyringId}) {
+  await keyringInitialized;
   let srcKeyrings;
   if (!keyring) {
-    keyring = getById(keyringId);
+    keyring = await getById(keyringId);
   }
   keyIds = toArray(keyIds);
   if (!keyIds.length) {
@@ -539,7 +554,7 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
   }
   // get all relevant source keyrings
   if (allKeyrings || !keyringId) {
-    srcKeyrings = getAll();
+    srcKeyrings = await getAll();
   } else {
     srcKeyrings = getPreferredKeyringQueue(keyringId);
   }
@@ -573,7 +588,8 @@ export async function syncPublicKeys({keyring, keyIds, allKeyrings = false, keyr
  * Get preferred keyring ID
  * @return {String}
  */
-export function getPreferredKeyringId() {
+export async function getPreferredKeyringId() {
+  await keyringInitialized;
   // return gnupg keyring if available, preferred and has valid private key
   if (keyringMap.has(GNUPG_KEYRING_ID) && prefs.general.prefer_gnupg) {
     const gpgKeyring = keyringMap.get(GNUPG_KEYRING_ID);

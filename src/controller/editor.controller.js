@@ -35,7 +35,8 @@ export default class EditorController extends sub.SubController {
       popupId: null,
       popupOpenerTabId: null,
       keyringId: null,
-      integration: false
+      integration: false,
+      userInfo: null
     };
     this.peerType = 'editorController';
     this.popup = null;
@@ -82,7 +83,7 @@ export default class EditorController extends sub.SubController {
 
   async getAccessToken() {
     return this.peers.gmailController.getAccessToken({
-      ...this.options.userInfo,
+      ...this.state.userInfo,
       beforeAuth: () => this.beforeAuthorization(),
       afterAuth: () => this.afterAuthorization()
     });
@@ -151,9 +152,9 @@ export default class EditorController extends sub.SubController {
   }
 
   async onEditorOptions(msg) {
-    this.setState({keyringId: msg.keyringId || getPreferredKeyringId()});
+    this.setState({keyringId: msg.keyringId || await getPreferredKeyringId()});
     this.options = msg.options;
-    const keyring = getKeyringById(this.state.keyringId);
+    const keyring = await getKeyringById(this.state.keyringId);
     const defaultKeyFpr = await keyring.getDefaultKeyFpr();
     const data = {
       signMsg: this.options.signMsg || prefs.general.auto_sign_msg,
@@ -233,7 +234,8 @@ export default class EditorController extends sub.SubController {
     this.pgpMIME = true;
     this.setState({keyringId: msg.keyringId});
     this.options.reason = 'PWD_DIALOG_REASON_CREATE_DRAFT';
-    const defaultKeyFpr = await getKeyringById(this.state.keyringId).getDefaultKeyFpr();
+    const keyring = await getKeyringById(this.state.keyringId);
+    const defaultKeyFpr = await keyring.getDefaultKeyFpr();
     if (defaultKeyFpr) {
       this.keyFprBuffer = [defaultKeyFpr];
     } else {
@@ -265,7 +267,8 @@ export default class EditorController extends sub.SubController {
   async onKeyLookup(msg) {
     const result = await keyRegistry.lookup({query: {email: msg.recipient.email}, identity: this.state.keyringId});
     if (result) {
-      await getKeyringById(this.state.keyringId).importKeys([{type: 'public', armored: result.armored}]);
+      const keyring = await getKeyringById(this.state.keyringId);
+      await keyring.importKeys([{type: 'public', armored: result.armored}]);
     }
     await this.sendKeyUpdate();
   }
@@ -284,7 +287,8 @@ export default class EditorController extends sub.SubController {
    * @param {boolean} quotedMailIndent - if true the quoted mail will be indented
    * @param {Object} recipients - recipient email addresses, in the form {to: [{email}], cc: [{email}]}
    */
-  async openEditor(options) {
+  async openEditor({userInfo, ...options}) {
+    this.setState({userInfo});
     this.options = options;
     this.options.privKeys = true; // send private keys for signing key selection to editor
     let height = 680;
@@ -638,7 +642,8 @@ export default class EditorController extends sub.SubController {
     }
     if (prefs.general.auto_add_primary) {
       // get the sender key fingerprint
-      const defaultKeyFpr = await getKeyringById(this.state.keyringId).getDefaultKeyFpr();
+      const keyring = await getKeyringById(this.state.keyringId);
+      const defaultKeyFpr = await keyring.getDefaultKeyFpr();
       if (defaultKeyFpr) {
         keyFprs.push(defaultKeyFpr);
       }

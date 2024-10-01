@@ -54,12 +54,12 @@ export default class KeyStoreLocal extends KeyStoreBase {
   }
 
   async getDefaultKeyFpr() {
-    let defaultKeyFpr = getKeyringAttr(this.id, 'default_key');
+    let defaultKeyFpr = await getKeyringAttr(this.id, 'default_key');
     if (defaultKeyFpr || defaultKeyFpr === '') {
       return defaultKeyFpr;
     }
     // if defaultKeyFpr is undefined check for legacy primary key setting and migrate to default key
-    const primaryKeyId = getKeyringAttr(this.id, 'primary_key');
+    const primaryKeyId = await getKeyringAttr(this.id, 'primary_key');
     if (primaryKeyId === '') {
       await setKeyringAttr(this.id, {primary_key: undefined});
     }

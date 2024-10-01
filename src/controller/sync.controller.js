@@ -27,9 +27,9 @@ export class SyncController extends sub.SubController {
     this.on('sync-done', this.syncDone);
   }
 
-  init(keyringId) {
+  async init(keyringId) {
     this.keyringId = keyringId;
-    this.keyring = getKeyringById(this.keyringId);
+    this.keyring = await getKeyringById(this.keyringId);
   }
 
   /**
@@ -142,9 +142,9 @@ export class SyncController extends sub.SubController {
     const syncPacket = await decryptSyncMessage(unlockedKey.key, message);
     this.keyring.sync.mute(true);
     await this.keyring.importKeys(syncPacket.keys);
-    this.keyring.sync.merge(syncPacket.changeLog);
+    await this.keyring.sync.merge(syncPacket.changeLog);
     // remove keys with change log delete entry
-    const removeKeyAsync = this.keyring.sync.getDeleteEntries().map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
+    const removeKeyAsync = (await this.keyring.sync.getDeleteEntries()).map(fingerprint => this.keyring.removeKey(fingerprint, 'public'));
     await Promise.all(removeKeyAsync);
     this.keyring.sync.mute(false);
     // set eTag

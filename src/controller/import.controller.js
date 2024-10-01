@@ -78,7 +78,7 @@ export default class ImportController extends sub.SubController {
     try {
       this.keyringId = keyringId;
       // check keyringId
-      this.keyring = getKeyringById(keyringId);
+      this.keyring = await getKeyringById(keyringId);
       this.armored = armored;
       this.rotation = rotation;
       this.key = await readKey({armoredKey: this.armored});

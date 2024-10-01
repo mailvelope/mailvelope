@@ -29,10 +29,10 @@ export default class ApiController extends sub.SubController {
     this.on('open-settings', this.openSettings);
   }
 
-  getKeyring({keyringId}) {
-    const keyring = keyringById(keyringId);
+  async getKeyring({keyringId}) {
+    const keyring = await keyringById(keyringId);
     if (keyring) {
-      const attr = keyring.getAttributes();
+      const attr = await keyring.getAttributes();
       sub.setActiveKeyringId(keyringId);
       return {revision: attr.logo_revision};
     }
@@ -69,7 +69,8 @@ export default class ApiController extends sub.SubController {
   }
 
   async exportOwnPubKey({keyringId, emailAddr}) {
-    const keyMap = await keyringById(keyringId).getKeyByAddress(emailAddr, {pub: false, priv: true, sort: true});
+    const keyring = await keyringById(keyringId);
+    const keyMap = await keyring.getKeyByAddress(emailAddr, {pub: false, priv: true, sort: true});
     const keyFprMap = mapAddressKeyMapToFpr(keyMap);
     const pubKeyFprs = keyFprMap[emailAddr];
     if (!pubKeyFprs) {
@@ -77,14 +78,15 @@ export default class ApiController extends sub.SubController {
     }
     // only take first valid key
     const pubKeyFpr = pubKeyFprs[0];
-    const armored = keyringById(keyringId).getArmoredKeys(pubKeyFpr, {pub: true});
+    const armored = keyring.getArmoredKeys(pubKeyFpr, {pub: true});
     return armored[0].armoredPublic;
   }
 
   async additionalHeadersForOutgoing({headers, keyringId}) {
     const emailAddr = headers.from;
+    const keyring = await keyringById(keyringId);
     if (autocrypt.isEnabled()) {
-      const keyMap = await keyringById(keyringId).getKeyByAddress(emailAddr, {pub: false, priv: true, sort: true});
+      const keyMap = await keyring.getKeyByAddress(emailAddr, {pub: false, priv: true, sort: true});
       const keys = keyMap[emailAddr];
       if (!keys) {
         throw new MvError('No key pair found for this email address.', 'NO_KEY_FOR_ADDRESS');
@@ -110,7 +112,8 @@ export default class ApiController extends sub.SubController {
   }
 
   async setLogo({keyringId, dataURL, revision}) {
-    const attr = keyringById(keyringId).getAttributes();
+    const keyring = await keyringById(keyringId);
+    const attr = await keyring.getAttributes();
     if (attr.logo_revision && attr.logo_revision > revision) {
       throw new MvError('New logo revision < existing revision.', 'REVISION_INVALID');
     }
@@ -118,22 +121,23 @@ export default class ApiController extends sub.SubController {
   }
 
   async hasPrivateKey({keyringId, fingerprint, email}) {
+    const keyring = await keyringById(keyringId);
     if (fingerprint && email) {
       throw new MvError('Use either fingerprint or email parameter.', 'INVALID_OPTIONS');
     }
     if (email) {
-      const keyMap = await keyringById(keyringId).getKeyByAddress(email, {pub: false, priv: true, sort: true});
+      const keyMap = await keyring.getKeyByAddress(email, {pub: false, priv: true, sort: true});
       return Boolean(keyMap[email]);
     } else if (fingerprint) {
       const fpr = fingerprint.toLowerCase().replace(/\s/g, '');
-      const key = keyringById(keyringId).keystore.privateKeys.getForId(fpr);
+      const key = keyring.keystore.privateKeys.getForId(fpr);
       if (!key) {
         return false;
       }
       const status = await verifyPrimaryKey(key);
       return status === KEY_STATUS.valid;
     } else {
-      const hasPrivateKey = keyringById(keyringId).hasPrivateKey();
+      const hasPrivateKey = keyring.hasPrivateKey();
       return hasPrivateKey;
     }
   }
@@ -142,7 +146,8 @@ export default class ApiController extends sub.SubController {
     let fragment;
     const krid = `?krid=${encodeURIComponent(keyringId)}`;
     if (options.showDefaultKey) {
-      const defaultKeyFpr = await keyringById(keyringId).getDefaultKeyFpr();
+      const keyring = await keyringById(keyringId);
+      const defaultKeyFpr = await keyring.getDefaultKeyFpr();
       fragment = `#/keyring/key/${defaultKeyFpr}`;
     } else {
       fragment = '#/settings';

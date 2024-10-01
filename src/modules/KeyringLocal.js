@@ -89,7 +89,7 @@ export default class KeyringLocal extends KeyringBase {
       await this.sync.commit();
     } catch (e) {
       console.log('keystore.store() failed:', e);
-      this.sync.clear();
+      await this.sync.clear();
       result.length = 0;
       result.push({type: 'error', message: e.message});
     }
@@ -139,7 +139,7 @@ export default class KeyringLocal extends KeyringBase {
           type: 'success',
           message: l10n.get('key_import_public_success', [keyId, userId])
         });
-        this.sync.add(fingerprint, keyringSync.INSERT);
+        await this.sync.add(fingerprint, keyringSync.INSERT);
       }
     }
     return result;
@@ -185,7 +185,7 @@ export default class KeyringLocal extends KeyringBase {
           type: 'success',
           message: l10n.get('key_import_private_success', [keyId, userId])
         });
-        this.sync.add(fingerprint, keyringSync.INSERT);
+        await this.sync.add(fingerprint, keyringSync.INSERT);
       }
     }
     return result;
@@ -200,7 +200,7 @@ export default class KeyringLocal extends KeyringBase {
         await this.setDefaultKey('');
       }
     }
-    this.sync.add(removedKey.getFingerprint(), keyringSync.DELETE);
+    await this.sync.add(removedKey.getFingerprint(), keyringSync.DELETE);
     await this.keystore.store();
     await this.sync.commit();
   }
@@ -223,7 +223,7 @@ export default class KeyringLocal extends KeyringBase {
     const defaultKeyFpr = await this.keystore.getDefaultKeyFpr();
     const isDefault = fingerprint === defaultKeyFpr;
     await this.removeKey(fingerprint, 'private');
-    this.sync.add(fingerprint, keyringSync.INSERT);
+    await this.sync.add(fingerprint, keyringSync.INSERT);
     this.addKey(privateKey);
     await this.keystore.store();
     await this.sync.commit();
@@ -239,7 +239,7 @@ export default class KeyringLocal extends KeyringBase {
     const fingerprint = unlockedKey.getFingerprint();
     const originalKey = this.getPrivateKeyByFpr(fingerprint);
     await originalKey.users.find(({userID: {userID}}) => userID === userId).update(revUser);
-    this.sync.add(fingerprint, keyringSync.UPDATE);
+    await this.sync.add(fingerprint, keyringSync.UPDATE);
     await this.keystore.store();
     await this.sync.commit();
   }
@@ -248,7 +248,7 @@ export default class KeyringLocal extends KeyringBase {
     const {user: {userID: primaryUserId}, selfCertification: primaryUserSelfCertification} = await unlockedKey.getPrimaryUser();
     const {privateKey: updatedKey} = await reformatKey({privateKey: unlockedKey, userIDs: [{name: primaryUserId.name, email: primaryUserId.email}, user], keyExpirationTime: primaryUserSelfCertification.keyExpirationTime, format: 'object'});
     const fingerprint = updatedKey.getFingerprint();
-    this.sync.add(fingerprint, keyringSync.UPDATE);
+    await this.sync.add(fingerprint, keyringSync.UPDATE);
     const originalKey = this.getPrivateKeyByFpr(fingerprint);
     originalKey.users.push(updatedKey.users[1]);
     if (primaryUserSelfCertification.isPrimaryUserID !== true) {
@@ -290,7 +290,7 @@ export default class KeyringLocal extends KeyringBase {
     const updatedKey = await destKey.update(srcKey);
     super.removeKey(fingerprint, destKey.isPrivate() ? 'private' : 'public');
     this.addKey(updatedKey);
-    this.sync.add(fingerprint, keyringSync.UPDATE);
+    await this.sync.add(fingerprint, keyringSync.UPDATE);
     if (store) {
       await this.keystore.store();
       await this.sync.commit();
@@ -306,7 +306,7 @@ export default class KeyringLocal extends KeyringBase {
     const updatedKey = await encryptKey({privateKey: unlockedKey, passphrase});
     const fingerprint = updatedKey.getFingerprint();
     await super.removeKey(fingerprint, 'private');
-    this.sync.add(fingerprint, keyringSync.UPDATE);
+    await this.sync.add(fingerprint, keyringSync.UPDATE);
     this.addKey(updatedKey);
     await this.keystore.store();
     await this.sync.commit();
@@ -317,7 +317,7 @@ export default class KeyringLocal extends KeyringBase {
     if (options.unlocked) {
       newKey.privateKey = await decryptKey({privateKey: newKey.privateKey, passphrase: options.passphrase});
     }
-    this.sync.add(newKey.privateKey.getFingerprint(), keyringSync.INSERT);
+    await this.sync.add(newKey.privateKey.getFingerprint(), keyringSync.INSERT);
     await this.keystore.store();
     await this.sync.commit();
     // if no default key in the keyring set the generated key as default
