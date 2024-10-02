@@ -8,6 +8,7 @@ import {MAIN_KEYRING_ID, APP_TOP_FRAME_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import {parseViewName} from '../lib/util';
 import {getSecurityBackground} from '../modules/prefs';
+import {modelInitialized} from '../modules/pgpModel';
 
 export class SubController extends EventHandler {
   constructor(port) {
@@ -263,6 +264,7 @@ class EventCache {
 
 export async function addPort(port) {
   const eventCache = new EventCache(port);
+  await modelInitialized;
   const sender = parseViewName(port.name);
   const subContr = await controllers.get(sender.id);
   if (subContr) {

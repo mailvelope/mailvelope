@@ -22,6 +22,9 @@ import * as trustKey from './trustKey';
 import {updateKeyBinding, init as initKeyBinding} from './keyBinding';
 import {KEYSERVER_ADDRESS, COMMUNICATION, recordOnboardingStep} from '../lib/analytics';
 
+let modelInitDone;
+export const modelInitialized = new Promise(resolve => modelInitDone = resolve);
+
 export async function init() {
   await defaults.init();
   await prefs.init();
@@ -29,6 +32,7 @@ export async function init() {
   initKeyBinding();
   initOpenPGP();
   await trustKey.init();
+  modelInitDone();
 }
 
 export function initOpenPGP() {
