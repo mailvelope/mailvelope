@@ -1,0 +1,13 @@
+{
+    "eslint.lintTask.enable": true,
+    "eslint.options": {
+        "overrideConfigFile": "./config/eslint.json"
+    },
+    "eslint.format.enable": true,
+    "javascript.format.enable": false,
+    "javascript.validate.enable": true,
+    "typescript.format.enable": false,
+
+    "karmaTestExplorer.karmaConfFilePath": "./test/karma.conf.js",
+    "karmaTestExplorer.browser": "ChromeHeadless"
+}
