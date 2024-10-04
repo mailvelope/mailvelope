@@ -25,10 +25,10 @@ async function main() {
   initBrowserRuntime();
   initController();
   await initModel();
-  await initKeyring();
-  initGPG();
   initScriptInjection();
   initAuthRequestApi();
+  await initKeyring();
+  initGPG();
 }
 
 main();

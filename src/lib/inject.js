@@ -56,6 +56,9 @@ async function getWatchListFilterURLs() {
 async function injectOpenTabs(filterURL) {
   const tabs = await mvelo.tabs.query(filterURL);
   for (const tab of tabs) {
+    chrome.tabs.sendMessage(tab.id, {event: 'reconnect'});
+  }
+  for (const tab of tabs) {
     const frames = await chrome.webNavigation.getAllFrames({tabId: tab.id});
     const frameIds = [];
     for (const frame of frames) {

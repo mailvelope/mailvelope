@@ -33,6 +33,7 @@ export default class EventHandler {
   static connect(sender, handlerObject) {
     const eventHandler = new EventHandler(chrome.runtime.connect({name: sender}));
     eventHandler._handlerObject = handlerObject;
+    chrome.runtime.onMessage.addListener(eventHandler.handleRuntimeMessage.bind(eventHandler));
     return eventHandler;
   }
 
@@ -42,6 +43,14 @@ export default class EventHandler {
     }
     const port = chrome.runtime.connect({name: this.#portName});
     this.initPort(port);
+  }
+
+  handleRuntimeMessage(msg) {
+    switch (msg.event) {
+      case 'reconnect':
+        this.#checkConnection();
+        break;
+    }
   }
 
   initPort(port) {

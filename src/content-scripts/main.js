@@ -37,7 +37,6 @@ function connect() {
   }
   port = EventHandler.connect(`mainCS-${getUUID()}`);
   registerEventListener();
-  console.log('Fire ready event', Date.now());
   port.emit('ready');
   document.mveloControl = true;
 }
