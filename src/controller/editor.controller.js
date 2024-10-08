@@ -14,7 +14,8 @@ import {extractFileExtension} from '../lib/file';
 import * as l10n from '../lib/l10n';
 import {prefs} from '../modules/prefs';
 import * as model from '../modules/pgpModel';
-import * as sub from './sub.controller';
+import {getController} from './main.controller';
+import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import {parseMessage, buildMail} from '../modules/mime';
 import * as gmail from '../modules/gmail';
@@ -24,7 +25,7 @@ import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAd
 import {mapAddressKeyMapToFpr} from '../modules/key';
 import {lookupKey} from './import.controller';
 
-export default class EditorController extends sub.SubController {
+export default class EditorController extends SubController {
   constructor(port) {
     super(port);
     if (!port) {
@@ -616,7 +617,7 @@ export default class EditorController extends sub.SubController {
   }
 
   async unlockKey({key, noCache, reason = 'PWD_DIALOG_REASON_DECRYPT', sync = true}) {
-    const pwdControl = await sub.factory.get('pwdDialog');
+    const pwdControl = await getController('pwdDialog');
     const openPopup = !this.state.popupId;
     const beforePasswordRequest = id => this.state.popupId && this.ports.editor.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({key, reason, openPopup, noCache, beforePasswordRequest});

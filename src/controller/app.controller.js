@@ -6,7 +6,8 @@
 import mvelo from '../lib/lib-mvelo';
 import {filterAsync} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
-import * as sub from './sub.controller';
+import {controllerPool, getController} from './main.controller';
+import {SubController, getActiveKeyringId, setActiveKeyringId, getAppDataSlot, reloadFrames} from './sub.controller';
 import {readKey, readKeys} from 'openpgp';
 import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey, verifyUser} from '../modules/key';
 import * as keyRegistry from '../modules/keyRegistry';
@@ -23,7 +24,7 @@ import * as mveloKeyServer from '../modules/mveloKeyServer';
 import * as autocrypt from '../modules/autocryptWrapper';
 import {ci, recordOnboardingStep, ADD_KEY, BEGIN, ONBOARDING_CAMPAIGN} from '../lib/analytics';
 
-export default class AppController extends sub.SubController {
+export default class AppController extends SubController {
   constructor(port) {
     super(port);
     // register event handlers
@@ -54,14 +55,14 @@ export default class AppController extends sub.SubController {
     this.on('set-watch-list', this.setWatchList);
     this.on('get-all-keyring-attr', getAllKeyringAttr);
     this.on('set-keyring-attr', ({keyringId, keyringAttr}) => setKeyringAttr(keyringId, keyringAttr));
-    this.on('get-active-keyring', sub.getActiveKeyringId);
-    this.on('set-active-keyring', ({keyringId}) => sub.setActiveKeyringId(keyringId));
+    this.on('get-active-keyring', getActiveKeyringId);
+    this.on('set-active-keyring', ({keyringId}) => setActiveKeyringId(keyringId));
     this.on('delete-keyring', this.deleteKeyring);
     this.on('get-ui-log', ({securityLogLength}) => uiLog.getLatest(securityLogLength));
     this.on('get-version', getVersion);
     this.on('get-all-key-data', () => getKeyData({allUsers: false}));
     this.on('open-tab', ({url}) => mvelo.tabs.create(url));
-    this.on('get-app-data-slot', ({slotId}) => sub.getAppDataSlot(slotId));
+    this.on('get-app-data-slot', ({slotId}) => getAppDataSlot(slotId));
     this.on('get-gnupg-status', () => Boolean(gpgme));
     this.on('reload-keystore', this.reloadKeystore);
     this.on('read-amored-keys', this.readArmoredKeys);
@@ -84,7 +85,7 @@ export default class AppController extends sub.SubController {
     const reloadExtensionFlag = options.prefs.provider && options.prefs.provider.gmail_integration !== prefs.prefs.provider.gmail_integration;
     await prefs.update(options.prefs);
     // update content scripts
-    (await sub.getByMainType('mainCS')).forEach(mainCScontrl => mainCScontrl.updatePrefs());
+    (await controllerPool.getByType('mainCS')).forEach(mainCScontrl => mainCScontrl.updatePrefs());
     if (updateOpenPGPFlag) {
       initOpenPGP();
     }
@@ -92,7 +93,7 @@ export default class AppController extends sub.SubController {
       await autocrypt.deleteIdentities(await getAllKeyringIds());
     }
     if (reloadExtensionFlag) {
-      sub.reloadFrames();
+      reloadFrames();
     }
   }
 
@@ -254,7 +255,7 @@ export default class AppController extends sub.SubController {
   }
 
   async sendKeyUpdate() {
-    (await sub.getByMainType('editor')).forEach(editorCntrl => editorCntrl.sendKeyUpdate());
+    (await controllerPool.getByType('editor')).forEach(editorCntrl => editorCntrl.sendKeyUpdate());
   }
 
   async setWatchList({data}) {
@@ -266,7 +267,7 @@ export default class AppController extends sub.SubController {
     if (keyringId === MAIN_KEYRING_ID) {
       throw new Error('Cannot delete main keyring');
     }
-    sub.setActiveKeyringId(MAIN_KEYRING_ID);
+    setActiveKeyringId(MAIN_KEYRING_ID);
     await deleteKeyring(keyringId);
     await autocrypt.deleteIdentities([keyringId]);
   }
@@ -322,7 +323,7 @@ export default class AppController extends sub.SubController {
   }
 
   async initDecryptMessage() {
-    this.decryptMessageCtrl = await sub.factory.get('decryptCont');
+    this.decryptMessageCtrl = await getController('decryptCont');
     return this.decryptMessageCtrl.id;
   }
 
@@ -406,7 +407,7 @@ export default class AppController extends sub.SubController {
   }
 
   async unlockKey(options) {
-    const pwdControl = await sub.factory.get('pwdDialog');
+    const pwdControl = await getController('pwdDialog');
     const {key} = await pwdControl.unlockKey(options);
     return key;
   }
@@ -420,7 +421,7 @@ export default class AppController extends sub.SubController {
   }
 
   async authorizeGmail({email, legacyGsuite, scopes, gmailCtrlId}) {
-    const gmailCtrl = await sub.getById(gmailCtrlId);
+    const gmailCtrl = await controllerPool.get(gmailCtrlId);
     return gmailCtrl.onAuthorize({email, legacyGsuite, scopes});
   }
 

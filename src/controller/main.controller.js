@@ -3,62 +3,157 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as sub from './sub.controller';
-
-import DecryptController from './decrypt.controller';
-import GmailDecryptController from './gmailDecrypt.controller';
-import EncryptController from './encrypt.controller';
-import ImportController from './import.controller';
-import MainCsController from './mainCs.controller';
-import VerifyController from './verify.controller';
-import PwdController from './pwd.controller';
-import EditorController from './editor.controller';
-import {SyncController} from './sync.controller';
-import PrivateKeyController from './privateKey.controller';
-import AppController from './app.controller';
-import MenuController from './menu.controller';
-import EncryptedFormController from './encryptedForm.controller';
-import ApiController from './api.controller';
-import AuthDomainController from './authDomain.controller';
-import GmailController from './gmail.controller';
-
-/**
- * Register controllers for component types. Only the components that first connect to the controller
- * need to be registered, all subsequent components that are created will connect by unique controller id.
- */
-sub.factory.register('dFrame',              DecryptController,       ['dDialog']);
-sub.factory.register('dFrameGmail',         GmailDecryptController,  ['dDialog']);
-sub.factory.register('aFrameGmail',         GmailDecryptController,  ['dDialog']);
-sub.factory.register('decryptCont',         DecryptController,       ['dDialog']);
-sub.factory.register('eFrame',              EncryptController,       []);
-sub.factory.register('gmailInt',            GmailController,         []);
-sub.factory.register('imFrame',             ImportController,        []);
-sub.factory.register('importKeyDialog',     ImportController,        ['dDialog']);
-sub.factory.register('mainCS',              MainCsController,        []);
-sub.factory.register('vFrame',              VerifyController,        ['vDialog', 'dDialog']);
-sub.factory.register('pwdDialog',           PwdController,           []);
-sub.factory.register('editor',              EditorController,        ['editorCont']);
-sub.factory.register('editorCont',          EditorController,        ['editor']);
-sub.factory.register('syncHandler',         SyncController,          []);
-sub.factory.register('keyGenCont',          PrivateKeyController,    ['keyGenDialog']);
-sub.factory.register('keyBackupCont',       PrivateKeyController,    ['keyBackupDialog', 'backupCodeWindow', 'recoverySheet']);
-sub.factory.register('restoreBackupCont',   PrivateKeyController,    ['restoreBackupDialog']);
-sub.factory.register('app',                 AppController,           []);
-sub.factory.register('appCont',             AppController,           ['app']);
-sub.factory.register('menu',                MenuController,          []);
-sub.factory.register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
-sub.factory.register('api',                 ApiController,           []);
-sub.factory.register('authDomainDialog',    AuthDomainController,    []);
-
-// Register peer controllers
-sub.factory.registerPeer('editorController', EditorController);
+import {modelInitialized} from '../modules/pgpModel';
+import {parseViewName} from '../lib/util';
+import {initFactory, verifyConnectPermission, createController, getControllerClass} from './factory';
+import {SubController} from './sub.controller';
 
 export function initController() {
+  initFactory();
   // store incoming connections by name and id
   chrome.runtime.onConnect.addListener(port => {
     // console.log('ConnectionManager: onConnect:', port);
-    sub.addPort(port);
+    addPort(port);
     // update active ports on disconnect
-    port.onDisconnect.addListener(sub.removePort);
+    port.onDisconnect.addListener(removePort);
   });
 }
+
+class EventCache {
+  constructor(port) {
+    this.port = port;
+    this.cache = [];
+    this.push = this.push.bind(this);
+    this.port.onMessage.addListener(this.push);
+  }
+
+  push(event) {
+    this.cache.push(event);
+  }
+
+  flush(eventHandler) {
+    this.port.onMessage.removeListener(this.push);
+    for (const event of this.cache) {
+      eventHandler.handlePortMessage(event);
+    }
+  }
+}
+
+async function addPort(port) {
+  const eventCache = new EventCache(port);
+  await modelInitialized;
+  const sender = parseViewName(port.name);
+  const subContr = await controllerPool.get(sender.id);
+  if (subContr) {
+    verifyConnectPermission(subContr.mainType, sender);
+    subContr.addPort(port, eventCache);
+  } else {
+    try {
+      await getController(sender.type, port, eventCache);
+    } catch (e) {
+      console.error(e);
+      port.postMessage({event: 'terminate'});
+    }
+  }
+}
+
+async function removePort(port) {
+  const id = parseViewName(port.name).id;
+  const del = await controllerPool.has(id) && (await controllerPool.get(id)).removePort(port);
+  if (del && !(await controllerPool.get(id)).persistent) {
+    // last port removed from controller, delete controller
+    await controllerPool.delete(id);
+  }
+}
+
+class ControllerMap {
+  constructor() {
+    this.map = new Map();
+  }
+
+  async get(id) {
+    if (this.map.has(id)) {
+      return this.map.get(id);
+    }
+    const {[id]: ctrlSession} = await chrome.storage.session.get(id);
+    if (ctrlSession) {
+      const contrConstructor = getControllerClass(ctrlSession.mainType);
+      const ctrl = new contrConstructor();
+      ctrl.mainType = ctrlSession.mainType; // as mainType in the session might not be default mainType
+      ctrl.id = id;
+      ctrl.state = ctrlSession.state;
+      this.map.set(id, ctrl);
+      for (const peer of ctrlSession.peers) {
+        const peerCtrl = await this.get(peer.id);
+        ctrl.peers[peer.peerType] = peerCtrl;
+        peerCtrl.peers[ctrl.peerType] = ctrl;
+      }
+      return ctrl;
+    }
+  }
+
+  set(id, ctrl) {
+    this.map.set(id, ctrl);
+    return this.updateSession(id, ctrl);
+  }
+
+  updateSession(id, ctrl) {
+    return chrome.storage.session.set({[id]: {
+      mainType: ctrl.mainType,
+      state: ctrl.state,
+      peers: Object.values(ctrl.peers).map(peer => ({id: peer.id, peerType: peer.peerType}))
+    }});
+  }
+
+  delete(id) {
+    this.map.delete(id);
+    return chrome.storage.session.remove(id);
+  }
+
+  async has(id) {
+    const hasSession = await chrome.storage.session.getBytesInUse(id);
+    return this.map.has(id) && hasSession;
+  }
+
+  async forEach(callback) {
+    const all = await chrome.storage.session.get();
+    Object.values(all).forEach(obj => {
+      if (obj instanceof SubController) {
+        callback(obj);
+      }
+    });
+  }
+
+  async getByType(type) {
+    const result = [];
+    await this.forEach(contr => {
+      if (contr.mainType === type) {
+        result.push(contr);
+      }
+    });
+    return result;
+  }
+}
+
+export async function getController(type, port, eventCache) {
+  const existingController = (await controllerPool.getByType(type))[0];
+  if (existingController && existingController.persistent) {
+    return existingController;
+  }
+  const subContr = createController(type, port);
+  if (!port && !subContr.id) {
+    throw new Error('Subcontroller instantiated without port requires id.');
+  }
+  eventCache?.flush(subContr);
+  if (subContr.singleton) {
+    // there should be only one instance for this type, new instance overwrites old
+    if (existingController) {
+      await controllerPool.delete(existingController.id);
+    }
+  }
+  await controllerPool.set(subContr.id, subContr);
+  return subContr;
+}
+
+export const controllerPool = new ControllerMap();
+

@@ -5,12 +5,12 @@
 
 import mvelo from '../lib/lib-mvelo';
 import {getUUID} from '../lib/util';
-import * as sub from './sub.controller';
+import {SubController, reloadFrames, setAppDataSlot} from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
 import {shouldSeeConsentDialog} from '../lib/analytics';
 
-export default class MenuController extends sub.SubController {
+export default class MenuController extends SubController {
   constructor(port) {
     super(port);
     this.singleton = true;
@@ -24,7 +24,7 @@ export default class MenuController extends sub.SubController {
   onBrowserAction({action}) {
     switch (action) {
       case 'reload-extension':
-        sub.reloadFrames();
+        reloadFrames();
         break;
       case 'activate-tab':
         this.addToWatchList();
@@ -72,7 +72,7 @@ export default class MenuController extends sub.SubController {
     const url = new URL(tab.url);
     const domain = mvelo.util.normalizeDomain(url.hostname);
     const slotId = getUUID();
-    sub.setAppDataSlot(slotId, {domain, protocol: url.protocol, port: url.port});
+    setAppDataSlot(slotId, {domain, protocol: url.protocol, port: url.port});
     mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
   }
 

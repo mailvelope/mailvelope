@@ -3,7 +3,8 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as sub from './sub.controller';
+import {getController} from './main.controller';
+import {SubController} from './sub.controller';
 import * as l10n from '../lib/l10n';
 import {mapError, checkEmail, checkUrl, MvError} from '../lib/util';
 import {getById as getKeyringById, getPreferredKeyringId} from '../modules/keyring';
@@ -17,7 +18,7 @@ l10n.set([
   'form_sign_error_no_default_key'
 ]);
 
-export default class EncryptedFormController extends sub.SubController {
+export default class EncryptedFormController extends SubController {
   constructor(port) {
     super(port);
     this.formAction = null;
@@ -241,7 +242,7 @@ ${this.formSignature}
   }
 
   async unlockKey({key}) {
-    const pwdControl = await sub.factory.get('pwdDialog');
+    const pwdControl = await getController('pwdDialog');
     const {key: unlocked} = await pwdControl.unlockKey({key, reason: 'PWD_DIALOG_REASON_SIGN'});
     return unlocked;
   }

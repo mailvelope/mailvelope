@@ -6,14 +6,15 @@
 import mvelo from '../lib/lib-mvelo';
 import {mapError, MvError} from '../lib/util';
 import {prefs} from '../modules/prefs';
-import * as sub from './sub.controller';
+import {getController} from './main.controller';
+import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import * as pwdCache from '../modules/pwdCache';
 import * as sync from './sync.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {createPrivateKeyBackup, restorePrivateKeyBackup} from '../modules/pgpModel';
 
-export default class PrivateKeyController extends sub.SubController {
+export default class PrivateKeyController extends SubController {
   constructor(port) {
     super(port);
     this.keyringId = null;
@@ -148,7 +149,7 @@ export default class PrivateKeyController extends sub.SubController {
     if (!defaultKey) {
       throw new MvError('No private key for backup', 'NO_PRIVATE_KEY');
     }
-    this.pwdControl = await sub.factory.get('pwdDialog');
+    this.pwdControl = await getController('pwdDialog');
     try {
       // get password from cache or ask user
       const unlockedKey = await this.pwdControl.unlockKey({

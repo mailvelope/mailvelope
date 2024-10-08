@@ -8,9 +8,9 @@ import {getUUID, PromiseQueue} from '../lib/util';
 import {getWatchList, setWatchList} from '../modules/prefs';
 import {initScriptInjection, watchlistRegex} from '../lib/inject';
 import * as uiLog from '../modules/uiLog';
-import * as sub from './sub.controller';
+import {SubController} from './sub.controller';
 
-export default class AuthDomainController extends sub.SubController {
+export default class AuthDomainController extends SubController {
   constructor() {
     super();
     this.persistent = true;

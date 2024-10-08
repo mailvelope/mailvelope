@@ -4,7 +4,7 @@
  */
 
 import mvelo from './lib-mvelo';
-import * as sub from '../controller/sub.controller';
+import {getController} from '../controller/main.controller';
 import {str2bool, matchPattern2RegExString, sortAndDeDup} from './util';
 import {getWatchList} from '../modules/prefs';
 
@@ -56,7 +56,8 @@ async function getWatchListFilterURLs() {
 async function injectOpenTabs(filterURL) {
   const tabs = await mvelo.tabs.query(filterURL);
   for (const tab of tabs) {
-    chrome.tabs.sendMessage(tab.id, {event: 'reconnect'});
+    chrome.tabs.sendMessage(tab.id, {event: 'reconnect'})
+    .catch(() => {});
   }
   for (const tab of tabs) {
     const frames = await chrome.webNavigation.getAllFrames({tabId: tab.id});
@@ -106,6 +107,6 @@ async function authRequest({tabId, url}) {
   if (hostname.startsWith('www.')) {
     hostname = hostname.slice(4);
   }
-  const authDomainCtrl = await sub.factory.get('authDomainDialog');
+  const authDomainCtrl = await getController('authDomainDialog');
   authDomainCtrl.authorizeDomain({hostname, port, protocol, api, tabId, url: tab.url});
 }

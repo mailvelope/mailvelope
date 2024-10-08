@@ -4,13 +4,14 @@
  */
 
 import {getUUID} from '../lib/util';
-import * as sub from './sub.controller';
+import {controllerPool, getController} from './main.controller';
+import {SubController} from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {isCached} from '../modules/pwdCache';
 import {readMessage, decryptSyncMessage, encryptSyncMessage} from '../modules/pgpModel';
 import {equalKey} from '../modules/key';
 
-export class SyncController extends sub.SubController {
+export class SyncController extends SubController {
   constructor(port) {
     super(port);
     this.keyringId = null;
@@ -133,7 +134,7 @@ export class SyncController extends sub.SubController {
       password = options.password;
     }
     // unlock key if still locked
-    this.pwdControl = await sub.factory.get('pwdDialog');
+    this.pwdControl = await getController('pwdDialog');
     const unlockedKey = await this.pwdControl.unlockKey({
       key: privKey,
       reason: 'PWD_DIALOG_REASON_EDITOR',
@@ -158,7 +159,7 @@ export class SyncController extends sub.SubController {
       password: options.password,
       reason: 'PWD_DIALOG_REASON_EDITOR'
     };
-    this.pwdControl = this.pwdControl || await sub.factory.get('pwdDialog');
+    this.pwdControl = this.pwdControl || await getController('pwdDialog');
     const unlockedKey = await this.pwdControl.unlockKey(keyOptions);
     // encrypt keyring sync message
     const armored = await encryptSyncMessage(unlockedKey.key, this.keyring.sync.data.changeLog, this.keyringId);
@@ -249,7 +250,7 @@ export class SyncController extends sub.SubController {
 }
 
 export async function getByKeyring(keyringId) {
-  const syncController = await sub.getByMainType('syncHandler');
+  const syncController = await controllerPool.getByType('syncHandler');
   return syncController.filter(obj => obj.keyringId === keyringId)[0];
 }
 

@@ -7,11 +7,11 @@ import mvelo from '../lib/lib-mvelo';
 import {getUUID, mapError} from '../lib/util';
 import * as l10n from '../lib/l10n';
 import * as gmail from '../modules/gmail';
-import * as sub from './sub.controller';
+import {SubController} from './sub.controller';
 import {formatEmailAddress} from '../modules/key';
 import {setAppDataSlot} from '../controller/sub.controller';
 
-export default class GmailController extends sub.SubController {
+export default class GmailController extends SubController {
   constructor(port) {
     super(port);
     this.state = {

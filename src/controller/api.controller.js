@@ -4,7 +4,8 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import * as sub from './sub.controller';
+import {getController} from './main.controller';
+import {SubController, setActiveKeyringId} from './sub.controller';
 import {MvError} from '../lib/util';
 import {MAIN_KEYRING_ID, KEY_STATUS} from '../lib/constants';
 import {getById as keyringById, createKeyring, setKeyringAttr, getKeyByAddress} from '../modules/keyring';
@@ -13,7 +14,7 @@ import {getLastModifiedDate, mapAddressKeyMapToFpr} from '../modules/key';
 import * as autocrypt from '../modules/autocryptWrapper';
 import * as keyRegistry from '../modules/keyRegistry';
 
-export default class ApiController extends sub.SubController {
+export default class ApiController extends SubController {
   constructor(port) {
     super(port);
     // register event handlers
@@ -33,7 +34,7 @@ export default class ApiController extends sub.SubController {
     const keyring = await keyringById(keyringId);
     if (keyring) {
       const attr = await keyring.getAttributes();
-      sub.setActiveKeyringId(keyringId);
+      setActiveKeyringId(keyringId);
       return {revision: attr.logo_revision};
     }
   }
@@ -41,7 +42,7 @@ export default class ApiController extends sub.SubController {
   async createKeyring({keyringId}) {
     const keyring = await createKeyring(keyringId);
     await keyring.sync.activate();
-    sub.setActiveKeyringId(keyringId);
+    setActiveKeyringId(keyringId);
     return {};
   }
 
@@ -101,7 +102,7 @@ export default class ApiController extends sub.SubController {
   }
 
   async importPubKey({keyringId, armored}) {
-    const importCtrl = await sub.factory.get('importKeyDialog');
+    const importCtrl = await getController('importKeyDialog');
     return importCtrl.importKey(keyringId, armored);
   }
 

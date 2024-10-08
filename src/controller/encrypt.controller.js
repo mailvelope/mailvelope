@@ -8,9 +8,9 @@
  * create an editor controller to encrypt plaintext to a list of recipients.
  */
 
-import * as sub from './sub.controller';
+import {SubController} from './sub.controller';
 
-export default class EncryptController extends sub.SubController {
+export default class EncryptController extends SubController {
   constructor(port) {
     super(port);
     this.state = {
