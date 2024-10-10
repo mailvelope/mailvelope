@@ -4,7 +4,7 @@
  */
 
 import {modelInitialized} from '../modules/pgpModel';
-import {parseViewName} from '../lib/util';
+import {parseViewName, PromiseQueue} from '../lib/util';
 import {initFactory, verifyConnectPermission, createController, getControllerClass} from './factory';
 import {SubController} from './sub.controller';
 
@@ -39,22 +39,31 @@ class EventCache {
   }
 }
 
+class ControllerTransaction {
+  async get(port, eventCache) {
+    const sender = parseViewName(port.name);
+    const subContr = await controllerPool.get(sender.id);
+    if (subContr) {
+      verifyConnectPermission(subContr.mainType, sender);
+      subContr.addPort(port, eventCache);
+    } else {
+      try {
+        await getController(sender.type, port, eventCache);
+      } catch (e) {
+        console.error(e);
+        port.postMessage({event: 'terminate'});
+      }
+    }
+  }
+}
+
+const addPortQueue = new PromiseQueue();
+const controllerTransaction = new ControllerTransaction();
+
 async function addPort(port) {
   const eventCache = new EventCache(port);
   await modelInitialized;
-  const sender = parseViewName(port.name);
-  const subContr = await controllerPool.get(sender.id);
-  if (subContr) {
-    verifyConnectPermission(subContr.mainType, sender);
-    subContr.addPort(port, eventCache);
-  } else {
-    try {
-      await getController(sender.type, port, eventCache);
-    } catch (e) {
-      console.error(e);
-      port.postMessage({event: 'terminate'});
-    }
-  }
+  addPortQueue.push(controllerTransaction, 'get', [port, eventCache]);
 }
 
 async function removePort(port) {
