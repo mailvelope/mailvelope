@@ -10,9 +10,8 @@ import {SubController} from './sub.controller';
 
 export function initController() {
   initFactory();
-  // store incoming connections by name and id
   chrome.runtime.onConnect.addListener(port => {
-    // console.log('ConnectionManager: onConnect:', port);
+    // create controllers for incoming connections by name and id
     addPort(port);
     // update active ports on disconnect
     port.onDisconnect.addListener(removePort);
@@ -20,8 +19,9 @@ export function initController() {
 }
 
 class EventCache {
-  constructor(port) {
+  constructor(port, addPortSequence) {
     this.port = port;
+    this.addPortSequence = addPortSequence;
     this.cache = [];
     this.push = this.push.bind(this);
     this.port.onMessage.addListener(this.push);
@@ -31,16 +31,31 @@ class EventCache {
     this.cache.push(event);
   }
 
-  flush(eventHandler) {
+  #flushEvent(eventHandler) {
     this.port.onMessage.removeListener(this.push);
+    eventHandler.activatePortMessages();
     for (const event of this.cache) {
       eventHandler.handlePortMessage(event);
     }
   }
+
+  flush(eventHandler) {
+    eventHandler.deactivatePortMessages();
+    // wait for other incoming port connects
+    setTimeout(async () => {
+      const {id} = parseViewName(this.port.name);
+      // check the addPort sequence and wait for last addPort action with the same id to be finished before flush
+      const addPortAction = this.addPortSequence.queue.findLast(element => element.args[0].name.includes(id));
+      if (addPortAction) {
+        await addPortAction.promise;
+      }
+      this.#flushEvent(eventHandler);
+    }, 50);
+  }
 }
 
 class ControllerTransaction {
-  async get(port, eventCache) {
+  async addPort(port, eventCache) {
     const sender = parseViewName(port.name);
     const subContr = await controllerPool.get(sender.id);
     if (subContr) {
@@ -61,9 +76,9 @@ const addPortQueue = new PromiseQueue();
 const controllerTransaction = new ControllerTransaction();
 
 async function addPort(port) {
-  const eventCache = new EventCache(port);
+  const eventCache = new EventCache(port, addPortQueue);
   await modelInitialized;
-  addPortQueue.push(controllerTransaction, 'get', [port, eventCache]);
+  addPortQueue.push(controllerTransaction, 'addPort', [port, eventCache]);
 }
 
 async function removePort(port) {

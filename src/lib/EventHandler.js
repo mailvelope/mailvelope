@@ -16,6 +16,7 @@ export default class EventHandler {
   #uninstallListener = [];
   #uninstallInterval;
   #portName;
+  #activePortMessages = true;
 
   constructor(port, handlers) {
     if (port) {
@@ -35,6 +36,14 @@ export default class EventHandler {
     eventHandler._handlerObject = handlerObject;
     chrome.runtime.onMessage.addListener(eventHandler.handleRuntimeMessage.bind(eventHandler));
     return eventHandler;
+  }
+
+  activatePortMessages() {
+    this.#activePortMessages = true;
+  }
+
+  deactivatePortMessages() {
+    this.#activePortMessages = false;
   }
 
   #checkConnection() {
@@ -110,6 +119,9 @@ export default class EventHandler {
    * @param  {Object} options         Contains message attributes and data
    */
   handlePortMessage(options = {}) {
+    if (!this.#activePortMessages) {
+      return;
+    }
     if (this._handlers.has(options.event)) {
       const handler = this._handlers.get(options.event);
       if (options._reply) {

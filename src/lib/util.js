@@ -285,12 +285,12 @@ export class PromiseQueue {
   }
 
   push(thisArg, method, args) {
-    return new Promise((resolve, reject) => {
-      this.queue.push({resolve, reject, thisArg, method, args});
-      if (this.queue.length === 1) {
-        this._next();
-      }
-    });
+    const {promise, resolve, reject} = Promise.withResolvers();
+    this.queue.push({promise, resolve, reject, thisArg, method, args});
+    if (this.queue.length === 1) {
+      this._next();
+    }
+    return promise;
   }
 
   _next() {
