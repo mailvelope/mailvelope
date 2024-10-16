@@ -101,7 +101,9 @@ Generated using nucleoapp.com
 .icon-user:before {
   content: "\e919";
 }
-
+.icon-hourglass-bottom:before {
+  content: "\e91a";
+}
 .icon-search:before {
   content: "\f002";
 }

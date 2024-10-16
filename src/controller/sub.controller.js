@@ -9,7 +9,7 @@ import EventHandler from '../lib/EventHandler';
 import {parseViewName} from '../lib/util';
 import {getSecurityBackground} from '../modules/prefs';
 import {controllerPool} from './main.controller';
-import {createPeerController} from './factory';
+import {createPeerController, isMainComponentType} from './factory';
 
 export class SubController extends EventHandler {
   constructor(port) {
@@ -33,13 +33,13 @@ export class SubController extends EventHandler {
   }
 
   addPort(port, eventCache) {
-    if (!this._port) {
+    const {type} = parseViewName(port.name);
+    if (!this._port && isMainComponentType(type, this)) {
       // controller was instantiated without main port
       super.initPort(port);
       this.initMainPort(port, eventCache);
       return;
     }
-    const type = parseViewName(port.name).type;
     this.ports[type] = new EventHandler(port, this._handlers);
     eventCache?.flush(this.ports[type]);
   }

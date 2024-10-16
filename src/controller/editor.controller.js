@@ -42,7 +42,6 @@ export default class EditorController extends SubController {
     this.peerType = 'editorController';
     this.popup = null;
     this.signKeyFpr = null;
-    this.pwdControl = null;
     this.pgpMIME = false;
     this.options = {};
     // register event handlers
@@ -453,7 +452,6 @@ export default class EditorController extends SubController {
       if (this.state.popupId && err.code === 'PWD_DIALOG_CANCEL') {
         // popup case
         this.ports.editor.emit('hide-pwd-dialog');
-        return;
       }
       console.log(err);
       const error = mapError(err);

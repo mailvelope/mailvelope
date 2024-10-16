@@ -10,6 +10,7 @@ import EventHandler from '../../lib/EventHandler';
 import SecurityBG from '../util/SecurityBG';
 import Spinner from '../util/Spinner';
 import Alert from '../util/Alert';
+import Timeout from '../util/Timeout';
 
 // register language strings
 l10n.register([
@@ -40,7 +41,8 @@ export default class PasswordDialog extends React.Component {
       cache: false,
       password: '',
       waiting: true,
-      showError: false
+      showError: false,
+      timeout: false
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
@@ -77,6 +79,14 @@ export default class PasswordDialog extends React.Component {
   registerEventListeners() {
     this.port.on('set-init-data', this.setInitData);
     this.port.on('wrong-password', this.onWrongPassword);
+    this.port.onDisconnect.addListener(() => this.onDisconnect());
+  }
+
+  onDisconnect() {
+    this.setState({timeout: true});
+    setTimeout(() => {
+      window.close();
+    }, 1200);
   }
 
   setInitData({keyId, userId, reason, cache}) {
@@ -164,6 +174,7 @@ export default class PasswordDialog extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.timeout && <Timeout />}
       </SecurityBG>
     );
   }

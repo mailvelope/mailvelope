@@ -17,6 +17,8 @@ export default class EventHandler {
   #uninstallInterval;
   #portName;
   #activePortMessages = true;
+  #connectListener = [];
+  #disconnectListener = [];
 
   constructor(port, handlers) {
     if (port) {
@@ -35,6 +37,7 @@ export default class EventHandler {
     const eventHandler = new EventHandler(chrome.runtime.connect({name: sender}));
     eventHandler._handlerObject = handlerObject;
     chrome.runtime.onMessage.addListener(eventHandler.handleRuntimeMessage.bind(eventHandler));
+    setTimeout(() => eventHandler.triggerConnectListener(), 0);
     return eventHandler;
   }
 
@@ -52,6 +55,7 @@ export default class EventHandler {
     }
     const port = chrome.runtime.connect({name: this.#portName});
     this.initPort(port);
+    this.triggerConnectListener();
   }
 
   handleRuntimeMessage(msg) {
@@ -65,8 +69,13 @@ export default class EventHandler {
   initPort(port) {
     this._port = port;
     this._port.onMessage.addListener(this.handlePortMessage.bind(this));
-    this._port.onDisconnect?.addListener(() => this.clearPort());
     this.#portName = port.name;
+    if (this._port.onDisconnect) {
+      this._port.onDisconnect.addListener(() => this.clearPort());
+      for (const listener of this.#disconnectListener) {
+        this._port.onDisconnect.addListener(listener);
+      }
+    }
   }
 
   clearPort() {
@@ -97,8 +106,21 @@ export default class EventHandler {
 
   get onDisconnect() {
     const obj = {};
-    obj.addListener = listener => this._port.onDisconnect.addListener(listener);
+    obj.addListener = listener => {
+      this._port.onDisconnect.addListener(listener);
+      this.#disconnectListener.push(listener);
+    };
     return obj;
+  }
+
+  get onConnect() {
+    const obj = {};
+    obj.addListener = listener => this.#connectListener.push(listener);
+    return obj;
+  }
+
+  triggerConnectListener() {
+    this.#connectListener.forEach(listener => listener());
   }
 
   get onUninstall() {

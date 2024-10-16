@@ -110,6 +110,7 @@ export default class Editor extends React.Component {
     this.port.on('terminate', this.onTerminate);
     this.port.on('public-key-userids', this.onPublicKeyUserids);
     this.port.on('key-update', this.onKeyUpdate);
+    this.port.onDisconnect.addListener(() => this.onDisconnect());
   }
 
   onSetInitData({text = '', signMsg, subject, defaultKeyFpr, privKeys = []}) {
@@ -134,6 +135,14 @@ export default class Editor extends React.Component {
 
   onTerminate() {
     this.setState({terminate: true}, () => this.port.disconnect());
+  }
+
+  onDisconnect() {
+    if (this.state.pwdDialog) {
+      setTimeout(() => {
+        this.setState({pwdDialog: null, waiting: false, encryptDisabled: false});
+      }, 1200);
+    }
   }
 
   handlePlainTextLoad() {
@@ -298,6 +307,7 @@ export default class Editor extends React.Component {
 
   onErrorMessage(msg) {
     if (msg.error.code === 'PWD_DIALOG_CANCEL') {
+      this.setState({encryptDisabled: false});
       return;
     }
     msg.error.type = 'error';

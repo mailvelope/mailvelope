@@ -185,6 +185,9 @@ export async function encryptMessage({data, keyringId, unlockKey, encryptionKeyF
     return result;
   } catch (e) {
     console.log('getPgpBackend().encrypt() error', e);
+    if (e.code === 'PWD_DIALOG_CANCEL') {
+      throw e;
+    }
     throw new MvError(l10n.get('encrypt_error', [e.message]), 'ENCRYPT_ERROR');
   }
 }
@@ -483,7 +486,10 @@ export async function encryptFile({plainFile, keyringId, unlockKey, encryptionKe
     return result;
   } catch (error) {
     console.log('pgpmodel.encryptFile() error', error);
-    throw new MvError(l10n.get('encrypt_error', [error.message]), 'NO_KEY_FOUND');
+    if (error.code === 'PWD_DIALOG_CANCEL') {
+      throw error;
+    }
+    throw new MvError(l10n.get('encrypt_error', [error.message]), 'ENCRYPT_ERROR');
   }
 }
 

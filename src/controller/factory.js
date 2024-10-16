@@ -130,3 +130,11 @@ export function verifyConnectPermission(type, sender) {
     throw new Error(`View type ${sender.type} not allowed to connect to controller.`);
   }
 }
+
+export function isMainComponentType(type, controller) {
+  for (const entry of repo.entries()) {
+    if (entry[0] === type && entry[1] === controller.constructor) {
+      return true;
+    }
+  }
+}
