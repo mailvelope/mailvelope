@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {mapError, MvError} from '../lib/util';
 import {prefs} from '../modules/prefs';
-import {getController} from './main.controller';
+import {createController} from './main.controller';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
 import * as pwdCache from '../modules/pwdCache';
@@ -149,7 +149,7 @@ export default class PrivateKeyController extends SubController {
     if (!defaultKey) {
       throw new MvError('No private key for backup', 'NO_PRIVATE_KEY');
     }
-    this.pwdControl = await getController('pwdDialog');
+    this.pwdControl = await createController('pwdDialog');
     try {
       // get password from cache or ask user
       const unlockedKey = await this.pwdControl.unlockKey({

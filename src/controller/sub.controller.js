@@ -8,7 +8,7 @@ import {MAIN_KEYRING_ID} from '../lib/constants';
 import EventHandler from '../lib/EventHandler';
 import {parseViewName} from '../lib/util';
 import {getSecurityBackground} from '../modules/prefs';
-import {controllerPool} from './main.controller';
+import {controllerPool, getAllControllerByType} from './main.controller';
 import {createPeerController, isMainComponentType} from './factory';
 
 export class SubController extends EventHandler {
@@ -135,11 +135,11 @@ function postToNodes(subControllers, event) {
 
 export async function reloadFrames() {
   // close frames
-  destroyNodes(await controllerPool.getByType('dFrame'));
-  destroyNodes(await controllerPool.getByType('dFrameGmail'));
-  destroyNodes(await controllerPool.getByType('aFrameGmail'));
-  destroyNodes(await controllerPool.getByType('vFrame'));
-  destroyNodes(await controllerPool.getByType('eFrame'));
-  destroyNodes(await controllerPool.getByType('imFrame'));
-  destroyNodes(await controllerPool.getByType('mainCS'));
+  destroyNodes(await getAllControllerByType('dFrame'));
+  destroyNodes(await getAllControllerByType('dFrameGmail'));
+  destroyNodes(await getAllControllerByType('aFrameGmail'));
+  destroyNodes(await getAllControllerByType('vFrame'));
+  destroyNodes(await getAllControllerByType('eFrame'));
+  destroyNodes(await getAllControllerByType('imFrame'));
+  destroyNodes(await getAllControllerByType('mainCS'));
 }

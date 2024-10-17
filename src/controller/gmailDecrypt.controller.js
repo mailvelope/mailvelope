@@ -8,7 +8,7 @@ import {dataURL2str, normalizeArmored} from '../lib/util';
 import {extractFileExtension} from '../lib/file';
 import * as model from '../modules/pgpModel';
 import * as gmail from '../modules/gmail';
-import {getController, controllerPool} from './main.controller';
+import {createController, controllerPool} from './main.controller';
 import DecryptController from './decrypt.controller';
 import {lookupKey} from './import.controller';
 
@@ -274,7 +274,7 @@ export default class gmailDecryptController extends DecryptController {
   }
 
   async importKey(armored) {
-    const importControl = await getController('importKeyDialog');
+    const importControl = await createController('importKeyDialog');
     const result = await importControl.importKey(this.keyringId, armored);
     if (result === 'IMPORTED' || result === 'UPDATED') {
       this.ports.dDialog.emit('show-notification', {

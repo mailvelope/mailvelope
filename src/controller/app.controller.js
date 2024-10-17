@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {filterAsync} from '../lib/util';
 import {MAIN_KEYRING_ID} from '../lib/constants';
-import {controllerPool, getController} from './main.controller';
+import {controllerPool, createController, getAllControllerByType} from './main.controller';
 import {SubController, getActiveKeyringId, setActiveKeyringId, getAppDataSlot, reloadFrames} from './sub.controller';
 import {readKey, readKeys} from 'openpgp';
 import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey, verifyUser} from '../modules/key';
@@ -85,7 +85,7 @@ export default class AppController extends SubController {
     const reloadExtensionFlag = options.prefs.provider && options.prefs.provider.gmail_integration !== prefs.prefs.provider.gmail_integration;
     await prefs.update(options.prefs);
     // update content scripts
-    (await controllerPool.getByType('mainCS')).forEach(mainCScontrl => mainCScontrl.updatePrefs());
+    (await getAllControllerByType('mainCS')).forEach(mainCScontrl => mainCScontrl.updatePrefs());
     if (updateOpenPGPFlag) {
       initOpenPGP();
     }
@@ -255,7 +255,7 @@ export default class AppController extends SubController {
   }
 
   async sendKeyUpdate() {
-    (await controllerPool.getByType('editor')).forEach(editorCntrl => editorCntrl.sendKeyUpdate());
+    (await getAllControllerByType('editor')).forEach(editorCntrl => editorCntrl.sendKeyUpdate());
   }
 
   async setWatchList({data}) {
@@ -323,7 +323,7 @@ export default class AppController extends SubController {
   }
 
   async initDecryptMessage() {
-    this.decryptMessageCtrl = await getController('decryptCont');
+    this.decryptMessageCtrl = await createController('decryptCont');
     return this.decryptMessageCtrl.id;
   }
 
@@ -407,7 +407,7 @@ export default class AppController extends SubController {
   }
 
   async unlockKey(options) {
-    const pwdControl = await getController('pwdDialog');
+    const pwdControl = await createController('pwdDialog');
     const {key} = await pwdControl.unlockKey(options);
     return key;
   }

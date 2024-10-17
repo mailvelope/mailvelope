@@ -5,8 +5,7 @@
 
 import {modelInitialized} from '../modules/pgpModel';
 import {parseViewName, PromiseQueue} from '../lib/util';
-import {initFactory, verifyConnectPermission, createController, getControllerClass} from './factory';
-import {SubController} from './sub.controller';
+import {initFactory, verifyConnectPermission, createController as createControllerInstance, getControllerClass} from './factory';
 
 export function initController() {
   initFactory();
@@ -63,7 +62,7 @@ class ControllerTransaction {
       subContr.addPort(port, eventCache);
     } else {
       try {
-        await getController(sender.type, port, eventCache);
+        await createController(sender.type, port, eventCache);
       } catch (e) {
         console.error(e);
         port.postMessage({event: 'terminate'});
@@ -138,33 +137,14 @@ class ControllerMap {
     const hasSession = await chrome.storage.session.getBytesInUse(id);
     return this.map.has(id) && hasSession;
   }
-
-  async forEach(callback) {
-    const all = await chrome.storage.session.get();
-    Object.values(all).forEach(obj => {
-      if (obj instanceof SubController) {
-        callback(obj);
-      }
-    });
-  }
-
-  async getByType(type) {
-    const result = [];
-    await this.forEach(contr => {
-      if (contr.mainType === type) {
-        result.push(contr);
-      }
-    });
-    return result;
-  }
 }
 
-export async function getController(type, port, eventCache) {
-  const existingController = (await controllerPool.getByType(type))[0];
+export async function createController(type, port, eventCache) {
+  const existingController = (await getAllControllerByType(type))[0];
   if (existingController && existingController.persistent) {
     return existingController;
   }
-  const subContr = createController(type, port);
+  const subContr = createControllerInstance(type, port);
   if (!port && !subContr.id) {
     throw new Error('Subcontroller instantiated without port requires id.');
   }
@@ -177,6 +157,26 @@ export async function getController(type, port, eventCache) {
   }
   await controllerPool.set(subContr.id, subContr);
   return subContr;
+}
+
+async function allPortsConnected(id) {
+  const addPortAction = addPortQueue.queue.findLast(element => element.args[0].name.includes(id));
+  if (addPortAction) {
+    await addPortAction.promise;
+  }
+}
+
+export async function getAllControllerByType(type) {
+  const result = [];
+  // wait for last addPort action in queue to finish
+  await addPortQueue.queue[addPortQueue.queue.length - 1];
+  for (const [, contr] of controllerPool.map.entries()) {
+    if (contr.mainType === type) {
+      await allPortsConnected(contr.id);
+      result.push(contr);
+    }
+  }
+  return result;
 }
 
 export const controllerPool = new ControllerMap();

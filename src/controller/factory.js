@@ -133,7 +133,7 @@ export function verifyConnectPermission(type, sender) {
 
 export function isMainComponentType(type, controller) {
   for (const entry of repo.entries()) {
-    if (entry[0] === type && entry[1] === controller.constructor) {
+    if (entry[0] === type && entry[1].contrConstructor === controller.constructor) {
       return true;
     }
   }

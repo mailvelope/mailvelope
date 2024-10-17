@@ -4,7 +4,7 @@
  */
 
 import mvelo from './lib-mvelo';
-import {getController} from '../controller/main.controller';
+import {createController} from '../controller/main.controller';
 import {str2bool, matchPattern2RegExString, sortAndDeDup} from './util';
 import {getWatchList} from '../modules/prefs';
 
@@ -107,6 +107,6 @@ async function authRequest({tabId, url}) {
   if (hostname.startsWith('www.')) {
     hostname = hostname.slice(4);
   }
-  const authDomainCtrl = await getController('authDomainDialog');
+  const authDomainCtrl = await createController('authDomainDialog');
   authDomainCtrl.authorizeDomain({hostname, port, protocol, api, tabId, url: tab.url});
 }

@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getController} from './main.controller';
+import {createController} from './main.controller';
 import {SubController} from './sub.controller';
 import * as l10n from '../lib/l10n';
 import {mapError, checkEmail, checkUrl, MvError} from '../lib/util';
@@ -242,7 +242,7 @@ ${this.formSignature}
   }
 
   async unlockKey({key}) {
-    const pwdControl = await getController('pwdDialog');
+    const pwdControl = await createController('pwdDialog');
     const {key: unlocked} = await pwdControl.unlockKey({key, reason: 'PWD_DIALOG_REASON_SIGN'});
     return unlocked;
   }

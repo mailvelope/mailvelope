@@ -13,7 +13,7 @@ import * as model from '../modules/pgpModel';
 import {parseMessage} from '../modules/mime';
 import * as uiLog from '../modules/uiLog';
 import {isCached} from '../modules/pwdCache';
-import {getController} from './main.controller';
+import {createController} from './main.controller';
 import {SubController} from './sub.controller';
 import {triggerSync} from './sync.controller';
 import {getPreferredKeyringId} from '../modules/keyring';
@@ -182,7 +182,7 @@ export default class DecryptController extends SubController {
   }
 
   async unlockKey({key, message}) {
-    const pwdControl = await getController('pwdDialog');
+    const pwdControl = await createController('pwdDialog');
     const openPopup = this.ports.decryptCont || (!this.popup && this.ports.dDialog);
     const beforePasswordRequest = id => this.popup && this.ports.dDialog.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({

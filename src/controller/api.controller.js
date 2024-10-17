@@ -4,7 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getController} from './main.controller';
+import {createController} from './main.controller';
 import {SubController, setActiveKeyringId} from './sub.controller';
 import {MvError} from '../lib/util';
 import {MAIN_KEYRING_ID, KEY_STATUS} from '../lib/constants';
@@ -102,7 +102,7 @@ export default class ApiController extends SubController {
   }
 
   async importPubKey({keyringId, armored}) {
-    const importCtrl = await getController('importKeyDialog');
+    const importCtrl = await createController('importKeyDialog');
     return importCtrl.importKey(keyringId, armored);
   }
 

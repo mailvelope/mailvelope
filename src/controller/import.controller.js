@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import {getUUID, MvError} from '../lib/util';
-import {getController} from './main.controller';
+import {createController} from './main.controller';
 import {SubController, getActiveKeyringId, setAppDataSlot} from './sub.controller';
 import {getById as getKeyringById} from '../modules/keyring';
 import {mapKeys, parseUserId, sanitizeKey, verifyPrimaryKey, verifyUser} from '../modules/key';
@@ -169,7 +169,7 @@ export async function lookupKey({keyringId, email, rotation}) {
   const result = await keyRegistry.lookup({query: {email}, identity: keyringId});
   if (result) {
     try {
-      await getController('importKeyDialog').importKey(keyringId, result.armored, rotation);
+      await createController('importKeyDialog').importKey(keyringId, result.armored, rotation);
     } catch (e) {
       console.log('Key import after auto locate failed', e);
     }
