@@ -11,6 +11,7 @@ import EventHandler from '../../lib/EventHandler';
 import SecurityBG from '../util/SecurityBG';
 import Spinner from '../util/Spinner';
 import Alert from '../util/Alert';
+import Timeout from '../util/Timeout';
 
 // register language strings
 l10n.register([
@@ -30,6 +31,8 @@ l10n.register([
   'keyring_confirm_keys'
 ]);
 
+const TIMEOUT = 22000; // 22s
+
 export default class ImportKey extends React.Component {
   constructor(props) {
     super(props);
@@ -39,19 +42,36 @@ export default class ImportKey extends React.Component {
       invalidated: false,
       rotation: false,
       error: null,
-      showError: false
+      showError: false,
+      timeout: false
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
-    this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
+    this.port = EventHandler.connect(`importKeyDialog-${this.props.id}`, this);
     this.registerEventListeners();
     // emit event to backend that key import dialog has initialized
     this.port.emit('key-import-dialog-init');
+    setTimeout(() => this.onTimeout(), TIMEOUT);
   }
 
   registerEventListeners() {
     this.port.on('key-details', this.onKeyDetails);
     this.port.on('import-error', this.onImportError);
+    this.port.onDisconnect.addListener(() => this.onDisconnect());
+  }
+
+  onDisconnect() {
+    this.setState({timeout: true});
+    setTimeout(() => {
+      window.close();
+    }, 1200);
+  }
+
+  onTimeout() {
+    this.setState({timeout: true});
+    setTimeout(() => {
+      this.port.emit('key-import-dialog-cancel');
+    }, 1200);
   }
 
   onKeyDetails({key, invalidated, rotation}) {
@@ -150,6 +170,7 @@ export default class ImportKey extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.timeout && <Timeout />}
       </SecurityBG>
     );
   }

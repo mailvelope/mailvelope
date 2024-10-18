@@ -169,7 +169,7 @@ export async function lookupKey({keyringId, email, rotation}) {
   const result = await keyRegistry.lookup({query: {email}, identity: keyringId});
   if (result) {
     try {
-      await createController('importKeyDialog').importKey(keyringId, result.armored, rotation);
+      await (await createController('importKeyDialog')).importKey(keyringId, result.armored, rotation);
     } catch (e) {
       console.log('Key import after auto locate failed', e);
     }

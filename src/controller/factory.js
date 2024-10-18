@@ -42,7 +42,7 @@ export function initFactory() {
   register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
   register('gmailInt',            GmailController,         []);
   register('imFrame',             ImportController,        []);
-  register('importKeyDialog',     ImportController,        ['dDialog']);
+  register('importKeyDialog',     ImportController,        []);
   register('keyBackupCont',       PrivateKeyController,    ['keyBackupDialog', 'backupCodeWindow', 'recoverySheet']);
   register('keyGenCont',          PrivateKeyController,    ['keyGenDialog']);
   register('mainCS',              MainCsController,        []);

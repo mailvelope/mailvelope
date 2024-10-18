@@ -81,7 +81,7 @@ export default class DecryptMessage extends React.Component {
     this.port.on('set-enc-attachments', this.onEncAttachments);
     this.port.on('waiting', this.onWaiting);
     this.port.onConnect.addListener(() => this.port.emit('decrypt-message-init'));
-    this.port.onDisconnect.addListener(() => this.onLock());
+    this.port.onDisconnect.addListener(() => this.setState({waiting: false}));
   }
 
   onTerminate() {
