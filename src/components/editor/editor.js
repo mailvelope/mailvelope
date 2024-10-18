@@ -138,7 +138,7 @@ export default class Editor extends React.Component {
   }
 
   onDisconnect() {
-    if (this.state.pwdDialog) {
+    if (this.state.pwdDialog || this.state.embedded) {
       setTimeout(() => {
         this.setState({pwdDialog: null, waiting: false, encryptDisabled: false});
       }, 1200);

@@ -100,7 +100,7 @@ export default class EditorContainer {
 
   checkInProgress() {
     if (this.encryptPromise || this.createDraftPromise) {
-      throw new MvError('Encyption already in progress.', 'ENCRYPT_IN_PROGRESS');
+      throw new MvError('Encryption already in progress.', 'ENCRYPT_IN_PROGRESS');
     }
   }
 

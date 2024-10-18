@@ -31,6 +31,8 @@ l10n.register([
   'form_cancel'
 ]);
 
+const TIMEOUT = 22000; // 22s
+
 export default class PasswordDialog extends React.Component {
   constructor(props) {
     super(props);
@@ -49,6 +51,7 @@ export default class PasswordDialog extends React.Component {
     this.port = EventHandler.connect(`pwdDialog-${this.props.id}`, this);
     this.registerEventListeners();
     this.port.emit('pwd-dialog-init');
+    this.timeoutId = 0;
   }
 
   componentDidMount() {
@@ -63,6 +66,20 @@ export default class PasswordDialog extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('keyup', this.onKeyUp);
+  }
+
+  startTimeout() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = setTimeout(() => this.onTimeout(), TIMEOUT);
+  }
+
+  onTimeout() {
+    this.setState({timeout: true});
+    setTimeout(() => {
+      this.port.emit('pwd-dialog-cancel');
+    }, 1200);
   }
 
   onKeyUp({keyCode}) {
@@ -80,6 +97,7 @@ export default class PasswordDialog extends React.Component {
     this.port.on('set-init-data', this.setInitData);
     this.port.on('wrong-password', this.onWrongPassword);
     this.port.onDisconnect.addListener(() => this.onDisconnect());
+    this.port.onConnect.addListener(() => this.startTimeout());
   }
 
   onDisconnect() {
@@ -118,6 +136,7 @@ export default class PasswordDialog extends React.Component {
       source: 'security_log_password_dialog',
       type
     });
+    this.startTimeout();
   }
 
   handleCancel() {
