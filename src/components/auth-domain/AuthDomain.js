@@ -9,6 +9,7 @@ import * as l10n from '../../lib/l10n';
 import EventHandler from '../../lib/EventHandler';
 import SecurityBG from '../util/SecurityBG';
 import Spinner from '../util/Spinner';
+import Timeout from '../util/Timeout';
 
 l10n.register([
   'auth_domain_api_label',
@@ -26,6 +27,7 @@ export default class AuthDomain extends React.Component {
     this.state = {
       waiting: true,
       frame: null,
+      timeout: false
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
@@ -36,6 +38,7 @@ export default class AuthDomain extends React.Component {
 
   registerEventListeners() {
     this.port.on('set-frame', frame => this.setState({frame, waiting: false}));
+    this.port.onDisconnect.addListener(() => this.onDisconnect());
   }
 
   logUserInput(type) {
@@ -53,6 +56,13 @@ export default class AuthDomain extends React.Component {
   handleConfirm() {
     this.logUserInput('security_log_dialog_ok');
     this.port.emit('auth-domain-dialog-ok');
+  }
+
+  onDisconnect() {
+    this.setState({timeout: true});
+    setTimeout(() => {
+      window.close();
+    }, 1200);
   }
 
   render() {
@@ -92,6 +102,7 @@ export default class AuthDomain extends React.Component {
             </div>
           </div>
         </div>
+        {this.state.timeout && <Timeout />}
       </SecurityBG>
     );
   }

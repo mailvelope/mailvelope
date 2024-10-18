@@ -24,9 +24,9 @@ import {initScriptInjection, initAuthRequestApi} from './lib/inject';
 async function main() {
   initBrowserRuntime();
   initController();
+  initAuthRequestApi();
   await initModel();
   initScriptInjection();
-  initAuthRequestApi();
   await initKeyring();
   initGPG();
 }
