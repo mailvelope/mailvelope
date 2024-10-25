@@ -20,7 +20,7 @@ import {getUserInfo, mapKeys, keyIDfromHex} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 import {updateKeyBinding, init as initKeyBinding} from './keyBinding';
-import {KEYSERVER_ADDRESS, COMMUNICATION, recordOnboardingStep} from '../lib/analytics';
+import {KEYSERVER_ADDRESS, COMMUNICATION, Analytics} from '../lib/analytics';
 
 let modelInitDone;
 export const modelInitialized = new Promise(resolve => modelInitDone = resolve);
@@ -206,7 +206,7 @@ async function logEncryption(source, keyring, keyFprs) {
       return userId;
     }));
     uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')], false);
-    recordOnboardingStep(COMMUNICATION, 'Encryption');
+    new Analytics().getOnboardingCampaign().recordOnboardingStep(COMMUNICATION, 'Encryption');
   }
 }
 
@@ -222,11 +222,12 @@ async function logDecryption(source, keyring, keyIds, senderAddress) {
     const key = keyring.getPrivateKeyByIds(keyIds);
     const {userId} = await getUserInfo(key, false);
     uiLog.push(source, 'security_log_decryption_operation', [userId], false);
+    const oc = new Analytics().getOnboardingCampaign();
     // Share only whether the sender was the keyserver, not the actual address.
     if (senderAddress && senderAddress.includes(KEYSERVER_ADDRESS)) {
-      recordOnboardingStep(COMMUNICATION, 'Decryption (from Keyserver)');
+      oc.recordOnboardingStep(COMMUNICATION, 'Decryption (from Keyserver)');
     } else {
-      recordOnboardingStep(COMMUNICATION, 'Decryption');
+      oc.recordOnboardingStep(COMMUNICATION, 'Decryption');
     }
   }
 }

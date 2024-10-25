@@ -5,7 +5,7 @@
 
 import React from 'react';
 import * as l10n from '../../lib/l10n';
-import {ONBOARDING_CAMPAIGN} from '../../lib/analytics';
+import {ONBOARDING_CAMPAIGN_ID} from '../../lib/analytics';
 import {port} from '../app';
 
 l10n.register([
@@ -35,7 +35,7 @@ export default class Analytics extends React.Component {
   }
 
   getCurrentConsents() {
-    port.send('get-consent', {campaignId: ONBOARDING_CAMPAIGN}).then(consent => {
+    port.send('get-consent', {campaignId: ONBOARDING_CAMPAIGN_ID}).then(consent => {
       this.setState({onboardingConsent: consent});
     });
   }
@@ -53,9 +53,9 @@ export default class Analytics extends React.Component {
 
   handleSave() {
     if (this.state.onboardingConsent) {
-      port.emit('grant-consent', {campaignId: ONBOARDING_CAMPAIGN});
+      port.emit('grant-consent', {campaignId: ONBOARDING_CAMPAIGN_ID});
     } else {
-      port.emit('deny-consent', {campaignId: ONBOARDING_CAMPAIGN});
+      port.emit('deny-consent', {campaignId: ONBOARDING_CAMPAIGN_ID});
     }
     this.setState({modified: false});
   }
@@ -71,7 +71,7 @@ export default class Analytics extends React.Component {
         <h2 className="mb-4">{l10n.map.settings_analytics}</h2>
         <div className="form-group mb-4">
           <h3>{l10n.map.provider_analytics_consent}</h3>
-          <div className="custom-control custom-checkbox" title={!this.state.onboardingConsent && !this.state.modified && l10n.map.analytics_consent_disabled_tooltip}>
+          <div className="custom-control custom-checkbox" title={(!this.state.onboardingConsent && !this.state.modified) ? l10n.map.analytics_consent_disabled_tooltip : undefined}>
             <input className="custom-control-input"
               type="checkbox"
               checked={this.state.onboardingConsent}

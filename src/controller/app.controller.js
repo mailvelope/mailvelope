@@ -22,11 +22,13 @@ import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 import * as mveloKeyServer from '../modules/mveloKeyServer';
 import * as autocrypt from '../modules/autocryptWrapper';
-import {ci, recordOnboardingStep, ADD_KEY, BEGIN, ONBOARDING_CAMPAIGN} from '../lib/analytics';
+import {Analytics, ADD_KEY, BEGIN, ONBOARDING_CAMPAIGN_ID} from '../lib/analytics';
 
 export default class AppController extends SubController {
   constructor(port) {
     super(port);
+    this.analytics = new Analytics();
+    this.oc = this.analytics.getOnboardingCampaign();
     // register event handlers
     this.on('get-prefs', () => prefs.prefs);
     this.on('set-prefs', this.updatePreferences);
@@ -75,8 +77,8 @@ export default class AppController extends SubController {
     this.on('authorize-gmail', this.authorizeGmail);
     this.on('check-license', this.checkLicense);
     this.on('grant-consent', ({campaignId}) => this.grantCampaignConsent(campaignId));
-    this.on('deny-consent', ({campaignId}) => ci.denyCampaign(campaignId));
-    this.on('get-consent', ({campaignId}) => ci.isCampaignCurrentlyGranted(campaignId));
+    this.on('deny-consent', ({campaignId}) => this.analytics.denyCampaign(campaignId));
+    this.on('get-consent', ({campaignId}) => this.analytics.isCampaignCurrentlyGranted(campaignId));
   }
 
   async updatePreferences(options) {
@@ -240,7 +242,7 @@ export default class AppController extends SubController {
     const newKey = await keyring.generateKey(parameters);
     const keyId = newKey.privateKey.getKeyID().toHex().toUpperCase();
     await this.sendKeyUpdate();
-    recordOnboardingStep(ADD_KEY, 'Generate');
+    this.oc.recordOnboardingStep(ADD_KEY, 'Generate');
     return {keyId};
   }
 
@@ -249,7 +251,7 @@ export default class AppController extends SubController {
     const result = await keyring.importKeys(keys);
     await this.sendKeyUpdate();
     if (result.some(({type}) => type === 'success')) {
-      recordOnboardingStep(ADD_KEY, 'Import');
+      this.oc.recordOnboardingStep(ADD_KEY, 'Import');
     }
     return result;
   }
@@ -430,9 +432,9 @@ export default class AppController extends SubController {
   }
 
   grantCampaignConsent(campaignId) {
-    ci.grantCampaign(campaignId);
-    if (campaignId === ONBOARDING_CAMPAIGN) {
-      recordOnboardingStep(BEGIN, 'Consent Granted');
+    this.analytics.grantCampaign(campaignId);
+    if (campaignId === ONBOARDING_CAMPAIGN_ID) {
+      this.oc.recordOnboardingStep(BEGIN, 'Consent Granted');
     }
   }
 }

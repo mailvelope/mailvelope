@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import {ONBOARDING_CAMPAIGN} from '../../lib/analytics';
+import {ONBOARDING_CAMPAIGN_ID} from '../../lib/analytics';
 import {port} from '../app';
 import {useHistory} from 'react-router-dom';
 import Modal from '../../components/util/Modal';
@@ -54,9 +54,9 @@ class AnalyticsConsent extends React.Component {
   handleSelection(event) {
     const consented = event.target.getAttribute('data-selection') === 'yes';
     if (consented) {
-      port.emit('grant-consent', {campaignId: ONBOARDING_CAMPAIGN});
+      port.emit('grant-consent', {campaignId: ONBOARDING_CAMPAIGN_ID});
     } else {
-      port.emit('deny-consent', {campaignId: ONBOARDING_CAMPAIGN});
+      port.emit('deny-consent', {campaignId: ONBOARDING_CAMPAIGN_ID});
     }
     this.props.history.push('/keyring');
   }

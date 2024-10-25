@@ -8,7 +8,7 @@ import {getUUID} from '../lib/util';
 import {SubController, reloadFrames, setAppDataSlot} from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {getAll as getAllKeyring} from '../modules/keyring';
-import {shouldSeeConsentDialog} from '../lib/analytics';
+import {Analytics} from '../lib/analytics';
 
 export default class MenuController extends SubController {
   constructor(port) {
@@ -77,7 +77,8 @@ export default class MenuController extends SubController {
   }
 
   analyticsConsent() {
-    if (shouldSeeConsentDialog()) {
+    const oc = new Analytics().getOnboardingCampaign();
+    if (oc.shouldSeeConsentDialog()) {
       this.openApp('/analytics-consent');
     } else {
       this.openApp('/keyring/setup');

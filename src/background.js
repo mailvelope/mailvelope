@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {initAnalytics} from './lib/analytics';
 import {initBrowserRuntime} from './lib/browser.runtime';
 import {init as initModel} from './modules/pgpModel';
 import {init as initKeyring, initGPG} from './modules/keyring';
@@ -22,6 +23,7 @@ import {initController} from './controller/main.controller';
 import {initScriptInjection, initAuthRequestApi} from './lib/inject';
 
 async function main() {
+  initAnalytics();
   initBrowserRuntime();
   initController();
   initAuthRequestApi();
