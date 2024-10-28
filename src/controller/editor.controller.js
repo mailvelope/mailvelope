@@ -296,10 +296,9 @@ export default class EditorController extends SubController {
       this.setState({integration: this.options.integration});
       height = 740;
     }
-    const popup = await mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}${this.state.integration ? `&quota=${gmail.MAIL_QUOTA}` : ''}`, {width: 820, height});
-    this.popup = popup;
-    popup.addRemoveListener(() => this.onEditorClose({cancel: true}));
-    await this.setState({popupId: popup.id, popupOpenerTabId: popup.tabId});
+    this.popup = await mvelo.windows.openPopup(`components/editor/editor.html?id=${this.id}${this.state.integration ? `&quota=${gmail.MAIL_QUOTA}` : ''}`, {width: 820, height});
+    this.popup.addRemoveListener(() => this.onEditorClose({cancel: true}));
+    this.setState({popupId: this.popup.id, popupOpenerTabId: this.popup.tabId});
   }
 
   /**

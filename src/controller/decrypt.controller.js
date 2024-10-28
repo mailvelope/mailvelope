@@ -26,10 +26,15 @@ export default class DecryptController extends SubController {
       this.mainType = 'decryptCont';
       this.id = getUUID();
     }
+    this.state = {
+      popupId: null,
+      popupOpenerTabId: null
+    };
     this.armored = null;
     this.message = null;
     this.sender = null;
     this.popup = null;
+    this.decryptReady = null;
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
     this.on('decrypt-message-init', this.onDecryptMessageInit);
@@ -40,13 +45,8 @@ export default class DecryptController extends SubController {
   }
 
   async onDecryptMessageInit() {
-    if (!this.popup) {
-      const tab = await mvelo.tabs.getActive();
-      if (tab) {
-        this.tabId = tab.id;
-      }
-    }
-    if (this.mainType.includes('Frame') && (!this.popup && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
+    this.decryptReady = Promise.withResolvers();
+    if (this.mainType.includes('Frame') && (!await this.getPopup() && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
       this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
       return;
     }
@@ -57,17 +57,30 @@ export default class DecryptController extends SubController {
     port && port.emit('get-armored');
   }
 
+  async getPopup() {
+    if (this.popup) {
+      return this.popup;
+    }
+    if (this.state.popupId) {
+      this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
+      return this.popup;
+    }
+  }
+
   async onDframeDisplayPopup() {
     this.popup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
+    this.setState({popupId: this.popup.id, popupOpenerTabId: this.popup.tabId});
     this.popup.addRemoveListener(() => {
       const frame = Object.keys(this.ports).find(key => key.includes('Frame'));
       const port = this.ports[frame];
-      port && port.emit('dialog-cancel');
+      port?.emit('dialog-cancel');
       this.popup = null;
+      this.setState({popupId: null, popupOpenerTabId: null});
     });
   }
 
-  onDecrypt() {
+  async onDecrypt() {
+    await this.decryptReady.promise;
     this.decrypt(this.armored, this.keyringId);
   }
 
@@ -79,7 +92,8 @@ export default class DecryptController extends SubController {
       this.keyringId = msg.keyringId;
     }
     this.armored = msg.data;
-    if (!this.ports.dFrame || this.popup || await this.canUnlockKey(this.armored, this.keyringId)) {
+    this.decryptReady.resolve();
+    if (!this.ports.dFrame || await this.getPopup() || await this.canUnlockKey(this.armored, this.keyringId)) {
       await this.decrypt(this.armored, this.keyringId);
     } else {
       this.ports.dDialog.emit('lock');
@@ -104,14 +118,15 @@ export default class DecryptController extends SubController {
     }
   }
 
-  dialogCancel() {
+  async dialogCancel() {
     const frame = Object.keys(this.ports).find(key => key.includes('Frame'));
     const port = this.ports[frame];
     if (port) {
       port.emit('dialog-cancel');
     }
-    if (this.popup) {
+    if (await this.getPopup()) {
       this.popup.close();
+      this.setState({popupId: null, popupOpenerTabId: null});
       this.popup = null;
     } else {
       this.ports.dDialog.emit('lock');
@@ -183,8 +198,8 @@ export default class DecryptController extends SubController {
 
   async unlockKey({key, message}) {
     const pwdControl = await createController('pwdDialog');
-    const openPopup = this.ports.decryptCont || (!this.popup && this.ports.dDialog);
-    const beforePasswordRequest = id => this.popup && this.ports.dDialog.emit('show-pwd-dialog', {id});
+    const openPopup = this.ports.decryptCont || !await this.getPopup() && this.ports.dDialog;
+    const beforePasswordRequest = async id => await this.getPopup() && this.ports.dDialog.emit('show-pwd-dialog', {id});
     const unlockedKey = await pwdControl.unlockKey({
       key,
       message,
@@ -192,7 +207,7 @@ export default class DecryptController extends SubController {
       openPopup,
       beforePasswordRequest
     });
-    if (this.popup) {
+    if (await this.getPopup()) {
       this.ports.dDialog.emit('hide-pwd-dialog');
     }
     triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
