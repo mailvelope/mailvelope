@@ -71,11 +71,18 @@ export default class EventHandler {
     this._port.onMessage.addListener(this.handlePortMessage.bind(this));
     this.#portName = port.name;
     if (this._port.onDisconnect) {
-      this._port.onDisconnect.addListener(() => this.clearPort());
+      this._port.onDisconnect.addListener(() => this.handleDisconnect());
       for (const listener of this.#disconnectListener) {
         this._port.onDisconnect.addListener(listener);
       }
     }
+  }
+
+  handleDisconnect() {
+    this.clearPort();
+    this.#reply?.forEach(({reject}) => reject());
+    this.#reply = null;
+    this.#replyCount = 0;
   }
 
   clearPort() {
