@@ -35,6 +35,7 @@ export default class DecryptController extends SubController {
     this.sender = null;
     this.popup = null;
     this.decryptReady = null;
+    this.reconnect = false;
     // register event handlers
     this.on('decrypt-dialog-cancel', this.dialogCancel);
     this.on('decrypt-message-init', this.onDecryptMessageInit);
@@ -44,7 +45,8 @@ export default class DecryptController extends SubController {
     this.on('decrypt-inline-user-input', msg => uiLog.push(msg.source, msg.type));
   }
 
-  async onDecryptMessageInit() {
+  async onDecryptMessageInit({reconnect}) {
+    this.reconnect = reconnect;
     this.decryptReady = Promise.withResolvers();
     if (this.mainType.includes('Frame') && (!await this.getPopup() && prefs.security.display_decrypted !== DISPLAY_INLINE)) {
       this.ports.dDialog.emit('error-message', {error: l10n.get('decrypt_no_popup_error')});
@@ -62,8 +64,12 @@ export default class DecryptController extends SubController {
       return this.popup;
     }
     if (this.state.popupId) {
-      this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
-      return this.popup;
+      try {
+        this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
+        return this.popup;
+      } catch (e) {
+        this.setState({popupId: null, popupOpenerTabId: null});
+      }
     }
   }
 
@@ -93,6 +99,9 @@ export default class DecryptController extends SubController {
     }
     this.armored = msg.data;
     this.decryptReady.resolve();
+    if (this.reconnect) {
+      return;
+    }
     if (!this.ports.dFrame || await this.getPopup() || await this.canUnlockKey(this.armored, this.keyringId)) {
       await this.decrypt(this.armored, this.keyringId);
     } else {

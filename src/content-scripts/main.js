@@ -72,7 +72,7 @@ function registerEventListener() {
 
 function onDestroy() {
   off();
-  if (currentProvider.integration) {
+  if (currentProvider?.integration) {
     currentProvider.integration.deactivate();
   }
   // re-init provider specific content scripts
@@ -130,7 +130,7 @@ function on() {
   domObserver.observe(document.body, {subtree: true, childList: true});
   // start DOM scan
   scanDOM();
-  if (currentProvider.integration) {
+  if (currentProvider?.integration) {
     currentProvider.integration.updateElements();
   }
 }
@@ -154,7 +154,7 @@ function scanDOM() {
   } catch (e) {
     console.log('Detecting PGP messages failed: ', e);
   }
-  if (currentProvider.integration) {
+  if (currentProvider?.integration) {
     return;
   }
   try {

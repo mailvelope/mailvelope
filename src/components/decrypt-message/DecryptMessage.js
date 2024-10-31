@@ -56,7 +56,8 @@ export default class DecryptMessage extends React.Component {
       showNotification: false,
       pwdDialog: null,
       terminate: false,
-      large: false
+      large: false,
+      decryptDone: false
     };
     this.port = EventHandler.connect(`dDialog-${this.props.id}`, this);
     this.registerEventListeners();
@@ -80,7 +81,7 @@ export default class DecryptMessage extends React.Component {
     this.port.on('terminate', this.onTerminate);
     this.port.on('set-enc-attachments', this.onEncAttachments);
     this.port.on('waiting', this.onWaiting);
-    this.port.onConnect.addListener(() => this.port.emit('decrypt-message-init'));
+    this.port.onConnect.addListener(() => this.port.emit('decrypt-message-init', {reconnect: this.state.decryptDone}));
     this.port.onDisconnect.addListener(() => this.setState({waiting: false}));
   }
 
@@ -116,7 +117,7 @@ export default class DecryptMessage extends React.Component {
     if (clearText) {
       message = `<pre style="color: inherit; font-size: inherit; white-space: pre-wrap;">${encodeHTML(message)}</pre>`;
     }
-    this.setState({message, clearText});
+    this.setState({message, clearText, decryptDone: true});
   }
 
   onDecryptedAttachment({attachment}) {

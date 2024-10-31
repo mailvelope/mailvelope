@@ -110,8 +110,12 @@ export default class EditorController extends SubController {
       return this.popup;
     }
     if (this.state.popupId) {
-      this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
-      return this.popup;
+      try {
+        this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
+        return this.popup;
+      } catch (e) {
+        this.setState({popupId: null, popupOpenerTabId: null});
+      }
     }
   }
 

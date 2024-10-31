@@ -80,7 +80,7 @@ export default class EventHandler {
 
   handleDisconnect() {
     this.clearPort();
-    this.#reply?.forEach(({reject}) => reject());
+    this.#reply?.forEach(({reject}) => reject({message: 'The Mailvelope service worker was shutdown after 30s of inactivity. Please try again.', code: 'INTERNAL_ERROR'}));
     this.#reply = null;
     this.#replyCount = 0;
   }

@@ -31,8 +31,8 @@ export default class gmailDecryptController extends DecryptController {
     this.on('download-enc-attachment', this.onDownloadEncAttachment);
   }
 
-  async onDecryptMessageInit() {
-    await super.onDecryptMessageInit();
+  async onDecryptMessageInit(options) {
+    await super.onDecryptMessageInit(options);
     if (this.ports.aFrameGmail) {
       this.ports.aFrameGmail.emit('get-data');
     }
@@ -95,6 +95,9 @@ export default class gmailDecryptController extends DecryptController {
       }
     }
     this.decryptReady.resolve();
+    if (this.reconnect) {
+      return;
+    }
     if (lock) {
       this.ports.dDialog.emit('lock');
     } else {
