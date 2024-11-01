@@ -14,7 +14,9 @@ import {equalKey} from '../modules/key';
 export class SyncController extends SubController {
   constructor(port) {
     super(port);
-    this.keyringId = null;
+    this.state = {
+      keyringId: null
+    };
     this.keyring = null;
     this.syncDoneHandler = {};
     this.pwdControl = null;
@@ -29,8 +31,8 @@ export class SyncController extends SubController {
   }
 
   async init(keyringId) {
-    this.keyringId = keyringId;
-    this.keyring = await getKeyringById(this.keyringId);
+    this.setState({keyringId});
+    this.keyring = await getKeyringById(keyringId);
   }
 
   /**
@@ -162,7 +164,7 @@ export class SyncController extends SubController {
     this.pwdControl = this.pwdControl || await createController('pwdDialog');
     const unlockedKey = await this.pwdControl.unlockKey(keyOptions);
     // encrypt keyring sync message
-    const armored = await encryptSyncMessage(unlockedKey.key, this.keyring.sync.data.changeLog, this.keyringId);
+    const armored = await encryptSyncMessage(unlockedKey.key, this.keyring.sync.data.changeLog, this.state.keyringId);
     // upload
     const {eTag} = await this.upload({eTag: this.keyring.sync.data.eTag, keyringMsg: armored});
     this.keyring.sync.data.eTag = eTag;
@@ -251,7 +253,7 @@ export class SyncController extends SubController {
 
 export async function getByKeyring(keyringId) {
   const syncController = await getAllControllerByType('syncHandler');
-  return syncController.filter(obj => obj.keyringId === keyringId)[0];
+  return syncController.filter(obj => obj.state.keyringId === keyringId)[0];
 }
 
 /**

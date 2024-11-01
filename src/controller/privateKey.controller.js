@@ -17,14 +17,16 @@ import {createPrivateKeyBackup, restorePrivateKeyBackup} from '../modules/pgpMod
 export default class PrivateKeyController extends SubController {
   constructor(port) {
     super(port);
-    this.keyringId = null;
+    this.state = {
+      keyringId: null,
+      restorePassword: false,
+      host: null
+    };
     this.options = null;
     this.backupCodePopup = null;
-    this.host = null;
     this.keyBackup = null;
     this.pwdControl = null;
     this.initialSetup = true;
-    this.restorePassword = false;
     this.newKeyFpr = '';
     this.rejectTimer = 0;
     // register event handlers
@@ -47,8 +49,10 @@ export default class PrivateKeyController extends SubController {
   }
 
   setInitData({data}) {
-    this.keyringId = data.keyringId || this.keyringId;
-    this.restorePassword = data.restorePassword || this.restorePassword;
+    this.setState({
+      keyringId: data.keyringId || this.state.keyringId,
+      restorePassword: data.restorePassword || this.state.restorePassword
+    });
   }
 
   onUserInput(msg) {
@@ -56,7 +60,7 @@ export default class PrivateKeyController extends SubController {
   }
 
   onGenerateKey(msg) {
-    this.keyringId = msg.keyringId;
+    this.setState({keyringId: msg.keyringId});
     this.options = msg.options;
     this.ports.keyGenDialog.emit('check-dialog-inputs');
   }
@@ -77,8 +81,7 @@ export default class PrivateKeyController extends SubController {
   }
 
   setKeybackupProps(msg) {
-    this.keyringId = msg.keyringId;
-    this.host = msg.host;
+    this.setState({keyringId: msg.keyringId, host: msg.host});
     this.initialSetup = msg.initialSetup;
   }
 
@@ -111,7 +114,7 @@ export default class PrivateKeyController extends SubController {
     }
     this.ports.keyGenDialog.emit('show-waiting');
     try {
-      const keyring = await getKeyringById(this.keyringId);
+      const keyring = await getKeyringById(this.state.keyringId);
       const {publicKey, privateKey} = await keyring.generateKey({
         keyAlgo: 'rsa',
         userIds: options.userIds,
@@ -136,7 +139,7 @@ export default class PrivateKeyController extends SubController {
   }
 
   async rejectKey() {
-    const keyring = await getKeyringById(this.keyringId);
+    const keyring = await getKeyringById(this.state.keyringId);
     await keyring.removeKey(this.newKeyFpr, 'private');
     if (prefs.security.password_cache) {
       pwdCache.delete(this.newKeyFpr);
@@ -144,7 +147,7 @@ export default class PrivateKeyController extends SubController {
   }
 
   async createPrivateKeyBackup() {
-    const keyring = await getKeyringById(this.keyringId);
+    const keyring = await getKeyringById(this.state.keyringId);
     const defaultKey = await keyring.getDefaultKey();
     if (!defaultKey) {
       throw new MvError('No private key for backup', 'NO_PRIVATE_KEY');
@@ -156,11 +159,11 @@ export default class PrivateKeyController extends SubController {
         key: defaultKey,
         reason: 'PWD_DIALOG_REASON_CREATE_BACKUP'
       });
-      sync.triggerSync({keyringId: this.keyringId, key: unlockedKey.key, password: unlockedKey.password});
+      sync.triggerSync({keyringId: this.state.keyringId, key: unlockedKey.key, password: unlockedKey.password});
       this.keyBackup = await createPrivateKeyBackup(defaultKey, unlockedKey.password);
-      await (await sync.getByKeyring(this.keyringId)).backup({backup: this.keyBackup.message});
+      await (await sync.getByKeyring(this.state.keyringId)).backup({backup: this.keyBackup.message});
       let page = 'recoverySheet.html';
-      switch (this.host) {
+      switch (this.state.host) {
         case 'web.de':
           page += `?brand=webde&id=${this.id}`;
           break;
@@ -186,10 +189,10 @@ export default class PrivateKeyController extends SubController {
 
   async restorePrivateKeyBackup(code) {
     try {
-      const ctrl = await sync.getByKeyring(this.keyringId);
+      const ctrl = await sync.getByKeyring(this.state.keyringId);
       const data = await ctrl.restore();
       const backup = await restorePrivateKeyBackup(data.backup, code);
-      const keyring = await getKeyringById(this.keyringId);
+      const keyring = await getKeyringById(this.state.keyringId);
       const result = await keyring.importKeys([{armored: backup.key.armor(), type: 'private'}]);
       // Check for errors in the result array
       for (let i = 0; i < result.length; i++) {
@@ -197,11 +200,11 @@ export default class PrivateKeyController extends SubController {
           throw result[i].message;
         }
       }
-      if (this.restorePassword) {
+      if (this.state.restorePassword) {
         this.ports.restoreBackupDialog.emit('set-password', {password: backup.password});
       }
       this.ports.restoreBackupCont.emit('restore-backup-done', {data: backup.key.toPublic().armor()});
-      sync.triggerSync({keyringId: this.keyringId, key: backup.key, password: backup.password});
+      sync.triggerSync({keyringId: this.state.keyringId, key: backup.key, password: backup.password});
     } catch (err) {
       this.ports.restoreBackupDialog.emit('error-message', {error: mapError(err)});
       if (err.code !== 'WRONG_RESTORE_CODE') {
@@ -211,7 +214,7 @@ export default class PrivateKeyController extends SubController {
   }
 
   async getLogoImage() {
-    const keyring = await getKeyringById(this.keyringId);
+    const keyring = await getKeyringById(this.state.keyringId);
     const attr = await keyring.getAttributes();
     return (attr && attr.logo_data_url) ? attr.logo_data_url : null;
   }

@@ -17,6 +17,9 @@ export default class SyncHandler {
     this.id = getUUID();
     this.port = EventHandler.connect(`syncHandler-${this.id}`, this);
     this.registerEventListener();
+  }
+
+  onConnect() {
     this.port.emit('init', {keyringId: this.keyringId});
   }
 
@@ -26,6 +29,7 @@ export default class SyncHandler {
 
   registerEventListener() {
     this.port.on('sync-event', data => clientPort.emit('sync-event', data));
+    this.port.onConnect.addListener(() => this.onConnect());
     // workaround for https://bugs.chromium.org/p/chromium/issues/detail?id=655932
     window.addEventListener('beforeunload', () => {
       this.port.disconnect();
