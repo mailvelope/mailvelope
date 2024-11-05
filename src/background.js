@@ -20,11 +20,13 @@ import {init as initModel} from './modules/pgpModel';
 import {init as initKeyring, initGPG} from './modules/keyring';
 import {initController} from './controller/main.controller';
 import {initScriptInjection, initAuthRequestApi} from './lib/inject';
+import {initAnalytics} from './lib/analytics';
 
 async function main() {
   initBrowserRuntime();
   initController();
   initAuthRequestApi();
+  initAnalytics();
   await initModel();
   initScriptInjection();
   await initKeyring();

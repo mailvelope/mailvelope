@@ -11,6 +11,8 @@ export const ADD_KEY = 'Added Key';
 export const COMMUNICATION = 'Communication';
 export const KEYSERVER_ADDRESS = 'noreply@mailvelope.com';
 
+const ciActive = false;
+
 const TRACKTYPES = {
   FIRST_PER_ACTION: 'first per action',
   FIRST_PER_NAME: 'first per name',
@@ -33,7 +35,7 @@ const ONBOARDING_STEPS = [
 ];
 
 const SELECTED_FOR_EXPERIMENT_KEY = 'Selected for Onboarding Experiment';
-export const PERCENT_OF_ONBOARDERS_TO_PROMPT = 1;
+const PERCENT_OF_ONBOARDERS_TO_PROMPT = 1;
 
 // Add basic K:V storage so we can keep timestamps and deduplicate actions.
 class BrowserStoreWithKV extends BrowserStore {
@@ -56,10 +58,15 @@ class BrowserStoreWithKV extends BrowserStore {
   }
 }
 
-const store = new BrowserStoreWithKV();
+let store;
+let ci;
 
-export const ci = new CleanInsights(
-  {
+export function initAnalytics() {
+  if (!ciActive) {
+    return;
+  }
+  store = new BrowserStoreWithKV();
+  ci = new CleanInsights({
     'server': 'https://metrics.cleaninsights.org/cleaninsights.php',
     'siteId': 22,
     'persistEveryNTimes': 1,
@@ -71,14 +78,12 @@ export const ci = new CleanInsights(
         'numberOfPeriods': 30,
       },
     }
-  },
-  store
-);
-// By calling this when the extension is initialized, we can make sure we
-// flush the last events out.
-ci.persistAndSend();
+  }, store);
+  // By calling this when the extension is initialized, we can make sure we flush the last events out.
+  ci.persistAndSend();
+}
 
-export function binInto10sIncrements(milliseconds) {
+function binInto10sIncrements(milliseconds) {
   return Math.floor(milliseconds / (10 * 1000)) * 10;
 }
 
@@ -99,6 +104,9 @@ function getPrecedingStep(action) {
  * for each unique name.
  */
 export function recordOnboardingStep(action, name) {
+  if (!ciActive) {
+    return;
+  }
   const this_step_performed_at = Date.now();
   const last_step = getPrecedingStep(action);
   const last_step_timestamp = last_step && store.get(last_step.name);
@@ -107,14 +115,12 @@ export function recordOnboardingStep(action, name) {
     elapsed = (this_step_performed_at - last_step_timestamp);  // Report seconds, not milliseconds.
     elapsed = binInto10sIncrements(elapsed);
   }
-
   if (store.get(action) === undefined) {
     // Save the timestamp of the first time this action was performed.
     store.set(action, this_step_performed_at);
   } else if (getStep(action).trackType === TRACKTYPES.FIRST_PER_ACTION) {
     return;
   }
-
   // Never record a category, action, name tuple more than once.
   const can_tuple = [ONBOARDING_CATEGORY, action, name];
   if (!store.get(can_tuple)) {
@@ -128,6 +134,9 @@ export function recordOnboardingStep(action, name) {
  * haven't yet responded to the consent dialog, show it.
  */
 export function shouldSeeConsentDialog() {
+  if (!ciActive) {
+    return;
+  }
   let selected = store.get(SELECTED_FOR_EXPERIMENT_KEY);
   if (selected === undefined) {
     selected = Math.random() < (PERCENT_OF_ONBOARDERS_TO_PROMPT / 100);
@@ -136,4 +145,25 @@ export function shouldSeeConsentDialog() {
   }
   const hasResponded = ci.stateOfCampaign(ONBOARDING_CAMPAIGN) !== ConsentState.unknown;
   return selected && !hasResponded;
+}
+
+export function denyCampaign(campaignId) {
+  if (!ciActive) {
+    return;
+  }
+  return ci.denyCampaign(campaignId);
+}
+
+export function isCampaignCurrentlyGranted(campaignId) {
+  if (!ciActive) {
+    return;
+  }
+  return ci.isCampaignCurrentlyGranted(campaignId);
+}
+
+export function grantCampaign(campaignId) {
+  if (!ciActive) {
+    return;
+  }
+  return ci.grantCampaign(campaignId);
 }
