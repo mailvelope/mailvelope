@@ -65,5 +65,6 @@ export function formatDateWithLocale(date, formatStyle) {
  * @returns {Locale} `date-fns` locale object
  */
 export function getDefaultLocale() {
-  return locales[navigator.language.replace('-', '')];
+  const lang = navigator.language.replace('-', '');
+  return locales[lang] || locales[lang.substring(0, 2)] || locales.enUS;
 }
