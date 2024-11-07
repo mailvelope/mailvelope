@@ -24,10 +24,10 @@ describe('Sync controller unit tests', () => {
   });
 
   describe('init', () => {
-    it('should set keyring ID and get keyring', () => {
-      SyncRewireAPI.__Rewire__('getKeyringById', () => 'keyring');
-      ctrl.init('123');
-      expect(ctrl.keyringId).to.equal('123');
+    it('should set keyring ID and get keyring', async () => {
+      SyncRewireAPI.__Rewire__('getKeyringById', async () => 'keyring');
+      await ctrl.init('123');
+      expect(ctrl.state.keyringId).to.equal('123');
       expect(ctrl.keyring).to.equal('keyring');
     });
   });

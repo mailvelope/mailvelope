@@ -26,6 +26,12 @@ describe('Decrypt Message tests', () => {
         return new Promise(resolve => {
           resolve(event);
         });
+      },
+      onConnect: {
+        addListener() {}
+      },
+      onDisconnect: {
+        addListener() {}
       }
     };
     sandbox.stub(EventHandler, 'connect').returns(portMock);
@@ -107,7 +113,6 @@ describe('Decrypt Message tests', () => {
       const component = wrapper.instance();
       expect(component.port._events.on).to.include.members(['decrypted-message', 'add-decrypted-attachment',
         'signature-verification']);
-      expect(component.port._events.emit).to.include.members(['decrypt-message-init']);
       expect(wrapper.find(Spinner).exists()).to.equal(true);
     });
 

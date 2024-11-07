@@ -22,26 +22,26 @@ describe('keyring unit tests', () => {
   // TODO: This test does not test what it claims to do.
   describe('deleteKeyring', () => {
     it('Should delete keyring, all keys and keyring attributes', async () => {
-      expect(getById('test123')).to.not.throw;
+      expect(await getById('test123')).to.not.throw;
       return expect(deleteKeyring('test123')).to.eventually.throw;
     });
   });
 
   describe('getById', () => {
-    it('Should get keyring by Id', () => {
-      expect(getById('test123')).to.not.throw;
+    it('Should get keyring by Id', async () => {
+      expect(await getById('test123')).to.not.throw;
     });
   });
 
   describe('getAll', () => {
-    it('Should get all keyrings', () => {
-      expect(getAll().length).to.equal(2);
+    it('Should get all keyrings', async () => {
+      expect((await getAll()).length).to.equal(2);
     });
   });
 
   describe('getAllKeyringAttr', () => {
-    it('Should get all keyring attributes as an object map', () => {
-      const allKeyringAttrs = getAllKeyringAttr();
+    it('Should get all keyring attributes as an object map', async () => {
+      const allKeyringAttrs = await getAllKeyringAttr();
       expect(allKeyringAttrs[MAIN_KEYRING_ID].default_key).to.equal('771f9119b823e06c0de306d466663688a83e9763');
     });
   });
@@ -52,7 +52,7 @@ describe('keyring unit tests', () => {
         default_key: '123456789'
       });
 
-      expect(getKeyringAttr('test123', 'default_key')).to.equal('123456789');
+      expect(await getKeyringAttr('test123', 'default_key')).to.equal('123456789');
     });
   });
 
@@ -73,15 +73,15 @@ describe('keyring unit tests', () => {
   });
 
   describe('getKeyringWithPrivKey', () => {
-    it('Should get keyring that includes at least one private key of the specified key Ids', () => {
-      const keyRing = getKeyringWithPrivKey(['db187eb58a88aa05']);
+    it('Should get keyring that includes at least one private key of the specified key Ids', async () => {
+      const keyRing = await getKeyringWithPrivKey(['db187eb58a88aa05']);
       expect(keyRing.id).to.equal('test123');
     });
   });
 
   describe('getPreferredKeyring', () => {
-    it('Should get preferred keyring', () => {
-      const keyRing = getPreferredKeyring();
+    it('Should get preferred keyring', async () => {
+      const keyRing = await getPreferredKeyring();
       expect(keyRing.id).to.equal('test123');
     });
   });
@@ -89,7 +89,7 @@ describe('keyring unit tests', () => {
   describe('syncPublicKeys', () => {
     it('Should synchronize public keys across keyrings', async () => {
       await syncPublicKeys({keyringId: 'test123', keyIds: ['887839aaa7d5be4f']});
-      const destKeyring = getById('test123');
+      const destKeyring = await getById('test123');
       const targetKey = await destKeyring.getKeyByAddress('max@mailvelope.com');
       expect(targetKey['max@mailvelope.com']).to.not.be.false;
     });

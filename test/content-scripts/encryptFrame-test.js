@@ -16,12 +16,6 @@ describe('Encrypt Frame unit tests', () => {
 
   afterEach(() => {});
 
-  describe('getRecipients', () => {
-    it('should work', () =>
-      expect(ef.getRecipients()).to.eventually.include(...recip)
-    );
-  });
-
   describe('setEditorOutput', () => {
     beforeEach(() => {
       sinon.stub(ef, 'normalizeButtons');

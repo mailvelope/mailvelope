@@ -27,6 +27,12 @@ describe('Editor tests', () => {
         return new Promise(resolve => {
           resolve(event);
         });
+      },
+      onConnect: {
+        addListener() {}
+      },
+      onDisconnect: {
+        addListener() {}
       }
     };
     sandbox.stub(EventHandler, 'connect').returns(portMock);

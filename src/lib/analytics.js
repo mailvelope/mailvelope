@@ -83,7 +83,7 @@ export function initAnalytics() {
   ci.persistAndSend();
 }
 
-function binInto10sIncrements(milliseconds) {
+export function binInto10sIncrements(milliseconds) {
   return Math.floor(milliseconds / (10 * 1000)) * 10;
 }
 

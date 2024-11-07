@@ -11,6 +11,7 @@ describe('Decrypt controller unit tests', () => {
   beforeEach(() => {
     port = new Port('dummy-1');
     ctrl = new DecryptController(port);
+    ctrl.decryptReady = Promise.withResolvers();
   });
 
   afterEach(() => {
@@ -24,14 +25,14 @@ describe('Decrypt controller unit tests', () => {
   });
 
   describe('onSetArmored', () => {
-    it('should call decrypt', () => {
+    it('should call decrypt', async () => {
       const msg = {
         options: {},
         keyringId: '123',
         data: 'a'
       };
-      const decrypt = sandbox.spy(ctrl, 'decrypt');
-      ctrl.onSetArmored(msg);
+      const decrypt = sandbox.stub(ctrl, 'decrypt');
+      await ctrl.onSetArmored(msg);
       expect(decrypt.withArgs(msg.data, msg.keyringId).calledOnce).to.be.true;
     });
   });

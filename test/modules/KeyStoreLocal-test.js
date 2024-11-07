@@ -25,7 +25,7 @@ describe('KeyStoreLocal unit tests', () => {
       storage
     });
     await initKeyringAttrMap();
-    const keyRing = getKeryingById(keyringId);
+    const keyRing = await getKeryingById(keyringId);
     keyRing.keystore.clear();
     keyStore = keyRing.keystore;
   });

@@ -138,7 +138,7 @@ NqoPTk9p1pmbCsuZ4cQcFDDJrIeQcaE/uAU=
   describe('createPrivateKeyBackup/restorePrivateKeyBackup', function() {
     this.timeout(5000);
     it('should create private key backup', async () => {
-      const keyring = getKeryingById(MAIN_KEYRING_ID);
+      const keyring = await getKeryingById(MAIN_KEYRING_ID);
       const defaultKey = await keyring.getDefaultKey();
       const backup = await createPrivateKeyBackup(defaultKey, '1234');
       const restored = await restorePrivateKeyBackup(backup.message, backup.backupCode);
@@ -147,7 +147,7 @@ NqoPTk9p1pmbCsuZ4cQcFDDJrIeQcaE/uAU=
     });
 
     it('should store empty password if password is undefined', async () => {
-      const keyring = getKeryingById(MAIN_KEYRING_ID);
+      const keyring = await getKeryingById(MAIN_KEYRING_ID);
       const defaultKey = await keyring.getDefaultKey();
       const backup = await createPrivateKeyBackup(defaultKey);
       const restored = await restorePrivateKeyBackup(backup.message, backup.backupCode);
@@ -159,7 +159,7 @@ NqoPTk9p1pmbCsuZ4cQcFDDJrIeQcaE/uAU=
   describe('encryptSyncMessage/decryptSyncMessage', function() {
     this.timeout(10000);
     it('should encrypt sync message and decrypt encrypted syn message', async () => {
-      const keyring = getKeryingById(MAIN_KEYRING_ID);
+      const keyring = await getKeryingById(MAIN_KEYRING_ID);
       const defaultKey = await keyring.getDefaultKey();
       const unlockedKey = await unlock({key: defaultKey, password: '1234'});
       const changeLog = {

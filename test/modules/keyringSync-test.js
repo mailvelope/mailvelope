@@ -24,7 +24,7 @@ describe('keyringSync unit tests', () => {
       storage
     });
     await initKeyringAttrMap();
-    const keyRing = getKeryingById(keyringId);
+    const keyRing = await getKeryingById(keyringId);
     sync = keyRing.sync;
   });
 
@@ -34,23 +34,23 @@ describe('keyringSync unit tests', () => {
   });
 
   describe('activate', () => {
-    it('should add sync data to keyring attributes', () => {
+    it('should add sync data to keyring attributes', async () => {
       expect(storage.storage.get('mvelo.keyring.attributes').test123.sync_data).to.be.undefined;
-      sync.activate();
+      await sync.activate();
       const compareData = {
         eTag: '',
         changeLog: {},
         modified: false
       };
-      expect(getKeyringAttr(keyringId).sync_data).to.deep.equal(compareData);
+      expect((await getKeyringAttr(keyringId)).sync_data).to.deep.equal(compareData);
       expect(storage.storage.get('mvelo.keyring.attributes').test123.sync_data).to.deep.equal(compareData);
     });
   });
 
   describe('add', () => {
-    it('should set sync data', () => {
-      sync.activate();
-      sync.add('1234567891234567891234567891234567891234', INSERT);
+    it('should set sync data', async () => {
+      await sync.activate();
+      await sync.add('1234567891234567891234567891234567891234', INSERT);
       expect(sync.data.modified).to.be.true;
       expect(sync.data.changeLog).to.have.property('1234567891234567891234567891234567891234');
       expect(sync.data.changeLog['1234567891234567891234567891234567891234']).to.have.property('type', INSERT);
@@ -67,10 +67,10 @@ describe('keyringSync unit tests', () => {
   });
 
   describe('merge', () => {
-    it('should merge sync data', () => {
-      sync.activate();
-      sync.add('1234567891234567891234567891234567891234', INSERT);
-      sync.merge({
+    it('should merge sync data', async () => {
+      await sync.activate();
+      await sync.add('1234567891234567891234567891234567891234', INSERT);
+      await sync.merge({
         '1234567891234567891234567891234567891234': {
           type: UPDATE,
           time: 1544047791
@@ -87,11 +87,11 @@ describe('keyringSync unit tests', () => {
   });
 
   describe('getDeleteEntries', () => {
-    it('should get deleted entries from sync data', () => {
-      sync.activate();
-      sync.add('1234567891234567891234567891234567891234', DELETE);
-      sync.add('9876543219876543219876543219876543219876', DELETE);
-      expect(sync.getDeleteEntries()).to.deep.equal(['1234567891234567891234567891234567891234', '9876543219876543219876543219876543219876']);
+    it('should get deleted entries from sync data', async () => {
+      await sync.activate();
+      await sync.add('1234567891234567891234567891234567891234', DELETE);
+      await sync.add('9876543219876543219876543219876543219876', DELETE);
+      expect(await sync.getDeleteEntries()).to.deep.equal(['1234567891234567891234567891234567891234', '9876543219876543219876543219876543219876']);
     });
   });
 });

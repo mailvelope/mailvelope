@@ -24,7 +24,7 @@ describe('KeyringLocal unit tests', () => {
       storage
     });
     await initKeyringAttrMap();
-    keyRing = getKeryingById(keyringId);
+    keyRing = await getKeryingById(keyringId);
   });
 
   afterEach(() => {
@@ -133,8 +133,8 @@ describe('KeyringLocal unit tests', () => {
   });
 
   describe('getAttributes', () => {
-    it('should get attributes for keyring', () => {
-      const attributes = keyRing.getAttributes();
+    it('should get attributes for keyring', async () => {
+      const attributes = await keyRing.getAttributes();
       expect(attributes.default_key).to.equal('771f9119b823e06c0de306d466663688a83e9763');
     });
   });

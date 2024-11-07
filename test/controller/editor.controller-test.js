@@ -56,8 +56,7 @@ describe('Editor controller unit tests', () => {
 
   describe('transferEncrypted', () => {
     beforeEach(() => {
-      ctrl.encryptPromise = {resolve() {}, reject() {}};
-      sandbox.stub(ctrl.encryptPromise, 'resolve');
+      ctrl.peers.gmailController = {encryptedMessage: sandbox.stub()};
     });
 
     it('should not transfer private key material', () => {
@@ -68,7 +67,7 @@ describe('Editor controller unit tests', () => {
         cc: [],
         subject: 'Test'
       });
-      expect(ctrl.encryptPromise.resolve.withArgs({armored: 'a', encFiles: [], to: [{name: 'n', email: 'e'}], cc: [], subject: 'Test'}).calledOnce).to.be.true;
+      expect(ctrl.peers.gmailController.encryptedMessage.withArgs({armored: 'a', encFiles: [], to: [{name: 'n', email: 'e'}], cc: [], subject: 'Test'}).calledOnce).to.be.true;
     });
   });
 
