@@ -1,6 +1,6 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "Добавить этот домен",
+        "message": "Авторизовать этот домен",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
@@ -12,7 +12,7 @@
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Все опции",
+        "message": "Показать все параметры конфигурации.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
@@ -52,16 +52,12 @@
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "Журнал",
+        "message": "Журнал безопасности",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
         "message": "Меню настроек Mailvelope",
         "description": "Accessibility, aria label of the setup menu"
-    },
-    "action_menu_setup_new_bg_description": {
-        "message": "Последнее обновление Mailvelope требует перенастройки фона безопасности.",
-        "description": "Configure new security bg description text in the action menu"
     },
     "action_menu_setup_start_label": {
         "message": "Начнем!",
@@ -99,6 +95,62 @@
         "message": "Делиться агрегированной и анонимизированной аналитической информацией с Mailvelope",
         "description": "Consent to share analytics information with mailvelope"
     },
+    "analytics_consent_disabled_tooltip": {
+        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "description": "Explanation for why user cannot opt in to analytics"
+    },
+    "analytics_consent_interstitial_Btn_Learn_More": {
+        "message": "Узнать больше",
+        "description": "Btn FAQ"
+    },
+    "analytics_consent_interstitial_Faq": {
+        "message": " Read more about Mailvelope metrics in our FAQ.",
+        "description": "FAQ"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data": {
+        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
+        "message": "We Collect Minimal Data",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice": {
+        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+        "message": "We Respect your Choice",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
+        "message": "Mailvelope uses",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
+        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+        "message": "Your Privacy is Preserved",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_learn_more": {
+        "message": "Learn how metrics are safe",
+        "description": "Label for expandable section"
+    },
+    "analytics_consent_interstitial_learn_more_explanation": {
+        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_message": {
+        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "description": "Request for consent from selected users."
+    },
+    "analytics_interstitial_header": {
+        "message": "Help us improve?",
+        "description": "Header of analytics consent dialog."
+    },
     "auth_domain_api_label": {
         "message": "Использовать API",
         "description": "Label for API allowed info"
@@ -110,6 +162,10 @@
     "auth_domain_headline": {
         "message": "Добавить домен",
         "description": "Headline of authorize domain dialog."
+    },
+    "button_analyticsconsent_modal": {
+        "message": "Продолжить",
+        "description": "button modal analytics consent"
     },
     "change_link": {
         "message": "Изменить",
@@ -243,6 +299,10 @@
         "message": "Нет",
         "description": "Dialog no button label"
     },
+    "dialog_no_button": {
+        "message": "Пропустить",
+        "description": "Dialog button no"
+    },
     "dialog_popup_close": {
         "message": "Закрыть",
         "description": "Close decrypt popup."
@@ -254,6 +314,10 @@
     "dialog_yes_btn": {
         "message": "Да",
         "description": "Dialog yes button label"
+    },
+    "dialog_yes_button": {
+        "message": "Да",
+        "description": "Dialog button yes"
     },
     "editor_blur_warn": {
         "message": "Внимание: ошибка текстового редактора.",
@@ -568,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "У вас установлена программа GnuPG? Если нет, <0>скачайте ее отсюда</0>. Чтобы снова проверить доступность программы, <1>перезапустите Mailvelope</1>. Если вы уверены, что она установлена, воспользуйтесь <2>этой вики</2>, чтобы убедиться, что она настроена правильно.",
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -622,6 +686,10 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Пожалуйста, убедитесь, что в вашей связке GnuPG есть следующие действующие ключи: $1",
         "description": ""
+    },
+    "header_analyticsconsent_modal": {
+        "message": "Thank you for helping!",
+        "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
         "message": "Нажмите для импорта ключа",
@@ -875,18 +943,6 @@
         "message": "Поиск",
         "description": "Key search input button."
     },
-    "key_import_search_found": {
-        "message": "Ключ найден в:",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_source": {
-        "message": "Источник:",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_modified": {
-        "message": "последнее изменение:",
-        "description": "Key search found label."
-    },
     "key_import_search_disabled": {
         "message": "Поиск отключен.",
         "description": "Key search disabled warning."
@@ -894,6 +950,18 @@
     "key_import_search_disabled_descr": {
         "message": "Активируйте в настройках хотя бы один источник ключей.",
         "description": "Key search disabled warning description."
+    },
+    "key_import_search_found": {
+        "message": "Ключ найден в:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "последнее изменение:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "Источник:",
+        "description": "Key search found label."
     },
     "key_import_search_invalid": {
         "message": "Введите действительный адрес электронной почты, ID ключа (16 цифр) или отпечаток (40 цифр)",
@@ -1387,10 +1455,6 @@
         "message": "Использовать ключи из заголовков Autocrypt входящих писем",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_tofu_lookup": {
-        "message": "Использовать сервер ключей Mailvelope",
-        "description": "Enable Mailvelope Key Server Auto Lookup"
-    },
     "keyserver_key_binding_header": {
         "message": "Обнаружение ключей",
         "description": "Header for key binding feature"
@@ -1402,6 +1466,10 @@
     "keyserver_oks_lookup": {
         "message": "Автоматический поиск ключей на <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Использовать сервер ключей Mailvelope",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_verifying_servers": {
         "message": "Сервер ключей с проверкой по электронной почте",
@@ -1478,6 +1546,10 @@
     "options_title": {
         "message": "Настройки Mailvelope",
         "description": "Title of options page."
+    },
+    "paragraph_analyticsconsent_modal": {
+        "message": "You can opt out at any time from settings.",
+        "description": "p modal analytics consent"
     },
     "preferred": {
         "message": "предпочитаемый",

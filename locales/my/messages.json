@@ -59,10 +59,6 @@
         "message": "Mailvelope ပြင်ဆင်သတ်မှတ်ရန် မီနူး",
         "description": "Accessibility, aria label of the setup menu"
     },
-    "action_menu_setup_new_bg_description": {
-        "message": "Mailvelope နောက်ဆုံး အပ်ဒိတ်အရ သင့်လုံခြုံရေးနောက်ခံကို ပြန်လည်ချိန်ညှိရန် လိုအပ်ပါသည်။",
-        "description": "Configure new security bg description text in the action menu"
-    },
     "action_menu_setup_start_label": {
         "message": "စတင်မယ်",
         "description": "Start button label"
@@ -99,6 +95,62 @@
         "message": "Mailvelope ဖြင့် စုစည်းထားပြီး အမည်ဝှက်ထား၍ ပိုင်းခြားစိတ်ဖြာထားသောသတင်းအချက်အလက်များကို မျှဝေပါ",
         "description": "Consent to share analytics information with mailvelope"
     },
+    "analytics_consent_disabled_tooltip": {
+        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "description": "Explanation for why user cannot opt in to analytics"
+    },
+    "analytics_consent_interstitial_Btn_Learn_More": {
+        "message": "ထပ်မံ လေ့လာမယ်",
+        "description": "Btn FAQ"
+    },
+    "analytics_consent_interstitial_Faq": {
+        "message": " Read more about Mailvelope metrics in our FAQ.",
+        "description": "FAQ"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data": {
+        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
+        "message": "We Collect Minimal Data",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice": {
+        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+        "message": "We Respect your Choice",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
+        "message": "Mailvelope uses",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
+        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+        "message": "Your Privacy is Preserved",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_learn_more": {
+        "message": "Learn how metrics are safe",
+        "description": "Label for expandable section"
+    },
+    "analytics_consent_interstitial_learn_more_explanation": {
+        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_message": {
+        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "description": "Request for consent from selected users."
+    },
+    "analytics_interstitial_header": {
+        "message": "Help us improve?",
+        "description": "Header of analytics consent dialog."
+    },
     "auth_domain_api_label": {
         "message": "API ခွင့်ပြုရန်",
         "description": "Label for API allowed info"
@@ -110,6 +162,10 @@
     "auth_domain_headline": {
         "message": "ဒိုမိန်း ခွင့်ပြုရန်",
         "description": "Headline of authorize domain dialog."
+    },
+    "button_analyticsconsent_modal": {
+        "message": "ဆက်လုပ်ရန်",
+        "description": "button modal analytics consent"
     },
     "change_link": {
         "message": "ပြောင်းလဲရန်",
@@ -243,6 +299,10 @@
         "message": "မလုပ်ပါ",
         "description": "Dialog no button label"
     },
+    "dialog_no_button": {
+        "message": "ကျော်မည်",
+        "description": "Dialog button no"
+    },
     "dialog_popup_close": {
         "message": "ပိတ်မယ်",
         "description": "Close decrypt popup."
@@ -254,6 +314,10 @@
     "dialog_yes_btn": {
         "message": "လုပ်မည်",
         "description": "Dialog yes button label"
+    },
+    "dialog_yes_button": {
+        "message": "ဟုတ်ပါသည်",
+        "description": "Dialog button yes"
     },
     "editor_blur_warn": {
         "message": "သတိပေးချက် - စာသား တည်းဖြတ်စက် ဆုံချက် ရှာမတွေ့ပါ။",
@@ -568,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "သင် GnuPG တပ်ဆင်ထားသလား။ မတပ်ထားလျှင် <0>ဒီမှာ ဒေါင်းလုဒ်လုပ်ပါ</0>။ ရနိုင်၊ မရနိုင် ထပ်မံစစ်ဆေးရန် <1>Mailvelope ကို ပြန်လည်စတင်ပါ</1>",
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -622,6 +686,10 @@
     "gnupg_error_unusable_pub_key": {
         "message": "ကျေးဇူးပြု၍ အောက်ပါ အများသုံး စကားဝှက်သော့များကို သင့် GnuPG သော့တွဲတွင် ရရှိနိုင်ပြီး မှန်ကန်ကြောင်း စစ်ဆေးပါ - $1",
         "description": ""
+    },
+    "header_analyticsconsent_modal": {
+        "message": "Thank you for helping!",
+        "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
         "message": "စကားဝှက်သော့ ထည့်သွင်းရန် ကလစ်နှိပ်ပါ",
@@ -875,18 +943,6 @@
         "message": "ရှာဖွေရန်",
         "description": "Key search input button."
     },
-    "key_import_search_found": {
-        "message": "စကားဝှက်သော့ကို အထဲတွင်ရှာတွေ့နိုင်သည်:",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_source": {
-        "message": "ရင်းမြစ်:",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_modified": {
-        "message": "နောက်ဆုံးပြင်ဆင်ခဲ့သည်:",
-        "description": "Key search found label."
-    },
     "key_import_search_disabled": {
         "message": "ရှာဖွေခြင်းကို ပိတ်ထားသည်။",
         "description": "Key search disabled warning."
@@ -894,6 +950,18 @@
     "key_import_search_disabled_descr": {
         "message": "အပြင်အဆင်များထဲတွင် အနည်းဆုံးစကားဝှက်သော့ရင်းမြစ်တစ်ခုအား အသက်သွင်းပါ။",
         "description": "Key search disabled warning description."
+    },
+    "key_import_search_found": {
+        "message": "စကားဝှက်သော့ကို အထဲတွင်ရှာတွေ့နိုင်သည်:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "နောက်ဆုံးပြင်ဆင်ခဲ့သည်:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "ရင်းမြစ်:",
+        "description": "Key search found label."
     },
     "key_import_search_invalid": {
         "message": "ဆီလျော်မှန်ကန်သည့်အီးမေးလ်လိပ်စာ ထည့်ပါ၊ စကားဝှက်သော့ ID (ဂဏန်း၁၆လုံး) သို့မဟုတ် လက်ဗွေ (ဂဏန်း၄၀လုံး)",
@@ -1387,10 +1455,6 @@
         "message": "ဝင်ရောက်လာသော အီးမေးလ်များ၏ Autocrypt ခေါင်းစည်းများမှ စကားဝှက်သော့များကို အသုံးပြုရန်",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_tofu_lookup": {
-        "message": "Mailvelope စကားဝှက်သော့ ဆာဗာကို အသုံးပြုရန်",
-        "description": "Enable Mailvelope Key Server Auto Lookup"
-    },
     "keyserver_key_binding_header": {
         "message": "စကားဝှက်သော့ကို ထုတ်ဖော်ခြင်း",
         "description": "Header for key binding feature"
@@ -1402,6 +1466,10 @@
     "keyserver_oks_lookup": {
         "message": "<0>keys.openpgp.org</0>တွင် စကားဝှက်သော့များအား အလိုအလျောက်ရှာဖွေသည်",
         "description": "Enable keys.openpgp.org Auto Lookup"
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Mailvelope စကားဝှက်သော့ ဆာဗာကို အသုံးပြုရန်",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_verifying_servers": {
         "message": "အီးမေးလ်အတည်ပြုခြင်းနှင့် စကားဝှက်သော့ဆာဗာ",
@@ -1478,6 +1546,10 @@
     "options_title": {
         "message": "Mailvelope ရွေးချယ်မှုများ",
         "description": "Title of options page."
+    },
+    "paragraph_analyticsconsent_modal": {
+        "message": "You can opt out at any time from settings.",
+        "description": "p modal analytics consent"
     },
     "preferred": {
         "message": "ပိုနှစ်သက်သည်",

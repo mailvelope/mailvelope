@@ -1,6 +1,20 @@
 Mailvelope Changelog
 ====================
 
+v6.0.0
+-------
+__Nov 7, 2024__
+
+  * [Chrome] Migrate to Manifest V3 (service worker)
+  * Large refactoring of controller architecture and event handling
+  * Fix error if multipart/signed message has a S/MIME signature
+  * Traverse first two levels of MIME tree to search for attachment nodes
+  * Update react-datepicker to v4.20
+  * Gmail decrypt frame: fix for scroll bar hides close button
+  * Replace moment library with date-fsn
+  * Detect port when using the authorize domain function of the client-API
+
+
 v5.2.0
 -------
 __Jun 27, 2024__

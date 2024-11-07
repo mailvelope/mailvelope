@@ -59,10 +59,6 @@
         "message": "Mailvelope kurulum menüsü",
         "description": "Accessibility, aria label of the setup menu"
     },
-    "action_menu_setup_new_bg_description": {
-        "message": "Son Mailvelope güncellemesi nedeniyle güvenlik arka planınızı yeniden yapılandırmanız gerekiyor.",
-        "description": "Configure new security bg description text in the action menu"
-    },
     "action_menu_setup_start_label": {
         "message": "Haydi başlayalım!",
         "description": "Start button label"
@@ -99,6 +95,62 @@
         "message": "Toplanmış ve anonimleştirilmiş istatistik bilgilerini Mailvelope ile paylaş",
         "description": "Consent to share analytics information with mailvelope"
     },
+    "analytics_consent_disabled_tooltip": {
+        "message": "İstatistiklere yalnızca kurulum sırasında ve yalnızca rastgele seçildiğinde katılabilirsiniz.",
+        "description": "Explanation for why user cannot opt in to analytics"
+    },
+    "analytics_consent_interstitial_Btn_Learn_More": {
+        "message": "Ayrıntılı bilgi alın",
+        "description": "Btn FAQ"
+    },
+    "analytics_consent_interstitial_Faq": {
+        "message": "Mailvelope ölçümleri hakkında ayrıntılı bilgiyi SSS bölümümüzde bulabilirsiniz.",
+        "description": "FAQ"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data": {
+        "message": "Mailvelope, e-posta hizmetinizle kullanmaya yaklaşmanızı sağlayan adımları sayar. Yaptığınız her hareketi kaydetmez.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
+        "message": "Olabilecek en az veriyi toplarız",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice": {
+        "message": "Katkıda bulunmamayı seçerseniz, hiçbir şey kaydedilmez. Katkıda bulunmayı seçerseniz, ayarı değiştirerek istediğiniz zaman ayrılabilirsiniz.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+        "message": "Tercihinize saygı duyuyoruz",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
+        "message": "Mailvelope şunu kullanarak",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
+        "message": "verileri tanımlanabilir bilgilere bağlamadan güvenli bir şekilde saklar. Ayrıca, IP adresiniz kaydedilmez veya işlenmez.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+        "message": "Gizliliğiniz korunur",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_learn_more": {
+        "message": "Ölçümlerin ne kadar güvenli olduğunu öğrenin",
+        "description": "Label for expandable section"
+    },
+    "analytics_consent_interstitial_learn_more_explanation": {
+        "message": "Katkıda bulunmayı seçerseniz, istatistik verileri, bu verileri tanımlayıcı özelliklerle bağlantısı olmadan depolayan Clean Insights kullanılarak toplanır ve en aza indirilir. Tercihinize saygı duyuyoruz ve katkıda bulunmamayı seçerseniz herhangi bir şey bildirmiyoruz.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_message": {
+        "message": "Mailvelope yeni kullanıcıların %1 kadarının anonim ölçümlere katkıda bulunmalarını istiyor. Katkıda bulunmayı seçerseniz, Mailvelope katılım yolculuğunuzdaki başarılı adımları kaydedecek. Katkıda bulunmak ister misiniz?",
+        "description": "Request for consent from selected users."
+    },
+    "analytics_interstitial_header": {
+        "message": "Gelişmemize yardımcı olmak ister misiniz?",
+        "description": "Header of analytics consent dialog."
+    },
     "auth_domain_api_label": {
         "message": "API uygulamasına izin ver",
         "description": "Label for API allowed info"
@@ -110,6 +162,10 @@
     "auth_domain_headline": {
         "message": "Etki alanına izin ver",
         "description": "Headline of authorize domain dialog."
+    },
+    "button_analyticsconsent_modal": {
+        "message": "İlerle",
+        "description": "button modal analytics consent"
     },
     "change_link": {
         "message": "Değiştir",
@@ -243,6 +299,10 @@
         "message": "Hayır",
         "description": "Dialog no button label"
     },
+    "dialog_no_button": {
+        "message": "Atla",
+        "description": "Dialog button no"
+    },
     "dialog_popup_close": {
         "message": "Kapat",
         "description": "Close decrypt popup."
@@ -254,6 +314,10 @@
     "dialog_yes_btn": {
         "message": "Evet",
         "description": "Dialog yes button label"
+    },
+    "dialog_yes_button": {
+        "message": "Evet",
+        "description": "Dialog button yes"
     },
     "editor_blur_warn": {
         "message": "Uyarı: Metin düzenleyici odağı kaybetti.",
@@ -568,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "GnuPG kurulu mu? Değilse <0>buradan indirin</0>. Kullanılabilirliğin yeniden denetlenmesi için <1>Mailvelope uygulamasını yeniden başlatın</1>",
+        "message": "GnuPG kurdunuz mu? Kurmadıysanız <0>buradan indirebilirsiniz</0>. Yeniden kullanılabilirliğini denetlemek için <1>Mailvelope uygulamasını yeniden başlatın</1>. Kurulduğundan eminseniz, lütfen düzgün ayarlandığından emin olmak için <2>bu wiki sayfasına</2>bakabilirsiniz.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -622,6 +686,10 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Lütfen şu herkese açık anahtarların GnuPG anahtarlığınızda bulunduğundan ve geçerli olduğundan emin olun: $1",
         "description": ""
+    },
+    "header_analyticsconsent_modal": {
+        "message": "Yardımcı olduğunuz için teşekkürler!",
+        "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
         "message": "Anahtarı içe aktarmak için tıklayın",
@@ -875,18 +943,6 @@
         "message": "Ara",
         "description": "Key search input button."
     },
-    "key_import_search_found": {
-        "message": "Anahtar şurada bulundu:",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_source": {
-        "message": "Kaynak:",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_modified": {
-        "message": "son değişiklik:",
-        "description": "Key search found label."
-    },
     "key_import_search_disabled": {
         "message": "Arama devre dışı",
         "description": "Key search disabled warning."
@@ -894,6 +950,18 @@
     "key_import_search_disabled_descr": {
         "message": "Ayarlardan en az bir anahtar kaynağını etkinleştirin.",
         "description": "Key search disabled warning description."
+    },
+    "key_import_search_found": {
+        "message": "Anahtar şurada bulundu:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "son değişiklik:",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "Kaynak:",
+        "description": "Key search found label."
     },
     "key_import_search_invalid": {
         "message": "Geçerli bir e-posta adresi, anahtar kimliği (16 rakam) ya da parmak izi (40 rakam) yazın",
@@ -1387,10 +1455,6 @@
         "message": "Gelen e-postanın Autocrypt üst bilgisindeki anahtarlar kullanılsın",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_tofu_lookup": {
-        "message": "Mailvelope anahtar sunucusu kullanılsın",
-        "description": "Enable Mailvelope Key Server Auto Lookup"
-    },
     "keyserver_key_binding_header": {
         "message": "Anahtar algılaması",
         "description": "Header for key binding feature"
@@ -1402,6 +1466,10 @@
     "keyserver_oks_lookup": {
         "message": "Anahtarları otomatik olarak <0>keys.openpgp.org</0> üzerinde arayın ",
         "description": "Enable keys.openpgp.org Auto Lookup"
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Mailvelope anahtar sunucusu kullanılsın",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_verifying_servers": {
         "message": "E-posta doğrulaması ile anahtar sunucusu",
@@ -1478,6 +1546,10 @@
     "options_title": {
         "message": "Mailvelope ayarları",
         "description": "Title of options page."
+    },
+    "paragraph_analyticsconsent_modal": {
+        "message": "İstediğiniz zaman ayarlar bölümünden ayrılmayı seçebilirsiniz.",
+        "description": "p modal analytics consent"
     },
     "preferred": {
         "message": "yeğlenen",

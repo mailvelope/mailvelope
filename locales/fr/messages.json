@@ -59,10 +59,6 @@
         "message": "Menu de configuration de Mailvelope",
         "description": "Accessibility, aria label of the setup menu"
     },
-    "action_menu_setup_new_bg_description": {
-        "message": "La dernière mise à jour de Mailvelope exige que vous reconfiguriez votre arrière-plan de sécurité.",
-        "description": "Configure new security bg description text in the action menu"
-    },
     "action_menu_setup_start_label": {
         "message": "Commençons !",
         "description": "Start button label"
@@ -99,6 +95,62 @@
         "message": "Partager avec Mailvelope des données d’analyse agrégées et anonymisées",
         "description": "Consent to share analytics information with mailvelope"
     },
+    "analytics_consent_disabled_tooltip": {
+        "message": "Vous ne pouvez accepter la fonctionnalité d'analyse qu'au moment de l'installation et uniquement si vous êtes sélectionné de manière aléatoire.",
+        "description": "Explanation for why user cannot opt in to analytics"
+    },
+    "analytics_consent_interstitial_Btn_Learn_More": {
+        "message": "En apprendre davantage",
+        "description": "Btn FAQ"
+    },
+    "analytics_consent_interstitial_Faq": {
+        "message": " Pour en savoir plus sur les mesures de Mailvelope, consultez notre FAQ.",
+        "description": "FAQ"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data": {
+        "message": "Mailvelope tient compte des étapes qui vous permettent de l'utiliser avec votre service de courrier électronique. Il n'enregistre en aucun cas vos actions.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
+        "message": "Nous collectons un minimum de données",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice": {
+        "message": "Si vous choisissez de ne pas y contribuer, rien ne sera enregistré. Si vous choisissez de le faire, vous pouvez changer d'avis à tout moment en vous désinscrivant dans les paramètres.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+        "message": "Nous respectons votre choix",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
+        "message": "Usages de Mailvelope",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
+        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+        "message": "Vos informations et vie privée sont protégées",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_learn_more": {
+        "message": "Learn how metrics are safe",
+        "description": "Label for expandable section"
+    },
+    "analytics_consent_interstitial_learn_more_explanation": {
+        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_message": {
+        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "description": "Request for consent from selected users."
+    },
+    "analytics_interstitial_header": {
+        "message": "Help us improve?",
+        "description": "Header of analytics consent dialog."
+    },
     "auth_domain_api_label": {
         "message": "Autoriser l’API",
         "description": "Label for API allowed info"
@@ -110,6 +162,10 @@
     "auth_domain_headline": {
         "message": "Autoriser un domaine",
         "description": "Headline of authorize domain dialog."
+    },
+    "button_analyticsconsent_modal": {
+        "message": "Poursuivre",
+        "description": "button modal analytics consent"
     },
     "change_link": {
         "message": "Changer",
@@ -243,6 +299,10 @@
         "message": "Non",
         "description": "Dialog no button label"
     },
+    "dialog_no_button": {
+        "message": "Ignorer",
+        "description": "Dialog button no"
+    },
     "dialog_popup_close": {
         "message": "Fermer",
         "description": "Close decrypt popup."
@@ -254,6 +314,10 @@
     "dialog_yes_btn": {
         "message": "Oui",
         "description": "Dialog yes button label"
+    },
+    "dialog_yes_button": {
+        "message": "Oui",
+        "description": "Dialog button yes"
     },
     "editor_blur_warn": {
         "message": "Avertissent : l’éditeur de texte n’est plus à l’avant-plan.",
@@ -568,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "GnuPG est-il installé ? Si ce n’est pas le cas, <0>Téléchargez-le ici</0>. Pour en revérifier la disponibilité, <1>Redémarrez Mailvelope</1>",
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -622,6 +686,10 @@
     "gnupg_error_unusable_pub_key": {
         "message": "Veuillez vérifier si les clés publiques suivantes se trouvent dans votre trousseau GnuPG et si elles sont valides : $1",
         "description": ""
+    },
+    "header_analyticsconsent_modal": {
+        "message": "Thank you for helping!",
+        "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
         "message": "Cliquez pour importer la clé",
@@ -875,18 +943,6 @@
         "message": "Recherche",
         "description": "Key search input button."
     },
-    "key_import_search_found": {
-        "message": "La clé a été trouvée dans :",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_source": {
-        "message": "Source :",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_modified": {
-        "message": "dernière modification le :",
-        "description": "Key search found label."
-    },
     "key_import_search_disabled": {
         "message": "La recherche est désactivée.",
         "description": "Key search disabled warning."
@@ -894,6 +950,18 @@
     "key_import_search_disabled_descr": {
         "message": "Activez au moins une source de clés dans les paramètres.",
         "description": "Key search disabled warning description."
+    },
+    "key_import_search_found": {
+        "message": "La clé a été trouvée dans :",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "dernière modification le :",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "Source :",
+        "description": "Key search found label."
     },
     "key_import_search_invalid": {
         "message": "Saisissez une adresse courriel valide, un ID de clé (16 chiffres) ou une empreinte (40 chiffres)",
@@ -1387,10 +1455,6 @@
         "message": "Utiliser les clés des en-têtes Autocrypt du courriel entrant",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_tofu_lookup": {
-        "message": "Utiliser le serveur de clés de Mailvelope",
-        "description": "Enable Mailvelope Key Server Auto Lookup"
-    },
     "keyserver_key_binding_header": {
         "message": "Détection de clé",
         "description": "Header for key binding feature"
@@ -1402,6 +1466,10 @@
     "keyserver_oks_lookup": {
         "message": "Chercher des clés automatiquement sur <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
+    },
+    "keyserver_tofu_lookup": {
+        "message": "Utiliser le serveur de clés de Mailvelope",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_verifying_servers": {
         "message": "Serveur de clés avec vérification par courriel",
@@ -1478,6 +1546,10 @@
     "options_title": {
         "message": "Options de Mailvelope",
         "description": "Title of options page."
+    },
+    "paragraph_analyticsconsent_modal": {
+        "message": "You can opt out at any time from settings.",
+        "description": "p modal analytics consent"
     },
     "preferred": {
         "message": "préféré ",

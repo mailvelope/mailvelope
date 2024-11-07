@@ -59,10 +59,6 @@
         "message": "មឺនុយកំណត់ Mailvelope ",
         "description": "Accessibility, aria label of the setup menu"
     },
-    "action_menu_setup_new_bg_description": {
-        "message": "បច្ចុប្បន្នភាពចុងក្រោយរបស់ Mailvelope តម្រូវឱ្យអ្នកកំណត់រចនាសម្ព័ន្ធផ្ទៃខាងក្រោយនៃសុវត្ថិភាពរបស់អ្នកឡើងវិញ។",
-        "description": "Configure new security bg description text in the action menu"
-    },
     "action_menu_setup_start_label": {
         "message": "តោះចាប់ផ្តើម!",
         "description": "Start button label"
@@ -99,6 +95,62 @@
         "message": "ចែករំលែកព័ត៌មានស្ថិតិវិភាគដែលបានផ្គុំគ្នា និងអនាមិកជាមួយ Mailvelope",
         "description": "Consent to share analytics information with mailvelope"
     },
+    "analytics_consent_disabled_tooltip": {
+        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "description": "Explanation for why user cannot opt in to analytics"
+    },
+    "analytics_consent_interstitial_Btn_Learn_More": {
+        "message": "ស្វែងយល់បន្ថែម",
+        "description": "Btn FAQ"
+    },
+    "analytics_consent_interstitial_Faq": {
+        "message": " Read more about Mailvelope metrics in our FAQ.",
+        "description": "FAQ"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data": {
+        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
+        "message": "We Collect Minimal Data",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice": {
+        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
+        "message": "We Respect your Choice",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
+        "message": "Mailvelope uses",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
+        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "description": "We Respect your Choice"
+    },
+    "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
+        "message": "Your Privacy is Preserved",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_learn_more": {
+        "message": "Learn how metrics are safe",
+        "description": "Label for expandable section"
+    },
+    "analytics_consent_interstitial_learn_more_explanation": {
+        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "description": "Expandable section explaining how analytics protect privacy"
+    },
+    "analytics_consent_interstitial_message": {
+        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "description": "Request for consent from selected users."
+    },
+    "analytics_interstitial_header": {
+        "message": "Help us improve?",
+        "description": "Header of analytics consent dialog."
+    },
     "auth_domain_api_label": {
         "message": "អនុញ្ញាត API",
         "description": "Label for API allowed info"
@@ -110,6 +162,10 @@
     "auth_domain_headline": {
         "message": "អនុញ្ញាត domain",
         "description": "Headline of authorize domain dialog."
+    },
+    "button_analyticsconsent_modal": {
+        "message": "បន្ត",
+        "description": "button modal analytics consent"
     },
     "change_link": {
         "message": "ផ្លាស់ប្តូរ",
@@ -243,6 +299,10 @@
         "message": "ទេ",
         "description": "Dialog no button label"
     },
+    "dialog_no_button": {
+        "message": "រំលង",
+        "description": "Dialog button no"
+    },
     "dialog_popup_close": {
         "message": "បិទ",
         "description": "Close decrypt popup."
@@ -254,6 +314,10 @@
     "dialog_yes_btn": {
         "message": "មែន",
         "description": "Dialog yes button label"
+    },
+    "dialog_yes_button": {
+        "message": "មែន",
+        "description": "Dialog button yes"
     },
     "editor_blur_warn": {
         "message": "ព្រមាន៖ កម្មវិធីសរសេរអក្សរបាត់បង់ការកំណត់។",
@@ -568,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "តើអ្នកមានដំឡើង GnuPG ទេ? បើទេ <0>ទាញយកទីនេះ</0>។ ដើម្បីត្រួតពិនិត្យម្តងទៀត<1>បើក Mailvelopeឡើងវិញ</1>",
+        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -622,6 +686,10 @@
     "gnupg_error_unusable_pub_key": {
         "message": "សូមត្រួតពិនិត្យ ប្រសិនបើសោសាធារណៈមាននៅបង្កោមសោ GnuPG និងត្រឹមត្រូវ៖ $1",
         "description": ""
+    },
+    "header_analyticsconsent_modal": {
+        "message": "Thank you for helping!",
+        "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
         "message": "ចុច ដើម្បីនាំចូលសោរ",
@@ -875,18 +943,6 @@
         "message": "ស្វែងរក",
         "description": "Key search input button."
     },
-    "key_import_search_found": {
-        "message": "បានរកឃើញសោនៅក្នុង៖",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_source": {
-        "message": "ប្រភព៖",
-        "description": "Key search found label."
-    },
-    "key_import_search_found_modified": {
-        "message": "បានកែសម្រួលចុងក្រោយនៅ៖",
-        "description": "Key search found label."
-    },
     "key_import_search_disabled": {
         "message": "បានបិទការស្វែងរក។",
         "description": "Key search disabled warning."
@@ -894,6 +950,18 @@
     "key_import_search_disabled_descr": {
         "message": "យ៉ាងហោចណាស់បើកដំណើការប្រភពសោមួយនៅក្នុងការកំណត់នេះ។",
         "description": "Key search disabled warning description."
+    },
+    "key_import_search_found": {
+        "message": "បានរកឃើញសោនៅក្នុង៖",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_modified": {
+        "message": "បានកែសម្រួលចុងក្រោយនៅ៖",
+        "description": "Key search found label."
+    },
+    "key_import_search_found_source": {
+        "message": "ប្រភព៖",
+        "description": "Key search found label."
     },
     "key_import_search_invalid": {
         "message": "បញ្ចូលអាសយដ្ឋានអ៊ីមែលត្រឹមត្រូវ លេខសម្គាល់សោ (16 ខ្ទង់) ឬស្នាមម្រាមដៃ (40 ខ្ទង់)",
@@ -1387,10 +1455,6 @@
         "message": "ប្រើប្រាស់សោពីបឋមកថាដែលបានបានបំប្លែងកូដដោយស្វ័យប្រវត្តិនៃអ៊ីមែលផ្ញើចូល",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
-    "keyserver_tofu_lookup": {
-        "message": "ប្រើប្រាស់ម៉ាស៊ីនមេសោ Mailvelope",
-        "description": "Enable Mailvelope Key Server Auto Lookup"
-    },
     "keyserver_key_binding_header": {
         "message": "ការរកឃើញសោ",
         "description": "Header for key binding feature"
@@ -1402,6 +1466,10 @@
     "keyserver_oks_lookup": {
         "message": "ស្វែងរកសោដោយស្វ័យប្រវត្តិនៅលើ <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
+    },
+    "keyserver_tofu_lookup": {
+        "message": "ប្រើប្រាស់ម៉ាស៊ីនមេសោ Mailvelope",
+        "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_verifying_servers": {
         "message": "ម៉ាស៊ីនមេសោដោយមានការផ្ទៀងផ្ទាត់អ៊ីមែល",
@@ -1478,6 +1546,10 @@
     "options_title": {
         "message": "ជម្រើស​ Mailvelope",
         "description": "Title of options page."
+    },
+    "paragraph_analyticsconsent_modal": {
+        "message": "You can opt out at any time from settings.",
+        "description": "p modal analytics consent"
     },
     "preferred": {
         "message": "ចំណូលចិត្ត",
