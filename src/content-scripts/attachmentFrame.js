@@ -60,8 +60,8 @@ export default class AttachmentFrame extends ExtractFrame {
   }
 
   onData() {
-    const {msgId, clipped, armored, clearText, att} = this.currentProvider.integration.getMsgByControllerId(this.id);
-    this.port.emit('set-data', {userInfo: this.currentProvider.integration.getUserInfo(), msgId, encAttFileNames: att, armored, clearText, clipped, gmailCtrlId: this.currentProvider.integration.id});
+    const {msgId, clipped, armored, plainText, att} = this.currentProvider.integration.getMsgByControllerId(this.id);
+    this.port.emit('set-data', {userInfo: this.currentProvider.integration.getUserInfo(), msgId, encAttFileNames: att, armored, plainText, clipped, gmailCtrlId: this.currentProvider.integration.id});
   }
 
   clickHandler(ev) {

@@ -4,7 +4,7 @@
  */
 
 import * as l10n from '../lib/l10n';
-import {dataURL2str, normalizeArmored} from '../lib/util';
+import {dataURL2str, normalizeArmored, encodeHTML} from '../lib/util';
 import {extractFileExtension} from '../lib/file';
 import * as model from '../modules/pgpModel';
 import * as gmail from '../modules/gmail';
@@ -65,7 +65,7 @@ export default class gmailDecryptController extends DecryptController {
   /**
    * Receive DOM parsed message data from Gmail integration content script and display it in decrypt message component
    */
-  async onSetData({userInfo, msgId, sender, armored, clearText, clipped, encAttFileNames, gmailCtrlId}) {
+  async onSetData({userInfo, msgId, sender, armored, plainText, clipped, encAttFileNames, gmailCtrlId}) {
     let lock = false;
     this.setState({gmailCtrlId, userInfo, msgId});
     if (armored) {
@@ -75,9 +75,7 @@ export default class gmailDecryptController extends DecryptController {
         lock = true;
       }
     }
-    if (clearText) {
-      this.ports.dDialog.emit('decrypted-message', {message: clearText, clearText: true});
-    }
+    this.plainText = plainText;
     this.attachments = encAttFileNames;
     this.clipped = clipped;
     this.ascAttachments = encAttFileNames.filter(fileName => extractFileExtension(fileName) === 'asc');
@@ -177,6 +175,9 @@ export default class gmailDecryptController extends DecryptController {
           break;
         default:
           unlock = true;
+          if (this.plainText) {
+            this.ports.dDialog.emit('decrypted-message', {message: encodeHTML(this.plainText), signOnly: true});
+          }
           this.ports.dDialog.emit('set-enc-attachments', {encAtts: this.attachments});
       }
       this.ports.dDialog.emit('waiting', {waiting: false, unlock});
@@ -221,11 +222,16 @@ export default class gmailDecryptController extends DecryptController {
       ascMimeFileName = this.ascAttachments[0];
     }
     const {raw} = await gmail.getMessage({msgId: this.state.msgId, email: this.state.userInfo.email, accessToken, format: 'raw'});
-    const {signedMessage, message} = await gmail.extractSignedClearTextMultipart(raw);
+    const {signedMessage, message, attachments} = await gmail.extractSignedMessageMultipart(raw);
     this.signedText = signedMessage;
     this.plainText = message;
     const {data} = await gmail.getAttachment({attachmentId: detSignAttId, fileName: ascMimeFileName, email: this.state.userInfo.email, msgId: this.state.msgId, accessToken});
     this.armored = dataURL2str(data);
+    for (const attachment of attachments) {
+      if (!this.attachments.includes(attachment.filename)) {
+        this.ports.dDialog.emit('add-decrypted-attachment', {attachment});
+      }
+    }
     await this.verify(this.armored, this.keyringId);
   }
 

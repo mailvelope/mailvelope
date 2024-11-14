@@ -9,72 +9,82 @@ import * as mailreader from '../lib/mail-reader';
 import MimeBuilder from 'emailjs-mime-builder';
 
 /**
- * Parse email content
- * @param  {String} rawText
- * @param  {Object<onAttachment, onMessage>} handlers
- * @param  {[type]} encoding 'html' or 'text'
- * @return {[type]}          [description]
+ * Parse encrypted email content. Input content can be in MIME format or plain text.
+ * @param  {String} raw - content
+ * @param  {String} encoding - encoding of output, 'html' or 'text'
+ * @return {Object<message, attachments>} parsed content separated in message and attachments
  */
-export function parseMessage(rawText, handlers, encoding) {
-  if (/^\s*(MIME-Version|Content-Type|Content-Class|Content-Transfer-Encoding|Content-ID|Content-Description|Content-Disposition|Content-Language|From|Date):/.test(rawText)) {
-    parseMIME(rawText, handlers, encoding);
+export function parseMessage(raw, encoding) {
+  if (/^\s*(MIME-Version|Content-Type|Content-Class|Content-Transfer-Encoding|Content-ID|Content-Description|Content-Disposition|Content-Language|From|Date):/.test(raw)) {
+    return parseMIME(raw, encoding);
   } else {
-    parseInline(rawText, handlers, encoding);
+    return parseInline(raw, encoding);
   }
 }
 
-async function parseMIME(rawText, handlers, encoding) {
-  const parsed = mailreader.parse([{raw: rawText}]);
-  if (parsed && parsed.length > 0) {
+async function parseMIME(raw, encoding) {
+  let message = '';
+  const attachments = [];
+  const parsed = mailreader.parse([{raw}]);
+  if (parsed?.length) {
     const htmlParts = [];
     const textParts = [];
     if (encoding === 'html') {
       filterBodyParts(parsed, 'html', htmlParts);
       if (htmlParts.length) {
-        const sanitized = await mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
-        handlers.onMessage(sanitized);
+        message = await mvelo.util.sanitizeHTML(htmlParts.map(part => part.content).join('\n<hr>\n'));
       } else {
         filterBodyParts(parsed, 'text', textParts);
         if (textParts.length) {
-          handlers.onMessage(await mvelo.util.text2autoLinkHtml(textParts.map(part => part.content).join('\n<hr>\n')));
+          message = await mvelo.util.text2autoLinkHtml(textParts.map(part => part.content).join('\n<hr>\n'));
         }
       }
     } else if (encoding === 'text') {
       filterBodyParts(parsed, 'text', textParts);
       if (textParts.length) {
-        handlers.onMessage(textParts.map(part => part.content).join('\n\n'));
+        message = textParts.map(part => part.content).join('\n\n');
       } else {
         filterBodyParts(parsed, 'html', htmlParts);
         if (htmlParts.length) {
-          handlers.onMessage(htmlParts.map(part => html2text(part.content)).join('\n\n'));
+          message = htmlParts.map(part => html2text(part.content)).join('\n\n');
         }
       }
     }
-    const attachmentParts = [];
-    filterBodyParts(parsed, 'attachment', attachmentParts);
-    attachmentParts.forEach(part => {
+    filterBodyParts(parsed, 'attachment', attachments);
+    for (const part of attachments) {
       part.filename = encodeHTML(part.filename);
       part.content = ab2str(part.content.buffer);
-      handlers.onAttachment(part);
-    });
-  }
-  if (handlers.noEvent) {
-    handlers.onMessage('');
-  }
-}
-
-async function parseInline(rawText, handlers, encoding) {
-  if (encoding === 'html') {
-    handlers.onMessage(await mvelo.util.text2autoLinkHtml(rawText));
-  } else {
-    if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(rawText)) {
-      // legacy html mode
-      handlers.onMessage(html2text(rawText));
-    } else {
-      // plain text
-      handlers.onMessage(rawText);
     }
   }
+  return {message, attachments, parsed};
+}
+
+async function parseInline(raw, encoding) {
+  let message = '';
+  if (encoding === 'html') {
+    message = await mvelo.util.text2autoLinkHtml(raw);
+  } else {
+    if (/(<\/a>|<br>|<\/div>|<\/p>|<\/b>|<\/u>|<\/i>|<\/ul>|<\/li>)/.test(raw)) {
+      // legacy html mode
+      message = html2text(raw);
+    } else {
+      // plain text
+      message = raw;
+    }
+  }
+  return {message, attachments: []};
+}
+
+/**
+ * Parse message with detached signature
+ * @param  {String} raw - content
+ * @param  {String} encoding - encoding of output, 'html' or 'text'
+ * @return {Object<message, signedMessage, attachments>} parsed content separated in message, signed content and attachments
+ */
+export async function parseSignedMessage(raw, encoding) {
+  const {message, attachments, parsed} = await parseMIME(raw, encoding);
+  const [{signedMessage}] = filterBodyParts(parsed, 'signed');
+  return {message, signedMessage, attachments};
 }
 
 // attribution: https://github.com/whiteout-io/mail-html5

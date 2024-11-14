@@ -7,8 +7,7 @@ import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
 import {MvError, deDup, str2ab, ab2hex} from '../lib/util';
 import {getUUID, base64EncodeUrl, base64DecodeUrl, byteCount, dataURL2str} from '../lib/util';
-import {buildMailWithHeader, filterBodyParts} from './mime';
-import * as mailreader from '../lib/mail-reader';
+import {buildMailWithHeader, parseSignedMessage} from './mime';
 
 const CLIENT_ID = chrome.runtime.getManifest().oauth2.client_id;
 const CLIENT_SECRET = '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';
@@ -436,14 +435,9 @@ export async function extractMailBody({payload, userEmail, msgId, accessToken, t
   }
 }
 
-export function extractSignedClearTextMultipart(rawEncoded) {
+export function extractSignedMessageMultipart(rawEncoded) {
   const raw = atob(base64DecodeUrl(rawEncoded));
-  const parsed = mailreader.parse([{raw}]);
-  const [result] = filterBodyParts(parsed, 'signed');
-  if (result) {
-    const [{content: message}] = filterBodyParts([result], 'text');
-    return {signedMessage: result.signedMessage, message};
-  }
+  return parseSignedMessage(raw, 'html');
 }
 
 export async function getPGPSignatureAttId({msgId, email, accessToken}) {

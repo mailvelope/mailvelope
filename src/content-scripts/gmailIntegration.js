@@ -197,9 +197,9 @@ export default class GmailIntegration {
         const containerElem = msgElem.querySelector('.ii.gt');
         aFrame.attachTo(containerElem);
         if (msgData.att.length) {
-          msgData.clearText = this.getClearText(msgElem);
+          msgData.plainText = this.getPlainText(msgElem);
         }
-        if (msgData.clipped || msgData.clearText) {
+        if (msgData.clipped || msgData.plainText) {
           const bodyElem = containerElem.querySelector(MSG_BODY_SELECTOR);
           bodyElem.style.display = 'none';
           msgData.hiddenElem = bodyElem;
@@ -233,7 +233,7 @@ export default class GmailIntegration {
     return false;
   }
 
-  getClearText(msgElem) {
+  getPlainText(msgElem) {
     const {innerText} = msgElem.querySelectorAll('.ii.gt')[0];
     return /\S/.test(innerText) ? innerText : '';
   }

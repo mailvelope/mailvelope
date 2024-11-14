@@ -49,7 +49,8 @@ export default class VerifyController extends SubController {
       });
       this.ports.dDialog.emit('verified-message', {
         message: data,
-        signers: signatures
+        signers: signatures,
+        clearText: true
       });
     } catch (e) {
       this.ports.dDialog.emit('error-message', {error: e.message});

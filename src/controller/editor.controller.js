@@ -371,40 +371,38 @@ export default class EditorController extends SubController {
         // clear text only
         data = await mvelo.util.sanitizeHTML(armored);
       }
-      const options = this.options;
-      const ports = this.ports;
-      const handlers = {
-        onMessage(msg) {
-          if (options.quotedMailIndent) {
-            msg = msg.replace(/^(.|\n)/gm, '> $&');
-          }
-          if (options.quotedMailHeader) {
-            msg = `${options.quotedMailHeader}\n${msg}`;
-          }
-          if (options.quotedMailIndent || options.quotedMailHeader) {
-            msg = `\n\n${msg}`;
-          }
-          if (options.predefinedText) {
-            msg = `${msg}\n\n${options.predefinedText}`;
-          }
-          ports.editor.emit('set-text', {text: msg});
-        },
-        onAttachment(part) {
-          if (options.keepAttachments) {
-            ports.editor.emit('set-attachment', {attachment: part});
-          }
-        }
-      };
       if (this.options.armoredDraft) {
         if (!(signatures && signatures.length === 1 && signatures[0].valid)) {
           throw {message: 'Restoring of the draft failed due to invalid signature.'};
         }
       }
-      parseMessage(data, handlers, 'text');
+      const {message, attachments} = await parseMessage(data, 'text');
+      this.ports.editor.emit('set-text', {text: this.formatMessage(message, this.options)});
+      if (this.options.keepAttachments) {
+        for (const attachment of attachments) {
+          this.ports.editor.emit('set-attachment', {attachment});
+        }
+      }
       this.ports.editor.emit('decrypt-end');
     } catch (error) {
       this.ports.editor.emit('decrypt-failed', {error: mapError(error)});
     }
+  }
+
+  formatMessage(msg, options) {
+    if (options.quotedMailIndent) {
+      msg = msg.replace(/^(.|\n)/gm, '> $&');
+    }
+    if (options.quotedMailHeader) {
+      msg = `${options.quotedMailHeader}\n${msg}`;
+    }
+    if (options.quotedMailIndent || options.quotedMailHeader) {
+      msg = `\n\n${msg}`;
+    }
+    if (options.predefinedText) {
+      msg = `${msg}\n\n${options.predefinedText}`;
+    }
+    return msg;
   }
 
   async decryptFiles(encFiles) {

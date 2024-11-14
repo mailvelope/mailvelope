@@ -155,22 +155,14 @@ export default class DecryptController extends SubController {
         lookupKey: keyringId ? rotation => lookupKey({keyringId, email: this.sender, rotation}) : undefined
       });
       this.signatures = signatures;
-      const ports = this.ports;
-      const handlers = {
-        noEvent: true,
-        onMessage(msg) {
-          this.noEvent = false;
-          ports.dDialog.emit('decrypted-message', {message: msg, clearText: false});
-        },
-        onAttachment(attachment) {
-          this.noEvent = false;
-          ports.dDialog.emit('add-decrypted-attachment', {attachment});
-        }
-      };
       if (this.ports.dDialog && signatures) {
         this.ports.dDialog.emit('signature-verification', {signers: signatures});
       }
-      parseMessage(data, handlers, 'html');
+      const {message, attachments} = await parseMessage(data, 'html');
+      this.ports.dDialog.emit('decrypted-message', {message});
+      for (const attachment of attachments) {
+        this.ports.dDialog.emit('add-decrypted-attachment', {attachment});
+      }
       if (this.ports.decryptCont) {
         this.ports.decryptCont.emit('decrypt-done');
       }

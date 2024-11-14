@@ -49,7 +49,7 @@ export default class DecryptMessage extends React.Component {
       showSig: false,
       waiting: true,
       locked: false,
-      clearText: false,
+      signOnly: false,
       files: [],
       encFiles: [],
       notification: null,
@@ -108,16 +108,16 @@ export default class DecryptMessage extends React.Component {
     }));
   }
 
-  onVerifiedMessage({message, signers}) {
-    this.onSignatureVerification({signers});
-    this.onDecryptedMessage({message, clearText: true});
-  }
-
-  onDecryptedMessage({message, clearText}) {
+  onVerifiedMessage({message, signers, clearText}) {
     if (clearText) {
       message = `<pre style="color: inherit; font-size: inherit; white-space: pre-wrap;">${encodeHTML(message)}</pre>`;
     }
-    this.setState({message, clearText, decryptDone: true});
+    this.onSignatureVerification({signers});
+    this.onDecryptedMessage({message, signOnly: true});
+  }
+
+  onDecryptedMessage({message, signOnly = false}) {
+    this.setState({message, signOnly, decryptDone: true});
   }
 
   onDecryptedAttachment({attachment}) {
@@ -235,7 +235,7 @@ export default class DecryptMessage extends React.Component {
 
   handleDecrypt() {
     if (!this.state.showNotification && !this.state.waiting) {
-      if (this.state.message !== null && !this.state.clearText) {
+      if (this.state.message !== null && !this.state.signOnly) {
         this.setState({locked: false});
       } else {
         this.port.emit('decrypt-message');
@@ -339,7 +339,7 @@ export default class DecryptMessage extends React.Component {
                       <FileDownloadPanel files={this.state.encFiles} onClickFile={e => this.handleClickEncFile(e)} />
                     </div>
                   }
-                  {this.state.message !== null && this.state.clearText &&
+                  {this.state.message !== null && this.state.signOnly &&
                     <Alert type="warning" className="align-self-start" header={l10n.map.alert_header_warning}>
                       {l10n.map.decrypt_cleartext_warning}
                     </Alert>
