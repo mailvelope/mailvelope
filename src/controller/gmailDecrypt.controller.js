@@ -206,7 +206,11 @@ export default class gmailDecryptController extends DecryptController {
     this.attachments = this.attachments.filter(name => name !== fileName);
     const {data} = await gmail.getAttachment({attachmentId, fileName, email: this.state.userInfo.email, msgId: this.state.msgId, accessToken});
     this.armored = dataURL2str(data);
-    (await this.getGmailCtrl()).ports.gmailInt.emit('update-message-data', {msgId: this.state.msgId, data: {secureAction: true}});
+    try {
+      (await this.getGmailCtrl()).ports.gmailInt.emit('update-message-data', {msgId: this.state.msgId, data: {secureAction: true}});
+    } catch (e) {
+      console.log('GmailController does not have port to gmailInt content script');
+    }
     if (!await this.canUnlockKey(this.armored, this.keyringId)) {
       this.ports.dDialog.emit('lock');
     } else {
