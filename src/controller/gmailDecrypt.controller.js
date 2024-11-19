@@ -222,17 +222,21 @@ export default class gmailDecryptController extends DecryptController {
       ascMimeFileName = this.ascAttachments[0];
     }
     const {raw} = await gmail.getMessage({msgId: this.state.msgId, email: this.state.userInfo.email, accessToken, format: 'raw'});
-    const {signedMessage, message, attachments} = await gmail.extractSignedMessageMultipart(raw);
-    this.signedText = signedMessage;
-    this.plainText = message;
-    const {data} = await gmail.getAttachment({attachmentId: detSignAttId, fileName: ascMimeFileName, email: this.state.userInfo.email, msgId: this.state.msgId, accessToken});
-    this.armored = dataURL2str(data);
-    for (const attachment of attachments) {
-      if (!this.attachments.includes(attachment.filename)) {
-        this.ports.dDialog.emit('add-decrypted-attachment', {attachment});
+    try {
+      const {signedMessage, message, attachments} = await gmail.extractSignedMessageMultipart(raw);
+      this.signedText = signedMessage;
+      this.plainText = message;
+      const {data} = await gmail.getAttachment({attachmentId: detSignAttId, fileName: ascMimeFileName, email: this.state.userInfo.email, msgId: this.state.msgId, accessToken});
+      this.armored = dataURL2str(data);
+      for (const attachment of attachments) {
+        if (!this.attachments.includes(attachment.filename)) {
+          this.ports.dDialog.emit('add-decrypted-attachment', {attachment});
+        }
       }
+      await this.verify(this.armored, this.keyringId);
+    } catch (e) {
+      this.ports.aFrameGmail.emit('destroy');
     }
-    await this.verify(this.armored, this.keyringId);
   }
 
   async onDownloadEncAttachment({fileName}) {

@@ -116,7 +116,7 @@ export default class ExtractFrame {
       this.shadowRootElem.remove();
     }, 300);
     if (reset === true) {
-      this.pgpElement.parentNode.prepend(this.pgpRange.extractContents());
+      this.pgpElement.parentNode?.prepend(this.pgpRange.extractContents());
       this.pgpElement.remove();
     } else {
       this.pgpElement.dataset[FRAME_STATUS] = FRAME_DETACHED;

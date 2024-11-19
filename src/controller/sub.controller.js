@@ -129,7 +129,7 @@ function destroyNodes(subControllers) {
 
 function postToNodes(subControllers, event) {
   subControllers.forEach(subContr => {
-    subContr.ports[subContr.mainType].emit(event);
+    subContr.ports[subContr.mainType]?.emit(event);
   });
 }
 
