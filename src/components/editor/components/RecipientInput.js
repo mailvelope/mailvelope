@@ -19,14 +19,13 @@ l10n.register([
 ]);
 
 /**
- * Checks if all recipients have a public key and prevents encryption
- * if one of them does not have a key.
+ * Checks if all recipients have a public key
  * @param {Tag[]} tags - Array of tags
  * @param {Key[]} keys - Array of public keys
  * @param {Boolean} extraKey - Flag indicating whether extra key input is enabled
- * @returns {Boolean} true if any recipient is unencrypted
+ * @returns {Boolean} true if any recipient has no key
  */
-function isAnyRecipientUnencrypted(tags, keys, extraKey) {
+function isAnyRecipientHasNoKey(tags, keys, extraKey) {
   return tags.some(t => !findRecipientKey(keys, t.id)) && !extraKey;
 }
 
@@ -36,8 +35,9 @@ function isAnyRecipientUnencrypted(tags, keys, extraKey) {
  * @param {Boolean} hasExtraKey - Flag indicating whether extra key input is enabled
  * @returns {String} CSS class name for the tag
  */
-const getTagClassName = (isSuccess, hasExtraKey) =>
-  `badge-${isSuccess ? 'success' : (hasExtraKey ? 'info' : 'danger')}`;
+function getTagClassName(isSuccess, hasExtraKey) {
+  return `badge-${isSuccess ? 'success' : (hasExtraKey ? 'info' : 'danger')}`;
+}
 
 /**
  * Converts a recipient object to a tag object.
@@ -74,7 +74,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
   const [tags, setTags] = useState(
     recipients.map(r => recipientToTag(r, extraKey))
   );
-  const hasError = isAnyRecipientUnencrypted(tags, keys, extraKey) && !hideErrorMsg;
+  const hasError = isAnyRecipientHasNoKey(tags, keys, extraKey) && !hideErrorMsg;
 
   /**
    * Converts a tag into recipient object
