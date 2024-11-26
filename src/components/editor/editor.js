@@ -389,8 +389,18 @@ export default class Editor extends React.Component {
 
   handleChangeRecipients(recipients, recipientsError) {
     this.setState(prevState => {
-      const errorState = {recipientsError, recipientsCcError: prevState.recipientsCcError};
-      return {...errorState, recipients, encryptDisabled: errorState.recipientsError || errorState.recipientsCcError || !recipients.length};
+      const errorState = {recipientsError: prevState.recipientsError, ...{recipientsError}};
+      console.debug('handleChangeRecipients', errorState);
+      return {...errorState, recipients, encryptDisabled: errorState.recipientsError || prevState.recipientsCcError || !recipients.length};
+    });
+  }
+
+  // For CC recipients we allow the field to be empty, still handling the error
+  handleChangeRecipientsCc(recipientsCc, recipientsCcError) {
+    this.setState(prevState => {
+      const errorState = {recipientsCcError: prevState.recipientsCcError, ...{recipientsCcError}};
+      console.debug('handleChangeRecipientsCc', errorState);
+      return {...errorState, recipientsCc, encryptDisabled: errorState.recipientsCcError || prevState.recipientsError};
     });
   }
 
@@ -433,7 +443,7 @@ export default class Editor extends React.Component {
                     <div className="mb-3">
                       <label className="mr-auto">{l10n.map.editor_label_copy_recipient}</label>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipientsCc}
-                        onChangeRecipients={({recipients, hasError}) => this.handleChangeRecipients(recipients, hasError)}
+                        onChangeRecipients={({recipients, hasError}) => this.handleChangeRecipientsCc(recipients, hasError)}
                         onAutoLocate={recipient => this.handleKeyLookup(recipient)}
                         extraKey={hasExtraKey}
                       />
