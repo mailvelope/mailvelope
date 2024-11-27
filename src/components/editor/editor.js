@@ -390,7 +390,6 @@ export default class Editor extends React.Component {
   handleChangeRecipients(recipients, recipientsError) {
     this.setState(prevState => {
       const errorState = {recipientsError: prevState.recipientsError, ...{recipientsError}};
-      console.debug('handleChangeRecipients', errorState);
       return {...errorState, recipients, encryptDisabled: errorState.recipientsError || prevState.recipientsCcError || !recipients.length};
     });
   }
@@ -399,7 +398,6 @@ export default class Editor extends React.Component {
   handleChangeRecipientsCc(recipientsCc, recipientsCcError) {
     this.setState(prevState => {
       const errorState = {recipientsCcError: prevState.recipientsCcError, ...{recipientsCcError}};
-      console.debug('handleChangeRecipientsCc', errorState);
       return {...errorState, recipientsCc, encryptDisabled: errorState.recipientsCcError || prevState.recipientsError};
     });
   }
