@@ -25,7 +25,7 @@ l10n.register([
  * @param {Boolean} extraKey - Flag indicating whether extra key input is enabled
  * @returns {Boolean} true if any recipient has no key
  */
-function isAnyRecipientHasNoKey(tags, keys, extraKey) {
+function hasAnyRecipientNoKey(tags, keys, extraKey) {
   return tags.some(t => !findRecipientKey(keys, t.id)) && !extraKey;
 }
 
@@ -74,7 +74,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
   const [tags, setTags] = useState(
     recipients.map(r => recipientToTag(r, extraKey))
   );
-  const hasError = isAnyRecipientHasNoKey(tags, keys, extraKey) && !hideErrorMsg;
+  const hasError = hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg;
 
   /**
    * Converts a tag into recipient object
