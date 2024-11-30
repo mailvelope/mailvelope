@@ -138,6 +138,9 @@ export default class ExtractFrame {
 
   setFrameDim() {
     const {width, height} = this.pgpRange.getBoundingClientRect();
+    if (!width || !height) {
+      return;
+    }
     this.eFrame.style.width = `${width}px`;
     this.eFrame.style.height = `${height}px`;
   }

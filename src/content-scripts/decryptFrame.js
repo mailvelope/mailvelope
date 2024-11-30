@@ -107,6 +107,9 @@ export default class DecryptFrame extends ExtractFrame {
     } else {
       const {height} = this.pgpRange.getBoundingClientRect();
       let {width} = this.pgpElement.parentElement.getBoundingClientRect();
+      if (!width || !height) {
+        return;
+      }
       // less 1px border and 2 pixel box-shadow
       width -= 3;
       this.eFrame.style.width = `${width}px`;

@@ -116,6 +116,9 @@ export default class AttachmentFrame extends ExtractFrame {
 
   setFrameDim() {
     let {width, height} = this.pgpElement.getBoundingClientRect();
+    if (!height) {
+      return;
+    }
     if (this.dDialog === null) {
       if (!width) { // if no message contents
         width = 500;
@@ -124,6 +127,9 @@ export default class AttachmentFrame extends ExtractFrame {
       this.eFrame.style.height = `${height}px`;
     } else {
       let {width} = this.pgpElement.parentElement.getBoundingClientRect();
+      if (!width) {
+        return;
+      }
       // less 1px border and 2 pixel box-shadow
       width -= 3;
       this.eFrame.style.width = `${width}px`;

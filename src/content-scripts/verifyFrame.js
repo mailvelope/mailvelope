@@ -118,6 +118,9 @@ export default class VerifyFrame extends ExtractFrame {
     if (this.vDialog) {
       ({height} = this.pgpRange.getBoundingClientRect());
       ({width} = this.pgpElement.parentElement.getBoundingClientRect());
+      if (!width || !height) {
+        return;
+      }
       // less 1px border and 2 pixel box-shadow
       width -= 3;
       this.vDialog.style.width = `${width}px`;
@@ -125,6 +128,9 @@ export default class VerifyFrame extends ExtractFrame {
     } else {
       ({height} = this.pgpSigRange.getBoundingClientRect());
       ({width} = this.pgpRange.getBoundingClientRect());
+    }
+    if (!width || !height) {
+      return;
     }
     this.eFrame.style.width = `${width}px`;
     this.eFrame.style.height = `${height}px`;
