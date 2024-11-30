@@ -44,6 +44,18 @@ export class SubController extends EventHandler {
     eventCache?.flush(this.ports[type]);
   }
 
+  hasPort(...args) {
+    return Boolean(this.getPort(...args));
+  }
+
+  getPort(...args) {
+    for (const portName in this.ports) {
+      if (args.some(name => portName.includes(name))) {
+        return this.ports[portName];
+      }
+    }
+  }
+
   removePort(port) {
     const view = parseViewName(port.name);
     if (view.id !== this.id) {

@@ -53,10 +53,9 @@ export default class DecryptController extends SubController {
       return;
     }
     this.keyringId = await getPreferredKeyringId();
-    const dFrame = Object.keys(this.ports).find(key => key.includes('dFrame'));
-    const port = this.ports[dFrame || 'decryptCont'];
+    const port = this.getPort('dFrame', 'decryptCont');
     // get armored message
-    port && port.emit('get-armored');
+    port?.emit('get-armored');
   }
 
   async getPopup() {
@@ -77,8 +76,7 @@ export default class DecryptController extends SubController {
     this.popup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
     this.setState({popupId: this.popup.id, popupOpenerTabId: this.popup.tabId});
     this.popup.addRemoveListener(() => {
-      const frame = Object.keys(this.ports).find(key => key.includes('Frame'));
-      const port = this.ports[frame];
+      const port = this.getPort('Frame');
       port?.emit('dialog-cancel');
       this.popup = null;
       this.setState({popupId: null, popupOpenerTabId: null});
@@ -128,11 +126,8 @@ export default class DecryptController extends SubController {
   }
 
   async dialogCancel() {
-    const frame = Object.keys(this.ports).find(key => key.includes('Frame'));
-    const port = this.ports[frame];
-    if (port) {
-      port.emit('dialog-cancel');
-    }
+    const port = this.getPort('Frame');
+    port?.emit('dialog-cancel');
     if (await this.getPopup()) {
       this.popup.close();
       this.setState({popupId: null, popupOpenerTabId: null});
@@ -169,7 +164,7 @@ export default class DecryptController extends SubController {
       this.ports.dDialog.emit('waiting', {waiting: false, unlock: true});
     } catch (error) {
       if (error.code === 'PWD_DIALOG_CANCEL') {
-        if (this.ports.dFrame) {
+        if (this.hasPort('Frame')) {
           return this.dialogCancel();
         }
       }

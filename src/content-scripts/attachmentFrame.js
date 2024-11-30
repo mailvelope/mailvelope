@@ -54,7 +54,6 @@ export default class AttachmentFrame extends ExtractFrame {
 
   registerEventListener() {
     super.registerEventListener();
-    this.port.on('remove-dialog', this.removeDialog);
     this.port.on('dialog-cancel', this.removeDialog);
     this.port.on('get-data', this.onData);
   }

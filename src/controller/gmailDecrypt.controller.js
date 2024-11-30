@@ -287,7 +287,7 @@ export default class gmailDecryptController extends DecryptController {
       this.ports.dDialog.emit('waiting', {waiting: false, unlock: true});
     } catch (error) {
       if (error.code === 'PWD_DIALOG_CANCEL') {
-        if (this.ports.dFrame) {
+        if (this.hasPort('dFrame')) {
           return this.dialogCancel();
         }
       }
