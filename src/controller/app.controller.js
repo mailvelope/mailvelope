@@ -327,9 +327,12 @@ export default class AppController extends SubController {
     return this.decryptMessageCtrl.id;
   }
 
-  async openPopupDecryptMessage({armored}) {
-    await this.decryptMessageCtrl.onDframeDisplayPopup();
-    this.decryptMessageCtrl.on('decrypt-message-init', () => this.decryptMessageCtrl.onSetArmored({data: armored, allKeyrings: true, options: {}}));
+  openPopupDecryptMessage({armored}) {
+    this.decryptMessageCtrl.on('decrypt-message-init', async options => {
+      await this.decryptMessageCtrl.onDecryptMessageInit(options);
+      this.decryptMessageCtrl.onSetArmored({data: armored, allKeyrings: true, options: {}})
+    });
+    this.decryptMessageCtrl.onDframeDisplayPopup();
   }
 
   async readArmoredKeys({armoredKeys}) {
