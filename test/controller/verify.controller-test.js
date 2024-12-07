@@ -36,7 +36,7 @@ describe('Verify controller unit tests', () => {
         }
       };
       await ctrl.onArmoredMessage(msg);
-      expect(emitStub.withArgs('verified-message', {message: 'cba', signers: ['a', 'b', 'c']}).calledOnce).to.be.true;
+      expect(emitStub.withArgs('verified-message', {message: 'cba', signers: ['a', 'b', 'c'], clearText: true}).calledOnce).to.be.true;
     });
   });
 });

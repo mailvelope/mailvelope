@@ -72,7 +72,7 @@
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Veuillez noter :",
+        "message": "Notez :",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
@@ -96,7 +96,7 @@
         "description": "Consent to share analytics information with mailvelope"
     },
     "analytics_consent_disabled_tooltip": {
-        "message": "Vous ne pouvez accepter la fonctionnalité d'analyse qu'au moment de l'installation et uniquement si vous êtes sélectionné de manière aléatoire.",
+        "message": "Vous ne pouvez accepter les analyses que lors de l’installation après une sélection aléatoire.",
         "description": "Explanation for why user cannot opt in to analytics"
     },
     "analytics_consent_interstitial_Btn_Learn_More": {
@@ -104,19 +104,19 @@
         "description": "Btn FAQ"
     },
     "analytics_consent_interstitial_Faq": {
-        "message": " Pour en savoir plus sur les mesures de Mailvelope, consultez notre FAQ.",
+        "message": "Apprenez-en davantage sur les mesures que nous effectuons dans notre FAQ.",
         "description": "FAQ"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data": {
-        "message": "Mailvelope tient compte des étapes qui vous permettent de l'utiliser avec votre service de courrier électronique. Il n'enregistre en aucun cas vos actions.",
+        "message": "Mailvelope compte les étapes qui vous conduisent à l’utiliser avec votre service de courriel. Elle n’enregistre pas toutes vos actions.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-        "message": "Nous collectons un minimum de données",
+        "message": "Nous recueillons un minimum de données",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice": {
-        "message": "Si vous choisissez de ne pas y contribuer, rien ne sera enregistré. Si vous choisissez de le faire, vous pouvez changer d'avis à tout moment en vous désinscrivant dans les paramètres.",
+        "message": "Si vous choisissez de ne pas participer, rien n’est enregistré. Si vous participez, vous pouvez retirer votre consentement n’importe quand dans les paramètres.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
@@ -124,31 +124,31 @@
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
-        "message": "Usages de Mailvelope",
+        "message": "Mailvelope utilise",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
-        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "message": "qui stocke les données en toute sécurité sans les relier à des renseignements personnels. De plus, votre adresse IP n’est ni enregistrée ni traitée.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
-        "message": "Vos informations et vie privée sont protégées",
+        "message": "Vos données personnelles et votre vie privée sont protégées",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_learn_more": {
-        "message": "Learn how metrics are safe",
+        "message": "Découvrir le niveau de sécurité des mesures",
         "description": "Label for expandable section"
     },
     "analytics_consent_interstitial_learn_more_explanation": {
-        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "message": "Si vous consentez, les données d’analyse seront agrégées et réduites au minimum par « Clean Insights », qui stocke ces données sans les relier à des caractéristiques personnelles. Nous respectons votre choix et ne signalons rien si vous ne consentez pas.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_message": {
-        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "message": "Mailvelope demande à 1 % des nouveaux utilisateurs de participer à des mesures anonymes. Si vous consentez, Mailvelope enregistrera les étapes réussies de votre parcours d’intégration. Participerez-vous ?",
         "description": "Request for consent from selected users."
     },
     "analytics_interstitial_header": {
-        "message": "Help us improve?",
+        "message": "Participer à notre amélioration",
         "description": "Header of analytics consent dialog."
     },
     "auth_domain_api_label": {
@@ -200,7 +200,7 @@
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_cleartext_warning": {
-        "message": "Le texte suivant n’était pas chiffré !",
+        "message": "Le texte suivant n’était pas chiffré.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
@@ -428,7 +428,7 @@
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Veuillez ajouter un destinataire.",
+        "message": "Ajoutez un destinataire.",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
@@ -604,7 +604,7 @@
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "Il n’y a pas de clé privée dans le trousseau pour signer le contenu du formulaire. Veuillez en apporter ou en créer une.",
+        "message": "Il n’y a pas de clé privée dans le trousseau pour signer le contenu du formulaire. Importez ou créez-en une.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
@@ -632,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
+        "message": "Est-ce GnuPG est installé ? Si ce n’est pas le cas <0>Téléchargez-le ici</0>. Pour vérifier sa présence de nouveau <1>Redémarrez Mailvelope</1>. Si GnuPG est déjà installé, suivez <2>cette page de wiki</2> afin de confirmer que GnuPG a bien été configuré.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -684,11 +684,11 @@
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Veuillez vérifier si les clés publiques suivantes se trouvent dans votre trousseau GnuPG et si elles sont valides : $1",
+        "message": "Vérifiez si les clés publiques suivantes se trouvent dans votre trousseau GnuPG et si elles sont valides : $1",
         "description": ""
     },
     "header_analyticsconsent_modal": {
-        "message": "Thank you for helping!",
+        "message": "Nous vous remercions de votre aide",
         "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
@@ -824,7 +824,7 @@
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Veuillez patienter, la génération de la clé peut prendre plusieurs minutes en fonction de différents facteurs, tels que la taille de la clé.",
+        "message": "Patientez. La génération de la clé peut prendre plusieurs minutes en fonction de différents facteurs, tels que la taille de la clé.",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
@@ -984,7 +984,7 @@
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "Le texte de clé que vous avez tenté d’importer est trop long pour être traité. Veuillez essayer de le scinder en plusieurs parties plus petites.",
+        "message": "Le texte de clé que vous avez tenté d’importer est trop long pour être traité. Essayez de le scinder en plusieurs parties plus petites.",
         "description": "Import error alert."
     },
     "key_import_unable": {
@@ -1168,11 +1168,11 @@
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Veuillez attribuer un mot de passe à votre clé afin de protéger vos communications chiffrées :",
+        "message": "Attribuez un mot de passe à votre clé afin de protéger vos communications chiffrées :",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Ce processus peut prendre plusieurs minutes. Votre navigateur pourrait ne pas répondre. Veuillez patienter.",
+        "message": "Ce processus peut prendre plusieurs minutes. Votre navigateur pourrait ne pas répondre. Patientez.",
         "description": ""
     },
     "keygen_waiting_headline": {
@@ -1428,7 +1428,7 @@
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Si vous utilisez cette extension pour la première fois et n’avez pas encore de biclé, veuillez en générer une maintenant.",
+        "message": "Si vous utilisez cette extension pour la première fois et n’avez pas encore de biclé, générez-en une maintenant.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
@@ -1524,7 +1524,7 @@
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Veuillez saisir un nom",
+        "message": "Saisissez un nom",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
@@ -1548,7 +1548,7 @@
         "description": "Title of options page."
     },
     "paragraph_analyticsconsent_modal": {
-        "message": "You can opt out at any time from settings.",
+        "message": "Vous pouvez retirer votre consentement n’importe quand dans les paramètres.",
         "description": "p modal analytics consent"
     },
     "preferred": {
@@ -1612,7 +1612,7 @@
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail n’est pas autorisé pour le mode de recherche <0></0>. Veuillez vérifier les paramètres dans <1></1>.",
+        "message": "Gmail n’est pas autorisé pour le mode de recherche <0></0>. Vérifiez les paramètres dans <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
@@ -1680,43 +1680,43 @@
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Veuillez saisir votre mot de passe",
+        "message": "Saisissez votre mot de passe",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour créer l’ID utilisateur.",
+        "message": "Saisissez le mot de passe de votre clé pour créer l’ID utilisateur.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour créer une feuille de récupération.",
+        "message": "Saisissez le mot de passe de votre clé pour créer une feuille de récupération.",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour enregistrer le brouillon.",
+        "message": "Saisissez le mot de passe de votre clé pour enregistrer le brouillon.",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour déchiffrer ce courriel.",
+        "message": "Saisissez le mot de passe de votre clé pour déchiffrer ce courriel.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour mettre à jour les paramètres de communication chiffrée.",
+        "message": "Saisissez le mot de passe de votre clé pour mettre à jour les paramètres de communication chiffrée.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour la révoquer.",
+        "message": "Saisissez le mot de passe de votre clé pour la révoquer.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour révoquer l’ID utilisateur.",
+        "message": "Saisissez le mot de passe de votre clé pour révoquer l’ID utilisateur.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour définir une nouvelle date d’expiration.",
+        "message": "Saisissez le mot de passe de votre clé pour définir une nouvelle date d’expiration.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Veuillez saisir le mot de passe de votre clé pour signer ce courriel.",
+        "message": "Saisissez le mot de passe de votre clé pour signer ce courriel.",
         "description": ""
     },
     "pwd_dialog_title": {
@@ -1744,11 +1744,11 @@
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "Veuillez noter ",
+        "message": "Notez",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "Veuillez vérifier les paramètres dans votre compte sous :",
+        "message": "Vérifiez les paramètres dans votre compte sous :",
         "description": ""
     },
     "recovery_sheet_creation_date": {
@@ -1800,7 +1800,7 @@
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "D’autres utilisateurs de $1 qui utilisent la procédure PGP de GMX peuvent être trouvés directement dans un annuaire central de votre compte $1 Si vous ne voulez avoir aucune entrée dans cet annuaire, veuillez désactiver cette fonction dans les paramètres de votre compte $1.",
+        "message": "D’autres utilisateurs de $1 qui utilisent la procédure PGP de GMX peuvent être trouvés directement dans un annuaire central de votre compte $1 Si vous ne voulez avoir aucune entrée dans cet annuaire, désactivez cette fonction dans les paramètres de votre compte $1.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
@@ -1836,7 +1836,7 @@
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "Veuillez conserver ce document en lieu sûr",
+        "message": "Conservez ce document en lieu sûr.",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
@@ -1844,7 +1844,7 @@
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "Veuillez imprimer ce document et le conserver en lieu sûr",
+        "message": "Imprimez ce document et conservez-le en lieu sûr",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
@@ -1900,7 +1900,7 @@
         "description": ""
     },
     "reload_tab": {
-        "message": "Veuillez recharger les pages correspondantes pour que les paramètres prennent effet.",
+        "message": "Rechargez les pages correspondantes pour que les paramètres prennent effet.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
@@ -1908,7 +1908,7 @@
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Veuillez saisir votre code de récupération :",
+        "message": "Saisissez votre code de récupération :",
         "description": ""
     },
     "restore_password_dialog_button": {
@@ -2236,7 +2236,7 @@
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Veuillez confirmer l’ID utilisateur pour le synchroniser avec le serveur de clés de Mailvelope.",
+        "message": "Confirmez l’ID utilisateur pour le synchroniser avec le serveur de clés de Mailvelope.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {

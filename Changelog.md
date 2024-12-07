@@ -1,6 +1,16 @@
 Mailvelope Changelog
 ====================
 
+v6.0.1
+-------
+__Dec 7, 2024__
+
+  * Support HTML view in multipart/signed messages
+  * Remove attachment frame if extraction of signature in multipart/signed fails
+  * Fix reload button in the Mailvelope menu has no effect
+  * Fix decrypted message not shown as dimensions of decrypt view is set to zero
+  * Fix decrypt popup viewer of decrypt result view in app
+
 v6.0.0
 -------
 __Nov 7, 2024__
