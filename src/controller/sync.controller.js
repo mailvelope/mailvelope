@@ -183,7 +183,7 @@ export class SyncController extends SubController {
       // key can always be unlocked with password
       return true;
     }
-    const isKeyCached = isCached(options.key.getFingerprint());
+    const isKeyCached = await isCached(options.key.getFingerprint());
     if (isKeyCached) {
       return true;
     }

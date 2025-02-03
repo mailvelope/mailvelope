@@ -20,17 +20,100 @@ const TIME_LIMIT = 1;
 // max. nuber of operations in time limit
 const TIME_LIMIT_RATE = 100;
 
+const PWD_SESSION_KEY = 'pwd.session.key';
+const PWD_ALARM_PREFIX = 'PWD_ALARM_';
+
+class PwdMap extends Map {
+  constructor() {
+    super();
+    chrome.alarms.onAlarm.addListener(alarm => this.onAlarm(alarm));
+    this.init();
+  }
+
+  async init() {
+    const session = await this.getSession();
+    for (const fpr in session) {
+      const entry = session[fpr];
+      entry.tlOperations =  TIME_LIMIT_RATE;
+      entry.tlTimer = setInterval(() => {
+        entry.tlOperations = TIME_LIMIT_RATE;
+      }, TIME_LIMIT * 60 * 1000);
+      super.set(fpr, entry);
+    }
+  }
+
+  onAlarm(alarm) {
+    this.delete(alarm.name.replace(PWD_ALARM_PREFIX, ''));
+  }
+
+  async clear() {
+    super.clear();
+    chrome.storage.session.remove(PWD_SESSION_KEY);
+    const alarms = await chrome.alarms.getAll();
+    for (const alarm of alarms) {
+      if (alarm.name.startsWith(PWD_ALARM_PREFIX)) {
+        chrome.alarms.clear(alarm.name);
+      }
+    }
+  }
+
+  async getSession() {
+    const {[PWD_SESSION_KEY]: pwdSession} = await chrome.storage.session.get(PWD_SESSION_KEY);
+    return pwdSession || {};
+  }
+
+  async has(fpr) {
+    if (super.has(fpr)) {
+      return true;
+    }
+    const session = await this.getSession();
+    return Boolean(session[fpr]);
+  }
+
+  async get(fpr) {
+    if (super.has(fpr)) {
+      return super.get(fpr);
+    }
+    const session = await this.getSession();
+    return session[fpr];
+  }
+
+  async delete(fpr) {
+    const entry = super.get(fpr);
+    if (entry) {
+      clearInterval(entry.tlTimer);
+    }
+    super.delete(fpr);
+    const session = await this.getSession();
+    if (!session[fpr]) {
+      return;
+    }
+    delete session[fpr];
+    await chrome.storage.session.set({[PWD_SESSION_KEY]: session});
+    await chrome.alarms.clear(`${PWD_ALARM_PREFIX}${fpr}`);
+  }
+
+  async set(fpr, entry, initAlarm) {
+    super.set(fpr, entry);
+    const {key, tlOperations, tlTimer, ...sessionEntry} = entry;
+    const session = await this.getSession();
+    session[fpr] = sessionEntry;
+    await chrome.storage.session.set({[PWD_SESSION_KEY]: session});
+    if (initAlarm) {
+      chrome.alarms.create(`${PWD_ALARM_PREFIX}${fpr}`, {delayInMinutes: timeout});
+    }
+  }
+}
+
 export function init() {
   active = prefs.prefs.security.password_cache;
   timeout = prefs.prefs.security.password_timeout;
-  cache = new Map();
   // register for updates
   prefs.addUpdateHandler(update);
 }
 
-function clearTimeouts() {
-  // clear timeout functions
-  cache.forEach(entry => clearTimeout(entry.timer));
+export function initSession() {
+  cache = new PwdMap();
 }
 
 function clearIntervals() {
@@ -46,7 +129,6 @@ function update(before, after) {
   if (active != after.security.password_cache ||
       timeout != after.security.password_timeout) {
     // init cache
-    clearTimeouts();
     clearIntervals();
     cache.clear();
     active = after.security.password_cache;
@@ -57,36 +139,39 @@ function update(before, after) {
 /**
  * Get password and unlocked key from cache
  * @param  {String} primaryKeyFpr - primary key fingerprint
- * @return {Object} - password of key, if available unlocked key
+ * @param  {openpgp.message.Message} [message] -  message with encrypted session keys
+ * @return {Promise<Object>} - password of key, if available unlocked key
  */
-export function get(primaryKeyFpr, message) {
-  if (cache.has(primaryKeyFpr)) {
-    const entry = cache.get(primaryKeyFpr);
-    let operations = 1;
-    if (message) {
-      operations += getReservedOperations({key: entry.key, message});
-    }
-    entry.operations -= operations;
-    entry.tlOperations -= operations;
-    if (!Math.max(0, entry.tlOperations)) {
-      return;
-    }
-    if (Math.max(0, entry.operations)) {
-      return {
-        password: entry.password,
-        key: entry.key
-      };
-    } else {
-      // number of allowed operations exhausted
-      deleteEntry(primaryKeyFpr);
-    }
+export async function get(primaryKeyFpr, message) {
+  if (!await cache.has(primaryKeyFpr)) {
+    return;
+  }
+  const entry = await cache.get(primaryKeyFpr);
+  let operations = 1;
+  if (message) {
+    operations += getReservedOperations({key: entry.key, message});
+  }
+  entry.operations -= operations;
+  entry.tlOperations -= operations;
+  await cache.set(primaryKeyFpr, entry);
+  if (!Math.max(0, entry.tlOperations)) {
+    return;
+  }
+  if (Math.max(0, entry.operations)) {
+    return {
+      password: entry.password,
+      key: entry.key
+    };
+  } else {
+    // number of allowed operations exhausted
+    deleteEntry(primaryKeyFpr);
   }
 }
 
 /**
  * Return true if key is cached
  * @param  {String} primaryKeyFpr - primary key fingerprint
- * @return {Boolean} - true if cached
+ * @return {Promise<Boolean>} - true if cached
  */
 export function isCached(primaryKeyFpr) {
   return cache.has(primaryKeyFpr);
@@ -96,10 +181,8 @@ export function isCached(primaryKeyFpr) {
  * Delete key from cache
  * @param  {String} primaryKeyFpr - primary key fingerprint
  */
-function deleteEntry(primaryKeyFpr) {
-  clearTimeouts();
-  clearIntervals();
-  cache.delete(primaryKeyFpr);
+async function deleteEntry(primaryKeyFpr) {
+  await cache.delete(primaryKeyFpr);
 }
 
 export {deleteEntry as delete};
@@ -107,24 +190,22 @@ export {deleteEntry as delete};
 /**
  * Set key and password in cache, start timeout
  * @param {openpgp.key.Key} key - private key, expected unlocked
- * @param {String}          [password] - password
- * @param {Number}          [cacheTime] - timeout in minutes
+ * @param {String} [password] - password to unlock private key
+ * @param {Number} [reserverdOperations] - number of decrypt operations initially used
  */
-export function set({key, password, cacheTime, reservedOperations = 0}) {
+export async function set({key, password, reservedOperations = 0}) {
   // primary key fingerprint is main key of cache
   const primaryKeyFpr = key.getFingerprint();
   let entry;
-  if (cache.has(primaryKeyFpr)) {
-    entry = cache.get(primaryKeyFpr);
+  let newEntry;
+  if (await cache.has(primaryKeyFpr)) {
+    entry = await cache.get(primaryKeyFpr);
     // update remaining number of operations
     entry.operations -= reservedOperations;
     clearInterval(entry.tlTimer);
   } else {
     entry = {key, password};
-    // clear after timeout
-    entry.timer = setTimeout(() => {
-      deleteEntry(primaryKeyFpr);
-    }, (cacheTime || timeout) * 60 * 1000);
+    newEntry = true;
     // set max. number of operations
     entry.operations = Math.max(0, RATE_LIMIT - reservedOperations);
   }
@@ -133,7 +214,7 @@ export function set({key, password, cacheTime, reservedOperations = 0}) {
   entry.tlTimer = setInterval(() => {
     entry.tlOperations = TIME_LIMIT_RATE;
   }, TIME_LIMIT * 60 * 1000);
-  cache.set(primaryKeyFpr, entry);
+  await cache.set(primaryKeyFpr, entry, newEntry);
 }
 
 /**
@@ -143,6 +224,9 @@ export function set({key, password, cacheTime, reservedOperations = 0}) {
  * @return {Number} return the number of decryptable session keys
  */
 function getReservedOperations({key, message}) {
+  if (!key) {
+    return 1;
+  }
   const pkESKeyPacketlist = message.packets.filterByTag(enums.packet.publicKeyEncryptedSessionKey);
   const keyIdsHex = key.getKeys().map(({keyPacket}) => keyPacket.getKeyID().toHex());
   return pkESKeyPacketlist.filter(keyPacket => keyIdsHex.includes(keyPacket.publicKeyID.toHex())).length;
@@ -153,6 +237,7 @@ function getReservedOperations({key, message}) {
  * Password caching does not support different passphrases for primary key and subkeys
  * @param {openpgp.key.Key} key - key to unlock
  * @param {String}          password - password to unlock key
+ * @param  {openpgp.message.Message} [message] -  message with encrypted session keys
  * @return {Promise<openpgp.key.Key, Error>} return the unlocked key
  */
 export async function unlock({key, password, message}) {

@@ -26,6 +26,7 @@ let modelInitDone;
 export const modelInitialized = new Promise(resolve => modelInitDone = resolve);
 
 export async function init() {
+  pwdCache.initSession();
   await defaults.init();
   await prefs.init();
   pwdCache.init();

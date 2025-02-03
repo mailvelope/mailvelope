@@ -116,7 +116,7 @@ export default class DecryptController extends SubController {
         throw model.noKeyFoundError(encryptionKeyIds);
       }
       const key = keyring.getPrivateKeyByIds(encryptionKeyIds);
-      const isKeyCached = isCached(key.getFingerprint());
+      const isKeyCached = await isCached(key.getFingerprint());
       return isKeyCached;
     } catch (error) {
       if (this.ports.dDialog) {

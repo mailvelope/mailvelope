@@ -49,6 +49,7 @@
   ],
   "options_page": "app/app.html",
   "permissions": [
+    "alarms",
     "identity",
     "offscreen",
     "scripting",

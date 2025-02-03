@@ -124,7 +124,7 @@ export default class PrivateKeyController extends SubController {
       });
       this.ports.keyGenCont.emit('generate-done', {publicKey: publicKey.armor()});
       if (prefs.security.password_cache) {
-        pwdCache.set({key: privateKey, password});
+        await pwdCache.set({key: privateKey, password});
       }
       if (options.confirmRequired) {
         this.newKeyFpr = publicKey.getFingerprint();

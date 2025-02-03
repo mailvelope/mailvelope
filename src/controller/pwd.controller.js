@@ -22,8 +22,7 @@ export default class PwdController extends SubController {
     this.pwdPopup = null;
     this.receivedPortMsg = false;
     this.options = null;
-    this.resolve = null;
-    this.reject = null;
+    this.passwordRequest = null;
     // register event handlers
     this.on('pwd-dialog-init', this.onPwdDialogInit);
     this.on('pwd-dialog-cancel', this.onCancel);
@@ -42,22 +41,18 @@ export default class PwdController extends SubController {
     });
   }
 
-  onOk(msg) {
-    Promise.resolve()
-    .then(() => {
+  async onOk(msg) {
+    try {
       this.options.password = msg.password;
       if (msg.cache != prefs.prefs.security.password_cache) {
         // update pwd cache status
-        return prefs.update({security: {password_cache: msg.cache}});
+        await prefs.update({security: {password_cache: msg.cache}});
       }
-    })
-    .then(() => pwdCache.unlock(this.options))
-    .then(key => {
+      const key = await pwdCache.unlock(this.options);
       this.receivedPortMsg = true;
       this.closePopup();
-      this.resolve({key, password: this.options.password});
-    })
-    .catch(err => {
+      this.passwordRequest.resolve({key, password: this.options.password});
+    } catch (err) {
       if (err.code == 'WRONG_PASSWORD') {
         this.ports.pwdDialog.emit('wrong-password');
       } else {
@@ -65,15 +60,15 @@ export default class PwdController extends SubController {
           this.ports.dDialog.emit('error-message', {error: err.message});
         }
         this.closePopup();
-        this.reject(err);
+        this.passwordRequest.reject(err);
       }
-    });
+    }
   }
 
   onCancel() {
     this.receivedPortMsg = true;
     this.closePopup();
-    this.reject(new MvError(l10n.get('pwd_dialog_cancel'), 'PWD_DIALOG_CANCEL'));
+    this.passwordRequest.reject(new MvError(l10n.get('pwd_dialog_cancel'), 'PWD_DIALOG_CANCEL'));
   }
 
   closePopup() {
@@ -98,49 +93,45 @@ export default class PwdController extends SubController {
    * @param {Boolean} [options.noCache] - bypass cache
    * @return {Promise<Object, Error>} - resolves with unlocked key and password {key: openpgp.key.Key, password: String}
    */
-  unlock(options) {
+  async unlock(options) {
     this.options = options;
-    if (typeof options.reason == 'undefined') {
-      this.options.reason = '';
-    }
-    if (typeof this.options.openPopup == 'undefined') {
-      this.options.openPopup = true;
-    }
-    const cacheEntry = pwdCache.get(this.options.key.getFingerprint(), options.message);
+    this.options.reason ??= '';
+    this.options.openPopup ??= true;
+    const cacheEntry = await pwdCache.get(this.options.key.getFingerprint(), options.message);
     if (cacheEntry && !options.noCache) {
-      return Promise.resolve(cacheEntry);
-    } else {
-      return new Promise((resolve, reject) => {
-        if (this.keyIsDecrypted(this.options) && !options.noCache) {
-          // secret-key data is not encrypted, nothing to do
-          return resolve({key: this.options.key, password: this.options.password});
-        }
-        if (this.options.password) {
-          // secret-key data is encrypted, but we have password
-          return pwdCache.unlock(this.options)
-          .then(key => resolve({key, password: this.options.password}));
-        }
-        if (this.options.beforePasswordRequest) {
-          this.options.beforePasswordRequest(this.id);
-        }
-        if (this.options.openPopup) {
-          setTimeout(
-            () => mvelo.windows.openPopup(`components/enter-password/passwordDialog.html?id=${this.id}`, {width: 580, height: 490})
-            .then(popup => {
-              this.receivedPortMsg = false;
-              this.pwdPopup = popup;
-              popup.addRemoveListener(() => {
-                if (!this.receivedPortMsg) {
-                  this.pwdPopup = null;
-                  this.onCancel();
-                }
-              });
-            }), 50);
-        }
-        this.resolve = resolve;
-        this.reject = reject;
-      });
+      if (cacheEntry.key) {
+        return cacheEntry;
+      }
+      // password is in cache
+      this.options.password = cacheEntry.password;
     }
+    if (this.keyIsDecrypted(this.options) && !options.noCache) {
+      // secret-key data is not encrypted, nothing to do
+      return {key: this.options.key, password: this.options.password};
+    }
+    if (this.options.password) {
+      // secret-key data is encrypted, but we have password
+      const key = await pwdCache.unlock(this.options);
+      return {key, password: this.options.password};
+    }
+    this.passwordRequest = Promise.withResolvers();
+    if (this.options.beforePasswordRequest) {
+      this.options.beforePasswordRequest(this.id);
+    }
+    if (this.options.openPopup) {
+      setTimeout(async () => {
+        const popup = await mvelo.windows.openPopup(`components/enter-password/passwordDialog.html?id=${this.id}`, {width: 580, height: 490});
+        this.receivedPortMsg = false;
+        this.pwdPopup = popup;
+        popup.addRemoveListener(() => {
+          if (!this.receivedPortMsg) {
+            this.pwdPopup = null;
+            this.onCancel();
+          }
+        });
+      }, 50);
+    }
+    return this.passwordRequest.promise;
   }
 
   /**
