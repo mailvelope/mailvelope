@@ -466,6 +466,7 @@ export default class Editor extends React.Component {
               {!this.state.embedded && (
                 <div className="modal-footer px-4 pb-4 pt-2 flex-shrink-0">
                   <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
+                    signOnlyDisabled={!this.state.signMsg || !this.state.privKeys.length || this.state.files.length || this.state.plainText === '' || !this.state.recipients.length}
                     extraKey={this.state.extraKey}
                     extraKeyInput={
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} onAutoLocate={recipient => this.handleKeyLookup(recipient)} hideErrorMsg={true}

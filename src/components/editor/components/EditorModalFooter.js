@@ -73,7 +73,7 @@ export default class EditorModalFooter extends React.Component {
             <span>{l10n.map.options_home}</span>
           </button>
           <div className="btn-bar">
-            <button type="button" onClick={this.props.onSignOnly} className="btn btn-secondary" disabled={!(this.props.signMsg && this.props.privKeys.length)}>
+            <button type="button" onClick={this.props.onSignOnly} className="btn btn-secondary" disabled={this.props.signOnlyDisabled}>
               <span>{l10n.map.editor_sign_button}</span>
             </button>
             <button type="button" onClick={this.props.onCancel} className="btn btn-secondary">
@@ -91,6 +91,7 @@ export default class EditorModalFooter extends React.Component {
 
 EditorModalFooter.propTypes = {
   encryptDisabled: PropTypes.bool, // encrypt action disabled
+  signOnlyDisabled: PropTypes.bool, // sign only action disabled
   extraKey: PropTypes.bool, // extra key input enabled
   extraKeyInput: PropTypes.element, // extra keys input control
   integration: PropTypes.bool, // integration active indicator
