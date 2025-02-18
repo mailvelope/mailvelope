@@ -31,8 +31,10 @@ class KeyringAttrMap extends Map {
   }
 
   async initGPG() {
-    await initNativeMessaging();
     const hasGpgKeyring = this.has(GNUPG_KEYRING_ID);
+    if (hasGpgKeyring || keyringFirstTimeLoad) {
+      await initNativeMessaging();
+    }
     if (gpgme) {
       if (!hasGpgKeyring) {
         await this.create(GNUPG_KEYRING_ID);
@@ -96,6 +98,7 @@ const keyringMap = new Map();
 
 let keyringInitDone;
 const keyringInitialized = new Promise(resolve => keyringInitDone = resolve);
+let keyringFirstTimeLoad;
 
 export async function init() {
   keyringMap.clear();
@@ -115,11 +118,13 @@ export async function init() {
       console.log(`Building keyring for id ${keyringId} failed`, e);
     }
   }));
+  keyringFirstTimeLoad = await firstTimeLoad();
+  keyringFirstTimeLoad ? initGPG() : await initGPG();
   keyringInitDone();
   preVerifyKeys();
 }
 
-export async function initGPG() {
+async function initGPG() {
   await keyringAttr.initGPG();
   if (!keyringAttr.has(GNUPG_KEYRING_ID)) {
     return;
@@ -132,6 +137,18 @@ export async function initGPG() {
     await keyringAttr.delete(GNUPG_KEYRING_ID);
     console.log(`Building keyring for id ${GNUPG_KEYRING_ID} failed`, e);
   }
+}
+
+/**
+ * Check if keyring has been loaded for the first time during this session
+ * @return {Boolean}
+ */
+async function firstTimeLoad() {
+  const {keyringLoaded} = await chrome.storage.session.get('keyringLoaded');
+  if (!keyringLoaded) {
+    await chrome.storage.session.set({keyringLoaded: true});
+  }
+  return !keyringLoaded;
 }
 
 /**

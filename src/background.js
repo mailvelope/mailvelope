@@ -17,7 +17,7 @@
 
 import {initBrowserRuntime} from './lib/browser.runtime';
 import {init as initModel} from './modules/pgpModel';
-import {init as initKeyring, initGPG} from './modules/keyring';
+import {init as initKeyring} from './modules/keyring';
 import {initController} from './controller/main.controller';
 import {initScriptInjection, initAuthRequestApi} from './lib/inject';
 import {initAnalytics} from './lib/analytics';
@@ -30,7 +30,6 @@ async function main() {
   await initModel();
   initScriptInjection();
   await initKeyring();
-  initGPG();
 }
 
 main();
