@@ -26,7 +26,7 @@
     "dompurify": "3.1.7",
     "emailjs-mime-builder": "github:mailvelope/emailjs-mime-builder#bf4cea3bdf50bb26b0f86ee9b1e9ee7063b5a8cc",
     "emailjs-mime-parser": "2.0.7",
-    "gpgmejs": "github:mailvelope/gpgmejs#c412917b2a111d99d9a1bb746dcc29b9802c869e",
+    "gpgmejs": "github:mailvelope/gpgmejs#663e750b9e6ee487863d0028fbcf891cd12d3f58",
     "jquery": "3.7.1",
     "linkifyjs": "2.1.9",
     "ng-tags-input": "3.2.0",
