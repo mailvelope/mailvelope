@@ -138,7 +138,9 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
     }
   }, [tags, extraKey, tagToRecipient, onAutoLocate]);
 
-  const suggestions = keys.map(key => ({
+  const suggestions = keys
+  .filter(key => !tags.find(tag => tag.id === key.email))
+  .map(key => ({
     id: key.email,
     text: `${encodeHTML(key.userId)} - ${key.keyId}`
   }));
@@ -148,8 +150,8 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
       <ReactTags
         tags={tags}
         suggestions={suggestions}
-        handleDelete ={onDelete}
-        handleAddition ={onAddition}
+        handleDelete={onDelete}
+        handleAddition={onAddition}
         placeholder={null}
         allowDragDrop={false}
         minQueryLength={1}
