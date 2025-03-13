@@ -8,7 +8,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 // `WithContext` as `ReactTags` is taken from the official example
 import {WithContext as ReactTags} from 'react-tag-input';
 import * as l10n from '../../../lib/l10n';
-import {checkEmail, getUUID} from '../../../lib/util';
+import {checkEmail, encodeHTML, getUUID} from '../../../lib/util';
 
 import './RecipientInput.scss';
 
@@ -140,7 +140,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
 
   const suggestions = keys.map(key => ({
     id: key.email,
-    text: `${key.userId} - ${key.keyId}`
+    text: `${encodeHTML(key.userId)} - ${key.keyId}`
   }));
 
   return (
