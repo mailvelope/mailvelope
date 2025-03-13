@@ -111,7 +111,7 @@ $sp-1: map-get($spacers, 1);
     /* Text highlighted by search */
     li mark {
       @extend .p-0;
-      text-decoration: underline;
+      text-decoration: none;
       background: none;
       font-weight: 600;
     }
