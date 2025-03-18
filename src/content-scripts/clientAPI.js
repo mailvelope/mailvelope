@@ -11,7 +11,6 @@ import {checkTypes} from './clientAPITypeCheck';
 import DecryptContainer from './decryptContainer';
 import EditorContainer from './editorContainer';
 import EncryptedFormContainer from './encryptedFormContainer';
-import AppContainer from './appContainer';
 import KeyGenContainer from './keyGenContainer';
 import KeyBackupContainer from './keyBackupContainer';
 import RestoreBackupContainer from './restoreBackupContainer';
@@ -154,11 +153,8 @@ function editorContainer({selector, keyringId, options = {}}) {
   return container.create();
 }
 
-async function settingsContainer({selector, keyringId, options = {}}) {
-  options.hasPrivateKey = await controllerPort.send('has-private-key', {keyringId});
-  const container = new AppContainer(selector, keyringId, options);
-  containers.set(container.id, container);
-  return container.create();
+async function settingsContainer() {
+  throw new MvError('The settings container has been deprecated. Use keyring.openSettings() instead to open the settings in a new browser tab.', 'FEATURE_DEPRECATED');
 }
 
 function openSettings({keyringId, options}) {

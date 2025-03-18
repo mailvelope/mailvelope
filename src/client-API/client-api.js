@@ -157,6 +157,7 @@ class Mailvelope {
   /**
    * Creates an iframe to display the keyring settings.
    * The iframe will be injected into the container identified by selector.
+   * @deprecated since v6.1.0 - use keyring.openSettings() instead
    * @param {CssSelector} selector - target container
    * @param {Keyring} [keyring] - the keyring to use for the setup
    * @param {SettingsContainerOptions} options

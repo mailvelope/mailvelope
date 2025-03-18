@@ -59,7 +59,6 @@
   ],
   "web_accessible_resources": [{
     "resources": [
-      "app/app.html",
       "client-API/mailvelope-client-api.js",
       "components/decrypt-message/decryptMessage.html",
       "components/generate-key/genKey.html",
