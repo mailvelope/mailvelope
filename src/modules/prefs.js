@@ -74,7 +74,3 @@ export function setPreferences(preferences) {
   return mvelo.storage.set('mvelo.preferences', preferences);
 }
 
-export function removePreference(preference) {
-  return mvelo.storage.remove(preference);
-}
-
