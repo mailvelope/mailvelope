@@ -5,9 +5,9 @@
 // Polyfills and globals required for tests
 //
 
-window.chrome = window.chrome || {};
+window.chrome ??= {};
 
-window.chrome.runtime = window.chrome.runtime || {id: 'kajibbejlbohfaggdiogboambcijhkke'};
+window.chrome.runtime ??= {id: 'kajibbejlbohfaggdiogboambcijhkke'};
 
 window.chrome.runtime.getURL = function(name) {
   return location.href.split('/test/')[0] + '/' + name;
@@ -90,9 +90,22 @@ window.chrome.i18n = {
   }
 };
 
-window.chrome.browserAction = window.chrome.browserAction || {};
+window.chrome.action ??= {};
+window.chrome.action.setBadgeText = function() {};
+window.chrome.action.setBadgeBackgroundColor = function() {};
 
-window.chrome.browserAction.setBadgeText = function(){};
+window.chrome.storage ??= {};
+window.chrome.storage.session ??= {
+  async set() {},
+  async get() { return {}; },
+  async remove() {},
+  async getBytesInUse() {}
+};
 
-window.chrome.browserAction.setBadgeBackgroundColor = function(){};
+chrome.alarms ??= {
+  onAlarm: {
+    addListener() {}
+  }
+};
+
 
