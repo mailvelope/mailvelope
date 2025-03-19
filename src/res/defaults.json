@@ -294,13 +294,13 @@
       "oks_lookup": true,
       "wkd_blacklist":
       [
-        "gmail\\..*",
-        "googlemail\\..*",
-        "gmx\\..*",
-        "outlook\\..*",
-        "hotmail\\..*",
-        "web.de",
-        "yahoo\\..*"
+        "^gmail\\.com$",
+        "^googlemail\\.com$",
+        "^gmx\\..{2,3}$",
+        "^outlook\\.com$",
+        "^hotmail\\.com$",
+        "^web\\.de$",
+        "^yahoo\\..{2,3}$"
       ],
       "wkd_lookup": true
     }

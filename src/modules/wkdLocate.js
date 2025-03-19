@@ -36,8 +36,8 @@ const TIMEOUT = 5;
 // the size limit depends on the timeout.
 const SIZE_LIMIT = 256;
 
-// blacklist to check for domains where WKD should not even be tried.
-let blacklist;
+// blocklist to check for domains where WKD should not even be tried.
+let blocklist;
 
 /**
 * Check if WKD lookup is enabled.
@@ -59,7 +59,7 @@ export async function lookup({email}) {
     return;
   }
   const [, domain] = /.*@(.*)/.exec(email);
-  if (isBlacklisted(domain)) {
+  if (isBlocklisted(domain)) {
     return;
   }
   let data;
@@ -115,18 +115,18 @@ async function retrievePubKeyViaWKD(email, methodOfWKD) {
 }
 
 /**
- * Check if a domain is blacklisted.
+ * Check if a domain is blocklisted.
  *
- * Throws an error if the domain is blacklisted.
+ * Throws an error if the domain is blocklisted.
  *
  * @param {String} domain  The domain to check
- * @return {Boolean}       Weather or not the domain is blacklisted.
+ * @return {Boolean}       Weather or not the domain is blocklisted.
  */
-function isBlacklisted(domain) {
-  if (typeof blacklist == 'undefined') {
-    blacklist = (defaults.preferences.keyserver.wkd_blacklist || []).map(item => RegExp(item, 'i'));
+export function isBlocklisted(domain) {
+  if (typeof blocklist == 'undefined') {
+    blocklist = (defaults.preferences.keyserver.wkd_blacklist || []).map(item => RegExp(item, 'i'));
   }
-  for (const item of blacklist) {
+  for (const item of blocklist) {
     if (item.test(domain)) {
       return true;
     }
