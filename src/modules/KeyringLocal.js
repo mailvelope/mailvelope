@@ -113,6 +113,10 @@ export default class KeyringLocal extends KeyringBase {
       });
     }
     for (let pubKey of pubKeys) {
+      if (pubKey.isPrivate()) {
+        result.push({type: 'error', message: l10n.get('key_import_public_read', 'Internal error')});
+        continue;
+      }
       // check for existing keys
       checkKeyId(pubKey, this.keystore);
       const fingerprint = pubKey.getFingerprint();
@@ -158,6 +162,10 @@ export default class KeyringLocal extends KeyringBase {
       });
     }
     for (let privKey of privKeys) {
+      if (!privKey.isPrivate()) {
+        result.push({type: 'error', message: l10n.get('key_import_private_read', 'Internal error')});
+        continue;
+      }
       // check for existing keys
       checkKeyId(privKey, this.keystore);
       const fingerprint = privKey.getFingerprint();

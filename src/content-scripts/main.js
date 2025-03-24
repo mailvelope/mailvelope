@@ -287,10 +287,10 @@ export function getMessageType(armored) {
     return PGP_SIGNATURE;
   } else if (/END\sPGP\sSIGNATURE/.test(armored)) {
     return PGP_SIGNATURE;
-  } else if (/(BEGIN|END)\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
-    return PGP_PUBLIC_KEY;
   } else if (/(BEGIN|END)\sPGP\sPRIVATE\sKEY\sBLOCK/.test(armored)) {
     return PGP_PRIVATE_KEY;
+  } else if (/(BEGIN|END)\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
+    return PGP_PUBLIC_KEY;
   }
 }
 
