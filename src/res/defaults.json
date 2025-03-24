@@ -260,7 +260,7 @@
       ]
     },
     {
-      "active": true,
+      "active": false,
       "site": "Mailvelope Demo",
       "https_only": true,
       "frames": [
