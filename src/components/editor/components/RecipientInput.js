@@ -138,11 +138,17 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
     }
   }, [tags, extraKey, tagToRecipient, onAutoLocate]);
 
+  const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
+    const lowerCaseQuery = textInputValue.toLowerCase();
+    return possibleSuggestionsArray.filter(suggestion => suggestion.searchString.toLowerCase().includes(lowerCaseQuery));
+  };
+
   const suggestions = keys
   .filter(key => !tags.find(tag => tag.id === key.email))
   .map(key => ({
     id: key.email,
-    text: `${encodeHTML(key.userId)} - ${key.keyId}`
+    text: `${encodeHTML(key.userId)} - ${key.keyId}`,
+    searchString: `${key.userId} ${key.keyId}`// for search
   }));
 
   return (
@@ -152,9 +158,10 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         suggestions={suggestions}
         handleDelete={onDelete}
         handleAddition={onAddition}
+        handleFilterSuggestions={onFilterSuggestions}
         placeholder={null}
         allowDragDrop={false}
-        minQueryLength={1}
+        minQueryLength={2}
         id="recipients-input"
         classNames={{
           tags: 'recipients-input mb-1',
