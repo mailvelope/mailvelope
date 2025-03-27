@@ -3,15 +3,12 @@
 @import "/node_modules/bootstrap/scss/badge";
 @import "/node_modules/bootstrap/scss/dropdown";
 @import "/node_modules/bootstrap/scss/forms";
-@import "/node_modules/bootstrap/scss/utilities/display";
-@import "/node_modules/bootstrap/scss/utilities/flex";
-@import "/node_modules/bootstrap/scss/utilities/spacing";
 
 // Get spacer value from bootstrap
 $sp-1: map-get($spacers, 1);
 
 .recipients-input {
-  @extend .form-control, .mb-1;
+  @extend .form-control;
   padding: 0 $sp-1 $sp-1 0; // mirror to tags and input margins
   position: relative; // for the dropdown
   height: initial; // input should be stretchable
@@ -20,10 +17,8 @@ $sp-1: map-get($spacers, 1);
     @extend .form-control:focus;
   }
 
-  .tag-selected-list {
+  .tag-selected-list {    
     /* The layout has to be stretchable because the input should take all the space left */
-    @extend .d-flex, .flex-wrap;
-
     .tag-wrapper {
       @extend .badge; // we later copy $badge-padding-y in .tag-input-wrapper
       margin: $sp-1 0 0 $sp-1; // mirror to .recipients-input padding
@@ -64,7 +59,6 @@ $sp-1: map-get($spacers, 1);
   }
 
   .tag-input-wrapper {
-    @extend .flex-grow-1;
     /* match bage layout */
     padding: $badge-padding-y 0; 
     margin: $sp-1 0 0 $sp-1; // mirror to .recipients-input padding
@@ -74,7 +68,6 @@ $sp-1: map-get($spacers, 1);
       min-width: 12rem;
 
       /* remove styles and layout from this element */
-      @extend .m-0, .p-0;
       border: 0;
       outline: none;
 
@@ -89,14 +82,14 @@ $sp-1: map-get($spacers, 1);
   }
 
   .suggestions {
-    @extend .dropdown-menu, 
-            .d-block; /* `react-tags` adds menu to the DOM instead of hiding it, so we override bootstap */    
+    @extend .dropdown-menu; /* `react-tags` adds menu to the DOM instead of hiding it, so we override bootstap */    
     width: 100%;
     overflow-x: auto;
 
     ul {
       /* Reset `ul`s padding */
-      @extend .m-0, .p-0;
+      margin: 0px;
+      padding: 0px;
     }
 
     li {
@@ -110,7 +103,7 @@ $sp-1: map-get($spacers, 1);
 
     /* Text highlighted by search */
     li mark {
-      @extend .p-0;
+      padding: 0px;
       text-decoration: none;
       background: none;
       font-weight: 600;

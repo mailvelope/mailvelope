@@ -157,13 +157,13 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         minQueryLength={1}
         id="recipients-input"
         classNames={{
-          tags: 'recipients-input',
-          tagInput: 'tag-input-wrapper',
-          tagInputField: 'tag-input-field',
-          selected: 'tag-selected-list',
+          tags: 'recipients-input mb-1',
+          tagInput: 'tag-input-wrapper flex-grow-1',
+          tagInputField: 'tag-input-field m-0 p-0',
+          selected: 'tag-selected-list d-flex flex-wrap',
           tag: 'tag',
           remove: 'tag-remove',
-          suggestions: 'suggestions',
+          suggestions: 'suggestions d-block',
           activeSuggestion: 'active-suggestion'
         }} />
       {!hideErrorMsg && hasError && (
