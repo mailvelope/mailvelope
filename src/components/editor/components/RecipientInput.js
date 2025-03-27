@@ -148,7 +148,9 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
 
   const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
     const lowerCaseQuery = textInputValue.toLowerCase();
-    return possibleSuggestionsArray.filter(suggestion => suggestion.searchString.toLowerCase().includes(lowerCaseQuery));
+    return possibleSuggestionsArray
+    .filter(suggestion => suggestion.searchStr.toLowerCase().includes(lowerCaseQuery))
+    .slice(0, 10);
   };
 
   const suggestions = keys
@@ -156,11 +158,11 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
   .map(key => ({
     id: key.email,
     text: `${encodeHTML(key.userId)} - ${key.keyId}`,
-    searchString: `${key.userId} ${key.keyId}`// for search
+    searchStr: `${key.userId} ${key.keyId}`// for search
   }));
 
   return (
-    <div id={id} className="input-group mb-3">
+    <div id={id} className="input-group mb-0">
       <ReactTags
         tags={tags}
         suggestions={suggestions}
@@ -172,7 +174,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         minQueryLength={2}
         id={RECIPIENTS_INPUT_ID}
         classNames={{
-          tags: 'recipients-input mb-1',
+          tags: 'recipients-input mb-0',
           tagInput: 'tag-input-wrapper flex-grow-1',
           tagInputField: 'tag-input-field m-0 p-0',
           selected: 'tag-selected-list d-flex flex-wrap',
