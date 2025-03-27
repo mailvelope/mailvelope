@@ -70,6 +70,7 @@ function findRecipientKey(keys, email) {
  */
 export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onChangeRecipients, recipients}) {
   const id = getUUID();
+  const RECIPIENTS_INPUT_ID = 'recipients-input'; // new constant for input id
 
   const [tags, setTags] = useState(
     recipients.map(r => recipientToTag(r, extraKey))
@@ -135,6 +136,13 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         onAutoLocate(recipient);
       }
       setTags([...tags, recipientToTag(recipient, extraKey)]);
+      // After updating the tags, refocus the input field using the constant id
+      setTimeout(() => {
+        const inputElem = document.getElementById(RECIPIENTS_INPUT_ID);
+        if (inputElem) {
+          inputElem.focus();
+        }
+      }, 0);
     }
   }, [tags, extraKey, tagToRecipient, onAutoLocate]);
 
@@ -162,7 +170,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         placeholder={null}
         allowDragDrop={false}
         minQueryLength={2}
-        id="recipients-input"
+        id={RECIPIENTS_INPUT_ID}
         classNames={{
           tags: 'recipients-input mb-1',
           tagInput: 'tag-input-wrapper flex-grow-1',
