@@ -156,7 +156,14 @@ export default class Editor extends React.Component {
    * @param {Array} options.recipients   recipients gather from the webmail ui
    */
   onPublicKeyUserids({keys, to, cc}) {
-    this.setState({publicKeys: keys, recipients: to, recipientsCc: cc, showRecipientsCc: cc.length > 0});
+    // initiate key lookup if they aren't found locally
+    // we do it in the editor (not in the controller), because we'd like the UI to be dynamically updated
+    this.keyLookup([...to, ...cc]);
+    this.setState(prevState => {
+      // when received recipients, reset Encrypt button status
+      const encryptDisabled = prevState.recipientsError || prevState.recipientsCcError || !to.length;
+      return {publicKeys: keys, encryptDisabled, recipients: to, recipientsCc: cc, showRecipientsCc: cc.length > 0};
+    });
   }
 
   /**
@@ -373,8 +380,13 @@ export default class Editor extends React.Component {
     this.setState({[target.name]: target.checked});
   }
 
-  handleKeyLookup(recipient) {
-    this.port.emit('key-lookup', {recipient});
+  keyLookup(recipients) {
+    recipients.forEach(recipient => {
+      if (recipient.checkServer) {
+        this.port.emit('key-lookup', {recipient});
+        recipient.checkServer = false;
+      }
+    });
   }
 
   hideNotification(timeout = 0, closeEditor = false) {
@@ -388,6 +400,7 @@ export default class Editor extends React.Component {
   }
 
   handleChangeRecipients(recipients, recipientsError) {
+    this.keyLookup(recipients);
     this.setState(prevState => {
       const errorState = {recipientsError: prevState.recipientsError, ...{recipientsError}};
       return {...errorState, recipients, encryptDisabled: errorState.recipientsError || prevState.recipientsCcError || !recipients.length};
@@ -396,6 +409,7 @@ export default class Editor extends React.Component {
 
   // For CC recipients we allow the field to be empty, still handling the error
   handleChangeRecipientsCc(recipientsCc, recipientsCcError) {
+    this.keyLookup(recipientsCc);
     this.setState(prevState => {
       const errorState = {recipientsCcError: prevState.recipientsCcError, ...{recipientsCcError}};
       return {...errorState, recipientsCc, encryptDisabled: errorState.recipientsCcError || prevState.recipientsError};
@@ -431,8 +445,7 @@ export default class Editor extends React.Component {
                         {(!this.state.showRecipientsCc && this.state.integration) && <label><a href="#" role="button" className="text-reset" onClick={() => this.setState({showRecipientsCc: true})}>{l10n.map.editor_label_copy_recipient}</a></label>}
                       </div>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients}
-                        onChangeRecipients={({recipients, hasError}) => this.handleChangeRecipients(recipients, hasError)}
-                        onAutoLocate={recipient => this.handleKeyLookup(recipient)}
+                        onChangeRecipients={(recipients, recipientsError) => this.handleChangeRecipients(recipients, recipientsError)}
                         extraKey={hasExtraKey}
                       />
                     </div>
@@ -441,8 +454,7 @@ export default class Editor extends React.Component {
                     <div className="mb-3">
                       <label className="mr-auto">{l10n.map.editor_label_copy_recipient}</label>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipientsCc}
-                        onChangeRecipients={({recipients, hasError}) => this.handleChangeRecipientsCc(recipients, hasError)}
-                        onAutoLocate={recipient => this.handleKeyLookup(recipient)}
+                        onChangeRecipients={(recipients, recipientsError) => this.handleChangeRecipientsCc(recipients, recipientsError)}
                         extraKey={hasExtraKey}
                       />
                     </div>
@@ -476,8 +488,8 @@ export default class Editor extends React.Component {
                   <EditorModalFooter signMsg={this.state.signMsg} signKey={this.state.signKey}
                     extraKey={this.state.extraKey}
                     extraKeyInput={
-                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} onAutoLocate={recipient => this.handleKeyLookup(recipient)} hideErrorMsg={true}
-                        onChangeRecipients={({recipients, hasError}) => this.handleChangeExtraKeyInput(recipients, hasError)}
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} hideErrorMsg={true}
+                        onChangeRecipients={(recipients, recipientsError) => this.handleChangeExtraKeyInput(recipients, recipientsError)}
                       />}
                     integration = {this.state.integration}
                     onCancel={() => this.handleCancel()}

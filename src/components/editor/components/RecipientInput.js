@@ -4,7 +4,7 @@
  */
 
 import PropTypes from 'prop-types';
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useRef, useMemo} from 'react';
 // `WithContext` as `ReactTags` is taken from the official example
 import {WithContext as ReactTags} from 'react-tag-input';
 import * as l10n from '../../../lib/l10n';
@@ -68,13 +68,26 @@ function findRecipientKey(keys, email) {
  * @param {Props} props - Component properties
  * @returns {React.JSX.Element}
  */
-export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onChangeRecipients, recipients}) {
+export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChangeRecipients}) {
   const id = getUUID();
-  const RECIPIENTS_INPUT_ID = 'recipients-input'; // new constant for input id
+  const RECIPIENTS_INPUT_ID = 'recipients-input';
 
-  const [tags, setTags] = useState(
-    recipients.map(r => recipientToTag(r, extraKey))
-  );
+  /**
+   * Converts recipient objects into tags format, assigning keys if not present
+   * @param {Array<Object>} recipients - Array of recipient objects containing email addresses
+   * @param {Array<Key>} keys - Array of key objects to search through
+   * @param {boolean} [extraKey] - Whether there is extra key present
+   * @return {Array<Tag>} Array of recipient objects in tag format
+   */
+  const recipientsToTags = (recipients, keys, extraKey) =>
+    recipients.map(r => {
+      if (!r.key) {
+        r.key = findRecipientKey(keys, r.email);
+      }
+      return recipientToTag(r, extraKey);
+    }) || [];
+
+  const tags = useMemo(() => recipientsToTags(recipients, keys, extraKey), [recipients, keys, extraKey]);
   const hasError = hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg;
 
   /**
@@ -104,38 +117,30 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
     return recipient;
   }, [keys]);
 
-  // Listen for changes in keys (also if updated externally)
-  useEffect(() => {
-    // Update tags's recipients with new keys
-    const newTags = tags.map(tag => ({
-      ...tag,
-      className: getTagClassName(findRecipientKey(keys, tag.id), extraKey)
-    }));
-    setTags(newTags);
-    // We do not want circular dependency, hence we do not set `tags`
-    // as a dependency for `useEffect`
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keys, extraKey]);
-
-  useEffect(() => {
-    onChangeRecipients && onChangeRecipients({recipients: tags.map(t => tagToRecipient(t)), hasError});
-    // We do not want circular dependency, hence we do not set onChangeRecipients
-    // as a dependency for `useEffect`
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tags, hasError]);
+  /**
+   * Updates recipients for the parent component
+   * Has to be called once on init to update error statuses of the parent component
+   */
+  const updateParentRecipients = useCallback(tags =>
+    onChangeRecipients(tags.map(t => tagToRecipient(t)), hasError),
+  [hasError, onChangeRecipients, tagToRecipient]
+  );
+  // In order to avoid loops when calling `updateParentRecipients` on init,
+  // we have to remember recipient state
+  const prevTags = useRef(tags);
+  if (prevTags.current.length !== tags.length ||
+    !prevTags.current.every((tag, index) => tag === tags[index])) {
+    // updateParentRecipients(tags);
+    prevTags.current = tags;
+  }
 
   const onDelete = useCallback(tagIndex => {
-    setTags(tags.filter((_, i) => i !== tagIndex));
-  }, [tags]);
+    updateParentRecipients(tags.filter((_, i) => i !== tagIndex));
+  }, [tags, updateParentRecipients]);
 
   const onAddition = useCallback(newTag => {
     if (checkEmail(newTag.id)) {
-      const recipient = tagToRecipient(newTag);
-      if (recipient.checkServer) {
-        // No local key found, do a search with the autoLocate module
-        onAutoLocate(recipient);
-      }
-      setTags([...tags, recipientToTag(recipient, extraKey)]);
+      updateParentRecipients([...tags, newTag]);
       // After updating the tags, refocus the input field using the constant id
       setTimeout(() => {
         const inputElem = document.getElementById(RECIPIENTS_INPUT_ID);
@@ -144,7 +149,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         }
       }, 0);
     }
-  }, [tags, extraKey, tagToRecipient, onAutoLocate]);
+  }, [tags, updateParentRecipients]);
 
   const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
     const lowerCaseQuery = textInputValue.toLowerCase();
@@ -172,6 +177,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, onAutoLocate, onCh
         placeholder={null}
         allowDragDrop={false}
         minQueryLength={2}
+        separators={['Enter', 'Tab', 'Space']}
         id={RECIPIENTS_INPUT_ID}
         classNames={{
           tags: 'recipients-input mb-0',
