@@ -1,26 +1,31 @@
 @import "../../../res/styles/_required";
 
-@import "/node_modules/bootstrap/scss/badge";
-@import "/node_modules/bootstrap/scss/dropdown";
-@import "/node_modules/bootstrap/scss/forms";
-
 // Get spacer value from bootstrap
 $sp-1: map-get($spacers, 1);
 
 .recipients-input {
-  @extend .form-control;
   padding: 0 $sp-1 $sp-1 0; // mirror to tags and input margins
   position: relative; // for the dropdown
   height: initial; // input should be stretchable
 
   &:focus-within {
-    @extend .form-control:focus;
+    // copy of `@mixin form-control-focus` from bootstrap
+    // @see node_modules\bootstrap\scss\mixins\_forms.scss
+    color: $input-focus-color;
+    background-color: $input-focus-bg;
+    border-color: $input-focus-border-color;
+    outline: 0;
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: $input-box-shadow, $input-focus-box-shadow;
+    } @else {
+      box-shadow: $input-focus-box-shadow;
+    }
   }
 
-  .tag-selected-list {    
+  .tag-selected-list {
     /* The layout has to be stretchable because the input should take all the space left */
     .tag-wrapper {
-      @extend .badge; // we later copy $badge-padding-y in .tag-input-wrapper
       margin: $sp-1 0 0 $sp-1; // mirror to .recipients-input padding
 
       .tag-remove {
@@ -82,7 +87,6 @@ $sp-1: map-get($spacers, 1);
   }
 
   .suggestions {
-    @extend .dropdown-menu; /* `react-tags` adds menu to the DOM instead of hiding it, so we override bootstap */    
     width: 100%;
     overflow-x: auto;
 
@@ -93,9 +97,7 @@ $sp-1: map-get($spacers, 1);
     }
 
     li {
-      @extend .dropdown-item;
-
-      // exact copy from `ng-tags-input`
+      // copy from `ng-tags-input.css` (legacy Angular component)
       font:16px "Helvetica Neue",Helvetica,Arial,sans-serif;
       color: black;
       padding:5px 10px;
@@ -107,7 +109,9 @@ $sp-1: map-get($spacers, 1);
 
     /* `react-tags` does not set the focus state on keyboard navigation */
     li.active-suggestion {
-      @extend .dropdown-item:hover;      
+      // copy from `ng-tags-input.css` (legacy Angular component)
+      color: #262626;
+      background-color: #f5f5f5;
     }
 
     /* Text highlighted by search */

@@ -167,7 +167,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   }));
 
   return (
-    <div id={id} className="input-group mb-0">
+    <div id={id} className="input-group mb-0 d-block">
       <ReactTags
         tags={tags}
         suggestions={suggestions}
@@ -180,14 +180,14 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
         separators={['Enter', 'Tab', 'Space']}
         id={RECIPIENTS_INPUT_ID}
         classNames={{
-          tags: 'recipients-input mb-0',
+          tags: 'recipients-input mb-0 form-control',
           tagInput: 'tag-input-wrapper flex-grow-1',
           tagInputField: 'tag-input-field m-0 p-0',
           selected: 'tag-selected-list d-flex flex-wrap',
-          tag: 'tag',
+          tag: 'tag badge',
           remove: 'tag-remove',
-          suggestions: 'suggestions d-block',
-          activeSuggestion: 'active-suggestion'
+          suggestions: 'suggestions d-block dropdown-menu',
+          activeSuggestion: 'active-suggestion dropdown-item:hover'
         }} />
       {!hideErrorMsg && hasError && (
         <div className="alert alert-danger mb-0" role="alert">
