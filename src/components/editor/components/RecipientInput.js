@@ -88,7 +88,9 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
     }) || [];
 
   const tags = useMemo(() => recipientsToTags(recipients, keys, extraKey), [recipients, keys, extraKey]);
-  const hasError = hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg;
+  
+  // this is a callback function because we need to update it with new tags before rerender happened
+  const hasError = useCallback(tags => hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg, [keys, extraKey, hideErrorMsg]);
 
   /**
    * Converts a tag into recipient object
@@ -122,7 +124,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
    * Has to be called once on init to update error statuses of the parent component
    */
   const updateParentRecipients = useCallback(tags =>
-    onChangeRecipients(tags.map(t => tagToRecipient(t)), hasError),
+    onChangeRecipients(tags.map(t => tagToRecipient(t)), hasError(tags)),
   [hasError, onChangeRecipients, tagToRecipient]
   );
   // In order to avoid loops when calling `updateParentRecipients` on init,
@@ -189,7 +191,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
           suggestions: 'suggestions d-block dropdown-menu',
           activeSuggestion: 'active-suggestion dropdown-item:hover'
         }} />
-      {!hideErrorMsg && hasError && (
+      {!hideErrorMsg && hasError(tags) && (
         <div className="alert alert-danger mb-0" role="alert">
           <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
         </div>
