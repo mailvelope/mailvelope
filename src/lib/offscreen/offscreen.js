@@ -51,7 +51,6 @@ async function handleMessages(message, sender, sendResponse) {
 
 function sanitizeHTML(html) {
   const sanitzed = dompurify.sanitize(html);
-  console.log(sanitzed);
   return sanitzed;
 }
 
