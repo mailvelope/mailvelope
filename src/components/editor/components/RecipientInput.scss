@@ -94,11 +94,20 @@ $sp-1: map-get($spacers, 1);
 
     li {
       @extend .dropdown-item;
+
+      // exact copy from `ng-tags-input`
+      font:16px "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: black;
+      padding:5px 10px;
+      cursor:pointer;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     /* `react-tags` does not set the focus state on keyboard navigation */
     li.active-suggestion {
-      @extend .dropdown-item:hover;
+      @extend .dropdown-item:hover;      
     }
 
     /* Text highlighted by search */
