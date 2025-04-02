@@ -69,8 +69,7 @@ function findRecipientKey(keys, email) {
  * @returns {React.JSX.Element}
  */
 export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChangeRecipients}) {
-  const id = getUUID();
-  const RECIPIENTS_INPUT_ID = 'recipients-input';
+  const idRef = useRef(getUUID());
 
   /**
    * Converts recipient objects into tags format, assigning keys if not present
@@ -88,7 +87,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
     }) || [];
 
   const tags = useMemo(() => recipientsToTags(recipients, keys, extraKey), [recipients, keys, extraKey]);
-  
+
   // this is a callback function because we need to update it with new tags before rerender happened
   const hasError = useCallback(tags => hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg, [keys, extraKey, hideErrorMsg]);
 
@@ -127,14 +126,6 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
     onChangeRecipients(tags.map(t => tagToRecipient(t)), hasError(tags)),
   [hasError, onChangeRecipients, tagToRecipient]
   );
-  // In order to avoid loops when calling `updateParentRecipients` on init,
-  // we have to remember recipient state
-  const prevTags = useRef(tags);
-  if (prevTags.current.length !== tags.length ||
-    !prevTags.current.every((tag, index) => tag === tags[index])) {
-    // updateParentRecipients(tags);
-    prevTags.current = tags;
-  }
 
   const onDelete = useCallback(tagIndex => {
     updateParentRecipients(tags.filter((_, i) => i !== tagIndex));
@@ -144,14 +135,15 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
     if (checkEmail(newTag.id)) {
       updateParentRecipients([...tags, newTag]);
       // After updating the tags, refocus the input field using the constant id
+      // This is the only way because <ReactTags> doesn't give access to it's children, nor gives an API to set focus
       setTimeout(() => {
-        const inputElem = document.getElementById(RECIPIENTS_INPUT_ID);
+        const inputElem = document.querySelector(`[id="${idRef.current}"] .tag-input-field`);
         if (inputElem) {
           inputElem.focus();
         }
       }, 0);
     }
-  }, [tags, updateParentRecipients]);
+  }, [idRef, tags, updateParentRecipients]);
 
   const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
     const lowerCaseQuery = textInputValue.toLowerCase();
@@ -169,7 +161,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   }));
 
   return (
-    <div id={id} className="input-group mb-0 d-block">
+    <div id={idRef.current} className="input-group mb-0 d-block">
       <ReactTags
         tags={tags}
         suggestions={suggestions}
@@ -180,7 +172,6 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
         allowDragDrop={false}
         minQueryLength={2}
         separators={['Enter', 'Tab', 'Space']}
-        id={RECIPIENTS_INPUT_ID}
         classNames={{
           tags: 'recipients-input mb-0 form-control',
           tagInput: 'tag-input-wrapper flex-grow-1',
