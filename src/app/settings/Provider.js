@@ -17,7 +17,7 @@ import './Provider.scss';
 
 const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
-const MV_PRODUCT_PAGE_URL = 'https://www.mailvelope.com/products?referrer=mailvelope-extension';
+const MV_PRODUCT_PAGE_URL = 'https://www.mailvelope.com/google-workspace?referrer=mailvelope-extension';
 
 l10n.register([
   'alert_header_error',
