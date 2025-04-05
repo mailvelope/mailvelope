@@ -21,7 +21,11 @@ dompurify.addHook('afterSanitizeAttributes', node => {
   }
 });
 
-chrome.runtime.onMessage.addListener(handleMessages);
+if (typeof browser === 'undefined') {
+  chrome.runtime.onMessage.addListener(handleMessages);
+} else {
+  window.offscreen = {handleMessages};
+}
 
 async function handleMessages(message, sender, sendResponse) {
   if (message.target !== 'offscreen') {
@@ -45,8 +49,12 @@ async function handleMessages(message, sender, sendResponse) {
       console.warn(`Unexpected message type received: '${message.type}'.`);
       return;
   }
-  sendResponse(result);
-  return true;
+  if (sendResponse) {
+    sendResponse(result);
+    return true;
+  } else {
+    return result;
+  }
 }
 
 function sanitizeHTML(html) {

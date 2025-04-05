@@ -6,7 +6,7 @@
 import mvelo from './lib-mvelo';
 import {createController} from '../controller/main.controller';
 import {str2bool, matchPattern2RegExString, sortAndDeDup} from './util';
-import {getWatchList} from '../modules/prefs';
+import {getWatchList, getWatchListCache} from '../modules/prefs';
 
 // watchlist match patterns as regex for URL
 export let watchlistRegex;
@@ -39,7 +39,15 @@ export async function initScriptInjection() {
 }
 
 async function getWatchListFilterURLs() {
-  const watchList = await getWatchList();
+  let watchList;
+  if (typeof browser === 'undefined') {
+    watchList = await getWatchList();
+  } else {
+    watchList = await getWatchListCache();
+  }
+  if (!watchList) {
+    window?.location.reload();
+  }
   const schemes = ['http', 'https'];
   let result = [];
   watchList.forEach(site => {

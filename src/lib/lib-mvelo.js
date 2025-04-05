@@ -128,8 +128,13 @@ mvelo.util.setupOffscreenDocument = async function() {
 };
 
 mvelo.util.sendOffscreenMessage = async function(type, data) {
-  await this.setupOffscreenDocument();
-  return chrome.runtime.sendMessage({type, target: 'offscreen', data});
+  const message = {type, target: 'offscreen', data};
+  if (chrome.offscreen) {
+    await this.setupOffscreenDocument();
+    return chrome.runtime.sendMessage(message);
+  } else {
+    return window.offscreen.handleMessages(message);
+  }
 };
 
 mvelo.util.sanitizeHTML = async function(html) {

@@ -26,9 +26,9 @@ async function main() {
   initBrowserRuntime();
   initController();
   initAuthRequestApi();
+  initScriptInjection();
   initAnalytics();
   await initModel();
-  initScriptInjection();
   await initKeyring();
 }
 

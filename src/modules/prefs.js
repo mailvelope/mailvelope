@@ -61,8 +61,22 @@ export async function getWatchList() {
   return watchListBuffer;
 }
 
+export async function getWatchListCache() {
+  let watchList = localStorage.getItem('mvelo.watchlist.cache');
+  if (watchList) {
+    return JSON.parse(watchList);
+  } else {
+    // init cache
+    watchList = await mvelo.storage.get('mvelo.watchlist');
+    localStorage.setItem('mvelo.watchlist.cache', JSON.stringify(watchList));
+  }
+}
+
 export async function setWatchList(watchList) {
   await mvelo.storage.set('mvelo.watchlist', watchList);
+  if (typeof browser !== 'undefined') {
+    localStorage.setItem('mvelo.watchlist.cache', JSON.stringify(watchList));
+  }
   watchListBuffer = watchList;
 }
 
