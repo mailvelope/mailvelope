@@ -139,19 +139,35 @@ export default class EditorController extends SubController {
    * @param  {Array} recipients - a list of potential recipient from the webmail ui
    */
   async setRecipientData(recipients) {
+    /**
+       * Finds the recipient's corresponding public key.
+       * This helps to prepopulate key data before delivering to the IU
+       * @param {Array} keys - array of keys to search for match
+       * @param {String} email - recipient's email
+       */
+    function findRecipientKey(keys, email) {
+      const key = keys.find(key => key.email && key.email.toLowerCase() === email.toLowerCase());
+      let checkServer = false;
+      if (!key) {
+        // No local key found, mark it for resolution
+        checkServer = true;
+      }
+      return {key, fingerprint: key.fingerprint, checkServer};
+    }
+
     let to = [];
     let cc = [];
+    const keys = await getKeyData({keyringId: this.keyringId});
     if (recipients) {
       // deduplicate email addresses
       let toEmails = (recipients.to || []).map(recipient => recipient.email);
       toEmails = deDup(toEmails); // just dedup, dont change order of user input
-      to = toEmails.map(e => ({email: e}));
+      to = toEmails.map(e => ({email: e, ...findRecipientKey(keys, e)}));
       let ccEmails = (recipients.cc || []).map(recipient => recipient.email);
       ccEmails = deDup(ccEmails); // just dedup, dont change order of user input
-      cc = ccEmails.map(e => ({email: e}));
+      cc = ccEmails.map(e => ({email: e, ...findRecipientKey(keys, e)}));
       // get all public keys from required keyrings
     }
-    const keys = await getKeyData({keyringId: this.keyringId});
     this.ports.editor.emit('public-key-userids', {keys, to, cc});
   }
 

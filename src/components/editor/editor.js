@@ -156,7 +156,14 @@ export default class Editor extends React.Component {
    * @param {Array} options.recipients   recipients gather from the webmail ui
    */
   onPublicKeyUserids({keys, to, cc}) {
-    this.setState({publicKeys: keys, recipients: to, recipientsCc: cc, showRecipientsCc: cc.length > 0});
+    // initiate key lookup if they aren't found locally
+    // we do it in the editor (not in the controller), because we'd like the UI to be dynamically updated
+    this.keyLookup([...to, ...cc]);
+    this.setState(prevState => {
+      // when received recipients, reset Encrypt button status
+      const encryptDisabled = prevState.recipientsError || prevState.recipientsCcError || !to.length;
+      return {publicKeys: keys, encryptDisabled, recipients: to, recipientsCc: cc, showRecipientsCc: cc.length > 0};
+    });
   }
 
   /**
@@ -373,8 +380,13 @@ export default class Editor extends React.Component {
     this.setState({[target.name]: target.checked});
   }
 
-  handleKeyLookup(recipient) {
-    this.port.emit('key-lookup', {recipient});
+  keyLookup(recipients) {
+    recipients.forEach(recipient => {
+      if (recipient.checkServer) {
+        this.port.emit('key-lookup', {recipient});
+        recipient.checkServer = false;
+      }
+    });
   }
 
   hideNotification(timeout = 0, closeEditor = false) {
@@ -387,15 +399,25 @@ export default class Editor extends React.Component {
     }, timeout);
   }
 
-  handleChangeRecipient(error) {
+  handleChangeRecipients(recipients, recipientsError) {
+    this.keyLookup(recipients);
     this.setState(prevState => {
-      const errorState = {recipientsError: prevState.recipientsError, recipientsCcError: prevState.recipientsCcError, ...error};
-      return {...errorState, encryptDisabled: errorState.recipientsError || errorState.recipientsCcError || !prevState.recipients.length};
+      const errorState = {recipientsError: prevState.recipientsError, ...{recipientsError}};
+      return {...errorState, recipients, encryptDisabled: errorState.recipientsError || prevState.recipientsCcError || !recipients.length};
     });
   }
 
-  handleChangeExtraKeyInput({hasError}) {
-    this.setState({extraKeysError: hasError});
+  // For CC recipients we allow the field to be empty, still handling the error
+  handleChangeRecipientsCc(recipientsCc, recipientsCcError) {
+    this.keyLookup(recipientsCc);
+    this.setState(prevState => {
+      const errorState = {recipientsCcError: prevState.recipientsCcError, ...{recipientsCcError}};
+      return {...errorState, recipientsCc, encryptDisabled: errorState.recipientsCcError || prevState.recipientsError};
+    });
+  }
+
+  handleChangeExtraKeyInput(extraKeys, extraKeysError) {
+    this.setState({extraKeys, extraKeysError});
   }
 
   onNotificationEnteredTransition() {
@@ -423,8 +445,7 @@ export default class Editor extends React.Component {
                         {(!this.state.showRecipientsCc && this.state.integration) && <label><a href="#" role="button" className="text-reset" onClick={() => this.setState({showRecipientsCc: true})}>{l10n.map.editor_label_copy_recipient}</a></label>}
                       </div>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipients}
-                        onChangeRecipient={({hasError}) => this.handleChangeRecipient({recipientsError: hasError})}
-                        onAutoLocate={recipient => this.handleKeyLookup(recipient)}
+                        onChangeRecipients={(recipients, recipientsError) => this.handleChangeRecipients(recipients, recipientsError)}
                         extraKey={hasExtraKey}
                       />
                     </div>
@@ -433,8 +454,7 @@ export default class Editor extends React.Component {
                     <div className="mb-3">
                       <label className="mr-auto">{l10n.map.editor_label_copy_recipient}</label>
                       <RecipientInput keys={this.state.publicKeys} recipients={this.state.recipientsCc}
-                        onChangeRecipient={({hasError}) => this.handleChangeRecipient({recipientsCcError: hasError})}
-                        onAutoLocate={recipient => this.handleKeyLookup(recipient)}
+                        onChangeRecipients={(recipients, recipientsError) => this.handleChangeRecipientsCc(recipients, recipientsError)}
                         extraKey={hasExtraKey}
                       />
                     </div>
@@ -469,8 +489,8 @@ export default class Editor extends React.Component {
                     signOnlyDisabled={!this.state.signMsg || !this.state.privKeys.length || this.state.files.length || this.state.plainText === '' || !this.state.recipients.length}
                     extraKey={this.state.extraKey}
                     extraKeyInput={
-                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} onAutoLocate={recipient => this.handleKeyLookup(recipient)} hideErrorMsg={true}
-                        onChangeRecipient={error => this.handleChangeExtraKeyInput(error)}
+                      <RecipientInput keys={this.state.publicKeys} recipients={this.state.extraKeys} hideErrorMsg={true}
+                        onChangeRecipients={(recipients, recipientsError) => this.handleChangeExtraKeyInput(recipients, recipientsError)}
                       />}
                     integration = {this.state.integration}
                     onCancel={() => this.handleCancel()}
@@ -479,6 +499,7 @@ export default class Editor extends React.Component {
                     onExtraKey={event => this.handleCheck(event)}
                     onOk={() => this.handleOk()}
                     onSignOnly={() => this.handleSign()}
+                    // TODO encryptDisabled should also consider extraKeysError flag
                     privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
                   />
                 </div>

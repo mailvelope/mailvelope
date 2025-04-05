@@ -1,82 +1,125 @@
 @import "../../../res/styles/_required";
 
-.recipients-input tags-input .tags .tag-item {
-  font-family: $font-family-base;
-  font-weight: 500;
-  background-color: theme-color-level("primary", $alert-bg-level);
-  border-color: theme-color-level("primary", $alert-border-level);
-  transition: background-color 0.3s, border-color 0.3s;
-}
+// Get spacer value from bootstrap
+$sp-1: map-get($spacers, 1);
 
-@mixin tag-variant($background, $border, $color) {
-  color: $color;
-  @include gradient-bg($background);
-  border-color: $border;
-}
+.recipients-input {
+  padding: 0 $sp-1 $sp-1 0; // mirror to tags and input margins
+  position: relative; // for the dropdown
+  height: initial; // input should be stretchable
 
-.recipients-input tags-input .tags .remove-button {
-  color: inherit;
-}
-
-@each $color, $value in $theme-colors {
-  .recipients-input tags-input .tags .tag-#{$color} {
-    @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color($color));
+  &:focus-within {
+    // copy of `@mixin form-control-focus` from bootstrap
+    // @see node_modules\bootstrap\scss\mixins\_forms.scss
+    color: $input-focus-color;
+    background-color: $input-focus-bg;
+    border-color: $input-focus-border-color;
+    outline: 0;
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: $input-box-shadow, $input-focus-box-shadow;
+    } @else {
+      box-shadow: $input-focus-box-shadow;
+    }
   }
-  .recipients-input tags-input .tags .tag-#{$color} .remove-button {
-    color: theme-color($color);
-  }  
+
+  .tag-selected-list {
+    /* The layout has to be stretchable because the input should take all the space left */
+    .tag-wrapper {
+      margin: $sp-1 0 0 $sp-1; // mirror to .recipients-input padding
+
+      .tag-remove {
+        /* Reset button styles */
+        padding: 0;
+        border: none;
+        background: none;
+        font-weight: 700;
+        font-size: 16px;
+        margin-left: 8px;
+      }
+
+      &::before {
+        font: normal normal normal 14px/1 'MailvelopeIcons';
+        line-height: 1;
+      }
+    }
+
+    @each $color, $value in $theme-colors {
+      .badge-#{$color} {
+        @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color($color));
+      }
+
+      .badge-#{$color} .tag-remove {
+        color: theme-color($color);
+      }
+    }
+
+    .badge-success::before {
+      content: "\e90f \00a0";
+    }
+
+    .badge-danger::before {
+      content: "\e909 \00a0";
+    }
+  }
+
+  .tag-input-wrapper {
+    /* match bage layout */
+    padding: $badge-padding-y 0; 
+    margin: $sp-1 0 0 $sp-1; // mirror to .recipients-input padding
+
+    .tag-input-field {
+      width: 100%;
+      min-width: 12rem;
+
+      /* remove styles and layout from this element */
+      border: 0;
+      outline: none;
+
+      /* match the font styles */
+      font-size: inherit;
+      line-height: inherit;
+
+      ::-ms-clear {
+        display: none;
+      }
+    }
+  }
+
+  .suggestions {
+    width: 100%;
+    overflow-x: auto;
+
+    ul {
+      /* Reset `ul`s padding */
+      margin: 0px;
+      padding: 0px;
+    }
+
+    li {
+      // copy from `ng-tags-input.css` (legacy Angular component)
+      font:16px "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: black;
+      padding:5px 10px;
+      cursor:pointer;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    /* `react-tags` does not set the focus state on keyboard navigation */
+    li.active-suggestion {
+      // copy from `ng-tags-input.css` (legacy Angular component)
+      color: #262626;
+      background-color: #f5f5f5;
+    }
+
+    /* Text highlighted by search */
+    li mark {
+      padding: 0px;
+      text-decoration: none;
+      background: none;
+      font-weight: 600;
+    }
+  }
 }
-
-.recipients-input tags-input .tags.focused {
-  background-color: $input-focus-bg;
-  border-color: $input-focus-border-color;
-  box-shadow: $input-focus-box-shadow;
-}
-
-.recipients-input tags-input .tags .tag-item:before {
-  font-family: 'MailvelopeIcons' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.recipients-input tags-input .tags .tag-success:before {
-  content: "\e90f \00a0";
-}
-
-.recipients-input tags-input .tags .tag-danger:before {
-  content: "\e909 \00a0";
-}
-
-.recipients-input tags-input.ng-invalid .tags,
-.recipients-input.has-error tags-input .tags {
-  border-color: $form-feedback-invalid-color;
-  box-shadow: none;
-}
-
-.recipients-input tags-input.ng-invalid .tags.focused,
-.recipients-input.has-error tags-input .tags.focused {
-  border-color: $form-feedback-invalid-color;
-  box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
-}
-
-.recipients-input tags-input .tags .input {
-  font-family: $font-family-base;
-  width: auto !important;
-}
-
-.recipients-input .alert {
-  margin: 10px 0 5px; 
-}
-
-.recipients-input tags-input .tags {
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-

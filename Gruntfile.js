@@ -54,18 +54,6 @@ module.exports = function(grunt) {
               'js/bootstrap.bundle.min.js',
             ],
             dest: 'build/tmp/dep/bootstrap/'
-          },
-          {
-            expand: true,
-            cwd: 'node_modules/angular/',
-            src: ['angular.min.js', 'angular-csp.css'],
-            dest: 'build/tmp/dep/angular/'
-          },
-          {
-            expand: true,
-            cwd: 'node_modules/ng-tags-input/build/',
-            src: ['ng-tags-input.min.js', 'ng-tags-input.min.css', 'ng-tags-input.bootstrap.min.css'],
-            dest: 'build/tmp/dep/ng-tags-input/'
           }
         ]
       },

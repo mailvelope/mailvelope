@@ -3,20 +3,14 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-/**
- * Parts of the recipient input is based on Hoodiecrow (MIT License)
- * Copyright (c) 2014 Whiteout Networks GmbH.
- * See https://github.com/tanx/hoodiecrow/blob/master/LICENSE
- */
-
-import React from 'react';
 import PropTypes from 'prop-types';
-import {getUUID} from '../../../lib/util';
+import React, {useCallback, useRef, useMemo} from 'react';
+// `WithContext` as `ReactTags` is taken from the official example
+import {WithContext as ReactTags} from 'react-tag-input';
 import * as l10n from '../../../lib/l10n';
+import {checkEmail, encodeHTML, getUUID} from '../../../lib/util';
 
 import './RecipientInput.scss';
-
-/* global angular */
 
 l10n.register([
   'editor_key_has_extra_msg',
@@ -24,225 +18,222 @@ l10n.register([
   'editor_key_not_found_msg'
 ]);
 
-/*
-  reference to props of RecipientInput will be shared with Angular controller
-  this structure is not immutable, recipients will be received as {email},
-  but RecipientInputCtrl will modify recipients to {email, keys}
+/**
+ * Checks if all recipients have a public key
+ * @param {Tag[]} tags - Array of tags
+ * @param {Key[]} keys - Array of public keys
+ * @param {Boolean} extraKey - Flag indicating whether extra key input is enabled
+ * @returns {Boolean} true if any recipient has no key
  */
-const contrCompStack = [];
-
-export class RecipientInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.id = getUUID();
-  }
-
-  propsOnStack() {
-    // store props on stack for Angular
-    this.ctrlLink = {props: this.props};
-    contrCompStack.push(this.ctrlLink);
-  }
-
-  componentDidMount() {
-    // load editor module dependencies
-    angular.module('recipientInput', ['ngTagsInput'])
-    .config((tagsInputConfigProvider, $locationProvider) => {
-      // activate monitoring of placeholder option
-      tagsInputConfigProvider.setActiveInterpolation('tagsInput', {placeholder: true});
-      $locationProvider.hashPrefix('');
-    });
-    // attach ctrl to editor module
-    angular.module('recipientInput').controller('RecipientInputCtrl', RecipientInputCtrl);
-    this.propsOnStack();
-    // bootstrap angular
-    angular.bootstrap(document.getElementById(this.id), ['recipientInput']);
-    if (this.ctrlLink.props.recipients.length) {
-      this.ctrlLink.rInputCtrl.recipients = this.ctrlLink.props.recipients;
-      this.ctrlLink.rInputCtrl.update();
-    }
-  }
-
-  shouldComponentUpdate(nextProps) {
-    this.ctrlLink.props = nextProps;
-    this.ctrlLink.rInputCtrl.recipients = this.ctrlLink.props.recipients;
-    // only update input controller if recipients or keys change
-    if (this.props.recipients !== nextProps.recipients ||
-        this.props.keys !== nextProps.keys ||
-        this.props.extraKey !== nextProps.extraKey) {
-      this.ctrlLink.rInputCtrl.update();
-    }
-    // no re-rendering of component due to Angular
-    return false;
-  }
-
-  render() {
-    const contrAttr = node => {
-      node.setAttribute('ng-controller', 'RecipientInputCtrl as rInput');
-      node.setAttribute('ng-class', "{'has-error': rInput.hasError}");
-    };
-    return (
-      <div id={this.id} className="recipients-input" ref={node => node && contrAttr(node)}>
-        <tags-input
-          ng-model="rInput.recipients"
-          type="email"
-          key-property="displayId"
-          allowed-tags-pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
-          spellcheck="false"
-          tabindex="0"
-          add-on-space="true"
-          add-on-enter="true"
-          enable-editing-last-tag="true"
-          display-property="displayId"
-          on-tag-added="rInput.verify($tag)"
-          on-tag-removed="rInput.checkEncryptStatus()">
-          <auto-complete
-            source="rInput.autocomplete($query)"
-            min-length="1">
-          </auto-complete>
-        </tags-input>
-        <div className="alert alert-danger ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.hasError')}>
-          <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
-        </div>
-        <div className="alert alert-info ng-hide mb-0" role="alert" ref={node => node && node.setAttribute('ng-show', 'rInput.hasExtraKey')}>
-          <span>{l10n.map.editor_key_has_extra_msg}</span>
-        </div>
-      </div>
-    );
-  }
+function hasAnyRecipientNoKey(tags, keys, extraKey) {
+  return tags.some(t => !findRecipientKey(keys, t.id)) && !extraKey;
 }
 
+/**
+ * Creates a bootstrap badge class name
+ * @param {Boolean} isSuccess - Flag indicating whether the recipient has a key
+ * @param {Boolean} hasExtraKey - Flag indicating whether extra key input is enabled
+ * @returns {String} CSS class name for the tag
+ */
+function getTagClassName(isSuccess, hasExtraKey) {
+  return `badge-${isSuccess ? 'success' : (hasExtraKey ? 'info' : 'danger')}`;
+}
+
+/**
+ * Converts a recipient object to a tag object.
+ * @param {Recipient} recipient - Recipient object
+ * @param {Boolean} hasExtraKey - Flag indicating whether extra key input is enabled
+ * @returns {Tag}
+ */
+function recipientToTag(recipient, hasExtraKey) {
+  return {
+    id: recipient.email,
+    text: recipient.displayId || recipient.email,
+    // Calc a CSS class for the tag object
+    className: getTagClassName(recipient.key, hasExtraKey)
+  };
+}
+
+/**
+   * Finds the recipient's corresponding public key.
+   * @param {Key[]} keys - array of keys to search for match
+   * @param {String} email - recipient's email
+   */
+function findRecipientKey(keys, email) {
+  return keys.find(key => key.email && key.email.toLowerCase() === email.toLowerCase());
+}
+
+/**
+ * Component that inputs recipient email
+ * @param {Props} props - Component properties
+ * @returns {React.JSX.Element}
+ */
+export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChangeRecipients}) {
+  const idRef = useRef(getUUID());
+
+  /**
+   * Converts recipient objects into tags format, assigning keys if not present
+   * @param {Array<Object>} recipients - Array of recipient objects containing email addresses
+   * @param {Array<Key>} keys - Array of key objects to search through
+   * @param {boolean} [extraKey] - Whether there is extra key present
+   * @return {Array<Tag>} Array of recipient objects in tag format
+   */
+  const recipientsToTags = (recipients, keys, extraKey) =>
+    recipients.map(r => {
+      if (!r.key) {
+        r.key = findRecipientKey(keys, r.email);
+      }
+      return recipientToTag(r, extraKey);
+    }) || [];
+
+  const tags = useMemo(() => recipientsToTags(recipients, keys, extraKey), [recipients, keys, extraKey]);
+
+  // this is a callback function because we need to update it with new tags before rerender happened
+  const hasError = useCallback(tags => hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg, [keys, extraKey, hideErrorMsg]);
+
+  /**
+   * Converts a tag into recipient object
+   * Also performs a key search in a key array for a matching key.
+   * If the key is not found, marks it as one for the `auto-locate` procedure
+   * @param  {Tag} tag - Tag to convert
+   * @returns {Recipient} - Recipient object with a key attached if found
+   */
+  const tagToRecipient = useCallback(tag => {
+    if (!tag || !tag.id) {
+      return;
+    }
+    const recipient = {
+      email: tag.id,
+      displayId: tag.id
+    };
+    const key = findRecipientKey(keys, recipient.email);
+    if (key) {
+      recipient.key = key;
+      recipient.fingerprint = key.fingerprint;
+    }
+    if (!recipient.key && !recipient.checkServer) {
+      // No local key found, do a search with the autoLocate module
+      recipient.checkServer = true;
+    }
+    return recipient;
+  }, [keys]);
+
+  /**
+   * Updates recipients for the parent component
+   * Has to be called once on init to update error statuses of the parent component
+   */
+  const updateParentRecipients = useCallback(tags =>
+    onChangeRecipients(tags.map(t => tagToRecipient(t)), hasError(tags)),
+  [hasError, onChangeRecipients, tagToRecipient]
+  );
+
+  const onDelete = useCallback(tagIndex => {
+    updateParentRecipients(tags.filter((_, i) => i !== tagIndex));
+  }, [tags, updateParentRecipients]);
+
+  const onAddition = useCallback(newTag => {
+    if (checkEmail(newTag.id)) {
+      updateParentRecipients([...tags, newTag]);
+      // After updating the tags, refocus the input field using the constant id
+      // This is the only way because <ReactTags> doesn't give access to it's children, nor gives an API to set focus
+      setTimeout(() => {
+        const inputElem = document.querySelector(`[id="${idRef.current}"] .tag-input-field`);
+        if (inputElem) {
+          inputElem.focus();
+        }
+      }, 0);
+    }
+  }, [idRef, tags, updateParentRecipients]);
+
+  const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
+    const lowerCaseQuery = textInputValue.toLowerCase();
+    return possibleSuggestionsArray
+    .filter(suggestion => suggestion.searchStr.toLowerCase().includes(lowerCaseQuery))
+    .slice(0, 10);
+  };
+
+  const suggestions = keys
+  .filter(key => !tags.find(tag => tag.id === key.email))
+  .map(key => ({
+    id: key.email,
+    text: `${encodeHTML(key.userId)} - ${key.keyId}`,
+    searchStr: `${key.userId} ${key.keyId}`// for search
+  }));
+
+  return (
+    <div id={idRef.current} className="input-group mb-0 d-block">
+      <ReactTags
+        tags={tags}
+        suggestions={suggestions}
+        handleDelete={onDelete}
+        handleAddition={onAddition}
+        handleFilterSuggestions={onFilterSuggestions}
+        placeholder={null}
+        allowDragDrop={false}
+        minQueryLength={2}
+        separators={['Enter', 'Tab', 'Space']}
+        classNames={{
+          tags: 'recipients-input mb-0 form-control',
+          tagInput: 'tag-input-wrapper flex-grow-1',
+          tagInputField: 'tag-input-field m-0 p-0',
+          selected: 'tag-selected-list d-flex flex-wrap',
+          tag: 'tag badge',
+          remove: 'tag-remove',
+          suggestions: 'suggestions d-block dropdown-menu',
+          activeSuggestion: 'active-suggestion dropdown-item:hover'
+        }} />
+      {!hideErrorMsg && hasError(tags) && (
+        <div className="alert alert-danger mb-0" role="alert">
+          <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
+        </div>
+      )}
+      {extraKey && (
+        <div className="alert alert-info mb-0" role="alert">
+          <span>{l10n.map.editor_key_has_extra_msg}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * @typedef {Object} Props
+ * @property {Boolean} extraKey - Flag indicating whether extra key input is enabled
+ * @property {Boolean} hideErrorMsg - Flag indicating whether error message should be hidden
+ * @property {Key[]} keys - Array of public keys
+ * @property {Function} onAutoLocate - Callback function for auto-locating keys
+ * @property {Function} onChangeRecipients - Callback function for recipient changes
+ * @property {Recipient[]} recipients - Array of recipients
+ */
 RecipientInput.propTypes = {
   extraKey: PropTypes.bool,
   hideErrorMsg: PropTypes.bool,
   keys: PropTypes.array,
   onAutoLocate: PropTypes.func,
-  onChangeRecipient: PropTypes.func,
+  onChangeRecipients: PropTypes.func,
   recipients: PropTypes.array
 };
 
 /**
- * Angular controller for the recipient input
+ * @typedef {Object} Recipient
+ * @property {String} email Email address of the recipient
+ * @property {String} displayId Display name of the recipient
+ * @property {String} fingerprint Fingerprint of the recipient's public key
+ * @property {Object} key Public key of the recipient
  */
-export class RecipientInputCtrl {
-  constructor($timeout) {
-    this._timeout = $timeout;
-    this.compLink = contrCompStack.pop();
-    this.recipients = this.compLink.props.recipients;
-    this.compLink.rInputCtrl = this;
-  }
 
-  update() {
-    this._timeout(() => { // trigger $scope.$digest() after async call
-      this.recipients.forEach(this.verify.bind(this));
-      this.checkEncryptStatus();
-    });
-  }
+/**
+ * @typedef {Object} Key
+ * @property {String} userId User ID of the key owner (name or email)
+ * @property {String} keyId Key ID of the key
+ * @property {String} email Email address of the key owner
+ * @property {String} fingerprint Fingerprint (hash) of the key
+ */
 
-  /**
-   * Verifies a recipient after input, gets their key, colors the
-   * input tag accordingly and checks if encryption is possible.
-   * @param  {Object} recipient   The recipient object
-   */
-  verify(recipient) {
-    if (!recipient) {
-      return;
-    }
-    if (recipient.email) {
-      // display only address from autocomplete
-      recipient.displayId = recipient.email;
-    } else {
-      // set address after manual input
-      recipient.email = recipient.displayId;
-    }
-    // lookup key in local cache
-    recipient.key = this.getKey(recipient);
-    if (recipient.key) {
-      recipient.fingerprint = recipient.key.fingerprint;
-    }
-    if (recipient.key || recipient.checkedServer) {
-      // color tag only if a local key was found, or after server lookup
-      this.colorTag(recipient);
-      this.checkEncryptStatus();
-    } else {
-      // no local key found ... lookup on the server
-      this.autoLocate(recipient);
-    }
-  }
-
-  /**
-   * Finds the recipient's corresponding public key and sets it
-   * on the 'key' attribute on the recipient object.
-   * @param  {Object} recipient   The recipient object
-   * @return {Object}             The key object (undefined if none found)
-   */
-  getKey(recipient) {
-    return this.compLink.props.keys.find(key => {
-      const fprMatch = recipient.fingerprint && key.fingerprint === recipient.fingerprint;
-      const emailMatch = key.email && key.email.toLowerCase() === recipient.email.toLowerCase();
-      return fprMatch && emailMatch || emailMatch;
-    });
-  }
-
-  /**
-   * Color the recipient's input tag depending on
-   * whether they have a key or not.
-   * @param  {Object} recipient   The recipient object
-   */
-  colorTag(recipient) {
-    this._timeout(() => { // wait for html tag to appear
-      const tags = document.querySelectorAll('tags-input li.tag-item');
-      for (const tag of tags) {
-        if (tag.textContent.indexOf(recipient.email) !== -1) {
-          tag.classList.remove('tag-success', 'tag-info', 'tag-danger');
-          if (recipient.key) {
-            tag.classList.add('tag-success');
-          } else {
-            tag.classList.add(`tag-${this.compLink.props.extraKey ? 'info' : 'danger'}`);
-          }
-        }
-      }
-    });
-  }
-
-  /**
-   * Checks if all recipients have a public key and prevents encryption
-   * if one of them does not have a key.
-   */
-  checkEncryptStatus() {
-    const hasError = this.recipients.some(r => !r.key) && !this.compLink.props.extraKey;
-    this.hasError = hasError && !this.compLink.props.hideErrorMsg;
-    this.hasExtraKey = this.compLink.props.extraKey;
-    this.compLink.props.onChangeRecipient && this.compLink.props.onChangeRecipient({hasError});
-  }
-
-  /**
-   * Do a search with the autoLocate module
-   * if a key was not found in the local keyring.
-   * @param  {Object} recipient   The recipient object
-   * @return {undefined}
-   */
-  autoLocate(recipient) {
-    recipient.checkedServer = true;
-    this.compLink.props.onAutoLocate(recipient);
-  }
-
-  /**
-   * Queries the local cache of key objects to find a matching user ID
-   * @param  {String} query   The autocomplete query
-   * @return {Array}          A list of filtered items that match the query
-   */
-  autocomplete(query) {
-    const cache = this.compLink.props.keys.map(key => ({
-      email: key.email,
-      fingerprint: key.fingerprint,
-      displayId: `${key.userId} - ${key.keyId}`
-    }));
-    // filter by display ID and ignore duplicates
-    return cache.filter(i => i.displayId.toLowerCase().includes(query.toLowerCase()) &&
-        !this.recipients.some(recipient => recipient.email === i.email));
-  }
-}
-
-// workaround to prevent "Error: class constructors must be invoked with |new|" in Firefox
-// https://github.com/angular/angular.js/issues/14240
-RecipientInputCtrl.$$ngIsClass = true;
+/**
+ * @typedef {Object} Tag
+ * Represents id/value combination for the _ReactTags_ component
+ * @property {String} id Email address of the recipient
+ * @property {String} text Display text of the recipient
+ * @property {String} className CSS class for the label
+ */
