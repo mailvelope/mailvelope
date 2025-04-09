@@ -161,7 +161,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   }));
 
   return (
-    <div id={idRef.current} className="input-group mb-0 d-block">
+    <div id={idRef.current} className="mb-0">
       <ReactTags
         tags={tags}
         suggestions={suggestions}
