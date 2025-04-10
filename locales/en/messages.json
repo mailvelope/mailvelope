@@ -1593,7 +1593,7 @@
   },
   "provider_gmail_dialog_gsuite_alert": {
     "description": "Alert text for GSuite Users in GMAIL API dialog.",
-    "message": "This feature is freely available for Gmail accounts. If you are part of a G Suite (<0>gsuite.google.com</0>) organization, it is necessary to purchase a license on the <1>Mailvelope product page</1>."
+    "message": "This feature is free for Gmail accounts. If you are part of a Google Workspace (<0>workspace.google.com</0>) organization, you will need to purchase a license from the <1>Mailvelope website</1>."
   },
   "provider_gmail_dialog_privacy_policy": {
     "description": "Privacy policy link.",
@@ -1629,7 +1629,7 @@
   },
   "provider_gmail_licensing_dialog_para_1": {
     "description": "Text of Gmail API licensing dialog first paragraph.",
-    "message": "Use of the Gmail API within G Suite organizations is <0>subject to a fee</0>."
+    "message": "Use of the Gmail API within Google Workspace organizations is <0>subject to a fee</0>."
   },
   "provider_gmail_licensing_dialog_para_2": {
     "description": "Text of Gmail API licensing dialog second paragraph.",
@@ -1649,7 +1649,7 @@
   },
   "provider_gmail_licensing_table_caption": {
     "description": "Caption for G Suite licensing table.",
-    "message": "Licenses for the use of the Gmail-API integration when using the G Suite (<0>gsuite.google.com</0>) can be purchased on the <1>Mailvelope product page</1>."
+    "message": "Licenses to use the Gmail API integration within Google Workspace (<0>workspace.google.com</0>) can be purchased from the <1>Mailvelope website</1>."
   },
   "provider_gmail_licensing_table_title": {
     "description": "Title for G Suite licensing table.",

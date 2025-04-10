@@ -17,7 +17,7 @@ import './Provider.scss';
 
 const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
-const MV_PRODUCT_PAGE_URL = 'https://www.mailvelope.com/google-workspace?referrer=mailvelope-extension';
+const MV_PRODUCT_PAGE_URL = 'https://mailvelope.com/google-workspace?referrer=mailvelope-extension';
 
 l10n.register([
   'alert_header_error',
@@ -211,11 +211,11 @@ export default class Provider extends React.Component {
         }
       >
         <>
-          <p><span>{l10n.map.provider_gmail_dialog_description}</span> <a href="https://www.mailvelope.com/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></p>
+          <p><span>{l10n.map.provider_gmail_dialog_description}</span> <a href="https://mailvelope.com/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a></p>
           {!this.state.legacyGsuite &&
             <Alert type="warning" header={l10n.map.alert_header_notice}>
               <Trans id={l10n.map.provider_gmail_dialog_gsuite_alert} components={[
-                <a key="0" href="https://gsuite.google.com/" target="_blank" rel="noopener noreferrer"></a>,
+                <a key="0" href="https://workspace.google.com" target="_blank" rel="noopener noreferrer"></a>,
                 <a key="1" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
               ]} />
             </Alert>
@@ -231,7 +231,7 @@ export default class Provider extends React.Component {
           <p><Trans id={l10n.map.provider_gmail_dialog_auth_outro} components={[<strong key="0">{this.state.email}</strong>]} /></p>
           <p className="text-muted text-right mb-0">
             <small>
-              <a href="https://www.mailvelope.com/en/privacy-policy" className="text-reset" target="_blank" rel="noopener noreferrer">{l10n.map.provider_gmail_dialog_privacy_policy}</a>
+              <a href="https://mailvelope.com/en/privacy-policy" className="text-reset" target="_blank" rel="noopener noreferrer">{l10n.map.provider_gmail_dialog_privacy_policy}</a>
             </small>
           </p>
         </>
@@ -322,7 +322,7 @@ export default class Provider extends React.Component {
             )}
             {this.state.gmail && (
               <Alert className="mt-2" type="info" header={l10n.map.alert_header_important}>
-                {l10n.map.provider_gmail_integration_info} <a href="https://www.mailvelope.com/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
+                {l10n.map.provider_gmail_integration_info} <a href="https://mailvelope.com/faq#gmail_permissions" target="_blank" rel="noopener noreferrer">{l10n.map.learn_more_link}</a>
               </Alert>
             )}
             <p className="lead mt-3">{l10n.map.provider_gmail_auth_table_title}</p>
@@ -357,7 +357,7 @@ export default class Provider extends React.Component {
                   <table className="table table-provider table-custom mb-0">
                     <caption>
                       <Trans id={l10n.map.provider_gmail_licensing_table_caption} components={[
-                        <a key="0" href="https://gsuite.google.com/" target="_blank" rel="noopener noreferrer"></a>,
+                        <a key="0" href="https://workspace.google.com" target="_blank" rel="noopener noreferrer"></a>,
                         <a key="1" href={MV_PRODUCT_PAGE_URL} target="_blank" rel="noopener noreferrer"></a>
                       ]} />
                     </caption>
