@@ -156,7 +156,10 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   .filter(key => !tags.find(tag => tag.id === key.email))
   .map(key => ({
     id: key.email,
-    text: `${encodeHTML(key.userId)} - ${key.keyId}`,
+    // `<` and `>` are replaced with `＜` and `＞` to prevent case when searching `lt` and `gt` in the HTML
+    // This is a workaround for the `react-tag-input` library
+    // which doesn't escape the HTML tags in the suggestion list
+    text: `${encodeHTML(key.userId.replace('<', '＜').replace('>', '＞'))} - ${key.keyId}`,
     searchStr: `${key.userId} ${key.keyId}`// for search
   }));
 
@@ -170,7 +173,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
         handleFilterSuggestions={onFilterSuggestions}
         placeholder={null}
         allowDragDrop={false}
-        minQueryLength={2}
+        minQueryLength={1}
         separators={['Enter', 'Tab', 'Space']}
         classNames={{
           tags: 'recipients-input mb-0 form-control',
