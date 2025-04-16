@@ -403,7 +403,7 @@ export default class Editor extends React.Component {
     this.keyLookup(recipients);
     this.setState(prevState => {
       const errorState = {recipientsError: prevState.recipientsError, ...{recipientsError}};
-      return {...errorState, recipients, encryptDisabled: errorState.recipientsError || prevState.recipientsCcError || !recipients.length};
+      return {...errorState, recipients, encryptDisabled: (errorState.recipientsError && !prevState.extraKey) || prevState.recipientsCcError || prevState.extraKeysError || !recipients.length};
     });
   }
 
@@ -417,7 +417,10 @@ export default class Editor extends React.Component {
   }
 
   handleChangeExtraKeyInput(extraKeys, extraKeysError) {
-    this.setState({extraKeys, extraKeysError});
+    this.setState(prevState => {
+      const errorState = {extraKeysError: prevState.extraKeysError, ...{extraKeysError}};
+      return {...errorState, extraKeys, encryptDisabled: errorState.extraKeysError || !prevState.recipients.length};
+    });
   }
 
   onNotificationEnteredTransition() {
