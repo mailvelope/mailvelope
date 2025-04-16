@@ -269,7 +269,7 @@ export default class Encrypt extends React.Component {
                   <div className="form-group">
                     <label htmlFor="recipients-input">{l10n.map.editor_label_recipient}</label>
                     <RecipientInput keys={this.state.keys} recipients={this.state.recipients}
-                      onChangeRecipients={({recipients, hasError}) => this.setState({recipients, recipientsError: hasError})}
+                      onChangeRecipients={(recipients, hasError) => this.setState({recipients, recipientsError: hasError})}
                       onAutoLocate={recipient => this.handleAutoLocate(recipient)}
                     />
                   </div>
