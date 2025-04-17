@@ -28,7 +28,6 @@
     "gpgmejs": "github:mailvelope/gpgmejs#663e750b9e6ee487863d0028fbcf891cd12d3f58",
     "jquery": "3.7.1",
     "linkifyjs": "2.1.9",
-    "ng-tags-input": "3.2.0",
     "openpgp": "5.11.2",
     "prop-types": "15.8.1",
     "qrcode.react": "3.1.0",
