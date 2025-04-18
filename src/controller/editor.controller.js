@@ -112,6 +112,7 @@ export default class EditorController extends SubController {
     if (this.state.popupId) {
       try {
         this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
+        this.popup.addRemoveListener(() => this.onEditorClose({cancel: true}));
         return this.popup;
       } catch (e) {
         this.setState({popupId: null, popupOpenerTabId: null});
