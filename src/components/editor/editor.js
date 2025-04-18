@@ -52,7 +52,6 @@ export default class Editor extends React.Component {
       defaultKey: false,
       defaultPlainText: '',
       embedded: false,
-      encryptDisabled: true,
       extraKey: false,
       extraKeys: [],
       extraKeysError: false,
@@ -399,21 +398,27 @@ export default class Editor extends React.Component {
     }, timeout);
   }
 
+  /**
+   * Compute whether the encrypt button should be disabled.
+   */
+  isEncryptDisabled() {
+    const {plainText, recipients, recipientsError, recipientsCcError, extraKey, extraKeysError} = this.state;
+    return !plainText
+      || (recipientsError && !extraKey)
+      || !recipients.length
+      || recipientsCcError
+      || (extraKey && extraKeysError);
+  }
+
   handleChangeRecipients(recipients, recipientsError) {
     this.keyLookup(recipients);
-    this.setState(prevState => {
-      const errorState = {recipientsError: prevState.recipientsError, ...{recipientsError}};
-      return {...errorState, recipients, encryptDisabled: errorState.recipientsError || prevState.recipientsCcError || !recipients.length};
-    });
+    this.setState({recipients, recipientsError});
   }
 
   // For CC recipients we allow the field to be empty, still handling the error
   handleChangeRecipientsCc(recipientsCc, recipientsCcError) {
     this.keyLookup(recipientsCc);
-    this.setState(prevState => {
-      const errorState = {recipientsCcError: prevState.recipientsCcError, ...{recipientsCcError}};
-      return {...errorState, recipientsCc, encryptDisabled: errorState.recipientsCcError || prevState.recipientsError};
-    });
+    this.setState({recipientsCc, recipientsCcError});
   }
 
   handleChangeExtraKeyInput(extraKeys, extraKeysError) {
@@ -499,8 +504,7 @@ export default class Editor extends React.Component {
                     onExtraKey={event => this.handleCheck(event)}
                     onOk={() => this.handleOk()}
                     onSignOnly={() => this.handleSign()}
-                    // TODO encryptDisabled should also consider extraKeysError flag
-                    privKeys={this.state.privKeys} encryptDisabled={this.state.encryptDisabled || this.state.plainText === ''}
+                    privKeys={this.state.privKeys} encryptDisabled={this.isEncryptDisabled()}
                   />
                 </div>
               )}
