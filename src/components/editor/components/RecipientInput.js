@@ -148,7 +148,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
     const lowerCaseQuery = textInputValue.toLowerCase();
     return possibleSuggestionsArray
-    .filter(suggestion => suggestion.searchStr.toLowerCase().includes(lowerCaseQuery))
+    .filter(suggestion => suggestion.text.toLowerCase().includes(lowerCaseQuery))
     .slice(0, 10);
   };
 
@@ -156,18 +156,23 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   .filter(key => !tags.find(tag => tag.id === key.email))
   .map(key => ({
     id: key.email,
-    // `<` and `>` are replaced with `＜` and `＞` to prevent case when searching `lt` and `gt` in the HTML
-    // This is a workaround for the `react-tag-input` library
-    // which doesn't escape the HTML tags in the suggestion list
-    text: `${encodeHTML(key.userId.replace('<', '＜').replace('>', '＞'))} - ${key.keyId}`,
-    searchStr: `${key.userId} ${key.keyId}`// for search
+    text: `${key.userId} - ${key.keyId}`,
   }));
+
+  const renderSuggestion = ({text}, query) => {
+    query = query.trim();
+    let html = text.replaceAll(query, `<mark>${query}</mark>`);
+    html = encodeHTML(html);
+    html = html.replaceAll('&lt;mark&gt;', '<mark>').replaceAll('&lt;&#x2F;mark&gt;', '</mark>'); // decode mark tag
+    return <span dangerouslySetInnerHTML={{__html: html}} />;
+  };
 
   return (
     <div id={idRef.current} className="mb-0">
       <ReactTags
         tags={tags}
         suggestions={suggestions}
+        renderSuggestion = {renderSuggestion}
         handleDelete={onDelete}
         handleAddition={onAddition}
         handleFilterSuggestions={onFilterSuggestions}
