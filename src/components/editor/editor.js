@@ -402,12 +402,18 @@ export default class Editor extends React.Component {
    * Compute whether the encrypt button should be disabled.
    */
   isEncryptDisabled() {
-    const {plainText, recipients, recipientsError, recipientsCcError, extraKey, extraKeysError} = this.state;
+    const {plainText, recipients, recipientsError, recipientsCcError, extraKey, extraKeys, extraKeysError} = this.state;
+    // If extraKey is checked, require at least one valid extra key and no error
+    if (extraKey) {
+      return !plainText
+        || !extraKeys.length
+        || extraKeysError;
+    }
+    // Otherwise, use the original logic for main recipients
     return !plainText
-      || (recipientsError && !extraKey)
+      || recipientsError
       || !recipients.length
-      || recipientsCcError
-      || (extraKey && extraKeysError);
+      || recipientsCcError;
   }
 
   handleChangeRecipients(recipients, recipientsError) {
