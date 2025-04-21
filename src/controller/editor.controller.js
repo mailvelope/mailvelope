@@ -153,7 +153,6 @@ export default class EditorController extends SubController {
         // No local key found, mark it for resolution
         checkServer = true;
       }
-      // Safely return fingerprint only if key is found
       return {key, fingerprint: key ? key.fingerprint : undefined, checkServer};
     }
 
