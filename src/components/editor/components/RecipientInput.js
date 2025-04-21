@@ -25,8 +25,8 @@ l10n.register([
  * @param {Boolean} extraKey - Flag indicating whether extra key input is enabled
  * @returns {Boolean} true if any recipient has no key
  */
-function hasAnyRecipientNoKey(tags, keys, extraKey) {
-  return tags.some(t => !findRecipientKey(keys, t.id)) && !extraKey;
+function hasAnyRecipientNoKey(tags, keys) {
+  return tags.some(t => !findRecipientKey(keys, t.id));
 }
 
 /**
@@ -89,7 +89,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   const tags = useMemo(() => recipientsToTags(recipients, keys, extraKey), [recipients, keys, extraKey]);
 
   // this is a callback function because we need to update it with new tags before rerender happened
-  const hasError = useCallback(tags => hasAnyRecipientNoKey(tags, keys, extraKey) && !hideErrorMsg, [keys, extraKey, hideErrorMsg]);
+  const hasError = useCallback(tags => hasAnyRecipientNoKey(tags, keys), [keys]);
 
   /**
    * Converts a tag into recipient object
@@ -148,7 +148,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   const onFilterSuggestions = (textInputValue, possibleSuggestionsArray) => {
     const lowerCaseQuery = textInputValue.toLowerCase();
     return possibleSuggestionsArray
-    .filter(suggestion => suggestion.searchStr.toLowerCase().includes(lowerCaseQuery))
+    .filter(suggestion => suggestion.text.toLowerCase().includes(lowerCaseQuery))
     .slice(0, 10);
   };
 
@@ -156,18 +156,23 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   .filter(key => !tags.find(tag => tag.id === key.email))
   .map(key => ({
     id: key.email,
-    // `<` and `>` are replaced with `＜` and `＞` to prevent case when searching `lt` and `gt` in the HTML
-    // This is a workaround for the `react-tag-input` library
-    // which doesn't escape the HTML tags in the suggestion list
-    text: `${encodeHTML(key.userId.replace('<', '＜').replace('>', '＞'))} - ${key.keyId}`,
-    searchStr: `${key.userId} ${key.keyId}`// for search
+    text: `${key.userId} - ${key.keyId}`,
   }));
+
+  const renderSuggestion = ({text}, query) => {
+    query = query.trim();
+    let html = text.replaceAll(query, `<mark>${query}</mark>`);
+    html = encodeHTML(html);
+    html = html.replaceAll('&lt;mark&gt;', '<mark>').replaceAll('&lt;&#x2F;mark&gt;', '</mark>'); // decode mark tag
+    return <span dangerouslySetInnerHTML={{__html: html}} />;
+  };
 
   return (
     <div id={idRef.current} className="mb-0">
       <ReactTags
         tags={tags}
         suggestions={suggestions}
+        renderSuggestion = {renderSuggestion}
         handleDelete={onDelete}
         handleAddition={onAddition}
         handleFilterSuggestions={onFilterSuggestions}
@@ -185,7 +190,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
           suggestions: 'suggestions d-block dropdown-menu',
           activeSuggestion: 'active-suggestion dropdown-item:hover'
         }} />
-      {!hideErrorMsg && hasError(tags) && (
+      {!hideErrorMsg && hasError(tags) && !extraKey && (
         <div className="alert alert-danger mb-0" role="alert">
           <strong>{l10n.map.editor_key_not_found}</strong> <span>{l10n.map.editor_key_not_found_msg}</span>
         </div>

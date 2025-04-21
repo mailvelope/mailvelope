@@ -65,6 +65,7 @@ export default class DecryptController extends SubController {
     if (this.state.popupId) {
       try {
         this.popup = await mvelo.windows.getPopup(this.state.popupId, this.state.popupOpenerTabId);
+        this.popup.addRemoveListener(() => this.dialogCancel());
         return this.popup;
       } catch (e) {
         this.setState({popupId: null, popupOpenerTabId: null});
@@ -75,12 +76,7 @@ export default class DecryptController extends SubController {
   async onDframeDisplayPopup() {
     this.popup = await mvelo.windows.openPopup(`components/decrypt-message/decryptMessage.html?id=${this.id}&embedded=false`, {width: 742, height: 550});
     this.setState({popupId: this.popup.id, popupOpenerTabId: this.popup.tabId});
-    this.popup.addRemoveListener(() => {
-      const port = this.getPort('Frame');
-      port?.emit('dialog-cancel');
-      this.popup = null;
-      this.setState({popupId: null, popupOpenerTabId: null});
-    });
+    this.popup.addRemoveListener(() => this.dialogCancel());
   }
 
   async onDecrypt() {
