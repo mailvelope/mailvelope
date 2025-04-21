@@ -153,7 +153,7 @@ export default class EditorController extends SubController {
         // No local key found, mark it for resolution
         checkServer = true;
       }
-      return {key, fingerprint: key.fingerprint, checkServer};
+      return {key, fingerprint: key ? key.fingerprint : undefined, checkServer};
     }
 
     let to = [];
