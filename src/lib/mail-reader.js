@@ -36,7 +36,7 @@ export function parse(bodyParts) {
 }
 
 // functions that return true/false if they were able to handle a certain kind of body part
-const mimeTreeMatchers = [matchEncrypted, matchSigned, matchAttachment, matchText, matchHtml];
+const mimeTreeMatchers = [matchSubject, matchEncrypted, matchSigned, matchAttachment, matchText, matchHtml];
 
 // do a depth-first traversal of the body part, check for each node if it matches
 // a certain type, then poke into its child nodes. not a pure inorder traversal b/c
@@ -58,6 +58,18 @@ function walkMimeTree(mimeNode, bodyPart) {
       walkMimeTree(childNode, bodyPart);
     });
   }
+}
+
+/**
+ * Matches the Subject header and sets it on the bodyPart
+ */
+function matchSubject(node, bodyPart) {
+  const subject = node.headers?.subject?.[0]?.value;
+  if (!subject) {
+    return false;
+  }
+  bodyPart.subject = subject;
+  return false; // don't stop the traversal, we want to check for other nodes
 }
 
 /**
