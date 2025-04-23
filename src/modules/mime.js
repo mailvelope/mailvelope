@@ -58,10 +58,10 @@ async function parseMIME(raw, encoding) {
     }
 
     // prepend subject line using i18n label
-    const subject = encodeHTML(parsed[0]?.subject);
+    const subject = parsed[0].subject;
     if (subject) {
       const subjectLabel = l10n.get('editor_label_subject');
-      message = `<strong>${subjectLabel}: </strong>${subject}\n<hr>\n${message}`;
+      message = `<strong>${subjectLabel}: </strong>${encodeHTML(subject)}\n<hr>\n${message}`;
     }
   }
   return {message, attachments, parsed};
