@@ -61,13 +61,14 @@ function walkMimeTree(mimeNode, bodyPart) {
 }
 
 /**
- * Matches the Subject header and sets it on the bodyPart
+ * Matches the Subject header and sets it on the bodyPart only if Content-Type `protected-headers` is = "v1"
  */
 function matchSubject(node, bodyPart) {
   const subject = node.headers?.subject?.[0]?.value;
-  if (!subject) {
+  const protectedHeaders = node.headers?.['content-type']?.[0]?.params?.['protected-headers'];
+  if (!subject || protectedHeaders !== 'v1') {
     return false;
-  }
+  }  
   bodyPart.subject = subject;
   return false; // don't stop the traversal, we want to check for other nodes
 }
