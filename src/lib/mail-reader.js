@@ -68,7 +68,7 @@ function matchSubject(node, bodyPart) {
   const protectedHeaders = node.headers?.['content-type']?.[0]?.params?.['protected-headers'];
   if (!subject || protectedHeaders !== 'v1') {
     return false;
-  }  
+  }
   bodyPart.subject = subject;
   return false; // don't stop the traversal, we want to check for other nodes
 }
