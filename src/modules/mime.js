@@ -3,10 +3,11 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import mvelo from '../lib/lib-mvelo';
-import {html2text, encodeHTML, ab2str, byteCount, MvError, getUUID} from '../lib/util';
-import * as mailreader from '../lib/mail-reader';
 import MimeBuilder from 'emailjs-mime-builder';
+import * as l10n from '../lib/l10n';
+import mvelo from '../lib/lib-mvelo';
+import * as mailreader from '../lib/mail-reader';
+import {ab2str, byteCount, encodeHTML, getUUID, html2text, MvError} from '../lib/util';
 
 /**
  * Parse encrypted email content. Input content can be in MIME format or plain text.
@@ -54,6 +55,13 @@ async function parseMIME(raw, encoding) {
     for (const part of attachments) {
       part.filename = encodeHTML(part.filename);
       part.content = ab2str(part.content.buffer);
+    }
+
+    // prepend subject line using i18n label
+    const subject = parsed[0].subject;
+    if (subject) {
+      const subjectLabel = l10n.get('editor_label_subject');
+      message = `<strong>${subjectLabel}: </strong>${encodeHTML(subject)}\n<hr>\n${message}`;
     }
   }
   return {message, attachments, parsed};
