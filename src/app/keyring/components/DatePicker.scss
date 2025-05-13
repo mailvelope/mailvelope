@@ -127,5 +127,6 @@ $datepicker__margin: map-get($spacers, 2);
   box-shadow: $input-box-shadow;
 }
 
-
-  
+.react-datepicker-popper {
+  z-index: 10 !important;
+}
