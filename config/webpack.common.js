@@ -1,6 +1,6 @@
 /* eslint strict: 0 */
 
-const jsonImporter  = require('node-sass-json-importer');
+import jsonImporter from '@blakedarlin/sass-json-importer';
 
 const prod = {
   mode: 'production',
@@ -57,7 +57,7 @@ function scss(loader = 'style-loader', css = false) {
         // Apply the JSON importer via sass-loader's options.
         options: {
           sassOptions: {
-            importer: jsonImporter()
+            importers: [jsonImporter()]
           }
         }
       }]
@@ -122,6 +122,5 @@ function resolve() {
   };
 }
 
-exports.prod = prod;
-exports.module = {css, css2str, scss, react, replaceVersion};
-exports.resolve = resolve;
+export {prod, resolve};
+export const module = {css, css2str, scss, react, replaceVersion};
