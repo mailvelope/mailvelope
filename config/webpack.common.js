@@ -57,7 +57,8 @@ function scss(loader = 'style-loader', css = false) {
         // Apply the JSON importer via sass-loader's options.
         options: {
           sassOptions: {
-            importers: [jsonImporter()]
+            importers: [jsonImporter()],
+            silenceDeprecations: ['import', 'color-functions', 'slash-div', 'mixed-decls', 'global-builtin', 'abs-percent']
           }
         }
       }]
