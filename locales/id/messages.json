@@ -96,7 +96,7 @@
         "description": "Consent to share analytics information with mailvelope"
     },
     "analytics_consent_disabled_tooltip": {
-        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "message": "Anda hanya bisa ikut analitik saat instalasi dan hanya bila dipilih secara acak.",
         "description": "Explanation for why user cannot opt in to analytics"
     },
     "analytics_consent_interstitial_Btn_Learn_More": {
@@ -104,51 +104,51 @@
         "description": "Btn FAQ"
     },
     "analytics_consent_interstitial_Faq": {
-        "message": " Read more about Mailvelope metrics in our FAQ.",
+        "message": "Baca lebih lanjut tentang metrik Mailvelope dalam FAQ kami.",
         "description": "FAQ"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data": {
-        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "message": "Mailvelope mencacah langkah yang membuat Anda lebih dekat ke memakainya dengan layanan surel Anda. Itu tidak merekam setiap langkah yang Anda buat.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-        "message": "We Collect Minimal Data",
+        "message": "Kami Mengumpulkan Data Minimal",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice": {
-        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "message": "Bila Anda memilih untuk tidak berkontribusi, tidak ada yang direkam. Bila Anda memilih untuk berkontribusi, Anda dapat mengubah pilihan Anda kapan pun dengan berhenti di pengaturan.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
-        "message": "We Respect your Choice",
+        "message": "Kami Menghormati Pilihan Anda",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
-        "message": "Mailvelope uses",
+        "message": "Penggunaan Mailvelope",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
-        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "message": "yang secara aman menyimpan data tanpa menyambungkan ke informasi yang dapat diidentifikasi. Lebih jauh, alamat IP Anda tidak direkam atau diproses.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
-        "message": "Your Privacy is Preserved",
+        "message": "Privasi Anda Dijaga",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_learn_more": {
-        "message": "Learn how metrics are safe",
+        "message": "Pelajari bagaimana metrik itu aman",
         "description": "Label for expandable section"
     },
     "analytics_consent_interstitial_learn_more_explanation": {
-        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "message": "Bila Anda ikut, data analitik akan diagregasi dan diminimumkan memakai Clean Insights yang menyimpan data ini tanpa hubungan ke karakteristik yang mengidentifikasi. Kami menghormati pilihan Anda dan tidak melaporkan apa pun yang Anda pilih untuk tidak dikontribusikan.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_message": {
-        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "message": "Mailvelope menanyakan ke 1% dari pengguna baru untuk berkontribusi ke metrik anonim. Bila Anda memilih ya, Mailvelope and mendaftarkan langkah sukses dalam perjalanan onboarding Anda. Apakah Anda akan berkontribusi?",
         "description": "Request for consent from selected users."
     },
     "analytics_interstitial_header": {
-        "message": "Help us improve?",
+        "message": "Bantu kami jadi lebih baik?",
         "description": "Header of analytics consent dialog."
     },
     "auth_domain_api_label": {
@@ -216,11 +216,11 @@
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_inconsistent": {
-        "message": "Inconsistent signatures: message and file not signed with same key",
+        "message": "Tanda tangan tidak konsisten: pesan dan berkas tidak ditandatangani dengan kunci yang sama",
         "description": "Warning message if digital signature is inconsistent"
     },
     "decrypt_digital_signature_missing": {
-        "message": "Signature missing",
+        "message": "Kurang tanda tangan",
         "description": "Digital signature is missing"
     },
     "decrypt_digital_signature_null": {
@@ -236,15 +236,15 @@
         "description": "Digital signature unknown short info message"
     },
     "decrypt_digital_signature_sender_mismatch": {
-        "message": "Sender address mismatch",
+        "message": "Alamat pengirim tidak cocok",
         "description": "Alert label in the case of sender email address mismatch"
     },
     "decrypt_digital_signature_sender_mismatch_tooltip": {
-        "message": "This message contains a digital signature, but a mismatch was detected. The message was sent from an email address that doesn't match the signer's public key.",
+        "message": "Pesan ini mengandung suatu tanda tangan digital, tapi ketidakcocokan terdeteksi. Pesan dikirim dari suatu alamat surel yang tak cocok dengan kunci publik penandatangan.",
         "description": "Tooltip for alert label in the case of sender email address mismatch"
     },
     "decrypt_digital_signature_uncertain_sender": {
-        "message": "Uncertain sender identity",
+        "message": "Identitas pengirim tidak pasti",
         "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
@@ -632,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
+        "message": "Apakah GnuPG terpasang? Bila tidak <0>Unduh di sini</0>. Untuk memeriksa lagi ketersediaan <1>Jalankan ulang Mailvelope</1>. Bila Anda yakin itu terpasang, harap ikuti <2>wiki ini</2> untuk memastikan itu telah disiapkan dengan benar.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -688,7 +688,7 @@
         "description": ""
     },
     "header_analyticsconsent_modal": {
-        "message": "Thank you for helping!",
+        "message": "Terima kasih telah membantu!",
         "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
@@ -1548,7 +1548,7 @@
         "description": "Title of options page."
     },
     "paragraph_analyticsconsent_modal": {
-        "message": "You can opt out at any time from settings.",
+        "message": "Anda dapat berhenti kapan saja dari pengaturan.",
         "description": "p modal analytics consent"
     },
     "preferred": {

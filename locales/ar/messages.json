@@ -96,7 +96,7 @@
         "description": "Consent to share analytics information with mailvelope"
     },
     "analytics_consent_disabled_tooltip": {
-        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "message": "يُمكنك الاشتراك في التحليلات فقط عند التثبيت وفقط إذا اخترت عشوائياً.",
         "description": "Explanation for why user cannot opt in to analytics"
     },
     "analytics_consent_interstitial_Btn_Learn_More": {
@@ -104,51 +104,51 @@
         "description": "Btn FAQ"
     },
     "analytics_consent_interstitial_Faq": {
-        "message": " Read more about Mailvelope metrics in our FAQ.",
+        "message": "لمعرفة المزيد عن مقاييس Mailvelope يرجى زيارة صفحة الأسئلة الشائعة.",
         "description": "FAQ"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data": {
-        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "message": "يُحصي Mailvelope الخطوات التي تؤهلك لاستخدامه بواسطة بريدك الإلكتروني ولكنه لا يسجل كل خطوة تتخذها.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-        "message": "We Collect Minimal Data",
+        "message": "نجمع الحد الأدنى من البيانات",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice": {
-        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "message": "إذا اخترت عدم المساهمة، لن يُسجَّل أي شيء ، أما إذا اخترت المساهمة، فبوسعك تغيير رأيك في أي وقت وذلك بإلغاء اشتراكك عبر الإعدادات.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
-        "message": "We Respect your Choice",
+        "message": "نحترم خيارك",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
-        "message": "Mailvelope uses",
+        "message": "يستخدم Mailvelope ",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
-        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "message": "التي تخزن البيانات بشكل آمن دون ربطها بمعلومات قابلة للتحديد. علاوة على ذلك، لا يتم تسجيل عنوانك ال IP أو تشغيله.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
-        "message": "Your Privacy is Preserved",
+        "message": "خصوصيتك بأمان",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_learn_more": {
-        "message": "Learn how metrics are safe",
+        "message": "تعلم كيف تكون المقاييس آمنة",
         "description": "Label for expandable section"
     },
     "analytics_consent_interstitial_learn_more_explanation": {
-        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "message": "إذا قمت بالاشتراك، سوف تُجمّع بيانات التحليلات وتختزل باستخدام Clean Insights التي تخزن هذه البيانات دون ربطها بخصائص التعريف. نحن نحترم اختيارك ولن نرفع أي معطيات إذا اخترت عدم المشاركة.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_message": {
-        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "message": "يطلب Mailvelope من 1٪ من مستخدميه ومستخدماته الجدد المساهمة في تسجيل مقاييس مجهولة المصدر. إذا وافقت، سوف يسجّل Mailvelope خطواتك الناجحة في رحلتك التأهيلية. هل ستساهم (ين)؟",
         "description": "Request for consent from selected users."
     },
     "analytics_interstitial_header": {
-        "message": "Help us improve?",
+        "message": "ساعدنا لنتحسّن!",
         "description": "Header of analytics consent dialog."
     },
     "auth_domain_api_label": {
@@ -632,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
+        "message": "هل GnuPG مثبت لديك؟ إذا لم يكن كذلك، اضغط على هذا الرابط لتنزيله. للتحقق من توفره مرة أخرى أعد (أعيدي) تشغيل Mailvelope. يُرجى الاطلاع على هذا الويكي للتأكد من تنصيب GnuPG بشكلٍ صحيح.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -688,7 +688,7 @@
         "description": ""
     },
     "header_analyticsconsent_modal": {
-        "message": "Thank you for helping!",
+        "message": "شكرا لك على المساعدة !",
         "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
@@ -1548,7 +1548,7 @@
         "description": "Title of options page."
     },
     "paragraph_analyticsconsent_modal": {
-        "message": "You can opt out at any time from settings.",
+        "message": "يمكنك الانسحاب في أي وقت من الاعدادات",
         "description": "p modal analytics consent"
     },
     "preferred": {

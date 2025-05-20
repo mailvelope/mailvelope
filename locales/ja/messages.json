@@ -8,7 +8,7 @@
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "<0>Mailvelopeの設定</0>から",
+        "message": "<0>Mailvelopeの設定</0>から始めましょう",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
@@ -96,7 +96,7 @@
         "description": "Consent to share analytics information with mailvelope"
     },
     "analytics_consent_disabled_tooltip": {
-        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "message": "アクセス解析はインストール時にランダムに選ばれた場合のみ、選択（オプト・イン）できます。",
         "description": "Explanation for why user cannot opt in to analytics"
     },
     "analytics_consent_interstitial_Btn_Learn_More": {
@@ -104,51 +104,51 @@
         "description": "Btn FAQ"
     },
     "analytics_consent_interstitial_Faq": {
-        "message": " Read more about Mailvelope metrics in our FAQ.",
+        "message": "FAQでMailvelopeの解析対象を説明しています。",
         "description": "FAQ"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data": {
-        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "message": "Mailvelopeはメールサービスの設定ステップをカウントしています。あなたの操作は記録されません。",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-        "message": "We Collect Minimal Data",
+        "message": "必要最小限のデータを収集",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice": {
-        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "message": "データを提供しないことを選んだ場合、何も記録されません。提供することを選んだ場合でも、設定でいつでも無効にできます。",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
-        "message": "We Respect your Choice",
+        "message": "あなたの選択を尊重します",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
-        "message": "Mailvelope uses",
+        "message": "Mailvelopeは、",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
-        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "message": "個人情報と結びつけることなくデータを保存します。あなたのIPアドレスも記録されません。",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
-        "message": "Your Privacy is Preserved",
+        "message": "あなたのプライバシーは保護されています",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_learn_more": {
-        "message": "Learn how metrics are safe",
+        "message": "データ収集はなぜ安全か",
         "description": "Label for expandable section"
     },
     "analytics_consent_interstitial_learn_more_explanation": {
-        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "message": "あなたがデータを提供することを選択すると、解析データは集計され、クリーンインサイトを使って最小化されます。私たちはあなたの選択を尊重し、あなたが同意しない場合、データを収集しません。",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_message": {
-        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "message": "Mailvelopeは新規ユーザーの１％だけにデータ提供を求めます。あなたが同意した場合、Mailvelopeはインストールのステップを記録します。",
         "description": "Request for consent from selected users."
     },
     "analytics_interstitial_header": {
-        "message": "Help us improve?",
+        "message": "提供に協力しますか？",
         "description": "Header of analytics consent dialog."
     },
     "auth_domain_api_label": {
@@ -632,7 +632,7 @@
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
+        "message": "GnuPGをインストールしていますか？インストールしていない場合、 <0>ここから</0>ダウンロードしてください。それから<1>Mailvelopeを再起動</1>してください。インストール済なら<2>このwiki</2> に従ってセットアップしてください。",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
@@ -688,7 +688,7 @@
         "description": ""
     },
     "header_analyticsconsent_modal": {
-        "message": "Thank you for helping!",
+        "message": "ご協力に感謝します！",
         "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
@@ -1548,7 +1548,7 @@
         "description": "Title of options page."
     },
     "paragraph_analyticsconsent_modal": {
-        "message": "You can opt out at any time from settings.",
+        "message": "いつでも設定でオプトアウトできます。",
         "description": "p modal analytics consent"
     },
     "preferred": {

@@ -1,6 +1,26 @@
 Mailvelope Changelog
 ====================
 
+v6.1.0
+-------
+__May 19, 2025__
+
+  * Migrate Firefox add-on to manifest v3
+  * Support for displaying encrypted subject lines in the email content area
+  * Reactivate password cache (temporarily disabled in v6.0)
+  * Disable sign-only button in editor email contains attachments
+  * Fix sign-only function in the editor when using GnuPG keyring
+  * Fix GnuPG keyring not available after service worker shutdown
+  * Replace node-sass with dart-sass
+  * [Security] Replace Angular v1 component for recipient input with React component based on react-tag-input
+  * [Security] Update Bootstrap to 4.6.2
+  * [Security] Deprecate client-API settings container (keyring.createSettingsContainer())
+  * [Security] Remove dead code in mvelo.storage that is vulnerable to prototype pollution
+  * [Security] Fix weak validation of WKD blocklist
+  * [Security] Improve key type validation during key import
+  * [Security] Deactivate demo.mailvelope.com site in default authorized domain list
+  * [Security] Update OpenPGP.js to 5.11.3
+
 v6.0.1
 -------
 __Dec 7, 2024__

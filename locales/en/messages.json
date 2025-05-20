@@ -497,11 +497,11 @@
   },
   "ext_description": {
     "description": "Description of the extension.",
-    "message": "Enhance your email provider with end-to-end encryption. Secure email communication based on the OpenPGP standard."
+    "message": "Protect your email conversations and attachments on Gmail, Nextcloud, Outlook & more with PGP and end-to-end encryption."
   },
   "ext_name": {
     "description": "Name of the extension.",
-    "message": "Mailvelope"
+    "message": "Mailvelope - Secure your email with PGP"
   },
   "feature_banner_new_security_background_btn": {
     "description": "Button text of feature banner for new security background.",

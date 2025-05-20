@@ -496,11 +496,11 @@
         "description": "."
     },
     "ext_description": {
-        "message": "Améliorez votre service de courriel grâce au chiffrement de bout en bout. Communications par courriel sécurisées (norme OpenPGP).",
+        "message": "Protégez vos courriels et fichiers joints sur Gmail, Nextcloud, Outlook et d’autres grâce à PGP et au chiffrement de bout en bout.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope",
+        "message": "Mailvelope – Sécuriser vos courriels avec PGP",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
@@ -1636,7 +1636,7 @@
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "Essayez Mailvelope Pour entreprise avec activation le l’API Gmail <0>gratuitement pendant 14 jours</0> :",
+        "message": "Essayez Mailvelope pour entreprise avec activation le l’API Gmail <0>gratuitement pendant 14 jours</0> :",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
@@ -1644,7 +1644,7 @@
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Une licence Mailvelope Pour entreprise est exigée",
+        "message": "Une licence Mailvelope pour entreprise est exigée",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
