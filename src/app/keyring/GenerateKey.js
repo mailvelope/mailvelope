@@ -17,6 +17,7 @@ import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from '../../components/util/DefinePassword';
 import Modal from '../../components/util/Modal';
 import {Redirect, Link} from 'react-router-dom';
+import KeyBackup from './components/KeyBackup';
 
 l10n.register([
   'alert_header_success',
@@ -29,7 +30,12 @@ l10n.register([
   'key_gen_success',
   'key_gen_wait_header',
   'key_gen_wait_info',
-  'learn_more_link'
+  'learn_more_link',
+  'key_backup_title',
+  'key_backup_info',
+  'key_backup_storage',
+  'dialog_popup_close',
+  'key_backup_create'
 ]);
 
 export default class GenerateKey extends React.Component {
@@ -39,6 +45,7 @@ export default class GenerateKey extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleGenerate = this.handleGenerate.bind(this);
     this.generateKey = this.generateKey.bind(this);
+    this.closeBackupModal = this.closeBackupModal.bind(this);
   }
 
   componentDidMount() {
@@ -57,7 +64,8 @@ export default class GenerateKey extends React.Component {
       generating: false, // key generation in progress
       errors: {}, // form errors
       key: null, // generated key
-      modified: false
+      modified: false,
+      backupModalVisible: false, // backup modal visibility
     };
   }
 
@@ -117,14 +125,19 @@ export default class GenerateKey extends React.Component {
       if (this.props.onKeyringChange) {
         await this.props.onKeyringChange();
       }
-      this.setState({key: newKey}, () => this.props.onNotification({id: Date.now(), header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'}));
+      this.setState({key: newKey, backupModalVisible: true, generating: false},
+        () => this.props.onNotification({id: Date.now(), header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'}));
     } catch (error) {
       this.setState({generating: false, modified: false}, () => this.props.onNotification({id: Date.now(), header: l10n.map.key_gen_error, message: error.message, type: 'error'}));
     }
   }
 
+  closeBackupModal() {
+    this.setState({backupModalVisible: false});
+  }
+
   render() {
-    if (this.state.key) {
+    if (this.state.key && !this.state.backupModalVisible && !this.state.generating) {
       return (
         <Redirect to={`/keyring/display/${this.state.key.keyId}`} />
       );
@@ -161,6 +174,12 @@ export default class GenerateKey extends React.Component {
             <p className="text-muted">{l10n.map.key_gen_wait_info}</p>
           </>
         </Modal>
+        {this.state.key && this.state.backupModalVisible && <KeyBackup
+          isOpen={this.state.backupModalVisible}
+          onClose={this.closeBackupModal.bind(this)}
+          keyFpr={this.state.key.keyFpr}
+          keyringId={this.context.keyringId}
+        />}
       </div>
     );
   }

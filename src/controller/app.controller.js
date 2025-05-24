@@ -239,9 +239,10 @@ export default class AppController extends SubController {
     const keyring = await keyringById(keyringId);
     const newKey = await keyring.generateKey(parameters);
     const keyId = newKey.privateKey.getKeyID().toHex().toUpperCase();
+    const keyFpr = newKey.privateKey.getFingerprint();
     await this.sendKeyUpdate();
     recordOnboardingStep(ADD_KEY, 'Generate');
-    return {keyId};
+    return {keyId, keyFpr};
   }
 
   async importKeys({keys, keyringId}) {
