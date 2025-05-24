@@ -125,8 +125,7 @@ export default class GenerateKey extends React.Component {
       if (this.props.onKeyringChange) {
         await this.props.onKeyringChange();
       }
-      this.setState({key: newKey, backupModalVisible: true, generating: false},
-        () => this.props.onNotification({id: Date.now(), header: l10n.map.alert_header_success, message: l10n.map.key_gen_success, type: 'success'}));
+      this.setState({key: newKey, backupModalVisible: true, generating: false});
     } catch (error) {
       this.setState({generating: false, modified: false}, () => this.props.onNotification({id: Date.now(), header: l10n.map.key_gen_error, message: error.message, type: 'error'}));
     }
@@ -177,6 +176,7 @@ export default class GenerateKey extends React.Component {
         {this.state.key && this.state.backupModalVisible && <KeyBackup
           isOpen={this.state.backupModalVisible}
           onClose={this.closeBackupModal.bind(this)}
+          keyId={this.state.key.keyId}
           keyFpr={this.state.key.keyFpr}
           keyringId={this.context.keyringId}
         />}
