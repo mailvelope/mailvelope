@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useRef} from 'react';
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import Alert from '../../../components/util/Alert';
-import {port} from '../../app';
 import * as l10n from '../../../lib/l10n';
+import {port} from '../../app';
+import {getFileSize} from '../../util/util';
 
 l10n.register([
   'key_export_warning_private',
@@ -14,7 +15,8 @@ l10n.register([
   'dialog_popup_close',
   'dialog_no_button',
   'keybackup_setup_dialog_button',
-  'key_gen_success'
+  'key_gen_success',
+  'key_export_filename'
 ]);
 
 /**
@@ -53,7 +55,8 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
   const [keyDetails, setKeyDetails] = React.useState(null);
   const [keyExported, setKeyExported] = React.useState(false);
 
-  const fileName = `${keyFpr}-backup.asc`;
+  const fileName = useRef('backup.asc');
+  const fileSizeStr = useRef('unknown size'); // will be updated after fetching the key
 
   useEffect(() => {
     if (isOpen && keyFpr && keyringId) {
@@ -73,18 +76,22 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
             keyringId,
             fingerprint: keyFpr,
           });
+          const userEmail = keyDetails.users[0].email;
           setKeyDetails({
             type: 'key-pair',
             name: keyDetails.users[0].name,
-            email: keyDetails.users[0].email,
+            email: userEmail,
             keyId,
           });
 
+          fileName.current = `${userEmail}-backup.asc`;
+
           const file = new File(
             [armoredExport],
-            fileName,
+            fileName.current,
             {type: 'application/pgp-keys'}
           );
+          fileSizeStr.current = getFileSize(file.size);
           fileURLRef.current = window.URL.createObjectURL(file);
         } catch (error) {
           console.error('Failed to fetch armored keys:', error);
@@ -113,20 +120,27 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
       <ModalBody>
         {keyDetails && <KeyDetails type={keyDetails.type} name={keyDetails.name} email={keyDetails.email} keyId={keyDetails.keyId} />}
         <p>
-          A private key backup is essential for recovering your encrypted data in case of data loss or even reinstallation of your operating system, browser or this web extension.
+          A private key backup is essential for recovering your encrypted data in case of data loss or reinstallation of your operating system, browser or this web extension.
         </p>
         <Alert type="warning" header={l10n.map.alert_header_important}>
           Store it securely in a safe location, for example, on a USB drive or in a password manager.
         </Alert>
+        <div className="form-inline form-group">
+          <label htmlFor="fileName" className="my-1">{l10n.map.key_export_filename}</label>
+          <input id="fileName" type="text" value={fileName.current} disabled className="form-control flex-grow-1 mx-sm-2" />
+          <small className="text-muted">
+            {fileSizeStr.current}
+          </small>
+        </div>
       </ModalBody>
       <ModalFooter>
-        <div className="btn-bar justify-content-between">
+        <div className="btn-bar justify-content-between w-100">
           <Button onClick={onClose}>
             {keyExported ? l10n.map.dialog_popup_close : l10n.map.dialog_no_button}
           </Button>
           <a
-            className="button btn btn-primary"
-            download={fileName}
+            className="btn btn-primary"
+            download={fileName.current}
             href={fileURLRef.current}
             ref={exportLinkRef}
             role="button"

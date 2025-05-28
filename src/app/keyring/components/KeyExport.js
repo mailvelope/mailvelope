@@ -3,12 +3,13 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import * as l10n from '../../../lib/l10n';
-import {port} from '../../app';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import Alert from '../../../components/util/Alert';
 import Spinner from '../../../components/util/Spinner';
+import * as l10n from '../../../lib/l10n';
+import {port} from '../../app';
+import {getFileSize} from '../../util/util';
 
 l10n.register([
   'keyring_public',
@@ -80,16 +81,6 @@ export default class KeyExport extends React.Component {
     }, '');
   }
 
-  getFileSize(number) {
-    if (number < 1024) {
-      return `${number}bytes`;
-    } else if (number >= 1024 && number < 1048576) {
-      return `${(number / 1024).toFixed(1)}KB`;
-    } else if (number >= 1048576) {
-      return `${(number / 1048576).toFixed(1)}MB`;
-    }
-  }
-
   render() {
     // create file
     const file = new File([this.state.armored], this.state.fileName, {type: 'application/pgp-keys'});
@@ -135,7 +126,7 @@ export default class KeyExport extends React.Component {
                 <label htmlFor="fileName" className="my-1">{l10n.map.key_export_filename}</label>
                 <input id="fileName" type="text" value={this.state.fileName} onChange={this.handleFileNameChange} className="form-control flex-grow-1 mx-sm-2" />
                 <small className="text-muted">
-                  {this.getFileSize(file.size)}
+                  {getFileSize(file.size)}
                 </small>
               </div>
             }

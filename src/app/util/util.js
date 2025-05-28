@@ -68,3 +68,18 @@ export function getDefaultLocale() {
   const lang = navigator.language.replace('-', '');
   return locales[lang] || locales[lang.substring(0, 2)] || locales.enUS;
 }
+
+/**
+ * Formats a number to a human-readable file size
+ * @param {Number} number - the file size in bytes
+ * @returns {String} formatted file size
+ */
+export function getFileSize(number) {
+  if (number < 1024) {
+    return `${number} bytes`;
+  } else if (number >= 1024 && number < 1048576) {
+    return `${(number / 1024).toFixed(1)} KB`;
+  } else if (number >= 1048576) {
+    return `${(number / 1048576).toFixed(1)} MB`;
+  }
+}
