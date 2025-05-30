@@ -10,6 +10,8 @@ l10n.register([
   'key_export_warning_private',
   'key_backup_title',
   'keybackup_restore_dialog_headline',
+  'keybackup_backup_store_location',
+  'keybackup_backup_description',
   'alert_header_warning',
   'key_export_create_file',
   'dialog_popup_close',
@@ -120,10 +122,10 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
       <ModalBody>
         {keyDetails && <KeyDetails type={keyDetails.type} name={keyDetails.name} email={keyDetails.email} keyId={keyDetails.keyId} />}
         <p>
-          A private key backup is essential for recovering your encrypted data in case of data loss or reinstallation of your operating system, browser or this web extension.
+          {l10n.map.keybackup_backup_description}
         </p>
         <Alert type="warning" header={l10n.map.alert_header_important}>
-          Store it securely in a safe location, for example, on a USB drive or in a password manager.
+          {l10n.map.keybackup_backup_store_location}
         </Alert>
         <div className="form-inline form-group">
           <label htmlFor="fileName" className="my-1">{l10n.map.key_export_filename}</label>
