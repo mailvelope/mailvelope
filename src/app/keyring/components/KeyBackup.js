@@ -64,7 +64,6 @@ KeyDetails.propTypes = {
  * }} props
  */
 function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
-  /** @type {[KeyDetailsProps, React.Dispatch<React.SetStateAction<KeyDetailsProps>>]} */
   const [keyDetails, setKeyDetails] = React.useState(null);
   const [keyExported, setKeyExported] = React.useState(false);
   const [fileInfo, setFileInfo] = React.useState({name: 'backup.asc', url: '', sizeStr: 'unknown size'});
