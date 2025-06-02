@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 import Alert from '../../../components/util/Alert';
 import * as l10n from '../../../lib/l10n';
@@ -40,6 +40,19 @@ function KeyDetails({type, name, email, keyId}) {
     </>
   );
 }
+/**
+ * @typedef {Object} KeyDetailsProps
+ * @property {'public' | 'key-pair'} type
+ * @property {string} name
+ * @property {string} email
+ * @property {string} keyId
+ */
+KeyDetails.propTypes = {
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  keyId: PropTypes.string.isRequired,
+};
 
 /**
  * @param {{
@@ -51,14 +64,10 @@ function KeyDetails({type, name, email, keyId}) {
  * }} props
  */
 function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
-  const fileURLRef = useRef('');
-  const exportLinkRef = useRef(null);
   /** @type {[KeyDetailsProps, React.Dispatch<React.SetStateAction<KeyDetailsProps>>]} */
   const [keyDetails, setKeyDetails] = React.useState(null);
   const [keyExported, setKeyExported] = React.useState(false);
-
-  const fileName = useRef('backup.asc');
-  const fileSizeStr = useRef('unknown size'); // will be updated after fetching the key
+  const [fileInfo, setFileInfo] = React.useState({name: 'backup.asc', url: '', sizeStr: 'unknown size'});
 
   useEffect(() => {
     if (isOpen && keyFpr && keyringId) {
@@ -85,16 +94,18 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
             email: userEmail,
             keyId,
           });
-
-          fileName.current = `${userEmail}-backup.asc`;
-
+          const fileName = `${userEmail}-backup.asc`;
           const file = new File(
             [armoredExport],
-            fileName.current,
+            fileName,
             {type: 'application/pgp-keys'}
           );
-          fileSizeStr.current = getFileSize(file.size);
-          fileURLRef.current = window.URL.createObjectURL(file);
+          const fileURLRef = window.URL.createObjectURL(file);
+          setFileInfo({
+            name: fileName,
+            url: fileURLRef,
+            sizeStr: getFileSize(file.size)
+          });
         } catch (error) {
           console.error('Failed to fetch armored keys:', error);
         }
@@ -103,12 +114,14 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
     }
 
     return () => {
-      if (fileURLRef.current) {
-        window.URL.revokeObjectURL(fileURLRef.current);
-        fileURLRef.current = '';
+      // Cleanup: revoke the object URL if it exists
+      if (fileInfo.url) {
+        window.URL.revokeObjectURL(fileInfo.url);
       }
     };
-  }, [isOpen, keyId, keyFpr, keyringId, fileName]);
+  // we don't want to have `fileInfo` in the dependency array since it would cause the effect to run again
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, keyId, keyFpr, keyringId]);
 
   return (
     <Modal
@@ -120,7 +133,7 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
         {l10n.map.keybackup_restore_dialog_headline}
       </ModalHeader>
       <ModalBody>
-        {keyDetails && <KeyDetails type={keyDetails.type} name={keyDetails.name} email={keyDetails.email} keyId={keyDetails.keyId} />}
+        {keyDetails && <KeyDetails {...keyDetails} />}
         <p>
           {l10n.map.keybackup_backup_description}
         </p>
@@ -129,9 +142,9 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
         </Alert>
         <div className="form-inline form-group">
           <label htmlFor="fileName" className="my-1">{l10n.map.key_export_filename}</label>
-          <input id="fileName" type="text" value={fileName.current} disabled className="form-control flex-grow-1 mx-sm-2" />
+          <input id="fileName" type="text" value={fileInfo.name} disabled className="form-control flex-grow-1 mx-sm-2" />
           <small className="text-muted">
-            {fileSizeStr.current}
+            {fileInfo.sizeStr}
           </small>
         </div>
       </ModalBody>
@@ -142,9 +155,8 @@ function KeyBackup({isOpen, keyId, keyFpr, keyringId, onClose}) {
           </Button>
           <a
             className="btn btn-primary"
-            download={fileName.current}
-            href={fileURLRef.current}
-            ref={exportLinkRef}
+            download={fileInfo.name}
+            href={fileInfo.url}
             role="button"
             onClick={() => {
               setKeyExported(true);
@@ -162,20 +174,6 @@ KeyBackup.propTypes = {
   keyFpr: PropTypes.string.isRequired,
   keyringId: PropTypes.string.isRequired,
   onClose: PropTypes.func,
-};
-
-/**
- * @typedef {Object} KeyDetailsProps
- * @property {'public' | 'key-pair'} type
- * @property {string} name
- * @property {string} email
- * @property {string} keyId
- */
-KeyDetails.propTypes = {
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  keyId: PropTypes.string.isRequired,
 };
 
 export default KeyBackup;
