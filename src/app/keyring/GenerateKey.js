@@ -65,7 +65,7 @@ export default class GenerateKey extends React.Component {
       errors: {}, // form errors
       key: null, // generated key
       modified: false,
-      backupModalVisible: false, // backup modal visibility
+      backupModalVisible: false
     };
   }
 
