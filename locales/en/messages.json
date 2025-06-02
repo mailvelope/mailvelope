@@ -1125,11 +1125,11 @@
   },
   "keybackup_backup_store_location": {
     "description": "A hint how to store the key.",
-    "message": "Store it securely in a safe location, for example, on a USB drive or in a password manager."
+    "message": "Store the backup securely in a safe location, for example, on a USB drive or in a password manager."
   },
   "keybackup_backup_description": {
     "description": "A hint about the importance of a private key backup.",
-    "message": "A private key backup is essential for recovering your encrypted data in case of data loss or reinstallation of your operating system, browser or this web extension."
+    "message": "A private key backup is essential for recovering your encrypted data in case of data loss or reinstallation of your operating system, browser or this browser extension."
   },
   "keydetails_change_exp_date_dialog_note": {
     "description": "Important note in change expiration date dialog.",

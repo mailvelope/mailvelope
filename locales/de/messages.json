@@ -1123,11 +1123,11 @@
   },
   "keybackup_backup_store_location": {
     "description": "A hint how to store the key.",
-    "message": "Bewahren Sie sie an einem sicheren Ort auf, z. B. auf einem USB-Stick oder in einem Passwortmanager."
+    "message": "Bewahren Sie das Backup an einem sicheren Ort auf, z. B. auf einem USB-Stick oder in einem Passwortmanager."
   },
   "keybackup_backup_description": {
     "description": "A hint about the importance of a private key backup.",
-    "message": "Ein Backup des privaten Schlüssels ist unerlässlich, um Ihre verschlüsselten Daten im Falle eines Datenverlusts oder einer Neuinstallation Ihres Betriebssystems, Browsers oder dieser Web-Erweiterung wiederherzustellen."
+    "message": "Ein Backup des privaten Schlüssels ist unerlässlich, um Ihre verschlüsselten Daten im Falle eines Datenverlusts oder einer Neuinstallation Ihres Betriebssystems, Browsers oder dieser Browser Erweiterung wiederherzustellen."
   },
   "keydetails_change_exp_date_dialog_note": {
     "description": "Important note in change expiration date dialog.",
