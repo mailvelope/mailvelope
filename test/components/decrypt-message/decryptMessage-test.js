@@ -1,38 +1,13 @@
 import React from 'react';
 import {render, screen, act, expect, sinon} from 'test';
 import * as l10n from 'lib/l10n';
-import EventHandler from 'lib/EventHandler';
+import {createMockPort} from '../../utils';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';
 
 l10n.mapToLocal();
 
 describe('Decrypt Message tests', () => {
   const sandbox = sinon.createSandbox();
-
-  const mockPort = () => {
-    const portMock = {
-      _events: {
-        emit: [],
-        on: [],
-        send: []
-      },
-      on: event => portMock._events.on.push(event),
-      emit: event => portMock._events.emit.push(event),
-      send: event => {
-        portMock._events.send.push(event);
-        return new Promise(resolve => {
-          resolve(event);
-        });
-      },
-      onConnect: {
-        addListener() {}
-      },
-      onDisconnect: {
-        addListener() {}
-      }
-    };
-    sandbox.stub(EventHandler, 'connect').returns(portMock);
-  };
 
   const setup = () => {
     const props = {
@@ -48,7 +23,7 @@ describe('Decrypt Message tests', () => {
   };
 
   beforeEach(() => {
-    mockPort();
+    createMockPort(sandbox);
   });
 
   afterEach(() => {

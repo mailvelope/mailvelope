@@ -1,29 +1,10 @@
 import React from 'react';
 import {render, screen, fireEvent, waitFor, expect, sinon, act} from 'test';
-import EventHandler from 'lib/EventHandler';
 import ActionMenuWrapper from 'components/action-menu/components/ActionMenuWrapper';
+import {createMockPort} from '../../../utils';
 
 describe('Action Menu tests', () => {
   const sandbox = sinon.createSandbox();
-
-  const mockPort = () => {
-    const portMock = {
-      _events: {
-        emit: [],
-        on: [],
-        send: []
-      },
-      on: event => portMock._events.on.push(event),
-      emit: event => portMock._events.emit.push(event),
-      send: event => {
-        portMock._events.send.push(event);
-        return new Promise(resolve => {
-          resolve(event === 'get-is-setup-done' ? {isSetupDone: true} : event);
-        });
-      }
-    };
-    sandbox.stub(EventHandler, 'connect').returns(portMock);
-  };
 
   const setup = () => {
     const ref = React.createRef();
@@ -35,7 +16,8 @@ describe('Action Menu tests', () => {
   };
 
   beforeEach(() => {
-    mockPort();
+    // Configure specific response for the get-is-setup-done event
+    createMockPort(sandbox, {'get-is-setup-done': {isSetupDone: true}});
   });
 
   afterEach(() => {

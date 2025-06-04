@@ -1,3 +1,4 @@
+import EventHandler from 'lib/EventHandler';
 
 export class Port {
   constructor(name) {
@@ -46,4 +47,47 @@ export class LocalStorageStub {
   remove(key) {
     return Promise.resolve(this.storage.delete(key));
   }
+}
+
+/**
+ * Creates a mock port for testing components that use EventHandler.connect
+ * @param {Object} sandbox - Sinon sandbox for stubbing
+ * @param {Object} sendResponseMap - Optional map of event -> response for send method
+ * @param {Object} options - Additional options
+ * @param {boolean} options.includeConnectListeners - Whether to include onConnect/onDisconnect (default: true)
+ * @returns {Object} The mock port object
+ */
+export function createMockPort(sandbox, sendResponseMap = {}, options = {}) {
+  const {includeConnectListeners = true} = options;
+
+  const portMock = {
+    _events: {
+      emit: [],
+      on: [],
+      send: []
+    },
+    on: event => portMock._events.on.push(event),
+    emit: event => portMock._events.emit.push(event),
+    send: event => {
+      portMock._events.send.push(event);
+      return new Promise(resolve => {
+        // Check if there's a specific response configured for this event
+        const response = sendResponseMap[event];
+        resolve(response !== undefined ? response : event);
+      });
+    }
+  };
+
+  // Add connect/disconnect listeners if needed (used by some components)
+  if (includeConnectListeners) {
+    portMock.onConnect = {
+      addListener() {}
+    };
+    portMock.onDisconnect = {
+      addListener() {}
+    };
+  }
+
+  sandbox.stub(EventHandler, 'connect').returns(portMock);
+  return portMock;
 }

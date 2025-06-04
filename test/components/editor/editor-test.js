@@ -1,9 +1,7 @@
 import React from 'react';
-import {render, screen, act, expect, sinon, waitFor, fireEvent} from 'test';
-import EventHandler from 'lib/EventHandler';
+import {render, act, expect, sinon, waitFor, fireEvent} from 'test';
 import * as l10n from 'lib/l10n';
-import EditorModalFooter from 'components/editor/components/EditorModalFooter';
-import PlainText from 'components/editor/components/PlainText';
+import {createMockPort} from '../../utils';
 import Editor from 'components/editor/editor';
 
 l10n.mapToLocal();
@@ -12,30 +10,6 @@ describe('Editor tests', () => {
   const sandbox = sinon.createSandbox();
 
   const RecipientInputMock = () => <div />;
-  const mockPort = () => {
-    const portMock = {
-      _events: {
-        emit: [],
-        on: [],
-        send: []
-      },
-      on: event => portMock._events.on.push(event),
-      emit: event => portMock._events.emit.push(event),
-      send: event => {
-        portMock._events.send.push(event);
-        return new Promise(resolve => {
-          resolve(event);
-        });
-      },
-      onConnect: {
-        addListener() {}
-      },
-      onDisconnect: {
-        addListener() {}
-      }
-    };
-    sandbox.stub(EventHandler, 'connect').returns(portMock);
-  };
 
   const setup = () => {
     const props = {
@@ -53,7 +27,7 @@ describe('Editor tests', () => {
 
   beforeEach(() => {
     Editor.__Rewire__('RecipientInput', RecipientInputMock);
-    mockPort();
+    createMockPort(sandbox);
   });
 
   afterEach(() => {

@@ -1,34 +1,13 @@
 import React from 'react';
 import {render, screen, waitFor, expect, sinon, act} from 'test';
-import EventHandler from 'lib/EventHandler';
 import * as l10n from 'lib/l10n';
-import Spinner from 'components/util/Spinner';
-import Alert from 'components/util/Alert';
+import {createMockPort} from '../../utils';
 import EncryptedForm from 'components/encrypted-form/encryptedForm';
 
 l10n.mapToLocal();
 
 describe('Encrypt Form tests', () => {
   const sandbox = sinon.createSandbox();
-
-  const mockPort = () => {
-    const portMock = {
-      _events: {
-        emit: [],
-        on: [],
-        send: []
-      },
-      on: event => portMock._events.on.push(event),
-      emit: event => portMock._events.emit.push(event),
-      send: event => {
-        portMock._events.send.push(event);
-        return new Promise(resolve => {
-          resolve(event);
-        });
-      }
-    };
-    sandbox.stub(EventHandler, 'connect').returns(portMock);
-  };
 
   const setup = () => {
     const props = {
@@ -45,7 +24,7 @@ describe('Encrypt Form tests', () => {
   };
 
   beforeEach(() => {
-    mockPort();
+    createMockPort(sandbox);
   });
 
   afterEach(() => {
