@@ -1123,6 +1123,14 @@
         "message": "Створення резервної копії!",
         "description": ""
     },
+      "keybackup_backup_store_location": {
+      "description": "A hint how to store the key.",
+      "message": "Збережіть ключ в надійному місці, наприклад, на USB-накопичувачі або в менеджері паролів."
+    },
+    "keybackup_backup_description": {
+      "description": "A hint about the importance of a private key backup.",
+      "message": "Резервна копія приватного ключа є важливою для відновлення ваших зашифрованих даних у разі втрати даних, перевстановлення операційної системи, браузера або цього розширення."
+    },
     "keydetails_change_exp_date_dialog_note": {
         "message": "Термін дії також змінено для всіх підключів. Недійсні підключі або підключі, термін дії яких уже закінчився, залишаються незмінними.",
         "description": "Important note in change expiration date dialog."
