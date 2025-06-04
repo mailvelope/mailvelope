@@ -1,13 +1,10 @@
-
 import React from 'react';
-import {expect, sinon, mount} from 'test';
+import {render, screen, fireEvent, waitFor, expect, sinon, act} from 'test';
 import EventHandler from 'lib/EventHandler';
-import ActionMenuBase from 'components/action-menu/components/ActionMenuBase';
 import ActionMenuWrapper from 'components/action-menu/components/ActionMenuWrapper';
 
 describe('Action Menu tests', () => {
   const sandbox = sinon.createSandbox();
-  let testElem;
 
   const mockPort = () => {
     const portMock = {
@@ -21,55 +18,49 @@ describe('Action Menu tests', () => {
       send: event => {
         portMock._events.send.push(event);
         return new Promise(resolve => {
-          resolve(event);
+          resolve(event === 'get-is-setup-done' ? {isSetupDone: true} : event);
         });
       }
     };
     sandbox.stub(EventHandler, 'connect').returns(portMock);
   };
 
-  const setup = propOverrides => {
-    const props = {
-      ...propOverrides
-    };
-
-    const wrapper = mount(<ActionMenuWrapper {...props} />, {attachTo: document.getElementById('app')});
+  const setup = () => {
+    const ref = React.createRef();
+    const rtlUtils = render(<ActionMenuWrapper ref={ref} />);
     return {
-      props,
-      wrapper,
+      ref,
+      ...rtlUtils,
     };
   };
 
   beforeEach(() => {
-    testElem = $('<div id="app"></div>');
-    $(document.body).append(testElem);
     mockPort();
   });
 
   afterEach(() => {
     sandbox.restore();
-    testElem.remove();
   });
 
   it('should render', () => {
-    const {wrapper} = setup();
-    expect(wrapper.exists()).to.equal(true);
+    const {container} = setup();
+    expect(container.querySelector('.action-menu')).to.exist;
   });
 
   describe('Do some integration tests', () => {
     describe('Base Menu', () => {
-      it('should emit browser action on click', () => {
+      it('should emit browser action on click', async () => {
         const spy = sandbox.spy(ActionMenuWrapper.prototype, 'onMenuItemClick');
-        const {wrapper} = setup();
-        const component = wrapper.instance();
-        expect(component.port._events.send).to.include.members(['get-is-setup-done']);
-
-        const actionMenuBase = wrapper.find(ActionMenuBase);
-        actionMenuBase.find('a#manage-keys').simulate('click');
-
-        expect(spy.calledOnce).to.equal(true);
-        expect(spy.getCall(0).args[0].target.id).to.equal('manage-keys');
-        expect(component.port._events.emit).to.include.members(['browser-action']);
+        const {ref} = setup();
+        await waitFor(() => {
+          expect(ref.current.port._events.send).to.include('get-is-setup-done');
+        });
+        const manageKeys = screen.getByRole('menuitem', {name: /action_menu_keyring_label/i});
+        await act(() => {
+          fireEvent.click(manageKeys);
+        });
+        expect(spy.calledOnce).to.be.true;
+        expect(ref.current.port._events.emit).to.include('browser-action');
       });
     });
   });

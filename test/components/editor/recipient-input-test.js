@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow, sinon, expect} from 'test';
+import {render, expect, sinon} from 'test';
 import {RecipientInput} from 'components/editor/components/RecipientInput';
 
 describe('RecipientInput component', () => {
@@ -18,8 +18,8 @@ describe('RecipientInput component', () => {
 
   describe('initial state', () => {
     it('should render without errors', () => {
-      const wrapper = shallow(<RecipientInput {...props} />);
-      expect(wrapper.exists()).to.be.true;
+      const {container} = render(<RecipientInput {...props} />);
+      expect(container.firstChild).to.exist;
     });
   });
 });

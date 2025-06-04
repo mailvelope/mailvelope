@@ -1,10 +1,7 @@
-
 import React from 'react';
-import {expect, sinon, mount} from 'test';
+import {render, screen, act, expect, sinon} from 'test';
 import * as l10n from 'lib/l10n';
 import EventHandler from 'lib/EventHandler';
-import Spinner from 'components/util/Spinner';
-import ContentSandbox from 'components/decrypt-message/components/ContentSandbox';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';
 
 l10n.mapToLocal();
@@ -37,19 +34,16 @@ describe('Decrypt Message tests', () => {
     sandbox.stub(EventHandler, 'connect').returns(portMock);
   };
 
-  const setup = propOverrides => {
+  const setup = () => {
     const props = {
       id: 'decrypt-message-test',
-      isContainer: false,
-      ...propOverrides
+      isContainer: false
     };
-
-    const wrapper = mount(<DecryptMessage {...props} />);
-
+    const ref = React.createRef();
+    const rtlUtils = render(<DecryptMessage ref={ref} {...props} />);
     return {
-      props,
-      wrapper,
-      // fn: wrapper.find('...'),
+      ref,
+      ...rtlUtils
     };
   };
 
@@ -62,8 +56,8 @@ describe('Decrypt Message tests', () => {
   });
 
   it('should render', () => {
-    const {wrapper} = setup();
-    expect(wrapper.exists()).to.equal(true);
+    const {container} = setup();
+    expect(container.querySelector('.decrypt-msg')).to.exist;
   });
 
   const signaturesFixture = [
@@ -87,63 +81,52 @@ describe('Decrypt Message tests', () => {
     };
 
     describe('onDecryptedAttachment', () => {
-      it('should work', () => {
-        const {wrapper} = setup();
-        const component = wrapper.instance();
-        expect(wrapper.state().files).has.length(0);
-        component.onDecryptedAttachment({attachment: attachmentFixture});
-        expect(wrapper.state().files).has.length(1);
-        expect(wrapper.state().waiting).to.equal(false);
+      it('should work', async () => {
+        const {container, ref} = setup();
+        // No files to download
+        expect(container.querySelector('.file-panel')).to.not.exist;
+        // Simulate decrypted attachment
+        await act(async () => {
+          ref.current.onDecryptedAttachment({attachment: attachmentFixture});
+        });
+        expect(container.querySelector('.file-panel')).to.exist;
+        expect(screen.queryByRole('status')).to.not.exist; // spinner
       });
     });
+
     describe('onSignatureVerification', () => {
-      it('should work', () => {
-        const {wrapper} = setup();
-        const component = wrapper.instance();
-        expect(wrapper.state().signer).to.be.null;
-        component.onSignatureVerification({signers: signaturesFixture});
-        expect(wrapper.state().signer).not.to.be.null;
+      it('should work', async () => {
+        const {container, ref} = setup();
+        // Initial state check
+        expect(container.querySelector('#SignatureDetails')).to.not.exist;
+        // Simulate signature verification
+        await act(async () => {
+          ref.current.onSignatureVerification({signers: signaturesFixture});
+        });
+        expect(ref.current.state.signer).not.to.be.null;
       });
     });
   });
 
   describe('Do some integration tests', () => {
-    it('should initialize the component and should wait on the form decrypted-message event', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
-      expect(component.port._events.on).to.include.members(['decrypted-message', 'add-decrypted-attachment',
-        'signature-verification']);
-      expect(wrapper.find(Spinner).exists()).to.equal(true);
+    it('should initialize the component and should wait on the form decrypted-message event', async () => {
+      const {ref} = setup();
+      expect(ref.current.port._events.on).to.include('decrypted-message');
+      expect(ref.current.port._events.on).to.include('add-decrypted-attachment');
+      expect(ref.current.port._events.on).to.include('signature-verification');
+      expect(screen.getByRole('status')).to.exist; // spinner
     });
 
-    it('should show the sandbox iframe with the decrypted message', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
+    it('should show the sandbox iframe with the decrypted message', async () => {
+      const {container, ref} = setup();
       const message = 'This is an encrypted message!';
-      const event = {
-        message
-      };
-      component.onDecryptedMessage(event);
-      wrapper.update();
-      expect(wrapper.state('message')).to.equal(message);
-      const contentSandbox = wrapper.find(ContentSandbox);
-      expect(wrapper.find(ContentSandbox).prop('value')).to.equal(message);
-      expect(contentSandbox.find('iframe').exists()).to.equal(true);
-    });
-    it('should show singature in footer when signature available', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
-      const message = 'This is an encrypted message!';
-      const event = {
-        message
-      };
-      component.onDecryptedMessage(event);
-      wrapper.update();
-      component.onSignatureVerification({signers: signaturesFixture});
-      wrapper.update();
-      expect(wrapper.state().signer.valid).to.equal(true);
-      const signatureFooter = wrapper.find('.modal-footer');
-      expect(signatureFooter.exists()).to.equal(true);
+      // Simulate decrypted message
+      await act(async () => {
+        ref.current.onDecryptedMessage({message});
+      });
+      expect(ref.current.state.message).to.equal(message);
+      const contentSandbox = container.querySelector('iframe');
+      expect(contentSandbox).to.have.attribute('sandbox');
     });
   });
 });

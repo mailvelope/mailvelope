@@ -1,6 +1,5 @@
-
 import React from 'react';
-import {expect, sinon, mount} from 'test';
+import {render, screen, act, expect, sinon, waitFor, fireEvent} from 'test';
 import EventHandler from 'lib/EventHandler';
 import * as l10n from 'lib/l10n';
 import EditorModalFooter from 'components/editor/components/EditorModalFooter';
@@ -38,18 +37,17 @@ describe('Editor tests', () => {
     sandbox.stub(EventHandler, 'connect').returns(portMock);
   };
 
-  const setup = propOverrides => {
+  const setup = () => {
     const props = {
-      id: 'editor-test',
-      ...propOverrides
+      id: 'editor-test'
     };
 
-    const wrapper = mount(<Editor {...props} />);
+    const ref = React.createRef();
+    const rtlUtils = render(<Editor ref={ref} {...props} />);
 
     return {
-      props,
-      wrapper,
-      // fn: wrapper.find('...'),
+      ref,
+      ...rtlUtils,
     };
   };
 
@@ -65,63 +63,108 @@ describe('Editor tests', () => {
   });
 
   it('should render', () => {
-    const {wrapper} = setup();
-    expect(wrapper.exists()).to.equal(true);
-  });
-
-  describe('Do some unit tests', () => {
-
+    const {container} = setup();
+    expect(container.querySelector('.editor')).to.exist;
   });
 
   describe('Do some integration tests', () => {
-    it('should initialize the component with the given default text', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
-      component.onSetInitData({text: 'This is a sample text!', signMsg: true, defaultKeyFpr: '9acdfd634605bc0a0b18d518e38cca58286fefe6', privKeys: [{type: 'private', validity: true, keyId: 'E47CCA58286FEFE6', fingerprint: '9acdfd634605bc0a0b18d518e38cca58286fefe6', userId: 'Max Mustermann <max.muster@mann.com>', name: 'Max Mustermann', email: 'max.muster@mann.com', exDate: false, crDate: '2018-10-11T15:45:00.000Z', algorithm: 'RSA (Encrypt or Sign)', bitLength: 4096}]});
-      expect(wrapper.state().signKey).to.equal('9acdfd634605bc0a0b18d518e38cca58286fefe6');
-      wrapper.update();
-      const plainText = wrapper.find(PlainText);
-      expect(plainText.props().defaultValue).to.equal('This is a sample text!');
+    it('should initialize the component with the given default text', async () => {
+      const {container, ref} = setup();
+
+      await act(async () => {
+        ref.current.onSetInitData({
+          text: 'This is a sample text!',
+          signMsg: true,
+          defaultKeyFpr: '9acdfd634605bc0a0b18d518e38cca58286fefe6',
+          privKeys: [{
+            type: 'private',
+            validity: true,
+            keyId: 'E47CCA58286FEFE6',
+            fingerprint: '9acdfd634605bc0a0b18d518e38cca58286fefe6',
+            userId: 'Max Mustermann <max.muster@mann.com>',
+            name: 'Max Mustermann',
+            email: 'max.muster@mann.com',
+            exDate: false,
+            crDate: '2018-10-11T15:45:00.000Z',
+            algorithm: 'RSA (Encrypt or Sign)',
+            bitLength: 4096
+          }]
+        });
+      });
+
+      expect(ref.current.state.signKey).to.equal('9acdfd634605bc0a0b18d518e38cca58286fefe6');
+
+      // Check for the PlainText iframe instead of direct textarea access
+      const plainTextIframe = container.querySelector('.plain-text iframe');
+      expect(plainTextIframe).to.exist;
+      expect(ref.current.state.defaultPlainText).to.equal('This is a sample text!');
     });
 
-    it('should show editor in embedded mode', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
-      component.onSetMode({embedded: true, integration: false});
-      wrapper.update();
-      expect(wrapper.find('.embedded').exists()).to.equal(true);
+    it('should show editor in embedded mode', async () => {
+      const {container, ref} = setup();
+
+      await act(async () => {
+        ref.current.onSetMode({embedded: true, integration: false});
+      });
+
+      expect(container.querySelector('.embedded')).to.exist;
     });
 
-    it('should show error notification when decrypt failed', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
-      component.hideNotification = () => false;
-      component.onDecryptFailed({error: {message: 'Error message!'}});
-      wrapper.update();
-      expect(wrapper.find('Toast').first().props().children).to.equal('Error message!');
+    it('should show error notification when decrypt failed', async () => {
+      const {container, ref} = setup();
+      ref.current.hideNotification = () => false;
+
+      await act(async () => {
+        ref.current.onDecryptFailed({error: {message: 'Error message!'}});
+      });
+
+      // Wait for the notification to appear and check the Toast structure
+      await waitFor(() => {
+        const toastWrapper = container.querySelector('.toastWrapper');
+        expect(toastWrapper).to.exist;
+        const toastContent = toastWrapper.textContent;
+        expect(toastContent).to.include('Error message!');
+      });
     });
 
-    /* test shows side effects and has to be fixed */
-    it.skip('should call addAttachment for each file upload', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
-      const spy = sandbox.spy(component, 'addAttachment');
+    it('should call addAttachment for each file upload', async () => {
+      const {container, ref} = setup();
+
+      // Set the editor to embedded mode so the FileUpload component is visible
+      await act(async () => {
+        ref.current.onSetMode({embedded: true, integration: false});
+      });
+
+      // Create spy after the component is in the right mode
+      const spy = sandbox.spy(ref.current, 'addAttachment');
 
       const files = [
         new Blob(['sampleFile1'], {type: 'text/plain'}),
         new Blob(['sampleFile2'], {type: 'text/plain'})
       ];
 
-      // const stub = sandbox.stub(FileReader.prototype, 'readAsDataURL');
-      // stub.callsFake(function() {
-      //   this.onload({target: {result: files[0]}});
-      // });
+      // Set File constructor properties for the blobs to make them behave like File objects
+      Object.defineProperty(files[0], 'name', {value: 'file1.txt', writable: false});
+      Object.defineProperty(files[1], 'name', {value: 'file2.txt', writable: false});
 
-      const footer = wrapper.find(EditorModalFooter);
-      footer.find('input').simulate('change', {target: {files}});
+      const fileInput = container.querySelector('input[type="file"]');
+      expect(fileInput).to.exist;
 
-      expect(spy.calledTwice).to.equal(true);
-      expect(spy.withArgs(files[0]).calledWith(files[1])).to.equal(true);
+      // Use fireEvent to properly simulate file input change
+      await act(async () => {
+        Object.defineProperty(fileInput, 'files', {
+          value: files,
+          writable: false,
+        });
+        fireEvent.change(fileInput);
+      });
+
+      // Wait for async file processing to complete
+      await waitFor(() => {
+        expect(spy.calledTwice).to.equal(true);
+        expect(spy.getCall(0).args[0]).to.equal(files[0]);
+        expect(spy.getCall(1).args[0]).to.equal(files[1]);
+      });
     });
   });
 });

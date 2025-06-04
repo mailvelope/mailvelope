@@ -28,7 +28,7 @@ export default class Spinner extends React.Component {
 
   render() {
     return (
-      <div className={`m-spinner-${this.props.fullscreen ? 'fullscreen' : 'inline'} ${this.state.hide ? 'hide' : ''}`} style={this.props.style}>
+      <div className={`m-spinner-${this.props.fullscreen ? 'fullscreen' : 'inline'} ${this.state.hide ? 'hide' : ''}`} style={this.props.style} role="status">
         <div className="symbol">
           <div className="bounce1"></div><div className="bounce2"></div>
         </div>

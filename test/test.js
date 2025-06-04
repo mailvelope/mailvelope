@@ -1,14 +1,18 @@
 import sinon from 'sinon';
 import chai, {expect} from 'chai';
-import Adapter from 'enzyme-adapter-react-16';
-import chaiEnzyme from 'chai-enzyme';
 import chaiAsPromised from 'chai-as-promised';
+import chaiDom from 'chai-dom';
 
-import {configure} from 'enzyme';
+import {configure as configureRTL, render, screen, fireEvent, waitFor, act} from '@testing-library/react';
 
-chai.use(chaiEnzyme());
 chai.use(chaiAsPromised);
-configure({adapter: new Adapter()});
+chai.use(chaiDom);
+
+// Configure RTL to use custom test id attribute
+configureRTL({
+  testIdAttribute: 'data-testid'
+});
 
 export {expect, sinon};
-export * from 'enzyme';
+// Export React Testing Library methods
+export {render, screen, fireEvent, waitFor, act};

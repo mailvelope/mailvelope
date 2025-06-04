@@ -1,6 +1,5 @@
-
 import React from 'react';
-import {expect, sinon, mount} from 'test';
+import {render, screen, waitFor, expect, sinon, act} from 'test';
 import EventHandler from 'lib/EventHandler';
 import * as l10n from 'lib/l10n';
 import Spinner from 'components/util/Spinner';
@@ -31,17 +30,17 @@ describe('Encrypt Form tests', () => {
     sandbox.stub(EventHandler, 'connect').returns(portMock);
   };
 
-  const setup = propOverrides => {
+  const setup = () => {
     const props = {
-      id: 'encrypted-form-test',
-      ...propOverrides
+      id: 'encrypted-form-test'
     };
 
-    const wrapper = mount(<EncryptedForm {...props} />);
+    const ref = React.createRef();
+    const rtlUtils = render(<EncryptedForm ref={ref} {...props} />);
 
     return {
-      props,
-      wrapper,
+      ref,
+      ...rtlUtils,
     };
   };
 
@@ -53,24 +52,33 @@ describe('Encrypt Form tests', () => {
     sandbox.restore();
   });
 
-  it('should render', () => {
-    const {wrapper} = setup();
-    expect(wrapper.exists()).to.equal(true);
+  it('should render', async () => {
+    const {container} = setup();
+    // Check that the render completed successfully
+    // The modal might be rendered in a portal outside the container
+    await waitFor(() => {
+      // Check that something was rendered
+      expect(container).to.exist;
+      // The modal is likely in a portal, so just verify the component structure exists
+      expect(document.body.querySelector('.modal')).to.exist;
+    });
   });
 
   describe('Do some integration tests', () => {
-    it('should initialize the component and should wait on the form definition event', () => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
-      expect(component.port._events.on).to.include.members(['encrypted-form-definition', 'error-message',
-        'terminate', 'encrypted-form-submit', 'encrypted-form-submit-cancel']);
-      expect(component.port._events.emit).to.include.members(['encrypted-form-init']);
-      expect(wrapper.find(Spinner).exists()).to.equal(true);
+    it('should initialize the component and should wait on the form definition event', async () => {
+      const {ref} = setup();
+
+      expect(ref.current.port._events.on).to.include('encrypted-form-definition');
+      expect(ref.current.port._events.on).to.include('error-message');
+      expect(ref.current.port._events.on).to.include('terminate');
+      expect(ref.current.port._events.on).to.include('encrypted-form-submit');
+      expect(ref.current.port._events.on).to.include('encrypted-form-submit-cancel');
+      expect(ref.current.port._events.emit).to.include('encrypted-form-init');
+      expect(screen.getByRole('status')).to.exist; // spinner
     });
 
-    it('should show the sandbox form component and the form materials', done  => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
+    it('should show the sandbox form component and the form materials', async () => {
+      const {container, ref} = setup();
       const event = {
         formDefinition: '<form class="needs-validation" data-recipient="test@mailvelope.com" data-action="https://demo.mailvelope.com/form/"><div class="form-group"><label for="validationCustomSimple">How are you?</label><div class="input-group"><input class="form-control" value="cofveve" name="validationCustomSimple" required="" type="text" id="validationCustomSimple"><div class="invalid-feedback">Please say something?</div></div></div></form>',
         formEncoding: 'html',
@@ -78,29 +86,35 @@ describe('Encrypt Form tests', () => {
         formRecipient: 'test@mailvelope.com',
         recipientFpr: 'AA1E 0177 4BDF 7D76 A45B DC2D F11D B125 0C3C 3F1B'
       };
-      component.showForm(event);
-      setTimeout(() => {
-        wrapper.update();
-        expect(wrapper.find('iframe#formSandbox').exists()).to.equal(true);
-        expect(wrapper.find('.formWrapper').exists()).to.equal(true);
-        expect(wrapper.find('button.btn').exists()).to.equal(true);
-        done();
-      }, 300);
+
+      await act(async () => {
+        ref.current.showForm(event);
+      });
+
+      await waitFor(() => {
+        const formSandbox = container.querySelector('#formSandbox');
+        expect(formSandbox).to.exist;
+        const formWrapper = container.querySelector('.formWrapper');
+        expect(formWrapper).to.exist;
+        expect(screen.getByRole('button')).to.exist;
+      });
     });
-    it('should show error message on error-message event', done => {
-      const {wrapper} = setup();
-      const component = wrapper.instance();
+
+    it('should show error message on error-message event', async () => {
+      const {container, ref} = setup();
       const error = {
         message: 'Error message!'
       };
-      component.showErrorMsg(error);
-      setTimeout(() => {
-        wrapper.update();
-        const alert = wrapper.find(Alert);
-        expect(alert.exists()).to.equal(true);
-        expect(alert.text()).to.equal(error.message);
-        done();
-      }, 300);
+
+      await act(async () => {
+        ref.current.showErrorMsg(error);
+      });
+
+      await waitFor(() => {
+        const alert = container.querySelector('.alert');
+        expect(alert).to.exist;
+        expect(alert.textContent).to.include(error.message);
+      });
     });
   });
 });
