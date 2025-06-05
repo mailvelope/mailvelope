@@ -1,11 +1,13 @@
 import {expect} from 'test';
 import {LocalStorageStub} from 'utils';
 import mvelo from 'lib/lib-mvelo';
+import {init as initModel} from 'modules/pgpModel';
 import {init as initKeyring} from 'modules/keyring';
 import {initController} from 'controller/main.controller';
-import {setWatchList} from 'modules/prefs';
-import {prefs} from 'modules/prefs';
+import {setWatchList, prefs} from 'modules/prefs';
 import {testAutocryptHeaders} from 'Fixtures/headers';
+import {init as initClientAPI} from 'client-API/client-api';
+import {init as initClientAPIContentScript} from 'content-scripts/clientAPI';
 
 /* global mailvelope */
 describe('Mailvelope Client API', () => {
@@ -24,6 +26,9 @@ describe('Mailvelope Client API', () => {
       ]
     }]);
     initController();
+    await initModel();
+    initClientAPI();
+    initClientAPIContentScript();
   });
 
   beforeEach(async () => {
@@ -31,25 +36,24 @@ describe('Mailvelope Client API', () => {
     await initKeyring();
   });
 
-  describe('Handling keyrings', function() {
-    this.timeout(10000);
-    it.skip('can create a keyring', () =>
+  describe('Handling keyrings', () => {
+    it('can create a keyring', () =>
       expect(mailvelope.createKeyring('email@test.example')).to.eventually.be.ok);
 
-    it.skip('rejects getting keyring if there is none', () =>
+    it('rejects getting keyring if there is none', () =>
       expect(mailvelope.getKeyring('email@test.example')).to.be.rejected);
 
-    it.skip('rejects creating duplicate keyring', async () => {
+    it('rejects creating duplicate keyring', async () => {
       await mailvelope.createKeyring('existing@test.example');
       return expect(mailvelope.createKeyring('existing@test.example')).to.eventually.be.rejected;
     });
 
-    it.skip('can get a keyring', async () => {
+    it('can get a keyring', async () => {
       const existing_keyring = await mailvelope.createKeyring('existing@test.example');
       return expect(mailvelope.getKeyring('existing@test.example')).to.become(existing_keyring);
     });
 
-    it.skip('rejects getting keyring with wrong handle', async () => {
+    it('rejects getting keyring with wrong handle', async () => {
       await mailvelope.createKeyring('existing@test.example');
       return expect(mailvelope.getKeyring('email@test.example')).to.be.rejected;
     });
@@ -57,15 +61,15 @@ describe('Mailvelope Client API', () => {
 
   describe('Processing autocrypt', () => {
     let keyring;
-    prefs.keyserver = {
-      autocrypt_lookup: true
-    };
 
     beforeEach(async () => {
       keyring = await mailvelope.createKeyring('email@test.example');
     });
 
-    it.skip('processes Autocrypt header, stores key, and makes it available', async () => {
+    it('processes Autocrypt header, stores key, and makes it available', async () => {
+      prefs.keyserver = {
+        autocrypt_lookup: true
+      };
       const addr = testAutocryptHeaders.from;
       await keyring.processAutocryptHeader(testAutocryptHeaders);
       const result = await keyring.validKeyForAddress([addr]);

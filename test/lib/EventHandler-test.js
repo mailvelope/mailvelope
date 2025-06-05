@@ -14,9 +14,11 @@ describe('EventHandler unit tests', () => {
     let ctrl2;
 
     beforeEach(() => {
-      ctrl1 = new EventHandler(new Port('ctrl1'));
+      const port1 = Port.connect({name: 'foo-1'});
+      const port2 = port1._otherPort;
+      ctrl1 = new EventHandler(port1);
       sandbox.spy(ctrl1._port, 'postMessage');
-      ctrl2 = new EventHandler(new Port('ctrl2'));
+      ctrl2 = new EventHandler(port2);
       sandbox.spy(ctrl2._port, 'postMessage');
     });
 
@@ -26,32 +28,35 @@ describe('EventHandler unit tests', () => {
           expect(ctrl2._handlers).to.exist;
           expect(msg.data).to.equal('hello');
           expect(msg.event).to.equal('blub');
-          expect(ctrl1._port.postMessage.withArgs({event: 'blub', to: 'ctrl2', data: 'hello'}).calledOnce).to.be.true;
+          expect(ctrl1._port.postMessage.withArgs({event: 'blub', data: 'hello'}).calledOnce).to.be.true;
           expect(ctrl2._port.postMessage.called).to.be.false;
           done();
         });
 
-        ctrl1.emit('blub', {data: 'hello', to: 'ctrl2'});
+        ctrl1.emit('blub', {data: 'hello'});
       });
 
       it('should work with second port', done => {
         ctrl1.on('blub', () => {
           expect(ctrl1._port.postMessage.called).to.be.false;
-          expect(ctrl2._port.postMessage.withArgs({event: 'blub', to: 'ctrl1', data: 'hello'}).calledOnce).to.be.true;
+          expect(ctrl2._port.postMessage.withArgs({event: 'blub', data: 'hello'}).calledOnce).to.be.true;
           done();
         });
 
-        ctrl2.emit('blub', {data: 'hello', to: 'ctrl1'});
+        ctrl2.emit('blub', {data: 'hello'});
       });
 
-      it.skip('should log for unknown event', () => {
+      it('should log for unknown event', done => {
         sandbox.stub(console, 'log');
 
-        ctrl1.emit('unknown', {to: 'ctrl2'});
+        ctrl1.emit('unknown');
 
-        expect(console.log.calledOnce).to.be.true;
-        expect(ctrl1._port.postMessage.calledOnce).to.be.true;
-        expect(ctrl2._port.postMessage.called).to.be.false;
+        setTimeout(() => {
+          expect(console.log.calledOnce).to.be.true;
+          expect(ctrl1._port.postMessage.calledOnce).to.be.true;
+          expect(ctrl2._port.postMessage.called).to.be.false;
+          done();
+        }, 10);
       });
 
       it('should throw for invalid input', () => {
