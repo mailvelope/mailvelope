@@ -1,31 +1,112 @@
-# dependencies
-/node_modules
-bower_components
+# =====================================================
+# Mailvelope Browser Extension - .gitignore
+# =====================================================
 
-# testing
-/coverage
-/tmp
-.travis/crx_signing.pem
+# ─────────────────────────────────────────────────────
+# Dependencies
+# ─────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# build
-/build
+# ─────────────────────────────────────────────────────
+# Build & Distribution
+# ─────────────────────────────────────────────────────
+/build/
+/dist/
+/coverage/
+/tmp/
 apidoc/
-cert/
+
+# Extension packaging
+*.crx
+*.xpi
+*.zip
+
+# ─────────────────────────────────────────────────────
+# Development Tools & Cache
+# ─────────────────────────────────────────────────────
 .eslintcache
+.sass-cache/
+*.css.map
 
-# editors
-*.sublime*
-atlassian-ide-plugin.xml
-.idea/
+# ─────────────────────────────────────────────────────
+# Certificates & Security
+# ─────────────────────────────────────────────────────
+.build-tools/crx_signing.pem
+cert/
+*.pem
+*.key
 
-# fonts
-/src/res/fonts/TypeMates
+# ─────────────────────────────────────────────────────
+# Fonts & Licensed Assets
+# ─────────────────────────────────────────────────────
+/src/res/fonts/TypeMates/
 src/res/styles/fonts.css
 
-# misc
+# ─────────────────────────────────────────────────────
+# IDE & Editor Files
+# ─────────────────────────────────────────────────────
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Cursor
+.cursor/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# ─────────────────────────────────────────────────────
+# Operating System Files
+# ─────────────────────────────────────────────────────
+
+# macOS
 .DS_Store
-.svn
+._*
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+
+# Windows
+Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
 *~
 .directory
-mailvelope.iml
+.Trash-*
+
+# ─────────────────────────────────────────────────────
+# Runtime & Config
+# ─────────────────────────────────────────────────────
+.env*
 .npmrc
+
+# ─────────────────────────────────────────────────────
+# AI & Development Assistants
+# ─────────────────────────────────────────────────────
+.claude/
+
+# ─────────────────────────────────────────────────────
+# Logs & Temporary Files
+# ─────────────────────────────────────────────────────
+logs/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo

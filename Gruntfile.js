@@ -288,7 +288,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dist-edge', ['compress:edge']);
   grunt.registerTask('dist-src', ['compress:src']);
   grunt.registerTask('dist-crx', () => {
-    grunt.util.spawn({cmd: '.travis/crxmake.sh', args: ['build/chrome', '.travis/crx_signing.pem'], opts: {stdio: 'ignore'}});
+    grunt.util.spawn({cmd: '.build-tools/crxmake.sh', args: ['build/chrome', '.build-tools/crx_signing.pem'], opts: {stdio: 'ignore'}});
   });
   grunt.registerTask('dist-ff', ['shell:webex_build', 'shell:move_firefox_dist']);
   grunt.registerTask('dist-doc', ['jsdoc', 'compress:doc']);
