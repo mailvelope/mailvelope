@@ -5,7 +5,7 @@
 
 import mvelo from '../lib/lib-mvelo';
 import * as l10n from '../lib/l10n';
-import {getUUID, mapError} from '../lib/util';
+import {getUUID, mapError, normalizeArmored} from '../lib/util';
 import {DISPLAY_INLINE} from '../lib/constants';
 import {prefs} from '../modules/prefs';
 import {getKeyringWithPrivKey} from '../modules/keyring';
@@ -91,7 +91,13 @@ export default class DecryptController extends SubController {
     if (msg.keyringId ?? msg.allKeyrings) {
       this.keyringId = msg.keyringId;
     }
-    this.armored = msg.data;
+    // Normalize armored text to handle cases where PGP message block is not at the beginning
+    try {
+      this.armored = normalizeArmored(msg.data, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
+    } catch (error) {
+      // If normalization fails, fall back to original data
+      this.armored = msg.data;
+    }
     this.decryptReady.resolve();
     if (this.reconnect) {
       return;
