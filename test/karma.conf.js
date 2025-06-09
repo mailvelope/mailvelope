@@ -7,6 +7,10 @@ module.exports = function(config) {
   if (config.dev) {
     webpackConfig.devtool = 'inline-cheap-module-source-map';
   }
+  // Parse command line arguments
+  const args = process.argv.slice(2);
+  const grepIndex = args.indexOf('--grep');
+  const grepPattern = grepIndex !== -1 ? args[grepIndex + 1] : null;
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -91,6 +95,12 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: 1
+    concurrency: 1,
+    // forward grep pattern to mocha
+    client: {
+      mocha: {
+        grep: grepPattern
+      }
+    }
   });
 };

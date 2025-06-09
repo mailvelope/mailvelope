@@ -221,10 +221,18 @@ export class LocalStorageStub {
  * @param {Object} sendResponseMap - Optional map of event -> response for send method
  * @param {Object} options - Additional options
  * @param {boolean} options.includeConnectListeners - Whether to include onConnect/onDisconnect (default: true)
+ * @param {boolean} options.shouldFail - Whether all port operations should fail (default: false)
+ * @param {Array<string>} options.failingEvents - Specific events that should fail (default: [])
+ * @param {string} options.errorMessage - Custom error message for failures (default: 'Port communication failed')
  * @returns {Object} The mock port object
  */
 export function createMockPort(sandbox, sendResponseMap = {}, options = {}) {
-  const {includeConnectListeners = true} = options;
+  const {
+    includeConnectListeners = true,
+    shouldFail = false,
+    failingEvents = [],
+    errorMessage = 'Port communication failed'
+  } = options;
 
   const portMock = {
     _events: {
@@ -236,6 +244,12 @@ export function createMockPort(sandbox, sendResponseMap = {}, options = {}) {
     emit: event => portMock._events.emit.push(event),
     send: event => {
       portMock._events.send.push(event);
+
+      // Check if this specific event should fail
+      if (shouldFail || failingEvents.includes(event)) {
+        return Promise.reject(new Error(errorMessage));
+      }
+
       return new Promise(resolve => {
         // Check if there's a specific response configured for this event
         const response = sendResponseMap[event];

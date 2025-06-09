@@ -10,6 +10,9 @@ const conf = {
   devtool: false
 };
 
+// Remove optimization config that karma-webpack doesn't support
+delete conf.optimization;
+
 conf.externals = {
   jquery: 'jQuery'
 };
