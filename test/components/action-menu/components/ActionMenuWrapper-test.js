@@ -1,7 +1,6 @@
 import React from 'react';
-import {render, screen, act, expect, sinon, waitFor} from 'test';
+import {render, screen, act, expect, sinon, waitFor, userEvent} from 'test';
 import * as l10n from 'lib/l10n';
-import userEvent from '@testing-library/user-event';
 import ActionMenuWrapper from 'components/action-menu/components/ActionMenuWrapper';
 import {createMockPort} from '../../../utils';
 
@@ -26,7 +25,9 @@ describe('ActionMenuWrapper tests', () => {
     sandbox.stub(window, 'close');
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    // Wait for any pending async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
     sandbox.restore();
   });
 

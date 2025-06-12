@@ -26,7 +26,9 @@ describe('Decrypt Message tests', () => {
     createMockPort(sandbox);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
+    // Wait for any pending async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 0));
     sandbox.restore();
   });
 

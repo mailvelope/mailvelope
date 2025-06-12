@@ -1,7 +1,6 @@
 import React from 'react';
-import {render, screen, act, expect, sinon} from 'test';
+import {render, screen, act, expect, sinon, userEvent} from 'test';
 import * as l10n from 'lib/l10n';
-import userEvent from '@testing-library/user-event';
 import KeyServer from 'app/settings/keyserver';
 
 describe('KeyServer tests', () => {

@@ -4,6 +4,7 @@ import chaiAsPromised from 'chai-as-promised';
 import chaiDom from 'chai-dom';
 
 import {configure as configureRTL, render, screen, fireEvent, waitFor, act} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 chai.use(chaiAsPromised);
 chai.use(chaiDom);
@@ -15,4 +16,4 @@ configureRTL({
 
 export {expect, sinon};
 // Export React Testing Library methods
-export {render, screen, fireEvent, waitFor, act};
+export {render, screen, fireEvent, waitFor, act, userEvent};
