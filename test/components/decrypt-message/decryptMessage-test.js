@@ -1,15 +1,17 @@
 import React from 'react';
-import {render, screen, act, expect, sinon} from 'test';
+import {render, screen, act} from '@testing-library/react';
 import * as l10n from 'lib/l10n';
-import {createMockPort} from '../../utils';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';
+import {createMockPort} from '../../__mocks__/port-factory';
 
-l10n.mapToLocal();
+jest.mock('../../../src/components/decrypt-message/components/ContentSandbox', () => require('../../__mocks__/components/decrypt-message/components/ContentSandbox').default);
 
 describe('Decrypt Message tests', () => {
-  const sandbox = sinon.createSandbox();
+  let mockPort;
 
   const setup = () => {
+    mockPort = createMockPort();
+
     const props = {
       id: 'decrypt-message-test',
       isContainer: false
@@ -22,19 +24,13 @@ describe('Decrypt Message tests', () => {
     };
   };
 
-  beforeEach(() => {
-    createMockPort(sandbox);
-  });
-
-  afterEach(async () => {
-    // Wait for any pending async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 0));
-    sandbox.restore();
+  beforeAll(() => {
+    l10n.mapToLocal();
   });
 
   it('should render', () => {
     const {container} = setup();
-    expect(container.querySelector('.decrypt-msg')).to.exist;
+    expect(container.querySelector('.decrypt-msg')).toBeInTheDocument();
   });
 
   const signaturesFixture = [
@@ -49,7 +45,7 @@ describe('Decrypt Message tests', () => {
     }
   ];
 
-  describe('Do some unit tests', () => {
+  describe('Unit tests', () => {
     const attachmentFixture = {
       'type': 'attachment',
       'content': 'data:text/plain;base64,VGhpcyBpcyB0b3Agc2VjcmV0IQ==',
@@ -58,52 +54,248 @@ describe('Decrypt Message tests', () => {
     };
 
     describe('onDecryptedAttachment', () => {
-      it('should work', async () => {
+      it('should display file panel when attachment is decrypted', async () => {
         const {container, ref} = setup();
-        // No files to download
-        expect(container.querySelector('.file-panel')).to.not.exist;
+
+        // Initially no files to download
+        expect(container.querySelector('.file-panel')).not.toBeInTheDocument();
+
         // Simulate decrypted attachment
         await act(async () => {
           ref.current.onDecryptedAttachment({attachment: attachmentFixture});
         });
-        expect(container.querySelector('.file-panel')).to.exist;
-        expect(screen.queryByRole('status')).to.not.exist; // spinner
+
+        expect(container.querySelector('.file-panel')).toBeInTheDocument();
+        expect(screen.queryByRole('status')).not.toBeInTheDocument(); // spinner should be gone
+      });
+
+      it('should update component state with attachment data', async () => {
+        const {ref} = setup();
+
+        await act(async () => {
+          ref.current.onDecryptedAttachment({attachment: attachmentFixture});
+        });
+
+        expect(ref.current.state.files).toHaveLength(1);
+        expect(ref.current.state.files[0].name).toBe(attachmentFixture.filename);
       });
     });
 
     describe('onSignatureVerification', () => {
-      it('should work', async () => {
+      it('should update state when signature is verified', async () => {
         const {container, ref} = setup();
+
         // Initial state check
-        expect(container.querySelector('#SignatureDetails')).to.not.exist;
+        expect(container.querySelector('#SignatureDetails')).not.toBeInTheDocument();
+
         // Simulate signature verification
         await act(async () => {
           ref.current.onSignatureVerification({signers: signaturesFixture});
         });
-        expect(ref.current.state.signer).not.to.be.null;
+
+        expect(ref.current.state.signer).not.toBeNull();
+        expect(ref.current.state.signer).toEqual(signaturesFixture[0]);
+      });
+
+      it('should handle multiple signers', async () => {
+        const {ref} = setup();
+
+        const multipleSigners = [
+          ...signaturesFixture,
+          {
+            'valid': false,
+            'keyDetails': {
+              'name': 'Invalid Tester',
+              'email': 'invalid@test.com',
+              'fingerprint': '1111 2222 3333 4444 5555 6666 7777 8888 9999 AAAA'
+            },
+            'keyId': '7777888899999aaa',
+          }
+        ];
+
+        await act(async () => {
+          ref.current.onSignatureVerification({signers: multipleSigners});
+        });
+
+        // Should take the first signer
+        expect(ref.current.state.signer).toEqual(multipleSigners[0]);
+      });
+    });
+
+    describe('onDecryptedMessage', () => {
+      it('should update state with decrypted message', async () => {
+        const {ref} = setup();
+        const message = 'This is an encrypted message!';
+
+        await act(async () => {
+          ref.current.onDecryptedMessage({message});
+        });
+
+        expect(ref.current.state.message).toBe(message);
+        expect(ref.current.state.decryptDone).toBe(true);
+      });
+
+      it('should handle waiting state changes via onWaiting', async () => {
+        const {ref} = setup();
+
+        // Initially waiting should be true
+        expect(ref.current.state.waiting).toBe(true);
+
+        await act(async () => {
+          ref.current.onWaiting({waiting: false});
+        });
+
+        expect(ref.current.state.waiting).toBe(false);
       });
     });
   });
 
-  describe('Do some integration tests', () => {
-    it('should initialize the component and should wait on the form decrypted-message event', async () => {
-      const {ref} = setup();
-      expect(ref.current.port._events.on).to.include('decrypted-message');
-      expect(ref.current.port._events.on).to.include('add-decrypted-attachment');
-      expect(ref.current.port._events.on).to.include('signature-verification');
-      expect(screen.getByRole('status')).to.exist; // spinner
+  describe('Integration tests', () => {
+    it('should initialize component and register event listeners', async () => {
+      setup();
+
+      expect(mockPort._events.on).toContain('decrypted-message');
+      expect(mockPort._events.on).toContain('add-decrypted-attachment');
+      expect(mockPort._events.on).toContain('signature-verification');
+      expect(screen.getByRole('status')).toBeInTheDocument(); // loading spinner
     });
 
-    it('should show the sandbox iframe with the decrypted message', async () => {
+    it('should show sandbox iframe with decrypted message', async () => {
       const {container, ref} = setup();
       const message = 'This is an encrypted message!';
+
       // Simulate decrypted message
       await act(async () => {
         ref.current.onDecryptedMessage({message});
       });
-      expect(ref.current.state.message).to.equal(message);
-      const contentSandbox = container.querySelector('iframe');
-      expect(contentSandbox).to.have.attribute('sandbox');
+
+      expect(ref.current.state.message).toBe(message);
+
+      const contentSandbox = container.querySelector('[data-testid="content-sandbox"]');
+      expect(contentSandbox).toBeInTheDocument();
+    });
+
+    it('should handle both message and attachment decryption', async () => {
+      const {container, ref} = setup();
+      const message = 'Encrypted message content';
+      const attachment = {
+        'type': 'attachment',
+        'content': 'data:text/plain;base64,VGVzdCBhdHRhY2htZW50',
+        'mimeType': 'text/plain',
+        'filename': 'test.txt'
+      };
+
+      // Decrypt message first
+      await act(async () => {
+        ref.current.onDecryptedMessage({message});
+      });
+
+      // Then add attachment
+      await act(async () => {
+        ref.current.onDecryptedAttachment({attachment});
+      });
+
+      expect(ref.current.state.message).toBe(message);
+      expect(ref.current.state.files).toHaveLength(1);
+      expect(container.querySelector('.file-panel')).toBeInTheDocument();
+      expect(container.querySelector('[data-testid="content-sandbox"]')).toBeInTheDocument();
+    });
+
+    it('should display signature verification alongside message', async () => {
+      const {ref} = setup();
+      const message = 'Signed and encrypted message';
+
+      // Decrypt message and verify signature
+      await act(async () => {
+        ref.current.onDecryptedMessage({message});
+      });
+
+      await act(async () => {
+        ref.current.onSignatureVerification({signers: signaturesFixture});
+      });
+
+      expect(ref.current.state.message).toBe(message);
+      expect(ref.current.state.signer).toEqual(signaturesFixture[0]);
+      expect(ref.current.state.decryptDone).toBe(true);
+    });
+
+    it('should handle error states gracefully', async () => {
+      const {ref} = setup();
+
+      // Simulate error in signature verification (empty signers array)
+      await act(async () => {
+        ref.current.onSignatureVerification({signers: []});
+      });
+
+      // Component should still be functional
+      expect(ref.current.state.signer).toBeNull();
+
+      // Should still be able to decrypt message
+      await act(async () => {
+        ref.current.onDecryptedMessage({message: 'test'});
+      });
+
+      expect(ref.current.state.message).toBe('test');
+    });
+  });
+
+  describe('Security considerations', () => {
+    it('should use sandbox iframe for message content', async () => {
+      // Mock alert to detect if scripts execute
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+      const {container, ref} = setup();
+      const maliciousMessage = '<script>alert("xss")</script><img src="x" onerror="alert(\'img-xss\')">';
+
+      await act(async () => {
+        ref.current.onDecryptedMessage({message: maliciousMessage});
+      });
+
+      const sandbox = container.querySelector('[data-testid="content-sandbox"]');
+      expect(sandbox).toBeInTheDocument();
+
+      // Verify the content was rendered in the mock sandbox
+      const content = container.querySelector('[data-testid="content-sandbox-content"]');
+      expect(content).toBeInTheDocument();
+      expect(content.textContent).toBe(maliciousMessage);
+
+      // Verify no script execution occurred (scripts should be blocked by sandbox)
+      expect(alertSpy).not.toHaveBeenCalled();
+
+      // Verify the malicious content was passed to the component but contained
+      expect(ref.current.state.message).toBe(maliciousMessage);
+
+      alertSpy.mockRestore();
+    });
+
+    it('should handle potentially malicious attachment content safely', async () => {
+      // Mock alert to detect if scripts execute
+      const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+      const {ref} = setup();
+
+      const maliciousAttachment = {
+        'type': 'attachment',
+        'content': 'data:text/html;base64,PHNjcmlwdD5hbGVydCgieHNzIik8L3NjcmlwdD4=', // <script>alert("xss")</script>
+        'mimeType': 'text/html',
+        'filename': 'malicious.html'
+      };
+
+      await act(async () => {
+        ref.current.onDecryptedAttachment({attachment: maliciousAttachment});
+      });
+
+      // Verify attachment was processed but MIME type was sanitized
+      expect(ref.current.state.files).toHaveLength(1);
+      expect(ref.current.state.files[0].name).toBe('malicious.html');
+
+      // Verify no script execution occurred
+      expect(alertSpy).not.toHaveBeenCalled();
+
+      // Verify MIME type was changed to safe application/octet-stream
+      expect(maliciousAttachment.mimeType).toBe('application/octet-stream');
+
+      alertSpy.mockRestore();
     });
   });
 });

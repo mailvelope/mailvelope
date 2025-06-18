@@ -1,4 +1,3 @@
-import EventHandler from 'lib/EventHandler';
 
 /**
  * Implementation of Chrome Extension Runtime Port
@@ -215,59 +214,3 @@ export class LocalStorageStub {
   }
 }
 
-/**
- * Creates a mock port for testing components that use EventHandler.connect
- * @param {Object} sandbox - Sinon sandbox for stubbing
- * @param {Object} sendResponseMap - Optional map of event -> response for send method
- * @param {Object} options - Additional options
- * @param {boolean} options.includeConnectListeners - Whether to include onConnect/onDisconnect (default: true)
- * @param {boolean} options.shouldFail - Whether all port operations should fail (default: false)
- * @param {Array<string>} options.failingEvents - Specific events that should fail (default: [])
- * @param {string} options.errorMessage - Custom error message for failures (default: 'Port communication failed')
- * @returns {Object} The mock port object
- */
-export function createMockPort(sandbox, sendResponseMap = {}, options = {}) {
-  const {
-    includeConnectListeners = true,
-    shouldFail = false,
-    failingEvents = [],
-    errorMessage = 'Port communication failed'
-  } = options;
-
-  const portMock = {
-    _events: {
-      emit: [],
-      on: [],
-      send: []
-    },
-    on: event => portMock._events.on.push(event),
-    emit: event => portMock._events.emit.push(event),
-    send: event => {
-      portMock._events.send.push(event);
-
-      // Check if this specific event should fail
-      if (shouldFail || failingEvents.includes(event)) {
-        return Promise.reject(new Error(errorMessage));
-      }
-
-      return new Promise(resolve => {
-        // Check if there's a specific response configured for this event
-        const response = sendResponseMap[event];
-        resolve(response !== undefined ? response : event);
-      });
-    }
-  };
-
-  // Add connect/disconnect listeners if needed (used by some components)
-  if (includeConnectListeners) {
-    portMock.onConnect = {
-      addListener() {}
-    };
-    portMock.onDisconnect = {
-      addListener() {}
-    };
-  }
-
-  sandbox.stub(EventHandler, 'connect').returns(portMock);
-  return portMock;
-}

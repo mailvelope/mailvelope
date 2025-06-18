@@ -1,18 +1,17 @@
 import React from 'react';
-import {render, expect, sinon, waitFor, userEvent} from 'test';
+import {render, waitFor} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import * as l10n from 'lib/l10n';
 import {RecipientInput} from 'components/editor/components/RecipientInput';
 
 describe('RecipientInput component', () => {
-  const sandbox = sinon.createSandbox();
-
   const setup = (customProps = {}) => {
     const finalProps = {
       extraKey: false,
       hideErrorMsg: false,
       keys: [],
-      onAutoLocate: sandbox.spy(),
-      onChangeRecipients: sandbox.spy(),
+      onAutoLocate: jest.fn(),
+      onChangeRecipients: jest.fn(),
       recipients: [],
       ...customProps
     };
@@ -51,17 +50,13 @@ describe('RecipientInput component', () => {
     }
   ];
 
-  before(() => {
+  beforeAll(() => {
     l10n.mapToLocal();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   it('should render without errors', () => {
     const {container} = setup();
-    expect(container.firstChild).to.exist;
+    expect(container.firstChild).toBeTruthy();
   });
 
   describe('Unit tests', () => {
@@ -73,15 +68,15 @@ describe('RecipientInput component', () => {
         });
 
         const tags = container.querySelectorAll('.tag.badge');
-        expect(tags).to.have.length(2);
+        expect(tags).toHaveLength(2);
 
         // First recipient has key - should have success styling
-        expect(tags[0]).to.have.class('badge-success');
-        expect(tags[0].textContent).to.include('alice@example.com');
+        expect(tags[0]).toHaveClass('badge-success');
+        expect(tags[0].textContent).toContain('alice@example.com');
 
         // Second recipient has no key - should have danger styling
-        expect(tags[1]).to.have.class('badge-danger');
-        expect(tags[1].textContent).to.include('charlie@example.com');
+        expect(tags[1]).toHaveClass('badge-danger');
+        expect(tags[1].textContent).toContain('charlie@example.com');
       });
 
       it('should display info styling when extraKey is enabled', () => {
@@ -92,7 +87,7 @@ describe('RecipientInput component', () => {
         });
 
         const tag = container.querySelector('.tag.badge');
-        expect(tag).to.have.class('badge-info');
+        expect(tag).toHaveClass('badge-info');
       });
 
       it('should handle recipients with displayId different from email', () => {
@@ -106,7 +101,7 @@ describe('RecipientInput component', () => {
         });
 
         const tag = container.querySelector('.tag.badge');
-        expect(tag.textContent).to.include('Test User');
+        expect(tag.textContent).toContain('Test User');
       });
     });
 
@@ -117,7 +112,7 @@ describe('RecipientInput component', () => {
         });
 
         const input = container.querySelector('.tag-input-field');
-        expect(input).to.exist;
+        expect(input).toBeInTheDocument();
       });
 
       it('should have reactive suggestions functionality', () => {
@@ -127,10 +122,10 @@ describe('RecipientInput component', () => {
 
         // The input field should exist for suggestions functionality
         const input = container.querySelector('.tag-input-field');
-        expect(input).to.exist;
+        expect(input).toBeInTheDocument();
 
         // Component should have class structure for suggestions
-        expect(container.querySelector('.recipients-input')).to.exist;
+        expect(container.querySelector('.recipients-input')).toBeInTheDocument();
       });
     });
 
@@ -139,18 +134,18 @@ describe('RecipientInput component', () => {
         const {container} = setup();
 
         const input = container.querySelector('.tag-input-field');
-        expect(input).to.exist;
-        expect(input.tagName.toLowerCase()).to.equal('input');
+        expect(input).toBeInTheDocument();
+        expect(input.tagName.toLowerCase()).toBe('input');
       });
 
       it('should have interactive input functionality', () => {
         const {container} = setup();
 
         const input = container.querySelector('.tag-input-field');
-        expect(input).to.exist;
+        expect(input).toBeInTheDocument();
 
         // Input should be interactive
-        expect(input).to.not.have.attribute('disabled');
+        expect(input).not.toHaveAttribute('disabled');
       });
     });
 
@@ -163,13 +158,13 @@ describe('RecipientInput component', () => {
         });
 
         const removeButton = container.querySelector('.tag-remove');
-        expect(removeButton).to.exist;
+        expect(removeButton).toBeInTheDocument();
 
         await user.click(removeButton);
 
-        expect(props.onChangeRecipients.calledOnce).to.be.true;
-        const callArgs = props.onChangeRecipients.getCall(0).args;
-        expect(callArgs[0]).to.have.length(0); // Empty recipients array
+        expect(props.onChangeRecipients).toHaveBeenCalledTimes(1);
+        const callArgs = props.onChangeRecipients.mock.calls[0];
+        expect(callArgs[0]).toHaveLength(0); // Empty recipients array
       });
 
       it('should focus input after adding recipient', async () => {
@@ -183,7 +178,7 @@ describe('RecipientInput component', () => {
 
         // Wait for focus to be restored
         await waitFor(() => {
-          expect(document.activeElement).to.equal(input);
+          expect(document.activeElement).toBe(input);
         });
       });
     });
@@ -198,8 +193,8 @@ describe('RecipientInput component', () => {
         });
 
         const errorAlert = container.querySelector('.alert-danger');
-        expect(errorAlert).to.exist;
-        expect(errorAlert.textContent).to.include('editor_key_not_found');
+        expect(errorAlert).toBeInTheDocument();
+        expect(errorAlert.textContent).toContain('editor_key_not_found');
       });
 
       it('should hide error message when hideErrorMsg is true', () => {
@@ -211,7 +206,7 @@ describe('RecipientInput component', () => {
         });
 
         const errorAlert = container.querySelector('.alert-danger');
-        expect(errorAlert).to.not.exist;
+        expect(errorAlert).not.toBeInTheDocument();
       });
 
       it('should not show error message when extraKey is true', () => {
@@ -223,7 +218,7 @@ describe('RecipientInput component', () => {
         });
 
         const errorAlert = container.querySelector('.alert-danger');
-        expect(errorAlert).to.not.exist;
+        expect(errorAlert).not.toBeInTheDocument();
       });
 
       it('should show info message when extraKey is true', () => {
@@ -232,8 +227,8 @@ describe('RecipientInput component', () => {
         });
 
         const infoAlert = container.querySelector('.alert-info');
-        expect(infoAlert).to.exist;
-        expect(infoAlert.textContent).to.include('editor_key_has_extra_msg');
+        expect(infoAlert).toBeInTheDocument();
+        expect(infoAlert.textContent).toContain('editor_key_has_extra_msg');
       });
     });
 
@@ -242,11 +237,11 @@ describe('RecipientInput component', () => {
         const {container} = setup();
 
         const input = container.querySelector('.tag-input-field');
-        expect(input).to.exist;
+        expect(input).toBeInTheDocument();
 
         // Input should accept keyboard events
         input.focus();
-        expect(document.activeElement).to.equal(input);
+        expect(document.activeElement).toBe(input);
       });
 
       it('should support multiple separator keys', () => {
@@ -254,7 +249,7 @@ describe('RecipientInput component', () => {
 
         // Component is configured to accept Enter, Tab, and Space
         // This is a structural test of the ReactTags configuration
-        expect(container.querySelector('.recipients-input')).to.exist;
+        expect(container.querySelector('.recipients-input')).toBeInTheDocument();
       });
     });
   });
@@ -269,8 +264,8 @@ describe('RecipientInput component', () => {
 
         // Component should handle recipients without keys gracefully
         const tags = container.querySelectorAll('.tag.badge');
-        expect(tags).to.have.length(1);
-        expect(tags[0]).to.have.class('badge-danger');
+        expect(tags).toHaveLength(1);
+        expect(tags[0]).toHaveClass('badge-danger');
       });
 
       it('should show error state for recipients without keys', () => {
@@ -281,7 +276,7 @@ describe('RecipientInput component', () => {
 
         // Error alert should be visible
         const errorAlert = container.querySelector('.alert-danger');
-        expect(errorAlert).to.exist;
+        expect(errorAlert).toBeInTheDocument();
       });
 
       it('should not show error when all recipients have keys', () => {
@@ -292,7 +287,7 @@ describe('RecipientInput component', () => {
 
         // No error alert should be visible
         const errorAlert = container.querySelector('.alert-danger');
-        expect(errorAlert).to.not.exist;
+        expect(errorAlert).not.toBeInTheDocument();
       });
     });
 
@@ -304,7 +299,7 @@ describe('RecipientInput component', () => {
         });
 
         // Component should have onChangeRecipients callback configured
-        expect(props.onChangeRecipients).to.be.a('function');
+        expect(typeof props.onChangeRecipients).toBe('function');
       });
 
       it('should update recipients when props change', () => {
@@ -317,8 +312,8 @@ describe('RecipientInput component', () => {
         rerender(<RecipientInput {...props} recipients={[mockRecipients[0]]} />);
 
         const tags = container.querySelectorAll('.tag.badge');
-        expect(tags).to.have.length(1);
-        expect(tags[0].textContent).to.include('alice@example.com');
+        expect(tags).toHaveLength(1);
+        expect(tags[0].textContent).toContain('alice@example.com');
       });
     });
 
@@ -330,10 +325,10 @@ describe('RecipientInput component', () => {
         });
 
         const tags = container.querySelectorAll('.tag.badge');
-        expect(tags).to.have.length(0);
+        expect(tags).toHaveLength(0);
 
         const input = container.querySelector('.tag-input-field');
-        expect(input).to.exist;
+        expect(input).toBeInTheDocument();
       });
 
       it('should handle recipients with empty email gracefully', () => {
@@ -347,7 +342,7 @@ describe('RecipientInput component', () => {
         });
 
         // Should handle gracefully without crashing
-        expect(container.firstChild).to.exist;
+        expect(container.firstChild).toBeTruthy();
       });
 
       it('should handle case-insensitive key matching functionality', () => {
@@ -362,7 +357,7 @@ describe('RecipientInput component', () => {
 
         // The component should handle case-insensitive matching
         // This is tested implicitly through the component's key matching logic
-        expect(container.firstChild).to.exist;
+        expect(container.firstChild).toBeTruthy();
       });
 
       it('should handle missing recipients prop gracefully', () => {
@@ -370,7 +365,7 @@ describe('RecipientInput component', () => {
           // Don't pass recipients prop at all
         });
 
-        expect(container.firstChild).to.exist;
+        expect(container.firstChild).toBeTruthy();
       });
 
       it('should handle missing key properties gracefully', () => {
@@ -383,7 +378,7 @@ describe('RecipientInput component', () => {
           keys: keysWithMissingProps
         });
 
-        expect(container.firstChild).to.exist;
+        expect(container.firstChild).toBeTruthy();
       });
     });
 
@@ -395,21 +390,22 @@ describe('RecipientInput component', () => {
         const id1 = container1.firstChild.id;
         const id2 = container2.firstChild.id;
 
-        expect(id1).to.exist;
-        expect(id2).to.exist;
-        expect(id1).to.not.equal(id2);
+        expect(id1).toBeTruthy();
+        expect(id2).toBeTruthy();
+        expect(id1).not.toBe(id2);
       });
 
       it('should maintain input focus management', () => {
         const {container} = setup();
 
         const input = container.querySelector('.tag-input-field');
-        expect(input).to.exist;
+        expect(input).toBeInTheDocument();
 
         // Input should be focusable
         input.focus();
-        expect(document.activeElement).to.equal(input);
+        expect(document.activeElement).toBe(input);
       });
     });
   });
 });
+
