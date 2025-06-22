@@ -14,7 +14,7 @@ export default {
     '<rootDir>/test/jest.setup.js'
   ],
 
-  // Test file patterns - Jest will look for tests in test/app and test/components only
+  // Test file patterns - Jest will look for tests in these locations
   testMatch: [
     '<rootDir>/test/app/**/*-test.js',
     '<rootDir>/test/components/**/*-test.js'
@@ -29,12 +29,11 @@ export default {
   moduleNameMapper: {
     // Essential webpack aliases
     '^text-encoding$': '<rootDir>/src/lib/string-encoding.js',
-    '^utils$': '<rootDir>/test/utils.js',
-    '^Fixtures(.*)$': '<rootDir>/test/fixtures$1',
 
     // Asset mocking (Note: CSS transforms are handled in transform section below)
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/test/__mocks__/fileMock.js',
-    '\\.(asc)$': '<rootDir>/test/__mocks__/ascMock.js'
+    '\\.(asc)$': '<rootDir>/test/__mocks__/ascMock.js',
+    '\\.(css|less|scss|sass)$': '<rootDir>/test/__mocks__/cssTransform.js'
   },
 
   // Module directories (equivalent to webpack resolve.modules)
@@ -47,14 +46,13 @@ export default {
   transform: {
     '^.+\\.(js|jsx)$': ['babel-jest', {
       configFile: './test/babel.config.cjs'
-    }],
-    '\\.(css|less|scss|sass)$': '<rootDir>/test/__mocks__/cssTransform.js'
+    }]
   },
 
-  // Don't transform ES modules - Jest 30 handles them natively
-  // Avoid transforming large crypto libraries for better performance
+  // In general node_modules are not transformed, except ES modules that need it
   transformIgnorePatterns: [
-    'node_modules/(?!(openpgp|@openpgp|@testing-library)/)'
+    'node_modules/'
+    //'node_modules/(?!(@openpgp/web-stream-tools|emailjs-mime-builder)/)'
   ],
 
   // Collect coverage from source files - Focus on core modules
