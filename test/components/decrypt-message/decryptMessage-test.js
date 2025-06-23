@@ -2,15 +2,15 @@ import React from 'react';
 import {render, screen, act} from '@testing-library/react';
 import * as l10n from 'lib/l10n';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';
-import {createMockPort} from '../../__mocks__/port-factory';
 
+jest.mock('../../../src/lib/EventHandler', () => require('../../__mocks__/lib/EventHandler').default);
 jest.mock('../../../src/components/decrypt-message/components/ContentSandbox', () => require('../../__mocks__/components/decrypt-message/components/ContentSandbox').default);
 
 describe('Decrypt Message tests', () => {
-  let mockPort;
-
-  const setup = () => {
-    mockPort = createMockPort();
+  const setup = (portResponses = {}, portOptions = {}) => {
+    // Configure mock responses BEFORE rendering
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.setMockResponses(portResponses, portOptions);
 
     const props = {
       id: 'decrypt-message-test',
@@ -18,6 +18,7 @@ describe('Decrypt Message tests', () => {
     };
     const ref = React.createRef();
     const rtlUtils = render(<DecryptMessage ref={ref} {...props} />);
+
     return {
       ref,
       ...rtlUtils
@@ -26,6 +27,11 @@ describe('Decrypt Message tests', () => {
 
   beforeAll(() => {
     l10n.mapToLocal();
+  });
+
+  afterEach(() => {
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.clearMockResponses();
   });
 
   it('should render', () => {
@@ -152,11 +158,11 @@ describe('Decrypt Message tests', () => {
 
   describe('Integration tests', () => {
     it('should initialize component and register event listeners', async () => {
-      setup();
+      const {ref} = setup();
 
-      expect(mockPort._events.on).toContain('decrypted-message');
-      expect(mockPort._events.on).toContain('add-decrypted-attachment');
-      expect(mockPort._events.on).toContain('signature-verification');
+      expect(ref.current.port._events.on).toContain('decrypted-message');
+      expect(ref.current.port._events.on).toContain('add-decrypted-attachment');
+      expect(ref.current.port._events.on).toContain('signature-verification');
       expect(screen.getByRole('status')).toBeInTheDocument(); // loading spinner
     });
 

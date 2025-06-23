@@ -3,8 +3,8 @@ import {render, screen, act, cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as l10n from 'lib/l10n';
 import EncryptedForm from 'components/encrypted-form/encryptedForm';
-import {createMockPort} from '../../__mocks__/port-factory';
 
+jest.mock('../../../src/lib/EventHandler', () => require('../../__mocks__/lib/EventHandler').default);
 // Mock FormSandbox
 jest.mock('../../../src/components/encrypted-form/components/FormSandbox', () => require('../../__mocks__/components/encrypted-form/components/FormSandbox').default);
 
@@ -12,10 +12,10 @@ jest.mock('../../../src/components/encrypted-form/components/FormSandbox', () =>
 jest.mock('react-transition-group');
 
 describe('Encrypt Form tests', () => {
-  let mockPort;
-
-  const setup = () => {
-    mockPort = createMockPort();
+  const setup = (portResponses = {}, portOptions = {}) => {
+    // Configure mock responses BEFORE rendering
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.setMockResponses(portResponses, portOptions);
 
     const props = {
       id: 'encrypted-form-test'
@@ -37,6 +37,8 @@ describe('Encrypt Form tests', () => {
   afterEach(() => {
     // Clean up React Testing Library
     cleanup();
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.clearMockResponses();
   });
 
   it('should render with loading state', async () => {
@@ -54,14 +56,14 @@ describe('Encrypt Form tests', () => {
 
   describe('Integration tests', () => {
     it('should initialize the component and should wait on the form definition event', async () => {
-      setup();
+      const {ref} = setup();
 
-      expect(mockPort._events.on).toContain('encrypted-form-definition');
-      expect(mockPort._events.on).toContain('error-message');
-      expect(mockPort._events.on).toContain('terminate');
-      expect(mockPort._events.on).toContain('encrypted-form-submit');
-      expect(mockPort._events.on).toContain('encrypted-form-submit-cancel');
-      expect(mockPort._events.emit).toContain('encrypted-form-init');
+      expect(ref.current.port._events.on).toContain('encrypted-form-definition');
+      expect(ref.current.port._events.on).toContain('error-message');
+      expect(ref.current.port._events.on).toContain('terminate');
+      expect(ref.current.port._events.on).toContain('encrypted-form-submit');
+      expect(ref.current.port._events.on).toContain('encrypted-form-submit-cancel');
+      expect(ref.current.port._events.emit).toContain('encrypted-form-init');
       expect(screen.getByText(/loading/i)).toBeInTheDocument(); // spinner loading text
     });
 
@@ -331,7 +333,7 @@ describe('Encrypt Form tests', () => {
       expect(spinnerWrapper).toBeInTheDocument();
 
       // Verify submit event was emitted
-      expect(mockPort._events.emit).toContain('encrypted-form-submit');
+      expect(ref.current.port._events.emit).toContain('encrypted-form-submit');
     });
 
     it('should handle form submission cancellation', async () => {

@@ -3,8 +3,8 @@ import {render, screen, act} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as l10n from 'lib/l10n';
 import Editor from 'components/editor/editor';
-import {createMockPort} from '../../__mocks__/port-factory';
 
+jest.mock('../../../src/lib/EventHandler', () => require('../../__mocks__/lib/EventHandler').default);
 // Mock ContentSandbox
 jest.mock('../../../src/components/editor/components/PlainText', () => require('../../__mocks__/components/editor/components/PlainText').default);
 
@@ -28,10 +28,10 @@ jest.mock('lib/file', () => ({
 }));
 
 describe('Editor tests', () => {
-  let mockPort;
-
-  const setup = (props = {}) => {
-    mockPort = createMockPort();
+  const setup = (props = {}, portResponses = {}, portOptions = {}) => {
+    // Configure mock responses BEFORE rendering
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.setMockResponses(portResponses, portOptions);
 
     const defaultProps = {
       id: 'editor-test',
@@ -40,6 +40,7 @@ describe('Editor tests', () => {
     };
     const ref = React.createRef();
     const rtlUtils = render(<Editor ref={ref} {...defaultProps} />);
+
     return {ref, ...rtlUtils};
   };
 
@@ -61,6 +62,11 @@ describe('Editor tests', () => {
     l10n.mapToLocal();
   });
 
+  afterEach(() => {
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.clearMockResponses();
+  });
+
   it('should render', () => {
     const {container} = setup();
     expect(container.querySelector('.editor')).toBeInTheDocument();
@@ -79,12 +85,12 @@ describe('Editor tests', () => {
       });
 
       it('should emit editor-mount event on mount', () => {
-        setup();
-        expect(mockPort._events.emit).toContain('editor-mount');
+        const {ref} = setup();
+        expect(ref.current.port._events.emit).toContain('editor-mount');
       });
 
       it('should register event listeners for port communication', () => {
-        setup();
+        const {ref} = setup();
         const expectedEvents = [
           'set-text', 'set-init-data', 'set-mode', 'set-attachment',
           'decrypt-in-progress', 'encrypt-in-progress', 'send-mail-in-progress',
@@ -94,7 +100,7 @@ describe('Editor tests', () => {
           'terminate', 'public-key-userids', 'key-update'
         ];
         expectedEvents.forEach(event => {
-          expect(mockPort._events.on).toContain(event);
+          expect(ref.current.port._events.on).toContain(event);
         });
       });
     });
@@ -630,7 +636,7 @@ describe('Editor tests', () => {
 
         expect(ref.current.state.terminate).toBe(true);
         expect(container.querySelector('.terminate')).toBeInTheDocument();
-        expect(mockPort.disconnect).toHaveBeenCalledTimes(1);
+        expect(ref.current.port.disconnect).toHaveBeenCalledTimes(1);
       });
 
       it('should handle disconnect in embedded mode', async () => {
@@ -687,7 +693,7 @@ describe('Editor tests', () => {
         });
 
         expect(ref.current.state.encryptDisabled).toBe(true);
-        expect(mockPort._events.emit).toContain('editor-plaintext');
+        expect(ref.current.port._events.emit).toContain('editor-plaintext');
       });
 
       it('should emit sign-only event when sign button is used', async () => {
@@ -698,7 +704,7 @@ describe('Editor tests', () => {
           ref.current.handleSign();
         });
 
-        expect(mockPort._events.emit).toContain('sign-only');
+        expect(ref.current.port._events.emit).toContain('sign-only');
       });
 
       it('should throttle text input logging to once per second', async () => {

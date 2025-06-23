@@ -3,18 +3,21 @@ import {render, screen, act, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as l10n from 'lib/l10n';
 import ActionMenuWrapper from 'components/action-menu/components/ActionMenuWrapper';
-import {createMockPort} from '../../../__mocks__/port-factory';
+
+jest.mock('../../../../src/lib/EventHandler', () => require('../../../__mocks__/lib/EventHandler').default);
 
 describe('ActionMenuWrapper tests', () => {
-  let mockPort;
-
-  const setup = (portResponses = {}) => {
+  const setup = (portResponses = {}, portOptions = {}) => {
     const defaultResponses = {'get-is-setup-done': {isSetupDone: true}};
     const finalResponses = {...defaultResponses, ...portResponses};
-    mockPort = createMockPort(finalResponses);
+
+    // Configure mock responses BEFORE rendering
+    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.setMockResponses(finalResponses, portOptions);
 
     const ref = React.createRef();
     const rtlUtils = render(<ActionMenuWrapper ref={ref} />);
+
     return {ref, ...rtlUtils};
   };
 
@@ -24,6 +27,11 @@ describe('ActionMenuWrapper tests', () => {
 
   beforeEach(() => {
     jest.spyOn(window, 'close').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    MockEventHandler.clearMockResponses();
   });
 
   it('should render', () => {
@@ -46,7 +54,7 @@ describe('ActionMenuWrapper tests', () => {
         const {ref} = setup({'get-is-setup-done': {isSetupDone: false}});
 
         await waitFor(() => {
-          expect(mockPort._events.send).toContain('get-is-setup-done');
+          expect(ref.current.port._events.send).toContain('get-is-setup-done');
         });
 
         expect(ref.current.state.isSetupDone).toBe(false);
@@ -56,7 +64,7 @@ describe('ActionMenuWrapper tests', () => {
         const {ref} = setup({'get-is-setup-done': {isSetupDone: true}});
 
         await waitFor(() => {
-          expect(mockPort._events.send).toContain('get-is-setup-done');
+          expect(ref.current.port._events.send).toContain('get-is-setup-done');
         });
 
         expect(ref.current.state.isSetupDone).toBe(true);
@@ -72,7 +80,7 @@ describe('ActionMenuWrapper tests', () => {
 
         ref.current.onMenuItemClick(mockEvent);
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
 
@@ -85,7 +93,7 @@ describe('ActionMenuWrapper tests', () => {
         const result = ref.current.onMenuItemClick(mockEvent);
 
         expect(result).toBe(false);
-        expect(mockPort._events.emit).not.toContain('browser-action');
+        expect(ref.current.port._events.emit).not.toContain('browser-action');
         expect(window.close).not.toHaveBeenCalled();
       });
 
@@ -98,7 +106,7 @@ describe('ActionMenuWrapper tests', () => {
         const result = ref.current.onMenuItemClick(mockEvent);
 
         expect(result).toBe(false);
-        expect(mockPort._events.emit).not.toContain('browser-action');
+        expect(ref.current.port._events.emit).not.toContain('browser-action');
         expect(window.close).not.toHaveBeenCalled();
       });
     });
@@ -136,7 +144,7 @@ describe('ActionMenuWrapper tests', () => {
 
       it('should handle setup button click', async () => {
         const user = userEvent.setup();
-        setup({'get-is-setup-done': {isSetupDone: false}});
+        const {ref} = setup({'get-is-setup-done': {isSetupDone: false}});
 
         await waitFor(() => {
           expect(screen.getByRole('button', {name: /action_menu_setup_start_label/})).toBeInTheDocument();
@@ -148,7 +156,7 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(setupButton);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
 
@@ -198,7 +206,7 @@ describe('ActionMenuWrapper tests', () => {
     describe('menu item interactions', () => {
       it('should handle dashboard menu item click', async () => {
         const user = userEvent.setup();
-        setup();
+        const {ref} = setup();
 
         await waitFor(() => {
           expect(screen.getByRole('menuitem', {name: /action_menu_dashboard_label/})).toBeInTheDocument();
@@ -210,13 +218,13 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(dashboardItem);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
 
       it('should handle manage keys menu item click', async () => {
         const user = userEvent.setup();
-        setup();
+        const {ref} = setup();
 
         await waitFor(() => {
           expect(screen.getByRole('menuitem', {name: /action_menu_keyring_label/})).toBeInTheDocument();
@@ -228,13 +236,13 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(manageKeysItem);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
 
       it('should handle encrypt file menu item click', async () => {
         const user = userEvent.setup();
-        setup();
+        const {ref} = setup();
 
         await waitFor(() => {
           expect(screen.getByRole('menuitem', {name: /action_menu_file_encryption_label/})).toBeInTheDocument();
@@ -246,13 +254,13 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(encryptFileItem);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
 
       it('should handle security logs menu item click', async () => {
         const user = userEvent.setup();
-        setup();
+        const {ref} = setup();
 
         await waitFor(() => {
           expect(screen.getByRole('menuitem', {name: /action_menu_review_security_logs_label/})).toBeInTheDocument();
@@ -264,7 +272,7 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(securityLogsItem);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
     });
@@ -272,7 +280,7 @@ describe('ActionMenuWrapper tests', () => {
     describe('footer button interactions', () => {
       it('should handle reload extension button click', async () => {
         const user = userEvent.setup();
-        setup();
+        const {ref} = setup();
 
         await waitFor(() => {
           expect(screen.getByRole('button', {name: /action_menu_reload_extension_scripts/})).toBeInTheDocument();
@@ -284,13 +292,13 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(reloadButton);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
 
       it('should handle activate tab button click', async () => {
         const user = userEvent.setup();
-        setup();
+        const {ref} = setup();
 
         await waitFor(() => {
           expect(screen.getByRole('button', {name: /action_menu_activate_current_tab/})).toBeInTheDocument();
@@ -302,7 +310,7 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(activateTabButton);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
     });
@@ -310,7 +318,7 @@ describe('ActionMenuWrapper tests', () => {
     describe('navigation interactions', () => {
       it('should handle options link click', async () => {
         const user = userEvent.setup();
-        setup();
+        const {ref} = setup();
 
         await waitFor(() => {
           expect(screen.getByTitle(l10n.map.action_menu_all_options)).toBeInTheDocument();
@@ -322,7 +330,7 @@ describe('ActionMenuWrapper tests', () => {
           await user.click(optionsLink);
         });
 
-        expect(mockPort._events.emit).toContain('browser-action');
+        expect(ref.current.port._events.emit).toContain('browser-action');
         expect(window.close).toHaveBeenCalledTimes(1);
       });
 
@@ -369,12 +377,9 @@ describe('ActionMenuWrapper tests', () => {
   describe('Error states', () => {
     it('should render with default state when port is unavailable', async () => {
       // Test with a port that returns undefined (simulates unavailable port)
-      mockPort = createMockPort({'get-is-setup-done': undefined});
+      const {ref, container} = setup({'get-is-setup-done': undefined});
 
-      const ref = React.createRef();
-      const component = render(<ActionMenuWrapper ref={ref} />);
-
-      expect(component.container.querySelector('.action-menu')).toBeInTheDocument();
+      expect(container.querySelector('.action-menu')).toBeInTheDocument();
       expect(ref.current.state.isSetupDone).toBe(true); // Default state maintained
     });
 
@@ -383,7 +388,7 @@ describe('ActionMenuWrapper tests', () => {
       const {ref} = setup({'get-is-setup-done': {}});
 
       await waitFor(() => {
-        expect(mockPort._events.send).toContain('get-is-setup-done');
+        expect(ref.current.port._events.send).toContain('get-is-setup-done');
       });
 
       // Should handle missing isSetupDone property (destructuring undefined results in undefined state)
@@ -394,7 +399,7 @@ describe('ActionMenuWrapper tests', () => {
       const {ref} = setup({'get-is-setup-done': 'invalid-response'});
 
       await waitFor(() => {
-        expect(mockPort._events.send).toContain('get-is-setup-done');
+        expect(ref.current.port._events.send).toContain('get-is-setup-done');
       });
 
       // Should handle gracefully when response doesn't have expected structure

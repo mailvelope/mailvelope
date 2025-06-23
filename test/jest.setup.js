@@ -27,11 +27,6 @@ if (testPath) {
   // Other tests get no special environment setup
 }
 
-// Mock EventHandler at module level to prevent initialization issues
-jest.mock('lib/EventHandler', () => ({
-  connect: jest.fn()
-}));
-
 // Suppress console warnings for tests (can be enabled for debugging)
 const originalWarn = console.warn;
 console.warn = (...args) => {
