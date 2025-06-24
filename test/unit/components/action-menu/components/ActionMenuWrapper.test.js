@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import * as l10n from 'lib/l10n';
 import ActionMenuWrapper from 'components/action-menu/components/ActionMenuWrapper';
 
-jest.mock('../../../../src/lib/EventHandler', () => require('../../../__mocks__/lib/EventHandler').default);
+jest.mock('../../../../../src/lib/EventHandler', () => require('../../../../__mocks__/lib/EventHandler').default);
 
 describe('ActionMenuWrapper tests', () => {
   const setup = (portResponses = {}, portOptions = {}) => {
@@ -12,7 +12,7 @@ describe('ActionMenuWrapper tests', () => {
     const finalResponses = {...defaultResponses, ...portResponses};
 
     // Configure mock responses BEFORE rendering
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../../../__mocks__/lib/EventHandler').default;
     MockEventHandler.setMockResponses(finalResponses, portOptions);
 
     const ref = React.createRef();
@@ -30,7 +30,7 @@ describe('ActionMenuWrapper tests', () => {
   });
 
   afterEach(() => {
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../../../__mocks__/lib/EventHandler').default;
     MockEventHandler.clearMockResponses();
   });
 

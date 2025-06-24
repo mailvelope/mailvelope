@@ -15,7 +15,7 @@ configure({
 // Auto-detect test type based on file path and setup appropriate environment
 const testPath = expect.getState().testPath;
 if (testPath) {
-  if (testPath.includes('/test/app/') || testPath.includes('/test/components/')) {
+  if (testPath.includes('/test/unit/app/') || testPath.includes('/test/unit/components/')) {
     // React component tests - DOM environment with limited Chrome APIs
     setupDOMEnvironment();
   } else if (testPath.includes('/test/controller/') ||
