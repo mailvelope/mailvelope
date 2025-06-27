@@ -19,6 +19,7 @@ yarn-error.log*
 /coverage/
 /tmp/
 apidoc/
+.build/
 
 # Extension packaging
 *.crx

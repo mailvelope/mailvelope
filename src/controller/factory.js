@@ -28,6 +28,8 @@ import {SyncController} from './sync.controller';
  * The third parameter is for subsequent components that connect to an existing controller.
  */
 export function initFactory() {
+  repo.clear();
+  peerRepo.clear();
   register('aFrameGmail',         GmailDecryptController,  ['dDialog']);
   register('api',                 ApiController,           []);
   register('app',                 AppController,           []);

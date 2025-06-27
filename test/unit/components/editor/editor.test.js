@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import * as l10n from 'lib/l10n';
 import Editor from 'components/editor/editor';
 
-jest.mock('../../../../src/lib/EventHandler', () => require('../../../__mocks__/lib/EventHandler').default);
+jest.mock('../../../../src/lib/EventHandler', () => require('../../__mocks__/lib/EventHandler').default);
 // Mock ContentSandbox
-jest.mock('../../../../src/components/editor/components/PlainText', () => require('../../../__mocks__/components/editor/components/PlainText').default);
+jest.mock('../../../../src/components/editor/components/PlainText', () => require('../../__mocks__/components/editor/components/PlainText').default);
 
 // Mock RecipientInput component for isolation
 jest.mock('components/editor/components/RecipientInput', () => ({
@@ -30,7 +30,7 @@ jest.mock('lib/file', () => ({
 describe('Editor tests', () => {
   const setup = (props = {}, portResponses = {}, portOptions = {}) => {
     // Configure mock responses BEFORE rendering
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
     MockEventHandler.setMockResponses(portResponses, portOptions);
 
     const defaultProps = {
@@ -63,7 +63,7 @@ describe('Editor tests', () => {
   });
 
   afterEach(() => {
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
     MockEventHandler.clearMockResponses();
   });
 

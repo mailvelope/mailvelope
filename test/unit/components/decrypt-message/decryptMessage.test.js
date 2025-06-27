@@ -3,13 +3,13 @@ import {render, screen, act} from '@testing-library/react';
 import * as l10n from 'lib/l10n';
 import DecryptMessage from 'components/decrypt-message/DecryptMessage';
 
-jest.mock('../../../../src/lib/EventHandler', () => require('../../../__mocks__/lib/EventHandler').default);
-jest.mock('../../../../src/components/decrypt-message/components/ContentSandbox', () => require('../../../__mocks__/components/decrypt-message/components/ContentSandbox').default);
+jest.mock('../../../../src/lib/EventHandler', () => require('../../__mocks__/lib/EventHandler').default);
+jest.mock('../../../../src/components/decrypt-message/components/ContentSandbox', () => require('../../__mocks__/components/decrypt-message/components/ContentSandbox').default);
 
 describe('Decrypt Message tests', () => {
   const setup = (portResponses = {}, portOptions = {}) => {
     // Configure mock responses BEFORE rendering
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
     MockEventHandler.setMockResponses(portResponses, portOptions);
 
     const props = {
@@ -30,7 +30,7 @@ describe('Decrypt Message tests', () => {
   });
 
   afterEach(() => {
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
     MockEventHandler.clearMockResponses();
   });
 

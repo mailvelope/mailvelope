@@ -23,6 +23,27 @@ let syncHandler = null;
 let controllerPort = null;
 export let clientPort = null;
 
+function isValidOrigin(msgOrigin) {
+  // Normal behavior
+  if (msgOrigin === window.location.origin) {
+    return true;
+  }
+  // Dev mode extension for file protocol
+  if (typeof __DEV_MODE__ !== 'undefined' && __DEV_MODE__ && window.location.protocol === 'file:') {
+    return msgOrigin === 'null' || msgOrigin === 'file://';
+  }
+  return false;
+}
+
+function getTargetOrigin() {
+  const origin = window.location.origin;
+  // Dev mode: Use wildcard for file protocol, otherwise use normal origin
+  if (typeof __DEV_MODE__ !== 'undefined' && __DEV_MODE__ && origin === 'file://') {
+    return '*';
+  }
+  return origin;
+}
+
 export function init() {
   const apiTag = document.getElementById('mailvelope-api');
   if (apiTag) {
@@ -45,7 +66,7 @@ export function init() {
     onMessage: {
       addListener(listener) {
         window.addEventListener('message', event => {
-          if (event.origin !== window.location.origin ||
+          if (!isValidOrigin(event.origin) ||
               event.data.mvelo_extension ||
               !event.data.mvelo_client) {
             return;
@@ -74,7 +95,8 @@ export function init() {
     },
     postMessage(options) {
       options.mvelo_extension = true;
-      window.postMessage(options, window.location.origin);
+      const targetOrigin = getTargetOrigin();
+      window.postMessage(options, targetOrigin);
     }
   };
   clientPort = new EventHandler(port);

@@ -1,7 +1,7 @@
 import {LocalStorageStub} from 'utils';
 import {MAIN_KEYRING_ID} from 'lib/constants';
 import KeyStoreLocal from 'modules/KeyStoreLocal';
-import testKeys from 'Fixtures/keys';
+import testKeys from './keys';
 import {init, __RewireAPI__ as keyringRewireAPI} from 'modules/keyring';
 
 export async function setupKeyring() {

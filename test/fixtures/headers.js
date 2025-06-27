@@ -1,4 +1,4 @@
-import testKeys from 'Fixtures/keys';
+import testKeys from './keys';
 import * as autocrypt from 'modules/autocryptWrapper';
 
 const addr = 'test@mailvelope.com';

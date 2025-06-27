@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import * as l10n from 'lib/l10n';
 import EncryptedForm from 'components/encrypted-form/encryptedForm';
 
-jest.mock('../../../../src/lib/EventHandler', () => require('../../../__mocks__/lib/EventHandler').default);
+jest.mock('../../../../src/lib/EventHandler', () => require('../../__mocks__/lib/EventHandler').default);
 // Mock FormSandbox
-jest.mock('../../../../src/components/encrypted-form/components/FormSandbox', () => require('../../../__mocks__/components/encrypted-form/components/FormSandbox').default);
+jest.mock('../../../../src/components/encrypted-form/components/FormSandbox', () => require('../../__mocks__/components/encrypted-form/components/FormSandbox').default);
 
 // Mock react-transition-group to avoid timer complexities
 jest.mock('react-transition-group');
@@ -14,7 +14,7 @@ jest.mock('react-transition-group');
 describe('Encrypt Form tests', () => {
   const setup = (portResponses = {}, portOptions = {}) => {
     // Configure mock responses BEFORE rendering
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
     MockEventHandler.setMockResponses(portResponses, portOptions);
 
     const props = {
@@ -37,7 +37,7 @@ describe('Encrypt Form tests', () => {
   afterEach(() => {
     // Clean up React Testing Library
     cleanup();
-    const MockEventHandler = require('../../../__mocks__/lib/EventHandler').default;
+    const MockEventHandler = require('../../__mocks__/lib/EventHandler').default;
     MockEventHandler.clearMockResponses();
   });
 

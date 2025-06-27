@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mailvelope Integration Test Page</title>
+</head>
+<body>
+    <h1>Mailvelope Integration Test Page</h1>
+    <div id="test-container"></div>
+    <!-- jQuery is required by some modules -->
+    <script src="../../../node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <!-- Set up Chrome API mocks before loading the bundle -->
+    <script src="../__mocks__/chrome-api-setup.js"></script>
+    <!-- Test harness bundle -->
+    <script src="../.build/test-harness.bundle.js"></script>
+</body>
+</html>

@@ -13,7 +13,7 @@ export default {
 
   // Setup files to run before tests
   setupFilesAfterEnv: [
-    '<rootDir>/test/jest.setup.js'
+    '<rootDir>/test/unit/jest.setup.js'
   ],
 
   // Test file patterns - Only look for unit tests
@@ -32,9 +32,9 @@ export default {
     '^text-encoding$': '<rootDir>/src/lib/string-encoding.js',
 
     // Asset mocking (Note: CSS transforms are handled in transform section below)
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/test/__mocks__/fileMock.js',
-    '\\.(asc)$': '<rootDir>/test/__mocks__/ascMock.js',
-    '\\.(css|less|scss|sass)$': '<rootDir>/test/__mocks__/cssTransform.js'
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/test/unit/__mocks__/fileMock.js',
+    '\\.(asc)$': '<rootDir>/test/unit/__mocks__/ascMock.js',
+    '\\.(css|less|scss|sass)$': '<rootDir>/test/unit/__mocks__/cssTransform.js'
   },
 
   // Module directories (equivalent to webpack resolve.modules)

@@ -25,6 +25,10 @@
     "webextensions": true
   },
 
+  "globals": {
+    "__DEV_MODE__": "readonly"
+  },
+
   "rules": {
     "strict": ["error", "never"],
     /* possible errors */

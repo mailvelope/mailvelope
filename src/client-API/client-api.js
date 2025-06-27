@@ -668,13 +668,25 @@ function handleSyncEvent({type, id, data}) {
   });
 }
 
+function isValidOrigin(msgOrigin) {
+  // Normal behavior
+  if (msgOrigin === window.location.origin) {
+    return true;
+  }
+  // Dev mode extension for file protocol
+  if (typeof __DEV_MODE__ !== 'undefined' && __DEV_MODE__ && window.location.protocol === 'file:') {
+    return msgOrigin === 'null' || msgOrigin === 'file://';
+  }
+  return false;
+}
+
 function eventListener(msg) {
-  if (msg.origin !== window.location.origin ||
+  if (!isValidOrigin(msg.origin) ||
       msg.data.mvelo_client ||
       !msg.data.mvelo_extension) {
     return;
   }
-  //console.log('clientAPI eventListener', event.data);
+  //console.log('clientAPI eventListener', msg.data);
   switch (msg.data.event) {
     case 'sync-event':
       handleSyncEvent(msg.data);
@@ -736,10 +748,20 @@ function checkConnection() {
   }
 }
 
+function getTargetOrigin() {
+  const origin = window.location.origin;
+  // Dev mode: Use wildcard for file protocol, otherwise use normal origin
+  if (typeof __DEV_MODE__ !== 'undefined' && __DEV_MODE__ && origin === 'file://') {
+    return '*';
+  }
+  return origin;
+}
+
 function emit(event, data) {
   checkConnection();
   const message = {...data, event, mvelo_client: true};
-  window.postMessage(message, window.location.origin);
+  const targetOrigin = getTargetOrigin();
+  window.postMessage(message, targetOrigin);
 }
 
 function send(event, data) {
@@ -747,7 +769,8 @@ function send(event, data) {
   return new Promise((resolve, reject) => {
     const message = {...data, event, mvelo_client: true, _reply: getUUID()};
     callbacks[message._reply] = (err, data) => err ? reject(err) : resolve(data);
-    window.postMessage(message, window.location.origin);
+    const targetOrigin = getTargetOrigin();
+    window.postMessage(message, targetOrigin);
   });
 }
 
