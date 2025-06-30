@@ -9,7 +9,15 @@ import {initController} from 'controller/main.controller';
 import {prefs} from 'modules/prefs';
 import {init as initClientAPI} from 'client-API/client-api';
 import {init as initClientAPIContentScript} from 'content-scripts/clientAPI';
+import EncryptFrame from 'content-scripts/encryptFrame';
 import {testAutocryptHeaders} from '../../fixtures/headers';
+
+// Import integration-specific mocks
+import {createMockEventHandler} from '../__mocks__/lib/EventHandler';
+import {createMockProvider} from '../__mocks__/content-scripts/providers';
+
+// Mock registry for auto-reset
+const mockRegistry = new Set();
 
 // Test harness API exposed to tests
 window.testHarness = {
@@ -48,6 +56,13 @@ window.testHarness = {
    */
   reset: async () => {
     try {
+      // Reset all registered mocks
+      mockRegistry.forEach(mock => {
+        if (mock.reset && typeof mock.reset === 'function') {
+          mock.reset();
+        }
+      });
+
       window.chrome?._resetMockState();
     } catch (error) {
       console.error('testHarness.reset: Failed to reset:', error);
@@ -91,6 +106,41 @@ window.testHarness = {
    */
   getFixtures: () => ({
     testAutocryptHeaders
-  })
+  }),
+
+  /**
+   * Get content script classes for testing
+   * @returns {Object} Content script classes
+   */
+  getContentScripts: () => ({
+    EncryptFrame
+  }),
+
+  /**
+   * Get mock instances for testing
+   * @param {string} name - Mock name
+   * @param {Object} config - Mock configuration
+   * @returns {Object} Mock instance
+   */
+  getMock: (name, config = {}) => {
+    const mocks = {
+      'EventHandler': createMockEventHandler,
+      'Provider': createMockProvider
+    };
+    if (!mocks[name]) {
+      throw new Error(`Mock '${name}' not found. Available mocks: ${Object.keys(mocks).join(', ')}`);
+    }
+    const mockInstance = mocks[name](config);
+    // Register mock for auto-reset
+    mockRegistry.add(mockInstance);
+    return mockInstance;
+  },
+
+  /**
+   * Clear mock registry (for cleanup)
+   */
+  clearMockRegistry: () => {
+    mockRegistry.clear();
+  }
 };
 

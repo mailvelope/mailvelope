@@ -79,6 +79,9 @@ class MockEventHandler {
   onMessage = {
     addListener: jest.fn()
   };
+  onUninstall = {
+    addListener: jest.fn()
+  };
   name = 'mock-port';
   // Mock EventHandler methods that components might use
   initPort = jest.fn(port => {

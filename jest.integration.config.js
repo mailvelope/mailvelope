@@ -5,7 +5,8 @@ export default {
   preset: 'jest-puppeteer',
 
   // Jest 30 performance optimizations
-  maxWorkers: '50%',
+  // Run integration tests sequentially to avoid Puppeteer concurrency issues
+  maxWorkers: 1,
   workerIdleMemoryLimit: '512MB',
 
   // Jest 30 new features
@@ -26,6 +27,11 @@ export default {
     '/node_modules/',
     '/test/integration/setup/',
     '/test/integration/.build/'
+  ],
+
+  // Ignore unit test mocks to avoid duplicate mock warnings
+  modulePathIgnorePatterns: [
+    '<rootDir>/test/unit/__mocks__'
   ],
 
   // Module directories (equivalent to webpack resolve.modules)

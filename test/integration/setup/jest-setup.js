@@ -3,30 +3,7 @@
  * Uses top-level await (Jest 30 feature)
  */
 
-import {execSync} from 'child_process';
 import path from 'path';
-import fs from 'fs';
-
-// Build the test harness before running tests
-const buildTestHarness = () => {
-  console.log('Building integration test harness...');
-  try {
-    execSync('npx webpack --config config/webpack.integration.js', {
-      stdio: 'inherit',
-      cwd: path.resolve(__dirname, '../../..')
-    });
-    console.log('Test harness built successfully');
-  } catch (error) {
-    console.error('Failed to build test harness:', error);
-    throw error;
-  }
-};
-
-// Check if build is needed
-const bundlePath = path.resolve(__dirname, '../.build/test-harness.bundle.js');
-if (!fs.existsSync(bundlePath)) {
-  buildTestHarness();
-}
 
 // Global setup for Puppeteer tests
 global.testPageUrl = `file://${path.resolve(__dirname, 'test-page.html')}`;

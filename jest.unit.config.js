@@ -26,6 +26,11 @@ export default {
     '/node_modules/'
   ],
 
+  // Ignore integration test mocks to avoid duplicate mock warnings
+  modulePathIgnorePatterns: [
+    '<rootDir>/test/integration/__mocks__'
+  ],
+
   // Module name mapping for specific aliases and assets
   moduleNameMapper: {
     // Essential webpack aliases
