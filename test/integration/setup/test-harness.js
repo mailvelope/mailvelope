@@ -11,6 +11,7 @@ import {init as initClientAPI} from 'client-API/client-api';
 import {init as initClientAPIContentScript} from 'content-scripts/clientAPI';
 import EncryptFrame from 'content-scripts/encryptFrame';
 import ExtractFrame from 'content-scripts/extractFrame';
+import * as providerSpecific from 'content-scripts/providerSpecific';
 import {testAutocryptHeaders} from '../../fixtures/headers';
 
 // Import integration-specific mocks
@@ -115,7 +116,8 @@ window.testHarness = {
    */
   getContentScripts: () => ({
     EncryptFrame,
-    ExtractFrame
+    ExtractFrame,
+    providerSpecific
   }),
 
   /**
