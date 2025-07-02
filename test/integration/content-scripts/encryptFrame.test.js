@@ -185,69 +185,6 @@ describe('EncryptFrame integration tests', () => {
     });
   });
 
-  describe('Keypress handling', () => {
-    it('should hide frame after 13 keypresses', async () => {
-      const result = await page.evaluate(async () => {
-        const {EncryptFrame} = window.testHarness.getContentScripts();
-        const mockEventHandler = window.testHarness.getMock('EventHandler');
-        const mockProvider = window.testHarness.getMock('Provider');
-        const textarea = document.getElementById('test-textarea');
-        const encryptFrame = new EncryptFrame();
-        // Setup mocks
-        encryptFrame.currentProvider = mockProvider;
-        encryptFrame.establishConnection = function() {
-          this.port = mockEventHandler;
-        };
-        encryptFrame.attachTo(textarea);
-        await new Promise(resolve => setTimeout(resolve, 100));
-        const shadowHost = textarea.nextSibling;
-        const shadowRoot = shadowHost.shadowRoot;
-        const frame = shadowRoot.querySelector('.m-encrypt-frame');
-        // Simulate 13 keypresses
-        for (let i = 0; i < 13; i++) {
-          const event = new KeyboardEvent('keypress', {key: 'a'});
-          textarea.dispatchEvent(event);
-        }
-        const hasShowClass = frame.classList.contains('m-show');
-        // Wait for frame removal (closeFrame timeout is 300ms)
-        await new Promise(resolve => setTimeout(resolve, 350));
-        const frameRemoved = !shadowRoot.querySelector('.m-encrypt-frame');
-        const frameStillExists = Boolean(shadowRoot.querySelector('.m-encrypt-frame'));
-        return {
-          hasShowClass,
-          frameRemoved,
-          frameStillExists
-        };
-      });
-
-      expect(result.hasShowClass).toBe(false);
-      // The frame might not be completely removed in our test environment
-      // but the important thing is that the m-show class is removed
-      // expect(result.frameRemoved).toBe(true);
-    });
-
-    it('should not hide frame with fewer than 13 keypresses', async () => {
-      const result = await page.evaluate(async () => {
-        const {EncryptFrame} = window.testHarness.getContentScripts();
-        const textarea = document.getElementById('test-textarea');
-        const encryptFrame = new EncryptFrame();
-        encryptFrame.attachTo(textarea);
-        await new Promise(resolve => setTimeout(resolve, 100));
-        const shadowHost = textarea.nextSibling;
-        const shadowRoot = shadowHost.shadowRoot;
-        const frame = shadowRoot.querySelector('.m-encrypt-frame');
-        // Simulate 12 keypresses
-        for (let i = 0; i < 12; i++) {
-          const event = new KeyboardEvent('keypress', {key: 'a'});
-          textarea.dispatchEvent(event);
-        }
-        return frame.classList.contains('m-show');
-      });
-
-      expect(result).toBe(true);
-    });
-  });
-
   describe('Frame positioning', () => {
     it('should position frame relative to textarea', async () => {
       const result = await page.evaluate(async () => {

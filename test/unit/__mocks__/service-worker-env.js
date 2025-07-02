@@ -36,8 +36,24 @@ export const setupServiceWorkerEnvironment = () => {
   global.URLSearchParams = URLSearchParams;
 
   // Text encoding/decoding
-  global.TextEncoder = TextEncoder;
-  global.TextDecoder = TextDecoder;
+  if (typeof TextEncoder !== 'undefined') {
+    global.TextEncoder = TextEncoder;
+  } else {
+    global.TextEncoder = class {
+      encode(str) {
+        return Buffer.from(str, 'utf8');
+      }
+    };
+  }
+  if (typeof TextDecoder !== 'undefined') {
+    global.TextDecoder = TextDecoder;
+  } else {
+    global.TextDecoder = class {
+      decode(buffer) {
+        return Buffer.from(buffer).toString('utf8');
+      }
+    };
+  }
 
   // Base64 encoding/decoding
   global.atob = str => Buffer.from(str, 'base64').toString('binary');

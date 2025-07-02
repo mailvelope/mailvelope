@@ -17,6 +17,10 @@
       this._onMessageHandlers = [];
       this._onDisconnectHandlers = [];
 
+      // Event capturing functionality
+      this._captureEnabled = false;
+      this._capturedEvents = [];
+
       // Create event objects with addListener/removeListener methods
       this.onMessage = {
         addListener: callback => {
@@ -102,6 +106,11 @@
         return;
       }
 
+      // Capture event if capturing is enabled
+      if (this._captureEnabled) {
+        this._capturedEvents.push({...message});
+      }
+
       // Call all registered message handlers
       for (const handler of this._onMessageHandlers) {
         try {
@@ -141,6 +150,66 @@
     _connectTo(otherPort) {
       this._otherPort = otherPort;
       otherPort._otherPort = this;
+    }
+
+    /**
+     * Enable event capturing for this port
+     * @returns {Port} Returns this port for chaining
+     */
+    enableEventCapture() {
+      this._captureEnabled = true;
+      return this;
+    }
+
+    /**
+     * Disable event capturing for this port
+     * @returns {Port} Returns this port for chaining
+     */
+    disableEventCapture() {
+      this._captureEnabled = false;
+      return this;
+    }
+
+    /**
+     * Get array of captured events
+     * @returns {Array} Array of captured event objects
+     */
+    getCapturedEvents() {
+      return [...this._capturedEvents];
+    }
+
+    /**
+     * Clear captured events
+     * @returns {Port} Returns this port for chaining
+     */
+    clearCapturedEvents() {
+      this._capturedEvents = [];
+      return this;
+    }
+
+    /**
+     * Wait for a specific event to be captured
+     * @param {string} eventType - The event type to wait for
+     * @param {number} timeout - Timeout in milliseconds (default: 5000)
+     * @returns {Promise} Promise that resolves with the event when found
+     */
+    waitForEvent(eventType, timeout = 5000) {
+      return new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+          reject(new Error(`Timeout waiting for event: ${eventType}`));
+        }, timeout);
+
+        const checkEvent = () => {
+          const event = this._capturedEvents.find(e => e.event === eventType);
+          if (event) {
+            clearTimeout(timeoutId);
+            resolve(event);
+          } else {
+            setTimeout(checkEvent, 10);
+          }
+        };
+        checkEvent();
+      });
     }
 
     /**

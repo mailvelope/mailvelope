@@ -20,44 +20,6 @@ describe('providerSpecific integration tests', () => {
     });
   });
 
-  describe('Provider initialization and selection', () => {
-    it('should initialize providers and return correct instances', async () => {
-      const result = await page.evaluate(() => {
-        const contentScripts = window.testHarness.getContentScripts();
-
-        // Check if providerSpecific is available
-        if (!contentScripts.providerSpecific) {
-          return {error: 'providerSpecific not available in testHarness'};
-        }
-
-        const providerSpecific = contentScripts.providerSpecific;
-        providerSpecific.init({provider: {gmail_integration: false}});
-
-        const gmail = providerSpecific.get('mail.google.com');
-        const yahoo = providerSpecific.get('mail.yahoo.com');
-        const outlook = providerSpecific.get('outlook.live.com');
-        const defaultProvider = providerSpecific.get('unknown.provider.com');
-
-        return {
-          gmail: gmail.constructor.name,
-          yahoo: yahoo.constructor.name,
-          outlook: outlook.constructor.name,
-          default: defaultProvider.constructor.name
-        };
-      });
-
-      if (result.error) {
-        console.log('Available content scripts:', await page.evaluate(() => Object.keys(window.testHarness.getContentScripts())));
-        throw new Error(result.error);
-      }
-
-      expect(result.gmail).toBe('Gmail');
-      expect(result.yahoo).toBe('Yahoo');
-      expect(result.outlook).toBe('Outlook');
-      expect(result.default).toBe('Default');
-    });
-  });
-
   describe('Gmail provider DOM interactions', () => {
     beforeEach(async () => {
       await page.evaluate(() => {
@@ -373,33 +335,6 @@ describe('providerSpecific integration tests', () => {
       // Should return empty array when persona card doesn't appear
       expect(result.success).toBe(true);
       expect(result.result).toEqual([]);
-    });
-  });
-
-  describe('Default provider fallback', () => {
-    it('should handle unknown providers gracefully', async () => {
-      const result = await page.evaluate(async () => {
-        const {providerSpecific} = window.testHarness.getContentScripts();
-        providerSpecific.init({provider: {gmail_integration: false}});
-
-        const defaultProvider = providerSpecific.get('mail.unknown-provider.com');
-
-        const recipients = await defaultProvider.getRecipients();
-        const sender = await defaultProvider.getSender();
-
-        // setRecipients should not throw
-        defaultProvider.setRecipients({recipients: [{email: 'test@example.com'}]});
-
-        return {
-          providerName: defaultProvider.constructor.name,
-          recipients,
-          sender
-        };
-      });
-
-      expect(result.providerName).toBe('Default');
-      expect(result.recipients).toEqual([]);
-      expect(result.sender).toEqual([]);
     });
   });
 

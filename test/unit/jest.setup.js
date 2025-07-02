@@ -20,9 +20,9 @@ if (testPath) {
       testPath.includes('/test/unit/content-scripts/')) {
     // React component tests and content scripts - DOM environment with limited Chrome APIs
     setupDOMEnvironment();
-  } else if (testPath.includes('/test/controller/') ||
-             testPath.includes('/test/lib/') ||
-             testPath.includes('/test/modules/')) {
+  } else if (testPath.includes('/test/unit/controller/') ||
+             testPath.includes('/test/unit/lib/') ||
+             testPath.includes('/test/unit/modules/')) {
     // Background script tests - Service worker environment with full Chrome APIs
     setupServiceWorkerEnvironment();
   }

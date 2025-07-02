@@ -11,12 +11,7 @@ jest.mock('../../../src/content-scripts/main', () => ({
 }));
 jest.mock('../../../src/content-scripts/extractFrame.css', () => '.m-extract-frame { display: block; }', {virtual: true});
 
-// Mock util functions
-jest.mock('../../../src/lib/util', () => ({
-  getUUID: jest.fn(() => 'test-uuid-123'),
-  normalizeArmored: jest.fn(msg => msg),
-  parseHTML: jest.fn(() => [])
-}));
+jest.mock('../../../src/lib/util', () => require('../__mocks__/lib/util').default);
 
 describe('ExtractFrame unit tests', () => {
   let extractFrame;

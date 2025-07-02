@@ -6,11 +6,7 @@ jest.mock('../../../src/content-scripts/gmailIntegration', () => jest.fn().mockI
   init: jest.fn()
 })));
 
-// Mock utilities
-jest.mock('../../../src/lib/util', () => ({
-  sequential: jest.fn((fn, items) => Promise.resolve(items.map(item => fn(item)))),
-  isVisible: jest.fn(element => element && element.style.display !== 'none')
-}));
+jest.mock('../../../src/lib/util', () => require('../__mocks__/lib/util').default);
 
 // Mock goog email library
 jest.mock('../../../src/modules/closure-library/closure/goog/emailaddress', () => ({
