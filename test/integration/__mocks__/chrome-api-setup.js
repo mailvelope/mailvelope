@@ -65,9 +65,9 @@
         const clonedMessage = JSON.parse(JSON.stringify(message));
 
         // Asynchronously deliver the message to simulate real behavior
-        setTimeout(() => {
+        setTimeout(async () => {
           if (this._otherPort?._isConnected) {
-            this._otherPort._triggerMessageEvent(clonedMessage, this);
+            await this._otherPort._triggerMessageEvent(clonedMessage, this);
           }
         }, 0);
       }
@@ -101,23 +101,23 @@
      * Internal method to handle incoming messages
      * @private
      */
-    _triggerMessageEvent(message, senderPort) {
+    async _triggerMessageEvent(message, senderPort) {
       if (!this._isConnected) {
         return;
       }
 
-      // Capture event if capturing is enabled
-      if (this._captureEnabled) {
-        this._capturedEvents.push({...message});
-      }
-
-      // Call all registered message handlers
+      // Call all registered message handlers and wait for them to complete
       for (const handler of this._onMessageHandlers) {
         try {
-          handler(message, senderPort);
+          await handler(message, senderPort);
         } catch (error) {
           console.error('Error in onMessage handler:', error);
         }
+      }
+
+      // Capture event AFTER all handlers have finished processing
+      if (this._captureEnabled) {
+        this._capturedEvents.push({...message});
       }
     }
 
@@ -392,6 +392,9 @@
       addListener() {}
     }
   };
+
+  // Define browser object to trigger the offscreen.js path that creates window.offscreen
+  window.browser = window.browser || {};
 
   // Expose reset function for test cleanup
   window.chrome._resetMockState = () => {

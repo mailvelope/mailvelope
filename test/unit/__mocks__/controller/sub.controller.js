@@ -16,6 +16,10 @@ export default {
       this.state = {...this.state, ...newState};
     }
 
+    hasPort(portName) {
+      return Boolean(this.ports[portName]);
+    }
+
     emit() {}
 
     send() {}

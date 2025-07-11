@@ -4,7 +4,7 @@
  */
 
 import {init as initModel} from 'modules/pgpModel';
-import {init as initKeyring, createKeyring} from 'modules/keyring';
+import {init as initKeyring, createKeyring, getById} from 'modules/keyring';
 import {initController, controllerPool} from 'controller/main.controller';
 import {createController, verifyConnectPermission} from 'controller/factory';
 import {prefs} from 'modules/prefs';
@@ -15,15 +15,12 @@ import ExtractFrame from 'content-scripts/extractFrame';
 import * as providerSpecific from 'content-scripts/providerSpecific';
 import {testAutocryptHeaders} from '../../fixtures/headers';
 import testKeys from '../../fixtures/keys';
+// Import offscreen module to ensure window.offscreen is available
+import 'lib/offscreen/offscreen';
 
 // Import integration-specific mocks
 import {createMockEventHandler} from '../__mocks__/lib/EventHandler';
 import {createMockProvider} from '../__mocks__/content-scripts/providers';
-import {createMockKeyring} from '../__mocks__/modules/keyring';
-import {createMockKey} from '../__mocks__/modules/key';
-import {createMockPgpModel} from '../__mocks__/modules/pgpModel';
-import {createMockKeyRegistry} from '../__mocks__/modules/keyRegistry';
-import {createMockMime} from '../__mocks__/modules/mime';
 // Port is imported from chrome-api-setup.js which is loaded before this bundle
 
 // Mock registry for auto-reset
@@ -80,9 +77,6 @@ window.testHarness = {
       Object.keys(testDataStore).forEach(key => {
         delete testDataStore[key];
       });
-
-      // Clear module mocks
-      window.testHarness.clearModuleMocks();
 
       window.chrome?._resetMockState();
     } catch (error) {
@@ -148,12 +142,7 @@ window.testHarness = {
   getMock: (name, config = {}) => {
     const mocks = {
       'EventHandler': createMockEventHandler,
-      'Provider': createMockProvider,
-      'Keyring': createMockKeyring,
-      'Key': createMockKey,
-      'PgpModel': createMockPgpModel,
-      'KeyRegistry': createMockKeyRegistry,
-      'Mime': createMockMime
+      'Provider': createMockProvider
     };
     if (!mocks[name]) {
       throw new Error(`Mock '${name}' not found. Available mocks: ${Object.keys(mocks).join(', ')}`);
@@ -225,13 +214,6 @@ window.testHarness = {
   },
 
   /**
-   * Clear module mocks
-   */
-  clearModuleMocks: () => {
-    delete window.__testMocks;
-  },
-
-  /**
    * Create a test keyring with the given ID
    * @param {string} keyringId - The keyring ID to create
    * @param {Object} options - Options for keyring creation
@@ -250,7 +232,6 @@ window.testHarness = {
 
     // Import test keys if requested
     if (options.importTestKeys) {
-      const {getById} = await import('modules/keyring');
       const keyring = await getById(keyringId);
 
       // Import test keys (api_test has both public and private)
@@ -267,6 +248,49 @@ window.testHarness = {
           console.warn('Failed to import test key:', e);
         }
       }
+    }
+  },
+
+  /**
+   * Encrypt a test message using the test keyring
+   * @param {string} message - The message to encrypt
+   * @param {Object} options - Encryption options
+   * @param {string} options.keyringId - The keyring ID to use (defaults to 'test-keyring-id')
+   * @param {string} options.recipientFpr - The recipient's fingerprint (defaults to api_test key fingerprint)
+   * @param {string} options.signingKeyFpr - The signing key fingerprint (optional)
+   * @returns {Promise<string>} The encrypted armored message
+   */
+  encryptTestMessage: async (message, options = {}) => {
+    try {
+      const keyringId = options.keyringId || 'test-keyring-id';
+      const keyring = await getById(keyringId);
+
+      // Get the api_test key fingerprint (this is the default recipient)
+      const recipientFpr = options.recipientFpr || 'add0c44ae80a572f3805729cf47328454fa3ab54';
+      const signingKeyFpr = options.signingKeyFpr;
+
+      // Create a mock unlock function for testing
+      const unlockKey = async ({key}) =>
+        // For testing, we'll assume the test key has no passphrase
+        // In a real scenario, this would prompt for a password
+        key
+      ;
+
+      // Use the openpgpjs backend to encrypt
+      const backend = keyring.getPgpBackend();
+      const encrypted = await backend.encrypt({
+        data: message,
+        keyring,
+        unlockKey,
+        encryptionKeyFprs: [recipientFpr],
+        signingKeyFpr,
+        armor: true
+      });
+
+      return encrypted;
+    } catch (error) {
+      console.error('testHarness.encryptTestMessage: Failed to encrypt message:', error);
+      throw error;
     }
   },
 
