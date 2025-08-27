@@ -55,8 +55,8 @@ export default class AuthDomainController extends SubController {
     const authDomainList = await getWatchList();
     const port = this.options.port ? `:${this.options.port}` : '';
     await setWatchList([...authDomainList, {site: `${this.options.hostname}${port}`, active: true, https_only: this.options.protocol === 'https:' ? true : false, frames: [{scan: true, frame: `*.${this.options.hostname}${port}`, api: this.options.api}]}]);
-    await initScriptInjection();
     this.closePopup();
+    initScriptInjection();
   }
 
   closePopup() {
