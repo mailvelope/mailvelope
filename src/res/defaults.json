@@ -165,6 +165,33 @@
     },
     {
       "active": true,
+      "site": "mail.de",
+      "https_only": true,
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.my.mail.de",
+          "api": true
+        },
+        {
+          "scan": true,
+          "frame": "*.my.mail.ch",
+          "api": true
+        },
+        {
+          "scan": true,
+          "frame": "*.my.mail.fr",
+          "api": true
+        },
+        {
+          "scan": true,
+          "frame": "*.my.mail.co.uk",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "mail.ru",
       "https_only": true,
       "frames": [
