@@ -194,66 +194,6 @@
     },
     {
       "active": true,
-      "site": "1und1 De-Mail",
-      "https_only": true,
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.de-mail.1und1.de",
-          "api": true
-        }
-      ]
-    },
-    {
-      "active": true,
-      "site": "GMX De-Mail",
-      "https_only": true,
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.de-mail.gmx.net",
-          "api": true
-        }
-      ]
-    },
-    {
-      "active": true,
-      "site": "Telekom De-Mail",
-      "https_only": true,
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.de-mail.t-online.de",
-          "api": true
-        }
-      ]
-    },
-    {
-      "active": true,
-      "site": "T-Systems De-Mail",
-      "https_only": true,
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.de-mail.t-systems.de",
-          "api": true
-        }
-      ]
-    },
-    {
-      "active": true,
-      "site": "WEB.DE De-Mail",
-      "https_only": true,
-      "frames": [
-        {
-          "scan": true,
-          "frame": "*.de-mail.web.de",
-          "api": true
-        }
-      ]
-    },
-    {
-      "active": true,
       "site": "FP Mentana-Claimsoft De-Mail",
       "https_only": true,
       "frames": [
