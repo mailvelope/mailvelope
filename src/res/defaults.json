@@ -155,6 +155,11 @@
           "scan": true,
           "frame": "*.office.mailbox.org",
           "api": true
+        },
+        {
+          "scan": true,
+          "frame": "*.app.mailbox.org",
+          "api": true
         }
       ]
     },
