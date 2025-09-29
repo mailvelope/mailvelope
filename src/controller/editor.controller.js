@@ -17,7 +17,7 @@ import * as model from '../modules/pgpModel';
 import {createController} from './main.controller';
 import {SubController} from './sub.controller';
 import * as uiLog from '../modules/uiLog';
-import {parseMessage, buildMail} from '../modules/mime';
+import {parseMessage, buildMail, buildSignedMail} from '../modules/mime';
 import * as gmail from '../modules/gmail';
 import {triggerSync} from './sync.controller';
 import * as keyRegistry from '../modules/keyRegistry';
@@ -52,10 +52,11 @@ export default class EditorController extends SubController {
     this.on('key-lookup', this.onKeyLookup);
     // standalone editor only
     this.on('editor-close', this.onEditorClose);
-    this.on('sign-only', this.onSignOnly);
+    this.on('cleartext-sign', this.onCleartextSign);
     // API only
     this.on('editor-container-encrypt', this.onEditorContainerEncrypt);
     this.on('editor-container-create-draft', this.onEditorContainerCreateDraft);
+    this.on('editor-container-sign', this.onEditorContainerSign);
     this.on('editor-options', this.onEditorOptions);
     this.on('open-app', ({fragment}) => this.openApp(fragment));
   }
@@ -270,9 +271,15 @@ export default class EditorController extends SubController {
     this.ports.editor.emit('get-plaintext', {action: 'encrypt', draft: true});
   }
 
-  onSignOnly(msg) {
-    this.signKeyFpr = msg.signKeyFpr;
+  async onEditorContainerSign(msg) {
+    this.pgpMIME = true;
+    this.setState({keyringId: msg.keyringId});
     this.ports.editor.emit('get-plaintext', {action: 'sign'});
+  }
+
+  onCleartextSign(msg) {
+    this.signKeyFpr = msg.signKeyFpr;
+    this.ports.editor.emit('get-plaintext', {action: 'cleartext-sign'});
   }
 
   onEditorUserInput(msg) {
@@ -448,7 +455,7 @@ export default class EditorController extends SubController {
 
   /**
    * Receive plaintext from editor, initiate encryption
-   * @param {String} options.action - 'sign' or 'encrypt'
+   * @param {String} options.action - 'sign', 'cleartext-sign' or 'encrypt'
    * @param {String} options.message - body of the message
    * @param {Array} options.keysTo - [key data object (user id, key id, fingerprint, email and name)]
    * @param {Array} options.keysCc - [key data object (user id, key id, fingerprint, email and name)]
@@ -460,7 +467,20 @@ export default class EditorController extends SubController {
   async onEditorPlaintext(options) {
     options.keys = [...options.keysTo, ...options.keysCc, ...options.keysEx];
     try {
-      const {armored, encFiles} = await this.signAndEncrypt(options);
+      let armored;
+      let encFiles;
+      switch (options.action) {
+        case 'sign':
+          armored = await this.sign(options);
+          break;
+        case 'cleartext-sign':
+          options.clearSign = true;
+          armored = await this.signMessage(options);
+          break;
+        case 'encrypt':
+          ({armored, encFiles} = await this.encrypt(options));
+          break;
+      }
       this.ports.editor.emit('encrypt-end');
       if (!this.state.integration) {
         this.onEditorClose();
@@ -482,8 +502,7 @@ export default class EditorController extends SubController {
   }
 
   /**
-   * Encrypt, sign & encrypt, or sign only operation
-   * @param {String} options.action - 'sign' or 'encrypt'
+   * Encrypt
    * @param {String} options.message - body of the message
    * @param {String} options.keys - key data object (user id, key id, fingerprint, email and name)
    * @param {Array} options.attachments - file attachments
@@ -492,72 +511,112 @@ export default class EditorController extends SubController {
    * @param {Boolean} options.noCache - do not use password cache, user interaction required
    * @return {Promise<String>} - message as armored block
    */
-  async signAndEncrypt(options) {
-    if (options.action === 'encrypt') {
-      const noCache = options.noCache;
-      const keyFprs = await this.getPublicKeyFprs(options.keys);
-      let signKeyFpr;
-      let unlockKey;
-      let unlockedSignKey;
-      if (options.signMsg) {
-        signKeyFpr = options.signKeyFpr;
-        if (!signKeyFpr) {
-          const defaultKeyFpr = await getDefaultKeyFpr(this.state.keyringId);
-          signKeyFpr = defaultKeyFpr;
-        }
-        if (!signKeyFpr) {
-          throw new MvError('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
-        }
-        unlockKey = async options => {
-          options.noCache = noCache;
-          options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
-          options.sync = !prefs.security.password_cache;
-          options.key = unlockedSignKey ?? options.key;
-          unlockedSignKey = await this.unlockKey(options);
-          return unlockedSignKey;
-        };
+  async encrypt(options) {
+    const noCache = options.noCache;
+    const keyFprs = await this.getPublicKeyFprs(options.keys);
+    let signKeyFpr;
+    let unlockKey;
+    let unlockedSignKey;
+    if (options.signMsg) {
+      signKeyFpr = options.signKeyFpr;
+      if (!signKeyFpr) {
+        const defaultKeyFpr = await getDefaultKeyFpr(this.state.keyringId);
+        signKeyFpr = defaultKeyFpr;
       }
-      let data;
-      let files = [];
-      let encFiles = [];
-      options.pgpMIME = this.pgpMIME;
-      if (this.state.integration && !this.pgpMIME) {
-        ({attachments: files, ...options} = options);
+      if (!signKeyFpr) {
+        throw new MvError('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
       }
-      try {
-        data = buildMail(options);
-      } catch (error) {
-        if (this.ports.editorCont) {
-          this.ports.editorCont.emit('error-message', {error: mapError(error)});
-        }
+      unlockKey = async options => {
+        options.noCache = noCache;
+        options.reason = this.options.reason || 'PWD_DIALOG_REASON_SIGN';
+        options.sync = !prefs.security.password_cache;
+        options.key = unlockedSignKey ?? options.key;
+        unlockedSignKey = await this.unlockKey(options);
+        return unlockedSignKey;
+      };
+    }
+    let data;
+    let files = [];
+    let encFiles = [];
+    options.pgpMIME = this.pgpMIME;
+    if (this.state.integration && !this.pgpMIME) {
+      ({attachments: files, ...options} = options);
+    }
+    try {
+      data = buildMail(options);
+    } catch (error) {
+      if (this.ports.editorCont) {
+        this.ports.editorCont.emit('error-message', {error: mapError(error)});
       }
-      if (data === null) {
-        throw new MvError('MIME building failed.');
-      }
-      const armored = await this.encryptMessage({
-        data,
+    }
+    if (data === null) {
+      throw new MvError('MIME building failed.');
+    }
+    const armored = await this.encryptMessage({
+      data,
+      keyFprs,
+      signKeyFpr,
+      unlockKey,
+      noCache
+    });
+    if (!this.pgpMIME && files.length) {
+      encFiles = await this.encryptFiles({
+        files,
         keyFprs,
         signKeyFpr,
         unlockKey,
         noCache
       });
-      if (!this.pgpMIME && files.length) {
-        encFiles = await this.encryptFiles({
-          files,
-          keyFprs,
-          signKeyFpr,
-          unlockKey,
-          noCache
-        });
-      }
-      return {armored, encFiles};
-    } else if (options.action === 'sign') {
-      const armored = await this.signMessage({
-        data: options.message,
-        signKeyFpr: this.signKeyFpr
-      });
-      return {armored};
     }
+    return {armored, encFiles};
+  }
+
+  async sign(options) {
+    let signKeyFpr = options.signKeyFpr;
+    if (!signKeyFpr) {
+      const defaultKeyFpr = await getDefaultKeyFpr(this.state.keyringId);
+      signKeyFpr = defaultKeyFpr;
+    }
+    if (!signKeyFpr) {
+      throw new MvError('No private key found to sign this message.', 'NO_DEFAULT_KEY_FOUND');
+    }
+    let data;
+    let mimeMsg;
+    options.pgpMIME = this.pgpMIME;
+    options.msgEncoding = 'base64';
+    options.format = 'object';
+    try {
+      mimeMsg = buildMail(options);
+      data = mimeMsg.build();
+    } catch (error) {
+      if (this.ports.editorCont) {
+        this.ports.editorCont.emit('error-message', {error: mapError(error)});
+      }
+    }
+    if (data === null) {
+      throw new MvError('MIME building failed.');
+    }
+    const detached = await this.signMessage({
+      message: data,
+      signKeyFpr
+    });
+    const armored = await buildSignedMail({contentNode: mimeMsg, signature: detached});
+    return armored;
+  }
+
+  async signMessage({message, signKeyFpr = this.signKeyFpr, clearSign}) {
+    const unlockKey = async options => {
+      options.reason = 'PWD_DIALOG_REASON_SIGN';
+      return this.unlockKey(options);
+    };
+    const armored = model.signMessage({
+      data: message,
+      keyringId: this.state.keyringId,
+      unlockKey,
+      signingKeyFpr: signKeyFpr,
+      clearSign
+    });
+    return armored;
   }
 
   /**
@@ -596,24 +655,6 @@ export default class EditorController extends SubController {
       const base64encoded = btoa(encrypted);
       return {content: `data:application/octet-stream;base64,${base64encoded}`, size: byteCount(base64encoded), name: fileExt === 'txt' ? `${file.name}.asc` : `${file.name}.gpg`};
     }));
-  }
-
-  /**
-   * Create a cleartext signature
-   * @param {String} data
-   * @return {Promise<String>}
-   */
-  signMessage({data, signKeyFpr}) {
-    const unlockKey = async options => {
-      options.reason = 'PWD_DIALOG_REASON_SIGN';
-      return this.unlockKey(options);
-    };
-    return model.signMessage({
-      data,
-      keyringId: this.state.keyringId,
-      unlockKey,
-      signingKeyFpr: signKeyFpr
-    });
   }
 
   /**

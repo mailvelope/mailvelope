@@ -65,10 +65,11 @@ export async function encrypt({data, dataURL, encryptionKeyFprs, signingKeyFpr, 
  * Sign message
  * @param  {String} data - data to be signed as plaintext
  * @param  {String} signingKeyFpr - fingerprint of signing key
+ * @param  {String} clearSign - produce a cleartext signed message
  * @return {String}
  */
-export async function sign({data, signingKeyFpr}) {
-  const result = await gpgme.sign({data, keys: signingKeyFpr, mode: 'clearsign'});
+export async function sign({data, signingKeyFpr, clearSign}) {
+  const result = await gpgme.sign({data, keys: signingKeyFpr, mode: clearSign ? 'clearsign' : 'detached'});
   return result.data;
 }
 

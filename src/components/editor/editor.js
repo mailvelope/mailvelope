@@ -214,9 +214,9 @@ export default class Editor extends React.Component {
   /**
    * Is called when the user clicks the sign button.
    */
-  handleSign() {
+  handleCleartextSign() {
     this.logUserInput('security_log_dialog_sign');
-    this.port.emit('sign-only', {
+    this.port.emit('cleartext-sign', {
       signKeyFpr: this.state.signKey
     });
   }
@@ -242,15 +242,16 @@ export default class Editor extends React.Component {
 
   /**
    * Send the plaintext body to the background script for either signing or encryption.
-   * @param  {String} action   Either 'sign' or 'encrypt'
+   * Return email if key not available (action: 'sign' or 'cleartext-sign')
+   * @param  {String} action   'sign', 'cleartext-sign' or 'encrypt'
    */
   sendPlainText(action, noCache, draft) {
     this.port.emit('editor-plaintext', {
       message: this.state.plainText,
       subject: this.state.subject,
-      keysTo: this.state.recipients.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
-      keysCc: this.state.recipientsCc.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
-      keysEx: this.state.extraKeys.map(r => r.key || {email: r.email}), // return email if key not available (action: 'sign')
+      keysTo: this.state.recipients.map(r => r.key || {email: r.email}),
+      keysCc: this.state.recipientsCc.map(r => r.key || {email: r.email}),
+      keysEx: this.state.extraKeys.map(r => r.key || {email: r.email}),
       attachments: this.state.files,
       action,
       signMsg: this.state.signMsg || draft, // draft is always signed
@@ -509,7 +510,7 @@ export default class Editor extends React.Component {
                     onClickSignSetting={() => this.port.emit('open-app', {fragment: '/settings/general'})}
                     onExtraKey={event => this.handleCheck(event)}
                     onOk={() => this.handleOk()}
-                    onSignOnly={() => this.handleSign()}
+                    onSignOnly={() => this.handleCleartextSign()}
                     privKeys={this.state.privKeys} encryptDisabled={this.isEncryptDisabled()}
                   />
                 </div>

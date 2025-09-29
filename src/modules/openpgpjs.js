@@ -91,13 +91,19 @@ export async function encrypt({data, dataURL, keyring, unlockKey, encryptionKeyF
  * @param  {KeyringBase} options.keyring - keyring used for signing
  * @param  {Function} options.unlockKey - callback that unlocks private key
  * @param  {String} options.signingKeyFpr - fingerprint of signing key
+ * @param  {String} options.clearSign - produce a cleartext signed message
  * @return {String}
  */
-export async function sign({data, keyring, unlockKey, signingKeyFpr}) {
-  const message = await createCleartextMessage({text: data});
+export async function sign({data, keyring, unlockKey, signingKeyFpr, clearSign}) {
   let signingKey = keyring.getPrivateKeyByIds(signingKeyFpr);
   signingKey = await unlockKey({key: signingKey});
-  const result = await pgpSign({message, signingKeys: [signingKey]});
+  let message;
+  if (clearSign) {
+    message = await createCleartextMessage({text: data});
+  } else {
+    message = await createMessage({text: data});
+  }
+  const result = await pgpSign({message, signingKeys: [signingKey], detached: !clearSign});
   return result;
 }
 

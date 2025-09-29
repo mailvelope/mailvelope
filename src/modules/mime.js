@@ -117,22 +117,22 @@ export function filterBodyParts(bodyParts, type, result) {
  * @param {String} attachments.type
  * @returns {String | null}
  */
-export function buildMail({message, attachments, quota, pgpMIME}) {
+export function buildMail({message, attachments, quota, pgpMIME, msgEncoding, format}) {
+  if (!attachments?.length && !pgpMIME) {
+    return message;
+  }
   const mainMessage = new MimeBuilder('multipart/mixed');
-  let composedMessage = null;
-  let hasAttachment;
-  let quotaSize = 0;
+  let mailSize = 0;
   if (message) {
-    quotaSize += byteCount(message);
+    mailSize += byteCount(message);
     const textMime = new MimeBuilder('text/plain')
-    .setHeader({'content-transfer-encoding': 'quoted-printable'})
+    .setHeader({'content-transfer-encoding': `${msgEncoding ? msgEncoding : 'quoted-printable'}`})
     .setContent(message);
     mainMessage.appendChild(textMime);
   }
-  if (attachments && attachments.length > 0) {
-    hasAttachment = true;
+  if (attachments?.length) {
     for (const attachment of attachments) {
-      quotaSize += attachment.size;
+      mailSize += attachment.size;
       const attachmentMime = new MimeBuilder('multipart/mixed')
       .createChild(null, {filename: attachment.name})
       .setHeader({
@@ -143,15 +143,21 @@ export function buildMail({message, attachments, quota, pgpMIME}) {
       mainMessage.appendChild(attachmentMime);
     }
   }
-  if (quota && (quotaSize > quota)) {
+  if (quota && (mailSize > quota)) {
     throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
   }
-  if (hasAttachment || pgpMIME) {
-    composedMessage = mainMessage.build();
-  } else {
-    composedMessage = message;
-  }
-  return composedMessage;
+  return format === 'object' ? mainMessage : mainMessage.build();
+}
+
+export function buildSignedMail({contentNode, signature}) {
+  // TODO set micalg correctly
+  const mainMessage = new MimeBuilder('multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature";');
+  mainMessage.appendChild(contentNode);
+  const signatureNode = new MimeBuilder('application/pgp-signature');
+  signatureNode.setHeader({'content-disposition': 'attachment; filename="OpenPGP_signature.asc"'})
+  .setContent(signature);
+  mainMessage.appendChild(signatureNode);
+  return mainMessage.build();
 }
 
 export function buildMailWithHeader({message, attachments, sender, to, cc, subject, quota, continuationEncode = true}) {
@@ -165,9 +171,9 @@ export function buildMailWithHeader({message, attachments, sender, to, cc, subje
     headers.cc = cc.join(', ');
   }
   mainMessage.addHeader(headers);
-  let quotaSize = 0;
+  let mailSize = 0;
   if (message) {
-    quotaSize += byteCount(message);
+    mailSize += byteCount(message);
     const textMime = new MimeBuilder('text/plain')
     .setHeader({'content-transfer-encoding': 'quoted-printable'})
     .setContent(message);
@@ -175,7 +181,7 @@ export function buildMailWithHeader({message, attachments, sender, to, cc, subje
   }
   if (attachments && attachments.length > 0) {
     for (const attachment of attachments) {
-      quotaSize += attachment.size;
+      mailSize += attachment.size;
       const id = `mv_${getUUID()}`;
       const attachmentMime = new MimeBuilder('multipart/mixed')
       .createChild(null, {filename: attachment.name, continuationEncode})
@@ -189,7 +195,7 @@ export function buildMailWithHeader({message, attachments, sender, to, cc, subje
       mainMessage.appendChild(attachmentMime);
     }
   }
-  if (quota && (quotaSize > quota)) {
+  if (quota && (mailSize > quota)) {
     throw new MvError('Mail content exceeds quota limit.', 'ENCRYPT_QUOTA_SIZE');
   }
   return mainMessage.build();

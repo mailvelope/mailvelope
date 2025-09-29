@@ -122,6 +122,7 @@ function registerClientEventHandler() {
   clientPort.on('has-private-key', hasPrivateKey);
   clientPort.on('editor-encrypt', editorEncrypt);
   clientPort.on('editor-create-draft', editorCreateDraft);
+  clientPort.on('editor-sign', editorSign);
   clientPort.on('query-valid-key', validKeyForAddress);
   clientPort.on('export-own-pub-key', exportOwnPublicKey);
   clientPort.on('additional-headers-for-outgoing', additionalHeadersForOutgoing);
@@ -232,6 +233,10 @@ function editorEncrypt({editorId, recipients}) {
 
 function editorCreateDraft({editorId}) {
   return containers.get(editorId).createDraft();
+}
+
+function editorSign({editorId}) {
+  return containers.get(editorId).sign();
 }
 
 function validKeyForAddress({keyringId, recipients}) {

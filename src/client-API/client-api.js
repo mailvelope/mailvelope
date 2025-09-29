@@ -617,6 +617,20 @@ class Editor {
   createDraft() {
     return send('editor-create-draft', {editorId: this.editorId});
   }
+
+  /**
+   * Requests the signing of the editor content.
+   * @returns {Promise.<String, Error>} - MIME message with OpenPGP signature
+   * @throws {Error} error.code = 'ENCRYPT_IN_PROGRESS' <br>
+   *                 error.code = 'ENCRYPT_QUOTA_SIZE'
+   * @example
+   * const mimeMessage = await editor.sign();
+   * console.log('sign', mimeMessage); // prints: "Content-Type: multipart/mixed..."
+   * }
+   */
+  sign() {
+    return send('editor-sign', {editorId: this.editorId});
+  }
 }
 
 const callbacks = Object.create(null);

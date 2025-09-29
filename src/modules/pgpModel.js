@@ -310,20 +310,21 @@ async function acquireSigningKeys({senderAddress, keyring, lookupKey, keyId}) {
 }
 
 /**
- * Sign plaintext message
- * @param  {String} options.data - plaintext message
- * @param  {String} options.keyringId
- * @param  {[type]} options.unlockKey - callback to unlock key
- * @param  {[type]} options.signingKeyFpr - fingerprint of sign key
+ * Sign plaintext message, creates detached signature by default
+ * @param  {String} data - plaintext message
+ * @param  {String} keyringId
+ * @param  {[Function]} unlockKey - callback to unlock key
+ * @param  {[String]} signingKeyFpr - fingerprint of sign key
+ * @param  {[Bool]} clearSign - produce a cleartext signed message
  * @return {Promise<String>}
  */
-export async function signMessage({data, keyringId, unlockKey, signingKeyFpr}) {
+export async function signMessage({data, keyringId, unlockKey, signingKeyFpr, clearSign}) {
   const keyring = await getKeyringWithPrivKey(signingKeyFpr, keyringId);
   if (!keyring) {
     throw new MvError('No private key found', 'NO_PRIVATE_KEY_FOUND');
   }
   try {
-    const result = await keyring.getPgpBackend().sign({data, keyring, unlockKey, signingKeyFpr});
+    const result = await keyring.getPgpBackend().sign({data, keyring, unlockKey, signingKeyFpr, clearSign});
     uiLog.push('security_log_editor', 'security_log_sign_operation', [signingKeyFpr.toUpperCase()], false);
     return result;
   } catch (e) {

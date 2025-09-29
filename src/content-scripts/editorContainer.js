@@ -76,6 +76,9 @@ export default class EditorContainer {
     } else if (this.createDraftPromise) {
       this.createDraftPromise.resolve(message);
       this.createDraftPromise = null;
+    } else if (this.signPromise) {
+      this.signPromise.resolve(message);
+      this.signPromise = null;
     }
   }
 
@@ -98,8 +101,16 @@ export default class EditorContainer {
     });
   }
 
+  sign() {
+    return new Promise((resolve, reject) => {
+      this.checkInProgress();
+      this.signPromise = {resolve, reject};
+      this.port.emit('editor-container-sign', {keyringId: this.keyringId});
+    });
+  }
+
   checkInProgress() {
-    if (this.encryptPromise || this.createDraftPromise) {
+    if (this.encryptPromise || this.createDraftPromise || this.signPromise) {
       throw new MvError('Encryption already in progress.', 'ENCRYPT_IN_PROGRESS');
     }
   }
