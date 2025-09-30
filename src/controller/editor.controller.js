@@ -585,6 +585,7 @@ export default class EditorController extends SubController {
     options.pgpMIME = this.pgpMIME;
     options.msgEncoding = 'base64';
     options.format = 'object';
+    options.skipMandatoryHeaders = true;
     try {
       mimeMsg = buildMail(options);
       data = mimeMsg.build();
@@ -600,7 +601,7 @@ export default class EditorController extends SubController {
       message: data,
       signKeyFpr
     });
-    const armored = await buildSignedMail({contentNode: mimeMsg, signature: detached});
+    const armored = await buildSignedMail({contentNode: mimeMsg, signature: detached, skipMandatoryHeaders: true});
     return armored;
   }
 

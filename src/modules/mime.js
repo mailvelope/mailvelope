@@ -115,13 +115,15 @@ export function filterBodyParts(bodyParts, type, result) {
  * @param {String} attachments.content
  * @param {Integer} attachments.size
  * @param {String} attachments.type
+ * @param {Boolean} skipMandatoryHeaders - if true, wraps content in a child node to avoid auto-generated headers
  * @returns {String | null}
  */
-export function buildMail({message, attachments, quota, pgpMIME, msgEncoding, format}) {
+export function buildMail({message, attachments, quota, pgpMIME, msgEncoding, format, skipMandatoryHeaders}) {
   if (!attachments?.length && !pgpMIME) {
     return message;
   }
-  const mainMessage = new MimeBuilder('multipart/mixed');
+  const rootNode = skipMandatoryHeaders ? new MimeBuilder('message/rfc822') : null;
+  const mainMessage = skipMandatoryHeaders ? rootNode.createChild('multipart/mixed') : new MimeBuilder('multipart/mixed');
   let mailSize = 0;
   if (message) {
     mailSize += byteCount(message);
@@ -149,9 +151,10 @@ export function buildMail({message, attachments, quota, pgpMIME, msgEncoding, fo
   return format === 'object' ? mainMessage : mainMessage.build();
 }
 
-export function buildSignedMail({contentNode, signature}) {
+export function buildSignedMail({contentNode, signature, skipMandatoryHeaders}) {
   // TODO set micalg correctly
-  const mainMessage = new MimeBuilder('multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature";');
+  const rootNode = skipMandatoryHeaders ? new MimeBuilder('message/rfc822') : null;
+  const mainMessage = skipMandatoryHeaders ? rootNode.createChild('multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature";') : new MimeBuilder('multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature";');
   mainMessage.appendChild(contentNode);
   const signatureNode = new MimeBuilder('application/pgp-signature');
   signatureNode.setHeader({'content-disposition': 'attachment; filename="OpenPGP_signature.asc"'})
