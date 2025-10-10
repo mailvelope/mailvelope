@@ -3,7 +3,7 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {getUUID} from '../lib/util';
+import {getUUID, normalizeArmored} from '../lib/util';
 import EventHandler from '../lib/EventHandler';
 
 export default class DecryptContainer {
@@ -57,6 +57,9 @@ export default class DecryptContainer {
   }
 
   onArmored() {
+    if (!/^-----BEGIN PGP MESSAGE-----/.test(this.armored)) {
+      this.armored = normalizeArmored(this.armored, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
+    }
     this.port.emit('set-armored', {
       data: this.armored,
       keyringId: this.keyringId,
