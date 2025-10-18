@@ -496,11 +496,11 @@
         "description": "."
     },
     "ext_description": {
-        "message": "תגבר את ספק הדוא״ל שלך עם הצפנה מקצה־אל־קצה. אבטח תקשורת דוא״לים על סמך תקן OpenPGP.",
+        "message": "Protect your email conversations and attachments on Gmail, Nextcloud, Outlook & more with PGP and end-to-end encryption.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope",
+        "message": "Mailvelope - Secure your email with PGP",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
@@ -1592,7 +1592,7 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "מאפיין זה זמין באופן חינמי עבור חשבונות Gmail. אם אתה חלק מארגון G Suite (<0>gsuite.google.com</0>) , זה הכרחי לרכוש רישיון ב<1>דף המוצר של Mailvelope</1>.",
+        "message": "This feature is free for Gmail accounts. If you are part of a Google Workspace (<0>workspace.google.com</0>) organization, you will need to purchase a license from the <1>Mailvelope website</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
@@ -1628,7 +1628,7 @@
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "שימוש ב־API של Gmail בתוך ארגוני G Suite כפוף ל<0>עמלה</0>.",
+        "message": "Use of the Gmail API within Google Workspace organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1648,7 +1648,7 @@
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "רישיונות עבור שימוש בשילוב Gmail-API בעת שימוש ב G Suite (<0>gsuite.google.com</0>) יכולים להירכש ב<1>דף המוצר של Mailvelope</1>.",
+        "message": "Licenses to use the Gmail API integration within Google Workspace (<0>workspace.google.com</0>) can be purchased from the <1>Mailvelope website</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {

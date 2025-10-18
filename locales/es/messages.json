@@ -92,11 +92,11 @@
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
-        "message": "Share aggregated and anonymized analytics information with Mailvelope",
+        "message": "Comparte información analítica recopilada y anonimizada con Mailvelope.",
         "description": "Consent to share analytics information with mailvelope"
     },
     "analytics_consent_disabled_tooltip": {
-        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "message": "Solo puedes optar por las analíticas durante la instalación y solo si se selecciona al azar.",
         "description": "Explanation for why user cannot opt in to analytics"
     },
     "analytics_consent_interstitial_Btn_Learn_More": {
@@ -104,23 +104,23 @@
         "description": "Btn FAQ"
     },
     "analytics_consent_interstitial_Faq": {
-        "message": "Read more about Mailvelope metrics in our FAQ.",
+        "message": "Lee más sobre las métricas de Mailvelope en nuestras FAQ (Preguntas Frecuentes).",
         "description": "FAQ"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data": {
-        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "message": "Mailvelope cuenta los pasos que te acercan a usarlo con tu servicio de correo. No registra cada movimiento que haces.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-        "message": "We Collect Minimal Data",
+        "message": "Recopilamos Datos Mínimos ",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice": {
-        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "message": "Si eliges no contribuir, nada es registrado. Si eliges contribuir, puedes cambiar de idea en cualquier momento al darte de baja en la configuración.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
-        "message": "We Respect your Choice",
+        "message": "Respetamos tu Elección",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
@@ -1592,7 +1592,7 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "Esta característica está disponible gratis para cuentas de Gmail. Si eres parte de una organización G Suite (<0>gsuite.google.com</0>), es necesario que adquieras una licencia en la <1>página de producto de Mailvelope</1>.",
+        "message": "This feature is free for Gmail accounts. If you are part of a Google Workspace (<0>workspace.google.com</0>) organization, you will need to purchase a license from the <1>Mailvelope website</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
@@ -1628,7 +1628,7 @@
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "El uso de la API de Gmail dentro de organizaciones G Suite está <0>sujeto a un arancel</0>.",
+        "message": "Use of the Gmail API within Google Workspace organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1648,7 +1648,7 @@
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Licencias para el uso de la integración Gmail-API cuando se use el G Suite (<0>gsuite.google.com</0>) pueden ser adquiridas en la <1>página de producto de Mailvelope</1>.",
+        "message": "Licenses to use the Gmail API integration within Google Workspace (<0>workspace.google.com</0>) can be purchased from the <1>Mailvelope website</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {

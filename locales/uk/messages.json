@@ -496,11 +496,11 @@
         "description": "."
     },
     "ext_description": {
-        "message": "Вдосконалюйте свій поштовик наскрізним шифруванням. Безпечна комунікація електронною поштою, що базується на стандарті OpenPGP.",
+        "message": "Захистіть свої електронні повідомлення та вкладення в Gmail, Nextcloud, Outlook тощо за допомогою PGP та наскрізного шифрування.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope",
+        "message": "Mailvelvelope - Захистіть свою електронну пошту за допомогою PGP",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
@@ -1123,14 +1123,6 @@
         "message": "Створення резервної копії!",
         "description": ""
     },
-      "keybackup_backup_store_location": {
-      "description": "A hint how to store the key.",
-      "message": "Збережіть ключ в надійному місці, наприклад, на USB-накопичувачі або в менеджері паролів."
-    },
-    "keybackup_backup_description": {
-      "description": "A hint about the importance of a private key backup.",
-      "message": "Резервна копія приватного ключа є важливою для відновлення ваших зашифрованих даних у разі втрати даних, перевстановлення операційної системи, браузера або цього розширення."
-    },
     "keydetails_change_exp_date_dialog_note": {
         "message": "Термін дії також змінено для всіх підключів. Недійсні підключі або підключі, термін дії яких уже закінчився, залишаються незмінними.",
         "description": "Important note in change expiration date dialog."
@@ -1600,7 +1592,7 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "Ця функція безкоштовно доступна для облікових записів Gmail. Якщо ви є членом організації G Suite (<0>gsuite.google.com</0>) необхідно придбати ліцензію на сторінці продукту <1>Mailvelope</1>.",
+        "message": "Ця функція безкоштовна для акаунтів Gmail. Якщо ви є частиною організації Google Workspace  (<0>workspace.google.com</0>), вам потрібно буде придбати ліцензію на <1>сайті Mailvelope</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
@@ -1636,7 +1628,7 @@
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "Використання API Gmail в організаціях з G Suite є <0>платним</0>.",
+        "message": "Використання API Gmail в організаціях Google Workspace є <0>платним</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1656,7 +1648,7 @@
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Ліцензії на використання інтеграції Gmail-API під час використання G Suite (<0>gsuite.google.com</0>) можна придбати на <1>сторінці Mailvelope</1>.",
+        "message": "Ліцензії на використання інтеграції Gmail API з Google Workspace (<0>workspace.google.com</0>) можна придбати на <1>сайті Mailvelope</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {

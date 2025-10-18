@@ -496,11 +496,11 @@
         "description": "."
     },
     "ext_description": {
-        "message": "E-posta hizmetinize uçtan uca şifreleme ekleyin. Güvenli e-posta iletişimi OpenPGP standartı üzerine geliştirilmiştir.",
+        "message": "E-posta yazışmalarınızı ve ek dosyalarınızı Gmail, Nextcloud, Outlook ve diğer platformlarda PGP ve uçtan uca şifreleme ile koruyun.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope",
+        "message": "Mailvelope - PGP ile e-postanızı koruyun",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
@@ -1592,7 +1592,7 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "Bu özellik Gmail hesapları için ücretsiz olarak kullanılabilir. Bir G Suite (<0>gsuite.google.com</0>) kuruluşunun bir parçası iseniz <1>Mailvelope ürün sayfasından</1> bir lisans satın almanız gerekir.",
+        "message": "Bu özellik Gmail hesapları ile ücretsiz olarak kullanılabilir. Bir Google Workspace (<0>workspace.google.com</0>) kuruluşunun bir parçası iseniz <1>Mailvelope sitesinden</1> bir lisans satın almanız gerekir.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
@@ -1628,7 +1628,7 @@
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "Gmail API uygulamasının G Suite kuruluşlarında kullanılabilmesi için <0>bir ücret ödenmesi gerekir</0>.",
+        "message": "Gmail API uygulamasının Google Workspace kuruluşlarında kullanılabilmesi için <0>bir ücret ödenmesi gerekir</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1648,7 +1648,7 @@
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Bir G Suite (<0>gsuite.google.com</0>) kuruluşu Gmail API bütünleştirmesini kullanmak için gereken lisansları <1>Mailvelope ürün sayfasından</1> satın alabilirsiniz.",
+        "message": "Bir Google Workspace (<0>workspace.google.com</0>) kuruluşu Gmail API bütünleştirmesini kullanmak için gereken lisansları <1>Mailvelope sitesinden</1> satın alabilirsiniz.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {

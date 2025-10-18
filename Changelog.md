@@ -1,6 +1,16 @@
 Mailvelope Changelog
 ====================
 
+v6.2.0
+-------
+__Oct 18, 2025__
+
+  * Offer key backup function after completing the key generation process in the app UI
+  * Remove De-Mail providers from default authorized domain list
+  * [API] Normalize armored message in decrypt container to fix decryption issue of malformed messages
+  * [API] Fix content script injection after domain authorization request
+  * Migrate testing infrastructure to Jest, RTL and Puppeteer
+
 v6.1.0
 -------
 __May 19, 2025__

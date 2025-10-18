@@ -1,374 +1,374 @@
 {
     "action_menu_activate_current_tab": {
-        "message": "Įgalioti šią sritį",
+        "message": "Autorizar este domínio",
         "description": "Activate on current tab shortcut in the action menu"
     },
     "action_menu_all_options": {
-        "message": "Visos parinktys",
+        "message": "Todas as opções",
         "description": "All options link in the action menu"
     },
     "action_menu_configure_mailvelope": {
-        "message": "Norėdami pradėti, <0>sukonfigūruokite Mailvelope</0>!",
+        "message": "<0>Configurar Mailvelope</0>para começar!",
         "description": "Configure Mailvelope label in the action menu"
     },
     "action_menu_dashboard_description": {
-        "message": "Rodyti visas konfigūracijos parinktis.",
+        "message": "Mostrar todas as opções de configuração.",
         "description": "Dashboard description in the action menu"
     },
     "action_menu_dashboard_label": {
-        "message": "Skydelis",
+        "message": "P. Comando",
         "description": "Dashboard label in the action menu"
     },
     "action_menu_file_encryption_description": {
-        "message": "Šifruoti vieną ar kelis failus.",
+        "message": "Cifrar um ou vários arquivos",
         "description": "File encryption description in the action menu"
     },
     "action_menu_file_encryption_label": {
-        "message": "Failų šifravimas",
+        "message": "Criptografia de arquivo",
         "description": "File encryption label in the action menu"
     },
     "action_menu_help": {
-        "message": "Pagalba",
+        "message": "Ajuda",
         "description": "Online help shortcut."
     },
     "action_menu_keyring_description": {
-        "message": "Tvarkyti viešuosius ir privačiuosius raktus.",
+        "message": "Gerenciar chaves públicas e privadas",
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "Raktinė",
+        "message": "Chaveiro",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
-        "message": "Mailvelope pirminis meniu",
+        "message": "Menu primário do Mailvelope",
         "description": "Accessibility, aria label of the primary menu"
     },
     "action_menu_reload_extension_scripts": {
-        "message": "Įkelti Mailvelope iš naujo",
+        "message": "Recarregar Mailvelope",
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Peržiūrėti su saugumu susijusius naudotojo veiksmus.",
+        "message": "Revisar ações do usuário relevantes para segurança.",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
-        "message": "Saugumo žurnalas",
+        "message": "Registro de Segurança",
         "description": "Review security logs label in the action menu"
     },
     "action_menu_setup_menu_aria_label": {
-        "message": "Mailvelope sąrankos meniu",
+        "message": "Menu de configuração do Mailvelope",
         "description": "Accessibility, aria label of the setup menu"
     },
     "action_menu_setup_start_label": {
-        "message": "Pradėkime!",
+        "message": "Vamos iniciar!",
         "description": "Start button label"
     },
     "alert_header_error": {
-        "message": "Klaida!",
+        "message": "Erro!",
         "description": "Alert header of category error."
     },
     "alert_header_important": {
-        "message": "Svarbu!",
+        "message": "Importante!",
         "description": "Alert header of category important."
     },
     "alert_header_notice": {
-        "message": "Turėkite omenyje:",
+        "message": "Por favor, observe:",
         "description": "Alert header of category notice."
     },
     "alert_header_success": {
-        "message": "Pavyko!",
+        "message": "Sucesso!",
         "description": "Alert header of category success."
     },
     "alert_header_warning": {
-        "message": "Įspėjimas!",
+        "message": "Aviso!",
         "description": "Alert header of category warning."
     },
     "alert_invalid_domainmatchpattern_warning": {
-        "message": "Srities atitikimo šablonas yra [*.]host.name.tld[:port].",
+        "message": "O padrão de correspondência do domínio é [*]host.dominio.tld.[:porta].",
         "description": "Alert header of category warning."
     },
     "alert_no_domainmatchpattern_warning": {
-        "message": "Reikalingas bent vienas srities šablonas.",
+        "message": "Pelo menos um padrão de correspondência de domínio é necessário.",
         "description": "Alert header of category warning."
     },
     "analytics_consent_description": {
-        "message": "Bendrinti su Mailvelope surinktą ir anonimizuotą analitikos informaciją",
+        "message": "Compartilhe informações analíticas agregadas e anônimas com Mailvelope",
         "description": "Consent to share analytics information with mailvelope"
     },
     "analytics_consent_disabled_tooltip": {
-        "message": "You can only opt-in to analytics upon installation and only if randomly selected.",
+        "message": "Você só pode optar por receber análises após a instalação e somente se for selecionado aleatoriamente.",
         "description": "Explanation for why user cannot opt in to analytics"
     },
     "analytics_consent_interstitial_Btn_Learn_More": {
-        "message": "Sužinokite daugiau",
+        "message": "Saiba Mais",
         "description": "Btn FAQ"
     },
     "analytics_consent_interstitial_Faq": {
-        "message": "Read more about Mailvelope metrics in our FAQ.",
+        "message": "Leia mais sobre as métricas do Mailvelope em nossas Perguntas Frequentes.",
         "description": "FAQ"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data": {
-        "message": "Mailvelope counts the steps that get you closer to using it with your email service. It does not record every move you make.",
+        "message": "O Mailvelope contabiliza os passos que o aproximam do uso do seu serviço de e-mail. Ele não registra cada movimento que você faz.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-        "message": "We Collect Minimal Data",
+        "message": "Coletamos dados mínimos",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice": {
-        "message": "If you choose not to contribute, nothing is recorded. If you choose to contribute, you can change your mind at any time by opting out in settings.",
+        "message": "Se você optar por não contribuir, nada será registrado. Se optar por contribuir, você pode mudar de ideia a qualquer momento, desativando-o nas configurações.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
-        "message": "We Respect your Choice",
+        "message": "Nós respeitamos sua escolha",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
-        "message": "Mailvelope uses",
+        "message": "Usos do Mailvelope",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
-        "message": "which securely stores data without connecting it to identifiable information. Further, your IP address is not recorded or processed.",
+        "message": "que armazena dados com segurança sem conectá-los a informações identificáveis. Além disso, seu endereço IP não é registrado nem processado.",
         "description": "We Respect your Choice"
     },
     "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
-        "message": "Your Privacy is Preserved",
+        "message": "Sua privacidade é preservada",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_learn_more": {
-        "message": "Learn how metrics are safe",
+        "message": "Aprenda como as métricas são seguras",
         "description": "Label for expandable section"
     },
     "analytics_consent_interstitial_learn_more_explanation": {
-        "message": "If you opt-in, analytics data will be aggregated and minimized using Clean Insights which stores this data without connection to identifying characteristics. We respect your choice and don't report anything if you chose not to contribute.",
+        "message": "Se você optar por participar, os dados analíticos serão agregados e minimizados usando o Clean Insights, que armazena esses dados sem conexão com características de identificação. Respeitamos sua escolha e não reportaremos nada caso você opte por não contribuir.",
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_message": {
-        "message": "Mailvelope is asking 1% of new users to contribute to anonymous metrics. If you say yes, Mailvelope will register successful steps in your onboarding journey. Will you contribute?",
+        "message": "O Mailvelope está solicitando que 1% dos novos usuários contribuam com métricas anônimas. Se você concordar, o Mailvelope registrará as etapas bem-sucedidas da sua jornada de integração. Você contribuirá?",
         "description": "Request for consent from selected users."
     },
     "analytics_interstitial_header": {
-        "message": "Help us improve?",
+        "message": "Ajude-nos a melhorar?",
         "description": "Header of analytics consent dialog."
     },
     "auth_domain_api_label": {
-        "message": "Leisti API",
+        "message": "Permitir API",
         "description": "Label for API allowed info"
     },
     "auth_domain_description": {
-        "message": "Ar norėtumėte leisti naudoti Mailvelope šioje srityje: $1?",
+        "message": "27\nVocê gostaria de permitir o uso do Mailvelope para o domínio $1?",
         "description": "Description in authorize domain dialog"
     },
     "auth_domain_headline": {
-        "message": "Įgalioti sritį",
+        "message": "Autorizar domínio",
         "description": "Headline of authorize domain dialog."
     },
     "button_analyticsconsent_modal": {
-        "message": "Tęsti",
+        "message": "Continuar",
         "description": "button modal analytics consent"
     },
     "change_link": {
-        "message": "Pakeisti",
+        "message": "Trocar",
         "description": "Navigation link to change this setting."
     },
     "cleartext_read_error": {
-        "message": "Nepavyko perskaityti šio grynojo teksto laiško: $1",
+        "message": "Não foi possível ler esta mensagem em texto puro: $1",
         "description": "Cleartext message read error message: $1: error message."
     },
     "dashboard_link_encrypt_decrypt_files": {
-        "message": "Šifravimas",
+        "message": "Cifrar",
         "description": "Dashboard encrypt decrypt files link"
     },
     "dashboard_link_manage_domains": {
-        "message": "Įgaliotos sritys",
+        "message": "Domínios autorizados",
         "description": "Dashboard manage domains link"
     },
     "dashboard_link_manage_keys": {
-        "message": "Tvarkyti raktus",
+        "message": "Gerenciar chaves",
         "description": "Dashboard manage keys link"
     },
     "dashboard_link_view_security_log": {
-        "message": "Saugumo žurnalai",
+        "message": "Registros de segurança",
         "description": "Dashboard view security logs link"
     },
     "decrypt_att_frame_help_text": {
-        "message": "Spustelėkite čia, norėdami peržiūrėti laišką",
+        "message": "Clique aqui para visualizar a mensagem",
         "description": "Help text on decrypt frame with encrypted attachments or clipped armored message."
     },
     "decrypt_attachment_label": {
-        "message": "Priedai",
+        "message": "Anexos",
         "description": "Label for attachments in decrypted message"
     },
     "decrypt_cleartext_warning": {
-        "message": "Sekantis tekstas nebuvo užšifruotas.",
+        "message": "O texto a seguir não foi cifrado.",
         "description": "Warning when cleartext is shown in decrypt component"
     },
     "decrypt_decrypted_files_label": {
-        "message": "Failai iššifruoti",
+        "message": "Arquivos decifrados.",
         "description": "Decrypted files label on decrypt success page."
     },
     "decrypt_digital_signature": {
-        "message": "Pasirašytas",
+        "message": "Assinado",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_failure": {
-        "message": "Parašas negalioja",
+        "message": "Assinatura inválida",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_inconsistent": {
-        "message": "Prieštaringi parašai: laiškas ir failas pasirašyti ne tuo pačiu raktu",
+        "message": "Assinaturas inconsistentes: mensagem e arquivo não assinados com a mesma chave",
         "description": "Warning message if digital signature is inconsistent"
     },
     "decrypt_digital_signature_missing": {
-        "message": "Trūksta parašo",
+        "message": "Assinatura faltando",
         "description": "Digital signature is missing"
     },
     "decrypt_digital_signature_null": {
-        "message": "Nežinomas parašas",
+        "message": "Assinatura desconhecida",
         "description": "Caption digital signature"
     },
     "decrypt_digital_signature_null_info": {
-        "message": "Nerastas raktas, kurio ID $1.",
+        "message": "Chave com a assinatura de ID $1 não encontrada.",
         "description": "Digital signature unknown info message"
     },
     "decrypt_digital_signature_null_info_short": {
-        "message": "Rastas nerastas.",
+        "message": "Chave não encontrada",
         "description": "Digital signature unknown short info message"
     },
     "decrypt_digital_signature_sender_mismatch": {
-        "message": "Siuntėjo adreso neatitikimas",
+        "message": "Incompatibilidade de endereço do remetente",
         "description": "Alert label in the case of sender email address mismatch"
     },
     "decrypt_digital_signature_sender_mismatch_tooltip": {
-        "message": "Šiame laiške yra skaitmeninis parašas, bet yra aptiktas neatitikimas. Laiškas buvo išsiųstas iš el. pašto adreso, kuris neatitinka pasirašiusio asmens viešojo rakto.",
+        "message": "Esta mensagem contém uma assinatura digital, mas foi detectada uma incompatibilidade. A mensagem foi enviada de um endereço de e-mail que não corresponde à chave pública do signatário.",
         "description": "Tooltip for alert label in the case of sender email address mismatch"
     },
     "decrypt_digital_signature_uncertain_sender": {
-        "message": "Abejotina siuntėjo tapatybė",
+        "message": "Identidade do remetente incerta",
         "description": "Digital signature link to more information in the case of uncertain sender identity"
     },
     "decrypt_file_error_header": {
-        "message": "Failo $1 iššifravimas yra neįmanomas.",
+        "message": "Não é possível descriptografar o arquivo $1.",
         "description": "Header of file decryption error on decrypt result page."
     },
     "decrypt_frame_help_text": {
-        "message": "Spustelėkite norėdami iššifruoti",
+        "message": "Clique para decifrar",
         "description": "Help text on decrypt frame."
     },
     "decrypt_header": {
-        "message": "Iššifruoti duomenis",
+        "message": "Decifrar dados",
         "description": "Header of file/text decrypt page."
     },
     "decrypt_header_success": {
-        "message": "Iššifravimas sėkmingas",
+        "message": "Decifração bem sucedida",
         "description": "Header of file/text decrypt result page."
     },
     "decrypt_home": {
-        "message": "Iššifruoti",
+        "message": "Decriptar",
         "description": "File/text decrypting navigation: Home."
     },
     "decrypt_open_viewer_btn_title": {
-        "message": "Atverti Mailvelope žiūryklėje",
+        "message": "Abrir no visualizador do Mailvelope",
         "description": "Title of open message viewer icon button."
     },
     "decrypt_show_message_btn": {
-        "message": "Rodyti laišką",
+        "message": "Mostrar mensagem",
         "description": "Show messsage button label in decrypt message."
     },
     "decrypt_signer_label": {
-        "message": "Siuntėjas",
+        "message": "Remetente",
         "description": "Label for signature line in decrypted message"
     },
     "decrypt_text_area_label": {
-        "message": "Tekstas, kurį iššifruoti",
+        "message": "Texto para cifrar",
         "description": "Label of textarea to paste armored block in on decrypt page."
     },
     "decrypt_text_decryption_btn": {
-        "message": "Ar norite taip pat iššifruoti tekstą?",
+        "message": "Você também deseja descifrar um texto?",
         "description": "Text decryption button label on decrypt page."
     },
     "decrypt_text_error_header": {
-        "message": "Teksto iššifravimas yra neįmanomas.",
+        "message": "Não é possível decifrar o texto.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "dialog_cancel_btn": {
-        "message": "Atsisakyti",
+        "message": "Cancelar",
         "description": "Dialog cancel button label"
     },
     "dialog_no_btn": {
-        "message": "Ne",
+        "message": "Não",
         "description": "Dialog no button label"
     },
     "dialog_no_button": {
-        "message": "Praleisti",
+        "message": "Ignorar",
         "description": "Dialog button no"
     },
     "dialog_popup_close": {
-        "message": "Užverti",
+        "message": "Fechar",
         "description": "Close decrypt popup."
     },
     "dialog_save_btn": {
-        "message": "Įrašyti",
+        "message": "Salvar",
         "description": "Dialog save button label"
     },
     "dialog_yes_btn": {
-        "message": "Taip",
+        "message": "Sim",
         "description": "Dialog yes button label"
     },
     "dialog_yes_button": {
-        "message": "Taip",
+        "message": "Sim",
         "description": "Dialog button yes"
     },
     "editor_blur_warn": {
-        "message": "Įspėjimas: Tekstų redaktorius prarado fokusą.",
+        "message": "Atençao: O editor de texto perdeu o foco",
         "description": "Warning for lost focus."
     },
     "editor_encrypt_button": {
-        "message": "Šifruoti",
+        "message": "Criptografar",
         "description": "Encrypt button."
     },
     "editor_error_header": {
-        "message": "Klaida",
+        "message": "Erro",
         "description": ""
     },
     "editor_extra_key_checkbox": {
-        "message": "Pridėti papildomą raktą",
+        "message": "Adicionar chave extra",
         "description": "Extra key checkbox label."
     },
     "editor_extra_key_help": {
-        "message": "El. laiškas bus šifruotas naudojant šį papildomą raktą",
+        "message": "O e-mail será cifrado com esta chave adicional",
         "description": "Extra key help text."
     },
     "editor_header": {
-        "message": "Rašyti saugų el. laišką",
+        "message": "Compor e-mail seguro",
         "description": "Header of editor popup."
     },
     "editor_key_auto_sign": {
-        "message": "Ar norėtumėte pasirašinėti visus savo el. laiškus?",
+        "message": "Você gostaria de assinar todos os seus e-mails",
         "description": "Label for default private key option."
     },
     "editor_key_auto_sign_link": {
-        "message": "Keisti nustatymus čia",
+        "message": "Altere as configurações aqui",
         "description": "Test for auto sign link."
     },
     "editor_key_has_extra_msg": {
-        "message": "El. laiškas bus šifruotas naudojant žemiau įvestą alternatyvų raktą.",
+        "message": "O e-mail será cifrado com a chave alternativa inserida abaixo.",
         "description": "Label for info message invalid recipients but extra key."
     },
     "editor_key_no_sign_option": {
-        "message": "Nepasirašytas",
+        "message": "Não assinado",
         "description": "Label for not sign option in sign key select."
     },
     "editor_key_not_found": {
-        "message": "Raktas nerastas!",
+        "message": "Chave não encontrada",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_key_not_found_msg": {
-        "message": "Norint šifruoti, visiems gavėjams reikalingas PGP raktas. Vis dėlto, dar galite laišką pasirašyti.",
+        "message": "Todos os destinatários precisam de uma chave PGP para criptografar. Porém, você ainda pode assinar a mensagem. ",
         "description": "Warning for when a recipient key was not found."
     },
     "editor_label_attachments": {
-        "message": "Priedai",
+        "message": "Anexos",
         "description": "Label for attachments select/drop area."
     },
     "editor_label_copy_recipient": {
@@ -376,1219 +376,1219 @@
         "description": "Label for copy recipient text input."
     },
     "editor_label_message": {
-        "message": "Laiškas",
+        "message": "Mensagem",
         "description": "Label for message textarea."
     },
     "editor_label_recipient": {
-        "message": "Gavėjas",
+        "message": "Destinatário",
         "description": "Label for recipient input."
     },
     "editor_label_subject": {
-        "message": "Tema",
+        "message": "Assunto",
         "description": "Label for subject text input."
     },
     "editor_link_file_encryption": {
-        "message": "Šifruoti failus",
+        "message": "Criptografar arquivos",
         "description": "Navigation link to file encryption"
     },
     "editor_no_default_key_caption_long": {
-        "message": "El. laiškas negali būti skaitmeniškai pasirašytas, nes trūksta numatytojo rakto",
+        "message": "O e-mail não pode ser assinado digitalmente porque a chave padrão está ausente",
         "description": ""
     },
     "editor_no_default_key_caption_short": {
-        "message": "El. laiškas negali būti skaitmeniškai pasirašytas",
+        "message": "O Email não pode ser assinado digitalmente",
         "description": ""
     },
     "editor_remove_upload": {
-        "message": "Šalinti",
+        "message": "Remover",
         "description": "Remove uploaded attachment"
     },
     "editor_sign_button": {
-        "message": "Tik pasirašyti",
+        "message": " Apenas Assinar",
         "description": "Sign button."
     },
     "editor_sign_caption_long": {
-        "message": "Išsiuntus el. laišką, jis taip pat bus skaitmeniškai pasirašytas",
+        "message": "Quando o Email é enviado, ele será também assinado digitalmente",
         "description": ""
     },
     "editor_sign_caption_short": {
-        "message": "El. laiškas bus skaitmeniškai pasirašytas",
+        "message": "O Email será assinado digitalmente",
         "description": ""
     },
     "editor_transfer": {
-        "message": "Perkelti",
+        "message": "Transferir",
         "description": "Transfer button of editor popup."
     },
     "encrypt_change_signer_dialog_signer_label": {
-        "message": "Pasirinkti parašą",
+        "message": "Selecionar assinatura",
         "description": "Label for signer select of change signer dialog."
     },
     "encrypt_change_signer_dialog_title": {
-        "message": "Pakeisti parašą",
+        "message": "Alterar assinatura",
         "description": "Titel of change signer dialog."
     },
     "encrypt_dialog_no_recipient": {
-        "message": "Prašome pridėti gavėją.",
+        "message": "Por favor, adicione um destinatário.",
         "description": "Error message if no recipient selected."
     },
     "encrypt_download_all_button": {
-        "message": "Atsisiųsti visus",
+        "message": "Baixar todos",
         "description": "Button to download all files"
     },
     "encrypt_encrypted_files_label": {
-        "message": "Šifruoti failai",
+        "message": "Arquivos cifrados",
         "description": "Encrypted files label on encrypt success page."
     },
     "encrypt_encrypted_for_label": {
-        "message": "Šifruota:",
+        "message": "Cifrado para",
         "description": "Encrypted for label on encrypt success page."
     },
     "encrypt_error": {
-        "message": "Nepavyko šifruoti šio laiško: $1",
+        "message": "Não foi possível criptografar esta mensagem: $1",
         "description": "Error during encryption process."
     },
     "encrypt_file_error_header": {
-        "message": "Failo $1 šifravimas yra neįmanomas.",
+        "message": "Não é possível cifrar o arquivo $1",
         "description": "Header of file decryption error on decrypt result page."
     },
     "encrypt_frame_btn_label": {
-        "message": "Rašyti saugų el. laišką",
+        "message": "Escrever e-mail seguro",
         "description": "Text on expanded editor button of editable email area"
     },
     "encrypt_header": {
-        "message": "Šifruoti duomenis",
+        "message": "Cifrar dados",
         "description": "Header of file/text encrypt page."
     },
     "encrypt_header_success": {
-        "message": "Šifravimas sėkmingas",
+        "message": "Cifração bem sucedida",
         "description": "Header of file/text encrypt result page."
     },
     "encrypt_home": {
-        "message": "Šifruoti",
+        "message": "Encriptar",
         "description": "File/text encrypting navigation: Home."
     },
     "encrypt_no_signer_info": {
-        "message": "Šifruoti duomenys nėra pasirašyti",
+        "message": "Os dados cifrados não estão assinados",
         "description": "No signer info text on encrypt page."
     },
     "encrypt_remove_signer_btn": {
-        "message": "Šalinti parašą",
+        "message": "Remover a assinatura",
         "description": "Remove signer button label on encrypt page."
     },
     "encrypt_signed_as_label": {
-        "message": "Pasirašė",
+        "message": "Assinado por",
         "description": "Signed as label on encrypt success page."
     },
     "encrypt_signer_info": {
-        "message": "Šifruoti duomenys yra pasirašyti jūsų raktu ($1)",
+        "message": "Os dados cifrados são assinados com sua chave ($1)",
         "description": "Signer info text on encrypt page."
     },
     "encrypt_text_encryption_btn": {
-        "message": "Ar norite taip šifruoti tekstą?",
+        "message": "Você também quer cifrar um texto?",
         "description": "Text encryption button label on encrypt page."
     },
     "encrypt_text_error_header": {
-        "message": "Teksto šifravimas yra neįmanomas.",
+        "message": "Não é possível cifrar o texto.",
         "description": "Header of text decryption error on decrypt result page."
     },
     "encrypt_upload_file_warning_too_big": {
-        "message": "Vienas iš failų yra pernelyg didelis.",
+        "message": "Um dos arquivos é grande demais.",
         "description": "."
     },
     "ext_description": {
-        "message": "Protect your email conversations and attachments on Gmail, Nextcloud, Outlook & more with PGP and end-to-end encryption.",
+        "message": "Proteja suas conversas por email e anexos no Gmail, Nextcloud, Outlook e mais com criptografia de ponta a ponta com PGP.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope - Secure your email with PGP",
+        "message": "Mailvelope - Proteja seu email com PGP",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
-        "message": "Suasmeninti dabar",
+        "message": "Personalizar agora",
         "description": "Button text of feature banner for new security background."
     },
     "feature_banner_new_security_background_text": {
-        "message": "Padarykite Mailvelope dar saugesnę, suasmenindami savo saugumo foną.",
+        "message": "Torne o Mailvelope ainda mais seguro personalizando seu histórico de segurança.",
         "description": "Text of feature banner for new security background."
     },
     "file_invalid_signed": {
-        "message": "Parašas negalioja",
+        "message": "Assinatura inválida",
         "description": "Text of signer field of file element."
     },
     "file_not_signed": {
-        "message": "Failas nepasirašytas",
+        "message": "Arquivo não assinado",
         "description": "Text of signer field of file element."
     },
     "file_read_error": {
-        "message": "Nepavyko iššifruoti šio failo: $1",
+        "message": "Não foi possível descriptografar este arquivo: $1",
         "description": ""
     },
     "file_signed": {
-        "message": "Failas pasirašė $1",
+        "message": "Arquivo assinado por $1",
         "description": "Text of signer field of file element."
     },
     "form_back": {
-        "message": "Atgal",
+        "message": "Volta",
         "description": "Back form button."
     },
     "form_busy": {
-        "message": "Apdorojama",
+        "message": "Ocupado",
         "description": "Form in busy state."
     },
     "form_cancel": {
-        "message": "Atsisakyt",
+        "message": "Cancelar",
         "description": "Cancel form button."
     },
     "form_clear": {
-        "message": "Išvalyti",
+        "message": "Limpar",
         "description": "Clear form button."
     },
     "form_close": {
-        "message": "Užverti",
+        "message": "Fechar",
         "description": "Close form button."
     },
     "form_confirm": {
-        "message": "Patvirtinti",
+        "message": "Confirmar",
         "description": "Confirm form button."
     },
     "form_continue": {
-        "message": "Tęsti",
+        "message": "Continuar",
         "description": "Continue form button."
     },
     "form_definition_error_no_recipient_key": {
-        "message": "Nėra galiojančio šifravimo rakto, skirto gavėjo adresui.",
+        "message": "Nenhuma chave de criptografia válida para o endereço do destinatário.",
         "description": "Error message when recipient key is not in keyring"
     },
     "form_definition_error_signature_invalid": {
-        "message": "Formos parašas negalioja.",
+        "message": "A assinatura do formulário não é válida.",
         "description": "Error message when the form signature is not valid"
     },
     "form_destination": {
-        "message": "Paskirtis",
+        "message": "Destino",
         "description": "URL the form data will be sent to"
     },
     "form_destination_default": {
-        "message": "Šifruoti duomenys bus grąžinti į puslapį.",
+        "message": "Os dados cifrados serão retornados à página.",
         "description": "Behavior when no action is specified in form"
     },
     "form_forward": {
-        "message": "Pirmyn",
+        "message": "Avança",
         "description": "Forward form button."
     },
     "form_import": {
-        "message": "Importuoti",
+        "message": "Importar",
         "description": "Import form button."
     },
     "form_loading": {
-        "message": "Įkėlimo forma",
+        "message": "Carregando formulário",
         "description": "Waiting modal when form is loading."
     },
     "form_next": {
-        "message": "Kitas",
+        "message": "Próximo",
         "description": "Next form button."
     },
     "form_no": {
-        "message": "Ne",
+        "message": "Não",
         "description": "No form button."
     },
     "form_ok": {
-        "message": "Gerai",
+        "message": "Ok",
         "description": "Ok form button."
     },
     "form_recipient": {
-        "message": "Gavėjas",
+        "message": "Destinatário",
         "description": "The email for which the form will be encrypted for"
     },
     "form_save": {
-        "message": "Įrašyti",
+        "message": "Salvar",
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "Raktinėje nėra jokio prieinamo privačiojo rakto, skirto pasirašyti formos turinį. Importuokite raktą arba jį sukurkite.",
+        "message": "Nenhuma chave privada está disponível no chaveiro para assinar o conteúdo do formulário. Por favor, importe ou crie um.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
-        "message": "Siųsti",
+        "message": "Enviar",
         "description": "Submit form button."
     },
     "form_undo": {
-        "message": "Atšaukti",
+        "message": "Desfazer",
         "description": "Undo form button."
     },
     "form_yes": {
-        "message": "Taip",
+        "message": "Sim",
         "description": "Yes form button."
     },
     "general_default_key_always": {
-        "message": "Visada pridėti mano numatytąjį raktą į gavėjų sąrašą. (Tai jums leidžia iššifruoti išsiųstus laiškus)",
+        "message": "Sempre adicione minha chave padrão à lista de destinatários. (Isso permite descriptografar e-mails enviados)",
         "description": "Label for default private key option."
     },
     "general_default_key_auto_sign": {
-        "message": "Pasirašinėti visus išsiunčiamus laiškus.",
+        "message": "Assine todas as mensagens enviadas.",
         "description": "Label for default private key option."
     },
     "general_gnupg_check_availability": {
-        "message": "Leisti mums patikrinti prieinamumą",
+        "message": "Nos permite verificar a disponibilidade",
         "description": "Button label to check availability of GnuPG"
     },
     "general_gnupg_installed_question": {
-        "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly.",
+        "message": "Você tem o GnuPG instalado? Caso contrário, <0>Baixe aqui</0>. Para verificar a disponibilidade novamente, <1>Reinicie o Mailvelope</1>. Se tiver certeza de que ele está instalado, siga <2>este wiki</2> para verificar se ele foi configurado corretamente.",
         "description": "Status message with available user options"
     },
     "general_gnupg_not_available": {
-        "message": "GnuPG yra neprieinama",
+        "message": "GnuPG não está disponível",
         "description": "Indicator if GnuPG is not available"
     },
     "general_gnupg_prefer": {
-        "message": "Ar teikiate pirmenybę naudoti GnuPG?",
+        "message": "Você prefere usar GnuPG?",
         "description": "Question if user prefers to use GnuPG"
     },
     "general_openpgp_current": {
-        "message": "Šiuo metu naudojate",
+        "message": "Você está usando atualmente",
         "description": "Label for current OpenPGP backend. Sentence continues with either 'OpenPGP.js' or 'GnuPG"
     },
     "general_openpgp_prefer": {
-        "message": "Kuriai šifravimo vidinei pusei teikiate pirmenybę?",
+        "message": "Qual back-end de criptografia você prefere?",
         "description": "Label for OpenPGP backend selection."
     },
     "general_openpgp_preferences": {
-        "message": "OpenPGP nuostatos",
+        "message": "Preferências OpenPGP",
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Pastaba: viešieji raktai yra sinchronizuojami tarp prieinamų raktinių. Priklausomai nuo privačiųjų raktų prieinamumo, Mailvelope gali nustelbti pageidaujamą šifravimo bibliotekos nustatymą.",
+        "message": "Nota: as chaves públicas são sincronizadas entre os chaveiros disponíveis. Dependendo da disponibilidade das chaves privadas, o Mailvelope pode substituir a configuração da biblioteca de criptografia preferencial.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
-        "message": "Mailvelope nėra įgaliota atsisiųsti priedų. Norėdami naudoti šią funkciją, turite suteikti Mailvelope prieigą prie Gmail API.",
+        "message": "Mailvelope não está autorizado a baixar anexos. Você precisa conceder ao Mailvelope acesso à API do Gmail para usar esta função.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_auth_error_send": {
-        "message": "Mailvelope nėra įgaliota siųsti el. laiškų. Norėdami naudoti šią funkciją, turite suteikti Mailvelope prieigą prie Gmail API.",
+        "message": "O Mailvelope não está autorizado a enviar e-mails. Você precisa conceder ao Mailvelope acesso à API do Gmail para usar esta função.",
         "description": "Error message for components requiring authorization of GMAIL integration"
     },
     "gmail_integration_quoted_mail_header_forward": {
-        "message": "---------- Persiųstas laiškas ---------\nNuo: $1\nData: $2\nTema: $3\nKam: $4",
+        "message": "---------- Mensagem encaminhada ---------\nDe: $1\nData: $2Assunto: $3Para: $4",
         "description": "Header for forwarded mail"
     },
     "gmail_integration_quoted_mail_header_reply": {
-        "message": "Ties $1, $2 rašė:",
+        "message": "Em $1, $2 escreveu:",
         "description": "Header for quoted reply mail"
     },
     "gmail_integration_sent_success": {
-        "message": "El. laiškas buvo sėkmingai išsiųstas.",
+        "message": "O e-mail foi enviado com sucesso.",
         "description": "Email sent success notification"
     },
     "gnupg_connection": {
-        "message": "GnuPG ryšys",
+        "message": "Conexão GnuPG",
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Patikrinkite ar šie viešieji raktai yra prieinami jūsų GnuPG raktinėje ir, ar jie galioja: $1",
+        "message": "Verifique se as seguintes chaves públicas estão disponíveis em seu chaveiro GnuPG e se são válidas:\n$1",
         "description": ""
     },
     "header_analyticsconsent_modal": {
-        "message": "Thank you for helping!",
+        "message": "Obrigado pela ajuda!",
         "description": "h2 modal analytics consent"
     },
     "import_frame_help_text": {
-        "message": "Spustelėkite norėdami importuoti",
+        "message": "Clique para importar a chave",
         "description": "Help text on import frame."
     },
     "install_landing_page_hint": {
-        "message": "Spustelėkite čia, norėdami atverti plėtinį.",
+        "message": "Clique aqui, para abrir a extensão.",
         "description": "Install landing page getting started hint"
     },
     "key_default_active_btn_title": {
-        "message": "Raktas nustatytas kaip numatytasis",
+        "message": "A chave definida como chave padrão",
         "description": "Title for active default key button"
     },
     "key_default_disabled_btn_title": {
-        "message": "Raktas šifravimo ir pasirašymo operacijoms nebegalioja",
+        "message": "A Chave não é válida para operações de criptografia e assinatura",
         "description": "Title for disabled (invalid) default key button"
     },
     "key_default_inactive_btn_title": {
-        "message": "Nustatyti raktą kaip numatytąjį",
+        "message": "Definir a chave com chave padrão",
         "description": "Title for inactive default key button"
     },
     "key_export_btn": {
-        "message": "Eksportuoti",
+        "message": "Exportar",
         "description": "Export key button label"
     },
     "key_export_btn_title": {
-        "message": "Eksportuoti raktą",
+        "message": "Exportar chave",
         "description": "Title for export key button"
     },
     "key_export_create_file": {
-        "message": "Įrašyti",
+        "message": "Salvar",
         "description": "Download file button."
     },
     "key_export_dialog_copy_to_clipboard": {
-        "message": "Kopijuoti į iškarpinę",
+        "message": "Copiar para área de transferência",
         "description": "Copy to clipboard button label."
     },
     "key_export_dialog_question": {
-        "message": "Kurį raktą norėtumėte eksportuoti?",
+        "message": "Qual chave você gostaria de exportar?",
         "description": "Question in export private key dialog."
     },
     "key_export_dialog_title": {
-        "message": "Eksportuoti raktą",
+        "message": "Exportar chave",
         "description": "Title of export key dialog."
     },
     "key_export_filename": {
-        "message": "Failo pavadinimas",
+        "message": "Nome do arquivo",
         "description": "Label of filename input."
     },
     "key_export_header": {
-        "message": "Eksportuoti raktą",
+        "message": "Exportar Chave",
         "description": "Export key dialog header."
     },
     "key_export_warning_private": {
-        "message": "Šiame faile taip pat yra privatieji raktai. Laikykite failą saugioje vietoje ir nesidalinkite juo su kitais.",
+        "message": "Este arquivo também contém chaves privadas. Mantenha o arquivo em um lugar seguro e não compartilhe com ninguém.",
         "description": "Key export warning."
     },
     "key_gen_advanced_btn": {
-        "message": "Išplėstiniai",
+        "message": "Avançado",
         "description": "Advanced key generation settings."
     },
     "key_gen_another": {
-        "message": "Generuoti kitą...",
+        "message": "Gerar outra...",
         "description": "Key import button"
     },
     "key_gen_demail": {
-        "message": "De-Mail adresas",
+        "message": "Endereço De-Mail",
         "description": "De-Mail address name."
     },
     "key_gen_error": {
-        "message": "Klaida, generuojant raktą.",
+        "message": "Erro durante a geração da chave.",
         "description": "Key generation error message"
     },
     "key_gen_experimental": {
-        "message": "eksperimentinis",
+        "message": "experimental",
         "description": "A key algorithm is flagged as experimental"
     },
     "key_gen_expiration": {
-        "message": "Raktas galioja iki",
+        "message": "Data de validade da chave",
         "description": "Key expiration date"
     },
     "key_gen_future_default": {
-        "message": "Ateities numatytasis",
+        "message": "Padrão futuro",
         "description": "Key generation algorithm, the future supported standard."
     },
     "key_gen_generate": {
-        "message": "Generuoti",
+        "message": "Gerar",
         "description": "Key generate button label"
     },
     "key_gen_invalid_email": {
-        "message": "Neteisingas el. pašto adresas",
+        "message": "Endereço de email inválido",
         "description": "Error message."
     },
     "key_gen_key_size": {
-        "message": "Rakto dydis",
+        "message": "Tamanho da chave",
         "description": "Advanced key generation settings: Key size"
     },
     "key_gen_name_help": {
-        "message": "Visas rakto savininko vardas",
+        "message": "Nome completo do proprietário da chave",
         "description": "Help text for name field."
     },
     "key_gen_pwd": {
-        "message": "Įveskite slaptažodį",
+        "message": "Inserir Senha",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_empty": {
-        "message": "Slaptažodžio laukas yra tuščias",
+        "message": "O campo de senha está vazio",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_match": {
-        "message": "Slaptažodžiai sutampa",
+        "message": "Senhas correspondem",
         "description": "Passphrase input field status"
     },
     "key_gen_pwd_reenter": {
-        "message": "Iš naujo įveskite slaptažodį",
+        "message": "Re-inserir Senha",
         "description": "Label for passphrase input field"
     },
     "key_gen_pwd_unequal": {
-        "message": "Slaptažodžiai nesutampa",
+        "message": "As senhas não condizem",
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "Naujas raktas sugeneruotas ir importuotas į raktinę",
+        "message": "Nova chave gerada e importada no chaveiro",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
-        "message": "Išsiųsti viešąjį raktą į Mailvelope raktų serverį (raktas bet kuriuo metu gali būti ištrintas)",
+        "message": "Subir chave pública para o servidor de chaves do Mailvelope (pode ser deletada a qualquer momento)",
         "description": "Upload key to Mailvelope key server checkbox"
     },
     "key_gen_wait_header": {
-        "message": "Rakto generavimas eigoje...",
+        "message": "Geração de chave em andamento...",
         "description": "Wait dialog header"
     },
     "key_gen_wait_info": {
-        "message": "Prašome palaukti, rakto generavimas gali užimti iki kelių minučių, priklausomai nuo įvairių faktorių, tokių kaip rakto dydis.",
+        "message": "Por favor aguarde, a geração de chaves pode levar vários minutos dependendo de fatores como o tamanho da chave.",
         "description": "Wait dialog info message"
     },
     "key_import_bulk_success": {
-        "message": "Raktai sėkmingai importuoti/atnaujinti.",
+        "message": "Chaves importadas/atualizadas com sucesso.",
         "description": "Import success message for more than 5 keys"
     },
     "key_import_contacts_import_btn": {
-        "message": "Importuoti raktus",
+        "message": "Importar chaves",
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Patvirtinus, šis raktas bus perduotas į vietinę raktinę:",
+        "message": "Após a confirmação, esta chave é transferida para o chaveiro local:",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
-        "message": "Patvirtinus, šie raktai bus perduoti į vietinę raktinę:",
+        "message": "Após confirmação, essas chaves são transferidas para o chaveiro local:",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
-        "message": "Patvirtinkite raktą",
+        "message": "Confirmar chave",
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "Pridėti raktą į raktinę",
+        "message": "Adicionar chave ao chaveiro",
         "description": "Key import dialog header."
     },
     "key_import_error": {
-        "message": "Importavimo klaida.",
+        "message": "Importar Erro.",
         "description": "Import error alert."
     },
     "key_import_error_no_uid": {
-        "message": "Rakte $1 nerasta jokio galiojančio naudotojo ID",
+        "message": "Não foi encontrado ID de usuário válido na chave $1",
         "description": "Import error no user id found."
     },
     "key_import_error_parse": {
-        "message": "Klaida skaitant šarvuotą PGP raktą: $1",
+        "message": "Erro ao ler a chave PGP blindada $1",
         "description": "Import parse error."
     },
     "key_import_exception": {
-        "message": "Apdorojant raktus, atsirado klaidų",
+        "message": "Um erro ocorreu durante o processamento de chaves",
         "description": "Import error alert."
     },
     "key_import_file_label": {
-        "message": "Pasirinkti failus",
+        "message": "Selecionar arquivos",
         "description": "File selection label."
     },
     "key_import_from_text_btn": {
-        "message": "Importuoti raktą iš iškarpinės",
+        "message": "Importa chave da área de transferência",
         "description": "Import keys from clipboard button label on key import page."
     },
     "key_import_from_text_label": {
-        "message": "Tekstas iš iškarpinės",
+        "message": "Texto da área de transferência",
         "description": "Import keys from clipboard textarea label on key import page."
     },
     "key_import_invalid_text": {
-        "message": "Nerastas teisingas rakto tekstas",
+        "message": "Nenhum texto chave válido encontrado",
         "description": "Import error alert."
     },
     "key_import_invalidated_description": {
-        "message": "Įspėjimas: Šio adresato raktas nebegalioja. Šifruotas bendravimas su $1 daugiau nebeįmanomas. Turite gauti iš šio adresato dabartinį jo raktą.",
+        "message": "Aviso: a chave para este contato expirou. A comunicação criptografada com $1 não é mais possível. Você precisa obter a chave atual deste contato",
         "description": ""
     },
     "key_import_number_of_failed": {
-        "message": "Rakto nepavyko importuoti dėl klaidų.",
+        "message": "Não foi possível importar uma chave devido a erros",
         "description": "Error message with number of failed imports."
     },
     "key_import_number_of_failed_plural": {
-        "message": "Dėl klaidų nepavyko importuoti $1 raktų",
+        "message": "$1 não foi possível importar as chaves devido a erros",
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "Privačiojo rakto dalis, kuri atitinka naudotojo $2 esamą viešąjį raktą $1, buvo importuota į raktinę",
+        "message": "A parte da chave privada combina com a chave pública existente $1 do usuário $2 importado no chaveiro",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
-        "message": "Nepavyko perskaityti privačiojo rakto: $1",
+        "message": "Não é possível ler uma chave privada: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "Naudotojo $2 privatusis raktas $1 importuotas į raktinę",
+        "message": "Chave privada $1 do usuário $2 importada ao chaveiro",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "Atnaujintas naudotojo $2 privatusis raktas $1",
+        "message": "Chave privada $1 do usuário $2 atualizada",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
-        "message": "Nepavyko perskaityti viešojo rakto: $1",
+        "message": "Não é possível ler uma chave pública: $1",
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "Naudotojo $2 viešasis raktas $1 importuotas į raktinę",
+        "message": "Chave pública $1 do usuário $2 importada ao chaveiro",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "Atnaujintas naudotojo $2 viešasis raktas $1",
+        "message": "Chave pública $1 do usuário $2 atualizada",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
-        "message": "Pridėti į raktinę",
+        "message": "Adicionar ao chaveiro",
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
-        "message": "Ne dabar",
+        "message": "Agora não",
         "description": "Key import rotation cancel button."
     },
     "key_import_rotation_description": {
-        "message": "Jei ir toliau naudosite seną raktą, siuntėjui gali nepavykti iššifruoti jūsų laiškų. Jeigu jums kyla įtarimų, paklauskite siuntėjo, naudodami kitą bendravimo kanalą, ar siuntėjas pasikeitė raktą. Vėliau galėsite pridėti arba pašalinti raktą.",
+        "message": "Se você continuar usando a chave antiga, o remetente poderá não conseguir descriptografar suas mensagens. Se tiver alguma suspeita, peça ao remetente para confirmar a alteração em outro canal de comunicação. Você poderá adicionar ou remover a chave posteriormente.",
         "description": "Key import dialog description."
     },
     "key_import_rotation_headline": {
-        "message": "Siuntėjas pasirašė šį laišką nauju raktu.",
+        "message": "O remetente assinou esta mensagem com uma nova chave.",
         "description": "Key import rotation dialog header."
     },
     "key_import_search_btn": {
-        "message": "Ieškoti",
+        "message": "Procurar",
         "description": "Key search input button."
     },
     "key_import_search_disabled": {
-        "message": "Paieška išjungta.",
+        "message": "Pesquisa desativada.",
         "description": "Key search disabled warning."
     },
     "key_import_search_disabled_descr": {
-        "message": "Aktyvuokite nustatymuose bent vieną raktų šaltinį.",
+        "message": "Ative pelo menos uma fonte de chave nas configurações.",
         "description": "Key search disabled warning description."
     },
     "key_import_search_found": {
-        "message": "Raktas rastas ties:",
+        "message": "Chave encontrada em:",
         "description": "Key search found label."
     },
     "key_import_search_found_modified": {
-        "message": "paskutinį kartą modifikuotas:",
+        "message": "última modificação em:",
         "description": "Key search found label."
     },
     "key_import_search_found_source": {
-        "message": "Šaltinis:",
+        "message": "Fonte:",
         "description": "Key search found label."
     },
     "key_import_search_invalid": {
-        "message": "Įveskite tinkamą el. pašto adresą, rakto ID (16 skaitmenų) ar kontrolinį kodą (40 skaitmenų)",
+        "message": "Insira um endereço de e-mail válido, ID de chave (16 dígitos) ou impressão digital (40 dígitos)",
         "description": "Key search input has invalid content."
     },
     "key_import_search_not_found": {
-        "message": "Raktas nėra prieinamas nei viename apieškotame raktų kataloge.",
+        "message": "A chave não está disponível em nenhum dos diretórios de chaves pesquisados.",
         "description": "Key search found no result error message."
     },
     "key_import_search_not_found_header": {
-        "message": "Nerasta jokių raktų.",
+        "message": "Nenhuma chave encontrada.",
         "description": "Key search found no result header."
     },
     "key_import_search_ph": {
-        "message": "El. pašto adresas / Rakto ID / Kontrolinis kodas",
+        "message": "Endereço de e-mail / ID da chave / Impressão digital",
         "description": "Key search input place holder."
     },
     "key_import_textarea": {
-        "message": "Importuoti raktą kaip tekstą",
+        "message": "Importar chave como texto",
         "description": "Key import box."
     },
     "key_import_too_big": {
-        "message": "Rakto tekstas, kurį bandėte importuoti, yra per ilgas, kad jį galima būtų apdoroti. Pabandykite tai padaryti mažesnėmis dalimis.",
+        "message": "O texto da chave que você tentou importar é muito longo. Tente fazer isso com partes menores. ",
         "description": "Import error alert."
     },
     "key_import_unable": {
-        "message": "Nepavyko importuoti rakto dėl išimties: $1",
+        "message": "Não é possível importar uma chave devido à exceção: $1",
         "description": "Import error message: $1: error message."
     },
     "key_keyserver_mod": {
-        "message": "Rakto duomenys Mailvelope raktų serveryje daugiau nebėra naujausi.",
+        "message": "Os dados principais no servidor de chaves do Mailvelope não estão mais atualizados.",
         "description": "Local key data differs from Mailvelope key server"
     },
     "key_keyserver_not": {
-        "message": "Raktas nėra sinchronizuotas su Mailvelope raktų serveriu.",
+        "message": "A chave não está sincronizada com o servidor de chaves do Mailvelope.",
         "description": "Key is not on the the Mailvelope server"
     },
     "key_keyserver_remove": {
-        "message": "Galutiniam pašalinimui iš Mailvelope raktų serverio, visiems naudotojo ID buvo išsiųstas patvirtinimo el. laiškas.",
+        "message": "Um e-mail de confirmação foi enviado a todos os IDs de usuário para remoção final do servidor de chaves do Mailvelope.",
         "description": "A deletion request has been sent to the Mailvelope key server"
     },
     "key_keyserver_remove_btn": {
-        "message": "Šalinti visus naudotojo ID",
+        "message": "Remover todos os IDs de usuário",
         "description": "Key server remove existing key button label"
     },
     "key_keyserver_resend_btn": {
-        "message": "Siųsti iš naujo",
+        "message": "Reenviar",
         "description": "Key server send again button label"
     },
     "key_keyserver_sync": {
-        "message": "Rakto duomenys Mailvelope raktų serveryje yra naujausi.",
+        "message": "Os dados principais no servidor de chaves do Mailvelope estão atualizados.",
         "description": "Key data is synchronized with the Mailvelope key server"
     },
     "key_keyserver_update": {
-        "message": "Rakto duomenys Mailvelope raktų serveryje atnaujinti.",
+        "message": "Os dados principais foram atualizados no servidor de chaves do Mailvelope.",
         "description": "An update request has been sent to the Mailvelope key server"
     },
     "key_keyserver_update_btn": {
-        "message": "Atnaujinti",
+        "message": "Atualizar",
         "description": "Key server update button label"
     },
     "key_keyserver_upload": {
-        "message": "Norint sinchronizuoti raktą su Mailvelope raktų serveriu, visiems naudotojo ID buvo išsiųstas patvirtinimo el. laiškas.",
+        "message": "Para sincronizar a chave com o servidor de chaves do Mailvelope, um e-mail de confirmação foi enviado a todos os IDs de usuário.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "key_keyserver_upload_btn": {
-        "message": "Sinchronizuoti",
+        "message": "Sincronizar",
         "description": "Key server upload button label"
     },
     "key_recovery_failed": {
-        "message": "Rakto atkūrimas iš atsarginės kopijos nepavyko.",
+        "message": "Recuperando chave a partir de backup que falhou.",
         "description": ""
     },
     "key_remove_btn": {
-        "message": "Šalinti",
+        "message": "Remover",
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "Šalinti raktą iš raktinės",
+        "message": "Remova a chave do chaveiro",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
-        "message": "Šalinti raktą",
+        "message": "Remover chave",
         "description": "Title of delete key dialog."
     },
     "key_revoke_btn": {
-        "message": "Panaikinti",
+        "message": "Revogar",
         "description": "Revoke key button label"
     },
     "key_revoke_btn_title": {
-        "message": "Panaikinti raktą",
+        "message": "Revogar chave",
         "description": "Title for revoke key button"
     },
     "key_revoke_dialog_confirm": {
-        "message": "Ar vis dar norėtumėte panaikinti raktą?",
+        "message": "Você ainda gostaria de revogar a chave?",
         "description": "Confirmation question of revoke key dialog."
     },
     "key_revoke_dialog_description": {
-        "message": "Panaikinus raktą, jis bus visam laikui nebetinkamas naudoti.",
+        "message": "Com a revogação, a chave permanece permanentemente inutilizável.",
         "description": "Text of revoke key dialog."
     },
     "key_revoke_dialog_title": {
-        "message": "Panaikinti raktą",
+        "message": "Revogar chave",
         "description": "Title of revoke key dialog."
     },
     "key_set_as_default": {
-        "message": "Nustatyti kaip numatytąjį",
+        "message": "Definir como padrão",
         "description": "Set as default key for the keyring button"
     },
     "keybackup_failed": {
-        "message": "Rakto atsarginės kopijos kūrimas nepavyko.",
+        "message": "Criação do Backup da chave falhou.",
         "description": ""
     },
     "keybackup_restore_dialog_button": {
-        "message": "Atkurti atsarginę kopiją",
+        "message": "Restaurar backup",
         "description": ""
     },
     "keybackup_restore_dialog_description": {
-        "message": "Sukurti čia naują atkūrimo lapą, jeigu:",
+        "message": "Crie uma nova planilha de recuperação aqui se:",
         "description": ""
     },
     "keybackup_restore_dialog_headline": {
-        "message": "Rekomendacija: Sukurkite atsarginę kopiją",
+        "message": "Recomendação: Crie um backup",
         "description": ""
     },
     "keybackup_restore_dialog_list_1": {
-        "message": "Praradote atkūrimo lapą",
+        "message": "Você perdeu a ficha de recuperação.",
         "description": ""
     },
     "keybackup_restore_dialog_list_2": {
-        "message": "Naujas atkūrimo lapas turi būti sukurtas dėl saugumo priežasčių.",
+        "message": "Uma nova ficha de recuperação tem que ser criada por razões de segurança.",
         "description": ""
     },
     "keybackup_setup_dialog_button": {
-        "message": "Sukurti atsarginę kopiją",
+        "message": "Criar um backup",
         "description": ""
     },
     "keybackup_setup_dialog_description": {
-        "message": "Atsarginė kopija yra reikalinga, norint užtikrinti, kad jūsų šifruotas bendravimas:",
+        "message": "A cópia de segurança é necessária para garantir que a sua comunicação criptografada é:",
         "description": ""
     },
     "keybackup_setup_dialog_headline": {
-        "message": "Rekomendacija: Nusistatykite atsarginę kopiją",
+        "message": "Recomendação: Backup de configuração",
         "description": ""
     },
     "keybackup_setup_dialog_list_1": {
-        "message": "Galės būti atkurtas duomenų praradimo atveju",
+        "message": "Para restaurá-lo em caso de perda de dados",
         "description": "In order to restore your encrypted communication in case of data loss."
     },
     "keybackup_setup_dialog_list_2": {
-        "message": "Galės būti perduotas į kitus įrenginius",
+        "message": "Para transferi-lo para outros dispositivos",
         "description": "In order to transfer your encrypted communication to other devices."
     },
     "keybackup_waiting_description": {
-        "message": "Dokumentas su jūsų atkūrimo kodu yra ruošiamas.",
+        "message": "Um documento com seu código de recuperação está sendo preparado.",
         "description": ""
     },
     "keybackup_waiting_headline": {
-        "message": "Kuriama atsarginė kopija!",
+        "message": "Criando backup!",
         "description": ""
     },
     "keydetails_change_exp_date_dialog_note": {
-        "message": "Galiojimo pabaigos data taip pat yra pakeista visiems porakčiams. Negaliojantys porakčiai ar porakčiai, kurių galiojimas jau yra pasibaigęs, išliks nepaveikti.",
+        "message": "A data de expiração também é alterada para todas as subchaves. Subchaves inválidas ou que já expiraram permanecem inalteradas.",
         "description": "Important note in change expiration date dialog."
     },
     "keydetails_change_exp_date_dialog_title": {
-        "message": "Pakeisti galiojimo pabaigos datą",
+        "message": "Alterar data de validade",
         "description": "Title of change expiration date dialog."
     },
     "keydetails_change_pwd_dialog_old": {
-        "message": "Senas slaptažodis",
+        "message": "Senha antiga",
         "description": "Old password input label"
     },
     "keydetails_change_pwd_dialog_title": {
-        "message": "Pakeisti slaptažodį",
+        "message": "Mudar Senha",
         "description": "Title of change password dialog."
     },
     "keydetails_creation_date": {
-        "message": "Sukurtas",
+        "message": "Criada",
         "description": "Creation date of a PGP key."
     },
     "keydetails_expiration_date": {
-        "message": "Nustoja galioti",
+        "message": "Expira",
         "description": "Expiration date of a PGP key."
     },
     "keydetails_key_not_expire": {
-        "message": "niekada",
+        "message": "nunca",
         "description": "Expiration date of a PGP key not set."
     },
     "keydetails_password": {
-        "message": "Slaptažodis",
+        "message": "Senha",
         "description": "Password of a PGP key."
     },
     "keydetails_title": {
-        "message": "Išsamesnė rakto informacija",
+        "message": "Detalhes da chave",
         "description": "Title of the key details panel"
     },
     "keygen_dialog_password_error_length": {
-        "message": "Slaptažodyje turi būti bent $1 simboliai",
+        "message": "A senha requer pelo menos $1 caracteres",
         "description": ""
     },
     "keygen_dialog_password_placeholder": {
-        "message": "mažiausiai 4 simboliai",
+        "message": "min 4 caracteres",
         "description": ""
     },
     "keygen_dialog_prolog": {
-        "message": "Norėdami apsaugoti savo šifruotą bendravimą, priskirkite savo raktui slaptažodį:",
+        "message": "Atribua uma senha para sua chave para proteger sua comunicação criptografada:",
         "description": ""
     },
     "keygen_waiting_description": {
-        "message": "Šis procesas gali užimti kelias minutes. Jūsų naršyklė gali tapti nereaguojanti. Prašome būti kantriais.",
+        "message": "Este processo pode levar vários minutos. Seu navegador pode ficar sem resposta. Aguarde.",
         "description": ""
     },
     "keygen_waiting_headline": {
-        "message": "Nustatomas šifruotas bendravimas",
+        "message": "Configuração da comunicação criptografada",
         "description": ""
     },
     "keygrid_algorithm": {
-        "message": "Algoritmas",
+        "message": "Algoritmo",
         "description": "Public-key algorithm of a PGP key."
     },
     "keygrid_all_keys": {
-        "message": "Visi",
+        "message": "Tudo",
         "description": "Selection of key type."
     },
     "keygrid_creation_date": {
-        "message": "Sukūrimo data",
+        "message": "Data de criação",
         "description": "Creation date of a PGP key."
     },
     "keygrid_creation_date_short": {
-        "message": "Sukurtas",
+        "message": "Criada",
         "description": "Short creation date of a PGP key. Max. width: 90px"
     },
     "keygrid_default_key": {
-        "message": "Numatytasis raktas",
+        "message": "Chave padrão",
         "description": "Default key in the keyring."
     },
     "keygrid_default_label": {
-        "message": "Numatytasis",
+        "message": "Padrão",
         "description": "Label for the default key"
     },
     "keygrid_delete": {
-        "message": "Ištrinti",
+        "message": "Deletar",
         "description": "Max. 6 characters."
     },
     "keygrid_delete_confirmation": {
-        "message": "Ar tikrai norite pašalinti šį raktą?",
+        "message": "Tem certeza de que deseja remover esta chave?",
         "description": "Delete confirmation dialog."
     },
     "keygrid_display_all_keys": {
-        "message": "Rodyti visus raktus",
+        "message": "Exibir todas as chaves",
         "description": "Export key menu."
     },
     "keygrid_display_priv_key": {
-        "message": "Rodyti privatųjį raktą",
+        "message": "Exibir a chave privada",
         "description": "Export key menu."
     },
     "keygrid_display_pub_key": {
-        "message": "Rodyti viešąjį raktą",
+        "message": "Exibir a chave pública",
         "description": "Export key menu."
     },
     "keygrid_expiration_date": {
-        "message": "Galioja iki",
+        "message": "Data de validade",
         "description": "Expiration date of a PGP key."
     },
     "keygrid_export": {
-        "message": "Eksportuoti",
+        "message": "Exportar",
         "description": "Export key."
     },
     "keygrid_export_title": {
-        "message": "Eksportuoti visus raktus šiame sąraše į failą",
+        "message": "Exportar todas as chaves nesta lista para o arquivo",
         "description": "Title for Export key button."
     },
     "keygrid_generate_title": {
-        "message": "Generuoti raktą",
+        "message": "Gerar uma chave",
         "description": "Title for generate key button"
     },
     "keygrid_import_search_title": {
-        "message": "Ieškoti viešųjų raktų išoriniuose šaltiniuose",
+        "message": "Pesquisar chaves públicas em fontes externas",
         "description": "Title for Search key button."
     },
     "keygrid_import_title": {
-        "message": "Importuoti raktą",
+        "message": "Importar uma chave",
         "description": "Title for Import key button."
     },
     "keygrid_invalid_userid": {
-        "message": "Neteisingas naudotojo ID",
+        "message": "ID de usuário inválido",
         "description": "User ID invalid."
     },
     "keygrid_key_fingerprint": {
-        "message": "PGP kontrolinis kodas",
+        "message": "Impressão Digital PGP",
         "description": "Unique string identifier for a PGP key."
     },
     "keygrid_key_length": {
-        "message": "Ilgis",
+        "message": "Comprimento",
         "description": "Key length of a PGP key."
     },
     "keygrid_key_not_expire": {
-        "message": "Šio rakto galiojimas nesibaigia",
+        "message": "A chave não expira",
         "description": "Expiration date of a PGP key not set."
     },
     "keygrid_keyid": {
-        "message": "Rakto ID",
+        "message": "Identificação de chave",
         "description": "Key ID of a PGP key."
     },
     "keygrid_primary_key": {
-        "message": "Pagrindinis raktas",
+        "message": "Chave principal",
         "description": "Main key in the PGP key."
     },
     "keygrid_private_keys": {
-        "message": "Privatieji raktai",
+        "message": "Chaves privadas",
         "description": "Selection of key type."
     },
     "keygrid_public_keys": {
-        "message": "Viešieji raktai",
+        "message": "Chaves públicas",
         "description": "Selection of key type."
     },
     "keygrid_refresh": {
-        "message": "Įkelti iš naujo",
+        "message": "Recarregar",
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Įkelti raktinę iš naujo",
+        "message": "Recarregue o chaveiro",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
-        "message": "Siųsti viešąjį raktą el. paštu",
+        "message": "Enviar chave pública via email",
         "description": "Export key menu."
     },
     "keygrid_signer_name": {
-        "message": "Pasirašė",
+        "message": "Signatário",
         "description": "User ID of signer."
     },
     "keygrid_signer_unknown": {
-        "message": "Nežinoma kas pasirašė",
+        "message": "Signatário desconhecido",
         "description": "Key of signer not available."
     },
     "keygrid_sort_type": {
-        "message": "Filtrai",
+        "message": "Filtro",
         "description": "Key grid sort selector."
     },
     "keygrid_status_expired": {
-        "message": "nebegaliojantis",
+        "message": "expirado",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_invalid": {
-        "message": "negalioja",
+        "message": "inválida",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_revoked": {
-        "message": "panaikintas",
+        "message": "revogada",
         "description": "Validity status of a PGP key."
     },
     "keygrid_status_valid": {
-        "message": "galioja",
+        "message": "válida",
         "description": "Validity status of a PGP key."
     },
     "keygrid_subkey": {
-        "message": "Poraktis",
+        "message": "Subchave",
         "description": "Subkey of a PGP key."
     },
     "keygrid_subkeys": {
-        "message": "Porakčiai",
+        "message": "Subchaves",
         "description": "Subkeys of a PGP key."
     },
     "keygrid_user_email": {
-        "message": "El. paštas",
+        "message": "Email",
         "description": "Email address in User ID of a PGP key."
     },
     "keygrid_user_ids": {
-        "message": "Naudotojo ID",
+        "message": "Identificações de usuário",
         "description": "User IDs of a PGP key."
     },
     "keygrid_user_name": {
-        "message": "Vardas",
+        "message": "Nome",
         "description": "Name in User ID of a PGP key."
     },
     "keygrid_user_primary": {
-        "message": "Pirminis",
+        "message": "Primária",
         "description": "Primary status of User ID of a PGP key"
     },
     "keygrid_userid_signatures": {
-        "message": "Parašai",
+        "message": "Assinaturas",
         "description": "Signatures on User ID of a PGP key."
     },
     "keygrid_validity_status": {
-        "message": "Būsena",
+        "message": "Estado",
         "description": "Validity status of a PGP key."
     },
     "keyring_available_settings": {
-        "message": "Žiūrėkite prieinamus nustatymus ties:",
+        "message": "Veja as configurações disponíveis em:",
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "Raktinės atsarginė kopija",
+        "message": "Backup de chaveiro",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Ar norite ištrinti raktinę, kurios ID: $1?",
+        "message": "Deseja excluir o chaveiro com ID: $1?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
-        "message": "Patvirtinti raktą, kurį importuoti",
+        "message": "Confirme a chave para importar",
         "description": "Tab of keyring to import keys."
     },
     "keyring_confirm_keys_plural": {
-        "message": "Patvirtinti $1 raktų(-us), kuriuos importuoti",
+        "message": "Confirme as chaves $1 para importar",
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
-        "message": "Eksportuoti raktinę",
+        "message": "Exportar chaves",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
-        "message": "Generuoti raktą",
+        "message": "Gerar chave",
         "description": "Tab of keyring to generate key."
     },
     "keyring_header": {
-        "message": "Raktų tvarkymas",
+        "message": "Gerenciamento de Chave",
         "description": "Header of the key ring."
     },
     "keyring_import_description": {
-        "message": "Galite pridėti raktus arba kaip failą, arba kaip tekstą iš iškarpinės.",
+        "message": "Você pode adicionar chaves como arquivo ou como texto da área de transferência.",
         "description": "Description of key import for import tab of keyring import."
     },
     "keyring_import_keys": {
-        "message": "Importuoti raktus",
+        "message": "Importar Chaves",
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Raskite viešuosius raktus, kuriuos pridėti į savo raktinę. Mailvelope peržiūri daugelį raktų katalogų ir pasiūlo viešąjį raktą, kuris veikiausiai, yra naudojamas.",
+        "message": "Encontre chaves públicas para adicionar ao seu chaveiro. O Mailvelope verifica vários diretórios de chaves e sugere a chave pública com maior probabilidade de ser usada.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
-        "message": "Ieškoti raktų",
+        "message": "Procurar por chaves",
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
-        "message": "Pagrindinė raktinė",
+        "message": "Chaveiro Principal",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
-        "message": "Privatusis",
+        "message": "Privada",
         "description": "private key type"
     },
     "keyring_public": {
-        "message": "Viešasis",
+        "message": "Pública",
         "description": "public key type"
     },
     "keyring_public_private": {
-        "message": "Raktų poros",
+        "message": "Pares de chaves",
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Ištrinti raktinę",
+        "message": "Excluir chaveiro",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
-        "message": "Sąranka",
+        "message": "Configuração",
         "description": "Setup keyring for mail provider."
     },
     "keyring_setup_generate_key": {
-        "message": "Generuoti raktą",
+        "message": "Gerar chave",
         "description": "Generate key"
     },
     "keyring_setup_generate_key_explanation": {
-        "message": "Jeigu jūs naudojate šį plėtinį pirmą kartą ir dar neturite raktų poros, tuomet sugeneruokite ją dabar.",
+        "message": "Se você estiver usando esta extensão pela primeira vez e você ainda não tem um par de chaves, por favor gere uma chave agora.",
         "description": "Generate key"
     },
     "keyring_setup_import_key": {
-        "message": "Importuoti raktą",
+        "message": "Importar chave",
         "description": "Import key"
     },
     "keyring_setup_import_key_explanation": {
-        "message": "Ar jau turite raktų porą kitame įrenginyje? Jūs galite importuoti savo esamus raktus. Tiesiog, eksportuokite raktų porą iš kito įrenginio ir tuomet, importuokite ją čia.",
+        "message": "Você já tem um par de chaves em outro dispositivo? Você pode importar suas chaves existentes. Basta exportar o par de chaves em seu outro dispositivo e importá-lo aqui.",
         "description": "Import key"
     },
     "keyring_setup_no_keypair": {
-        "message": "Raktų pora yra reikalinga, norint šifruoti ir iššifruoti laiškus, o taip pat norint pakviesti savo adresatus ištisinio perdavimo šifruotam bendravimui.",
+        "message": "Um par de chaves é necessário para criptografar e descriptografar mensagens, assim como para convidar seus contatos para uma comunicação de criptografia fim-a-fim.",
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "Šioje raktinėje kol kas nėra raktų poros.",
+        "message": "Este chaveiro ainda não contém um par de chaves.",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
-        "message": "Papildomų raktų šaltiniai",
+        "message": "Fontes-chave adicionais",
         "description": "Label for configuration of additional key sources"
     },
     "keyserver_autocrypt_lookup": {
-        "message": "Naudoti raktus iš Autocrypt gaunamojo el. pašto antraščių",
+        "message": "Use chaves dos cabeçalhos Autocrypt de e-mails recebidos",
         "description": "Enable Looking Up Keys Via Autocrypt"
     },
     "keyserver_key_binding_header": {
-        "message": "Rakto aptikimas",
+        "message": "Detecção de Chave",
         "description": "Header for key binding feature"
     },
     "keyserver_key_binding_label": {
-        "message": "Nustatyti dabartinį adresatų raktą ir automatiškai atlikti rakto pasirinkimą.",
+        "message": "Determina a chave atual dos contatos e executa a seleção da chave automaticamente",
         "description": "Label for key binding feature"
     },
     "keyserver_oks_lookup": {
-        "message": "Automatiškai ieškoti raktų, adresu <0>keys.openpgp.org</0>",
+        "message": "Pesquisar automaticamente chaves em <0>keys.openpgp.org</0>",
         "description": "Enable keys.openpgp.org Auto Lookup"
     },
     "keyserver_tofu_lookup": {
-        "message": "Naudoti Mailvelope raktų serverį",
+        "message": "Use o servidor de chaves Mailvelope",
         "description": "Enable Mailvelope Key Server Auto Lookup"
     },
     "keyserver_verifying_servers": {
-        "message": "Raktų serveris su patvirtinimu el. paštu",
+        "message": "Servidor de chaves com verificação de e-mail",
         "description": "Label for verifying key servers."
     },
     "keyserver_wkd_lookup": {
-        "message": "Užklausti raktus iš gavėjų el. pašto teikėjo (Saityno raktų katalogo)",
+        "message": "Chaves de consulta do provedor de e-mail dos destinatários (Diretório de chaves da Web)",
         "description": "Enable Web Key Directory Auto Lookup"
     },
     "keyusers_add_btn": {
-        "message": "Pridėti naują",
+        "message": "Adicionar novo",
         "description": "Add user button label"
     },
     "keyusers_add_btn_title": {
-        "message": "Pridėti naują naudotojo ID",
+        "message": "Adicionar um novo ID de usuário",
         "description": "Add user button title"
     },
     "keyusers_keyserver": {
-        "message": "Raktų serveris",
+        "message": "Servidor de Chaves",
         "description": "Label of key server column key users table"
     },
     "keyusers_keyserver_not": {
-        "message": "nesinchronizuotas",
+        "message": "não sincronizado",
         "description": "User ID not synchronized with key server label text"
     },
     "keyusers_keyserver_sync": {
-        "message": "sinchronizuotas",
+        "message": "sincronizado",
         "description": "User ID synchronized with key server label text"
     },
     "keyusers_keyserver_unverified": {
-        "message": "nepatvirtintas",
+        "message": "não verificado",
         "description": "User ID key server not verified label text"
     },
     "keyusers_title": {
-        "message": "Priskirti naudotojo ID",
+        "message": "IDs de usuário atribuídos",
         "description": "Title of the key users panel"
     },
     "learn_more_link": {
-        "message": "Sužinoti daugiau",
+        "message": "Aprenda mais",
         "description": "Text of a link to a learn-more resource"
     },
     "message_no_keys": {
-        "message": "Šiam laiškui nerastas joks privatusis raktas. Reikalingi privačiojo rakto ID: $1",
+        "message": "Nenhuma chave privada encontrada para esta mensagem. Identificações de chave privada necessários: $1",
         "description": "Decrypt error message."
     },
     "message_read_error": {
-        "message": "Nepavyko iššifruoti šio laiško: $1",
+        "message": "Não foi possível descriptografar esta mensagem: $1",
         "description": "Message read error message: $1: error message."
     },
     "nameaddrinput_error_email_exists": {
-        "message": "El. pašto adresas jau yra naudojamas",
+        "message": "O endereço de e-mail já está em uso",
         "description": "Error message for email input field."
     },
     "nameaddrinput_error_name_empty": {
-        "message": "Įveskite vardą",
+        "message": "Por favor insira um nome",
         "description": "Error message for name input field."
     },
     "notification_text_copy_to_clipboard": {
-        "message": "Tekstas nukopijuotas į iškarpinę.",
+        "message": "O texto foi copiado para a área de transferência.",
         "description": "Copy to clipboard toast message."
     },
     "options_docu": {
-        "message": "Dokumentacija",
+        "message": "Documentação",
         "description": "Options navigation: Documentation."
     },
     "options_home": {
-        "message": "Parinktys",
+        "message": "Opções",
         "description": "Options navigation: Home."
     },
     "options_settings": {
-        "message": "Nustatymai",
+        "message": "Configurações",
         "description": "Options header: Settings."
     },
     "options_title": {
-        "message": "Mailvelope parinktys",
+        "message": "Opções do Mailvelope",
         "description": "Title of options page."
     },
     "paragraph_analyticsconsent_modal": {
-        "message": "You can opt out at any time from settings.",
+        "message": "Você pode cancelar a qualquer momento nas configurações.",
         "description": "p modal analytics consent"
     },
     "preferred": {
-        "message": "pageidaujama",
+        "message": "Preferencial",
         "description": "Indicates if a keyring is preferred"
     },
     "provider_gmail_auth": {
-        "message": "Įgaliojimai",
+        "message": "Autorizações",
         "description": "Authorizations"
     },
     "provider_gmail_auth_cancel_btn": {
-        "message": "Nutraukti įgaliojimą",
+        "message": "Cancelar autorização",
         "description": "Cancel authorization button"
     },
     "provider_gmail_auth_readonly": {
-        "message": "skaityti el. laiškus",
+        "message": "ler e-mail",
         "description": "Readonly authorization"
     },
     "provider_gmail_auth_send": {
-        "message": "siųsti el. laiškus",
+        "message": "enviar email",
         "description": "Send authorization"
     },
     "provider_gmail_auth_table_title": {
-        "message": "Google API įgaliojimai",
+        "message": "Autorizações da API do Google",
         "description": "Title for authorization table."
     },
     "provider_gmail_dialog_auth_google_signin": {
-        "message": "Prisijungti naudojant Google",
+        "message": "Entrar com o Google",
         "description": "Text Google sign in button"
     },
     "provider_gmail_dialog_auth_intro": {
-        "message": "Norint naudoti Gmail integraciją su <0></0>, Mailvelope privalo būti suteikti šie leidimai:",
+        "message": "Para usar a integração do Gmail para <0></0>, as seguintes permissões devem ser concedidas ao Mailvelope:",
         "description": "Intro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_auth_outro": {
-        "message": "Jei spustelėsite ant prisijungimo mygtuko, bus atvertas Google įgaliojimų suteikimo langas. Pasirinkite el. pašto adreso <0></0> Gmail paskyrą ir vadovaukitės instrukcijomis.",
+        "message": "Ao clicar no botão de login, uma janela de autorização do Google será aberta. Selecione sua conta do Gmail para o endereço de e-mail <0></0> e siga as instruções.",
         "description": "Outro text for GMAIL OAuth dialog."
     },
     "provider_gmail_dialog_description": {
-        "message": "Gmail API naudojimas išplėčia Mailveilope su Gmail funkcionalumą ir supaprastina šifruotų el. laiškų ir priedų siuntimą bei gavimą.",
+        "message": "Usar a API do Gmail amplia a funcionalidade do Mailvelope com o Gmail e simplifica o envio e a leitura de e-mails e anexos criptografados.",
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
@@ -1596,35 +1596,35 @@
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Skaitykite mūsų Privatumo politiką",
+        "message": "Por favor, leia nossa Política de Privacidade",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
-        "message": "Gmail API naudojimas",
+        "message": "Usando a API do Gmail",
         "description": "Title of GMAIL API dialog."
     },
     "provider_gmail_integration": {
-        "message": "Gmail API integracija",
+        "message": "Integração da API do Gmail",
         "description": "Label for Gmail integration option."
     },
     "provider_gmail_integration_info": {
-        "message": "Tam, kad gautų prieigą prie Gmail API, Mailvelope reikia papildomų leidimų. Kai tik Gmail pradėsite naudoti Mailvelope šifravimo funkcijas, būsite palydėti per įgaliojimų suteikimo procesą. Tai pareikalaus, kad prisijungtumėte prie savo Google paskyros.",
+        "message": "O Mailvelope requer permissões adicionais para acessar a API do Gmail. Assim que usar as funções de criptografia do Mailvelope no Gmail, você será guiado por um processo de autorização. Para isso, você precisa fazer login na sua conta do Google.",
         "description": "Info message for Gmail integration option"
     },
     "provider_gmail_integration_warning": {
-        "message": "Gmail nėra įgaliota naudoti paieškos šabloną <0></0>. Patikrinkite nustatymus ties <1></1>.",
+        "message": "O Gmail não está autorizado com o padrão de pesquisa <0></0>. Verifique as configurações em <1></1>.",
         "description": "Warning message, when Gmail is not authorized"
     },
     "provider_gmail_licensing_dialog_business_btn_info": {
-        "message": "Saugi komunikacija su organizacijomis visame pasaulyje",
+        "message": "Comunicando-se com segurança com organizações em todo o mundo",
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "naudotojui per mėnesį",
+        "message": "por usuário/mês",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
-        "message": "Tęsti be Gmail API",
+        "message": "Continuar sem a API do Gmail",
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
@@ -1632,19 +1632,19 @@
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
-        "message": "Galite tęsti nemokamai naudotis Mailvelope su Gmail, bet <0>naudojant API, jūsų darbo eiga</0> rašant ir skaitant šifruotus el. laiškus ir jų priedus, bus <1>žymiai greitesnė ir lengvesnė</1>.",
+        "message": "Você pode continuar a usar o Mailvelope com o Gmail gratuitamente, mas <0>com a API, seu fluxo de trabalho</0> para escrever e ler e-mails criptografados e seus anexos será <1>muito mais rápido e fácil</1>.",
         "description": "Text of Gmail API licensing dialog second paragraph."
     },
     "provider_gmail_licensing_dialog_para_3": {
-        "message": "<0>14 dienų nemokamai</0> išbandykite Mailvelope verslui su aktyvuotu Gmail API:",
+        "message": "Teste o Mailvelope Business com a API do Gmail ativada <0>14 dias grátis</0>:",
         "description": "Text of Gmail API licensing dialog third paragraph."
     },
     "provider_gmail_licensing_dialog_test_btn": {
-        "message": "Nemokamai išbandyti Gmail API",
+        "message": "Teste a API do Gmail gratuitamente",
         "description": "Gmail API test button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_title": {
-        "message": "Reikalinga Mailvelope verslo licencija",
+        "message": "Licença comercial Mailvelope necessária",
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
@@ -1652,667 +1652,667 @@
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
-        "message": "Mailvelope licencija",
+        "message": "Licença Mailvelope",
         "description": "Title for G Suite licensing table."
     },
     "provider_gmail_secure_forward_btn": {
-        "message": "Saugiai persiųsti",
+        "message": "Encaminhamento seguro",
         "description": "Secure forward button title/tooltip"
     },
     "provider_gmail_secure_replyAll_btn": {
-        "message": "Saugiai atsakyti visiems",
+        "message": "Resposta segura a todos",
         "description": "Secure reply all button title/tooltip"
     },
     "provider_gmail_secure_reply_btn": {
-        "message": "Saugiai atsakyti",
+        "message": "Resposta segura",
         "description": "Secure reply button title/tooltip"
     },
     "pwd_dialog_cache_pwd": {
-        "message": "Laikinai prisiminti slaptažodį",
+        "message": "Lembrar senha temporariamente",
         "description": "Checkbox label for remembering of the password."
     },
     "pwd_dialog_cancel": {
-        "message": "Raktų atrakinimo buvo atsisakyta.",
+        "message": "O desbloqueio de chave foi cancelado",
         "description": "User canceled key unlock dialog."
     },
     "pwd_dialog_header": {
-        "message": "Įveskite rakto slaptažodį",
+        "message": "Digite a senha da chave",
         "description": "Header of the password dialog."
     },
     "pwd_dialog_pwd_please": {
-        "message": "Prašome įvesti savo slaptažodį",
+        "message": "Por favor, insira sua senha",
         "description": "Placeholder for password."
     },
     "pwd_dialog_reason_add_user": {
-        "message": "Norėdami sukurti naudotojo ID, įveskite savo rakto slaptažodį.",
+        "message": "Digite sua senha principal para criar o ID do usuário.",
         "description": ""
     },
     "pwd_dialog_reason_create_backup": {
-        "message": "Norėdami sukurti atkūrimo lapą, įveskite savo rakto slaptažodį.",
+        "message": "Por favor, entre com a senha da sua chave para criar um backup. ",
         "description": ""
     },
     "pwd_dialog_reason_create_draft": {
-        "message": "Norėdami įrašyti juodraštį, įveskite rakto slaptažodį.",
+        "message": "Digite a senha da chave para salvar o rascunho.",
         "description": ""
     },
     "pwd_dialog_reason_decrypt": {
-        "message": "Norėdami iššifruoti šį laišką, įveskite savo rakto slaptažodį.",
+        "message": "Digite a senha da chave para descriptografar esta mensagem.",
         "description": ""
     },
     "pwd_dialog_reason_editor": {
-        "message": "Norėdami atnaujinti šifruoto bendravimo nustatymus, įveskite savo rakto slaptažodį.",
+        "message": "Por favor, entre com a senha da sua chave para atualizar as configurações para uma comunicação criptografada.",
         "description": ""
     },
     "pwd_dialog_reason_revoke": {
-        "message": "Norėdami panaikinti šį raktą, įveskite savo rakto slaptažodį.",
+        "message": "Digite sua senha para revogar esta chave.",
         "description": ""
     },
     "pwd_dialog_reason_revoke_user": {
-        "message": "Norėdami panaikinti naudotojo ID, įveskite savo rakto slaptažodį.",
+        "message": "Digite sua senha principal para revogar o ID do usuário.",
         "description": ""
     },
     "pwd_dialog_reason_set_exdate": {
-        "message": "Norėdami raktui nustatyti naują galiojimo pabaigos datą, įveskite savo rakto slaptažodį.",
+        "message": "Digite sua senha principal para definir uma nova data de expiração para a chave.",
         "description": ""
     },
     "pwd_dialog_reason_sign": {
-        "message": "Norėdami pasirašyti šį laišką, įveskite savo rakto slaptažodį.",
+        "message": "Digite a senha da chave para assinar esta mensagem.",
         "description": ""
     },
     "pwd_dialog_title": {
-        "message": "Įveskite slaptažodį | Mailvelope",
+        "message": "Digitação de senha | Mailvelope",
         "description": "Title of the password dialog."
     },
     "pwd_dialog_userid": {
-        "message": "Naud. ID:",
+        "message": "Identificação do usuário:",
         "description": "Label for user ID."
     },
     "pwd_dialog_wrong_pwd": {
-        "message": "Neteisingas slaptažodis",
+        "message": "Senha incorreta",
         "description": "Password error message."
     },
     "recovery_sheet_backup_data": {
-        "message": "Jūsų duomenų atsarginė kopija",
+        "message": "Backup dos seus dados",
         "description": ""
     },
     "recovery_sheet_backup_local": {
-        "message": "Jeigu norėtumėte išskirtinai įrašyti savo duomenis savo kompiuteryje, tuomet šią parinktį rasite savo $1 paskyros šifruoto bendravimo nustatymuose. ",
+        "message": "Se você quiser salvar seus dados exclusivamente localmente no seu computador, você encontrará essa opção nas configurações de comunicação criptografada da sua conta $1. ",
         "description": ""
     },
     "recovery_sheet_backup_server": {
-        "message": "Norint padaryti šifruotam bendravimui svarbių duomenų (pvz., rakto slaptažodžio) atsarginę kopiją, mūsų saugumo partneris Mailvelope šifruotai įrašys duomenis mūsų $1 serveriuose.",
+        "message": "Para fazer backup dos dados importantes para a comunicação criptografada (por exemplo, senha da chave), os dados serão salvos criptografados em nossos servidores de US$ 1 pelo nosso parceiro de segurança Mailvelope.",
         "description": ""
     },
     "recovery_sheet_be_aware": {
-        "message": "Turėkite omenyje",
+        "message": "Por favor, fique ciente",
         "description": "Label"
     },
     "recovery_sheet_check_settings": {
-        "message": "Patikrinkite nustatymus savo paskyroje, ties:",
+        "message": "Por favor, verifique as configurações em sua conta abaixo:",
         "description": ""
     },
     "recovery_sheet_creation_date": {
-        "message": "Sukūrimo data:",
+        "message": "Data de criação:",
         "description": "Label for recovery sheet creation date"
     },
     "recovery_sheet_data_lost": {
-        "message": "Be atsarginės kopijos, jūsų šifruoti laiškai negali būti vėl iššifruoti tuo atveju, jei prarasite rakto slaptažodį ar jei susigadins įrenginys ar atsiras problemų su naršyklės plėtiniu!",
+        "message": "Sem um backup, suas mensagens criptografadas não podem ser descriptografadas novamente no caso de você perder sua senha de chave ou no caso de um dispositivo defeituoso ou problemas com a extensão do navegador!",
         "description": ""
     },
     "recovery_sheet_encryption_note": {
-        "message": "Šifruoto bendravimo patarimai, naudojant $1",
+        "message": "Dicas para comunicação criptografada com $1",
         "description": "Sub title"
     },
     "recovery_sheet_enter_code": {
-        "message": "Diegimui kituose kompiuteriuose, įveskite atkūrimo raktą, esantį nustatymuose, ties:",
+        "message": "Para a instalação em outros computadores, digite o código de recuperação nas configurações abaixo:",
         "description": "Label for navigation path"
     },
     "recovery_sheet_explain_pgp": {
-        "message": "Šifruotas bendravimas su $1 yra PGP pagrįsta procedūra. Ji leidžia siųsti šifruotus el. laiškus ir tuo pačiu metu užtikrina, kad tik jūs ir laiško gavėjas galėtumėte perskaityti laiško turinį.",
+        "message": "A comunicação criptografada com $1 é um procedimento baseado em PGP. Ele permite enviar e-mails criptografados e, ao mesmo tempo, garante que somente você e o destinatário possam lê-los.",
         "description": ""
     },
     "recovery_sheet_extension_problems": {
-        "message": "dėl problemų su naršyklės plėtiniu",
+        "message": "devido a problemas com a extensão do navegador",
         "description": "List item"
     },
     "recovery_sheet_forgot_password": {
-        "message": "nes pamiršote savo rakto slaptažodį",
+        "message": "Porque você esqueceu a senha para a sua chave",
         "description": "List item"
     },
     "recovery_sheet_further_info": {
-        "message": "Jūs galite rasti daugiau informacijos ir nustatymo parinkčių savo $1 paskyroje, ties",
+        "message": "Você pode encontrar mais informações e opções de configuração em sua conta de $1 em",
         "description": ""
     },
     "recovery_sheet_header": {
-        "message": "Svarbi informacija!",
+        "message": "Informação importante!",
         "description": "Title of recovery sheet."
     },
     "recovery_sheet_in_general": {
-        "message": "Apskritai, yra svarbu",
+        "message": "De modo geral, é importante",
         "description": "Label"
     },
     "recovery_sheet_invite_contacts": {
-        "message": "Savo $1 paskyros šifruoto bendravimo nustatymuose turite galimybę pakviesti papildomus adresatus naudotis šifruotu bendravimu per PGP. Adresatai, kurie jau buvo sėkmingai pakviesti, gali būti atpažinti iš pakabinamos spynos piktogramos, esančios šalia jų el. pašto adreso. ",
+        "message": "Nas configurações de comunicação criptografada da sua conta $1, você tem a possibilidade de convidar contatos adicionais para usar a comunicação criptografada via PGP. Contatos que já foram convidados com sucesso podem ser reconhecidos pelo ícone de cadeado ao lado do endereço de e-mail. ",
         "description": ""
     },
     "recovery_sheet_keep_safe": {
-        "message": "Laikykite išspausdintą šio dokumento versiją saugioje vietoje ir užtikrinkite, kad niekas kitas neturėtų prieigos prie atkūrimo kodo.",
+        "message": "Guarde uma cópia impressa deste documento em um local seguro e certifique-se que ninguém mais tenha acesso ao código de recuperação.",
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "Kitus $1 naudotojus, besinaudojančius GMX PGP procedūra, galima rasti tiesiogiai $1 paskyros centriniame kataloge. Jeigu šiame kataloge nenorite turėti jokių įrašų, tuomet išjunkite šią funkciją savo $1 paskyros nustatymuose.",
+        "message": "Outros usuários de $1 que utilizam o procedimento PGP do GMX podem ser encontrados diretamente em um diretório central na sua conta $1. Se você não quiser ter nenhuma entrada neste diretório, desative esta função nas configurações da sua conta $1.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
-        "message": "Mobiliuosiuose įrenginiuose",
+        "message": "Em dispositivos móveis",
         "description": ""
     },
     "recovery_sheet_not_working": {
-        "message": "Jeigu jūsų šifruotas bendravimas daugiau nebeveikia, pvz.,:",
+        "message": "Se sua comunicação criptografada não está mais funcionando, ex.:",
         "description": "Label for list"
     },
     "recovery_sheet_other_computer": {
-        "message": "Kitame kompiuteryje",
+        "message": "Em um computador diferente",
         "description": ""
     },
     "recovery_sheet_other_contacts": {
-        "message": "Šifruotas bendravimas su kitais adresatais",
+        "message": "Comunicação criptografada com outros contatos",
         "description": ""
     },
     "recovery_sheet_other_devices": {
-        "message": "Šifruotas bendravimas kituose įrenginiuose",
+        "message": "Comunicação criptografada em outros dispositivos",
         "description": "Sub title"
     },
     "recovery_sheet_other_devices_setup": {
-        "message": "Šifruoto bendravimo nustatymas kituose įrenginiuose",
+        "message": "Configuração da comunicação criptografada em outros dispositivos",
         "description": ""
     },
     "recovery_sheet_other_problems": {
-        "message": "dėl kitų priežasčių",
+        "message": "por outras razões",
         "description": "List item"
     },
     "recovery_sheet_pgp_compat": {
-        "message": "Jūs galite saugiai bendrauti su kitais adresatais tuo atveju, jeigu jie taip pat naudoja šifruotą bendravimą (PGP).",
+        "message": "Você pode se comunicar de forma segura com outros contatos se eles também estão usando comunicação criptografada (PGP).",
         "description": ""
     },
     "recovery_sheet_print_block": {
-        "message": "Prašome laikyti šį dokumentą saugioje vietoje!",
+        "message": "Por favor, guarde este documento em um lugar seguro!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_print_button": {
-        "message": "Spausdinti",
+        "message": "Imprimir",
         "description": ""
     },
     "recovery_sheet_print_notice": {
-        "message": "Prašome atsispausdinti šį dokumentą ir laikyti jį saugioje vietoje!",
+        "message": "Por favor, imprima este documento e armazene-o em um lugar seguro!",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_provider_communication": {
-        "message": "Šifruotas bendravimas",
+        "message": "Comunicação criptografada",
         "description": ""
     },
     "recovery_sheet_provider_inbox": {
-        "message": "Gauta",
+        "message": "Caixa de entrada",
         "description": ""
     },
     "recovery_sheet_provider_security": {
-        "message": "Saugumas",
+        "message": "Segurança",
         "description": ""
     },
     "recovery_sheet_provider_settings": {
-        "message": "Nustatymai",
+        "message": "Configurações",
         "description": ""
     },
     "recovery_sheet_qr_code": {
-        "message": "Nuskenuokite QR kodą savo mobiliuoju įrenginiu.",
+        "message": "Digitalize o QR Code com o seu dispositivo móvel.",
         "description": ""
     },
     "recovery_sheet_recommendation": {
-        "message": "Rekomendacija",
+        "message": "Recomendação",
         "description": ""
     },
     "recovery_sheet_recover_data": {
-        "message": "Duomenų atkūrimas",
+        "message": "Recuperando dados",
         "description": "Sub title"
     },
     "recovery_sheet_recovery_code": {
-        "message": "Atkūrimo kodas",
+        "message": "Código de recuperação",
         "description": ""
     },
     "recovery_sheet_subtitle_receipt": {
-        "message": "Šifruoto bendravimo atkūrimo lapas",
+        "message": "Folha de recuperação para comunicação criptografada",
         "description": "Sub title of recovery sheet."
     },
     "recovery_sheet_subtitle_recover": {
-        "message": "Atkurti šifruotą bendravimą",
+        "message": "Recuperar comunicação criptografada",
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Naudodami GMX adresatus, galite būti tikri, kad rodomi naudotojai, iš tiesų, yra patvirtinti naudotojai. Kita vertus, visada turėtumėte patikrinti adresatų, besinaudojančių kito el. pašto teikėjo adresu, tapatybę.",
+        "message": "Com contatos GMX você pode ter certeza que os usuários exibidos são de fato usuários válidos. Você deveria, no entanto, sempre verificar a identidade do contatos com um endereço de email de outro provedor de email.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
-        "message": "Nustatykite šifruotą bendravimą tik saugiuose įrenginiuose, prie kurių pašaliniai žmonės neturi prieigos.",
+        "message": "Apenas configure a comunicação criptografada em dispositivos seguros que não podem ser acessados por estranhos.",
         "description": ""
     },
     "recovery_sheet_unlock_backup": {
-        "message": "Jūsų duomenų atsarginė kopija gali būti iššifruota tik šiame atkūrimo lape esančio atkūrimo kodo pagalba.",
+        "message": "O backup de seus dados só pode ser descriptografado com a ajuda do código de recuperação nesta ficha de recuperação.",
         "description": ""
     },
     "reload_tab": {
-        "message": "Norėdami, kad nustatymai įsigaliotų, įkelkite atitinkamus puslapius iš naujo.",
+        "message": "Recarregue as páginas correspondentes para que as configurações entrem em vigor.",
         "description": "Info message."
     },
     "restore_backup_dialog_button": {
-        "message": "Patvirtinti",
+        "message": "Confirmar",
         "description": ""
     },
     "restore_backup_dialog_headline": {
-        "message": "Įveskite savo atkūrimo kodą:",
+        "message": "Por favor, insira seu código de recuperação:",
         "description": ""
     },
     "restore_password_dialog_button": {
-        "message": "Rodyti",
+        "message": "Mostrar",
         "description": ""
     },
     "restore_password_dialog_headline": {
-        "message": "Jūsų rakto slaptažodis:",
+        "message": "Sua senha de chave:",
         "description": ""
     },
     "security_background_color_text": {
-        "message": "2. Pasirinkite mėgstamą spalvą",
+        "message": "2. Agora escolha uma cor que você goste",
         "description": "Security background select color text"
     },
     "security_background_icons_text": {
-        "message": "1. Pasirinkite mėgstamą piktogramą",
+        "message": "1. Escolha um ícone que você goste",
         "description": "Security background select icon text"
     },
     "security_background_text": {
-        "message": "Jūsų saugumo fonas yra rodomas kiekvieno šifruoto laiško fone. Norėdami paversti jį saugiu, turėtumėti jį suasmeninti. Taip galėsite užtikrinti, kad niekas negalės atkurti ir imituoti Mailvelope sąsajos, kad pasiektų jūsų asmeninius duomenis.",
+        "message": "Seu histórico de segurança é exibido em cada e-mail criptografado. Para torná-lo realmente seguro, você deve personalizá-lo. É assim que você garante que ninguém consiga reconstruir a interface do Mailvelope para acessar seus dados pessoais.",
         "description": "Security background text"
     },
     "security_cache_header": {
-        "message": "Prisiminti slaptažodžius šiam naršyklės seansui.",
+        "message": "Lembrar das senhas nesta sessão do navegador?",
         "description": "Password cache header"
     },
     "security_cache_help": {
-        "message": "Privalo būti skaičius tarp 1-999",
+        "message": "Deve ser um número entre 1-999",
         "description": "Help text for cache time."
     },
     "security_cache_off": {
-        "message": "Ne.",
+        "message": "Não.",
         "description": "Don't store password."
     },
     "security_cache_on": {
-        "message": "Taip, laikyti atmintyje",
+        "message": "Sim, manter na memória por",
         "description": "Store password in memory for $1 minutes."
     },
     "security_cache_time": {
-        "message": "minučių.",
+        "message": "minutos.",
         "description": "Store password in memory for $1 minutes."
     },
     "security_display_decrypted": {
-        "message": "Kur bus rodomi iššifruoti laiškai?",
+        "message": "Onde são decifradas as mensagens exibidas?",
         "description": "Label for display options"
     },
     "security_display_inline": {
-        "message": "El. pašto teikėjo puslapyje.",
+        "message": "Na página do provedor de email",
         "description": "Decrypted message display option"
     },
     "security_display_popup": {
-        "message": "Atskirame Mailvelope iškylančiajame lange.",
+        "message": "Em uma janela separada do Mailvelope",
         "description": "Decrypted message display option"
     },
     "security_hide_armored_head": {
-        "message": "Slėpti Mailvelope versiją ir komentarą PGP pranešimuose.",
+        "message": "Ocultar a versão e o comentário do Mailvelope em mensagens PGP.",
         "description": "Hide header infos in armored messages"
     },
     "security_log_action": {
-        "message": "Veiksmas",
+        "message": "Ação",
         "description": "Title of the action column of the security log table."
     },
     "security_log_add_attachment": {
-        "message": "Paspaustas priedo pridėjimo mygtukas",
+        "message": "Botão de adicionar anexo clicado",
         "description": "A click on the attachment upload button as an event type"
     },
     "security_log_attachment_download": {
-        "message": "Priedas atsisiųstas",
+        "message": "Anexo baixado",
         "description": "Attachment downloaded as an event source"
     },
     "security_log_backup_create": {
-        "message": "Spustelėjimas, siekiant sukurti atsarginę kopiją",
+        "message": "Clique para criar o backup",
         "description": ""
     },
     "security_log_backup_restore": {
-        "message": "Spustelėjimas, siekiant atkurti atsarginę kopiją",
+        "message": "Clique para restaurar o backup",
         "description": ""
     },
     "security_log_content_copy": {
-        "message": "Kopijavimas patikrinimo dialoge",
+        "message": "Copiar na janela de verificação",
         "description": ""
     },
     "security_log_decrypt_ui": {
-        "message": "Iššifruoti",
+        "message": "Decriptar",
         "description": ""
     },
     "security_log_decryption_operation": {
-        "message": "Laiškas iššifruotas naudojant: $1",
+        "message": "A mensagem foi decifrada com: $1",
         "description": ""
     },
     "security_log_dialog_cancel": {
-        "message": "Spustelėjimas dialoge, siekiant atsisakyti",
+        "message": "Clique para cancelar na janela",
         "description": ""
     },
     "security_log_dialog_encrypt": {
-        "message": "Spustelėjimas dialoge, siekiant šifruoti",
+        "message": "Clique para criptografar na janela",
         "description": ""
     },
     "security_log_dialog_ok": {
-        "message": "Spustelėjimas dialoge, siekiant patvirtinti",
+        "message": "Clique para confirmar na janela",
         "description": ""
     },
     "security_log_dialog_sign": {
-        "message": "Spustelėjimas dialoge, siekiant pasirašyti",
+        "message": "Clique para assinar na janela",
         "description": ""
     },
     "security_log_editor": {
-        "message": "Mailvelope redaktorius",
+        "message": "Editor de Mailvelope",
         "description": "Message editor container as an event source"
     },
     "security_log_email_viewer": {
-        "message": "Iššifruotas PGP el. laiškas",
+        "message": "Email PGP descriptografado",
         "description": "Email decryption container as an event source"
     },
     "security_log_encrypt_dialog": {
-        "message": "Šifravimo dialogas",
+        "message": "Criptografar Diálogo",
         "description": "Encrypt dialog as an event source"
     },
     "security_log_encrypt_form": {
-        "message": "Šifravimo forma",
+        "message": "Criptografar formulário",
         "description": "Encrypt form as an event source"
     },
     "security_log_encrypt_ui": {
-        "message": "Šifruoti",
+        "message": "Encriptar",
         "description": ""
     },
     "security_log_encryption_operation": {
-        "message": "Laiškas buvo užšifruotas ir skirtas: $1",
+        "message": "A mensagem foi criptografada para: $1",
         "description": ""
     },
     "security_log_import_dialog": {
-        "message": "Importavimo dialogas",
+        "message": "Importar Diálogo",
         "description": "Key import dialog as an event source"
     },
     "security_log_key_backup": {
-        "message": "Rakto atsarginė kopija",
+        "message": "Backup da chave",
         "description": "Message keybackup container as an event source"
     },
     "security_log_key_generator": {
-        "message": "Raktų generatorius",
+        "message": "Gerador de Chaves",
         "description": "Key generator container as an event source"
     },
     "security_log_password_click": {
-        "message": "Spustelėjimas slaptažodžio dialoge",
+        "message": "Clique na janela de senha",
         "description": ""
     },
     "security_log_password_dialog": {
-        "message": "Slaptažodžio dialogas",
+        "message": "Senha de Diálogo",
         "description": "Password dialog as an event source"
     },
     "security_log_password_input": {
-        "message": "Įvestis į slaptažodžio dialogą",
+        "message": "Inserção na janela de senha",
         "description": ""
     },
     "security_log_remove_attachment": {
-        "message": "Priedas pašalintas",
+        "message": "Anexo removido",
         "description": "A click on the attachment remove button as event type"
     },
     "security_log_restore_backup_click": {
-        "message": "Spustelėjimas atsarginės kopijos atkūrimo dialoge",
+        "message": "Clique na janela de restauração de backup",
         "description": ""
     },
     "security_log_sign_operation": {
-        "message": "Laiškas buvo pasirašytas, naudojant raktą: $1",
+        "message": "A mensagem foi assinada com a chave: $1",
         "description": ""
     },
     "security_log_signature_modal_close": {
-        "message": "Spustelėjimas, siekiant užverti parašo dialogą",
+        "message": "Clique para fechar a janela de assinatura",
         "description": ""
     },
     "security_log_signature_modal_open": {
-        "message": "Spustelėjimas, siekiant atverti parašo dialogą",
+        "message": "Clique para abrir a janela de assinatura",
         "description": ""
     },
     "security_log_source": {
-        "message": "Šaltinis",
+        "message": "Fonte",
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "Saugumo žurnalas rodo naudotojo veiksmus visuose Mailvelope komponentuose.",
+        "message": "O registo de segurança mostra as ações do usuário em componentes integrados do Mailvelope.",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
-        "message": "Įvestis tekstiniame lauke",
+        "message": "Inserir no campo de texto",
         "description": "User clicked in text area"
     },
     "security_log_textarea_click": {
-        "message": "Spustelėjimas teksto srityje",
+        "message": "Clique na área de texto",
         "description": "User clicked in text area"
     },
     "security_log_textarea_input": {
-        "message": "Įvestis teksto srityje",
+        "message": "Inserção na área de texto",
         "description": "User clicked in text area"
     },
     "security_log_textarea_select": {
-        "message": "Žymėjimas teksto srityje",
+        "message": "Seleção na área de texto",
         "description": "Selection of the text area as an event type"
     },
     "security_log_timestamp": {
-        "message": "Laiko žyma",
+        "message": "Marca temporal",
         "description": "Title of the timestamp column of the security log table."
     },
     "security_log_verify_dialog": {
-        "message": "Patikrinimo dialogas",
+        "message": "Verificar Diálogo",
         "description": "Verify dialog as an event source"
     },
     "security_log_viewer": {
-        "message": "Mailvelope žiūryklė",
+        "message": "Visualizador de Mailvelope",
         "description": "Message viewer as an event source"
     },
     "security_openpgp_header": {
-        "message": "OpenPGP nustatymai",
+        "message": "Configurações do OpenPGP",
         "description": "OpenPGP settings header"
     },
     "settings_analytics": {
-        "message": "Analitika",
+        "message": "Análises",
         "description": "Tab for deciding whether or not to share analytics data."
     },
     "settings_backup": {
-        "message": "Atsarginė kopija",
+        "message": "Backup",
         "description": "Tab allowing to backup and restore the settings."
     },
     "settings_general": {
-        "message": "Bendra",
+        "message": "Geral",
         "description": "Tab of options to display general settings."
     },
     "settings_keyserver": {
-        "message": "Raktų katalogai",
+        "message": "Diretórios principais",
         "description": "Tab of options to display key server settings."
     },
     "settings_provider": {
-        "message": "Gmail API",
+        "message": "API do Gmail",
         "description": "Tab of options to display provider (Gmail) settings."
     },
     "settings_security": {
-        "message": "Saugumas",
+        "message": "Segurança",
         "description": "Tab of options to display security settings."
     },
     "settings_security_background": {
-        "message": "Saugumo fonas",
+        "message": "Segurança de Fundo",
         "description": "Security background header"
     },
     "settings_security_log": {
-        "message": "Saugumo žurnalas",
+        "message": "Registro de segurança",
         "description": "Tab of options to display security log."
     },
     "settings_watchlist": {
-        "message": "Įgaliotos sritys",
+        "message": "Domínios Autorizados",
         "description": "Tab of options to display list of authorized domains."
     },
     "sign_dialog_header": {
-        "message": "Pasirašyti laišką kaip:",
+        "message": "Assinar a mensagem como:",
         "description": "Header of sign dialog. Choose the person you want to sign the message with."
     },
     "sign_error": {
-        "message": "Nepavyko pasirašyti šio laiško: $1",
+        "message": "Não foi possível assinar esta mensagem: $1",
         "description": "Error during signing process."
     },
     "signer_unknown": {
-        "message": "Nežinoma",
+        "message": "Desconhecido",
         "description": "Name of unknown signer."
     },
     "text_decrypt_button": {
-        "message": "Iššifruoti",
+        "message": "Decriptar",
         "description": "Button label for decrypting the message"
     },
     "text_decrypting": {
-        "message": "Teksto iššifravimas",
+        "message": "Descriptografia de texto",
         "description": "Navigation link to text decryption feature"
     },
     "text_encrypting": {
-        "message": "Teksto šifravimas",
+        "message": "Criptografia de texto",
         "description": "Navigation link to text encryption feature"
     },
     "upload_aborting_warning": {
-        "message": "Failo įkėlimas bus nutrauktas.",
+        "message": "O carregamento de arquivos será abortado.",
         "description": "A warning for the aborting of the file upload."
     },
     "upload_attachment": {
-        "message": "Pridėti failą",
+        "message": "Adicionar arquivo",
         "description": "Text in the upload attachment button of the message editor dialog"
     },
     "upload_drop": {
-        "message": "Vilkite failą čia, norėdami jį pridėti",
+        "message": "Solte o arquivo nesta área para anexá-lo",
         "description": "Text in file drop overlay area"
     },
     "upload_help": {
-        "message": "Vilkite failą į šį langą arba spustelėkite",
+        "message": "Arraste o arquivo para esta janela ou",
         "description": "Text in file upload area. Sentence continues with: Upload File (Button)."
     },
     "upload_quota_exceeded_warning": {
-        "message": "Leidžiamas priedo dydis:",
+        "message": "Tamanho de anexo permitido:",
         "description": "A warning shown when the attachments upload quota is exceeded."
     },
     "upload_quota_warning_headline": {
-        "message": "Priedas yra per didelis",
+        "message": "O anexo é grande demais",
         "description": ""
     },
     "user_create_btn": {
-        "message": "Sukurti",
+        "message": "Criar",
         "description": "Create user button label"
     },
     "user_create_title": {
-        "message": "Sukurti naudotojo ID",
+        "message": "Criar ID de usuário",
         "description": "Title of create user page"
     },
     "user_keyserver_not": {
-        "message": "Naudotojo ID nėra sinchronizuotas su Mailvelope raktų serveriu.",
+        "message": "O ID do usuário não está sincronizado com o servidor de chaves do Mailvelope.",
         "description": "User ID is not synchronized with Mailvelope key server"
     },
     "user_keyserver_remove": {
-        "message": "Galutiniam pašalinimui iš Mailvelope raktų serverio, į $1 buvo išsiųstas patvirtinimo el. laiškas.",
+        "message": "Para remoção final do servidor de chaves Mailvelope, um e-mail de confirmação foi enviado para $1.",
         "description": "A remove request has been sent to the Mailvelope key server"
     },
     "user_keyserver_remove_btn": {
-        "message": "Šalinti naudotojo ID",
+        "message": "Remover ID do usuário",
         "description": "Remove user ID button label text"
     },
     "user_keyserver_resend_confirmation_btn": {
-        "message": "Siųsti patvirtinimą iš naujo",
+        "message": "Reenviar confirmação",
         "description": "Resend confirmation button label text"
     },
     "user_keyserver_sync": {
-        "message": "Naudotojo ID yra sinchronizuotas su Mailvelope raktų serveriu.",
+        "message": "O ID do usuário é sincronizado com o servidor de chaves do Mailvelope.",
         "description": "User ID is synchronised with the Mailvelope key server"
     },
     "user_keyserver_unverified": {
-        "message": "Patvirtinkite naudotojo ID, norėdami jį sinchronizuoti su Mailvelope raktų serveriu.",
+        "message": "Confirme o ID do usuário para sincronizá-lo com o servidor de chaves do Mailvelope.",
         "description": "User ID Mailvelope key server not verified"
     },
     "user_keyserver_upload": {
-        "message": "Norint sinchronizuoti su Mailvelope raktų serveriu, buvo išsiųstas el. laiškas su patvirtinimu, adresu $1.",
+        "message": "Para sincronizar com o servidor de chaves do Mailvelope, um e-mail de confirmação foi enviado para $1.",
         "description": "An upload request has been sent to the Mailvelope key server"
     },
     "user_remove_btn": {
-        "message": "Šalinti",
+        "message": "Remover",
         "description": "Remove user button label"
     },
     "user_remove_btn_title": {
-        "message": "Šalinti naudotojo ID",
+        "message": "Remover ID do usuário",
         "description": "Remove user button title"
     },
     "user_remove_dialog_confirmation": {
-        "message": "Ar norite pašalinti šį naudotojo ID iš savo rakto?",
+        "message": "Deseja remover este ID de usuário da sua chave?",
         "description": "Confirmation question in remove user dialog."
     },
     "user_remove_dialog_keyserver_warning": {
-        "message": "Naudotojo ID taip pat bus pašalintas iš Mailvelope raktų serverio.",
+        "message": "O ID do usuário também é removido do servidor de chaves do Mailvelope.",
         "description": "Warning message, that key will be deleted from keyserver"
     },
     "user_remove_dialog_title": {
-        "message": "Šalinti naudotojo ID",
+        "message": "Remover ID do usuário",
         "description": "Title of remove user dialog."
     },
     "user_revoke_btn": {
-        "message": "Panaikinti",
+        "message": "Revogar",
         "description": "Revoke user button label"
     },
     "user_revoke_btn_title": {
-        "message": "Panaikinti naudotojo ID",
+        "message": "Revogar ID do usuário",
         "description": "Revoke user button title"
     },
     "user_revoke_dialog_confirmation": {
-        "message": "Ar vis dar norėtumėte panaikinti?",
+        "message": "Você ainda gostaria de revogar?",
         "description": "Confirmation question in revoke user dialog."
     },
     "user_revoke_dialog_description": {
-        "message": "Panaikinus, naudotojo ID šiam raktui liks visam laikui nebetinkamas naudoti.",
+        "message": "Após a revogação, o ID do usuário desta chave permanecerá permanentemente inutilizável.",
         "description": "Description in revoke user dialog."
     },
     "user_revoke_dialog_title": {
-        "message": "Panaikinti naudotojo ID",
+        "message": "Revogar ID do usuário",
         "description": "Title of revoke user dialog."
     },
     "user_title": {
-        "message": "Naudotojo ID",
+        "message": "ID do usuário",
         "description": "Title of user page"
     },
     "usersignatures_title": {
-        "message": "Patvirtinimai",
+        "message": "Verificações",
         "description": "Title of signatures panel in user."
     },
     "verify_error": {
-        "message": "Nepavyko patikrinti šio laiško: $1",
+        "message": "Não foi possível verificar esta mensagem: $1",
         "description": "Error during verification process."
     },
     "verify_frame_help_text": {
-        "message": "Spustelėkite, norėdami patikrinti parašą",
+        "message": "Clique para verificar a assinatura",
         "description": "Help text on verify frame."
     },
     "waiting_dialog_decryption_failed": {
-        "message": "Iššifravimas nepavyko.",
+        "message": "A descriptografia falhou.",
         "description": "Error message in the waiting dialog after failing to decrypt a message"
     },
     "watchlist_command_create": {
-        "message": "Pridėti naują įrašą",
+        "message": "Adicionar novas informações",
         "description": "Create entry in watchlist."
     },
     "watchlist_command_edit": {
-        "message": "Keisti",
+        "message": "Editar",
         "description": "Edit entry in watchlist."
     },
     "watchlist_delete_confirmation": {
-        "message": "Ar tikrai norite pašalinti šią svetainę iš įgaliotų sričių sąrašo?",
+        "message": "Você realmente deseja remover este site da lista de domínios autorizados?",
         "description": "Message in the watchlist delete confirmation dialog."
     },
     "watchlist_expose_api": {
@@ -2320,39 +2320,39 @@
         "description": "Expose API to Webmailer."
     },
     "watchlist_record_title": {
-        "message": "Įgaliota sritis",
+        "message": "Domínio Autorizado",
         "description": "Title of the watchlist editor dialog."
     },
     "watchlist_remove_dialog_title": {
-        "message": "Šalinti sritį",
+        "message": "Remover domínio",
         "description": "Title of delete watchlist dialog."
     },
     "watchlist_title_active": {
-        "message": "Įgalinta",
+        "message": "Ativo",
         "description": "Entry in watchlist is active."
     },
     "watchlist_title_frame": {
-        "message": "Srities šablonas",
+        "message": "Padrão de domínio",
         "description": "Web domain URL match pattern of site in watchlist."
     },
     "watchlist_title_https_only": {
-        "message": "Tik HTTPS",
+        "message": "Somente HTTPS",
         "description": "Only allow URLs with HTTPS scheme in watchlist."
     },
     "watchlist_title_scan": {
-        "message": "Įgalinta",
+        "message": "Ativo",
         "description": "Scan status of site in watchlist."
     },
     "watchlist_title_site": {
-        "message": "Svetainė",
+        "message": "Site",
         "description": "Site in watchlist."
     },
     "word_or": {
-        "message": "arba",
+        "message": "ou",
         "description": "Separate list of elements."
     },
     "wrong_restore_code": {
-        "message": "Neteisingas atkūrimo kodas",
+        "message": "Código de recuperação inválido",
         "description": ""
     }
 }

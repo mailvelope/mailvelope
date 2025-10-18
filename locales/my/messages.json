@@ -496,11 +496,11 @@
         "description": "."
     },
     "ext_description": {
-        "message": "ဘယ်သူမှ ကြားဖြတ်၍ ဖတ်မရအောင်လုပ်ပြီး သင့်အီးမေးလ် ဝန်ဆောင်မှုပေးသူကို ကူညီပါ။ OpenPGP စံနှုန်းပေါ် အခြေခံပြီး အီးမေးလ် ဆက်သွယ်ခြင်းကို လုံခြုံစိတ်ချရအောင် လုပ်ပါ။",
+        "message": "Protect your email conversations and attachments on Gmail, Nextcloud, Outlook & more with PGP and end-to-end encryption.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope",
+        "message": "Mailvelope - Secure your email with PGP",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
@@ -1592,7 +1592,7 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "ဤလုပ်ဆောင်ချက်ကို Gmail အကောင့်များအတွက် အခမဲ့ ရရှိနိုင်သည်။ သင်သည် G Suite (<0>gsuite.google.com</0>) အဖွဲ့အစည်း၏ တစ်စိတ်တစ်ပိုင်းဖြစ်ပါက <1>Mailvelope ထုတ်ကုန် စာမျက်နှာ</1> တွင် လိုင်စင် ဝယ်ယူရန် လိုအပ်ပါသည်။",
+        "message": "This feature is free for Gmail accounts. If you are part of a Google Workspace (<0>workspace.google.com</0>) organization, you will need to purchase a license from the <1>Mailvelope website</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
@@ -1628,7 +1628,7 @@
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "G Suite အဖွဲ့အစည်းများအတွင်း Gmail API အသုံးပြုပါက <0>အခကြေးငွေ ပေးရပါမည်</0>။",
+        "message": "Use of the Gmail API within Google Workspace organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1648,7 +1648,7 @@
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "G Suite (<0>gsuite.google.com</0>) အသုံးပြုစဉ် Gmail-API ပေါင်းစပ်ထည့်သွင်းမှု အသုံးပြုရန် လိုင်စင်များကို <1>Mailvelope ထုတ်ကုန် စာမျက်နှာ</1> တွင် ဝယ်ယူနိုင်ပါသည်။",
+        "message": "Licenses to use the Gmail API integration within Google Workspace (<0>workspace.google.com</0>) can be purchased from the <1>Mailvelope website</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {

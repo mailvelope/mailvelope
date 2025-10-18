@@ -496,11 +496,11 @@
         "description": "."
     },
     "ext_description": {
-        "message": "បង្កើនអ្នកផ្តល់អ៊ីម៉ែលរបស់អ្នកជាមួយ​កូដនីយកម្មទាំងសងខាង។ រក្សាទំនាក់ទំនងអ៊ីម៉ែលដែលមានសុវត្ថិភាពដោយផ្អែកលើស្តង់ដារ OpenPGP ។",
+        "message": "Protect your email conversations and attachments on Gmail, Nextcloud, Outlook & more with PGP and end-to-end encryption.",
         "description": "Description of the extension."
     },
     "ext_name": {
-        "message": "Mailvelope",
+        "message": "Mailvelope - Secure your email with PGP",
         "description": "Name of the extension."
     },
     "feature_banner_new_security_background_btn": {
@@ -1592,7 +1592,7 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "មុខងារនេះអាចប្រើប្រាស់បានដោយសេរីសម្រាប់គណនី Gmail។ ប្រសិនបើអ្នកបានចូលរួមប្រើប្រាស់ឈុត G Suite (<0>gsuite.google.com</0>) អ្នកចាំបាច់ត្រូវតែទិញអាជ្ញាបណ្ណនៅលើ <1>ទំព័រផលិតផល Mailvelope</1>។",
+        "message": "This feature is free for Gmail accounts. If you are part of a Google Workspace (<0>workspace.google.com</0>) organization, you will need to purchase a license from the <1>Mailvelope website</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
@@ -1628,7 +1628,7 @@
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "ការប្រើប្រាស់ Gmail API នៅក្នុងឈុត G Suite គឺ <0>តម្រូវឲ្យគិតថ្លៃ</0>។",
+        "message": "Use of the Gmail API within Google Workspace organizations is <0>subject to a fee</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1648,7 +1648,7 @@
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "អាជ្ញាបណ្ណនានាសម្រាប់ការប្រើប្រាស់ការរួមបញ្ចូល Gmail-API នៅពេលប្រើប្រាស់ឈុត G Suite (<0>gsuite.google.com</0>) អាចទិញបាននៅលើ <1>ទំព័រផលិតផល Mailvelope</1>។",
+        "message": "Licenses to use the Gmail API integration within Google Workspace (<0>workspace.google.com</0>) can be purchased from the <1>Mailvelope website</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {

@@ -36,7 +36,7 @@
         "description": "Keyring description in the action menu"
     },
     "action_menu_keyring_label": {
-        "message": "Trousseau",
+        "message": "Porte-clés",
         "description": "Keyring label in the action menu"
     },
     "action_menu_primary_menu_aria_label": {
@@ -48,7 +48,7 @@
         "description": "Reload extension scripts shortcut in the action menu"
     },
     "action_menu_review_security_logs_description": {
-        "message": "Passer en revue les actions pertinentes de l’utilisateur",
+        "message": "Passer en revue les actions pertinentes des utilisateurs-trices",
         "description": "Review security logs description in the action menu"
     },
     "action_menu_review_security_logs_label": {
@@ -144,7 +144,7 @@
         "description": "Expandable section explaining how analytics protect privacy"
     },
     "analytics_consent_interstitial_message": {
-        "message": "Mailvelope demande à 1 % des nouveaux utilisateurs de participer à des mesures anonymes. Si vous consentez, Mailvelope enregistrera les étapes réussies de votre parcours d’intégration. Participerez-vous ?",
+        "message": "Mailvelope demande à 1 % des nouvelles personnes qui l’utilisent de participer à des mesures anonymes. Si vous consentez, Mailvelope enregistrera les étapes réussies de votre parcours d’intégration. Participerez-vous ?",
         "description": "Request for consent from selected users."
     },
     "analytics_interstitial_header": {
@@ -496,7 +496,7 @@
         "description": "."
     },
     "ext_description": {
-        "message": "Protégez vos courriels et fichiers joints sur Gmail, Nextcloud, Outlook et d’autres grâce à PGP et au chiffrement de bout en bout.",
+        "message": "Protégez vos courriels et fichiers joints sur Gmail, Nextcloud, Outlook et d’autres services grâce à PGP et au chiffrement de bout en bout.",
         "description": "Description of the extension."
     },
     "ext_name": {
@@ -604,7 +604,7 @@
         "description": "Save form button."
     },
     "form_sign_error_no_default_key": {
-        "message": "Il n’y a pas de clé privée dans le trousseau pour signer le contenu du formulaire. Importez ou créez-en une.",
+        "message": "Il n’y a pas de clé privée dans le porte-clés pour signer le contenu du formulaire. Importez ou créez-en une.",
         "description": "Error message when trying to sign and no primary key is found"
     },
     "form_submit": {
@@ -656,7 +656,7 @@
         "description": "Headline for OpenPGP settings."
     },
     "general_prefer_gnupg_note": {
-        "message": "Note : Les clés publiques sont synchronisées entre les trousseaux proposés. Selon la disponibilité des clés privées, Mailvelope peut passer outre le paramètre de la bibliothèque préférée de chiffrement.",
+        "message": "Note : Les clés publiques sont synchronisées entre les porte-clés proposés. Selon la disponibilité des clés privées, Mailvelope peut passer outre le paramètre de la bibliothèque préférée de chiffrement.",
         "description": "Help text for GnuPG as the preferred OpenPGP backend option."
     },
     "gmail_integration_auth_error_download": {
@@ -684,7 +684,7 @@
         "description": "Header that shows that GnuPG is available on the system."
     },
     "gnupg_error_unusable_pub_key": {
-        "message": "Vérifiez si les clés publiques suivantes se trouvent dans votre trousseau GnuPG et si elles sont valides : $1",
+        "message": "Vérifiez si les clés publiques suivantes se trouvent dans votre porte-clés GnuPG et si elles sont valides : $1",
         "description": ""
     },
     "header_analyticsconsent_modal": {
@@ -812,7 +812,7 @@
         "description": "Passphrase input field status"
     },
     "key_gen_success": {
-        "message": "La nouvelle clé a été générée et importée dans le trousseau",
+        "message": "La nouvelle clé a été générée et importée dans le porte-clés",
         "description": "Key generation success message"
     },
     "key_gen_upload": {
@@ -836,11 +836,11 @@
         "description": "Contact import button label on key import page."
     },
     "key_import_default_description": {
-        "message": "Après confirmation, cette clé sera transférée dans le trousseau local :",
+        "message": "Après confirmation, cette clé sera transférée dans le porte-clés local :",
         "description": "Key import dialog description."
     },
     "key_import_default_description_plural": {
-        "message": "Après confirmation, ces clés seront transférées dans le trousseau local :",
+        "message": "Après confirmation, ces clés seront transférées dans le porte-clés local :",
         "description": "Key import dialog description."
     },
     "key_import_default_headline": {
@@ -848,7 +848,7 @@
         "description": "Key import dialog header."
     },
     "key_import_dialog_header": {
-        "message": "Ajouter la clé au trousseau",
+        "message": "Ajouter la clé au porte-clés",
         "description": "Key import dialog header."
     },
     "key_import_error": {
@@ -896,7 +896,7 @@
         "description": "Error message with number of failed imports."
     },
     "key_import_private_exists": {
-        "message": "La partie clé privée correspondant à la clé publique existante $1 de l’utilisateur $2 a été importée dans le trousseau",
+        "message": "La partie clé privée qui correspond à la clé publique existante $1 de l’utilisateur-trice $2 a été importée dans le porte-clés",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_read": {
@@ -904,11 +904,11 @@
         "description": "Import error message. $1: error message"
     },
     "key_import_private_success": {
-        "message": "La clé privée $1 de l’utilisateur $2 a été importée dans le trousseau",
+        "message": "La clé privée $1 de l’utilisateur-trice $2 a été importée dans le porte-clés",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_private_update": {
-        "message": "La clé privée $1 de l’utilisateur $2 a été mise à jour",
+        "message": "La clé privée $1 de l’utilisateur-trice $2 a été mise à jour",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_read": {
@@ -916,15 +916,15 @@
         "description": "Import error message. $1: error message"
     },
     "key_import_public_success": {
-        "message": "La clé publique $1 de l’utilisateur $2 a été importée dans le trousseau",
+        "message": "La clé publique $1 de l’utilisateur-trice $2 a été importée dans le porte-clés",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_public_update": {
-        "message": "La clé publique $1 de l’utilisateur $2 a été mise à jour",
+        "message": "La clé publique $1 de l’utilisateur-trice $2 a été mise à jour",
         "description": "Import success message: $1: keyid, $2: userid."
     },
     "key_import_rotation_add": {
-        "message": "Ajouter au trousseau",
+        "message": "Ajouter au porte-clés",
         "description": "Key import rotation add button."
     },
     "key_import_rotation_cancel": {
@@ -1040,7 +1040,7 @@
         "description": "Remove key button label"
     },
     "key_remove_btn_title": {
-        "message": "Supprimer la clé du trousseau",
+        "message": "Supprimer la clé du porte-clés",
         "description": "Title for remove key button"
     },
     "key_remove_dialog_title": {
@@ -1284,7 +1284,7 @@
         "description": "Refresh keygrid component."
     },
     "keygrid_refresh_title": {
-        "message": "Recharger le trousseau",
+        "message": "Recharger le porte-clés",
         "description": "Title for button to refresh keygrid component."
     },
     "keygrid_send_pub_key": {
@@ -1356,11 +1356,11 @@
         "description": "Text introducing the availability of further settings."
     },
     "keyring_backup": {
-        "message": "Sauvegarde du trousseau",
+        "message": "Sauvegarde du porte-clés",
         "description": "Title of keyring backup view"
     },
     "keyring_confirm_deletion": {
-        "message": "Voulez-vous supprimer le trousseau dont l’ID est $1 ?",
+        "message": "Voulez-vous supprimer le porte-clés dont l’ID est $1 ?",
         "description": "Confirmation message prompted when a keyring is deleted"
     },
     "keyring_confirm_keys": {
@@ -1372,7 +1372,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_export_keys": {
-        "message": "Exporter le trousseau",
+        "message": "Exporter le porte-clés",
         "description": "Tab of keyring to export keys."
     },
     "keyring_generate_key": {
@@ -1392,7 +1392,7 @@
         "description": "Tab of keyring to import keys."
     },
     "keyring_import_search_description": {
-        "message": "Trouvez des clés publiques à ajouter à votre trousseau. Mailvelope analyse plusieurs annuaires de clés et suggère la clé publique la plus probablement utilisée.",
+        "message": "Trouvez des clés publiques à ajouter à votre porte-clés. Mailvelope analyse plusieurs annuaires de clés et suggère la clé publique la plus probablement utilisée.",
         "description": "Description of key search for search tab of keyring import."
     },
     "keyring_import_search_keys": {
@@ -1400,7 +1400,7 @@
         "description": "Tab of keyring to search keys."
     },
     "keyring_main": {
-        "message": "Trousseau principal",
+        "message": "Porte-clés principal",
         "description": "Label for the main keyring"
     },
     "keyring_private": {
@@ -1416,7 +1416,7 @@
         "description": "public and private key types"
     },
     "keyring_remove_dialog_title": {
-        "message": "Supprimer le trousseau",
+        "message": "Supprimer le porte-clés",
         "description": "Title of delete keyring dialog."
     },
     "keyring_setup": {
@@ -1444,7 +1444,7 @@
         "description": "Setup text if no keypair available"
     },
     "keyring_setup_no_keypair_heading": {
-        "message": "Ce trousseau de clés ne contient pas encore de biclé.",
+        "message": "Ce porte-clés de clés ne contient pas encore de biclé.",
         "description": "Setup heading if no keypair available"
     },
     "keyserver_additionals_label": {
@@ -1592,11 +1592,11 @@
         "description": "Leading text for GMAIL API dialog."
     },
     "provider_gmail_dialog_gsuite_alert": {
-        "message": "Cette fonction est proposée gratuitement pour les comptes Gmail. Si vous faites partie d’une organisation G Suite <0>gsuite.google.com</0>, vous devez acheter une licence sur la <1>page des produits de Mailvelope</1>.",
+        "message": "Cette fonction est gratuite pour les comptes Gmail. Si vous faites partie d’un espace de travail Google Workspace (<0>workspace.google.com</0>), vous devez acheter une licence sur le <1>site web de Mailvelope</1>.",
         "description": "Alert text for GSuite Users in GMAIL API dialog."
     },
     "provider_gmail_dialog_privacy_policy": {
-        "message": "Veuillez lire notre Politique de protection des renseignements personnels",
+        "message": "Consultez notre Politique de confidentialité",
         "description": "Privacy policy link."
     },
     "provider_gmail_dialog_title": {
@@ -1620,7 +1620,7 @@
         "description": "Info text on Business button "
     },
     "provider_gmail_licensing_dialog_business_btn_price_info": {
-        "message": "par utilisateur/mois",
+        "message": "par utilisateur-trice/mois",
         "description": "Info text for price label of Business button"
     },
     "provider_gmail_licensing_dialog_deactivate_btn": {
@@ -1628,7 +1628,7 @@
         "description": "Gmail API deactivate button in licensing dialog"
     },
     "provider_gmail_licensing_dialog_para_1": {
-        "message": "L’utilisation de l’API Gmail dans une organisation G Suite est <0>payante</0>.",
+        "message": "L’utilisation de l’API Gmail dans Google Workspace est <0>payante</0>.",
         "description": "Text of Gmail API licensing dialog first paragraph."
     },
     "provider_gmail_licensing_dialog_para_2": {
@@ -1648,7 +1648,7 @@
         "description": "Title of GMAIL API licensing dialog."
     },
     "provider_gmail_licensing_table_caption": {
-        "message": "Les licences pour l’intégration dans l’API de Gmail tout en utilisant G Suite <0>gsuite.google.com</0>) peuvent être achetées sur la <1>page des produits de Mailvelope</1>.",
+        "message": "Les licences d’utilisation de l’intégration API Gmail dans Google Workspace (<0>workspace.google.com</0>) peuvent être achetées sur le <1>site Web de Mailvelope</1>.",
         "description": "Caption for G Suite licensing table."
     },
     "provider_gmail_licensing_table_title": {
@@ -1800,7 +1800,7 @@
         "description": ""
     },
     "recovery_sheet_key_server": {
-        "message": "D’autres utilisateurs de $1 qui utilisent la procédure PGP de GMX peuvent être trouvés directement dans un annuaire central de votre compte $1 Si vous ne voulez avoir aucune entrée dans cet annuaire, désactivez cette fonction dans les paramètres de votre compte $1.",
+        "message": "D’autres personnes qui utilisent $1 et la procédure PGP de GMX peuvent être trouvées directement dans un annuaire central de votre compte $1 Si vous ne voulez avoir aucune entrée dans cet annuaire, désactivez cette fonction dans les paramètres de votre compte $1.",
         "description": ""
     },
     "recovery_sheet_mobile_devices": {
@@ -1888,7 +1888,7 @@
         "description": "Sub title"
     },
     "recovery_sheet_trusted_contacts": {
-        "message": "Les contacts GMX vous garantissent que les utilisateurs affichés sont bien des utilisateurs valides. Vous devriez cependant toujours vérifier l’identité des contacts grâce à l’adresse courriel d’un autre service de courriel.",
+        "message": "Les contacts GMX vous garantissent que les utilisateurs-trices affichés-ées sont bien des utilisateurs-trice valides. Vous devriez cependant toujours vérifier l’identité des contacts grâce à l’adresse courriel d’un autre service de courriel.",
         "description": ""
     },
     "recovery_sheet_unknown_third": {
@@ -2088,7 +2088,7 @@
         "description": "Title of the source column of the security log table."
     },
     "security_log_text": {
-        "message": "Le journal de sécurité affiche les actions de l’utilisateur dans tous les composants de Mailvelope.",
+        "message": "Le journal de sécurité affiche les actions de l’utilisateur-trice dans tous les composants de Mailvelope.",
         "description": "Text explaining the purpose of the security log"
     },
     "security_log_text_input": {
