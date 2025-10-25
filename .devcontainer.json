@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.base.schema.json",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24-trixie",
+  "remoteEnv": {
+    "CLAUDE_CODE_OAUTH_TOKEN": "${localEnv:CLAUDE_CODE_OAUTH_TOKEN}"
+  },
+  "features": {
+    "ghcr.io/devcontainers-extra/features/npm-package:1": {
+      "package": "@anthropic-ai/claude-code"
+    }
+  }
+}
