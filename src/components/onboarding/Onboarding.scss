@@ -1,0 +1,172 @@
+/**
+ * Copyright (C) 2025 Mailvelope GmbH
+ * Licensed under the GNU Affero General Public License version 3
+ */
+
+.onboarding-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #CADAEB 0%, #FFFFFF 100%);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+
+  // Background template pattern (decorative)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}
+
+.onboarding-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+  padding: 52px 48px;
+  max-width: 1088px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+
+  h1 {
+    font-size: 48px;
+    line-height: 1.257;
+    font-weight: 400;
+    margin-bottom: 32px;
+    color: #000000;
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 0.958;
+    font-weight: 500;
+    margin-bottom: 24px;
+    color: #000000;
+  }
+
+  .alert {
+    margin-bottom: 34px;
+  }
+}
+
+.onboarding-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 34px;
+  flex-wrap: wrap;
+
+  .btn {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+}
+
+.onboarding-step-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+
+  .step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #D8D8D8;
+    transition: background 0.3s ease;
+
+    &.active {
+      background: #007bff;
+    }
+
+    &.completed {
+      background: #28a745;
+    }
+  }
+}
+
+.onboarding-key-options {
+  border: 1px solid #D8D8D8;
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 24px;
+
+  .option-item {
+    padding: 16px 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #6c757d;
+      margin-bottom: 12px;
+    }
+  }
+}
+
+.onboarding-success {
+  text-align: center;
+
+  h1 {
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    margin-bottom: 32px;
+  }
+
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    background: #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 40px;
+  }
+
+  .alert-success {
+    text-align: left;
+    margin-bottom: 32px;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .onboarding-card {
+    padding: 32px 24px;
+
+    h1 {
+      font-size: 32px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .onboarding-actions {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}

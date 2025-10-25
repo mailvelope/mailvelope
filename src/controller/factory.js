@@ -18,6 +18,7 @@ import GmailDecryptController from './gmailDecrypt.controller';
 import ImportController from './import.controller';
 import MainCsController from './mainCs.controller';
 import MenuController from './menu.controller';
+import OnboardingController from './onboarding.controller';
 import PrivateKeyController from './privateKey.controller';
 import PwdController from './pwd.controller';
 import VerifyController from './verify.controller';
@@ -49,6 +50,7 @@ export function initFactory() {
   register('keyGenCont',          PrivateKeyController,    ['keyGenDialog']);
   register('mainCS',              MainCsController,        []);
   register('menu',                MenuController,          []);
+  register('onboarding',          OnboardingController,    []);
   register('pwdDialog',           PwdController,           []);
   register('restoreBackupCont',   PrivateKeyController,    ['restoreBackupDialog']);
   register('syncHandler',         SyncController,          []);

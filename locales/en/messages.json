@@ -1539,6 +1539,66 @@
     "description": "Copy to clipboard toast message.",
     "message": "Text has been copied to clipboard."
   },
+  "onboarding_back": {
+    "description": "Back button in onboarding",
+    "message": "Back"
+  },
+  "onboarding_generate_key": {
+    "description": "Generate key button in onboarding",
+    "message": "Generate Key"
+  },
+  "onboarding_get_started": {
+    "description": "Get started button in onboarding success screen",
+    "message": "Get Started"
+  },
+  "onboarding_gnupg_description": {
+    "description": "GnuPG connection description in onboarding",
+    "message": "Use your system's GnuPG installation (advanced users)."
+  },
+  "onboarding_gnupg_title": {
+    "description": "GnuPG connection title in onboarding",
+    "message": "Connect to GnuPG"
+  },
+  "onboarding_import_key": {
+    "description": "Import key button in onboarding",
+    "message": "Import Key"
+  },
+  "onboarding_next": {
+    "description": "Next button in onboarding",
+    "message": "Next"
+  },
+  "onboarding_setup_key_description": {
+    "description": "Setup key description in onboarding",
+    "message": "To use Mailvelope, you need an OpenPGP key pair. You can generate a new key or import an existing one."
+  },
+  "onboarding_setup_key_title": {
+    "description": "Setup key title in onboarding",
+    "message": "Set up your encryption key"
+  },
+  "onboarding_skip": {
+    "description": "Skip button in onboarding",
+    "message": "Skip"
+  },
+  "onboarding_success_message": {
+    "description": "Success message in onboarding completion screen",
+    "message": "Congrats! You successfully set up Mailvelope."
+  },
+  "onboarding_success_title": {
+    "description": "Success title in onboarding completion screen",
+    "message": "You're all set!"
+  },
+  "onboarding_welcome_alert": {
+    "description": "Welcome alert message in onboarding",
+    "message": "Mailvelope allows you to send and receive encrypted emails using OpenPGP. Let's get you set up!"
+  },
+  "onboarding_welcome_description": {
+    "description": "Welcome description in onboarding",
+    "message": "Mailvelope is a browser extension that enables end-to-end encryption for your webmail. Your emails are encrypted directly in your browser, ensuring maximum privacy and security."
+  },
+  "onboarding_welcome_title": {
+    "description": "Welcome title in onboarding",
+    "message": "Welcome to Mailvelope"
+  },
   "options_docu": {
     "description": "Options navigation: Documentation.",
     "message": "Documentation"
