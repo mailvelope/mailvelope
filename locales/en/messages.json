@@ -1599,6 +1599,30 @@
     "description": "Welcome title in onboarding",
     "message": "Welcome to Mailvelope"
   },
+  "onboarding_setup_alert": {
+    "description": "Setup alert message in onboarding",
+    "message": "Now you have to set up your keys! This will take 5 minutes"
+  },
+  "onboarding_success_alert": {
+    "description": "Success alert message in onboarding success screen",
+    "message": "You can find Mailvelope in the extension menu here"
+  },
+  "onboarding_faq_title": {
+    "description": "FAQ card title in onboarding",
+    "message": "FAQ"
+  },
+  "onboarding_faq_what_is_key": {
+    "description": "FAQ question: What is a key",
+    "message": "What is a key"
+  },
+  "onboarding_faq_why_need_key": {
+    "description": "FAQ question: Why I need a key",
+    "message": "Why I need a key"
+  },
+  "onboarding_faq_how_export_key": {
+    "description": "FAQ question: How to export a key",
+    "message": "How to export a key"
+  },
   "options_docu": {
     "description": "Options navigation: Documentation.",
     "message": "Documentation"

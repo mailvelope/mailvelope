@@ -13,7 +13,7 @@
   position: relative;
   overflow: hidden;
 
-  // Background template pattern (decorative)
+  // Security background pattern (decorative)
   &::before {
     content: '';
     position: absolute;
@@ -30,9 +30,10 @@
   background: #FFFFFF;
   border-radius: 16px;
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
-  padding: 52px 48px;
+  padding: 52px;
   max-width: 1088px;
   width: 100%;
+  min-height: 776px;
   position: relative;
   z-index: 1;
 
@@ -40,7 +41,7 @@
     font-size: 48px;
     line-height: 1.257;
     font-weight: 400;
-    margin-bottom: 32px;
+    margin-bottom: 34px;
     color: #000000;
   }
 
@@ -54,21 +55,136 @@
 
   .alert {
     margin-bottom: 34px;
+    border-radius: 4px;
+    padding: 14px 22px;
+
+    &.alert-success {
+      background-color: rgba(25, 135, 84, 0.1);
+      border-color: rgba(25, 135, 84, 0.5);
+      color: #198754;
+      font-weight: 700;
+    }
   }
 }
 
+// Onboarding content layout
+.onboarding-content {
+  display: flex;
+  gap: 29px;
+  align-items: flex-start;
+
+  .content-main {
+    flex: 1;
+  }
+}
+
+// Illustration container
+.illustration-container {
+  border: 1px solid #D8D8D8;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+
+  .onboarding-illustration {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+// Actions (buttons)
 .onboarding-actions {
   display: flex;
   gap: 16px;
-  margin-top: 34px;
   flex-wrap: wrap;
 
+  &.center {
+    justify-content: center;
+  }
+
   .btn {
-    padding: 12px 24px;
+    padding: 9px 16px;
     font-size: 16px;
+    border-radius: 4px;
+    letter-spacing: 0.02857em;
+    font-weight: 500;
+
+    &.btn-primary {
+      background-color: #E30048;
+      border-color: #E30048;
+      color: #FFFFFF;
+
+      &:hover {
+        background-color: #c6003d;
+        border-color: #c6003d;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(227, 0, 72, 0.5);
+      }
+    }
+
+    &.btn-outline-secondary {
+      border-color: #6c757d;
+      color: #6c757d;
+
+      &:hover {
+        background-color: #6c757d;
+        color: #FFFFFF;
+      }
+    }
   }
 }
 
+// FAQ Card
+.faq-card {
+  width: 219px;
+  min-height: 163px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.13);
+  border-radius: 4px;
+  padding: 16px;
+  flex-shrink: 0;
+
+  .faq-card-header {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #000000;
+  }
+
+  .faq-card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 14px;
+        line-height: 1.5;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Step indicator
 .onboarding-step-indicator {
   display: flex;
   justify-content: center;
@@ -83,41 +199,16 @@
     transition: background 0.3s ease;
 
     &.active {
-      background: #007bff;
+      background: #E30048;
     }
 
     &.completed {
-      background: #28a745;
+      background: #198754;
     }
   }
 }
 
-.onboarding-key-options {
-  border: 1px solid #D8D8D8;
-  border-radius: 16px;
-  padding: 32px;
-  margin-top: 24px;
-
-  .option-item {
-    padding: 16px 0;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    h3 {
-      font-size: 20px;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    p {
-      color: #6c757d;
-      margin-bottom: 12px;
-    }
-  }
-}
-
+// Success screen specific styles
 .onboarding-success {
   text-align: center;
 
@@ -129,22 +220,34 @@
     margin-bottom: 32px;
   }
 
-  .success-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 24px;
-    background: #28a745;
-    border-radius: 50%;
+  .extension-alert {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 40px;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+
+    .extension-icon {
+      width: 82px;
+      height: 67px;
+      flex-shrink: 0;
+    }
   }
 
-  .alert-success {
-    text-align: left;
-    margin-bottom: 32px;
+  .success-illustration {
+    margin: 48px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .success-icon-img {
+      width: 221px;
+      height: 221px;
+    }
+  }
+
+  .onboarding-actions {
+    margin-top: 24px;
   }
 }
 
@@ -162,11 +265,24 @@
     }
   }
 
+  .onboarding-content {
+    flex-direction: column;
+
+    .faq-card {
+      width: 100%;
+    }
+  }
+
   .onboarding-actions {
     flex-direction: column;
 
     .btn {
       width: 100%;
     }
+  }
+
+  .extension-alert {
+    flex-direction: column;
+    text-align: center !important;
   }
 }

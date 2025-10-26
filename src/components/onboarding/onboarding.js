@@ -7,24 +7,20 @@ import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import * as l10n from '../../lib/l10n';
 import EventHandler from '../../lib/EventHandler';
+import FAQCard from './FAQCard';
 import './Onboarding.scss';
 
 l10n.register([
   'onboarding_welcome_title',
   'onboarding_welcome_alert',
-  'onboarding_welcome_description',
-  'onboarding_setup_key_title',
-  'onboarding_setup_key_description',
+  'onboarding_setup_alert',
   'onboarding_generate_key',
   'onboarding_import_key',
-  'onboarding_skip',
-  'onboarding_next',
   'onboarding_back',
   'onboarding_success_title',
   'onboarding_success_message',
-  'onboarding_get_started',
-  'onboarding_gnupg_title',
-  'onboarding_gnupg_description'
+  'onboarding_success_alert',
+  'onboarding_get_started'
 ]);
 
 let port;
@@ -42,24 +38,35 @@ function init() {
 }
 
 function Onboarding() {
-  const [step, setStep] = useState(1);
-  const [hasPrivateKey, setHasPrivateKey] = useState(false);
+  // Check URL parameters for screen override (for testing)
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlScreen = urlParams.get('screen');
+  const initialScreen = urlScreen && ['welcome', 'generate', 'import', 'success'].includes(urlScreen) ? urlScreen : 'welcome';
+
+  const [screen, setScreen] = useState(initialScreen);
   const totalSteps = 3;
 
   useEffect(() => {
     // Check if user already has a private key
     port.send('has-private-key')
     .then(result => {
-      setHasPrivateKey(result);
       // If user already has a key, skip to success screen
       if (result) {
-        setStep(3);
+        setScreen('success');
       }
     })
     .catch(() => {
-      setHasPrivateKey(false);
+      // No action needed if check fails
     });
   }, []);
+
+  const handleGeneratePreview = () => {
+    setScreen('generate');
+  };
+
+  const handleImportPreview = () => {
+    setScreen('import');
+  };
 
   const handleGenerateKey = () => {
     // Navigate to key generation in the main app
@@ -73,15 +80,9 @@ function Onboarding() {
     window.location.href = appUrl;
   };
 
-  const handleNext = () => {
-    if (step < totalSteps) {
-      setStep(step + 1);
-    }
-  };
-
   const handleBack = () => {
-    if (step > 1) {
-      setStep(step - 1);
+    if (screen === 'generate' || screen === 'import') {
+      setScreen('welcome');
     }
   };
 
@@ -91,10 +92,22 @@ function Onboarding() {
     window.location.href = appUrl;
   };
 
-  const handleSkip = () => {
-    // Skip to success screen
-    setStep(3);
+  // Calculate current step for indicator
+  const getCurrentStep = () => {
+    switch (screen) {
+      case 'welcome':
+        return 1;
+      case 'generate':
+      case 'import':
+        return 2;
+      case 'success':
+        return 3;
+      default:
+        return 1;
+    }
   };
+
+  const currentStep = getCurrentStep();
 
   return (
     <div className="onboarding-container">
@@ -104,107 +117,133 @@ function Onboarding() {
           {[...Array(totalSteps)].map((_, index) => (
             <div
               key={index}
-              className={`step-dot ${index + 1 === step ? 'active' : ''} ${index + 1 < step ? 'completed' : ''}`}
+              className={`step-dot ${index + 1 === currentStep ? 'active' : ''} ${index + 1 < currentStep ? 'completed' : ''}`}
             />
           ))}
         </div>
 
-        {/* Step 1: Welcome */}
-        {step === 1 && (
-          <div>
+        {/* Screen 1: Welcome */}
+        {screen === 'welcome' && (
+          <div className="onboarding-screen">
             <h1>{l10n.map.onboarding_welcome_title || 'Welcome to Mailvelope'}</h1>
 
-            <div className="alert alert-primary" role="alert">
-              {l10n.map.onboarding_welcome_alert || 'Mailvelope allows you to send and receive encrypted emails using OpenPGP. Let\'s get you set up!'}
+            <div className="alert alert-success" role="alert">
+              {l10n.map.onboarding_setup_alert || 'Now you have to set up your keys! This will take 5 minutes'}
             </div>
 
-            <p>
-              {l10n.map.onboarding_welcome_description || 'Mailvelope is a browser extension that enables end-to-end encryption for your webmail. Your emails are encrypted directly in your browser, ensuring maximum privacy and security.'}
-            </p>
-
-            <div className="onboarding-actions">
-              <button type="button" className="btn btn-primary" onClick={handleNext}>
-                {l10n.map.onboarding_next || 'Next'}
-              </button>
-              <button type="button" className="btn btn-link" onClick={handleSkip}>
-                {l10n.map.onboarding_skip || 'Skip'}
-              </button>
+            <div className="onboarding-content">
+              <div className="content-main">
+                <div className="illustration-container">
+                  <img
+                    src={chrome.runtime.getURL('img/onboarding/generate-key-illustration-52f732.png')}
+                    alt="Generate key illustration"
+                    className="onboarding-illustration"
+                  />
+                </div>
+                <div className="onboarding-actions">
+                  <button type="button" className="btn btn-primary" onClick={handleGeneratePreview}>
+                    {l10n.map.onboarding_generate_key || 'Generate key'}
+                  </button>
+                  <button type="button" className="btn btn-outline-secondary" onClick={handleImportPreview}>
+                    {l10n.map.onboarding_import_key || 'Import key'}
+                  </button>
+                </div>
+              </div>
+              <FAQCard />
             </div>
           </div>
         )}
 
-        {/* Step 2: Setup Key */}
-        {step === 2 && (
-          <div>
+        {/* Screen 2a: Generate Key Preview */}
+        {screen === 'generate' && (
+          <div className="onboarding-screen">
             <h1>{l10n.map.onboarding_welcome_title || 'Welcome to Mailvelope'}</h1>
 
-            <div className="alert alert-info" role="alert">
-              {l10n.map.onboarding_setup_key_description || 'To use Mailvelope, you need an OpenPGP key pair. You can generate a new key or import an existing one.'}
+            <div className="alert alert-success" role="alert">
+              {l10n.map.onboarding_setup_alert || 'Now you have to set up your keys! This will take 5 minutes'}
             </div>
 
-            <div className="onboarding-key-options">
-              <div className="option-item">
-                <h3>{l10n.map.onboarding_generate_key || 'Generate a new key'}</h3>
-                <p>
-                  Create a new OpenPGP key pair. This is recommended if you&apos;re new to encrypted email.
-                </p>
-                <button type="button" className="btn btn-primary" onClick={handleGenerateKey}>
-                  {l10n.map.onboarding_generate_key || 'Generate Key'}
-                </button>
+            <div className="onboarding-content">
+              <div className="content-main">
+                <div className="illustration-container">
+                  <img
+                    src={chrome.runtime.getURL('img/onboarding/generate-key-illustration-52f732.png')}
+                    alt="Generate key illustration"
+                    className="onboarding-illustration"
+                  />
+                </div>
+                <div className="onboarding-actions">
+                  <button type="button" className="btn btn-primary" onClick={handleGenerateKey}>
+                    {l10n.map.onboarding_generate_key || 'Generate key'}
+                  </button>
+                  <button type="button" className="btn btn-outline-secondary" onClick={handleBack}>
+                    {l10n.map.onboarding_back || 'Back'}
+                  </button>
+                </div>
               </div>
-
-              <div className="option-item">
-                <h3>{l10n.map.onboarding_import_key || 'Import an existing key'}</h3>
-                <p>
-                  If you already have an OpenPGP key pair, you can import it here.
-                </p>
-                <button type="button" className="btn btn-secondary" onClick={handleImportKey}>
-                  {l10n.map.onboarding_import_key || 'Import Key'}
-                </button>
-              </div>
-
-              <div className="option-item">
-                <h3>{l10n.map.onboarding_gnupg_title || 'Connect to GnuPG'}</h3>
-                <p>
-                  {l10n.map.onboarding_gnupg_description || 'Use your system&apos;s GnuPG installation (advanced users).'}
-                </p>
-                <button type="button" className="btn btn-link" onClick={handleNext}>
-                  Configure later
-                </button>
-              </div>
-            </div>
-
-            <div className="onboarding-actions">
-              <button type="button" className="btn btn-secondary" onClick={handleBack}>
-                {l10n.map.onboarding_back || 'Back'}
-              </button>
-              <button type="button" className="btn btn-link" onClick={handleSkip}>
-                {l10n.map.onboarding_skip || 'Skip for now'}
-              </button>
+              <FAQCard />
             </div>
           </div>
         )}
 
-        {/* Step 3: Success */}
-        {step === 3 && (
-          <div className="onboarding-success">
-            <div className="success-icon">
-              ✓
+        {/* Screen 2b: Import Key Preview */}
+        {screen === 'import' && (
+          <div className="onboarding-screen">
+            <h1>{l10n.map.onboarding_welcome_title || 'Welcome to Mailvelope'}</h1>
+
+            <div className="alert alert-success" role="alert">
+              {l10n.map.onboarding_setup_alert || 'Now you have to set up your keys! This will take 5 minutes'}
             </div>
 
-            <h1>{l10n.map.onboarding_success_title || 'You&apos;re all set!'}</h1>
+            <div className="onboarding-content">
+              <div className="content-main">
+                <div className="illustration-container">
+                  <img
+                    src={chrome.runtime.getURL('img/onboarding/import-key-illustration-3aabd1.png')}
+                    alt="Import key illustration"
+                    className="onboarding-illustration"
+                  />
+                </div>
+                <div className="onboarding-actions">
+                  <button type="button" className="btn btn-primary" onClick={handleImportKey}>
+                    {l10n.map.onboarding_import_key || 'Import key'}
+                  </button>
+                  <button type="button" className="btn btn-outline-secondary" onClick={handleBack}>
+                    {l10n.map.onboarding_back || 'Back'}
+                  </button>
+                </div>
+              </div>
+              <FAQCard />
+            </div>
+          </div>
+        )}
+
+        {/* Screen 3: Success */}
+        {screen === 'success' && (
+          <div className="onboarding-screen onboarding-success">
+            <h1>{l10n.map.onboarding_success_title || "You're all set!"}</h1>
+
+            <div className="alert alert-success extension-alert" role="alert">
+              <span>{l10n.map.onboarding_success_alert || 'You can find Mailvelope in the extension menu here'}</span>
+              <img
+                src={chrome.runtime.getURL('img/onboarding/extension-menu-icon-1a5cf5.png')}
+                alt="Extension menu"
+                className="extension-icon"
+              />
+            </div>
 
             <h2>{l10n.map.onboarding_success_message || 'Congrats! You successfully set up Mailvelope.'}</h2>
 
-            <div className="alert alert-success" role="alert">
-              {hasPrivateKey
-                ? 'Your OpenPGP key is ready to use. You can now send and receive encrypted emails.'
-                : 'You can set up your OpenPGP key later from the settings page.'
-              }
+            <div className="success-illustration">
+              <img
+                src={chrome.runtime.getURL('img/onboarding/success-illustration.svg')}
+                alt="Success"
+                className="success-icon-img"
+              />
             </div>
 
-            <div className="onboarding-actions" style={{justifyContent: 'center'}}>
-              <button type="button" className="btn btn-primary btn-lg" onClick={handleGetStarted}>
+            <div className="onboarding-actions center">
+              <button type="button" className="btn btn-primary" onClick={handleGetStarted}>
                 {l10n.map.onboarding_get_started || 'Get Started'}
               </button>
             </div>
