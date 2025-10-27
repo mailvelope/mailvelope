@@ -67,33 +67,131 @@
   }
 }
 
-// Onboarding content layout
-.onboarding-content {
-  display: flex;
-  gap: 29px;
-  align-items: flex-start;
+// Bootstrap 4 compatibility - add gap utilities
+.row.g-3 {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
 
-  .content-main {
-    flex: 1;
+  > [class*='col-'] {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-bottom: 1rem;
   }
 }
 
-// Illustration container
-.illustration-container {
-  border: 1px solid #D8D8D8;
-  border-radius: 16px;
-  padding: 12px;
-  margin-bottom: 16px;
-  background: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
+.row.g-4 {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
 
-  .onboarding-illustration {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  > [class*='col-'] {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+// Bootstrap 4 compatibility - text decoration utility
+.text-decoration-underline {
+  text-decoration: underline !important;
+}
+
+// Option Cards
+.option-card {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  &.border-danger {
+    border-color: #E30048 !important;
+  }
+
+  &.border-primary {
+    border-color: #007bff !important;
+  }
+
+  .option-card-icon {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .option-icon-img {
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: contain;
+    }
+
+    .option-icon-emoji {
+      font-size: 64px;
+      line-height: 1;
+    }
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #000000;
+  }
+
+  .card-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666666;
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    padding: 9px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    letter-spacing: 0.02857em;
+    font-weight: 500;
+
+    &.btn-primary {
+      background-color: #E30048;
+      border-color: #E30048;
+      color: #FFFFFF;
+
+      &:hover {
+        background-color: #c6003d;
+        border-color: #c6003d;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(227, 0, 72, 0.5);
+      }
+    }
+  }
+}
+
+// FAQ Sidebar
+.faq-sidebar {
+  .faq-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000;
+  }
+
+  hr {
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .faq-links {
+    .faq-link {
+      color: #007bff;
+      font-size: 14px;
+      line-height: 1.5;
+
+      &:hover {
+        color: #0056b3;
+      }
+    }
   }
 }
 
@@ -141,46 +239,18 @@
   }
 }
 
-// FAQ Card
-.faq-card {
-  width: 219px;
-  min-height: 163px;
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.13);
-  border-radius: 4px;
-  padding: 16px;
-  flex-shrink: 0;
+// Footer with Skip button
+.onboarding-footer {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 
-  .faq-card-header {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: #000000;
-  }
-
-  .faq-card-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      margin-bottom: 8px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-
-      a {
-        color: #007bff;
-        text-decoration: none;
-        font-size: 14px;
-        line-height: 1.5;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
+  .btn {
+    padding: 9px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    letter-spacing: 0.02857em;
+    font-weight: 500;
   }
 }
 
@@ -252,6 +322,12 @@
 }
 
 // Responsive adjustments
+@media (max-width: 991px) {
+  .faq-sidebar {
+    margin-top: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .onboarding-card {
     padding: 32px 24px;
@@ -265,11 +341,13 @@
     }
   }
 
-  .onboarding-content {
-    flex-direction: column;
+  .option-card {
+    .card-title {
+      font-size: 18px;
+    }
 
-    .faq-card {
-      width: 100%;
+    .card-text {
+      font-size: 13px;
     }
   }
 

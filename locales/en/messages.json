@@ -1623,6 +1623,26 @@
     "description": "FAQ question: How to export a key",
     "message": "How to export a key"
   },
+  "onboarding_create_key_title": {
+    "description": "Title for create new key card",
+    "message": "Create a new key"
+  },
+  "onboarding_create_key_description": {
+    "description": "Description for create new key card",
+    "message": "Generate a new PGP key pair to start encrypting and signing your emails securely."
+  },
+  "onboarding_import_key_title": {
+    "description": "Title for import key card",
+    "message": "Import a key you have"
+  },
+  "onboarding_import_key_description": {
+    "description": "Description for import key card",
+    "message": "Already have a PGP key? Import it from a file or clipboard to continue using your existing key."
+  },
+  "onboarding_import_key_button": {
+    "description": "Button text for import key card",
+    "message": "Import key from a file"
+  },
   "options_docu": {
     "description": "Options navigation: Documentation.",
     "message": "Documentation"
