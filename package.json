@@ -9,7 +9,8 @@
     "test:jest:watch": "jest --watch",
     "test:jest:coverage": "jest --coverage",
     "test:jest:debug": "jest --runInBand --verbose",
-    "build:integration": "webpack --config config/webpack.test.integration.js"
+    "build:integration": "webpack --config config/webpack.test.integration.js",
+    "start:chrome": "node test/manual/launch-chrome.js"
   },
   "repository": {
     "type": "git",
