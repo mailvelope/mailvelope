@@ -15,7 +15,6 @@ const path = require('path');
 const fs = require('fs');
 
 const EXTENSION_PATH = path.resolve(__dirname, '../../build/chrome');
-const ONBOARDING_PATH = 'components/onboarding/onboarding.html';
 
 async function launchChromeWithExtension() {
   // Check if extension build exists
@@ -32,8 +31,10 @@ async function launchChromeWithExtension() {
   // Launch Chrome with extension loaded
   const browser = await puppeteer.launch({
     headless: false, // Must be visible for extension testing
-    devtools: true,  // Open DevTools automatically
+    devtools: false,  // Open DevTools automatically
     args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
       `--disable-extensions-except=${EXTENSION_PATH}`,
       `--load-extension=${EXTENSION_PATH}`,
       '--no-first-run',
@@ -58,11 +59,6 @@ async function launchChromeWithExtension() {
   console.log('   1. Go to chrome://extensions/ to see the extension ID');
   console.log('   2. Navigate to chrome-extension://<ID>/components/onboarding/onboarding.html');
   console.log('   3. Or click the extension icon in the toolbar');
-  console.log('');
-  console.log('💡 Tips:');
-  console.log('   - DevTools is already open for debugging');
-  console.log('   - Check the Console tab for any errors');
-  console.log('   - Press Ctrl+C in this terminal to close the browser');
   console.log('');
 
   // Navigate to a blank page to start
