@@ -43,7 +43,7 @@ export default function KeyringSetup() {
         <div className="row row-cols-1 row-cols-md-2 g-3">
 
           {/* Card 1: Create a new key */}
-          <div className="col">
+          <div className="col mb-3">
             <div className="card h-100 border">
               <div className="card-img-top py-5 text-center border border-primary">
                 <img src="/img/key.svg" width="64" height="64" alt="A key icon"></img>
@@ -59,7 +59,7 @@ export default function KeyringSetup() {
           </div>
 
           {/* Card 2: Import a key you have */}
-          <div className="col">
+          <div className="col mb-3">
             <div className="card h-100 border">
               <div className="card-img-top py-5 text-center border border-primary">
                 <img src="/img/attachment.svg" width="64" height="64" alt="Paperclip with a lock icon"></img>
@@ -87,26 +87,24 @@ export default function KeyringSetup() {
 
       {/* Right Section - FAQ Sidebar */}
       <div className="col-lg-4 col-xl-3">
-        <div className="keyring-setup-faq">
-          <h5 className="border-bottom pb-2 mb-3">{l10n.map.onboarding_faq_title}</h5>
-          <ul className="list-unstyled">
-            <li>
-              <a href="#" className="d-block mb-2 text-decoration-underline">
-                {l10n.map.onboarding_faq_what_is_key}
-              </a>
-            </li>
-            <li>
-              <a href="#" className="d-block mb-2 text-decoration-underline">
-                {l10n.map.onboarding_faq_why_need_key}
-              </a>
-            </li>
-            <li>
-              <a href="#" className="d-block mb-2 text-decoration-underline">
-                {l10n.map.onboarding_faq_how_export_key}
-              </a>
-            </li>
-          </ul>
-        </div>
+        <h5 className="bg-light border-bottom p-2 mb-3">{l10n.map.onboarding_faq_title}</h5>
+        <ul className="list-unstyled px-2">
+          <li>
+            <a href="https://mailvelope.com/en/faq#keypair" className="d-block mb-2 text-decoration-underline">
+              {l10n.map.onboarding_faq_what_is_key}
+            </a>
+          </li>
+          <li>
+            <a href="https://mailvelope.com/en/faq#about" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-decoration-underline">
+              {l10n.map.onboarding_faq_why_need_key}
+            </a>
+          </li>
+          <li>
+            <a href="https://mailvelope.com/en/faq#backup" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-decoration-underline">
+              {l10n.map.onboarding_faq_how_export_key}
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
