@@ -17,7 +17,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "Anthropic.claude-code"
+        "Anthropic.claude-code",
+        "dbaeumer.vscode-eslint"
       ]
     }
   }

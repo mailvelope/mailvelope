@@ -63,6 +63,6 @@ async function openInstallLandingPage() {
   const match = await mvelo.tabs.query(filteredSitesPatterns);
   // if no match, open the onboarding page.
   if (!match.length) {
-    mvelo.tabs.loadTab({path: '/components/onboarding/onboarding.html'});
+    mvelo.tabs.loadTab({path: '/app/app.html#/onboarding'});
   }
 }

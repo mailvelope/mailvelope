@@ -1,0 +1,86 @@
+@import "../../res/styles/_required";
+
+.keyring-setup {
+  // Icon styling for cards
+  .keyring-setup-icon {
+    font-size: 3rem;
+    color: $primary;
+  }
+
+  // Card styling
+  .card {
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: $box-shadow;
+    }
+
+    .card-body {
+      min-height: 280px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      color: $gray-900;
+    }
+
+    .card-text {
+      color: $gray-700;
+      flex-grow: 1;
+    }
+  }
+
+  // FAQ Sidebar
+  .keyring-setup-faq {
+    h5 {
+      font-weight: 600;
+      color: $gray-900;
+    }
+
+    a {
+      color: $primary;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: darken($primary, 10%);
+        text-decoration: underline !important;
+      }
+    }
+  }
+
+  // Info banner customization
+  .alert-info {
+    background-color: rgba($info, 0.1);
+    border-color: rgba($info, 0.2);
+    color: $gray-900;
+
+    strong {
+      color: $info;
+    }
+  }
+
+  // Button styling
+  .btn-primary {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+  }
+
+  .btn-outline-secondary {
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 991px) {
+    .keyring-setup-faq {
+      margin-top: 2rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .card .card-body {
+      min-height: auto;
+    }
+  }
+}

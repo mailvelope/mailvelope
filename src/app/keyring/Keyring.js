@@ -17,6 +17,7 @@ import KeyImport from './KeyImport';
 import GenerateKey from './GenerateKey';
 import KeyringSetup from './KeyringSetup';
 import Spinner from '../../components/util/Spinner';
+import KeyringSelect from './components/KeyringSelect';
 import Notifications from '../../components/util/Notifications';
 
 l10n.register([
@@ -133,7 +134,26 @@ export default class Keyring extends React.Component {
                   <Route path="/keyring/display/:keyId?" render={props => (<KeyGrid keys={this.state.keys} {...props} keyringAttr={this.state.keyringAttr} onChangeKeyring={this.handleChangeKeyring} onDeleteKeyring={this.handleDeleteKeyring} prefs={this.props.prefs} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onRefreshKeyring={this.handleRefreshKeyring} spinner={this.state.keysLoading} />)} />
                   <Route path="/keyring/import" render={({location}) => <KeyImport onKeyringChange={this.loadKeyring} onNotification={notification => this.setState({notifications: [notification]})} location={location} />} />
                   <Route path="/keyring/generate" render={() => <GenerateKey onKeyringChange={this.loadKeyring} onNotification={notification => this.setState({notifications: [notification]})} defaultName={this.state.name} defaultEmail={this.state.email} />} />
-                  <Route path="/keyring/setup" render={() => <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} keyringAttr={this.state.keyringAttr} onChangeKeyring={this.handleChangeKeyring} prefs={this.props.prefs} />} />
+                  <Route path="/keyring/setup" render={() => (
+                    <div className="card-body">
+                      <div className="card-title d-flex flex-wrap align-items-center">
+                        <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_setup}</h1>
+                        <div className="flex-shrink-0">
+                          <KeyringSelect keyringId={this.context.keyringId} keyringAttr={this.state.keyringAttr} onChange={this.handleChangeKeyring} prefs={this.props.prefs} />
+                        </div>
+                      </div>
+
+                      {/* Info Banner */}
+                      {!this.state.hasPrivateKey && (
+                        <div className="alert alert-info w-100 mb-4">
+                          <strong>{l10n.map.keyring_setup_no_keypair_heading}</strong><br />
+                          <span>{l10n.map.keyring_setup_no_keypair}</span>
+                        </div>
+                      )}
+
+                      <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} keyringAttr={this.state.keyringAttr} onChangeKeyring={this.handleChangeKeyring} prefs={this.props.prefs} />
+                    </div>
+                  )} />
                 </>
               )}
             </section>
