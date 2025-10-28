@@ -17,6 +17,8 @@ import ExtractFrame from 'content-scripts/extractFrame';
 import * as providerSpecific from 'content-scripts/providerSpecific';
 import * as l10n from 'lib/l10n';
 import Editor from 'components/editor/editor';
+import GmailIntegration from 'content-scripts/gmailIntegration';
+import * as csMain from 'content-scripts/main';
 import {testAutocryptHeaders} from '../../fixtures/headers';
 import testKeys from '../../fixtures/keys';
 // Import offscreen module to ensure window.offscreen is available
@@ -144,7 +146,9 @@ window.testHarness = {
   getContentScripts: () => ({
     EncryptFrame,
     ExtractFrame,
-    providerSpecific
+    providerSpecific,
+    GmailIntegration,
+    csMain
   }),
 
   /**
