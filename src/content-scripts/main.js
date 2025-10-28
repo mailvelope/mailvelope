@@ -47,7 +47,7 @@ if (document.readyState !== 'loading') {
   document.addEventListener('DOMContentLoaded', connect);
 }
 
-function init(preferences, watchlist) {
+export function init(preferences, watchlist) {
   prefs = preferences;
   watchList = watchlist;
   detectHost();
