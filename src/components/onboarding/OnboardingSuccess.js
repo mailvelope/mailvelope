@@ -11,7 +11,13 @@ l10n.register([
   'onboarding_success_title',
   'onboarding_success_message',
   'onboarding_success_alert',
-  'action_menu_setup_start_label'
+  'action_menu_setup_start_label',
+  'onboarding_success_created_key_title',
+  'onboarding_success_created_key_text',
+  'onboarding_success_imported_key_title',
+  'onboarding_success_imported_key_text',
+  'onboarding_success_need_help',
+  'onboarding_success_help_text'
 ]);
 
 export default function OnboardingSuccess() {
@@ -38,18 +44,58 @@ export default function OnboardingSuccess() {
         </div>
       </div>
 
-      <div className="my-5 d-flex justify-content-center">
-        <img
-          src="/img/success-illustration.svg"
-          alt="Success"
-          style={{width: '221px', height: '221px'}}
-        />
-      </div>
+      <div className="row g-4">
+        {/* Left Section - Next Steps */}
+        <div className="col-lg-8 col-xl-9">
+          <div className="mb-4">
+            <h5 className="mb-3">{l10n.map.onboarding_success_created_key_title}</h5>
+            <p className="mb-0">
+              {l10n.map.onboarding_success_created_key_text}
+            </p>
+          </div>
 
-      <div className="d-flex justify-content-center mt-4">
-        <button type="button" className="btn btn-primary" onClick={handleGetStarted}>
-          {l10n.map.action_menu_setup_start_label}
-        </button>
+          <div className="mb-4">
+            <h5 className="mb-3">{l10n.map.onboarding_success_imported_key_title}</h5>
+            <p className="mb-0">
+              {l10n.map.onboarding_success_imported_key_text}{' '}
+              <a href="https://mailvelope.com/en/faq#key_server" target="_blank" rel="noopener noreferrer">
+                Mailvelope key server
+              </a>
+            </p>
+          </div>
+        </div>
+
+        {/* Right Section - Help Sidebar */}
+        <div className="col-lg-4 col-xl-3">
+          <h5 className="bg-light border-bottom p-2 mb-3">{l10n.map.onboarding_success_need_help}</h5>
+          <ul className="list-unstyled px-2">
+            <li>
+              <a href="https://mailvelope.com/help#google_workspace" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-decoration-underline">
+                Google Workspace
+              </a>
+            </li>
+            <li>
+              <a href="https://mailvelope.com/help#nextcloud" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-decoration-underline">
+                Nextcloud
+              </a>
+            </li>
+            <li>
+              <a href="https://mailvelope.com/help#gmail" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-decoration-underline">
+                Gmail
+              </a>
+            </li>
+            <li>
+              <a href="https://mailvelope.com/help#getting_started" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-decoration-underline">
+                Others
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="d-flex justify-content-center my-4 w-100">
+          <button type="button" className="btn btn-primary" onClick={handleGetStarted}>
+            {l10n.map.action_menu_setup_start_label}
+          </button>
+        </div>
       </div>
     </>
   );
