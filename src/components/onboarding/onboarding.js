@@ -18,7 +18,10 @@ import Notifications from '../util/Notifications';
 
 l10n.register([
   'onboarding_welcome_title',
-  'onboarding_setup_alert'
+  'onboarding_setup_alert',
+  'onboarding_create_key_hint',
+  'onboarding_import_key_hint',
+  'onboarding_skip'
 ]);
 
 // Main Onboarding component for use within App
@@ -86,44 +89,65 @@ export function Onboarding({gnupg}) {
         <div className="jumbotron">
           <section className="card mv-options">
             <div className="card-body">
-              <h1 className="mb-4">{l10n.map.onboarding_welcome_title}</h1>
-
-              <div className="alert alert-success mb-4" role="alert">
-                {l10n.map.onboarding_setup_alert || 'Now you have to set up your keys! This will take 5 minutes'}
-              </div>
               {/* Route: Welcome screen with KeyringSetup */}
-              <Route exact path="/onboarding" component={KeyringSetup} />
+              <Route exact path="/onboarding" render={() => (
+                <>
+                  <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h2 className="mb-0">{l10n.map.onboarding_welcome_title}</h2>
+                    <Link to="/onboarding/success" className="btn btn-secondary px-4">
+                      {l10n.map.onboarding_skip}
+                    </Link>
+                  </div>
+                  <div className="alert alert-success mb-4" role="alert">
+                    {l10n.map.onboarding_setup_alert}
+                  </div>
+                  <KeyringSetup />
+                </>
+              )} />
 
               {/* Route: Generate Key */}
               <Route path="/onboarding/generate" render={() => (
-                <GenerateKey
-                  onKeyringChange={handleKeyringChange}
-                  onNotification={handleNotification}
-                  defaultName=""
-                  defaultEmail=""
-                />
+                <>
+                  <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h2 className="mb-0">{l10n.map.keyring_setup_generate_key}</h2>
+                    <Link to="/onboarding/success" className="btn btn-secondary px-4">
+                      {l10n.map.onboarding_skip}
+                    </Link>
+                  </div>
+                  <div className="alert alert-success mb-4" role="alert">
+                    {l10n.map.onboarding_create_key_hint}
+                  </div>
+                  <GenerateKey
+                    onKeyringChange={handleKeyringChange}
+                    onNotification={handleNotification}
+                    defaultName=""
+                    defaultEmail=""
+                  />
+                </>
               )} />
 
               {/* Route: Import Key */}
               <Route path="/onboarding/import" render={({location}) => (
-                <KeyImport
-                  onKeyringChange={handleKeyringChange}
-                  onNotification={handleNotification}
-                  location={location}
-                />
+                <>
+                  <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h2 className="mb-0">{l10n.map.keyring_setup_import_key}</h2>
+                    <Link to="/onboarding/success" className="btn btn-secondary px-4">
+                      {l10n.map.onboarding_skip}
+                    </Link>
+                  </div>
+                  <div className="alert alert-success mb-4" role="alert">
+                    {l10n.map.onboarding_import_key_hint}
+                  </div>
+                  <KeyImport
+                    onKeyringChange={handleKeyringChange}
+                    onNotification={handleNotification}
+                    location={location}
+                  />
+                </>
               )} />
 
               {/* Route: Success */}
               <Route path="/onboarding/success" component={OnboardingSuccess} />
-
-              {/* Footer Section - Skip Button */}
-              <div className="row mt-4">
-                <div className="col text-end">
-                  <Link to="/onboarding/success" className="btn btn-outline-secondary">
-                    {l10n.map.onboarding_skip}
-                  </Link>
-                </div>
-              </div>
             </div>
           </section>
         </div>

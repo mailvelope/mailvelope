@@ -1565,7 +1565,7 @@
   },
   "onboarding_success_alert": {
     "description": "Success alert message in onboarding success screen",
-    "message": "You can find Mailvelope in the extension menu here"
+    "message": "You can find Mailvelope in the extension menu in the top right corner of your browser."
   },
   "onboarding_create_key_hint": {
     "description": "A hint for create new key screen",

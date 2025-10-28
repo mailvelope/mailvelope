@@ -11,7 +11,7 @@ l10n.register([
   'onboarding_success_title',
   'onboarding_success_message',
   'onboarding_success_alert',
-  'onboarding_get_started'
+  'action_menu_setup_start_label'
 ]);
 
 export default function OnboardingSuccess() {
@@ -22,23 +22,25 @@ export default function OnboardingSuccess() {
   };
 
   return (
-    <div className="text-center">
-      <h1 className="mb-4">{l10n.map.onboarding_success_title || "You're all set!"}</h1>
-
-      <div className="alert alert-success d-flex align-items-center justify-content-between mb-4" role="alert">
-        <span>{l10n.map.onboarding_success_alert || 'You can find Mailvelope in the extension menu here'}</span>
-        <img
-          src={chrome.runtime.getURL('img/onboarding/extension-menu-icon-1a5cf5.png')}
-          alt="Extension menu"
-          style={{width: '82px', height: '67px', flexShrink: 0}}
-        />
+    <>
+      <div className="d-flex justify-content-between align-items-start mb-4">
+        <div>
+          <h2 className="mb-3 flex-grow-1">{l10n.map.onboarding_success_title}</h2>
+          <h4 className="mb-4">{l10n.map.onboarding_success_message}</h4>
+        </div>
+        <div className="w-50 alert alert-success d-none d-md-flex justify-content-between align-items-center" role="alert">
+          <span>{l10n.map.onboarding_success_alert}</span>
+          <img
+            className="ms-4"
+            src="/img/extension-location.svg"
+            alt="Extension menu location"
+          />
+        </div>
       </div>
-
-      <h2 className="mb-5">{l10n.map.onboarding_success_message || 'Congrats! You successfully set up Mailvelope.'}</h2>
 
       <div className="my-5 d-flex justify-content-center">
         <img
-          src={chrome.runtime.getURL('img/onboarding/success-illustration.svg')}
+          src="/img/success-illustration.svg"
           alt="Success"
           style={{width: '221px', height: '221px'}}
         />
@@ -46,9 +48,9 @@ export default function OnboardingSuccess() {
 
       <div className="d-flex justify-content-center mt-4">
         <button type="button" className="btn btn-primary" onClick={handleGetStarted}>
-          {l10n.map.onboarding_get_started || 'Get Started'}
+          {l10n.map.action_menu_setup_start_label}
         </button>
       </div>
-    </div>
+    </>
   );
 }

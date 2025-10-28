@@ -45,10 +45,10 @@ export default function KeyringSetup() {
           {/* Card 1: Create a new key */}
           <div className="col">
             <div className="card h-100 border">
+              <div className="card-img-top py-5 text-center border border-primary">
+                <img src="/img/key.svg" width="64" height="64" alt="A key icon"></img>
+              </div>
               <div className="card-body d-flex flex-column">
-                <div className="text-center mb-3">
-                  <span className="icon icon-key-pair keyring-setup-icon"></span>
-                </div>
                 <h5 className="card-title">{l10n.map.keyring_setup_generate_key}</h5>
                 <p className="card-text">{l10n.map.keyring_setup_generate_key_explanation}</p>
                 <Link to={generatePath} className="btn btn-primary w-100 mt-auto">
@@ -61,10 +61,10 @@ export default function KeyringSetup() {
           {/* Card 2: Import a key you have */}
           <div className="col">
             <div className="card h-100 border">
+              <div className="card-img-top py-5 text-center border border-primary">
+                <img src="/img/attachment.svg" width="64" height="64" alt="Paperclip with a lock icon"></img>
+              </div>
               <div className="card-body d-flex flex-column">
-                <div className="text-center mb-3">
-                  <span className="icon icon-upload keyring-setup-icon"></span>
-                </div>
                 <h5 className="card-title">{l10n.map.keyring_setup_import_key}</h5>
                 <p className="card-text">{l10n.map.keyring_setup_import_key_explanation}</p>
                 <Link to={importPath} className="btn btn-primary w-100 mt-auto">
