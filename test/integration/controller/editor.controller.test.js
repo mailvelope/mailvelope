@@ -21,6 +21,12 @@ describe('EditorController integration tests', () => {
         },
         security: {
           password_cache: true
+        },
+        keyserver: {
+          mvelo_tofu_lookup: false,
+          oks_lookup: false,
+          wkd_lookup: false,
+          autocrypt_lookup: false
         }
       });
     });
