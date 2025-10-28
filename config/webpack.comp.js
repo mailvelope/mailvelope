@@ -40,7 +40,6 @@ module.exports = [
   dev('decrypt-message', 'decryptMessageRoot'),
   dev('editor', 'editorRoot'),
   dev('encrypted-form', 'encryptedFormRoot'),
-  dev('install-landing-page', 'installLandingPage'),
   dev('onboarding', 'onboarding'),
   dev('import-key', 'importKeyRoot'),
   dev('enter-password', 'passwordDialogRoot'),
