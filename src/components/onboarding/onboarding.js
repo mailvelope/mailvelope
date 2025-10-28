@@ -4,11 +4,9 @@
  */
 
 import React, {useState, useEffect, useCallback} from 'react';
-import ReactDOM from 'react-dom';
 import {Route, Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
-import EventHandler from '../../lib/EventHandler';
 import {port, AppOptions} from '../../app/app';
 import {KeyringOptions} from '../../app/keyring/KeyringOptions';
 import {MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../../lib/constants';
@@ -22,48 +20,6 @@ l10n.register([
   'onboarding_welcome_title',
   'onboarding_setup_alert'
 ]);
-
-// Legacy standalone initialization for direct HTML access
-document.addEventListener('DOMContentLoaded', init);
-
-function init() {
-  if (document.getElementById('onboarding-standalone-root')) {
-    // Only initialize if we're in standalone mode
-    l10n.mapToLocal();
-    EventHandler.connect('onboarding');
-
-    const root = document.getElementById('onboarding-standalone-root');
-    ReactDOM.render((
-      <OnboardingStandalone />
-    ), root);
-  }
-}
-
-// Standalone component for legacy onboarding.html
-function OnboardingStandalone() {
-  const handleNavigate = path => {
-    const appUrl = chrome.runtime.getURL(`app/app.html#${path}`);
-    window.location.href = appUrl;
-  };
-
-  return (
-    <div className="onboarding-container">
-      <div className="onboarding-screen">
-        <h1>{l10n.map.onboarding_welcome_title || 'Welcome to Mailvelope'}</h1>
-        <div className="alert alert-info">
-          Please use the main application for onboarding.
-        </div>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => handleNavigate('/onboarding')}
-        >
-          Continue to Setup
-        </button>
-      </div>
-    </div>
-  );
-}
 
 // Main Onboarding component for use within App
 export function Onboarding({gnupg}) {
