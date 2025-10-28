@@ -11,7 +11,7 @@ import {normalizeArmored, formatFpr, dataURL2str} from '../../lib/util';
 import * as fileLib from '../../lib/file';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Redirect, Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import KeySearch from './components/KeySearch';
 import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
@@ -283,15 +283,7 @@ export default class KeyImport extends React.Component {
     const keySource = this.state.keyRegSourceLabels.find(source => source.name === this.state.keySourceName);
     return (
       <>
-        <div className="keyImport card-body">
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb bg-transparent p-0">
-              <li className="breadcrumb-item"><Link to="/keyring" replace tabIndex="0"><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
-            </ol>
-          </nav>
-          <div className="card-title d-flex flex-wrap align-items-center">
-            <h1 className="flex-shrink-0 mr-auto">{this.state.activeTab === 'import' ? l10n.map.keyring_import_keys : l10n.map.keyring_import_search_keys}</h1>
-          </div>
+        <div className="keyImport">
           <TabContent className="mt-4" activeTab={this.state.activeTab}>
             <TabPane tabId="import">
               <p>{l10n.map.keyring_import_description}</p>

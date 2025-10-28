@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
+import {Route, Redirect, Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as l10n from '../../lib/l10n';
 import {MAIN_KEYRING_ID, GNUPG_KEYRING_ID} from '../../lib/constants';
@@ -132,8 +132,32 @@ export default class Keyring extends React.Component {
                   <Route exact path="/keyring/key/:keyFpr" render={props => <Key {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onKeyringChange={this.loadKeyring} />} />
                   <Route exact path="/keyring/key/:keyFpr/user/:userIdx" render={props => <User {...props} keyData={this.state.keys.find(key => key.fingerprint === props.match.params.keyFpr)} onKeyringChange={this.loadKeyring} />} />
                   <Route path="/keyring/display/:keyId?" render={props => (<KeyGrid keys={this.state.keys} {...props} keyringAttr={this.state.keyringAttr} onChangeKeyring={this.handleChangeKeyring} onDeleteKeyring={this.handleDeleteKeyring} prefs={this.props.prefs} defaultKeyFpr={this.state.defaultKeyFpr} onChangeDefaultKey={this.handleChangeDefaultKey} onDeleteKey={this.handleDeleteKey} onRefreshKeyring={this.handleRefreshKeyring} spinner={this.state.keysLoading} />)} />
-                  <Route path="/keyring/import" render={({location}) => <KeyImport onKeyringChange={this.loadKeyring} onNotification={notification => this.setState({notifications: [notification]})} location={location} />} />
-                  <Route path="/keyring/generate" render={() => <GenerateKey onKeyringChange={this.loadKeyring} onNotification={notification => this.setState({notifications: [notification]})} defaultName={this.state.name} defaultEmail={this.state.email} />} />
+                  <Route path="/keyring/import" render={({location}) => (
+                    <div className="card-body">
+                      <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb bg-transparent p-0">
+                          <li className="breadcrumb-item"><Link to="/keyring" replace tabIndex="0"><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
+                        </ol>
+                      </nav>
+                      <div className="card-title d-flex flex-wrap align-items-center">
+                        <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_import_keys}</h1>
+                      </div>
+                      <KeyImport onKeyringChange={this.loadKeyring} onNotification={notification => this.setState({notifications: [notification]})} location={location} />
+                    </div>
+                  )} />
+                  <Route path="/keyring/generate" render={() => (
+                    <div className="card-body">
+                      <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb bg-transparent p-0">
+                          <li className="breadcrumb-item"><Link to="/keyring" replace tabIndex="0"><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
+                        </ol>
+                      </nav>
+                      <div className="card-title d-flex flex-wrap align-items-center">
+                        <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_generate_key}</h1>
+                      </div>
+                      <GenerateKey onKeyringChange={this.loadKeyring} onNotification={notification => this.setState({notifications: [notification]})} defaultName={this.state.name} defaultEmail={this.state.email} />
+                    </div>
+                  )} />
                   <Route path="/keyring/setup" render={() => (
                     <div className="card-body">
                       <div className="card-title d-flex flex-wrap align-items-center">
