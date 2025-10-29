@@ -175,7 +175,7 @@ export default class Keyring extends React.Component {
                         </div>
                       )}
 
-                      <KeyringSetup hasPrivateKey={this.state.hasPrivateKey} keyringAttr={this.state.keyringAttr} onChangeKeyring={this.handleChangeKeyring} prefs={this.props.prefs} />
+                      <KeyringSetup isOnboarding={false} />
                     </div>
                   )} />
                 </>
