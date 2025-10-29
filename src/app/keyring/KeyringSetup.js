@@ -4,7 +4,8 @@
  */
 
 import React from 'react';
-import {Link, useLocation} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import * as l10n from '../../lib/l10n';
 import './KeyringSetup.scss';
 
@@ -26,13 +27,7 @@ l10n.register([
   'onboarding_skip'
 ]);
 
-export default function KeyringSetup() {
-  const location = useLocation();
-
-  // Detect if we're in onboarding flow
-  const isOnboarding = location.pathname.startsWith('/onboarding');
-
-  // Determine link paths based on context
+export default function KeyringSetup({isOnboarding = false}) {
   const generatePath = isOnboarding ? '/onboarding/generate' : '/keyring/generate';
   const importPath = isOnboarding ? '/onboarding/import' : '/keyring/import';
 
@@ -109,3 +104,7 @@ export default function KeyringSetup() {
     </div>
   );
 }
+
+KeyringSetup.propTypes = {
+  isOnboarding: PropTypes.bool
+};

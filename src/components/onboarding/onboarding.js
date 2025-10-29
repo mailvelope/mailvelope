@@ -101,7 +101,7 @@ export function Onboarding({gnupg}) {
                   <div className="alert alert-success mb-4" role="alert">
                     {l10n.map.onboarding_setup_alert}
                   </div>
-                  <KeyringSetup />
+                  <KeyringSetup isOnboarding={true} />
                 </>
               )} />
 
