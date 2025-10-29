@@ -119,7 +119,6 @@ class App extends React.Component {
           toggleNavbar={this.toggleNavbar}
         />
 
-        {/* Main content area - only rendered when NOT on onboarding */}
         <main className={`container-lg ${(this.state.prefs && !this.state.prefs.security.personalized && this.props.location.pathname !== '/settings/security-background') ? 'featured' : ''}`} role="main">
           <AppOptions.Provider value={{gnupg: this.state.gnupg}}>
             <Route path="/dashboard" component={Dashboard} />
@@ -132,7 +131,6 @@ class App extends React.Component {
           </AppOptions.Provider>
         </main>
 
-        {/* Footer - always rendered */}
         <footer className="container-lg">
           <div className="d-flex justify-content-between">
             <p><span className="pr-2">&copy; 2025</span><a className="text-reset" href="https://mailvelope.com/about" target="_blank" rel="noreferrer noopener" tabIndex="0">Mailvelope GmbH</a></p>
