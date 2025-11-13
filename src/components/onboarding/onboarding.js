@@ -21,7 +21,8 @@ l10n.register([
   'onboarding_setup_alert',
   'onboarding_create_key_hint',
   'onboarding_import_key_hint',
-  'onboarding_skip'
+  'onboarding_skip',
+  'form_cancel'
 ]);
 
 // Main Onboarding component for use within App
@@ -95,7 +96,7 @@ export function Onboarding({gnupg}) {
                 <>
                   <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="mb-0">{l10n.map.onboarding_welcome_title}</h2>
-                    <Link to="/onboarding/success" className="btn btn-secondary px-4">
+                    <Link to="/dashboard" className="btn btn-secondary px-4">
                       {l10n.map.onboarding_skip}
                     </Link>
                   </div>
@@ -111,19 +112,27 @@ export function Onboarding({gnupg}) {
                 <>
                   <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="mb-0">{l10n.map.keyring_setup_generate_key}</h2>
-                    <Link to="/onboarding/success" className="btn btn-secondary px-4">
+                    <Link to="/keyring" className="btn btn-secondary px-4">
                       {l10n.map.onboarding_skip}
                     </Link>
                   </div>
                   <div className="alert alert-success mb-4" role="alert">
                     {l10n.map.onboarding_create_key_hint}
                   </div>
-                  <GenerateKey
-                    onKeyringChange={() => handleKeyringChange('generate')}
-                    onNotification={handleNotification}
-                    defaultName=""
-                    defaultEmail=""
-                  />
+                  <div style={{position: 'relative'}}>
+                    <GenerateKey
+                      onKeyringChange={() => handleKeyringChange('generate')}
+                      onNotification={handleNotification}
+                      defaultName=""
+                      defaultEmail=""
+                    />
+                    {/* Cancel button positioned above GenerateKey's own buttons */}
+                    <div style={{position: 'relative', bottom: '52px'}}>
+                      <Link to="/onboarding" className="btn btn-secondary">
+                        {l10n.map.form_cancel}
+                      </Link>
+                    </div>
+                  </div>
                 </>
               )} />
 
@@ -132,18 +141,26 @@ export function Onboarding({gnupg}) {
                 <>
                   <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="mb-0">{l10n.map.keyring_setup_import_key}</h2>
-                    <Link to="/onboarding/success" className="btn btn-secondary px-4">
+                    <Link to="/keyring" className="btn btn-secondary px-4">
                       {l10n.map.onboarding_skip}
                     </Link>
                   </div>
                   <div className="alert alert-success mb-4" role="alert">
                     {l10n.map.onboarding_import_key_hint}
                   </div>
-                  <KeyImport
-                    onKeyringChange={() => handleKeyringChange('import')}
-                    onNotification={handleNotification}
-                    location={location}
-                  />
+                  <div style={{position: 'relative'}}>
+                    <KeyImport
+                      onKeyringChange={() => handleKeyringChange('import')}
+                      onNotification={handleNotification}
+                      location={location}
+                    />
+                    {/* Cancel button positioned above GenerateKey's own buttons */}
+                    <div style={{position: 'relative', bottom: '52px'}}>
+                      <Link to="/onboarding" className="btn btn-secondary">
+                        {l10n.map.form_cancel}
+                      </Link>
+                    </div>
+                  </div>
                 </>
               )} />
 
