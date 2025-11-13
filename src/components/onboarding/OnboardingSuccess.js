@@ -23,6 +23,10 @@ l10n.register([
 export default function OnboardingSuccess() {
   const history = useHistory();
 
+  // Get action type from query parameter
+  const searchParams = new URLSearchParams(history.location.search);
+  const action = searchParams.get('action');
+
   const handleGetStarted = () => {
     history.push('/dashboard');
   };
@@ -47,22 +51,23 @@ export default function OnboardingSuccess() {
       <div className="row g-4">
         {/* Left Section - Next Steps */}
         <div className="col-lg-8 col-xl-9">
-          <div className="mb-4">
-            <h5 className="mb-3">{l10n.map.onboarding_success_created_key_title}</h5>
-            <p className="mb-0">
-              {l10n.map.onboarding_success_created_key_text}
-            </p>
-          </div>
+          {action === 'generate' && (
+            <div className="mb-4">
+              <h3 className="mb-4">{l10n.map.onboarding_success_created_key_title}</h3>
+              <p className="mb-0" style={{whiteSpace: 'pre-line', lineHeight: '1.8', fontSize: '1.1rem'}}>
+                {l10n.map.onboarding_success_created_key_text}
+              </p>
+            </div>
+          )}
 
-          <div className="mb-4">
-            <h5 className="mb-3">{l10n.map.onboarding_success_imported_key_title}</h5>
-            <p className="mb-0">
-              {l10n.map.onboarding_success_imported_key_text}{' '}
-              <a href="https://mailvelope.com/en/faq#key_server" target="_blank" rel="noopener noreferrer">
-                Mailvelope key server
-              </a>
-            </p>
-          </div>
+          {action === 'import' && (
+            <div className="mb-4">
+              <h3 className="mb-4">{l10n.map.onboarding_success_imported_key_title}</h3>
+              <p className="mb-0" style={{whiteSpace: 'pre-line', lineHeight: '1.8', fontSize: '1.1rem'}}>
+                {l10n.map.onboarding_success_imported_key_text}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Right Section - Help Sidebar */}

@@ -1593,19 +1593,19 @@
   },
   "onboarding_success_created_key_title": {
     "description": "Title for created key section on success screen",
-    "message": "If you created a new key: Check your first encrypted email!"
+    "message": "Check your first encrypted email!"
   },
   "onboarding_success_created_key_text": {
     "description": "Instructions for users who created a new key",
-    "message": "Check your inbox for an email from the Mailvelope Key Server, and decrypt it using the password of your newly created key. Then click the verification link within. This will make your public key available to others who want to send you encrypted messages on Mailvelope."
+    "message": "1. Check your inbox for an email from the Mailvelope Key Server.\n2. Decrypt it using the password of your newly created key.\n3. Click the verification link within. This will make your public key available to others who want to send you encrypted messages on Mailvelope."
   },
   "onboarding_success_imported_key_title": {
     "description": "Title for imported key section on success screen",
-    "message": "If you imported an existing key: Start right away!"
+    "message": "Start right away!"
   },
   "onboarding_success_imported_key_text": {
     "description": "Instructions for users who imported an existing key",
-    "message": "Head on to your provider and write your first encrypted email. If you'd like others to find your key automatically, you can use the Mailvelope key server."
+    "message": "1. Head on to your provider and write your first encrypted email.\n2. If you'd like others to find your key automatically, you can use the Mailvelope key server."
   },
   "onboarding_success_need_help": {
     "description": "Need help section title",

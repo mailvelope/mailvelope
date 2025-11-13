@@ -69,10 +69,11 @@ export function Onboarding({gnupg}) {
     loadKeyringData();
   }, [loadKeyringData]);
 
-  const handleKeyringChange = async () => {
+  const handleKeyringChange = async action => {
     await loadKeyringData();
-    // Navigate to success screen after key creation
-    history.push('/onboarding/success');
+    // Navigate to success screen after key creation/import
+    // Pass action type (generate or import) via query parameter
+    history.push(`/onboarding/success?action=${action}`);
   };
 
   const handleNotification = notification => {
@@ -118,7 +119,7 @@ export function Onboarding({gnupg}) {
                     {l10n.map.onboarding_create_key_hint}
                   </div>
                   <GenerateKey
-                    onKeyringChange={handleKeyringChange}
+                    onKeyringChange={() => handleKeyringChange('generate')}
                     onNotification={handleNotification}
                     defaultName=""
                     defaultEmail=""
@@ -139,7 +140,7 @@ export function Onboarding({gnupg}) {
                     {l10n.map.onboarding_import_key_hint}
                   </div>
                   <KeyImport
-                    onKeyringChange={handleKeyringChange}
+                    onKeyringChange={() => handleKeyringChange('import')}
                     onNotification={handleNotification}
                     location={location}
                   />
