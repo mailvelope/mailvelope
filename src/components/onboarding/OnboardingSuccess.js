@@ -31,6 +31,16 @@ export default function OnboardingSuccess() {
     history.push('/dashboard');
   };
 
+  const fontSizeLg = {
+    fontSize: '1.1rem'
+  };
+
+  const helpTextStyle = {
+    whiteSpace: 'pre-line',
+    lineHeight: '1.8',
+    fontSize: '1.1rem'
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-start mb-4">
@@ -39,9 +49,9 @@ export default function OnboardingSuccess() {
           <h4 className="mb-4">{l10n.map.onboarding_success_message}</h4>
         </div>
         <div className="w-50 alert alert-success d-none d-md-flex justify-content-between align-items-center" role="alert">
-          <span style={{fontSize: '1.1rem'}}>{l10n.map.onboarding_success_alert}</span>
+          <span style={fontSizeLg}>{l10n.map.onboarding_success_alert}</span>
           <img
-            className="ms-4"
+            className="m-2"
             src="/img/extension-location.svg"
             alt="Extension menu location"
           />
@@ -54,7 +64,7 @@ export default function OnboardingSuccess() {
           {action === 'generate' && (
             <div className="mb-4">
               <h3 className="mb-4">{l10n.map.onboarding_success_created_key_title}</h3>
-              <p className="mb-0" style={{whiteSpace: 'pre-line', lineHeight: '1.8', fontSize: '1.1rem'}}>
+              <p className="mb-0" style={helpTextStyle}>
                 {l10n.map.onboarding_success_created_key_text}
               </p>
             </div>
@@ -63,7 +73,7 @@ export default function OnboardingSuccess() {
           {action === 'import' && (
             <div className="mb-4">
               <h3 className="mb-4">{l10n.map.onboarding_success_imported_key_title}</h3>
-              <p className="mb-0" style={{whiteSpace: 'pre-line', lineHeight: '1.8', fontSize: '1.1rem'}}>
+              <p className="mb-0" style={helpTextStyle}>
                 {l10n.map.onboarding_success_imported_key_text}
               </p>
             </div>
