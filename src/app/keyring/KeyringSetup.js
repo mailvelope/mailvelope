@@ -36,6 +36,10 @@ export default function KeyringSetup({isOnboarding = false}) {
     minHeight: '280px'
   };
 
+  const cardBorderStyle = {
+    border: '1px solid rgba(227, 0, 72, 0.25)', // primary color with 50 alpha
+  };
+
   return (
     <div className="row g-4">
       {/* Left Section - Two Option Cards */}
@@ -45,7 +49,7 @@ export default function KeyringSetup({isOnboarding = false}) {
           {/* Card 1: Create a new key */}
           <div className="col mb-3">
             <div className="card h-100 border" style={cardStyle}>
-              <div className="card-img-top py-5 text-center border border-primary">
+              <div className="card-img-top py-5 text-center" style={cardBorderStyle}>
                 <img src="/img/key.svg" width="64" height="64" alt="A key icon"></img>
               </div>
               <div className="card-body d-flex flex-column" style={{minHeight: '200px'}}>
@@ -61,7 +65,7 @@ export default function KeyringSetup({isOnboarding = false}) {
           {/* Card 2: Import a key you have */}
           <div className="col mb-3">
             <div className="card h-100 border" style={cardStyle}>
-              <div className="card-img-top py-5 text-center border border-primary">
+              <div className="card-img-top py-5 text-center" style={cardBorderStyle}>
                 <img src="/img/attachment.svg" width="64" height="64" alt="Paperclip with a lock icon"></img>
               </div>
               <div className="card-body d-flex flex-column" style={{minHeight: '200px'}}>
