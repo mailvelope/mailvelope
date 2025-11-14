@@ -101,6 +101,12 @@ export function Onboarding({gnupg}) {
     {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/en/faq#keys'}
   ];
 
+  const cancelButtonStyle = {
+    position: 'relative',
+    bottom: '52px',
+    width: '120px'
+  };
+
   return (
     <AppOptions.Provider value={{gnupg}}>
       <KeyringOptions.Provider value={{
@@ -150,7 +156,7 @@ export function Onboarding({gnupg}) {
                           defaultEmail=""
                         />
                         {/* Cancel button positioned above GenerateKey's own buttons */}
-                        <div style={{position: 'relative', bottom: '52px'}}>
+                        <div style={cancelButtonStyle}>
                           <Link to="/onboarding" className="btn btn-secondary">
                             {l10n.map.form_cancel}
                           </Link>
@@ -186,7 +192,7 @@ export function Onboarding({gnupg}) {
                           location={location}
                         />
                         {/* Cancel button positioned above GenerateKey's own buttons */}
-                        <div style={{position: 'relative', bottom: '52px'}}>
+                        <div style={cancelButtonStyle}>
                           <Link to="/onboarding" className="btn btn-secondary">
                             {l10n.map.form_cancel}
                           </Link>
