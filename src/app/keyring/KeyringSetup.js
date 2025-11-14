@@ -7,6 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import * as l10n from '../../lib/l10n';
+import FAQSidebar from '../../components/onboarding/FAQSidebar';
 
 l10n.register([
   'general_openpgp_preferences',
@@ -19,9 +20,8 @@ l10n.register([
   'keyring_setup_generate_key_explanation',
   'keyring_setup_import_key',
   'keyring_setup_import_key_explanation',
-  'onboarding_faq_title',
   'onboarding_faq_what_is_key',
-  'onboarding_faq_should_upload_key',
+  'onboarding_faq_backup',
   'onboarding_faq_where_key_stored',
   'onboarding_skip'
 ]);
@@ -39,6 +39,13 @@ export default function KeyringSetup({isOnboarding = false}) {
   const cardBorderStyle = {
     border: '1px solid rgba(227, 0, 72, 0.25)', // primary color with 50 alpha
   };
+
+  // FAQ items for welcome screen
+  const faqItems = [
+    {label: l10n.map.onboarding_faq_what_is_key, url: 'https://mailvelope.com/en/faq#keypair'},
+    {label: l10n.map.onboarding_faq_backup, url: 'https://mailvelope.com/en/faq#backup'},
+    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/en/faq#keys'}
+  ];
 
   return (
     <div className="row g-4">
@@ -90,26 +97,7 @@ export default function KeyringSetup({isOnboarding = false}) {
       </div>
 
       {/* Right Section - FAQ Sidebar */}
-      <div className="col-lg-4 col-xl-3">
-        <h5 className="bg-light border-bottom p-2 mb-3 fw-semibold">{l10n.map.onboarding_faq_title}</h5>
-        <ul className="list-unstyled px-2">
-          <li>
-            <a href="https://mailvelope.com/en/faq#keypair" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
-              {l10n.map.onboarding_faq_what_is_key}
-            </a>
-          </li>
-          <li>
-            <a href="https://mailvelope.com/en/faq#keyserver" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
-              {l10n.map.onboarding_faq_should_upload_key}
-            </a>
-          </li>
-          <li>
-            <a href="https://mailvelope.com/en/faq#keys" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
-              {l10n.map.onboarding_faq_where_key_stored}
-            </a>
-          </li>
-        </ul>
-      </div>
+      <FAQSidebar items={faqItems} />
     </div>
   );
 }

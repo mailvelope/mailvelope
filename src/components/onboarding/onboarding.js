@@ -15,6 +15,7 @@ import GenerateKey from '../../app/keyring/GenerateKey';
 import KeyImport from '../../app/keyring/KeyImport';
 import OnboardingSuccess from './OnboardingSuccess';
 import Notifications from '../util/Notifications';
+import FAQSidebar from './FAQSidebar';
 
 l10n.register([
   'onboarding_welcome_title',
@@ -22,7 +23,12 @@ l10n.register([
   'onboarding_create_key_hint',
   'onboarding_import_key_hint',
   'onboarding_skip',
-  'form_cancel'
+  'form_cancel',
+  'onboarding_faq_what_is_key',
+  'onboarding_faq_should_upload_key',
+  'onboarding_faq_export_keys',
+  'onboarding_faq_forget_password',
+  'onboarding_faq_where_key_stored'
 ]);
 
 // Main Onboarding component for use within App
@@ -81,6 +87,20 @@ export function Onboarding({gnupg}) {
     setNotifications([notification]);
   };
 
+  // FAQ items for generate key screen
+  const generateFaqItems = [
+    {label: l10n.map.onboarding_faq_what_is_key, url: 'https://mailvelope.com/en/faq#keypair'},
+    {label: l10n.map.onboarding_faq_should_upload_key, url: 'https://mailvelope.com/en/faq#key_server'},
+    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/en/faq#keys'}
+  ];
+
+  // FAQ items for import key screen
+  const importFaqItems = [
+    {label: l10n.map.onboarding_faq_export_keys, url: 'https://mailvelope.com/en/faq#backup'},
+    {label: l10n.map.onboarding_faq_forget_password, url: 'https://mailvelope.com/en/faq#forget_pwd'},
+    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/en/faq#keys'}
+  ];
+
   return (
     <AppOptions.Provider value={{gnupg}}>
       <KeyringOptions.Provider value={{
@@ -119,19 +139,27 @@ export function Onboarding({gnupg}) {
                   <div className="alert alert-success mb-4" role="alert">
                     {l10n.map.onboarding_create_key_hint}
                   </div>
-                  <div style={{position: 'relative'}}>
-                    <GenerateKey
-                      onKeyringChange={() => handleKeyringChange('generate')}
-                      onNotification={handleNotification}
-                      defaultName=""
-                      defaultEmail=""
-                    />
-                    {/* Cancel button positioned above GenerateKey's own buttons */}
-                    <div style={{position: 'relative', bottom: '52px'}}>
-                      <Link to="/onboarding" className="btn btn-secondary">
-                        {l10n.map.form_cancel}
-                      </Link>
+                  <div className="row g-4">
+                    {/* Left Section - Generate Key Form */}
+                    <div className="col-lg-8 col-xl-9">
+                      <div style={{position: 'relative'}}>
+                        <GenerateKey
+                          onKeyringChange={() => handleKeyringChange('generate')}
+                          onNotification={handleNotification}
+                          defaultName=""
+                          defaultEmail=""
+                        />
+                        {/* Cancel button positioned above GenerateKey's own buttons */}
+                        <div style={{position: 'relative', bottom: '52px'}}>
+                          <Link to="/onboarding" className="btn btn-secondary">
+                            {l10n.map.form_cancel}
+                          </Link>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Right Section - FAQ Sidebar */}
+                    <FAQSidebar items={generateFaqItems} />
                   </div>
                 </>
               )} />
@@ -148,18 +176,26 @@ export function Onboarding({gnupg}) {
                   <div className="alert alert-success mb-4" role="alert">
                     {l10n.map.onboarding_import_key_hint}
                   </div>
-                  <div style={{position: 'relative'}}>
-                    <KeyImport
-                      onKeyringChange={() => handleKeyringChange('import')}
-                      onNotification={handleNotification}
-                      location={location}
-                    />
-                    {/* Cancel button positioned above GenerateKey's own buttons */}
-                    <div style={{position: 'relative', bottom: '52px'}}>
-                      <Link to="/onboarding" className="btn btn-secondary">
-                        {l10n.map.form_cancel}
-                      </Link>
+                  <div className="row g-4">
+                    {/* Left Section - Import Key Form */}
+                    <div className="col-lg-8 col-xl-9">
+                      <div style={{position: 'relative'}}>
+                        <KeyImport
+                          onKeyringChange={() => handleKeyringChange('import')}
+                          onNotification={handleNotification}
+                          location={location}
+                        />
+                        {/* Cancel button positioned above GenerateKey's own buttons */}
+                        <div style={{position: 'relative', bottom: '52px'}}>
+                          <Link to="/onboarding" className="btn btn-secondary">
+                            {l10n.map.form_cancel}
+                          </Link>
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Right Section - FAQ Sidebar */}
+                    <FAQSidebar items={importFaqItems} />
                   </div>
                 </>
               )} />

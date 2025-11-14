@@ -1583,6 +1583,18 @@
     "description": "FAQ question: Where are my keys stored?",
     "message": "Where are my keys stored?"
   },
+  "onboarding_faq_backup": {
+    "description": "FAQ question: How can I export or backup my keypair?",
+    "message": "How can I export or backup my keypair?"
+  },
+  "onboarding_faq_export_keys": {
+    "description": "FAQ question: How do I export keys?",
+    "message": "How do I export keys?"
+  },
+  "onboarding_faq_forget_password": {
+    "description": "FAQ question: What if I forget my password?",
+    "message": "What if I forget my password?"
+  },
   "onboarding_create_key_hint": {
     "description": "A hint for create new key screen",
     "message": "Generate a new PGP key pair that you will use to encrypt your emails."
