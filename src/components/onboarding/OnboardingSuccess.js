@@ -39,7 +39,7 @@ export default function OnboardingSuccess() {
           <h4 className="mb-4">{l10n.map.onboarding_success_message}</h4>
         </div>
         <div className="w-50 alert alert-success d-none d-md-flex justify-content-between align-items-center" role="alert">
-          <span>{l10n.map.onboarding_success_alert}</span>
+          <span style={{fontSize: '1.1rem'}}>{l10n.map.onboarding_success_alert}</span>
           <img
             className="ms-4"
             src="/img/extension-location.svg"
@@ -97,7 +97,7 @@ export default function OnboardingSuccess() {
           </ul>
         </div>
         <div className="d-flex justify-content-center my-4 w-100">
-          <button type="button" className="btn btn-primary" onClick={handleGetStarted}>
+          <button type="button" className="btn btn-primary btn-lg" onClick={handleGetStarted}>
             {l10n.map.action_menu_setup_start_label}
           </button>
         </div>

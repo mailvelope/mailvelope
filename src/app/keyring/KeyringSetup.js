@@ -51,7 +51,7 @@ export default function KeyringSetup({isOnboarding = false}) {
               <div className="card-body d-flex flex-column" style={{minHeight: '200px'}}>
                 <h5 className="card-title">{l10n.map.keyring_setup_generate_key}</h5>
                 <p className="card-text flex-grow-1">{l10n.map.keyring_setup_generate_key_explanation}</p>
-                <Link to={generatePath} className="btn btn-primary w-100 mt-auto">
+                <Link to={generatePath} className="btn btn-primary btn-lg w-100 mt-auto">
                   {l10n.map.keyring_setup_generate_key}
                 </Link>
               </div>
@@ -67,7 +67,7 @@ export default function KeyringSetup({isOnboarding = false}) {
               <div className="card-body d-flex flex-column" style={{minHeight: '200px'}}>
                 <h5 className="card-title">{l10n.map.keyring_setup_import_key}</h5>
                 <p className="card-text flex-grow-1">{l10n.map.keyring_setup_import_key_explanation}</p>
-                <Link to={importPath} className="btn btn-primary w-100 mt-auto">
+                <Link to={importPath} className="btn btn-primary btn-lg w-100 mt-auto">
                   {l10n.map.keyring_setup_import_key}
                 </Link>
               </div>
