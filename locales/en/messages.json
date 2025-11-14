@@ -1573,15 +1573,15 @@
   },
   "onboarding_faq_what_is_key": {
     "description": "FAQ question: What is a key",
-    "message": "What is a key"
+    "message": "What is a Mailvelope key?"
   },
-  "onboarding_faq_why_need_key": {
-    "description": "FAQ question: Why I need a key",
-    "message": "Why I need a key"
+  "onboarding_faq_should_upload_key": {
+    "description": "FAQ question: Should I upload my key to the key server?",
+    "message": "Should I upload my key to the Mailvelope key server?"
   },
-  "onboarding_faq_how_export_key": {
-    "description": "FAQ question: How to export a key",
-    "message": "How to export a key"
+  "onboarding_faq_where_key_stored": {
+    "description": "FAQ question: Where are my keys stored?",
+    "message": "Where are my keys stored?"
   },
   "onboarding_create_key_hint": {
     "description": "A hint for create new key screen",

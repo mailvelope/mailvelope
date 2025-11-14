@@ -21,8 +21,8 @@ l10n.register([
   'keyring_setup_import_key_explanation',
   'onboarding_faq_title',
   'onboarding_faq_what_is_key',
-  'onboarding_faq_why_need_key',
-  'onboarding_faq_how_export_key',
+  'onboarding_faq_should_upload_key',
+  'onboarding_faq_where_key_stored',
   'onboarding_skip'
 ]);
 
@@ -94,18 +94,18 @@ export default function KeyringSetup({isOnboarding = false}) {
         <h5 className="bg-light border-bottom p-2 mb-3 fw-semibold">{l10n.map.onboarding_faq_title}</h5>
         <ul className="list-unstyled px-2">
           <li>
-            <a href="https://mailvelope.com/en/faq#keypair" className="d-block mb-2 text-primary text-decoration-none">
+            <a href="https://mailvelope.com/en/faq#keypair" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
               {l10n.map.onboarding_faq_what_is_key}
             </a>
           </li>
           <li>
-            <a href="https://mailvelope.com/en/faq#about" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
-              {l10n.map.onboarding_faq_why_need_key}
+            <a href="https://mailvelope.com/en/faq#keyserver" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
+              {l10n.map.onboarding_faq_should_upload_key}
             </a>
           </li>
           <li>
-            <a href="https://mailvelope.com/en/faq#backup" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
-              {l10n.map.onboarding_faq_how_export_key}
+            <a href="https://mailvelope.com/en/faq#keys" target="_blank" rel="noopener noreferrer" className="d-block mb-2 text-primary text-decoration-none">
+              {l10n.map.onboarding_faq_where_key_stored}
             </a>
           </li>
         </ul>
