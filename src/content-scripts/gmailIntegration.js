@@ -293,8 +293,8 @@ export default class GmailIntegration {
     }
   }
 
-  addBottomBtns(msgId, msgElem) {
-    const bottomBtnsContainer = msgElem.nextSibling;
+  addBottomBtns(msgId) {
+    const bottomBtnsContainer = document.querySelector('.btDi4d');
     if (bottomBtnsContainer) {
       if (bottomBtnsContainer.querySelector('[data-mv-btns-bottom]')) {
         return;

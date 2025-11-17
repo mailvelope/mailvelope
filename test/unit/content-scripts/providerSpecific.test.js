@@ -6,6 +6,10 @@ jest.mock('../../../src/content-scripts/gmailIntegration', () => jest.fn().mockI
   init: jest.fn()
 })));
 
+jest.mock('../../../src/content-scripts/outlookIntegration', () => jest.fn().mockImplementation(() => ({
+  init: jest.fn()
+})));
+
 jest.mock('../../../src/lib/util', () => require('../__mocks__/lib/util').default);
 
 // Mock goog email library

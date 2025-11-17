@@ -61,6 +61,9 @@ export function init() {
       if (typeof prefs.provider == 'undefined') {
         prefs.provider = defaults.preferences.provider;
       }
+      if (typeof prefs.provider.outlook_integration == 'undefined') {
+        prefs.provider.outlook_integration = defaults.preferences.provider.outlook_integration;
+      }
       // merge watchlist on version change
       return mergeWatchlist(defaults)
       .then(() => setPreferences(prefs));

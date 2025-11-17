@@ -14,6 +14,7 @@ import EncryptFrame from 'content-scripts/encryptFrame';
 import ExtractFrame from 'content-scripts/extractFrame';
 import * as providerSpecific from 'content-scripts/providerSpecific';
 import GmailIntegration from 'content-scripts/gmailIntegration';
+import OutlookIntegration from 'content-scripts/outlookIntegration';
 import * as csMain from 'content-scripts/main';
 import {testAutocryptHeaders} from '../../fixtures/headers';
 import testKeys from '../../fixtures/keys';
@@ -134,6 +135,7 @@ window.testHarness = {
     ExtractFrame,
     providerSpecific,
     GmailIntegration,
+    OutlookIntegration,
     csMain
   }),
 

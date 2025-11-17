@@ -59,6 +59,10 @@ export default {
   // Test timeout - integration tests need more time
   testTimeout: 30000,
 
+  // Custom environment to disable Node localStorage initialization
+  // Recent Puppeteer versions require --localstorage-file flag; we use browser storage instead
+  testEnvironment: '<rootDir>/test/integration/setup/integration.environment.js',
+
   // Coverage output directory
   coverageDirectory: '<rootDir>/coverage/integration',
 

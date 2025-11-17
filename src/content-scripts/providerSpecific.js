@@ -11,6 +11,7 @@
 import {sequential, isVisible} from '../lib/util';
 import {goog} from '../modules/closure-library/closure/goog/emailaddress';
 import GmailIntegration from './gmailIntegration';
+import OutlookIntegration from './outlookIntegration';
 
 let providerMap = null;
 let prefs = null;
@@ -24,6 +25,8 @@ export function init(preferences) {
   providerMap.set('mail.google.com', new Gmail());
   providerMap.set('mail.yahoo.com', new Yahoo());
   providerMap.set('outlook.live.com', new Outlook());
+  providerMap.set('outlook.office.com', new Outlook());
+  providerMap.set('outlook.office365.com', new Outlook());
   providerMap.set('default', new Default());
 }
 
@@ -196,6 +199,13 @@ class Yahoo {
 //
 
 class Outlook {
+  constructor() {
+    if (prefs.provider.outlook_integration) {
+      this.integration = new OutlookIntegration();
+      this.integration.init();
+    }
+  }
+
   getRecipients(editElement) {
     return new Promise(resolve => {
       // get compose area
