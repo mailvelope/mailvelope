@@ -1,0 +1,153 @@
+.mv-outlook-editor-btn-container {
+  display: inline-flex;
+  align-items: center;
+}
+
+#editorBtn {
+  cursor: pointer;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#editorBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+#editorBtn:active {
+  background: #b3b3b3;
+  border-radius: 4px;
+}
+
+.fui-Button__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.mv-reply-btn-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0 10px 0 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.mv-reply-btn-top::before {
+  content: '';
+  display: block;
+  opacity: 0;
+  position: absolute;
+  transition-duration: .15s;
+  transition-timing-function: cubic-bezier(0.4,0.0,0.2,1);
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
+  top: -10px;
+  background-color: rgba(32,33,36,0.059);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transform: scale(0);
+  transition-property: transform,opacity;
+}
+
+.mv-reply-btn-top:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mv-reply-btn-top:active::before {
+  opacity: 1;
+  transform: scale(1);
+  background-color: rgba(32,33,36,0.122);
+}
+
+.mv-reply-btn-top::after {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: 1;
+  height: 40px;
+  width: 40px;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath fill='%23fff' d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.mv-action-btns-bottom {
+  align-items: center;
+  display: flex;
+  height: auto;
+  line-height: 20px;
+  padding: 0;
+}
+
+.mv-action-btn-bottom {
+  align-items: center;
+  border: none;
+  display: inline-flex;
+  justify-content: center;
+  outline: none;
+  position: relative;
+  z-index: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0;
+  background: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #242424;
+  cursor: pointer;
+  font-weight: 600;
+  height: 32px;
+  outline: none;
+  padding: 0 12px;
+  min-width: 96px;
+  user-select: none;
+  margin-right: 8px;
+  text-decoration: none;
+  transition: background-color 0.1s ease;
+}
+
+.mv-action-btn-bottom:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mv-action-btn-bottom:active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.mv-action-btn-bottom::before {
+  content: '';
+  height: 20px;
+  display: block;
+  margin-right: 8px;
+  width: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+}
+
+.mv-action-btn-bottom-reply::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath fill='%23fff' d='M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z'/%3E%3C/svg%3E");
+}
+
+.mv-action-btn-bottom-replyAll::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='Ebene_1' viewBox='0 0 24 24'%3E%3Cstyle id='style2'%3E%3C/style%3E%3Ccircle id='circle4-6' cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath id='circle4' fill='%23fff' d='M7 4.5L.0273 11.4727a12 12 0 0 0-.0039.0507L7 18.5v-3l-4-4 4-4v-3zm6 0l-7 7 7 7v-4.0996c4.084 0 7.1548 1.0884 9.5098 3.3867a12 12 0 0 0 .6113-1.2988C21.6109 12.6357 18.5778 9.2968 13 8.5v-4z'/%3E%3C/svg%3E");
+}
+
+.mv-action-btn-bottom-forward::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23ff004f'/%3E%3Cpath fill='%23fff' d='M12 8V4l8 8-8 8v-4H4V8h8z'/%3E%3C/svg%3E");
+}

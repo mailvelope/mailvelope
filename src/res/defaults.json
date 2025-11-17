@@ -257,7 +257,8 @@
       "prefer_gnupg": true
     },
     "provider": {
-      "gmail_integration": true
+      "gmail_integration": true,
+      "outlook_integration": true
     },
     "keyserver": {
       "autocrypt_lookup": false,
