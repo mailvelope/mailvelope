@@ -12,6 +12,7 @@ import {readKey, readKeys} from 'openpgp';
 import {mapKeys, parseUserId, getLastModifiedDate, sanitizeKey, verifyUser} from '../modules/key';
 import * as keyRegistry from '../modules/keyRegistry';
 import * as gmail from '../modules/gmail';
+import * as outlook from '../modules/outlook';
 import {initOpenPGP, decryptFile, encryptMessage, decryptMessage, encryptFile} from '../modules/pgpModel';
 import {getById as keyringById, getAllKeyringAttr, getAllKeyringIds, setKeyringAttr, deleteKeyring, getKeyData, getDefaultKeyFpr} from '../modules/keyring';
 import {delete as deletePwdCache, get as getKeyPwdFromCache, unlock as unlockKey} from '../modules/pwdCache';
@@ -73,6 +74,7 @@ export default class AppController extends SubController {
     this.on('get-oauth-tokens', this.getOAuthTokens);
     this.on('remove-oauth-token', this.removeOAuthToken);
     this.on('authorize-gmail', this.authorizeGmail);
+    this.on('authorize-outlook', this.authorizeOutlook);
     this.on('check-license', this.checkLicense);
     this.on('grant-consent', ({campaignId}) => this.grantCampaignConsent(campaignId));
     this.on('deny-consent', ({campaignId}) => denyCampaign(campaignId));
@@ -420,13 +422,22 @@ export default class AppController extends SubController {
     return mvelo.storage.get(`mvelo.oauth.${provider}`);
   }
 
-  async removeOAuthToken({email}) {
-    return gmail.unauthorize(email);
+  async removeOAuthToken({email, provider}) {
+    if (provider === 'gmail') {
+      return gmail.unauthorize(email);
+    } else if (provider === 'outlook') {
+      return outlook.unauthorize(email);
+    }
   }
 
   async authorizeGmail({email, legacyGsuite, scopes, gmailCtrlId}) {
     const gmailCtrl = await controllerPool.get(gmailCtrlId);
     return gmailCtrl.onAuthorize({email, legacyGsuite, scopes});
+  }
+
+  async authorizeOutlook({email, scopes, outlookCtrlId}) {
+    const outlookCtrl = await controllerPool.get(outlookCtrlId);
+    return outlookCtrl.onAuthorize({email, scopes});
   }
 
   async checkLicense({email}) {

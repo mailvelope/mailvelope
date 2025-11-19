@@ -16,6 +16,7 @@ import EncryptedFormController from './encryptedForm.controller';
 import GmailController from './gmail.controller';
 import GmailDecryptController from './gmailDecrypt.controller';
 import ImportController from './import.controller';
+import OutlookController from './outlook.controller';
 import MainCsController from './mainCs.controller';
 import MenuController from './menu.controller';
 import PrivateKeyController from './privateKey.controller';
@@ -43,6 +44,7 @@ export function initFactory() {
   register('eFrame',              EncryptController,       []);
   register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
   register('gmailInt',            GmailController,         []);
+  register('outlookInt',          OutlookController,       []);
   register('imFrame',             ImportController,        []);
   register('importKeyDialog',     ImportController,        []);
   register('keyBackupCont',       PrivateKeyController,    ['keyBackupDialog', 'backupCodeWindow', 'recoverySheet']);

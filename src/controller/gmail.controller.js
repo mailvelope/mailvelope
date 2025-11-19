@@ -212,7 +212,7 @@ export default class GmailController extends SubController {
     } catch (e) {
       const slotId = getUUID();
       setAppDataSlot(slotId, {email: userInfo.email});
-      await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/license`);
+      await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/gmail-api/license`);
       throw e;
     }
   }
@@ -224,6 +224,6 @@ export default class GmailController extends SubController {
     }
     const slotId = getUUID();
     setAppDataSlot(slotId, {email, legacyGsuite, scopes, gmailCtrlId: this.id});
-    await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/provider/auth`);
+    await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/gmail-api/auth`);
   }
 }

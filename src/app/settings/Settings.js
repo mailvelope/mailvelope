@@ -16,7 +16,8 @@ import SecurityBackground from './SecurityBackground';
 import WatchList from './WatchList';
 import SecurityLog from './SecurityLog';
 import KeyServer from './keyserver';
-import Provider from './Provider';
+import GmailAPI from './GmailAPI';
+import OutlookAPI from './OutlookAPI';
 import Analytics from './Analytics';
 
 l10n.register([
@@ -58,7 +59,8 @@ export default class Settings extends React.Component {
                       <NavPill to="/settings/watchlist">{l10n.map.settings_watchlist}</NavPill>
                       <NavPill to="/settings/security">{l10n.map.settings_security}</NavPill>
                       <NavPill to="/settings/security-background">{l10n.map.settings_security_background}</NavPill>
-                      <NavPill to="/settings/provider">{l10n.map.settings_provider}</NavPill>
+                      <NavPill to="/settings/gmail-api">Gmail API</NavPill>
+                      <NavPill to="/settings/outlook-api">Outlook API</NavPill>
                       <NavPill to="/settings/security-log">{l10n.map.settings_security_log}</NavPill>
                       <NavPill to="/settings/key-server">{l10n.map.settings_keyserver}</NavPill>
                       <NavPill to="/settings/analytics">{l10n.map.settings_analytics}</NavPill>
@@ -67,7 +69,8 @@ export default class Settings extends React.Component {
                 </div>
                 <div className="col-md-8 col-lg-9">
                   <Route path="/settings/general" component={General} />
-                  <Route path="/settings/provider" render={({location}) => <Provider onSetNotification={this.handleSetNotification} location={location} />} />
+                  <Route path="/settings/gmail-api" render={({location}) => <GmailAPI onSetNotification={this.handleSetNotification} location={location} />} />
+                  <Route path="/settings/outlook-api" render={({location}) => <OutlookAPI onSetNotification={this.handleSetNotification} location={location} />} />
                   <Route path="/settings/security" render={() => <Security onSetNotification={this.handleSetNotification} />} />
                   <Route path="/settings/security-background" render={() => <SecurityBackground prefs={this.props.prefs} onChangePrefs={this.props.onChangePrefs} />} />
                   <Route path="/settings/watchlist" component={WatchList} />
