@@ -1,0 +1,103 @@
+@import "../../res/styles/_required";
+
+
+.licensing-dialog {
+  .btn {
+    text-align: left;
+    padding: 1.5rem;
+    img {
+      max-height: 96px;
+      width: auto;
+    }
+    .price-tag {
+      color: $body-color;
+      font-family: $headings-font-family;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+  }
+}
+
+.table-provider {
+  caption {
+    cursor: default;
+  }
+  tr {
+    .actions {
+      text-align: right;
+      white-space: nowrap;
+    }
+  }
+}
+
+
+.gSignInButton {
+  border-radius: 1px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25);
+  box-sizing: border-box;
+  transition: background-color .218s, border-color .218s, box-shadow .218s;
+  background-color: #fff;
+  background-image: none;
+  color: #262626;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.gSignInButton:hover {
+  box-shadow: 0 0 3px 3px rgba(66, 133, 244, .3);
+}
+
+.gSignInButtonBlue {
+  background-color: #4285f4;
+  border: none;
+  color: #fff;
+}
+
+.gSignInButtonBlue:hover {
+  background-color: #4285f4;
+}
+
+.gSignInButtonBlue:active {
+  background-color: #3367d6;
+}
+
+.gSignInButtonIcon {
+  float: left;
+  padding: 10px;
+}
+
+.gSignInButtonBlue .gSignInButtonIcon {
+  background-color: #fff;
+  border-radius: 1px;
+}
+
+.gSignInButtonSvg {
+  display: block;
+}
+
+.gSignInButtonContents {
+  font-family: Roboto, arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 38px;
+  letter-spacing: .21px;
+  margin-left: 14px;
+  margin-right: 14px;
+  vertical-align: top;
+}
+
+.gSignInButtonContentWrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.gSignInButtonBlue .gSignInButtonContentWrapper {
+  border: 1px solid transparent;
+}
