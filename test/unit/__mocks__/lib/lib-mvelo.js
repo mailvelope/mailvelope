@@ -5,5 +5,9 @@ export default {
   windows: {
     getPopup: jest.fn(),
     openPopup: jest.fn()
+  },
+  storage: {
+    get: jest.fn(),
+    set: jest.fn()
   }
 };

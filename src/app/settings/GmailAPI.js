@@ -14,7 +14,7 @@ import Trans from '../../components/util/Trans';
 import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 
-import './Provider.scss';
+import './GmailAPI.scss';
 
 const GMAIL_SCOPE_READONLY = 'https://www.googleapis.com/auth/gmail.readonly';
 const GMAIL_SCOPE_SEND = 'https://www.googleapis.com/auth/gmail.send';
@@ -70,7 +70,7 @@ l10n.register([
 
 const GMAIL_MATCH_PATTERN = '*.mail.google.com';
 
-export default class Provider extends React.Component {
+export default class GmailAPI extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -483,7 +483,7 @@ export default class Provider extends React.Component {
   }
 }
 
-Provider.propTypes = {
+GmailAPI.propTypes = {
   location: PropTypes.object,
   onSetNotification: PropTypes.func
 };
