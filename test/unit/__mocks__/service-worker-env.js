@@ -59,15 +59,10 @@ export const setupServiceWorkerEnvironment = () => {
   global.atob = str => Buffer.from(str, 'base64').toString('binary');
   global.btoa = str => Buffer.from(str, 'binary').toString('base64');
 
-  // Crypto API
-  global.crypto = {
-    getRandomValues: jest.fn(array => {
-      for (let i = 0; i < array.length; i++) {
-        array[i] = Math.floor(Math.random() * 256);
-      }
-      return array;
-    }),
-    subtle: {
+  // Crypto API - enhance existing crypto from pre-setup with jest.fn() for spying
+  if (global.crypto) {
+    global.crypto.getRandomValues = jest.fn(global.crypto.getRandomValues);
+    global.crypto.subtle = {
       encrypt: jest.fn().mockResolvedValue(new ArrayBuffer(0)),
       decrypt: jest.fn().mockResolvedValue(new ArrayBuffer(0)),
       generateKey: jest.fn().mockResolvedValue({}),
@@ -76,8 +71,8 @@ export const setupServiceWorkerEnvironment = () => {
       sign: jest.fn().mockResolvedValue(new ArrayBuffer(0)),
       verify: jest.fn().mockResolvedValue(true),
       digest: jest.fn().mockResolvedValue(new ArrayBuffer(0))
-    }
-  };
+    };
+  }
 
   // Storage APIs
   global.localStorage = localStorage;
