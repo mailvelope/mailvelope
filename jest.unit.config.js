@@ -11,7 +11,12 @@ export default {
   // Jest 30 new features
   waitForUnhandledRejections: true,
 
-  // Setup files to run before tests
+  // Setup files to run BEFORE test imports (for globals needed at import time)
+  setupFiles: [
+    '<rootDir>/test/unit/jest.pre-setup.js'
+  ],
+
+  // Setup files to run after test environment is set up
   setupFilesAfterEnv: [
     '<rootDir>/test/unit/jest.setup.js'
   ],

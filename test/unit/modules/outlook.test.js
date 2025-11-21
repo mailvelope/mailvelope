@@ -57,28 +57,27 @@ describe('Outlook module', () => {
     it('should complete OAuth flow and store tokens', async () => {
       const email = 'test@outlook.com';
 
-      // Mock getUserInfo (first call in authorize)
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          id: 'user-id-123',
-          mail: 'test@outlook.com',
-          userPrincipalName: 'test@outlook.com'
-        })
-      });
-
-      // Mock OAuth authorization code flow
+      // Mock OAuth authorization code flow (PKCE)
       mockChromeIdentity.launchWebAuthFlow
-      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/#access_token=temp-token&state=mock-uuid-12345&expires_in=3600') // Initial token for getUserInfo
-      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/?code=auth-code-123&state=mock-uuid-12345'); // Auth code
+      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/?code=auth-code-123&state=mock-uuid-12345');
 
-      // Mock token exchange
+      // Mock token exchange (first fetch call)
       mockFetch.mockResolvedValueOnce({
         json: async () => ({
           access_token: 'access-token-456',
           refresh_token: 'refresh-token-789',
           expires_in: 3600,
           scope: 'User.Read Mail.Read Mail.Send offline_access'
+        })
+      });
+
+      // Mock getUserInfo (second fetch call)
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          id: 'user-id-123',
+          mail: 'test@outlook.com',
+          userPrincipalName: 'test@outlook.com'
         })
       });
 
@@ -100,7 +99,20 @@ describe('Outlook module', () => {
     it('should throw error if email mismatch', async () => {
       const email = 'test@outlook.com';
 
-      // Mock getUserInfo with different email (first call in authorize)
+      // Mock OAuth authorization code flow (PKCE)
+      mockChromeIdentity.launchWebAuthFlow
+      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/?code=auth-code-123&state=mock-uuid-12345');
+
+      // Mock token exchange (first fetch call)
+      mockFetch.mockResolvedValueOnce({
+        json: async () => ({
+          access_token: 'access-token-456',
+          expires_in: 3600,
+          scope: 'User.Read Mail.Read Mail.Send offline_access'
+        })
+      });
+
+      // Mock getUserInfo with different email (second fetch call)
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({
@@ -109,10 +121,6 @@ describe('Outlook module', () => {
           userPrincipalName: 'different@outlook.com'
         })
       });
-
-      // Mock OAuth flows
-      mockChromeIdentity.launchWebAuthFlow
-      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/#access_token=temp-token&state=mock-uuid-12345&expires_in=3600');
 
       await expect(outlook.authorize(email)).rejects.toThrow('Email mismatch');
     });
