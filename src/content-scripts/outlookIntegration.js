@@ -257,7 +257,7 @@ export default class OutlookIntegration {
       }
       msgData.att = this.getEncryptedAttachments(msgElem);
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
-        const aFrame = new AttachmentFrame();
+        const aFrame = new AttachmentFrame('aFrameOutlook');
         msgData.controllerId = aFrame.id;
         msgData.controllerType = aFrame.mainType;
         const containerElem = msgElem.querySelector('[id^="UniqueMessageBody_"]');
