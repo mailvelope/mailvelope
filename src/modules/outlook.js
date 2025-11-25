@@ -228,3 +228,69 @@ async function fetchJSON(resource, options) {
   }
   return json;
 }
+
+// ============================================================================
+// Graph API Methods
+// ============================================================================
+
+// eslint-disable-next-line no-unused-vars
+export async function getMessage(options) {
+  throw new MvError('Outlook getMessage not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function getMessageMimeType(options) {
+  throw new MvError('Outlook getMessageMimeType not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function getAttachment(options) {
+  throw new MvError('Outlook getAttachment not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function sendMessage(options) {
+  throw new MvError('Outlook sendMessage not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function checkLicense(userInfo) {
+  // License enforcement deferred to Phase 4/5
+  // For now, allow all accounts
+  return;
+}
+
+// eslint-disable-next-line no-unused-vars
+export function extractMailHeader(payload, name) {
+  throw new MvError('Outlook extractMailHeader not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function extractMailBody(options) {
+  throw new MvError('Outlook extractMailBody not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export function extractSignedMessageMultipart(rawEncoded) {
+  throw new MvError('Outlook extractSignedMessageMultipart not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function getPGPSignatureAttId(options) {
+  throw new MvError('Outlook getPGPSignatureAttId not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export async function getPGPEncryptedAttData(options) {
+  throw new MvError('Outlook getPGPEncryptedAttData not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export function parseEmailAddress(address) {
+  throw new MvError('Outlook parseEmailAddress not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}
+
+// eslint-disable-next-line no-unused-vars
+export function buildMail(options) {
+  throw new MvError('Outlook buildMail not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+}

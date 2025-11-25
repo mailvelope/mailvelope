@@ -17,6 +17,7 @@ import GmailController from './gmail.controller';
 import GmailDecryptController from './gmailDecrypt.controller';
 import ImportController from './import.controller';
 import OutlookController from './outlook.controller';
+import OutlookDecryptController from './outlookDecrypt.controller';
 import MainCsController from './mainCs.controller';
 import MenuController from './menu.controller';
 import PrivateKeyController from './privateKey.controller';
@@ -32,6 +33,7 @@ export function initFactory() {
   repo.clear();
   peerRepo.clear();
   register('aFrameGmail',         GmailDecryptController,  ['dDialog']);
+  register('aFrameOutlook',       OutlookDecryptController, ['dDialog']);
   register('api',                 ApiController,           []);
   register('app',                 AppController,           []);
   register('appCont',             AppController,           ['app']);
@@ -39,6 +41,7 @@ export function initFactory() {
   register('decryptCont',         DecryptController,       ['dDialog']);
   register('dFrame',              DecryptController,       ['dDialog']);
   register('dFrameGmail',         GmailDecryptController,  ['dDialog']);
+  register('dFrameOutlook',       OutlookDecryptController, ['dDialog']);
   register('editor',              EditorController,        ['editorCont']);
   register('editorCont',          EditorController,        ['editor']);
   register('eFrame',              EncryptController,       []);
