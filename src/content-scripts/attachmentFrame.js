@@ -16,11 +16,16 @@ l10n.register([
 l10n.mapToLocal();
 
 export default class AttachmentFrame extends ExtractFrame {
-  constructor() {
+  /**
+   * @param {string} [ctrlNamePrefix='aFrameGmail'] - Controller name prefix for provider-specific controller
+   */
+  constructor(ctrlNamePrefix = 'aFrameGmail') {
     super();
     this.dDialog = null;
     this.dPopup = false;
-    this.ctrlName = `aFrameGmail-${this.id}`;
+    this.ctrlName = `${ctrlNamePrefix}-${this.id}`;
+    // Determine controller ID key based on provider
+    this.ctrlIdKey = ctrlNamePrefix === 'aFrameOutlook' ? 'outlookCtrlId' : 'gmailCtrlId';
   }
 
   init(containerElem) {
@@ -60,7 +65,15 @@ export default class AttachmentFrame extends ExtractFrame {
 
   onData() {
     const {msgId, clipped, armored, plainText, att} = this.currentProvider.integration.getMsgByControllerId(this.id);
-    this.port.emit('set-data', {userInfo: this.currentProvider.integration.getUserInfo(), msgId, encAttFileNames: att, armored, plainText, clipped, gmailCtrlId: this.currentProvider.integration.id});
+    this.port.emit('set-data', {
+      userInfo: this.currentProvider.integration.getUserInfo(),
+      msgId,
+      encAttFileNames: att,
+      armored,
+      plainText,
+      clipped,
+      [this.ctrlIdKey]: this.currentProvider.integration.id
+    });
   }
 
   clickHandler(ev) {
