@@ -16,7 +16,7 @@ import AdvancedExpand from './components/AdvancedExpand';
 import AdvKeyGenOptions from './components/AdvKeyGenOptions';
 import DefinePassword from '../../components/util/DefinePassword';
 import Modal from '../../components/util/Modal';
-import {Redirect, Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import KeyBackup from './components/KeyBackup';
 
 l10n.register([
@@ -142,15 +142,7 @@ export default class GenerateKey extends React.Component {
       );
     }
     return (
-      <div className={`card-body ${this.state.generating ? 'busy' : ''}`}>
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb bg-transparent p-0">
-            <li className="breadcrumb-item"><Link to="/keyring" replace tabIndex="0"><span className="icon icon-arrow-left" aria-hidden="true"></span> {l10n.map.keyring_header}</Link></li>
-          </ol>
-        </nav>
-        <div className="card-title d-flex flex-wrap align-items-center">
-          <h1 className="flex-shrink-0 mr-auto">{l10n.map.keyring_generate_key}</h1>
-        </div>
+      <>
         <form className="form" autoComplete="off">
           <NameAddrInput name={this.state.name} email={this.state.email} onChange={this.handleChange} errors={this.state.errors} />
           <AdvancedExpand>
@@ -180,7 +172,7 @@ export default class GenerateKey extends React.Component {
           keyFpr={this.state.key.keyFpr}
           keyringId={this.context.keyringId}
         />}
-      </div>
+      </>
     );
   }
 }

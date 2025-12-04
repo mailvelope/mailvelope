@@ -61,8 +61,8 @@ async function openInstallLandingPage() {
 
   // check if a tab is open on one of these sites.
   const match = await mvelo.tabs.query(filteredSitesPatterns);
-  // if no match, open the install landing page.
+  // if no match, open the onboarding page.
   if (!match.length) {
-    mvelo.tabs.loadTab({path: '/components/install-landing-page/installLandingPage.html'});
+    mvelo.tabs.loadTab({path: '/app/app.html#/onboarding'});
   }
 }
