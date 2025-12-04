@@ -1539,10 +1539,6 @@
     "description": "Copy to clipboard toast message.",
     "message": "Text has been copied to clipboard."
   },
-  "onboarding_get_started": {
-    "description": "Get started button in onboarding success screen",
-    "message": "Get Started"
-  },
   "onboarding_skip": {
     "description": "Skip button in onboarding",
     "message": "Skip"

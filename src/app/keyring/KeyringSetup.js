@@ -42,9 +42,9 @@ export default function KeyringSetup({isOnboarding = false}) {
 
   // FAQ items for welcome screen
   const faqItems = [
-    {label: l10n.map.onboarding_faq_what_is_key, url: 'https://mailvelope.com/en/faq#keypair'},
-    {label: l10n.map.onboarding_faq_backup, url: 'https://mailvelope.com/en/faq#backup'},
-    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/en/faq#keys'}
+    {label: l10n.map.onboarding_faq_what_is_key, url: 'https://mailvelope.com/faq#keypair'},
+    {label: l10n.map.onboarding_faq_backup, url: 'https://mailvelope.com/faq#backup'},
+    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/faq#keys'}
   ];
 
   return (

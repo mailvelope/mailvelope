@@ -42,13 +42,12 @@ export function Onboarding({gnupg}) {
   });
   const [notifications, setNotifications] = useState([]);
 
-  // TODO: Refactor to avoid duplication with Keyring.js
   const loadKeyringData = useCallback(async () => {
     try {
       const query = new URLSearchParams(document.location.search);
       const keyringIdQuery = query.get('krid') || '';
       const keyringAttr = await port.send('get-all-keyring-attr');
-      const keyringId = keyringAttr[keyringIdQuery] ? this.state.keyringId : MAIN_KEYRING_ID;
+      const keyringId = keyringAttr[keyringIdQuery] ? keyringIdQuery : MAIN_KEYRING_ID;
       const defaultKeyFpr = keyringAttr[keyringId].default_key || '';
       const demail = keyringId.includes('de-mail.de');
       const gnupg = keyringId === GNUPG_KEYRING_ID;
@@ -89,16 +88,16 @@ export function Onboarding({gnupg}) {
 
   // FAQ items for generate key screen
   const generateFaqItems = [
-    {label: l10n.map.onboarding_faq_what_is_key, url: 'https://mailvelope.com/en/faq#keypair'},
-    {label: l10n.map.onboarding_faq_should_upload_key, url: 'https://mailvelope.com/en/faq#key_server'},
-    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/en/faq#keys'}
+    {label: l10n.map.onboarding_faq_what_is_key, url: 'https://mailvelope.com/faq#keypair'},
+    {label: l10n.map.onboarding_faq_should_upload_key, url: 'https://mailvelope.com/faq#key_server'},
+    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/faq#keys'}
   ];
 
   // FAQ items for import key screen
   const importFaqItems = [
-    {label: l10n.map.onboarding_faq_export_keys, url: 'https://mailvelope.com/en/faq#backup'},
-    {label: l10n.map.onboarding_faq_forget_password, url: 'https://mailvelope.com/en/faq#forget_pwd'},
-    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/en/faq#keys'}
+    {label: l10n.map.onboarding_faq_export_keys, url: 'https://mailvelope.com/faq#backup'},
+    {label: l10n.map.onboarding_faq_forget_password, url: 'https://mailvelope.com/faq#forget_pwd'},
+    {label: l10n.map.onboarding_faq_where_key_stored, url: 'https://mailvelope.com/faq#keys'}
   ];
 
   const cancelButtonStyle = {
