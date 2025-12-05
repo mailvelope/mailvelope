@@ -393,6 +393,56 @@
     }
   };
 
+  window.chrome.windows ??= {
+    WINDOW_ID_NONE: -1,
+    async getCurrent() {
+      return {
+        id: 1,
+        top: 0,
+        left: 0,
+        width: 1200,
+        height: 800,
+        tabs: [{id: 1, active: true}]
+      };
+    },
+    async get(windowId) {
+      return {
+        id: windowId,
+        top: 0,
+        left: 0,
+        width: 600,
+        height: 400
+      };
+    },
+    async create(options) {
+      return {
+        id: 2,
+        top: options?.top || 100,
+        left: options?.left || 100,
+        width: options?.width || 600,
+        height: options?.height || 400
+      };
+    },
+    async update(windowId, options) {
+      return {id: windowId, ...options};
+    },
+    async remove() {},
+    onRemoved: {
+      addListener() {},
+      removeListener() {}
+    }
+  };
+
+  window.chrome.tabs ??= {
+    async update(tabId, options) {
+      return {id: tabId, ...options};
+    },
+    onActivated: {
+      addListener() {},
+      removeListener() {}
+    }
+  };
+
   // Define browser object to trigger the offscreen.js path that creates window.offscreen
   window.browser = window.browser || {};
 

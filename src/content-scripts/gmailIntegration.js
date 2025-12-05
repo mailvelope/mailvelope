@@ -30,6 +30,10 @@ export default class GmailIntegration {
     this.updateElements = this.updateElements.bind(this);
   }
 
+  getName() {
+    return 'Gmail';
+  }
+
   init() {
     this.establishConnection();
     this.registerEventListener();
@@ -191,7 +195,7 @@ export default class GmailIntegration {
       }
       msgData.att = this.getEncryptedAttachments(msgElem);
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
-        const aFrame = new AttachmentFrame();
+        const aFrame = new AttachmentFrame(this.getName());
         msgData.controllerId = aFrame.id;
         msgData.controllerType = aFrame.mainType;
         const containerElem = msgElem.querySelector('.ii.gt');

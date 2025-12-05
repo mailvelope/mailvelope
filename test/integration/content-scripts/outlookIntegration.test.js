@@ -590,28 +590,23 @@ describe('OutlookIntegration TDD tests', () => {
       expect(result.messageIndex).toBe(0); // First message in conversation
     });
 
-    it('should handle missing conversation gracefully', async () => {
+    it('should return null when conversation is not ready', async () => {
       const result = await page.evaluate(() => {
-        // Remove MailList to simulate missing conversation
+        // Remove MailList to simulate conversation not ready (e.g., during page reload)
         document.getElementById('MailList')?.remove();
 
         const {OutlookIntegration} = window.testHarness.getContentScripts();
         const outlook = new OutlookIntegration();
         const msgElem = document.querySelector('.aVla3');
 
-        let error = null;
-        try {
-          outlook.getMsgId(msgElem);
-        } catch (e) {
-          error = e.message;
-        }
+        const msgId = outlook.getMsgId(msgElem);
 
         return {
-          error
+          msgId
         };
       });
 
-      expect(result.error).toBe('No active conversation found');
+      expect(result.msgId).toBeNull();
     });
   });
 

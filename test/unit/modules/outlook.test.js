@@ -9,6 +9,22 @@ jest.mock('../../../src/lib/util', () => ({
   ...jest.requireActual('../../../src/lib/util'),
   getUUID: jest.fn(() => 'mock-uuid-12345')
 }));
+jest.mock('../../../src/modules/mime', () => ({
+  parseSignedMessage: jest.fn(() => ({signedMessage: '', message: '', attachments: []}))
+}));
+jest.mock('../../../src/modules/closure-library/closure/goog/emailaddress', () => ({
+  goog: {
+    format: {
+      EmailAddress: {
+        parse: jest.fn(address => ({
+          isValid: () => true,
+          getAddress: () => address.match(/<(.+)>/)?.[1] || address,
+          getName: () => address.match(/"?(.+?)"?\s*</)?.[1] || ''
+        }))
+      }
+    }
+  }
+}));
 
 import * as outlook from '../../../src/modules/outlook';
 
@@ -25,6 +41,8 @@ describe('Outlook module', () => {
       getRedirectURL: jest.fn(() => 'https://test-extension-id.chromiumapp.org/'),
       launchWebAuthFlow: jest.fn()
     };
+    // Mock chrome.storage.session for MessageIdCache
+    const mockSessionStorage = {};
     global.chrome = {
       ...global.chrome,
       identity: mockChromeIdentity,
@@ -35,6 +53,20 @@ describe('Outlook module', () => {
             scopes: ['https://graph.microsoft.com/Mail.Send']
           }
         }))
+      },
+      storage: {
+        ...global.chrome?.storage,
+        session: {
+          get: jest.fn(key => Promise.resolve({[key]: mockSessionStorage[key]})),
+          set: jest.fn(obj => {
+            Object.assign(mockSessionStorage, obj);
+            return Promise.resolve();
+          }),
+          remove: jest.fn(key => {
+            delete mockSessionStorage[key];
+            return Promise.resolve();
+          })
+        }
       }
     };
 
