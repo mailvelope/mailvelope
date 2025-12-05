@@ -299,12 +299,14 @@ function attachExtractFrame(ranges) {
   const newRanges = ranges.filter(range =>
     !isAttached(range.commonAncestorContainer)
   );
+  // Get provider name for controller routing
+  const providerName = currentProvider?.integration?.getName() || '';
   // create new decrypt frames for new discovered PGP tags
   for (const range of newRanges) {
     try {
       switch (getMessageType(range.endContainer.textContent)) {
         case PGP_MESSAGE: {
-          const dFrame = new DecryptFrame();
+          const dFrame = new DecryptFrame(providerName);
           dFrame.attachTo(range);
           break;
         }

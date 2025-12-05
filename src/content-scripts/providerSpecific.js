@@ -291,12 +291,12 @@ class Outlook {
     return new Promise(resolve => {
       const emailArea = emailElement.closest('.item-part, .item-reading-pane');
       if (!emailArea) {
-        resolve([]);
+        return resolve([]);
       }
       setTimeout(() => {
         const senderElement = emailArea.querySelector('.item-header-actions > div .lpc-hoverTarget div span');
         if (!senderElement) {
-          resolve([]);
+          return resolve([]);
         }
         resolve(getText([senderElement]));
       }, 500);
