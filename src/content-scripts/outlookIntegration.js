@@ -29,6 +29,10 @@ export default class OutlookIntegration {
     this.updateElements = this.updateElements.bind(this);
   }
 
+  getName() {
+    return 'Outlook';
+  }
+
   init() {
     this.establishConnection();
     this.registerEventListener();
@@ -82,17 +86,17 @@ export default class OutlookIntegration {
    * Microsoft Graph message ID (AAMk... format) by querying the Graph API.
    *
    * @param {HTMLElement} msgElem - Message container element (.aVla3)
-   * @returns {string} Local message identifier (format: conversationID#messageIndex)
-   * @throws {Error} If no active conversation found or message element not in conversation
+   * @returns {string|null} Local message identifier (format: conversationID#messageIndex), or null if not available
    */
   getMsgId(msgElem) {
     const conversationId = this.getActiveConversationId();
     if (!conversationId) {
-      throw new Error('No active conversation found');
+      // No active conversation - can happen during page reload before conversation is fully loaded
+      return null;
     }
     const messageIndex = this.getMessageIndex(msgElem);
     if (messageIndex === -1) {
-      throw new Error('Message element not found in conversation');
+      return null;
     }
     return `${conversationId}#${messageIndex}`;
   }
@@ -237,6 +241,10 @@ export default class OutlookIntegration {
     for (const msgElem of msgs) {
       const msgData = {};
       const msgId = this.getMsgId(msgElem);
+      if (!msgId) {
+        // Skip if conversation not ready
+        continue;
+      }
       const mvFrame = msgElem.querySelector(`[data-mvelo-frame="${FRAME_ATTACHED}"]`);
       if (mvFrame) {
         const {id, type} = this.getControllerDetails(mvFrame);
@@ -257,7 +265,7 @@ export default class OutlookIntegration {
       }
       msgData.att = this.getEncryptedAttachments(msgElem);
       if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
-        const aFrame = new AttachmentFrame('aFrameOutlook');
+        const aFrame = new AttachmentFrame(this.getName());
         msgData.controllerId = aFrame.id;
         msgData.controllerType = aFrame.mainType;
         const containerElem = msgElem.querySelector('[id^="UniqueMessageBody_"]');

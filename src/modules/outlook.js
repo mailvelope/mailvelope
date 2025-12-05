@@ -3,9 +3,11 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
+import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
 import {MvError, deDup} from '../lib/util';
 import {getUUID} from '../lib/util';
+import {parseSignedMessage} from './mime';
 
 // PKCE helpers for SPA OAuth flow
 function generateCodeVerifier() {
@@ -30,7 +32,113 @@ function base64UrlEncode(buffer) {
 const CLIENT_ID = '3ebf6c8d-a369-4682-b4e9-a330d6b3a0a5';
 // Note: SPA platform uses PKCE instead of client secret
 const MICROSOFT_OAUTH_HOST = 'https://login.microsoftonline.com/common/oauth2/v2.0';
+const MICROSOFT_GRAPH_HOST = 'https://graph.microsoft.com/v1.0';
 const OUTLOOK_OAUTH_STORE = 'mvelo.oauth.outlook';
+const OUTLOOK_MSGID_CACHE_PREFIX = 'mvelo.outlook.msgid.';
+
+// ============================================================================
+// Message ID Translation Cache
+// ============================================================================
+
+class MessageIdCache {
+  constructor() {
+    this.map = new Map(); // In-memory cache for fast access
+  }
+
+  /**
+   * Get cached message IDs for a conversation
+   * @param {string} conversationId - The Outlook conversation ID
+   * @returns {Promise<{messageIds: string[], timestamp: number}|undefined>}
+   */
+  async get(conversationId) {
+    const cacheKey = OUTLOOK_MSGID_CACHE_PREFIX + conversationId;
+    // Check memory first
+    if (this.map.has(conversationId)) {
+      return this.map.get(conversationId);
+    }
+    // Check session storage
+    const {[cacheKey]: cached} = await chrome.storage.session.get(cacheKey);
+    if (cached) {
+      this.map.set(conversationId, cached);
+      return cached;
+    }
+  }
+
+  /**
+   * Store message IDs for a conversation
+   * @param {string} conversationId - The Outlook conversation ID
+   * @param {string[]} messageIds - Array of Graph API message IDs in chronological order
+   */
+  async set(conversationId, messageIds) {
+    const cacheKey = OUTLOOK_MSGID_CACHE_PREFIX + conversationId;
+    const data = {messageIds, timestamp: Date.now()};
+    this.map.set(conversationId, data);
+    await chrome.storage.session.set({[cacheKey]: data});
+  }
+
+  /**
+   * Remove cached message IDs for a conversation
+   * @param {string} conversationId - The Outlook conversation ID
+   */
+  async delete(conversationId) {
+    const cacheKey = OUTLOOK_MSGID_CACHE_PREFIX + conversationId;
+    this.map.delete(conversationId);
+    await chrome.storage.session.remove(cacheKey);
+  }
+}
+
+// Singleton instance of the cache
+const messageIdCache = new MessageIdCache();
+
+/**
+ * Resolve a local message ID to a Microsoft Graph message ID
+ * Local ID format: "conversationId#messageIndex"
+ * @param {string} localMsgId - Local message ID from content script
+ * @param {string} accessToken - Valid access token
+ * @returns {Promise<string>} Graph API message ID
+ */
+async function resolveGraphMessageId(localMsgId, accessToken) {
+  const [conversationId, indexStr] = localMsgId.split('#');
+  const messageIndex = parseInt(indexStr, 10);
+  if (!conversationId || isNaN(messageIndex)) {
+    throw new MvError(`Invalid local message ID format: ${localMsgId}`, 'OUTLOOK_API_ERROR');
+  }
+  // Check cache first
+  let cached = await messageIdCache.get(conversationId);
+  if (!cached) {
+    // Fetch all messages in the conversation from Graph API
+    // Note: Cannot use $orderby with $filter on conversationId (Graph API limitation:
+    // "The restriction or sort order is too complex for this operation")
+    // Fetch metadata only and sort client-side
+    const url = `${MICROSOFT_GRAPH_HOST}/me/messages?$filter=conversationId eq '${conversationId}'&$select=id,receivedDateTime`;
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/json'
+      }
+    };
+    try {
+      const response = await fetchJSON(url, options);
+      // Sort by receivedDateTime ascending (oldest first) to match DOM order
+      const sortedMessages = response.value.sort((a, b) =>
+        new Date(a.receivedDateTime) - new Date(b.receivedDateTime)
+      );
+      const messageIds = sortedMessages.map(msg => msg.id);
+      await messageIdCache.set(conversationId, messageIds);
+      cached = {messageIds};
+    } catch (error) {
+      // Clear cache entry on error
+      await messageIdCache.delete(conversationId);
+      throw error;
+    }
+  }
+  // Get the message ID at the specified index
+  if (messageIndex >= cached.messageIds.length) {
+    throw new MvError(`Message index ${messageIndex} out of bounds (conversation has ${cached.messageIds.length} messages)`, 'OUTLOOK_API_ERROR');
+  }
+  return cached.messageIds[messageIndex];
+}
 
 export const OUTLOOK_SCOPE_USER_READ = 'https://graph.microsoft.com/User.Read';
 export const OUTLOOK_SCOPE_MAIL_READ = 'https://graph.microsoft.com/Mail.Read';
@@ -233,19 +341,129 @@ async function fetchJSON(resource, options) {
 // Graph API Methods
 // ============================================================================
 
-// eslint-disable-next-line no-unused-vars
-export async function getMessage(options) {
-  throw new MvError('Outlook getMessage not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Get message from Microsoft Graph API
+ * @param {Object} options
+ * @param {string} options.msgId - Local message ID (conversationId#index) or Graph message ID
+ * @param {string} options.email - User email (for token lookup)
+ * @param {string} options.accessToken - Access token
+ * @param {string} [options.format='full'] - Format: 'full', 'raw', or 'metadata'
+ * @param {string[]} [options.metaHeaders] - Headers to include for metadata format
+ * @returns {Promise<Object>} Message object with payload property (for compatibility with Gmail pattern)
+ */
+// eslint-disable-next-line no-unused-vars -- email and metaHeaders kept for API compatibility with Gmail
+export async function getMessage({msgId, email, accessToken, format = 'full', metaHeaders = []}) {
+  // Resolve local msgId to Graph ID if needed
+  let graphMsgId = msgId;
+  if (msgId.includes('#')) {
+    graphMsgId = await resolveGraphMessageId(msgId, accessToken);
+  }
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json'
+    }
+  };
+  // Handle different formats
+  if (format === 'raw') {
+    // Get MIME content
+    const response = await fetch(`${MICROSOFT_GRAPH_HOST}/me/messages/${graphMsgId}/$value`, options);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new MvError(errorText || 'Failed to get message MIME content', 'OUTLOOK_API_ERROR');
+    }
+    const raw = await response.text();
+    // Encode as base64 for compatibility with Gmail pattern
+    return {raw: btoa(unescape(encodeURIComponent(raw)))};
+  }
+  // Build URL with query parameters
+  let url = `${MICROSOFT_GRAPH_HOST}/me/messages/${graphMsgId}`;
+  const queryParams = [];
+  if (format === 'metadata') {
+    // Select only specified headers plus standard fields
+    const selectFields = ['id', 'conversationId', 'subject', 'from', 'toRecipients', 'ccRecipients', 'receivedDateTime', 'internetMessageHeaders'];
+    queryParams.push(`$select=${selectFields.join(',')}`);
+  } else {
+    // Full format - include body and attachments info
+    queryParams.push('$expand=attachments($select=id,name,contentType,size)');
+  }
+  if (queryParams.length > 0) {
+    url += `?${queryParams.join('&')}`;
+  }
+  const message = await fetchJSON(url, options);
+  // Wrap response in payload property for compatibility with Gmail/controller pattern
+  return {payload: message};
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function getMessageMimeType(options) {
-  throw new MvError('Outlook getMessageMimeType not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Get message MIME type from Graph API
+ * @param {Object} options
+ * @param {string} options.msgId - Local message ID or Graph message ID
+ * @param {string} options.email - User email
+ * @param {string} options.accessToken - Access token
+ * @returns {Promise<{mimeType: string, protocol: string}>}
+ */
+export async function getMessageMimeType({msgId, email, accessToken}) {
+  const {payload} = await getMessage({msgId, email, accessToken, format: 'metadata'});
+  const contentType = extractMailHeader(payload, 'Content-Type');
+  // Parse protocol from Content-Type (e.g., "multipart/signed; protocol="application/pgp-signature"")
+  let protocol = '';
+  const protocolMatch = contentType.match(/protocol="?([^";]+)"?/i);
+  if (protocolMatch) {
+    protocol = protocolMatch[1];
+  }
+  // Extract MIME type (first part before semicolon)
+  const mimeType = contentType.split(';')[0].trim().toLowerCase();
+  return {mimeType, protocol};
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function getAttachment(options) {
-  throw new MvError('Outlook getAttachment not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Get attachment from Graph API
+ * @param {Object} options
+ * @param {string} options.msgId - Local message ID or Graph message ID
+ * @param {string} options.email - User email
+ * @param {string} [options.attachmentId] - Attachment ID (optional if fileName provided)
+ * @param {string} [options.fileName] - Attachment filename to find
+ * @param {string} options.accessToken - Access token
+ * @returns {Promise<{data: string, size: number, mimeType: string}>} Data as data URL
+ */
+// eslint-disable-next-line no-unused-vars -- email kept for API compatibility with Gmail
+export async function getAttachment({msgId, email, attachmentId, fileName, accessToken}) {
+  // Resolve local msgId to Graph ID if needed
+  let graphMsgId = msgId;
+  if (msgId.includes('#')) {
+    graphMsgId = await resolveGraphMessageId(msgId, accessToken);
+  }
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json'
+    }
+  };
+  // If no attachmentId, find by filename
+  if (!attachmentId && fileName) {
+    const listUrl = `${MICROSOFT_GRAPH_HOST}/me/messages/${graphMsgId}/attachments?$select=id,name,contentType,size`;
+    const attachments = await fetchJSON(listUrl, options);
+    const attachment = attachments.value.find(a => a.name === fileName);
+    if (!attachment) {
+      throw new MvError(`Attachment not found: ${fileName}`, 'OUTLOOK_API_ERROR');
+    }
+    attachmentId = attachment.id;
+  }
+  if (!attachmentId) {
+    throw new MvError('Attachment ID or filename required', 'OUTLOOK_API_ERROR');
+  }
+  // Get attachment content
+  const url = `${MICROSOFT_GRAPH_HOST}/me/messages/${graphMsgId}/attachments/${attachmentId}`;
+  const attachment = await fetchJSON(url, options);
+  // Graph API returns contentBytes as base64
+  return {
+    data: `data:${attachment.contentType};base64,${attachment.contentBytes}`,
+    size: attachment.size,
+    mimeType: attachment.contentType
+  };
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -260,34 +478,201 @@ export async function checkLicense(userInfo) {
   return;
 }
 
-// eslint-disable-next-line no-unused-vars
+/**
+ * Extract email header from Graph API message payload
+ * Graph API stores standard headers as properties (from, toRecipients, subject)
+ * and non-standard headers in internetMessageHeaders array
+ * @param {Object} payload - Graph API message object
+ * @param {string} name - Header name (case-insensitive)
+ * @returns {string} Header value or empty string if not found
+ */
 export function extractMailHeader(payload, name) {
-  throw new MvError('Outlook extractMailHeader not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+  const lowerName = name.toLowerCase();
+  // Format email address as RFC 5322 string
+  const formatEmailAddress = emailAddr => {
+    if (!emailAddr) {
+      return '';
+    }
+    if (emailAddr.name) {
+      return `"${emailAddr.name}" <${emailAddr.address}>`;
+    }
+    return emailAddr.address;
+  };
+  // Handle standard Graph API properties
+  switch (lowerName) {
+    case 'from':
+      return formatEmailAddress(payload.from?.emailAddress);
+    case 'to':
+      return payload.toRecipients?.map(r => formatEmailAddress(r.emailAddress)).join(', ') || '';
+    case 'cc':
+      return payload.ccRecipients?.map(r => formatEmailAddress(r.emailAddress)).join(', ') || '';
+    case 'bcc':
+      return payload.bccRecipients?.map(r => formatEmailAddress(r.emailAddress)).join(', ') || '';
+    case 'subject':
+      return payload.subject || '';
+    case 'date':
+      return payload.receivedDateTime || payload.sentDateTime || '';
+    case 'message-id':
+      return payload.internetMessageId || '';
+  }
+  // Fall back to internetMessageHeaders array for other headers (e.g., Content-Type)
+  if (payload.internetMessageHeaders) {
+    const header = payload.internetMessageHeaders.find(
+      h => h.name.toLowerCase() === lowerName
+    );
+    if (header) {
+      return header.value;
+    }
+  }
+  return '';
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function extractMailBody(options) {
-  throw new MvError('Outlook extractMailBody not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Extract mail body content from Graph API message
+ * Handles both inline PGP content and encrypted attachments
+ * @param {Object} options
+ * @param {Object} options.payload - Graph API message object
+ * @param {string} options.userEmail - User email
+ * @param {string} options.msgId - Message ID
+ * @param {string} options.accessToken - Access token
+ * @param {string} [options.type] - Content type hint ('text', 'html', or mime type)
+ * @returns {Promise<string>} Message body content
+ */
+// eslint-disable-next-line no-unused-vars -- type kept for API compatibility with Gmail
+export async function extractMailBody({payload, userEmail, msgId, accessToken, type}) {
+  // Check Content-Type to determine how to extract body
+  const contentType = extractMailHeader(payload, 'Content-Type').toLowerCase();
+  // For multipart/encrypted, body is in the encrypted.asc attachment
+  if (contentType.includes('multipart/encrypted')) {
+    const encData = await getPGPEncryptedAttData({msgId, email: userEmail, accessToken});
+    if (encData) {
+      const {data} = await getAttachment({
+        msgId,
+        email: userEmail,
+        attachmentId: encData.attachmentId,
+        fileName: encData.fileName,
+        accessToken
+      });
+      // Extract base64 content from data URL and decode
+      const base64Content = data.split(',')[1];
+      return atob(base64Content);
+    }
+  }
+  // For standard messages, return body content
+  if (payload.body) {
+    return payload.body.content || '';
+  }
+  return '';
 }
 
-// eslint-disable-next-line no-unused-vars
+/**
+ * Extract signed message parts from base64-encoded raw MIME content
+ * @param {string} rawEncoded - Base64-encoded raw MIME content
+ * @returns {{signedMessage: string, message: string, attachments: Array}} Parsed message parts
+ */
 export function extractSignedMessageMultipart(rawEncoded) {
-  throw new MvError('Outlook extractSignedMessageMultipart not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+  // Decode base64 to raw MIME (Graph API uses standard base64)
+  const raw = atob(rawEncoded);
+  // Use shared MIME parser
+  return parseSignedMessage(raw, 'html');
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function getPGPSignatureAttId(options) {
-  throw new MvError('Outlook getPGPSignatureAttId not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Find PGP signature attachment ID in a message
+ * @param {Object} options
+ * @param {string} options.msgId - Local message ID or Graph message ID
+ * @param {string} options.email - User email
+ * @param {string} options.accessToken - Access token
+ * @returns {Promise<string|undefined>} Attachment ID or undefined if not found
+ */
+// eslint-disable-next-line no-unused-vars -- email kept for API compatibility with Gmail
+export async function getPGPSignatureAttId({msgId, email, accessToken}) {
+  // Resolve local msgId to Graph ID if needed
+  let graphMsgId = msgId;
+  if (msgId.includes('#')) {
+    graphMsgId = await resolveGraphMessageId(msgId, accessToken);
+  }
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json'
+    }
+  };
+  const url = `${MICROSOFT_GRAPH_HOST}/me/messages/${graphMsgId}/attachments?$select=id,name,contentType`;
+  const attachments = await fetchJSON(url, options);
+  // Find PGP signature attachment
+  const sigAttachment = attachments.value.find(att =>
+    att.contentType === 'application/pgp-signature' ||
+    att.name?.toLowerCase().includes('signature') && att.name?.toLowerCase().endsWith('.asc')
+  );
+  return sigAttachment?.id;
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function getPGPEncryptedAttData(options) {
-  throw new MvError('Outlook getPGPEncryptedAttData not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Find PGP encrypted attachment data in a message
+ * @param {Object} options
+ * @param {string} options.msgId - Local message ID or Graph message ID
+ * @param {string} options.email - User email
+ * @param {string} options.accessToken - Access token
+ * @returns {Promise<{attachmentId: string, fileName: string}|undefined>} Attachment info or undefined
+ */
+// eslint-disable-next-line no-unused-vars -- email kept for API compatibility with Gmail
+export async function getPGPEncryptedAttData({msgId, email, accessToken}) {
+  // Resolve local msgId to Graph ID if needed
+  let graphMsgId = msgId;
+  if (msgId.includes('#')) {
+    graphMsgId = await resolveGraphMessageId(msgId, accessToken);
+  }
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json'
+    }
+  };
+  const url = `${MICROSOFT_GRAPH_HOST}/me/messages/${graphMsgId}/attachments?$select=id,name,contentType`;
+  const attachments = await fetchJSON(url, options);
+  // Find PGP encrypted attachment:
+  // 1. application/pgp-encrypted - version indicator containing "Version: 1"
+  // 2. application/octet-stream named "encrypted.asc"
+  const encAttachment = attachments.value.find(att => {
+    const name = att.name?.toLowerCase() || '';
+    const contentType = att.contentType?.toLowerCase() || '';
+    // Check for encrypted.asc (standard PGP/MIME encrypted data attachment)
+    if (name === 'encrypted.asc') {
+      return true;
+    }
+    // Check for octet-stream with PGP file extension
+    if (contentType === 'application/octet-stream') {
+      if (name.endsWith('.asc') || name.endsWith('.pgp') || name.endsWith('.gpg')) {
+        // Exclude signature files
+        if (!name.includes('signature')) {
+          return true;
+        }
+      }
+    }
+    return false;
+  });
+  if (encAttachment) {
+    return {
+      attachmentId: encAttachment.id,
+      fileName: encAttachment.name
+    };
+  }
 }
 
-// eslint-disable-next-line no-unused-vars
+/**
+ * Parse email address string into components
+ * @param {string} address - Email address string (e.g., "John Doe <john@example.com>")
+ * @returns {{email: string, name: string}}
+ */
 export function parseEmailAddress(address) {
-  throw new MvError('Outlook parseEmailAddress not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+  const emailAddress = goog.format.EmailAddress.parse(address);
+  if (!emailAddress.isValid()) {
+    throw new Error('Parsing email address failed.');
+  }
+  return {email: emailAddress.getAddress(), name: emailAddress.getName()};
 }
 
 // eslint-disable-next-line no-unused-vars

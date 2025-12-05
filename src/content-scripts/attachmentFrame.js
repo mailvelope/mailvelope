@@ -17,15 +17,15 @@ l10n.mapToLocal();
 
 export default class AttachmentFrame extends ExtractFrame {
   /**
-   * @param {string} [ctrlNamePrefix='aFrameGmail'] - Controller name prefix for provider-specific controller
+   * @param {string} [providerName='Gmail'] - Provider name for controller routing ('Gmail' or 'Outlook')
    */
-  constructor(ctrlNamePrefix = 'aFrameGmail') {
+  constructor(providerName = 'Gmail') {
     super();
     this.dDialog = null;
     this.dPopup = false;
-    this.ctrlName = `${ctrlNamePrefix}-${this.id}`;
+    this.ctrlName = `aFrame${providerName}-${this.id}`;
     // Determine controller ID key based on provider
-    this.ctrlIdKey = ctrlNamePrefix === 'aFrameOutlook' ? 'outlookCtrlId' : 'gmailCtrlId';
+    this.ctrlIdKey = providerName === 'Outlook' ? 'outlookCtrlId' : 'gmailCtrlId';
   }
 
   init(containerElem) {

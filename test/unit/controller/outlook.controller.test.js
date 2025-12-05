@@ -3,13 +3,29 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import OutlookController from '../../../src/controller/outlook.controller';
-import {createMockPort} from '../__mocks__/port';
-
-// Mock dependencies
+// Mock dependencies - must be before imports
+jest.mock('../../../src/modules/mime', () => ({
+  parseSignedMessage: jest.fn(() => ({signedMessage: '', message: '', attachments: []}))
+}));
+jest.mock('../../../src/modules/closure-library/closure/goog/emailaddress', () => ({
+  goog: {
+    format: {
+      EmailAddress: {
+        parse: jest.fn(address => ({
+          isValid: () => true,
+          getAddress: () => address.match(/<(.+)>/)?.[1] || address,
+          getName: () => address.match(/"?(.+?)"?\s*</)?.[1] || ''
+        }))
+      }
+    }
+  }
+}));
 jest.mock('../../../src/lib/EventHandler', () => require('../__mocks__/lib/EventHandler').default);
 jest.mock('../../../src/lib/lib-mvelo');
 jest.mock('../../../src/modules/outlook');
+
+import OutlookController from '../../../src/controller/outlook.controller';
+import {createMockPort} from '../__mocks__/port';
 jest.mock('../../../src/controller/sub.controller', () => {
   const mockSubController = require('../__mocks__/controller/sub.controller').default;
   return {

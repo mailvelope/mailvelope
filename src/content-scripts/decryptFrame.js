@@ -17,12 +17,15 @@ l10n.register([
 l10n.mapToLocal();
 
 export default class DecryptFrame extends ExtractFrame {
-  constructor() {
+  /**
+   * @param {string} [providerName=''] - Provider name for controller routing ('Gmail', 'Outlook', or '' for default)
+   */
+  constructor(providerName = '') {
     super();
     this.dDialog = null;
     // decrypt popup active
     this.dPopup = false;
-    this.ctrlName = `dFrame${this.currentProvider.integration ? 'Gmail' : ''}-${this.id}`;
+    this.ctrlName = `dFrame${providerName}-${this.id}`;
   }
 
   renderFrame() {
