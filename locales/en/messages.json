@@ -679,6 +679,10 @@
     "description": "Email sent success notification",
     "message": "The email was sent successfully."
   },
+  "outlook_integration_sent_success": {
+    "description": "Email sent success notification via Outlook",
+    "message": "The email was sent successfully."
+  },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",
     "message": "GnuPG connection"

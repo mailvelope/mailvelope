@@ -112,7 +112,7 @@ export default class OutlookDecryptController extends DecryptController {
         accessToken = await this.getAccessToken();
       }
       if (this.clipped) {
-        await this.onClippedArmored(this.state.userInfo.email, accessToken);
+        await this.onClippedArmored(accessToken);
       }
       if (this.attachments.length) {
         await this.onAttachments(accessToken);
@@ -122,11 +122,11 @@ export default class OutlookDecryptController extends DecryptController {
     }
   }
 
-  async onClippedArmored(userEmail, accessToken) {
+  async onClippedArmored(accessToken) {
     this.ports.dDialog.emit('waiting', {waiting: true});
     try {
-      const {payload} = await outlook.getMessage({msgId: this.state.msgId, email: userEmail, accessToken});
-      const messageText = await outlook.extractMailBody({payload, userEmail, msgId: this.state.msgId, accessToken});
+      const {payload} = await outlook.getMessage({msgId: this.state.msgId, accessToken});
+      const messageText = await outlook.extractMailBody({payload, msgId: this.state.msgId, accessToken});
       this.armored = normalizeArmored(messageText, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
       const {email: sender} = outlook.parseEmailAddress(outlook.extractMailHeader(payload, 'From'));
       this.sender = sender;
@@ -146,7 +146,7 @@ export default class OutlookDecryptController extends DecryptController {
     if (this.attachments.length > 2 || !this.ascAttachments.length) {
       return;
     }
-    const {mimeType, protocol} = await outlook.getMessageMimeType({msgId: this.state.msgId, email: this.state.userInfo.email, accessToken});
+    const {mimeType, protocol} = await outlook.getMessageMimeType({msgId: this.state.msgId, accessToken});
     if (mimeType === 'multipart/signed' && protocol === 'application/pgp-signature' || mimeType === 'multipart/encrypted') {
       return mimeType;
     }
@@ -188,14 +188,14 @@ export default class OutlookDecryptController extends DecryptController {
   }
 
   async retrieveSender(accessToken) {
-    const {payload} = await outlook.getMessage({email: this.state.userInfo.email, msgId: this.state.msgId, accessToken, format: 'metadata', metaHeaders: ['from']});
+    const {payload} = await outlook.getMessage({msgId: this.state.msgId, accessToken, format: 'metadata'});
     const {email: sender} = outlook.parseEmailAddress(outlook.extractMailHeader(payload, 'From'));
     this.sender = sender;
   }
 
   async onMultipartEncrypted(accessToken) {
     await this.retrieveSender(accessToken);
-    const encAttData = await outlook.getPGPEncryptedAttData({msgId: this.state.msgId, email: this.state.userInfo.email, accessToken});
+    const encAttData = await outlook.getPGPEncryptedAttData({msgId: this.state.msgId, accessToken});
     let fileName;
     let attachmentId;
     if (encAttData) {
@@ -204,7 +204,7 @@ export default class OutlookDecryptController extends DecryptController {
       fileName = this.ascAttachments[0];
     }
     this.attachments = this.attachments.filter(name => name !== fileName);
-    const {data} = await outlook.getAttachment({attachmentId, fileName, email: this.state.userInfo.email, msgId: this.state.msgId, accessToken});
+    const {data} = await outlook.getAttachment({attachmentId, fileName, msgId: this.state.msgId, accessToken});
     this.armored = dataURL2str(data);
     try {
       (await this.getOutlookCtrl()).ports.outlookInt.emit('update-message-data', {msgId: this.state.msgId, data: {secureAction: true}});
@@ -220,17 +220,17 @@ export default class OutlookDecryptController extends DecryptController {
 
   async onMultipartSigned(accessToken) {
     await this.retrieveSender(accessToken);
-    const detSignAttId = await outlook.getPGPSignatureAttId({msgId: this.state.msgId, email: this.state.userInfo.email, accessToken});
+    const detSignAttId = await outlook.getPGPSignatureAttId({msgId: this.state.msgId, accessToken});
     let ascMimeFileName;
     if (!detSignAttId) {
       ascMimeFileName = this.ascAttachments[0];
     }
-    const {raw} = await outlook.getMessage({msgId: this.state.msgId, email: this.state.userInfo.email, accessToken, format: 'raw'});
+    const {raw} = await outlook.getMessage({msgId: this.state.msgId, accessToken, format: 'raw'});
     try {
       const {signedMessage, message, attachments} = await outlook.extractSignedMessageMultipart(raw);
       this.signedText = signedMessage;
       this.plainText = message;
-      const {data} = await outlook.getAttachment({attachmentId: detSignAttId, fileName: ascMimeFileName, email: this.state.userInfo.email, msgId: this.state.msgId, accessToken});
+      const {data} = await outlook.getAttachment({attachmentId: detSignAttId, fileName: ascMimeFileName, msgId: this.state.msgId, accessToken});
       this.armored = dataURL2str(data);
       for (const attachment of attachments) {
         if (!this.attachments.includes(attachment.filename)) {
@@ -246,7 +246,7 @@ export default class OutlookDecryptController extends DecryptController {
   async onDownloadEncAttachment({fileName}) {
     try {
       const accessToken = await this.getAccessToken();
-      const {data} = await outlook.getAttachment({fileName, email: this.state.userInfo.email, msgId: this.state.msgId, accessToken});
+      const {data} = await outlook.getAttachment({fileName, msgId: this.state.msgId, accessToken});
       const armored = dataURL2str(data);
       if (/-----BEGIN\sPGP\sPUBLIC\sKEY\sBLOCK/.test(armored)) {
         return await this.importKey(armored);

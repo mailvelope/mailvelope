@@ -82,7 +82,8 @@ export default class EditorController extends SubController {
   }
 
   async getAccessToken() {
-    return this.peers.gmailController.getAccessToken({
+    const provider = this.peers.gmailController ?? this.peers.outlookController;
+    return provider.getAccessToken({
       ...this.state.userInfo,
       beforeAuth: () => this.beforeAuthorization(),
       afterAuth: () => this.afterAuthorization()
@@ -627,7 +628,7 @@ export default class EditorController extends SubController {
     } else {
       to = to.map(key => ({name: key.name, email: key.email}));
       cc = cc.map(key => ({name: key.name, email: key.email}));
-      const peerController = this.peers.gmailController ?? this.peers.encryptController;
+      const peerController = this.peers.gmailController ?? this.peers.outlookController ?? this.peers.encryptController;
       peerController.encryptedMessage({armored, encFiles, subject, to, cc});
     }
   }
