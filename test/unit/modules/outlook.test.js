@@ -10,7 +10,10 @@ jest.mock('../../../src/lib/util', () => ({
   getUUID: jest.fn(() => 'mock-uuid-12345')
 }));
 jest.mock('../../../src/modules/mime', () => ({
-  parseSignedMessage: jest.fn(() => ({signedMessage: '', message: '', attachments: []}))
+  parseSignedMessage: jest.fn(() => ({signedMessage: '', message: '', attachments: []})),
+  buildMailWithHeader: jest.fn(({message, subject, sender, to}) =>
+    `Content-Type: multipart/mixed\r\nFrom: ${sender}\r\nTo: ${to?.join(', ')}\r\nSubject: ${subject}\r\n\r\n${message}`
+  )
 }));
 jest.mock('../../../src/modules/closure-library/closure/goog/emailaddress', () => ({
   goog: {

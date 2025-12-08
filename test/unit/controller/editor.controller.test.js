@@ -248,6 +248,19 @@ describe('EditorController unit tests', () => {
     });
   });
 
+  describe('onEditorClose', () => {
+    it('should notify the Outlook peer when the editor is cancelled', async () => {
+      const popup = {close: jest.fn()};
+      controller.getPopup = jest.fn().mockResolvedValue(popup);
+      controller.peers = {outlookController: {encryptError: jest.fn()}};
+
+      await controller.onEditorClose({cancel: true});
+
+      expect(popup.close).toHaveBeenCalled();
+      expect(controller.peers.outlookController.encryptError).toHaveBeenCalledWith(expect.objectContaining({code: 'EDITOR_DIALOG_CANCEL'}));
+    });
+  });
+
   describe('setState', () => {
     it('should update state properties', () => {
       const newState = {

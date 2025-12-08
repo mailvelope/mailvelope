@@ -5,7 +5,10 @@
 
 // Mock dependencies - must be before imports
 jest.mock('../../../src/modules/mime', () => ({
-  parseSignedMessage: jest.fn(() => ({signedMessage: '', message: '', attachments: []}))
+  parseSignedMessage: jest.fn(() => ({signedMessage: '', message: '', attachments: []})),
+  buildMailWithHeader: jest.fn(({message, subject, sender, to}) =>
+    `Content-Type: multipart/mixed\r\nFrom: ${sender}\r\nTo: ${to?.join(', ')}\r\nSubject: ${subject}\r\n\r\n${message}`
+  )
 }));
 jest.mock('../../../src/modules/closure-library/closure/goog/emailaddress', () => ({
   goog: {
@@ -111,6 +114,26 @@ describe('OutlookController', () => {
       await controller.onOpenEditor(options);
 
       expect(controller.peers.editorController.activateComponent).toHaveBeenCalled();
+    });
+  });
+
+  describe('encryptedMessage()', () => {
+    it('should show the error in the editor when the mail exceeds the quota', async () => {
+      const emit = jest.fn();
+      controller.peers.editorController = {ports: {editor: {emit}}, getAccessToken: jest.fn()};
+      controller.removePeer = jest.fn();
+      controller.setState({userInfo: {email: 'test@outlook.com'}});
+      mockOutlook.buildMail = jest.fn(() => {
+        throw Object.assign(new Error('Mail content exceeds quota limit.'), {code: 'ENCRYPT_QUOTA_SIZE'});
+      });
+
+      await controller.encryptedMessage({armored: 'armored', encFiles: [], subject: 'Subject', to: [], cc: []});
+
+      expect(emit).toHaveBeenCalledWith('error-message', {
+        error: expect.objectContaining({code: 'ENCRYPT_QUOTA_SIZE', autoHide: false, dismissable: true})
+      });
+      expect(mockOutlook.sendMessage).not.toHaveBeenCalled();
+      expect(controller.removePeer).toHaveBeenCalledWith('editorController');
     });
   });
 

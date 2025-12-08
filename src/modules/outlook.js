@@ -7,7 +7,9 @@ import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
 import {MvError, deDup} from '../lib/util';
 import {getUUID} from '../lib/util';
-import {parseSignedMessage} from './mime';
+import {parseSignedMessage, buildMailWithHeader} from './mime';
+
+const MAIL_QUOTA = 3 * 1024 * 1024; // 3 MB limit (Graph API sendMail constraint)
 
 // PKCE helpers for SPA OAuth flow
 function generateCodeVerifier() {
@@ -345,14 +347,11 @@ async function fetchJSON(resource, options) {
  * Get message from Microsoft Graph API
  * @param {Object} options
  * @param {string} options.msgId - Local message ID (conversationId#index) or Graph message ID
- * @param {string} options.email - User email (for token lookup)
  * @param {string} options.accessToken - Access token
  * @param {string} [options.format='full'] - Format: 'full', 'raw', or 'metadata'
- * @param {string[]} [options.metaHeaders] - Headers to include for metadata format
  * @returns {Promise<Object>} Message object with payload property (for compatibility with Gmail pattern)
  */
-// eslint-disable-next-line no-unused-vars -- email and metaHeaders kept for API compatibility with Gmail
-export async function getMessage({msgId, email, accessToken, format = 'full', metaHeaders = []}) {
+export async function getMessage({msgId, accessToken, format = 'full'}) {
   // Resolve local msgId to Graph ID if needed
   let graphMsgId = msgId;
   if (msgId.includes('#')) {
@@ -400,12 +399,11 @@ export async function getMessage({msgId, email, accessToken, format = 'full', me
  * Get message MIME type from Graph API
  * @param {Object} options
  * @param {string} options.msgId - Local message ID or Graph message ID
- * @param {string} options.email - User email
  * @param {string} options.accessToken - Access token
  * @returns {Promise<{mimeType: string, protocol: string}>}
  */
-export async function getMessageMimeType({msgId, email, accessToken}) {
-  const {payload} = await getMessage({msgId, email, accessToken, format: 'metadata'});
+export async function getMessageMimeType({msgId, accessToken}) {
+  const {payload} = await getMessage({msgId, accessToken, format: 'metadata'});
   const contentType = extractMailHeader(payload, 'Content-Type');
   // Parse protocol from Content-Type (e.g., "multipart/signed; protocol="application/pgp-signature"")
   let protocol = '';
@@ -422,14 +420,12 @@ export async function getMessageMimeType({msgId, email, accessToken}) {
  * Get attachment from Graph API
  * @param {Object} options
  * @param {string} options.msgId - Local message ID or Graph message ID
- * @param {string} options.email - User email
  * @param {string} [options.attachmentId] - Attachment ID (optional if fileName provided)
  * @param {string} [options.fileName] - Attachment filename to find
  * @param {string} options.accessToken - Access token
  * @returns {Promise<{data: string, size: number, mimeType: string}>} Data as data URL
  */
-// eslint-disable-next-line no-unused-vars -- email kept for API compatibility with Gmail
-export async function getAttachment({msgId, email, attachmentId, fileName, accessToken}) {
+export async function getAttachment({msgId, attachmentId, fileName, accessToken}) {
   // Resolve local msgId to Graph ID if needed
   let graphMsgId = msgId;
   if (msgId.includes('#')) {
@@ -466,9 +462,40 @@ export async function getAttachment({msgId, email, attachmentId, fileName, acces
   };
 }
 
-// eslint-disable-next-line no-unused-vars
-export async function sendMessage(options) {
-  throw new MvError('Outlook sendMessage not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Send message via Microsoft Graph API
+ * Uses direct /me/sendMail endpoint with MIME content
+ * @param {Object} options
+ * @param {string} options.message - RFC822 MIME message content
+ * @param {string} options.accessToken - Access token
+ * @returns {Promise<{success: boolean}>} Send result
+ */
+export async function sendMessage({message, accessToken}) {
+  // Graph API requires base64-encoded MIME content
+  // Use unescape+encodeURIComponent to handle UTF-8 characters properly
+  const encodedMessage = btoa(unescape(encodeURIComponent(message)));
+  const response = await fetch(`${MICROSOFT_GRAPH_HOST}/me/sendMail`, {
+    method: 'POST',
+    body: encodedMessage,
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'text/plain',
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+  if (!response.ok) {
+    const errorText = await response.text();
+    let errorMessage = 'Failed to send message';
+    try {
+      const errorJson = JSON.parse(errorText);
+      errorMessage = errorJson.error?.message || errorMessage;
+    } catch {
+      errorMessage = errorText || errorMessage;
+    }
+    throw new MvError(errorMessage, 'OUTLOOK_API_ERROR');
+  }
+  // sendMail returns 202 Accepted with no body on success
+  return {success: true};
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -532,23 +559,19 @@ export function extractMailHeader(payload, name) {
  * Handles both inline PGP content and encrypted attachments
  * @param {Object} options
  * @param {Object} options.payload - Graph API message object
- * @param {string} options.userEmail - User email
  * @param {string} options.msgId - Message ID
  * @param {string} options.accessToken - Access token
- * @param {string} [options.type] - Content type hint ('text', 'html', or mime type)
  * @returns {Promise<string>} Message body content
  */
-// eslint-disable-next-line no-unused-vars -- type kept for API compatibility with Gmail
-export async function extractMailBody({payload, userEmail, msgId, accessToken, type}) {
+export async function extractMailBody({payload, msgId, accessToken}) {
   // Check Content-Type to determine how to extract body
   const contentType = extractMailHeader(payload, 'Content-Type').toLowerCase();
   // For multipart/encrypted, body is in the encrypted.asc attachment
   if (contentType.includes('multipart/encrypted')) {
-    const encData = await getPGPEncryptedAttData({msgId, email: userEmail, accessToken});
+    const encData = await getPGPEncryptedAttData({msgId, accessToken});
     if (encData) {
       const {data} = await getAttachment({
         msgId,
-        email: userEmail,
         attachmentId: encData.attachmentId,
         fileName: encData.fileName,
         accessToken
@@ -581,12 +604,10 @@ export function extractSignedMessageMultipart(rawEncoded) {
  * Find PGP signature attachment ID in a message
  * @param {Object} options
  * @param {string} options.msgId - Local message ID or Graph message ID
- * @param {string} options.email - User email
  * @param {string} options.accessToken - Access token
  * @returns {Promise<string|undefined>} Attachment ID or undefined if not found
  */
-// eslint-disable-next-line no-unused-vars -- email kept for API compatibility with Gmail
-export async function getPGPSignatureAttId({msgId, email, accessToken}) {
+export async function getPGPSignatureAttId({msgId, accessToken}) {
   // Resolve local msgId to Graph ID if needed
   let graphMsgId = msgId;
   if (msgId.includes('#')) {
@@ -613,12 +634,10 @@ export async function getPGPSignatureAttId({msgId, email, accessToken}) {
  * Find PGP encrypted attachment data in a message
  * @param {Object} options
  * @param {string} options.msgId - Local message ID or Graph message ID
- * @param {string} options.email - User email
  * @param {string} options.accessToken - Access token
  * @returns {Promise<{attachmentId: string, fileName: string}|undefined>} Attachment info or undefined
  */
-// eslint-disable-next-line no-unused-vars -- email kept for API compatibility with Gmail
-export async function getPGPEncryptedAttData({msgId, email, accessToken}) {
+export async function getPGPEncryptedAttData({msgId, accessToken}) {
   // Resolve local msgId to Graph ID if needed
   let graphMsgId = msgId;
   if (msgId.includes('#')) {
@@ -675,7 +694,22 @@ export function parseEmailAddress(address) {
   return {email: emailAddress.getAddress(), name: emailAddress.getName()};
 }
 
-// eslint-disable-next-line no-unused-vars
-export function buildMail(options) {
-  throw new MvError('Outlook buildMail not implemented yet (Phase 4 - Graph API Integration)', 'OUTLOOK_NOT_IMPLEMENTED');
+/**
+ * Build multipart/mixed message for sending via Microsoft Graph API
+ * Uses same format as Gmail (armored PGP in text/plain body)
+ * @param {Object} options
+ * @param {string} options.message - Armored PGP encrypted content
+ * @param {Array} options.attachments - Encrypted file attachments
+ * @param {string} options.subject - Email subject
+ * @param {string} options.sender - Sender email address
+ * @param {Array<string>} options.to - Recipient email addresses (formatted)
+ * @param {Array<string>} options.cc - CC email addresses (formatted)
+ * @returns {string} RFC822 MIME message
+ */
+export function buildMail({message, attachments, subject, sender, to, cc}) {
+  const mail = buildMailWithHeader({message, attachments, subject, sender, to, cc, quota: MAIL_QUOTA, continuationEncode: false});
+  if (mail === null) {
+    throw new Error('MIME building failed.');
+  }
+  return mail;
 }
