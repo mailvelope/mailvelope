@@ -26,6 +26,8 @@ export default class DecryptFrame extends ExtractFrame {
     // decrypt popup active
     this.dPopup = false;
     this.ctrlName = `dFrame${providerName}-${this.id}`;
+    // Determine controller ID key based on provider
+    this.ctrlIdKey = providerName === 'Outlook' ? 'outlookCtrlId' : 'gmailCtrlId';
   }
 
   renderFrame() {
@@ -52,7 +54,7 @@ export default class DecryptFrame extends ExtractFrame {
       const integrationMsgData = this.currentProvider.integration.getMsgByControllerId(this.id);
       if (integrationMsgData) {
         const {msgId, att: encAttFileNames} = integrationMsgData;
-        this.port.emit('set-data', {userInfo: this.currentProvider.integration.getUserInfo(), msgId, encAttFileNames, armored, sender, gmailCtrlId: this.currentProvider.integration.id});
+        this.port.emit('set-data', {userInfo: this.currentProvider.integration.getUserInfo(), msgId, encAttFileNames, armored, sender, [this.ctrlIdKey]: this.currentProvider.integration.id});
         return;
       }
     }

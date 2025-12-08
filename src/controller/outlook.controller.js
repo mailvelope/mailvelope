@@ -4,10 +4,12 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getUUID} from '../lib/util';
+import {getUUID, mapError} from '../lib/util';
+import * as l10n from '../lib/l10n';
 import * as outlook from '../modules/outlook';
 import {SubController} from './sub.controller';
 import {setAppDataSlot} from './sub.controller';
+import {formatEmailAddress} from '../modules/key';
 
 export default class OutlookController extends SubController {
   constructor(port) {
@@ -62,9 +64,48 @@ export default class OutlookController extends SubController {
     });
   }
 
-  // Message sending will be implemented in Phase 4 - Graph API Integration
-  async encryptedMessage() {
-    throw new Error('Outlook message sending not implemented yet (Phase 4)');
+  /**
+   * Send encrypted message via Outlook Graph API
+   * @param {Object} options
+   * @param {string} options.armored - Armored PGP encrypted message
+   * @param {Array} options.encFiles - Encrypted file attachments (ignored for PGP/MIME)
+   * @param {string} options.subject - Email subject
+   * @param {Array} options.to - Recipients [{name, email}]
+   * @param {Array} options.cc - CC recipients [{name, email}]
+   */
+  async encryptedMessage({armored, encFiles, subject, to, cc}) {
+    this.peers.editorController.ports.editor.emit('send-mail-in-progress');
+    const userEmail = this.state.userInfo.email;
+    const toFormatted = to.map(({name, email}) => formatEmailAddress(email, name));
+    const ccFormatted = cc.map(({name, email}) => formatEmailAddress(email, name));
+    const mail = outlook.buildMail({
+      message: armored,
+      attachments: encFiles,
+      subject,
+      sender: userEmail,
+      to: toFormatted,
+      cc: ccFormatted
+    });
+    const accessToken = await this.peers.editorController.getAccessToken();
+    try {
+      await outlook.sendMessage({message: mail, accessToken});
+      this.peers.editorController.ports.editor.emit('show-notification', {
+        message: l10n.get('outlook_integration_sent_success'),
+        type: 'success',
+        autoHide: true,
+        hideDelay: 2000,
+        closeOnHide: true,
+        dismissable: false
+      });
+    } catch (error) {
+      this.peers.editorController.ports.editor.emit('error-message', {
+        error: Object.assign(mapError(error), {
+          autoHide: false,
+          dismissable: true
+        })
+      });
+    }
+    await this.removePeer('editorController');
   }
 
   async encryptError(error) {
