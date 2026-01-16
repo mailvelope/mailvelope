@@ -4,6 +4,7 @@
  */
 
 import dompurify from 'dompurify';
+import {isChrome} from '../browser';
 
 // Add a hook to make all links open a new window
 // attribution: https://github.com/cure53/DOMPurify/blob/master/demos/hooks-target-blank-demo.html
@@ -21,7 +22,7 @@ dompurify.addHook('afterSanitizeAttributes', node => {
   }
 });
 
-if (typeof browser === 'undefined') {
+if (isChrome) {
   chrome.runtime.onMessage.addListener(handleMessages);
 } else {
   window.offscreen = {handleMessages};

@@ -263,7 +263,10 @@
       return `${location.href.split('/test/')[0]}/${name}`;
     },
     getManifest() {
-      return {oauth2: {client_id: '123'}};
+      return {
+        oauth2: {client_id: '123'},
+        browser_specific_settings: {gecko: {id: 'test@mailvelope.com'}}
+      };
     },
     onConnect: {
       addListener(listener) {

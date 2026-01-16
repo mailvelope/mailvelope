@@ -4,6 +4,7 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
+import {isFirefox} from '../lib/browser';
 
 export let prefs = {};
 const updateHandlers = [];
@@ -74,7 +75,7 @@ export async function getWatchListCache() {
 
 export async function setWatchList(watchList) {
   await mvelo.storage.set('mvelo.watchlist', watchList);
-  if (typeof browser !== 'undefined') {
+  if (isFirefox) {
     localStorage.setItem('mvelo.watchlist.cache', JSON.stringify(watchList));
   }
   watchListBuffer = watchList;

@@ -7,6 +7,7 @@ import mvelo from './lib-mvelo';
 import {createController} from '../controller/main.controller';
 import {str2bool, matchPattern2RegExString, sortAndDeDup} from './util';
 import {getWatchList, getWatchListCache} from '../modules/prefs';
+import {isChrome} from './browser';
 
 // watchlist match patterns as regex for URL
 export let watchlistRegex;
@@ -40,7 +41,7 @@ export async function initScriptInjection() {
 
 async function getWatchListFilterURLs() {
   let watchList;
-  if (typeof browser === 'undefined') {
+  if (isChrome) {
     watchList = await getWatchList();
   } else {
     watchList = await getWatchListCache();
