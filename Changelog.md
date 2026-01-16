@@ -1,6 +1,12 @@
 Mailvelope Changelog
 ====================
 
+v6.2.1
+-------
+__Jan 16, 2026__
+
+  * Fix browser detection for Chrome 144 compatibility
+
 v6.2.0
 -------
 __Oct 18, 2025__
