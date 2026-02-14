@@ -46,8 +46,8 @@ async function getWatchListFilterURLs() {
   } else {
     watchList = await getWatchListCache();
   }
-  if (!watchList) {
-    window?.location.reload();
+  if (!Array.isArray(watchList) || watchList.length === 0) {
+    return [];
   }
   const schemes = ['http', 'https'];
   let result = [];
