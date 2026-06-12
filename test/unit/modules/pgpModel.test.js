@@ -43,11 +43,6 @@ jest.mock('../../../src/modules/keyBinding', () => ({
   updateKeyBinding: jest.fn(),
   init: jest.fn()
 }));
-jest.mock('../../../src/lib/analytics', () => ({
-  KEYSERVER_ADDRESS: 'keyserver@example.com',
-  COMMUNICATION: 'communication',
-  recordOnboardingStep: jest.fn()
-}));
 
 import * as l10n from '../../../src/lib/l10n';
 import {Uint8Array2str} from '../../../src/lib/util';

@@ -68,48 +68,6 @@
   "alert_no_domainmatchpattern_warning": {
     "message": "Mindestens ein Domänen-Übereinstimmungsmuster wird benötigt."
   },
-  "analytics_consent_description": {
-    "message": "Aggregierte und anonymisierte Analysedaten mit Mailvelope teilen"
-  },
-  "analytics_consent_disabled_tooltip": {
-    "message": "Die Auswahl der Analyse ist nur zum Zeitpunkt der Installation und nur bei zufälliger Auswahl möglich."
-  },
-  "analytics_consent_interstitial_Btn_Learn_More": {
-    "message": "Mehr erfahren"
-  },
-  "analytics_consent_interstitial_Faq": {
-    "message": " Weitere Infos zur Verwendung von Analysedaten in unserer FAQ."
-  },
-  "analytics_consent_interstitial_We_Collect_Minimal_Data": {
-    "message": "Mailvelope erkennt nur die Schritte die benötigt werden um die Einrichtung mit Ihrem Email Anbieter abzuschließen. Es wird nicht jede Nutzeraktion aufgezeichnet."
-  },
-  "analytics_consent_interstitial_We_Collect_Minimal_Data_Title": {
-    "message": "Möglichst wenig Daten werden erfasst"
-  },
-  "analytics_consent_interstitial_We_Respect_your_Choice": {
-    "message": "Wenn Sie nicht zustimmen, wird nichts aufgezeichnet. Wenn Sie sich für einen Beitrag von Analysedaten entscheiden, können Sie Ihre Entscheidung jederzeit in den Einstellungen widerrufen."
-  },
-  "analytics_consent_interstitial_We_Respect_your_Choice_Title": {
-    "message": "Wir respektieren Ihre Entscheidung"
-  },
-  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt1": {
-    "message": "Mailvelope verwendet"
-  },
-  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Pt2": {
-    "message": "das die Daten sicher speichert, ohne sie mit identifizierbaren Informationen zu verbinden. Außerdem wird Ihre IP-Adresse nicht aufgezeichnet oder verarbeitet."
-  },
-  "analytics_consent_interstitial_Your_Privacy_is_Preserved_Title": {
-    "message": "Ihre Privatsphäre wird gewahrt"
-  },
-  "analytics_consent_interstitial_learn_more": {
-    "message": "Wie werden Analysedaten verwendet"
-  },
-  "analytics_consent_interstitial_message": {
-    "message": "Mailvelope bittet 1% der neuen Benutzer, mit anonymen Analysedaten zur Verbesserung von Mailvelope beizutragen. Wenn Sie zustimmen, werden erfolgreiche Schritte bei der Einrichtung von Mailvelope erfasst. Wollen Sie der Erfassung zustimmen?"
-  },
-  "analytics_interstitial_header": {
-    "message": "Helfen Sie uns, besser zu werden?"
-  },
   "auth_domain_api_label": {
     "message": "API erlaubt"
   },
@@ -118,9 +76,6 @@
   },
   "auth_domain_headline": {
     "message": "Domain autorisieren"
-  },
-  "button_analyticsconsent_modal": {
-    "message": "Weiter"
   },
   "change_link": {
     "message": "Ändern"
@@ -460,9 +415,6 @@
   },
   "gnupg_error_unusable_pub_key": {
     "message": "Bitte überprüfen Sie ob die folgenden öffentlichen Schlüssel in ihrem GnuPG Schlüsselbund vorhanden und valide sind: $1"
-  },
-  "header_analyticsconsent_modal": {
-    "message": "Vielen Dank für Ihre Hilfe!"
   },
   "import_frame_help_text": {
     "message": "Zum Importieren des Schlüssels hier klicken"
@@ -1136,14 +1088,8 @@
   "options_title": {
     "message": "Mailvelope-Optionen"
   },
-  "paragraph_analyticsconsent_modal": {
-    "message": "Sie können die Entscheidung jederzeit in den Einstellungen widerrufen."
-  },
   "preferred": {
     "message": "bevorzugt"
-  },
-  "provider_analytics_consent": {
-    "message": "Einwilligung zur Datenfreigabe"
   },
   "provider_gmail_auth": {
     "message": "Berechtigungen"
@@ -1576,9 +1522,6 @@
   },
   "security_openpgp_header": {
     "message": "OpenPGP Einstellungen"
-  },
-  "settings_analytics": {
-    "message": "Nutzungsdaten"
   },
   "settings_general": {
     "message": "Allgemein"

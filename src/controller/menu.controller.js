@@ -8,7 +8,6 @@ import {getUUID} from '../lib/util';
 import {SubController, reloadFrames, setAppDataSlot} from './sub.controller';
 import * as prefs from '../modules/prefs';
 import {hasAnyPrivateKey} from '../modules/keyring';
-import {shouldSeeConsentDialog} from '../lib/analytics';
 
 export default class MenuController extends SubController {
   constructor(port) {
@@ -18,7 +17,6 @@ export default class MenuController extends SubController {
     this.on('browser-action', this.onBrowserAction);
     this.on('get-prefs', () => prefs.prefs);
     this.on('get-is-setup-done', this.getIsSetupDone);
-    this.on('analytics-consent', this.analyticsConsent);
   }
 
   onBrowserAction({action}) {
@@ -39,7 +37,7 @@ export default class MenuController extends SubController {
         this.openApp('/keyring');
         break;
       case 'lets-start':
-        this.analyticsConsent();
+        this.openApp('/onboarding');
         break;
       case 'encrypt-file':
         this.openApp('/encrypt');
@@ -72,13 +70,5 @@ export default class MenuController extends SubController {
     const slotId = getUUID();
     setAppDataSlot(slotId, {domain, protocol: url.protocol, port: url.port});
     mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/watchlist/push`);
-  }
-
-  analyticsConsent() {
-    if (shouldSeeConsentDialog()) {
-      this.openApp('/analytics-consent');
-    } else {
-      this.openApp('/onboarding');
-    }
   }
 }

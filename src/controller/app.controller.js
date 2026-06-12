@@ -22,7 +22,6 @@ import {getVersion} from '../modules/defaults';
 import {gpgme} from '../lib/browser.runtime';
 import * as mveloKeyServer from '../modules/mveloKeyServer';
 import * as autocrypt from '../modules/autocryptWrapper';
-import {denyCampaign, isCampaignCurrentlyGranted, grantCampaign, recordOnboardingStep, ADD_KEY, BEGIN, ONBOARDING_CAMPAIGN} from '../lib/analytics';
 
 export default class AppController extends SubController {
   constructor(port) {
@@ -78,9 +77,6 @@ export default class AppController extends SubController {
     this.on('authorize-gmail', this.authorizeGmail);
     this.on('cancel-authorize-gmail', this.cancelAuthorizeGmail);
     this.on('check-license', this.checkLicense);
-    this.on('grant-consent', ({campaignId}) => this.grantCampaignConsent(campaignId));
-    this.on('deny-consent', ({campaignId}) => denyCampaign(campaignId));
-    this.on('get-consent', ({campaignId}) => isCampaignCurrentlyGranted(campaignId));
   }
 
   async updatePreferences(options) {
@@ -245,7 +241,6 @@ export default class AppController extends SubController {
     const keyId = newKey.privateKey.getKeyID().toHex().toUpperCase();
     const keyFpr = newKey.privateKey.getFingerprint();
     await this.sendKeyUpdate();
-    recordOnboardingStep(ADD_KEY, 'Generate');
     return {keyId, keyFpr};
   }
 
@@ -253,9 +248,6 @@ export default class AppController extends SubController {
     const keyring = await keyringById(keyringId);
     const result = await keyring.importKeys(keys);
     await this.sendKeyUpdate();
-    if (result.some(({type}) => type === 'success')) {
-      recordOnboardingStep(ADD_KEY, 'Import');
-    }
     return result;
   }
 
@@ -442,12 +434,5 @@ export default class AppController extends SubController {
 
   async checkLicense({email}) {
     return gmail.checkLicense({email});
-  }
-
-  grantCampaignConsent(campaignId) {
-    grantCampaign(campaignId);
-    if (campaignId === ONBOARDING_CAMPAIGN) {
-      recordOnboardingStep(BEGIN, 'Consent Granted');
-    }
   }
 }

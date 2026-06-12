@@ -20,7 +20,6 @@ import {getUserInfo, mapKeys, keyIDfromHex} from './key';
 import * as keyringSync from './keyringSync';
 import * as trustKey from './trustKey';
 import {updateKeyBinding, init as initKeyBinding} from './keyBinding';
-import {KEYSERVER_ADDRESS, COMMUNICATION, recordOnboardingStep} from '../lib/analytics';
 
 let modelInitDone;
 export const modelInitialized = new Promise(resolve => modelInitDone = resolve);
@@ -78,7 +77,7 @@ export async function decryptMessage({message, armored, keyringId, unlockKey, se
       unlockKey: options => unlockKey({message, ...options}),
       format: 'binary',
     });
-    await logDecryption(uiLogSource, keyring, encryptionKeyIds, senderAddress);
+    await logDecryption(uiLogSource, keyring, encryptionKeyIds);
     if (selfSigned) {
       // filter out foreign signatures
       signatures = signatures.filter(sig => keyring.getPrivateKeyByIds(sig.fingerprint || sig.keyId));
@@ -214,7 +213,6 @@ async function logEncryption(source, keyring, keyFprs) {
       return userId;
     }));
     uiLog.push(source, 'security_log_encryption_operation', [recipients.join(', ')], false);
-    recordOnboardingStep(COMMUNICATION, 'Encryption');
   }
 }
 
@@ -223,19 +221,12 @@ async function logEncryption(source, keyring, keyFprs) {
  * @param  {String} source - source that triggered encryption operation
  * @param {KeyringBase} keyring
  * @param  {Array<String>} keyIds - ids of used keys
- * @param  {String|Array} [senderAddress] - email address of sender, used to record keyserver-sent mail.
  */
-async function logDecryption(source, keyring, keyIds, senderAddress) {
+async function logDecryption(source, keyring, keyIds) {
   if (source) {
     const key = keyring.getPrivateKeyByIds(keyIds);
     const {userId} = await getUserInfo(key, false);
     uiLog.push(source, 'security_log_decryption_operation', [userId], false);
-    // Share only whether the sender was the keyserver, not the actual address.
-    if (senderAddress && senderAddress.includes(KEYSERVER_ADDRESS)) {
-      recordOnboardingStep(COMMUNICATION, 'Decryption (from Keyserver)');
-    } else {
-      recordOnboardingStep(COMMUNICATION, 'Decryption');
-    }
   }
 }
 
