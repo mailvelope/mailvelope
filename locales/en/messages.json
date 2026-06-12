@@ -8,7 +8,7 @@
     "message": "All options"
   },
   "action_menu_configure_mailvelope": {
-    "description": "Configure Mailvelope label in the action menu",
+    "description": "Setup prompt in the action-menu popup (browser toolbar) shown before Mailvelope is configured; <0>...</0> wraps the words \"Configure Mailvelope\", which are rendered in bold.",
     "message": "<0>Configure Mailvelope</0> to get started."
   },
   "action_menu_dashboard_description": {
@@ -84,11 +84,11 @@
     "message": "Warning!"
   },
   "alert_invalid_domainmatchpattern_warning": {
-    "description": "Alert header of category warning.",
+    "description": "Inline validation hint shown under the domain match-pattern input in the authorized-domains (watchlist) editor dialog, stating the required pattern format.",
     "message": "Domain match pattern is [*.]host.name.tld[:port]."
   },
   "alert_no_domainmatchpattern_warning": {
-    "description": "Alert header of category warning.",
+    "description": "Inline form-validation error in the authorized-domains (watchlist) editor dialog, shown when the user has not entered at least one domain match pattern.",
     "message": "At least one domain match pattern is needed."
   },
   "auth_domain_api_label": {
@@ -96,7 +96,7 @@
     "message": "Allow API"
   },
   "auth_domain_description": {
-    "description": "Description in authorize domain dialog",
+    "description": "Body prompt in the authorize-domain dialog asking the user to allow Mailvelope on a site; $1 is the website hostname (domain).",
     "message": "Would you like to allow the use of Mailvelope for the domain $1?"
   },
   "auth_domain_headline": {
@@ -160,7 +160,7 @@
     "message": "Signature unknown"
   },
   "decrypt_digital_signature_null_info": {
-    "description": "Digital signature unknown info message",
+    "description": "Tooltip text in the decrypt message view shown when the signer's public key is not in the keyring; $1 is the signer's key ID (a hex ID prefixed with #).",
     "message": "Key with ID $1 not found."
   },
   "decrypt_digital_signature_null_info_short": {
@@ -180,7 +180,7 @@
     "message": "Uncertain sender identity"
   },
   "decrypt_file_error_header": {
-    "description": "Header of file decryption error on decrypt result page.",
+    "description": "Header of the error notification shown when decrypting a file fails (decrypt result page and key import page); $1 is the file name.",
     "message": "Decryption of file $1 is not possible."
   },
   "decrypt_frame_help_text": {
@@ -232,11 +232,11 @@
     "message": "No"
   },
   "dialog_no_button": {
-    "description": "Dialog button no",
+    "description": "Label of the decline button in the key backup dialog; clicking it skips creating the backup.",
     "message": "Skip"
   },
   "dialog_popup_close": {
-    "description": "Close decrypt popup.",
+    "description": "Label of the 'Close' button used to dismiss the key export dialog and the Gmail authorization dialog.",
     "message": "Close"
   },
   "dialog_save_btn": {
@@ -344,11 +344,11 @@
     "message": "Encrypted for"
   },
   "encrypt_error": {
-    "description": "Error during encryption process.",
+    "description": "Error message shown when encrypting a message fails; $1 is the underlying technical error text appended after the colon.",
     "message": "Could not encrypt this message: $1"
   },
   "encrypt_file_error_header": {
-    "description": "Header of file decryption error on decrypt result page.",
+    "description": "Heading of an error notification on the Encrypt page shown when a file cannot be encrypted; $1 is the file name.",
     "message": "Encryption of file $1 is not possible."
   },
   "encrypt_frame_btn_label": {
@@ -380,7 +380,7 @@
     "message": "Signed by"
   },
   "encrypt_signer_info": {
-    "description": "Signer info text on encrypt page.",
+    "description": "Status text on the Encrypt page confirming the data will be signed; $1 is the email address of the selected signing key.",
     "message": "Encrypted data is signed with your key ($1)"
   },
   "encrypt_text_encryption_btn": {
@@ -388,11 +388,11 @@
     "message": "Do you also want to encrypt a text?"
   },
   "encrypt_text_error_header": {
-    "description": "Header of text decryption error on decrypt result page.",
+    "description": "Heading of an error notification on the Encrypt page shown when the entered text cannot be encrypted.",
     "message": "Encryption of the text is not possible."
   },
   "encrypt_upload_file_warning_too_big": {
-    "description": ".",
+    "description": "Error message shown when a file selected for upload (on the Encrypt, Decrypt, or key-import pages) exceeds the maximum allowed size.",
     "message": "One of the files is too big."
   },
   "ext_description": {
@@ -424,7 +424,7 @@
     "message": "Could not decrypt this file: $1"
   },
   "file_signed": {
-    "description": "Text of signer field of file element.",
+    "description": "Status label of the signer field shown for a file in the decrypt file view; $1 is the signer's name, or a localized \"Unknown\" placeholder when the name cannot be resolved.",
     "message": "File signed by $1"
   },
   "form_back": {
@@ -500,7 +500,7 @@
     "message": "Allow us to check availability"
   },
   "general_gnupg_installed_question": {
-    "description": "Status message with available user options",
+    "description": "Info text in the General settings shown when GnuPG is not detected. <0> wraps a link to the GnuPG download page (the \"Download here\" text), <1> wraps a button that restarts Mailvelope (the \"Restart Mailvelope\" text), and <2> wraps a link to the setup wiki (the \"this wiki\" text).",
     "message": "Do you have GnuPG installed? If not <0>Download here</0>. To check availability again <1>Restart Mailvelope</1>. If you are sure it is installed, please follow <2>this wiki</2> to make sure it has been set up properly."
   },
   "general_gnupg_not_available": {
@@ -536,11 +536,11 @@
     "message": "Mailvelope is not authorized to send emails. You need to grant Mailvelope access to Gmail API to use this function."
   },
   "gmail_integration_quoted_mail_header_forward": {
-    "description": "Header for forwarded mail",
+    "description": "Header block inserted above a forwarded message in the Gmail editor. $1 is the original sender (\"Name <email>\"), $2 is the localized date and time the message was sent, $3 is the subject line, and $4 is the comma-separated list of original To recipients (\"Name <email>\").",
     "message": "---------- Forwarded message ---------\nFrom: $1\nDate: $2\nSubject: $3\nTo: $4"
   },
   "gmail_integration_quoted_mail_header_reply": {
-    "description": "Header for quoted reply mail",
+    "description": "Attribution line shown above the quoted original message when replying in the Gmail editor (e.g. \"On <date>, <sender> wrote:\"). $1 is the localized date and time of the original message; $2 is the original sender as \"Name <email>\".",
     "message": "On $1, $2 wrote:"
   },
   "gmail_integration_sent_success": {
@@ -588,7 +588,7 @@
     "message": "Copy to clipboard"
   },
   "key_export_dialog_question": {
-    "description": "Question in export private key dialog.",
+    "description": "Prompt in the export key dialog, shown above the Public/Private/All toggle, asking the user which key type to include in the export.",
     "message": "Which key would you like to export?"
   },
   "key_export_dialog_title": {
@@ -700,7 +700,7 @@
     "message": "Import Error."
   },
   "key_import_error_no_uid": {
-    "description": "Import error no user id found.",
+    "description": "Import error message shown when a key has no valid user ID; $1 is the key ID (uppercase hex).",
     "message": "No valid user ID found in key $1"
   },
   "key_import_exception": {
@@ -728,11 +728,11 @@
     "message": "Warning: The key for this contact has expired. Encrypted communication with $1 is no longer possible. You need to get the current key from this contact."
   },
   "key_import_number_of_failed": {
-    "description": "Error message with number of failed imports.",
+    "description": "Warning shown in the key import dialog when exactly one key failed to import; singular form with no placeholder.",
     "message": "A key could not be imported due to errors."
   },
   "key_import_number_of_failed_plural": {
-    "description": "Error message with number of failed imports.",
+    "description": "Warning shown in the key import dialog when several keys failed to import; $1 is the number of failed keys.",
     "message": "$1 keys could not be imported due to errors."
   },
   "key_import_private_exists": {
@@ -796,7 +796,7 @@
     "message": "Key found in:"
   },
   "key_import_search_found_modified": {
-    "description": "Key search found label.",
+    "description": "List-item label in the key search result dialog, preceding the date the key was last modified on the key server; the date is shown separately.",
     "message": "last modified on:"
   },
   "key_import_search_found_source": {
@@ -1088,7 +1088,7 @@
     "message": "Import a key"
   },
   "keygrid_invalid_userid": {
-    "description": "User ID invalid.",
+    "description": "Fallback text shown in place of a key's user name/ID when the key's User ID cannot be parsed.",
     "message": "Invalid User ID"
   },
   "keygrid_key_fingerprint": {
@@ -1128,7 +1128,7 @@
     "message": "Unknown signee"
   },
   "keygrid_sort_type": {
-    "description": "Key grid sort selector.",
+    "description": "Label next to the key-type filter dropdown (all keys / public keys / key pairs) in the key management toolbar.",
     "message": "Filters"
   },
   "keygrid_status_expired": {
@@ -1180,15 +1180,15 @@
     "message": "Keyring backup"
   },
   "keyring_confirm_deletion": {
-    "description": "Confirmation message prompted when a keyring is deleted",
+    "description": "Confirmation prompt shown before deleting a keyring; $1 is the keyring's name.",
     "message": "Do you want to delete the keyring with ID: $1?"
   },
   "keyring_confirm_keys": {
-    "description": "Tab of keyring to import keys.",
+    "description": "Title and confirm button of the dialog for confirming import of a single OpenPGP key.",
     "message": "Confirm key to import"
   },
   "keyring_confirm_keys_plural": {
-    "description": "Tab of keyring to import keys.",
+    "description": "Title of the dialog for confirming import of multiple OpenPGP keys; $1 is the number of keys.",
     "message": "Confirm $1 keys to import"
   },
   "keyring_generate_key": {
@@ -1240,7 +1240,7 @@
     "message": "Generate key"
   },
   "keyring_setup_generate_key_explanation": {
-    "description": "Generate key",
+    "description": "Explanatory paragraph below the 'Generate key' card title on the keyring setup screen, telling first-time users without a key pair to create one.",
     "message": "If you're using this extension for the first time and if you do not have a key pair yet, please generate one now."
   },
   "keyring_setup_import_key": {
@@ -1248,7 +1248,7 @@
     "message": "Import Key"
   },
   "keyring_setup_import_key_explanation": {
-    "description": "Import key",
+    "description": "Explanatory paragraph below the 'Import Key' card title on the keyring setup screen, telling users they can export an existing key pair from another device and import it here.",
     "message": "Do you already have a key pair on another device? You can import your existing keys. Just export the key pair from the other device and then import them here."
   },
   "keyring_setup_no_keypair": {
@@ -1276,7 +1276,7 @@
     "message": "Determine current key of contacts and perform key selection automatically"
   },
   "keyserver_oks_lookup": {
-    "description": "Enable keys.openpgp.org Auto Lookup",
+    "description": "Checkbox label in the key server settings enabling automatic key lookup; the <0></0> slot wraps a hyperlink to keys.openpgp.org and must be preserved around the text.",
     "message": "Automatically search for keys on <0>keys.openpgp.org</0>"
   },
   "keyserver_tofu_lookup": {
@@ -1324,7 +1324,7 @@
     "message": "Learn more"
   },
   "message_no_keys": {
-    "description": "Decrypt error message.",
+    "description": "Decryption error shown when the recipient has no matching private key for the message; $1 is the required private key ID in uppercase hex (if several keys are needed, the further IDs are appended after $1, joined by the word 'or').",
     "message": "No private key found for this message. Required private key IDs: $1"
   },
   "message_read_error": {
@@ -1480,11 +1480,11 @@
     "message": "Sign in with Google"
   },
   "provider_gmail_dialog_auth_intro": {
-    "description": "Intro text for GMAIL OAuth dialog.",
+    "description": "Intro paragraph in the Gmail OAuth authorization dialog explaining that permissions must be granted; <0></0> is replaced with the user's Gmail email address (shown in bold).",
     "message": "In order to use the Gmail integration for <0></0>, the following permissions must be granted to Mailvelope:"
   },
   "provider_gmail_dialog_auth_outro": {
-    "description": "Outro text for GMAIL OAuth dialog.",
+    "description": "Closing paragraph in the Gmail OAuth authorization dialog instructing the user to select their Gmail account; <0></0> is replaced with the user's Gmail email address (shown in bold).",
     "message": "If you click on the sign in button, a Google authorization window opens. Select your Gmail account for the email address <0></0> and follow the instructions."
   },
   "provider_gmail_dialog_description": {
@@ -1492,7 +1492,7 @@
     "message": "Using the Gmail API extends the functionality of Mailvelope with Gmail and simplifies sending and reading encrypted emails and attachments."
   },
   "provider_gmail_dialog_gsuite_alert": {
-    "description": "Alert text for GSuite Users in GMAIL API dialog.",
+    "description": "Warning alert in the Gmail API dialog telling Google Workspace users they need a license; <0> wraps a link to workspace.google.com and <1> wraps a link to the Mailvelope website.",
     "message": "This feature is free for Gmail accounts. If you are part of a Google Workspace (<0>workspace.google.com</0>) organization, you will need to purchase a license from the <1>Mailvelope website</1>."
   },
   "provider_gmail_dialog_privacy_policy": {
@@ -1512,7 +1512,7 @@
     "message": "Mailvelope requires additional permissions to access the Gmail API. As soon as you use the encryption functions of Mailvelope in Gmail, you are guided through an authorization process. This requires you to sign in to your Google account."
   },
   "provider_gmail_integration_warning": {
-    "description": "Warning message, when Gmail is not authorized",
+    "description": "Warning alert on the Provider settings page shown when Gmail is not authorized; <0></0> is replaced with the Gmail search/match pattern (in bold) and <1></1> wraps a link to the watch list settings page.",
     "message": "Gmail is not authorized with the search pattern <0></0>. Please check the settings in <1></1>."
   },
   "provider_gmail_licensing_dialog_business_btn_info": {
@@ -1672,7 +1672,7 @@
     "message": "To back up the data that is important for encrypted communication (e.g. key password), the data will be saved encrypted on our $1 servers by our security partner Mailvelope."
   },
   "recovery_sheet_be_aware": {
-    "description": "Label",
+    "description": "Emphasized 'caution' lead-in on the recovery sheet, shown before the warning that data is lost if the password is forgotten.",
     "message": "Please be aware"
   },
   "recovery_sheet_check_settings": {
@@ -1688,7 +1688,7 @@
     "message": "Without a backup, your encrypted messages cannot be decrypted again in case you lose your key password or in case of a defective device or problems with the browser extension!"
   },
   "recovery_sheet_encryption_note": {
-    "description": "Sub title",
+    "description": "Subtitle (h2 heading) on the provider-branded recovery sheet; $1 is the email provider brand name (e.g. GMX or WEB.DE).",
     "message": "Hints for encrypted communication with $1"
   },
   "recovery_sheet_enter_code": {
@@ -1700,11 +1700,11 @@
     "message": "Encrypted communication with $1 is a PGP-based procedure. It enables you to send encrypted emails and, at the same time, ensures that only you and the recipient are able to read them."
   },
   "recovery_sheet_extension_problems": {
-    "description": "List item",
+    "description": "List item on the recovery sheet continuing the lead-in 'If your encrypted communication is no longer working, e.g.:'; one possible reason recovery is needed.",
     "message": "because of problems with the browser extension"
   },
   "recovery_sheet_forgot_password": {
-    "description": "List item",
+    "description": "List item on the recovery sheet continuing the lead-in 'If your encrypted communication is no longer working, e.g.:'; one possible reason recovery is needed.",
     "message": "because you forgot the password to your key"
   },
   "recovery_sheet_further_info": {
@@ -1716,7 +1716,7 @@
     "message": "Important information!"
   },
   "recovery_sheet_in_general": {
-    "description": "Label",
+    "description": "Emphasized lead-in phrase on the recovery sheet, followed by a colon and an explanatory sentence; introduces a general note in the 'setting up encrypted communication on other devices' section.",
     "message": "In general, it is important"
   },
   "recovery_sheet_invite_contacts": {
@@ -1756,7 +1756,7 @@
     "message": "Setting up encrypted communication on other devices"
   },
   "recovery_sheet_other_problems": {
-    "description": "List item",
+    "description": "List item on the recovery sheet continuing the lead-in 'If your encrypted communication is no longer working, e.g.:'; a catch-all entry for other reasons.",
     "message": "for other reasons"
   },
   "recovery_sheet_pgp_compat": {
@@ -1764,7 +1764,7 @@
     "message": "You can communicate securely with other contacts if they are also using encrypted communication (PGP)."
   },
   "recovery_sheet_print_block": {
-    "description": "Sub title of recovery sheet.",
+    "description": "Heading shown only in the printed recovery sheet (hidden on screen), instructing the user to store the printed document safely.",
     "message": "Please store this document in a safe place!"
   },
   "recovery_sheet_print_button": {
@@ -1772,7 +1772,7 @@
     "message": "Print"
   },
   "recovery_sheet_print_notice": {
-    "description": "Sub title of recovery sheet.",
+    "description": "Heading shown on screen (hidden in the printout) prompting the user to print the recovery sheet and store it safely.",
     "message": "Please print this document and store it in a safe place!"
   },
   "recovery_sheet_provider_communication": {
@@ -1800,7 +1800,7 @@
     "message": "Recommendation"
   },
   "recovery_sheet_recover_data": {
-    "description": "Sub title",
+    "description": "Section heading ('Recovering data') on the branded second page of the recovery sheet, introducing a list about unlocking and decrypting the backed-up data.",
     "message": "Recovering data"
   },
   "recovery_sheet_recovery_code": {
@@ -1812,7 +1812,7 @@
     "message": "Recovery sheet for encrypted communication"
   },
   "recovery_sheet_subtitle_recover": {
-    "description": "Sub title",
+    "description": "Section heading ('Recover encrypted communication') on the recovery sheet, introducing the block explaining what to do if login/access no longer works.",
     "message": "Recover encrypted communication"
   },
   "recovery_sheet_trusted_contacts": {
@@ -1828,7 +1828,7 @@
     "message": "The backup of your data can only be decrypted with the help of the recovery code on this recovery sheet."
   },
   "reload_tab": {
-    "description": "Info message.",
+    "description": "Notification shown after saving the security settings, telling the user to reload the affected web pages so the changed settings take effect.",
     "message": "Please reload the corresponding pages for the settings to take effect."
   },
   "restore_backup_dialog_button": {
@@ -1848,15 +1848,15 @@
     "message": "Your key password:"
   },
   "security_background_color_text": {
-    "description": "Security background select color text",
+    "description": "Step-2 instruction text (bold) on the Security Background settings page, prompting the user to choose a background color.",
     "message": "2. Now choose a color that you like"
   },
   "security_background_icons_text": {
-    "description": "Security background select icon text",
+    "description": "Step-1 instruction text (bold) on the Security Background settings page, prompting the user to choose a background icon.",
     "message": "1. Choose an icon that you like"
   },
   "security_background_text": {
-    "description": "Security background text",
+    "description": "Introductory paragraph at the top of the Security Background settings page explaining what the security background is and why to personalize it.",
     "message": "Your security background is displayed behind every encrypted email. To make it really safe, you should personalize it. This is how you ensure, that no one is able to reconstruct the Mailvelope interface to access your personal data."
   },
   "security_cache_header": {
@@ -1872,11 +1872,11 @@
     "message": "No."
   },
   "security_cache_on": {
-    "description": "Store password in memory for $1 minutes.",
+    "description": "Radio-button label in Security settings enabling the password cache; reads \"Yes, keep in memory for\" and is immediately followed by a numeric input and the word \"minutes\" (security_cache_time).",
     "message": "Yes, keep in memory for"
   },
   "security_cache_time": {
-    "description": "Store password in memory for $1 minutes.",
+    "description": "Trailing unit label \"minutes.\" shown after the password-cache timeout input box in Security settings (completing \"...keep in memory for [N] minutes\").",
     "message": "minutes."
   },
   "security_display_decrypted": {
@@ -1904,7 +1904,7 @@
     "message": "Add attachment button clicked"
   },
   "security_log_attachment_download": {
-    "description": "Attachment downloaded as an event source",
+    "description": "Action-column value in the Security Log table, shown when the user downloads a decrypted attachment from the email viewer.",
     "message": "Attachment downloaded"
   },
   "security_log_auth_domain_dialog": {
@@ -2012,7 +2012,7 @@
     "message": "Click in text area"
   },
   "security_log_textarea_input": {
-    "description": "User clicked in text area",
+    "description": "Security Log entry shown in the Action column recording that the user typed text into the message editor's text area.",
     "message": "Input in text area"
   },
   "security_log_textarea_select": {
@@ -2064,7 +2064,7 @@
     "message": "Sign message as:"
   },
   "sign_error": {
-    "description": "Error during signing process.",
+    "description": "Error message shown when signing a message fails; $1 is the underlying error description from the failed signing operation.",
     "message": "Could not sign this message: $1"
   },
   "signer_unknown": {
@@ -2108,7 +2108,7 @@
     "message": "The user ID is not synchronized with the Mailvelope key server."
   },
   "user_keyserver_remove": {
-    "description": "A remove request has been sent to the Mailvelope key server",
+    "description": "Status text in an alert on the user ID page after a removal request is sent to the Mailvelope key server; $1 is the email address the confirmation email was sent to.",
     "message": "For final removal from the Mailvelope key server a confirmation email was sent to $1."
   },
   "user_keyserver_remove_btn": {
@@ -2128,7 +2128,7 @@
     "message": "Please confirm the user ID to synchronize it with the Mailvelope key server."
   },
   "user_keyserver_upload": {
-    "description": "An upload request has been sent to the Mailvelope key server",
+    "description": "Status text in an alert on the user ID page after an upload request is sent to the Mailvelope key server; $1 is the email address the confirmation email was sent to.",
     "message": "To synchronize with the Mailvelope key server a confirmation email was sent to $1."
   },
   "user_remove_btn": {
@@ -2180,7 +2180,7 @@
     "message": "Verifications"
   },
   "verify_error": {
-    "description": "Error during verification process.",
+    "description": "Error message shown when verifying a signed message or detached signature fails; $1 is the underlying error detail.",
     "message": "Could not verify this message: $1"
   },
   "verify_frame_help_text": {
@@ -2232,7 +2232,7 @@
     "message": "Site"
   },
   "word_or": {
-    "description": "Separate list of elements.",
+    "description": "The conjunction \"or\" used to join key IDs in the \"no private key found\" error message, producing e.g. \"key ID 1 or key ID 2\".",
     "message": "or"
   },
   "wrong_restore_code": {
