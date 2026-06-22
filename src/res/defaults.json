@@ -3,6 +3,23 @@
   "watch_list": [
     {
       "active": true,
+      "site": "Forward Email",
+      "https_only": true,
+      "frames": [
+        {
+          "scan": true,
+          "frame": "*.forwardemail.net",
+          "api": true
+        },
+        {
+          "scan": true,
+          "frame": "*.forwardemail.eu",
+          "api": true
+        }
+      ]
+    },
+    {
+      "active": true,
       "site": "GMX",
       "https_only": true,
       "prevent_landingpage": true,
