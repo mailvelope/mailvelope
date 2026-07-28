@@ -3,10 +3,10 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import {goog} from './closure-library/closure/goog/emailaddress';
 import mvelo from '../lib/lib-mvelo';
 import {MvError, deDup} from '../lib/util';
 import {getUUID} from '../lib/util';
+import {formatAddress} from '../lib/email';
 import {parseSignedMessage, buildMailWithHeader} from './mime';
 
 const MAIL_QUOTA = 3 * 1024 * 1024; // 3 MB limit (Graph API sendMail constraint)
@@ -515,16 +515,8 @@ export async function checkLicense(userInfo) {
  */
 export function extractMailHeader(payload, name) {
   const lowerName = name.toLowerCase();
-  // Format email address as RFC 5322 string
-  const formatEmailAddress = emailAddr => {
-    if (!emailAddr) {
-      return '';
-    }
-    if (emailAddr.name) {
-      return `"${emailAddr.name}" <${emailAddr.address}>`;
-    }
-    return emailAddr.address;
-  };
+  // Format Graph emailAddress object as RFC 5322 string
+  const formatEmailAddress = emailAddr => emailAddr ? formatAddress(emailAddr.address, emailAddr.name) : '';
   // Handle standard Graph API properties
   switch (lowerName) {
     case 'from':
@@ -679,19 +671,6 @@ export async function getPGPEncryptedAttData({msgId, accessToken}) {
       fileName: encAttachment.name
     };
   }
-}
-
-/**
- * Parse email address string into components
- * @param {string} address - Email address string (e.g., "John Doe <john@example.com>")
- * @returns {{email: string, name: string}}
- */
-export function parseEmailAddress(address) {
-  const emailAddress = goog.format.EmailAddress.parse(address);
-  if (!emailAddress.isValid()) {
-    throw new Error('Parsing email address failed.');
-  }
-  return {email: emailAddress.getAddress(), name: emailAddress.getName()};
 }
 
 /**

@@ -1088,6 +1088,9 @@
   "options_title": {
     "message": "Mailvelope-Optionen"
   },
+  "outlook_integration_sent_success": {
+    "message": "Die E-Mail wurde erfolgreich versandt."
+  },
   "preferred": {
     "message": "bevorzugt"
   },
