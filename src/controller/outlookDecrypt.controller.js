@@ -5,6 +5,7 @@
 
 import * as l10n from '../lib/l10n';
 import {dataURL2str, normalizeArmored, encodeHTML} from '../lib/util';
+import {parseAddress} from '../lib/email';
 import {extractFileExtension} from '../lib/file';
 import * as model from '../modules/pgpModel';
 import * as outlook from '../modules/outlook';
@@ -128,7 +129,7 @@ export default class OutlookDecryptController extends DecryptController {
       const {payload} = await outlook.getMessage({msgId: this.state.msgId, accessToken});
       const messageText = await outlook.extractMailBody({payload, msgId: this.state.msgId, accessToken});
       this.armored = normalizeArmored(messageText, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
-      const {email: sender} = outlook.parseEmailAddress(outlook.extractMailHeader(payload, 'From'));
+      const {email: sender} = parseAddress(outlook.extractMailHeader(payload, 'From'));
       this.sender = sender;
       if (!await this.canUnlockKey(this.armored, this.keyringId)) {
         this.ports.dDialog.emit('lock');
@@ -189,7 +190,7 @@ export default class OutlookDecryptController extends DecryptController {
 
   async retrieveSender(accessToken) {
     const {payload} = await outlook.getMessage({msgId: this.state.msgId, accessToken, format: 'metadata'});
-    const {email: sender} = outlook.parseEmailAddress(outlook.extractMailHeader(payload, 'From'));
+    const {email: sender} = parseAddress(outlook.extractMailHeader(payload, 'From'));
     this.sender = sender;
   }
 

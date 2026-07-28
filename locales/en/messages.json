@@ -547,10 +547,6 @@
     "description": "Email sent success notification",
     "message": "The email was sent successfully."
   },
-  "outlook_integration_sent_success": {
-    "description": "Email sent success notification via Outlook",
-    "message": "The email was sent successfully."
-  },
   "gnupg_connection": {
     "description": "Header that shows that GnuPG is available on the system.",
     "message": "GnuPG connection"
@@ -1454,6 +1450,10 @@
   "options_title": {
     "description": "Title of options page.",
     "message": "Mailvelope Options"
+  },
+  "outlook_integration_sent_success": {
+    "description": "Success notification shown after an email was sent via the Outlook integration.",
+    "message": "The email was sent successfully."
   },
   "preferred": {
     "description": "Indicates if a keyring is preferred",

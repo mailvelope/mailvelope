@@ -27,6 +27,7 @@ export function init(preferences) {
   providerMap.set('outlook.live.com', new Outlook());
   providerMap.set('outlook.office.com', new Outlook());
   providerMap.set('outlook.office365.com', new Outlook());
+  providerMap.set('outlook.cloud.microsoft', new Outlook());
   providerMap.set('default', new Default());
 }
 

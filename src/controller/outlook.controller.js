@@ -9,7 +9,7 @@ import * as l10n from '../lib/l10n';
 import * as outlook from '../modules/outlook';
 import {SubController} from './sub.controller';
 import {setAppDataSlot} from './sub.controller';
-import {formatEmailAddress} from '../modules/key';
+import {formatAddress} from '../lib/email';
 
 export default class OutlookController extends SubController {
   constructor(port) {
@@ -76,8 +76,8 @@ export default class OutlookController extends SubController {
   async encryptedMessage({armored, encFiles, subject, to, cc}) {
     this.peers.editorController.ports.editor.emit('send-mail-in-progress');
     const userEmail = this.state.userInfo.email;
-    const toFormatted = to.map(({name, email}) => formatEmailAddress(email, name));
-    const ccFormatted = cc.map(({name, email}) => formatEmailAddress(email, name));
+    const toFormatted = to.map(({name, email}) => formatAddress(email, name));
+    const ccFormatted = cc.map(({name, email}) => formatAddress(email, name));
     const mail = outlook.buildMail({
       message: armored,
       attachments: encFiles,
