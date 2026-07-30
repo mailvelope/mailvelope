@@ -20,18 +20,33 @@ export default class OutlookController extends SubController {
       messageId: null
     };
     this.peerType = 'outlookController';
-    this.authorizationRequest = null;
+    // pending waiters for a deferred authorization; multiple components
+    // (decrypt frames, editor) can request a token while no authorization exists
+    this.authorizationRequests = [];
     this.authTabListener = null;
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
     this.on('secure-button', this.onSecureBtn);
   }
 
-  activateComponent() {
-    mvelo.tabs.activate({id: this.tabId});
+  async activateComponent() {
+    await mvelo.tabs.activate({id: this.tabId});
   }
 
   async onOpenEditor(options) {
+    // Establish authorization before the editor opens: the editor is a popup
+    // window that would cover the settings tab of a deferred authorization
+    // (never raised above it on Firefox). Once authorized, onAuthorize returns
+    // to the webmail tab and the editor popup opens on top of it.
+    try {
+      await this.getAccessToken({email: options.userInfo.email});
+    } catch (e) {
+      if (e.code === ERROR_OUTLOOK_AUTH_CANCELLED) {
+        // user declined the authorization, no editor
+        return;
+      }
+      throw e;
+    }
     await this.createPeer('editorController');
     if (await this.peers.editorController.getPopup()) {
       await this.peers.editorController.activateComponent();
@@ -51,6 +66,7 @@ export default class OutlookController extends SubController {
     this.setState({userInfo: options.userInfo, messageId: options.messageId});
     this.peers.editorController.openEditor({
       integration: true,
+      provider: this.peerType,
       predefinedText: options.text,
       quotedMail: options.quotedMail,
       quotedMailIndent: options.quotedMailIndent === undefined ? true : options.quotedMailIndent,
@@ -139,8 +155,13 @@ export default class OutlookController extends SubController {
     if (beforeAuth) {
       beforeAuth();
     }
-    this.openAuthorizeDialog({email, scopes});
-    return new Promise((resolve, reject) => this.authorizationRequest = {resolve, reject, afterAuth});
+    const {promise, resolve, reject} = Promise.withResolvers();
+    this.authorizationRequests.push({resolve, reject, afterAuth});
+    // one authorization dialog serves all concurrent waiters
+    if (this.authorizationRequests.length === 1) {
+      this.openAuthorizeDialog({email, scopes});
+    }
+    return promise;
   }
 
   async onAuthorize({email, scopes}) {
@@ -148,26 +169,27 @@ export default class OutlookController extends SubController {
       const accessToken = await outlook.authorize(email, scopes);
       // License check deferred to Phase 4/5
       this.clearAuthTabWatch();
-      this.activateComponent();
-      if (this.authorizationRequest?.afterAuth) {
-        this.authorizationRequest.afterAuth();
+      // return to the webmail tab before resolving the waiters, so a deferred
+      // editor opens on top of the webmail, not the settings tab
+      await this.activateComponent().catch(() => { /* tab closed meanwhile */ });
+      for (const request of this.authorizationRequests.splice(0)) {
+        request.afterAuth?.();
+        request.resolve(accessToken);
       }
-      this.authorizationRequest?.resolve(accessToken);
-      this.authorizationRequest = null;
     } catch (e) {
       const error = mapAuthError(e);
       this.clearAuthTabWatch();
-      this.authorizationRequest?.reject(error);
-      this.authorizationRequest = null;
+      for (const request of this.authorizationRequests.splice(0)) {
+        request.reject(error);
+      }
       throw error;
     }
   }
 
   cancelAuthorization() {
     this.clearAuthTabWatch();
-    if (this.authorizationRequest) {
-      this.authorizationRequest.reject(new MvError('Authorization cancelled by user.', ERROR_OUTLOOK_AUTH_CANCELLED));
-      this.authorizationRequest = null;
+    for (const request of this.authorizationRequests.splice(0)) {
+      request.reject(new MvError('Authorization cancelled by user.', ERROR_OUTLOOK_AUTH_CANCELLED));
     }
   }
 

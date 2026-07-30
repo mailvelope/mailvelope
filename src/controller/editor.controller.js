@@ -38,6 +38,7 @@ export default class EditorController extends SubController {
       popupOpenerTabId: null,
       keyringId: null,
       integration: false,
+      provider: null,
       userInfo: null
     };
     this.peerType = 'editorController';
@@ -83,7 +84,7 @@ export default class EditorController extends SubController {
   }
 
   async getAccessToken() {
-    const provider = this.peers.gmailController ?? this.peers.outlookController;
+    const provider = this.peers[this.state.provider] ?? this.peers.gmailController ?? this.peers.outlookController;
     return provider.getAccessToken({
       ...this.state.userInfo,
       beforeAuth: () => this.beforeAuthorization(),
@@ -92,7 +93,7 @@ export default class EditorController extends SubController {
   }
 
   beforeAuthorization() {
-    const authErrorKey = this.peers.outlookController ? 'outlook_integration_auth_error_send' : 'gmail_integration_auth_error_send';
+    const authErrorKey = this.state.provider === 'outlookController' ? 'outlook_integration_auth_error_send' : 'gmail_integration_auth_error_send';
     this.ports.editor.emit('error-message', {
       error: {
         code: 'AUTHORIZATION_REQUIRED',
@@ -295,8 +296,8 @@ export default class EditorController extends SubController {
    * @param {boolean} quotedMailIndent - if true the quoted mail will be indented
    * @param {Object} recipients - recipient email addresses, in the form {to: [{email}], cc: [{email}]}
    */
-  async openEditor({userInfo, ...options}) {
-    this.setState({userInfo});
+  async openEditor({userInfo, provider, ...options}) {
+    this.setState({userInfo, provider});
     this.options = options;
     this.options.privKeys = true; // send private keys for signing key selection to editor
     let height = 680;

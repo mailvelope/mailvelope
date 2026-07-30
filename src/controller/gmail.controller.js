@@ -50,6 +50,7 @@ export default class GmailController extends SubController {
     this.setState({userInfo: options.userInfo, threadId: options.threadId});
     this.peers.editorController.openEditor({
       integration: true,
+      provider: this.peerType,
       predefinedText: options.text,
       quotedMail: options.quotedMail,
       quotedMailIndent: options.quotedMailIndent === undefined ? true : options.quotedMailIndent,

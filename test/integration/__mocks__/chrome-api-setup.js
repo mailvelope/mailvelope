@@ -440,10 +440,24 @@
   };
 
   window.chrome.tabs ??= {
+    async query() {
+      return [];
+    },
+    async create(options) {
+      return {id: 100, windowId: 1, ...options};
+    },
     async update(tabId, options) {
       return {id: tabId, ...options};
     },
     onActivated: {
+      addListener() {},
+      removeListener() {}
+    },
+    onRemoved: {
+      addListener() {},
+      removeListener() {}
+    },
+    onUpdated: {
       addListener() {},
       removeListener() {}
     }

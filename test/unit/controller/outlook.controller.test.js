@@ -83,6 +83,7 @@ describe('OutlookController', () => {
         messageId: 'msg-123'
       };
 
+      mockOutlook.getAccessToken.mockResolvedValue('valid-token');
       controller.createPeer = jest.fn().mockResolvedValue(undefined);
       controller.peers = {
         editorController: {
@@ -96,6 +97,7 @@ describe('OutlookController', () => {
       expect(controller.createPeer).toHaveBeenCalledWith('editorController');
       expect(controller.state.userInfo).toEqual(options.userInfo);
       expect(controller.state.messageId).toBe('msg-123');
+      expect(controller.peers.editorController.openEditor).toHaveBeenCalledWith(expect.objectContaining({provider: 'outlookController'}));
     });
 
     it('should activate existing editor if popup already exists', async () => {
@@ -103,6 +105,7 @@ describe('OutlookController', () => {
         userInfo: {email: 'user@outlook.com'}
       };
 
+      mockOutlook.getAccessToken.mockResolvedValue('valid-token');
       controller.createPeer = jest.fn().mockResolvedValue(undefined);
       controller.peers = {
         editorController: {
@@ -114,6 +117,50 @@ describe('OutlookController', () => {
       await controller.onOpenEditor(options);
 
       expect(controller.peers.editorController.activateComponent).toHaveBeenCalled();
+    });
+
+    it('should defer opening the editor until authorization completes', async () => {
+      const options = {userInfo: {email: 'user@outlook.com'}};
+
+      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.authorize.mockResolvedValue('fresh-token');
+      controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
+      controller.activateComponent = jest.fn().mockResolvedValue(undefined);
+      controller.createPeer = jest.fn().mockResolvedValue(undefined);
+      controller.peers = {
+        editorController: {
+          getPopup: jest.fn().mockResolvedValue(false),
+          openEditor: jest.fn()
+        }
+      };
+
+      const openEditorPromise = controller.onOpenEditor(options);
+      await Promise.resolve();
+
+      // editor must not open while the authorization is pending
+      expect(controller.createPeer).not.toHaveBeenCalled();
+      expect(controller.authorizationRequests).toHaveLength(1);
+
+      await controller.onAuthorize({email: 'user@outlook.com', scopes: []});
+      await openEditorPromise;
+
+      expect(controller.peers.editorController.openEditor).toHaveBeenCalled();
+    });
+
+    it('should not open the editor when the authorization is cancelled', async () => {
+      const options = {userInfo: {email: 'user@outlook.com'}};
+
+      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
+      controller.createPeer = jest.fn().mockResolvedValue(undefined);
+
+      const openEditorPromise = controller.onOpenEditor(options);
+      await Promise.resolve();
+
+      controller.cancelAuthorization();
+      await openEditorPromise;
+
+      expect(controller.createPeer).not.toHaveBeenCalled();
     });
   });
 
@@ -174,11 +221,32 @@ describe('OutlookController', () => {
       });
 
       // Simulate successful authorization
-      expect(controller.authorizationRequest).toBeDefined();
-      controller.authorizationRequest.resolve('new-token-456');
+      expect(controller.authorizationRequests).toHaveLength(1);
+      controller.authorizationRequests[0].resolve('new-token-456');
 
       const token = await tokenPromise;
       expect(token).toBe('new-token-456');
+    });
+
+    it('should serve concurrent requests with a single authorization dialog', async () => {
+      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.authorize.mockResolvedValue('shared-token');
+
+      controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
+      controller.activateComponent = jest.fn().mockResolvedValue(undefined);
+
+      const first = controller.getAccessToken({email: 'test@outlook.com'});
+      const second = controller.getAccessToken({email: 'test@outlook.com'});
+      await Promise.resolve();
+
+      expect(controller.openAuthorizeDialog).toHaveBeenCalledTimes(1);
+      expect(controller.authorizationRequests).toHaveLength(2);
+
+      await controller.onAuthorize({email: 'test@outlook.com', scopes: []});
+
+      await expect(first).resolves.toBe('shared-token');
+      await expect(second).resolves.toBe('shared-token');
+      expect(controller.authorizationRequests).toHaveLength(0);
     });
 
     it('should call beforeAuth callback before authorization', async () => {
@@ -201,7 +269,7 @@ describe('OutlookController', () => {
       const afterAuth = jest.fn();
 
       controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
-      controller.activateComponent = jest.fn();
+      controller.activateComponent = jest.fn().mockResolvedValue(undefined);
 
       const tokenPromise = controller.getAccessToken({email: 'test@outlook.com', afterAuth});
 
@@ -227,15 +295,15 @@ describe('OutlookController', () => {
         resolve: jest.fn(),
         reject: jest.fn()
       };
-      controller.authorizationRequest = authorizationRequest;
-      controller.activateComponent = jest.fn();
+      controller.authorizationRequests = [authorizationRequest];
+      controller.activateComponent = jest.fn().mockResolvedValue(undefined);
 
       await controller.onAuthorize({email, scopes});
 
       expect(mockOutlook.authorize).toHaveBeenCalledWith(email, scopes);
       expect(authorizationRequest.resolve).toHaveBeenCalledWith('new-access-token');
       expect(controller.activateComponent).toHaveBeenCalled();
-      expect(controller.authorizationRequest).toBeNull();
+      expect(controller.authorizationRequests).toHaveLength(0);
     });
 
     it('should reject authorization request on error', async () => {
@@ -247,17 +315,16 @@ describe('OutlookController', () => {
         resolve: jest.fn(),
         reject: jest.fn()
       };
-      controller.authorizationRequest = authorizationRequest;
+      controller.authorizationRequests = [authorizationRequest];
 
       await expect(controller.onAuthorize({email})).rejects.toThrow('Authorization failed');
       expect(authorizationRequest.reject).toHaveBeenCalledWith(error);
-      expect(controller.authorizationRequest).toBeNull();
+      expect(controller.authorizationRequests).toHaveLength(0);
     });
 
     it('should not fail when no authorization request is pending', async () => {
       mockOutlook.authorize.mockResolvedValue('new-access-token');
-      controller.activateComponent = jest.fn();
-      controller.authorizationRequest = null;
+      controller.activateComponent = jest.fn().mockResolvedValue(undefined);
 
       await expect(controller.onAuthorize({email: 'test@outlook.com', scopes: []})).resolves.toBeUndefined();
     });
@@ -270,7 +337,7 @@ describe('OutlookController', () => {
         resolve: jest.fn(),
         reject: jest.fn()
       };
-      controller.authorizationRequest = authorizationRequest;
+      controller.authorizationRequests = [authorizationRequest];
 
       await expect(controller.onAuthorize({email: 'test@outlook.com'})).rejects.toMatchObject({
         code: 'OUTLOOK_OAUTH_ADMIN_CONSENT',
@@ -281,22 +348,19 @@ describe('OutlookController', () => {
   });
 
   describe('cancelAuthorization()', () => {
-    it('should reject the pending authorization request as cancelled', () => {
-      const authorizationRequest = {
-        resolve: jest.fn(),
-        reject: jest.fn()
-      };
-      controller.authorizationRequest = authorizationRequest;
+    it('should reject all pending authorization requests as cancelled', () => {
+      const first = {resolve: jest.fn(), reject: jest.fn()};
+      const second = {resolve: jest.fn(), reject: jest.fn()};
+      controller.authorizationRequests = [first, second];
 
       controller.cancelAuthorization();
 
-      expect(authorizationRequest.reject).toHaveBeenCalledWith(expect.objectContaining({code: 'OUTLOOK_AUTH_CANCELLED'}));
-      expect(controller.authorizationRequest).toBeNull();
+      expect(first.reject).toHaveBeenCalledWith(expect.objectContaining({code: 'OUTLOOK_AUTH_CANCELLED'}));
+      expect(second.reject).toHaveBeenCalledWith(expect.objectContaining({code: 'OUTLOOK_AUTH_CANCELLED'}));
+      expect(controller.authorizationRequests).toHaveLength(0);
     });
 
     it('should do nothing without a pending request', () => {
-      controller.authorizationRequest = null;
-
       expect(() => controller.cancelAuthorization()).not.toThrow();
     });
 
@@ -310,7 +374,7 @@ describe('OutlookController', () => {
         resolve: jest.fn(),
         reject: jest.fn()
       };
-      controller.authorizationRequest = authorizationRequest;
+      controller.authorizationRequests = [authorizationRequest];
 
       await controller.openAuthorizeDialog({email: 'test@outlook.com', scopes: []});
 

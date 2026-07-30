@@ -69,6 +69,7 @@ describe('EditorController unit tests', () => {
         popupOpenerTabId: null,
         keyringId: null,
         integration: false,
+        provider: null,
         userInfo: null
       });
       expect(controller.peerType).toBe('editorController');
