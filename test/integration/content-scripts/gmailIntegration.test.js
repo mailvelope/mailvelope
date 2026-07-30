@@ -331,6 +331,38 @@ describe('GmailIntegration validation tests (Phase 0)', () => {
     });
   });
 
+  describe('Bottom action buttons', () => {
+    it('should bind the thread bottom bar to the last encrypted message', async () => {
+      const result = await page.evaluate(async template => {
+        const container = document.createElement('div');
+        container.className = 'test-gmail-container';
+        container.innerHTML = `${template.replace('msg-clipped-pgp', 'msg-first')}
+          <div class="btDi4d"><div><span class="ams" role="link">Reply</span><span class="ams" role="link">Forward</span></div></div>`;
+        document.body.appendChild(container);
+
+        const {GmailIntegration} = window.testHarness.getContentScripts();
+        const gmail = new GmailIntegration();
+        const clicked = [];
+        gmail.onSecureButton = (ev, type, msgId) => clicked.push(msgId);
+        const clickReply = () => document.querySelector('.btDi4d [data-mv-btns-bottom]').shadowRoot.querySelector('.mv-action-btn-bottom-reply').click();
+
+        await gmail.scanMessages();
+        clickReply();
+        // a later encrypted message arrives in the thread
+        container.querySelector('.btDi4d').insertAdjacentHTML('beforebegin', template.replace('msg-clipped-pgp', 'msg-last'));
+        await gmail.scanMessages();
+        clickReply();
+
+        return {
+          clicked,
+          bottomBars: document.querySelectorAll('.btDi4d [data-mv-btns-bottom]').length
+        };
+      }, GmailDOMTemplates.messageWithClippedPGP);
+
+      expect(result).toEqual({clicked: ['msg-first', 'msg-last'], bottomBars: 1});
+    });
+  });
+
   describe('Multiple messages handling', () => {
     it('should scan and identify multiple messages', async () => {
       const result = await page.evaluate(async template => {

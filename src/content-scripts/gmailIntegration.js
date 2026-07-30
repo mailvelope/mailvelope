@@ -176,6 +176,7 @@ export default class GmailIntegration {
   async scanMessages() {
     const msgs = document.querySelectorAll('[data-message-id]');
     const currentMsgs = new Map();
+    let bottomBtnsMsgId;
     for (const msgElem of msgs) {
       const msgData = {};
       const msgId = this.getMsgId(msgElem);
@@ -190,7 +191,7 @@ export default class GmailIntegration {
         selected.controllerId = msgData.controllerId || selected.controllerId;
         currentMsgs.set(msgId, selected);
         if (selected.controllerType === 'dFrame' || selected.clipped || selected.secureAction) {
-          this.addBottomBtns(msgId, msgElem);
+          bottomBtnsMsgId = msgId;
         }
         continue;
       }
@@ -217,14 +218,16 @@ export default class GmailIntegration {
         msgData.msgId = msgId;
         // add top and menu buttons
         this.attachMsgBtns(msgId, msgElem, msgData);
-        // add bottom buttons in case of decryp frame
         if (msgData.controllerType === 'dFrame' || msgData.clipped) {
-          this.addBottomBtns(msgId, msgElem);
+          bottomBtnsMsgId = msgId;
         }
         currentMsgs.set(msgId, msgData);
       }
     }
     this.selectedMsgs = currentMsgs;
+    if (bottomBtnsMsgId) {
+      this.addBottomBtns(bottomBtnsMsgId);
+    }
   }
 
   getControllerDetails(frameElem) {
@@ -301,12 +304,17 @@ export default class GmailIntegration {
     }
   }
 
+  // Gmail renders one bottom action bar per thread (.btDi4d); like Gmail's own
+  // bottom Reply it acts on the last message, so it binds to the last encrypted one
   addBottomBtns(msgId) {
     const bottomBtnsContainer = document.querySelector('.btDi4d');
     if (bottomBtnsContainer) {
-      if (bottomBtnsContainer.querySelector('[data-mv-btns-bottom]')) {
+      const btnsBottomElem = bottomBtnsContainer.querySelector('[data-mv-btns-bottom]');
+      if (btnsBottomElem && this.bottomBtnsMsgId === msgId) {
         return;
       }
+      btnsBottomElem?.remove();
+      this.bottomBtnsMsgId = msgId;
       const actionBtnsBottom = bottomBtnsContainer.querySelectorAll('span.ams[role="link"]');
       if (actionBtnsBottom.length) {
         let parent;

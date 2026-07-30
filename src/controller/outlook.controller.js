@@ -111,11 +111,7 @@ export default class OutlookController extends SubController {
       return;
     }
     this.peers.editorController.ports.editor.emit('error-message', {
-      error: {
-        ...error,
-        autoHide: false,
-        dismissable: false
-      }
+      error: {...mapError(error), autoHide: false, dismissable: false}
     });
   }
 

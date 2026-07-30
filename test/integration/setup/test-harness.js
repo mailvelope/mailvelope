@@ -12,6 +12,7 @@ import {createController, initFactory, verifyConnectPermission} from 'controller
 import {prefs} from 'modules/prefs';
 import {init as initClientAPI} from 'client-API/client-api';
 import {init as initClientAPIContentScript} from 'content-scripts/clientAPI';
+import AttachmentFrame from 'content-scripts/attachmentFrame';
 import EncryptFrame from 'content-scripts/encryptFrame';
 import ExtractFrame from 'content-scripts/extractFrame';
 import * as providerSpecific from 'content-scripts/providerSpecific';
@@ -147,6 +148,7 @@ window.testHarness = {
    * @returns {Object} Content script classes
    */
   getContentScripts: () => ({
+    AttachmentFrame,
     EncryptFrame,
     ExtractFrame,
     providerSpecific,

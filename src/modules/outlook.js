@@ -37,6 +37,7 @@ const MICROSOFT_OAUTH_HOST = 'https://login.microsoftonline.com/common/oauth2/v2
 const MICROSOFT_GRAPH_HOST = 'https://graph.microsoft.com/v1.0';
 const OUTLOOK_OAUTH_STORE = 'mvelo.oauth.outlook';
 const OUTLOOK_MSGID_CACHE_PREFIX = 'mvelo.outlook.msgid.';
+const OUTLOOK_MSGID_CACHE_TTL = 5 * 60 * 1000; // 5 min
 
 // ============================================================================
 // Message ID Translation Cache
@@ -48,22 +49,29 @@ class MessageIdCache {
   }
 
   /**
-   * Get cached message IDs for a conversation
+   * Get cached message IDs for a conversation, unless the entry expired
    * @param {string} conversationId - The Outlook conversation ID
    * @returns {Promise<{messageIds: string[], timestamp: number}|undefined>}
    */
   async get(conversationId) {
     const cacheKey = OUTLOOK_MSGID_CACHE_PREFIX + conversationId;
     // Check memory first
-    if (this.map.has(conversationId)) {
-      return this.map.get(conversationId);
+    let cached = this.map.get(conversationId);
+    if (!cached) {
+      // Check session storage
+      ({[cacheKey]: cached} = await chrome.storage.session.get(cacheKey));
+      if (cached) {
+        this.map.set(conversationId, cached);
+      }
     }
-    // Check session storage
-    const {[cacheKey]: cached} = await chrome.storage.session.get(cacheKey);
-    if (cached) {
-      this.map.set(conversationId, cached);
-      return cached;
+    if (!cached) {
+      return;
     }
+    if (Date.now() - cached.timestamp > OUTLOOK_MSGID_CACHE_TTL) {
+      await this.delete(conversationId);
+      return;
+    }
+    return cached;
   }
 
   /**
@@ -93,6 +101,52 @@ class MessageIdCache {
 const messageIdCache = new MessageIdCache();
 
 /**
+ * Fetch the Graph message IDs of a conversation, newest first, and cache them
+ * @param {string} conversationId - The Outlook conversation ID
+ * @param {string} accessToken - Valid access token
+ * @returns {Promise<{messageIds: string[]}>} Message IDs in reading-pane order
+ */
+async function fetchConversationMessageIds(conversationId, accessToken) {
+  // Note: Cannot use $orderby with $filter on conversationId (Graph API limitation:
+  // "The restriction or sort order is too complex for this operation")
+  // Fetch metadata only and sort client-side
+  const filter = `conversationId eq '${conversationId.replaceAll("'", "''")}'`;
+  let url = `${MICROSOFT_GRAPH_HOST}/me/messages?$filter=${encodeURIComponent(filter)}&$select=id,receivedDateTime,internetMessageId`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json'
+    }
+  };
+  try {
+    const messages = [];
+    // Graph pages the result (default page size 10)
+    while (url) {
+      const response = await fetchJSON(url, options);
+      messages.push(...response.value);
+      url = response['@odata.nextLink'];
+    }
+    // Self-sent messages appear once per folder (Inbox and Sent Items); the copies
+    // share an internetMessageId and are interchangeable for content requests
+    const seen = new Set();
+    const uniqueMessages = messages.filter(({internetMessageId}) => !seen.has(internetMessageId) && seen.add(internetMessageId));
+    // Sort by receivedDateTime descending (newest first) to match the DOM order of
+    // OWA's conversation reading pane
+    const sortedMessages = uniqueMessages.sort((a, b) =>
+      new Date(b.receivedDateTime) - new Date(a.receivedDateTime)
+    );
+    const messageIds = sortedMessages.map(msg => msg.id);
+    await messageIdCache.set(conversationId, messageIds);
+    return {messageIds};
+  } catch (error) {
+    // Clear cache entry on error
+    await messageIdCache.delete(conversationId);
+    throw error;
+  }
+}
+
+/**
  * Resolve a local message ID to a Microsoft Graph message ID
  * Local ID format: "conversationId#messageIndex"
  * @param {string} localMsgId - Local message ID from content script
@@ -107,33 +161,15 @@ async function resolveGraphMessageId(localMsgId, accessToken) {
   }
   // Check cache first
   let cached = await messageIdCache.get(conversationId);
+  let fetched = false;
   if (!cached) {
-    // Fetch all messages in the conversation from Graph API
-    // Note: Cannot use $orderby with $filter on conversationId (Graph API limitation:
-    // "The restriction or sort order is too complex for this operation")
-    // Fetch metadata only and sort client-side
-    const url = `${MICROSOFT_GRAPH_HOST}/me/messages?$filter=conversationId eq '${conversationId}'&$select=id,receivedDateTime`;
-    const options = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: 'application/json'
-      }
-    };
-    try {
-      const response = await fetchJSON(url, options);
-      // Sort by receivedDateTime ascending (oldest first) to match DOM order
-      const sortedMessages = response.value.sort((a, b) =>
-        new Date(a.receivedDateTime) - new Date(b.receivedDateTime)
-      );
-      const messageIds = sortedMessages.map(msg => msg.id);
-      await messageIdCache.set(conversationId, messageIds);
-      cached = {messageIds};
-    } catch (error) {
-      // Clear cache entry on error
-      await messageIdCache.delete(conversationId);
-      throw error;
-    }
+    cached = await fetchConversationMessageIds(conversationId, accessToken);
+    fetched = true;
+  }
+  if (messageIndex >= cached.messageIds.length && !fetched) {
+    // Cached entry may predate new messages in the conversation
+    await messageIdCache.delete(conversationId);
+    cached = await fetchConversationMessageIds(conversationId, accessToken);
   }
   // Get the message ID at the specified index
   if (messageIndex >= cached.messageIds.length) {

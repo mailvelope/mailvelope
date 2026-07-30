@@ -4,7 +4,7 @@
  */
 
 import * as l10n from '../lib/l10n';
-import {dataURL2str, normalizeArmored, encodeHTML} from '../lib/util';
+import {dataURL2str, encodeHTML} from '../lib/util';
 import {parseAddress} from '../lib/email';
 import {extractFileExtension} from '../lib/file';
 import * as model from '../modules/pgpModel';
@@ -24,7 +24,6 @@ export default class OutlookDecryptController extends DecryptController {
     this.outlookCtrl = null;
     this.signedText = null;
     this.plainText = null;
-    this.clipped = false;
     this.attachments = [];
     this.ascAttachments = [];
     // register event handlers
@@ -66,7 +65,7 @@ export default class OutlookDecryptController extends DecryptController {
   /**
    * Receive DOM parsed message data from Outlook integration content script and display it in decrypt message component
    */
-  async onSetData({userInfo, msgId, sender, armored, plainText, clipped, encAttFileNames, outlookCtrlId}) {
+  async onSetData({userInfo, msgId, sender, armored, plainText, encAttFileNames, outlookCtrlId}) {
     let lock = false;
     this.setState({outlookCtrlId, userInfo, msgId});
     if (armored) {
@@ -78,10 +77,9 @@ export default class OutlookDecryptController extends DecryptController {
     }
     this.plainText = plainText;
     this.attachments = encAttFileNames;
-    this.clipped = clipped;
     this.ascAttachments = encAttFileNames.filter(fileName => extractFileExtension(fileName) === 'asc');
     let accessToken;
-    if (clipped || this.attachments.length) {
+    if (this.attachments.length) {
       accessToken = await (await this.getOutlookCtrl()).checkAuthorization(this.state.userInfo);
       if (!accessToken) {
         lock = true;
@@ -109,36 +107,13 @@ export default class OutlookDecryptController extends DecryptController {
       await super.decrypt(this.armored, this.keyringId);
     }
     try {
-      if (!accessToken && (this.clipped || this.attachments.length)) {
+      if (!accessToken && this.attachments.length) {
         accessToken = await this.getAccessToken();
-      }
-      if (this.clipped) {
-        await this.onClippedArmored(accessToken);
       }
       if (this.attachments.length) {
         await this.onAttachments(accessToken);
       }
     } catch (error) {
-      this.ports.dDialog.emit('error-message', {error: error.message});
-    }
-  }
-
-  async onClippedArmored(accessToken) {
-    this.ports.dDialog.emit('waiting', {waiting: true});
-    try {
-      const {payload} = await outlook.getMessage({msgId: this.state.msgId, accessToken});
-      const messageText = await outlook.extractMailBody({payload, msgId: this.state.msgId, accessToken});
-      this.armored = normalizeArmored(messageText, /-----BEGIN PGP MESSAGE-----[\s\S]+?-----END PGP MESSAGE-----/);
-      const {email: sender} = parseAddress(outlook.extractMailHeader(payload, 'From'));
-      this.sender = sender;
-      if (!await this.canUnlockKey(this.armored, this.keyringId)) {
-        this.ports.dDialog.emit('lock');
-      } else {
-        await super.decrypt(this.armored, this.keyringId);
-      }
-      this.ports.dDialog.emit('waiting', {waiting: false});
-    } catch (error) {
-      this.ports.dDialog.emit('lock');
       this.ports.dDialog.emit('error-message', {error: error.message});
     }
   }

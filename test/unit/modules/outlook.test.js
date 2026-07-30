@@ -298,6 +298,218 @@ describe('Outlook module', () => {
     });
   });
 
+  describe('message ID resolution via getMessage()', () => {
+    const accessToken = 'test-access-token';
+
+    // Messages in the conversation, newest first (matching the expected local index order);
+    // the mocked Graph response is shuffled to reverse order to exercise the client-side sort
+    function mockConversationResponse(messages) {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          value: messages.map(({id, imid}, index) => ({
+            id,
+            receivedDateTime: new Date(2026, 0, 1, messages.length - index).toISOString(),
+            internetMessageId: imid ?? `<${id}@test>`
+          })).reverse()
+        })
+      });
+    }
+
+    function mockMessageResponse(id) {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({id})
+      });
+    }
+
+    it('should escape and URL-encode the conversationId in the $filter query', async () => {
+      const conversationId = "AAQkAD'quote+plus";
+      mockConversationResponse([{id: 'graph-id-0'}]);
+      mockMessageResponse('graph-id-0');
+
+      await outlook.getMessage({msgId: `${conversationId}#0`, accessToken});
+
+      const expectedFilter = encodeURIComponent("conversationId eq 'AAQkAD''quote+plus'");
+      expect(mockFetch).toHaveBeenNthCalledWith(
+        1,
+        `https://graph.microsoft.com/v1.0/me/messages?$filter=${expectedFilter}&$select=id,receivedDateTime,internetMessageId`,
+        expect.any(Object)
+      );
+    });
+
+    it('should map local indexes newest-first and cache the resolved IDs per conversation', async () => {
+      const conversationId = 'AAQkADcacheHit';
+      mockConversationResponse([{id: 'graph-id-newest'}, {id: 'graph-id-oldest'}]);
+      mockMessageResponse('graph-id-newest');
+      mockMessageResponse('graph-id-oldest');
+
+      await outlook.getMessage({msgId: `${conversationId}#0`, accessToken});
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        expect.stringContaining('/me/messages/graph-id-newest'),
+        expect.any(Object)
+      );
+
+      await outlook.getMessage({msgId: `${conversationId}#1`, accessToken});
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        expect.stringContaining('/me/messages/graph-id-oldest'),
+        expect.any(Object)
+      );
+
+      // One conversation lookup, two message fetches
+      expect(mockFetch).toHaveBeenCalledTimes(3);
+    });
+
+    it('should dedupe folder copies sharing an internetMessageId', async () => {
+      const conversationId = 'AAQkADdupes';
+      mockConversationResponse([
+        {id: 'copy-newer', imid: '<m1@test>'},
+        {id: 'copy-older', imid: '<m1@test>'}
+      ]);
+      mockMessageResponse('copy-older');
+
+      await outlook.getMessage({msgId: `${conversationId}#0`, accessToken});
+
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        expect.stringContaining('/me/messages/copy-older'),
+        expect.any(Object)
+      );
+    });
+
+    it('should follow @odata.nextLink to collect all messages of the conversation', async () => {
+      const conversationId = 'AAQkADpaged';
+      const nextLink = 'https://graph.microsoft.com/v1.0/me/messages?$skiptoken=page2';
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          value: [{id: 'graph-id-newest', receivedDateTime: '2026-01-02T00:00:00Z', internetMessageId: '<newest@test>'}],
+          '@odata.nextLink': nextLink
+        })
+      });
+      mockConversationResponse([{id: 'graph-id-oldest'}]);
+      mockMessageResponse('graph-id-oldest');
+
+      await outlook.getMessage({msgId: `${conversationId}#1`, accessToken});
+
+      expect(mockFetch).toHaveBeenNthCalledWith(2, nextLink, expect.any(Object));
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        expect.stringContaining('/me/messages/graph-id-oldest'),
+        expect.any(Object)
+      );
+    });
+
+    it('should refetch the conversation after the cache TTL expired', async () => {
+      const conversationId = 'AAQkADttlExpiry';
+      mockConversationResponse([{id: 'graph-id-0'}]);
+      mockMessageResponse('graph-id-0');
+
+      await outlook.getMessage({msgId: `${conversationId}#0`, accessToken});
+
+      const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(Date.now() + 5 * 60 * 1000 + 1);
+      try {
+        mockConversationResponse([{id: 'graph-id-0'}]);
+        mockMessageResponse('graph-id-0');
+        await outlook.getMessage({msgId: `${conversationId}#0`, accessToken});
+      } finally {
+        nowSpy.mockRestore();
+      }
+
+      // Two conversation lookups, two message fetches
+      expect(mockFetch).toHaveBeenCalledTimes(4);
+    });
+
+    it('should refetch the conversation if the cached entry misses the message index', async () => {
+      const conversationId = 'AAQkADgrown';
+      mockConversationResponse([{id: 'graph-id-A'}]);
+      mockMessageResponse('graph-id-A');
+
+      await outlook.getMessage({msgId: `${conversationId}#0`, accessToken});
+
+      // New message arrived since caching: it takes index 0, the old message shifts to 1
+      mockConversationResponse([{id: 'graph-id-B'}, {id: 'graph-id-A'}]);
+      mockMessageResponse('graph-id-A');
+
+      await outlook.getMessage({msgId: `${conversationId}#1`, accessToken});
+
+      expect(mockFetch).toHaveBeenCalledTimes(4);
+      expect(mockFetch).toHaveBeenLastCalledWith(
+        expect.stringContaining('/me/messages/graph-id-A'),
+        expect.any(Object)
+      );
+    });
+
+    it('should throw if the message index is out of bounds after a fresh fetch', async () => {
+      const conversationId = 'AAQkADoutOfBounds';
+      mockConversationResponse([{id: 'graph-id-0'}]);
+
+      await expect(outlook.getMessage({msgId: `${conversationId}#5`, accessToken})).rejects.toThrow('out of bounds');
+
+      // Fresh fetch is not repeated
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('extractMailBody()', () => {
+    const accessToken = 'test-access-token';
+
+    it('should return the plain body content of a standard message', async () => {
+      const payload = {body: {content: 'Hello, here is my public key.'}};
+
+      const body = await outlook.extractMailBody({payload, msgId: 'AAMkgraph-id', accessToken});
+
+      expect(body).toBe('Hello, here is my public key.');
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it('should read the body from the encrypted attachment for multipart/encrypted', async () => {
+      const payload = {
+        body: {content: 'this placeholder must not be returned'},
+        internetMessageHeaders: [
+          {name: 'Content-Type', value: 'multipart/encrypted; protocol="application/pgp-encrypted"; boundary=abc'}
+        ]
+      };
+      // PGP armor is ASCII by definition; `atob` is byte-oriented, so keep the fixture ASCII
+      const armored = '-----BEGIN PGP MESSAGE-----\r\n\r\nwcFMA9q70hY3pC6PAQ/+Lihh\r\n=Kxb1\r\n-----END PGP MESSAGE-----';
+      // getPGPEncryptedAttData lists the attachments…
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({value: [{id: 'att-1', name: 'encrypted.asc', contentType: 'application/octet-stream'}]})
+      });
+      // …then getAttachment fetches the content
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          contentType: 'application/octet-stream',
+          contentBytes: btoa(armored),
+          size: armored.length
+        })
+      });
+
+      const body = await outlook.extractMailBody({payload, msgId: 'AAMkgraph-id', accessToken});
+
+      expect(body).toBe(armored);
+    });
+
+    it('should fall back to the plain body when no encrypted attachment is found', async () => {
+      const payload = {
+        body: {content: 'fallback body'},
+        internetMessageHeaders: [{name: 'Content-Type', value: 'multipart/encrypted; boundary=abc'}]
+      };
+      mockFetch.mockResolvedValueOnce({ok: true, json: async () => ({value: []})});
+
+      const body = await outlook.extractMailBody({payload, msgId: 'AAMkgraph-id', accessToken});
+
+      expect(body).toBe('fallback body');
+    });
+
+    it('should return an empty string when the message has no body', async () => {
+      const body = await outlook.extractMailBody({payload: {}, msgId: 'AAMkgraph-id', accessToken});
+
+      expect(body).toBe('');
+    });
+  });
+
   describe('getUserInfo()', () => {
     it('should fetch user info from Microsoft Graph', async () => {
       const accessToken = 'test-access-token';

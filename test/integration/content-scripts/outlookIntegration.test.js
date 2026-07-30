@@ -610,6 +610,150 @@ describe('OutlookIntegration TDD tests', () => {
     });
   });
 
+  describe('Unencrypted body text alongside encrypted attachments', () => {
+    beforeEach(async () => {
+      await page.evaluate(templates => {
+        const container = document.createElement('div');
+        container.className = 'test-outlook-container';
+        container.innerHTML = templates.messageWithEncryptedAttachments + templates.userMailbox;
+        document.body.appendChild(container);
+      }, {
+        messageWithEncryptedAttachments: OutlookDOMTemplates.messageWithEncryptedAttachments,
+        userMailbox: OutlookDOMTemplates.userMailbox
+      });
+    });
+
+    // The body text is forwarded to the decrypt dialog, which renders it behind a
+    // "not encrypted" warning. It must survive a re-scan that finds the frame already
+    // attached — at that point the body is hidden, so innerText alone reads empty.
+    it('should keep the message text when a re-scan re-reads an attached message', async () => {
+      const result = await page.evaluate(async () => {
+        const {OutlookIntegration, csMain} = window.testHarness.getContentScripts();
+        // the injected frames read prefs from the content-script module; popup mode keeps
+        // the frame from mounting the decrypt-dialog iframe
+        csMain.init({
+          security: {display_decrypted: 'popup'},
+          general: {editor_type: 'plain'},
+          provider: {gmail_integration: false, outlook_integration: true}
+        }, []);
+        const integration = new OutlookIntegration();
+        integration.init();
+
+        await integration.scanMessages();
+        const firstPass = [...integration.selectedMsgs.values()][0];
+
+        // drop the cache so the re-scan rebuilds msgData from the DOM instead of
+        // carrying the previous object forward
+        integration.selectedMsgs = null;
+        await integration.scanMessages();
+        const secondPass = [...integration.selectedMsgs.values()][0];
+
+        return {
+          firstPlainText: firstPass?.plainText,
+          firstAtt: firstPass?.att,
+          secondPlainText: secondPass?.plainText,
+          secondAtt: secondPass?.att,
+          reusedFrame: secondPass?.controllerId === firstPass?.controllerId
+        };
+      });
+
+      expect(result.firstAtt.length).toBeGreaterThan(0);
+      expect(result.firstPlainText).toContain('Encrypted files attached.');
+      // the second scan finds the existing frame, so it must not lose the text
+      expect(result.reusedFrame).toBe(true);
+      expect(result.secondAtt).toEqual(result.firstAtt);
+      expect(result.secondPlainText).toContain('Encrypted files attached.');
+    });
+
+    it('should keep the frame visible while hiding the original body text', async () => {
+      const result = await page.evaluate(async () => {
+        const {OutlookIntegration, csMain} = window.testHarness.getContentScripts();
+        csMain.init({
+          security: {display_decrypted: 'popup'},
+          general: {editor_type: 'plain'},
+          provider: {gmail_integration: false, outlook_integration: true}
+        }, []);
+        const integration = new OutlookIntegration();
+        integration.init();
+        await integration.scanMessages();
+
+        const container = document.querySelector('.aVla3 [id^="UniqueMessageBody_"]');
+        const wrapper = container.querySelector('.m-extract-wrapper');
+        const bodyContent = [...container.children].filter(elem => elem !== wrapper);
+        return {
+          frameAttached: Boolean(wrapper),
+          frameHidden: wrapper.style.display === 'none',
+          containerHidden: container.style.display === 'none',
+          bodyContentHidden: bodyContent.every(elem => elem.style.display === 'none'),
+          bodyContentCount: bodyContent.length
+        };
+      });
+
+      expect(result.frameAttached).toBe(true);
+      expect(result.frameHidden).toBe(false);
+      // hiding the container would hide the frame with it
+      expect(result.containerHidden).toBe(false);
+      expect(result.bodyContentCount).toBeGreaterThan(0);
+      expect(result.bodyContentHidden).toBe(true);
+    });
+  });
+
+  describe('Encrypted attachment provider routing', () => {
+    // Regression test for the set-enc-attachments event flow: encrypted attachment
+    // names detected by the Outlook content script must reach the decrypt dialog
+    // through the provider-specific routing chain (aFrameOutlook port → factory →
+    // OutlookDecryptController → outlookCtrlId → OutlookController → set-enc-attachments).
+    it('should deliver encrypted attachment names to the decrypt dialog', async () => {
+      const result = await page.evaluate(async () => {
+        window.testHarness.setPrefs({security: {display_decrypted: 'inline'}});
+        // Valid stored token so the controller reaches the attachment flow without authorization UI
+        await chrome.storage.local.set({'mvelo.oauth.outlook': {
+          'toberndo@outlook.com': {
+            access_token: 'test-access-token',
+            access_token_exp: Date.now() + 3600 * 1000,
+            scope: 'openid https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send'
+          }
+        }});
+        const {OutlookIntegration, AttachmentFrame} = window.testHarness.getContentScripts();
+        const {controllerPool} = window.testHarness.getControllerFactory();
+        const integration = new OutlookIntegration();
+        integration.init();
+        integration.userInfo = {email: 'toberndo@outlook.com'};
+        // Attachment frame as scanMessages creates it for a message with encrypted attachments;
+        // currentProvider is normally injected by content-scripts/main.js
+        const aFrame = new AttachmentFrame(integration.getName());
+        aFrame.currentProvider = {integration};
+        const containerElem = document.createElement('div');
+        containerElem.className = 'test-outlook-container';
+        document.body.appendChild(containerElem);
+        aFrame.init(containerElem);
+        aFrame.establishConnection();
+        aFrame.registerEventListener();
+        integration.selectedMsgs = new Map([
+          ['conv-1#0', {msgId: 'conv-1#0', controllerId: aFrame.id, att: ['secret.gpg']}]
+        ]);
+        // Let the factory create the controllers for both ports
+        await new Promise(resolve => setTimeout(resolve, 50));
+        const controller = await controllerPool.get(aFrame.id);
+        // Decrypt dialog connects to the same controller
+        const dDialogPort = window.testHarness.createPortConnection(`dDialog-${aFrame.id}`);
+        dDialogPort.enableEventCapture();
+        await new Promise(resolve => setTimeout(resolve, 50));
+        dDialogPort.postMessage({event: 'decrypt-message-init'});
+        const event = await dDialogPort.waitForEvent('set-enc-attachments', 3000);
+        return {
+          portName: aFrame.ctrlName,
+          controllerMainType: controller?.mainType,
+          encAtts: event.encAtts
+        };
+      });
+
+      expect(result.portName.startsWith('aFrameOutlook-')).toBe(true);
+      expect(result.controllerMainType).toBe('aFrameOutlook');
+      expect(result.encAtts).toEqual(['secret.gpg']);
+    });
+  });
+
   describe('Cleanup and Deactivation', () => {
     beforeEach(async () => {
       await page.evaluate(template => {

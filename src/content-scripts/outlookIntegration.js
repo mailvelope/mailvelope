@@ -255,16 +255,18 @@ export default class OutlookIntegration {
       if (selected) {
         selected.controllerId = msgData.controllerId || selected.controllerId;
         currentMsgs.set(msgId, selected);
-        if (selected.controllerType === 'dFrame' || selected.clipped || selected.secureAction) {
+        if (selected.controllerType === 'dFrame' || selected.secureAction) {
           this.addBottomBtns(msgId, msgElem);
         }
         continue;
       }
-      if (this.hasClippedArmored(msgElem)) {
-        msgData.clipped = true;
-      }
       msgData.att = this.getEncryptedAttachments(msgElem);
-      if (!msgData.controllerId && (msgData.clipped || msgData.att.length)) {
+      if (msgData.att.length) {
+        // must survive a re-scan that finds the frame already attached, otherwise the
+        // controller receives no message text for the unencrypted-body warning
+        msgData.plainText = this.getPlainText(msgElem);
+      }
+      if (!msgData.controllerId && msgData.att.length) {
         const aFrame = new AttachmentFrame(this.getName());
         msgData.controllerId = aFrame.id;
         msgData.controllerType = aFrame.mainType;
@@ -275,21 +277,19 @@ export default class OutlookIntegration {
         if (wrapper) {
           wrapper.style.position = 'relative';
         }
-        if (msgData.att.length) {
-          msgData.plainText = this.getPlainText(msgElem);
-        }
-        if (msgData.clipped || msgData.plainText) {
-          const bodyElem = msgElem.querySelector('[role="document"]');
-          if (bodyElem) {
-            bodyElem.style.display = 'none';
-            msgData.hiddenElem = bodyElem;
+        if (msgData.plainText) {
+          // Outlook carries role="document" on the frame's own container, so hide the
+          // body content beside the frame — hiding the container would hide the frame
+          msgData.hiddenElems = [...containerElem.children].filter(elem => elem !== wrapper);
+          for (const elem of msgData.hiddenElems) {
+            elem.style.display = 'none';
           }
         }
       }
       if (msgData.controllerId) {
         msgData.msgId = msgId;
         this.attachMsgBtns(msgId, msgElem, msgData);
-        if (msgData.controllerType === 'dFrame' || msgData.clipped) {
+        if (msgData.controllerType === 'dFrame') {
           this.addBottomBtns(msgId, msgElem);
         }
         currentMsgs.set(msgId, msgData);
@@ -303,18 +303,16 @@ export default class OutlookIntegration {
     return {id: parseViewName(eframe.id).id, type: eframe.dataset.mvControllerType};
   }
 
-  hasClippedArmored() {
-    // Could not reproduce clipped messages in Outlook
-    return false;
-  }
-
   getPlainText(msgElem) {
     const messageBody = msgElem.querySelector('[role="document"]');
     if (!messageBody) {
       return '';
     }
+    // innerText is empty once the body content is hidden behind the decrypt frame, so fall
+    // back to textContent to keep the value stable when a re-scan recomputes it
     const {innerText} = messageBody;
-    return /\S/.test(innerText) ? innerText : '';
+    const text = /\S/.test(innerText) ? innerText : messageBody.textContent;
+    return /\S/.test(text) ? text : '';
   }
 
   /**
@@ -481,8 +479,8 @@ export default class OutlookIntegration {
 
   onCloseFrame(controllerId) {
     const message = this.getMsgByControllerId(controllerId);
-    if (message && message.hiddenElem) {
-      message.hiddenElem.style.display = 'block';
+    for (const elem of message?.hiddenElems ?? []) {
+      elem.style.display = '';
     }
   }
 
@@ -495,7 +493,11 @@ export default class OutlookIntegration {
   removeElements() {
     this.removeEditorButton();
     if (this.selectedMsgs) {
-      for (const {msgId, menuMouseDownHandler, menuBlurHandler, clipped, hiddenElem} of this.selectedMsgs.values()) {
+      for (const {msgId, menuMouseDownHandler, menuBlurHandler, hiddenElems} of this.selectedMsgs.values()) {
+        // restore before resolving msgElem: the references stay valid even if the DOM moved on
+        for (const elem of hiddenElems ?? []) {
+          elem.style.display = '';
+        }
         let msgElem;
         // Parse msgId format: conversationID#messageIndex
         if (msgId.includes('#')) {
@@ -515,15 +517,6 @@ export default class OutlookIntegration {
           menuBtnElem.removeEventListener('mousedown', menuMouseDownHandler, true);
           menuBtnElem.removeEventListener('blur', menuBlurHandler, true);
           menuBtnElem.removeAttribute('data-mv-menu-btns');
-        }
-        if (clipped) {
-          const bodyElem = msgElem.querySelector('[role="document"]');
-          if (bodyElem) {
-            bodyElem.style.display = 'block';
-          }
-        }
-        if (hiddenElem) {
-          hiddenElem.style.display = 'block';
         }
       }
     }
