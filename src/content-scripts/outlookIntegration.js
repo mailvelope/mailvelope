@@ -341,8 +341,11 @@ export default class OutlookIntegration {
   }
 
   attachMsgBtns(msgId, msgElem, msgData) {
-    const actionToolbar = msgElem.querySelector('[aria-label*="actions"][role="toolbar"], [role="toolbar"].ms-OverflowSet');
-    if (!actionToolbar) {
+    // per-message Fluent toolbar: the only toolbar in a message without an aria-label
+    // (the quick-actions toolbar always carries one); its first menu item is Reply
+    const actionToolbar = msgElem.querySelector('[role="toolbar"]:not([aria-label])');
+    const replyMenuItem = actionToolbar?.querySelector('[role="menuitem"]');
+    if (!replyMenuItem) {
       return;
     }
     if (actionToolbar.querySelector('[data-mv-btn-top]')) {
@@ -358,7 +361,8 @@ export default class OutlookIntegration {
     const secureReplyBtnShadowRootElem = document.createElement('div');
     secureReplyBtnShadowRootElem.dataset.mvBtnTop = 'reply';
     secureReplyBtnShadowRootElem.style.display = 'inline-flex';
-    actionToolbar.prepend(secureReplyBtnShadowRootElem);
+    secureReplyBtnShadowRootElem.style.alignSelf = 'center';
+    replyMenuItem.before(secureReplyBtnShadowRootElem);
     const secureReplyBtnShadow = secureReplyBtnShadowRootElem.attachShadow({mode: 'open'});
     const secureReplyBtnStyle = document.createElement('style');
     secureReplyBtnStyle.textContent = outlookIntegrationCss;
