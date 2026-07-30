@@ -31,6 +31,10 @@ jest.mock('../../../src/modules/closure-library/closure/goog/emailaddress', () =
 
 import * as outlook from '../../../src/modules/outlook';
 
+// Scope format as returned by the live Microsoft token endpoint (M1-captured):
+// full Graph URIs, offline_access never echoed
+const LIVE_SCOPE = 'openid profile email https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/User.Read';
+
 describe('Outlook module', () => {
   let mockChromeIdentity;
   let mockStorage;
@@ -98,11 +102,12 @@ describe('Outlook module', () => {
 
       // Mock token exchange (first fetch call)
       mockFetch.mockResolvedValueOnce({
+        ok: true,
         json: async () => ({
           access_token: 'access-token-456',
           refresh_token: 'refresh-token-789',
           expires_in: 3600,
-          scope: 'User.Read Mail.Read Mail.Send offline_access'
+          scope: LIVE_SCOPE
         })
       });
 
@@ -125,10 +130,71 @@ describe('Outlook module', () => {
           'test@outlook.com': expect.objectContaining({
             access_token: 'access-token-456',
             refresh_token: 'refresh-token-789',
-            scope: 'User.Read Mail.Read Mail.Send offline_access'
+            scope: LIVE_SCOPE
           })
         })
       );
+    });
+
+    it('should accept a case-insensitive match on the userPrincipalName', async () => {
+      const email = 'test@outlook.com';
+
+      mockChromeIdentity.launchWebAuthFlow
+      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/?code=auth-code-123&state=mock-uuid-12345');
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          access_token: 'access-token-456',
+          expires_in: 3600,
+          scope: LIVE_SCOPE
+        })
+      });
+
+      // Primary SMTP address differs, UPN matches except for case
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          id: 'user-id-123',
+          mail: 'other.alias@contoso.com',
+          userPrincipalName: 'Test@Outlook.com'
+        })
+      });
+
+      const accessToken = await outlook.authorize(email);
+
+      expect(accessToken).toBe('access-token-456');
+    });
+
+    it('should classify an admin-consent error from the token exchange', async () => {
+      const email = 'test@outlook.com';
+
+      mockChromeIdentity.launchWebAuthFlow
+      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/?code=auth-code-123&state=mock-uuid-12345');
+
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        headers: {get: () => 'application/json; charset=utf-8'},
+        json: async () => ({
+          error: 'invalid_grant',
+          error_description: 'AADSTS65001: The user or administrator has not consented.',
+          error_codes: [65001]
+        })
+      });
+
+      await expect(outlook.authorize(email)).rejects.toMatchObject({code: 'OUTLOOK_OAUTH_ADMIN_CONSENT'});
+    });
+
+    it('should classify an admin-consent error from the authorization redirect', async () => {
+      const errorDescription = encodeURIComponent('AADSTS65001: The user or administrator has not consented to use the application.');
+      mockChromeIdentity.launchWebAuthFlow
+      .mockResolvedValueOnce(`https://test-extension-id.chromiumapp.org/?error=consent_required&error_description=${errorDescription}&state=mock-uuid-12345`);
+
+      await expect(outlook.authorize('test@outlook.com')).rejects.toMatchObject({
+        code: 'OUTLOOK_OAUTH_ADMIN_CONSENT',
+        data: {error: 'consent_required', error_codes: [65001]}
+      });
+      expect(mockFetch).not.toHaveBeenCalled();
     });
 
     it('should throw error if email mismatch', async () => {
@@ -140,10 +206,11 @@ describe('Outlook module', () => {
 
       // Mock token exchange (first fetch call)
       mockFetch.mockResolvedValueOnce({
+        ok: true,
         json: async () => ({
           access_token: 'access-token-456',
           expires_in: 3600,
-          scope: 'User.Read Mail.Read Mail.Send offline_access'
+          scope: LIVE_SCOPE
         })
       });
 
@@ -170,7 +237,7 @@ describe('Outlook module', () => {
         'test@outlook.com': {
           access_token: 'stored-token-123',
           access_token_exp: futureTime,
-          scope: 'openid https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send offline_access'
+          scope: LIVE_SCOPE
         }
       });
 
@@ -178,6 +245,24 @@ describe('Outlook module', () => {
 
       expect(token).toBe('stored-token-123');
       expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it('should not require offline_access in the stored scope', async () => {
+      const email = 'test@outlook.com';
+      const futureTime = new Date().getTime() + 3600 * 1000;
+
+      // Stored scope is the token-response echo, which never contains offline_access
+      mockStorage.get.mockResolvedValue({
+        'test@outlook.com': {
+          access_token: 'stored-token-123',
+          access_token_exp: futureTime,
+          scope: LIVE_SCOPE
+        }
+      });
+
+      const token = await outlook.getAccessToken({email, scopes: [outlook.OUTLOOK_SCOPE_MAIL_SEND, outlook.OUTLOOK_SCOPE_OFFLINE_ACCESS]});
+
+      expect(token).toBe('stored-token-123');
     });
 
     it('should return undefined if token expired and no refresh token', async () => {
@@ -188,7 +273,7 @@ describe('Outlook module', () => {
         'test@outlook.com': {
           access_token: 'expired-token',
           access_token_exp: pastTime,
-          scope: 'openid https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send offline_access'
+          scope: LIVE_SCOPE
         }
       });
 
@@ -206,16 +291,17 @@ describe('Outlook module', () => {
           access_token: 'expired-token',
           access_token_exp: pastTime,
           refresh_token: 'refresh-token-abc',
-          scope: 'openid https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send offline_access'
+          scope: LIVE_SCOPE
         }
       });
 
       // Mock refresh token response
       mockFetch.mockResolvedValueOnce({
+        ok: true,
         json: async () => ({
           access_token: 'new-access-token',
           expires_in: 3600,
-          scope: 'openid https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Mail.Send offline_access'
+          scope: LIVE_SCOPE
         })
       });
 
@@ -231,7 +317,101 @@ describe('Outlook module', () => {
           })
         })
       );
+      // Refresh request carries the stored scope
+      const [, {body}] = mockFetch.mock.calls[0];
+      expect(new URLSearchParams(body).get('scope')).toBe(LIVE_SCOPE);
       expect(mockStorage.set).toHaveBeenCalled();
+    });
+
+    it('should refresh a token that expires within the buffer', async () => {
+      const email = 'test@outlook.com';
+      const withinBuffer = new Date().getTime() + 60 * 1000; // 1 min from now
+
+      mockStorage.get.mockResolvedValue({
+        'test@outlook.com': {
+          access_token: 'nearly-expired-token',
+          access_token_exp: withinBuffer,
+          refresh_token: 'refresh-token-abc',
+          scope: LIVE_SCOPE
+        }
+      });
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          access_token: 'new-access-token',
+          expires_in: 3600,
+          scope: LIVE_SCOPE
+        })
+      });
+
+      const token = await outlook.getAccessToken({email});
+
+      expect(token).toBe('new-access-token');
+    });
+
+    it('should remove stale credentials when the refresh token is rejected with invalid_grant', async () => {
+      const email = 'test@outlook.com';
+      const pastTime = new Date().getTime() - 1000;
+
+      mockStorage.get.mockResolvedValue({
+        'test@outlook.com': {
+          access_token: 'expired-token',
+          access_token_exp: pastTime,
+          refresh_token: 'revoked-refresh-token',
+          scope: LIVE_SCOPE
+        },
+        'other@outlook.com': {
+          access_token: 'other-token'
+        }
+      });
+
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        headers: {get: () => 'application/json; charset=utf-8'},
+        json: async () => ({
+          error: 'invalid_grant',
+          error_description: 'AADSTS70000: The refresh token has expired.',
+          error_codes: [70000]
+        })
+      });
+
+      const token = await outlook.getAccessToken({email});
+
+      expect(token).toBeUndefined();
+      expect(mockStorage.set).toHaveBeenCalledWith(
+        'mvelo.oauth.outlook',
+        expect.not.objectContaining({
+          'test@outlook.com': expect.any(Object)
+        })
+      );
+    });
+
+    it('should fall back to interactive authorization when the token endpoint returns an HTML error page', async () => {
+      const email = 'test@outlook.com';
+      const pastTime = new Date().getTime() - 1000;
+
+      mockStorage.get.mockResolvedValue({
+        'test@outlook.com': {
+          access_token: 'expired-token',
+          access_token_exp: pastTime,
+          refresh_token: 'refresh-token-abc',
+          scope: LIVE_SCOPE
+        }
+      });
+
+      // Microsoft answers some terminal conditions with an HTML error page
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        headers: {get: () => 'text/html; charset=utf-8'}
+      });
+
+      const token = await outlook.getAccessToken({email});
+
+      expect(token).toBeUndefined();
+      // Credentials are kept: the failure cannot be classified as terminal
+      expect(mockStorage.set).not.toHaveBeenCalled();
     });
 
     it('should return undefined if missing required scopes', async () => {

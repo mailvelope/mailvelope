@@ -47,7 +47,7 @@ export default class OutlookDecryptController extends DecryptController {
     const outlookCtrl = await this.getOutlookCtrl();
     return outlookCtrl.getAccessToken({
       ...this.state.userInfo,
-      beforeAuth: () => this.ports.dDialog.emit('error-message', {error: l10n.get('gmail_integration_auth_error_download')}),
+      beforeAuth: () => this.ports.dDialog.emit('error-message', {error: l10n.get('outlook_integration_auth_error_download')}),
       afterAuth: () => this.afterAuthorization()
     });
   }

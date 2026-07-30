@@ -181,12 +181,18 @@ async function resolveGraphMessageId(localMsgId, accessToken) {
 export const OUTLOOK_SCOPE_USER_READ = 'https://graph.microsoft.com/User.Read';
 export const OUTLOOK_SCOPE_MAIL_READ = 'https://graph.microsoft.com/Mail.Read';
 export const OUTLOOK_SCOPE_MAIL_SEND = 'https://graph.microsoft.com/Mail.Send';
+// Requested at authorization to obtain a refresh token; Microsoft never echoes
+// it in the granted scope of a token response
 export const OUTLOOK_SCOPE_OFFLINE_ACCESS = 'offline_access';
 
 const OUTLOOK_SCOPES_DEFAULT = ['openid', OUTLOOK_SCOPE_USER_READ];
+// Refresh ahead of expiry so a token does not expire mid-request
+const TOKEN_EXPIRY_BUFFER = 5 * 60 * 1000;
 
 export async function getAccessToken({email, scopes = []}) {
-  scopes = deDup([...OUTLOOK_SCOPES_DEFAULT, ...scopes]);
+  // offline_access is consumed by the token endpoint but never echoed in the
+  // granted scope, so it must not be part of the stored-scope check
+  scopes = deDup([...OUTLOOK_SCOPES_DEFAULT, ...scopes]).filter(scope => scope !== OUTLOOK_SCOPE_OFFLINE_ACCESS);
   const storedTokens = await mvelo.storage.get(OUTLOOK_OAUTH_STORE);
   const storedToken = storedTokens?.[email];
   if (!storedToken || !scopes.every(scope => storedToken.scope.split(' ').includes(scope))) {
@@ -195,17 +201,32 @@ export async function getAccessToken({email, scopes = []}) {
   if (checkStoredToken(storedToken)) {
     return storedToken.access_token;
   }
-  if (storedToken.refresh_token) {
-    const refreshedToken = await getRefreshedAccessToken(storedToken.refresh_token);
-    if (refreshedToken.access_token) {
-      await storeAuthData(email, buildAuthMeta(refreshedToken));
-      return refreshedToken.access_token;
+  if (!storedToken.refresh_token) {
+    return;
+  }
+  let refreshedToken;
+  try {
+    refreshedToken = await getRefreshedAccessToken(storedToken);
+  } catch (error) {
+    if (error.code === 'OUTLOOK_OAUTH_INVALID_GRANT') {
+      // refresh token definitively rejected: remove the stale credentials so
+      // re-authorization starts from a clean state
+      await removeAuthData(email);
     }
+    if (error.code?.startsWith('OUTLOOK_OAUTH')) {
+      // fall back to interactive authorization
+      return;
+    }
+    throw error;
+  }
+  if (refreshedToken.access_token) {
+    await storeAuthData(email, buildAuthMeta(refreshedToken));
+    return refreshedToken.access_token;
   }
 }
 
 function checkStoredToken(storedData) {
-  return storedData.access_token && (storedData.access_token_exp >= new Date().getTime());
+  return storedData.access_token && (storedData.access_token_exp >= new Date().getTime() + TOKEN_EXPIRY_BUFFER);
 }
 
 export async function authorize(email, scopes = [OUTLOOK_SCOPE_MAIL_READ, OUTLOOK_SCOPE_MAIL_SEND, OUTLOOK_SCOPE_OFFLINE_ACCESS]) {
@@ -213,24 +234,24 @@ export async function authorize(email, scopes = [OUTLOOK_SCOPE_MAIL_READ, OUTLOO
   // Generate PKCE code verifier
   const codeVerifier = generateCodeVerifier();
   // Get authorization code
-  let auth = await getAuthCode(email, scopes, codeVerifier);
+  const auth = await getAuthCode(email, scopes, codeVerifier);
   if (!auth.code) {
-    throw new MvError('Authorization failed!', 'OUTLOOK_OAUTH_ERROR');
+    throw new MvError('Authorization failed', 'OUTLOOK_OAUTH_ERROR');
   }
-  // If prompt=none returned (no refresh token), re-authorize with consent
-  if (auth.prompt === 'none') {
-    auth = await getAuthCode(email, scopes, codeVerifier, 'consent');
-  }
-  // Exchange code for tokens
+  // Exchange code for tokens. If Microsoft grants no refresh token, the stored
+  // access token simply expires and getAccessToken falls back to interactive
+  // re-authorization.
   const tokens = await getAuthTokens(auth.code, codeVerifier);
   if (!tokens.access_token) {
     throw new MvError('Token exchange failed', 'OUTLOOK_OAUTH_ERROR');
   }
-  // Get user info to validate email
+  // Get user info to validate email. Accept the account if the requested
+  // address matches the primary SMTP address or the UPN (case-insensitive);
+  // other aliases are rejected.
   const userInfo = await getUserInfo(tokens.access_token);
-  const userEmail = userInfo.mail || userInfo.userPrincipalName;
-  if (userEmail !== email) {
-    throw new MvError(`Email mismatch: expected ${email}, got ${userEmail}`, 'OAUTH_VALIDATION_ERROR');
+  const accountEmails = [userInfo.mail, userInfo.userPrincipalName].filter(Boolean).map(address => address.toLowerCase());
+  if (!accountEmails.includes(email.toLowerCase())) {
+    throw new MvError(`Email mismatch: expected ${email}, got ${userInfo.mail || userInfo.userPrincipalName}`, 'OAUTH_VALIDATION_ERROR');
   }
   // Store tokens
   await storeAuthData(email, buildAuthMeta({...userInfo, ...tokens}));
@@ -239,15 +260,23 @@ export async function authorize(email, scopes = [OUTLOOK_SCOPE_MAIL_READ, OUTLOO
 
 export async function unauthorize(email) {
   const authMetaData = await mvelo.storage.get(OUTLOOK_OAUTH_STORE);
-  if (!authMetaData?.[email]) {
+  const token = authMetaData?.[email];
+  if (!token) {
     return;
   }
-  const token = authMetaData[email];
   if (token.access_token) {
     await revokeToken(token.access_token);
   }
   if (token.refresh_token) {
     await revokeToken(token.refresh_token);
+  }
+  await removeAuthData(email);
+}
+
+async function removeAuthData(email) {
+  const authMetaData = await mvelo.storage.get(OUTLOOK_OAUTH_STORE);
+  if (!authMetaData?.[email]) {
+    return;
   }
   delete authMetaData[email];
   await mvelo.storage.set(OUTLOOK_OAUTH_STORE, authMetaData);
@@ -276,14 +305,19 @@ async function getAuthCode(email, scopes, codeVerifier, prompt) {
   if (search.get('state') !== state) {
     throw new Error('oauth2/v2.0/authorize: wrong state parameter');
   }
+  const error = search.get('error');
+  if (error) {
+    // the redirect carries the AADSTS code only inside error_description
+    const error_description = search.get('error_description') ?? undefined;
+    const error_codes = [...(error_description?.matchAll(/AADSTS(\d+)/g) ?? [])].map(([, errorCode]) => Number(errorCode));
+    throw classifyOAuthError({error, error_description, error_codes});
+  }
   return {
-    code: search.get('code'),
-    prompt: search.get('prompt')
+    code: search.get('code')
   };
 }
 
 async function getAuthTokens(authCode, codeVerifier) {
-  const url = `${MICROSOFT_OAUTH_HOST}/token`;
   const params = {
     client_id: CLIENT_ID,
     code: authCode,
@@ -291,24 +325,21 @@ async function getAuthTokens(authCode, codeVerifier) {
     grant_type: 'authorization_code',
     redirect_uri: chrome.identity.getRedirectURL()
   };
-  const result = await fetch(url, {
-    method: 'POST',
-    body: new URLSearchParams(Object.entries(params)).toString(),
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    }
-  });
-  return result.json();
+  return postTokenRequest(params);
 }
 
-async function getRefreshedAccessToken(refresh_token) {
-  const url = `${MICROSOFT_OAUTH_HOST}/token`;
+async function getRefreshedAccessToken({refresh_token, scope}) {
   const params = {
     client_id: CLIENT_ID,
     grant_type: 'refresh_token',
-    refresh_token
+    refresh_token,
+    scope
   };
+  return postTokenRequest(params);
+}
+
+async function postTokenRequest(params) {
+  const url = `${MICROSOFT_OAUTH_HOST}/token`;
   const result = await fetch(url, {
     method: 'POST',
     body: new URLSearchParams(Object.entries(params)).toString(),
@@ -317,7 +348,46 @@ async function getRefreshedAccessToken(refresh_token) {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   });
+  if (!result.ok) {
+    throw await parseTokenError(result);
+  }
   return result.json();
+}
+
+/**
+ * Map a token-endpoint error response to an MvError with an AADSTS-derived code
+ * @param {Response} response - Non-ok fetch response from the token endpoint
+ * @returns {Promise<MvError>}
+ */
+async function parseTokenError(response) {
+  // Microsoft answers some terminal conditions (e.g. revoked consent) with an
+  // HTML error page instead of a JSON OAuth error
+  if (!response.headers.get('Content-Type')?.includes('application/json')) {
+    return new MvError(`Token request failed with status ${response.status}`, 'OUTLOOK_OAUTH_ERROR');
+  }
+  return classifyOAuthError(await response.json());
+}
+
+/**
+ * Map an OAuth error from the token endpoint or the authorize redirect to an
+ * MvError with an AADSTS-derived code
+ * @param {{error: String, error_description: String, error_codes: Array<Number>}} oauthError
+ * @returns {MvError}
+ */
+function classifyOAuthError({error, error_description, error_codes = []}) {
+  let code = 'OUTLOOK_OAUTH_ERROR';
+  if (error_codes.some(errorCode => [65001, 90094].includes(errorCode))) {
+    // admin consent required
+    code = 'OUTLOOK_OAUTH_ADMIN_CONSENT';
+  } else if (error_codes.some(errorCode => [50076, 53003, 530003].includes(errorCode))) {
+    // Conditional Access: MFA or compliant device required
+    code = 'OUTLOOK_OAUTH_CONDITIONAL_ACCESS';
+  } else if (error === 'interaction_required') {
+    code = 'OUTLOOK_OAUTH_INTERACTION_REQUIRED';
+  } else if (error === 'invalid_grant') {
+    code = 'OUTLOOK_OAUTH_INVALID_GRANT';
+  }
+  return new MvError(error_description ?? error, code, {error, error_codes});
 }
 
 export async function getUserInfo(accessToken) {
@@ -340,7 +410,7 @@ export async function getUserInfo(accessToken) {
 async function revokeToken() {
   // Microsoft doesn't have a simple revoke endpoint like Google
   // Tokens are revoked by removing them from storage
-  // They will expire naturally (access token: 1 hour, refresh token: 90 days)
+  // They will expire naturally (access token: ~1 hour, SPA refresh token: 24 hours)
 }
 
 function buildAuthMeta(token) {

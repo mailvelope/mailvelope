@@ -78,6 +78,7 @@ export default class AppController extends SubController {
     this.on('authorize-gmail', this.authorizeGmail);
     this.on('cancel-authorize-gmail', this.cancelAuthorizeGmail);
     this.on('authorize-outlook', this.authorizeOutlook);
+    this.on('cancel-authorize-outlook', this.cancelAuthorizeOutlook);
     this.on('check-license', this.checkLicense);
   }
 
@@ -441,6 +442,13 @@ export default class AppController extends SubController {
   async authorizeOutlook({email, scopes, outlookCtrlId}) {
     const outlookCtrl = await controllerPool.get(outlookCtrlId);
     return outlookCtrl.onAuthorize({email, scopes});
+  }
+
+  async cancelAuthorizeOutlook({outlookCtrlId}) {
+    const outlookCtrl = await controllerPool.get(outlookCtrlId);
+    if (outlookCtrl) {
+      outlookCtrl.cancelAuthorization();
+    }
   }
 
   async checkLicense({email}) {

@@ -223,17 +223,19 @@ describe('OutlookController', () => {
       const scopes = ['https://graph.microsoft.com/Mail.Read'];
       mockOutlook.authorize.mockResolvedValue('new-access-token');
 
-      controller.authorizationRequest = {
+      const authorizationRequest = {
         resolve: jest.fn(),
         reject: jest.fn()
       };
+      controller.authorizationRequest = authorizationRequest;
       controller.activateComponent = jest.fn();
 
       await controller.onAuthorize({email, scopes});
 
       expect(mockOutlook.authorize).toHaveBeenCalledWith(email, scopes);
-      expect(controller.authorizationRequest.resolve).toHaveBeenCalledWith('new-access-token');
+      expect(authorizationRequest.resolve).toHaveBeenCalledWith('new-access-token');
       expect(controller.activateComponent).toHaveBeenCalled();
+      expect(controller.authorizationRequest).toBeNull();
     });
 
     it('should reject authorization request on error', async () => {
@@ -241,13 +243,83 @@ describe('OutlookController', () => {
       const error = new Error('Authorization failed');
       mockOutlook.authorize.mockRejectedValue(error);
 
-      controller.authorizationRequest = {
+      const authorizationRequest = {
         resolve: jest.fn(),
         reject: jest.fn()
       };
+      controller.authorizationRequest = authorizationRequest;
 
       await expect(controller.onAuthorize({email})).rejects.toThrow('Authorization failed');
-      expect(controller.authorizationRequest.reject).toHaveBeenCalledWith(error);
+      expect(authorizationRequest.reject).toHaveBeenCalledWith(error);
+      expect(controller.authorizationRequest).toBeNull();
+    });
+
+    it('should not fail when no authorization request is pending', async () => {
+      mockOutlook.authorize.mockResolvedValue('new-access-token');
+      controller.activateComponent = jest.fn();
+      controller.authorizationRequest = null;
+
+      await expect(controller.onAuthorize({email: 'test@outlook.com', scopes: []})).resolves.toBeUndefined();
+    });
+
+    it('should map admin-consent errors to a localized message', async () => {
+      const error = Object.assign(new Error('AADSTS65001: consent required'), {code: 'OUTLOOK_OAUTH_ADMIN_CONSENT'});
+      mockOutlook.authorize.mockRejectedValue(error);
+
+      const authorizationRequest = {
+        resolve: jest.fn(),
+        reject: jest.fn()
+      };
+      controller.authorizationRequest = authorizationRequest;
+
+      await expect(controller.onAuthorize({email: 'test@outlook.com'})).rejects.toMatchObject({
+        code: 'OUTLOOK_OAUTH_ADMIN_CONSENT',
+        message: 'outlook_oauth_error_admin_consent'
+      });
+      expect(authorizationRequest.reject).toHaveBeenCalledWith(expect.objectContaining({code: 'OUTLOOK_OAUTH_ADMIN_CONSENT'}));
+    });
+  });
+
+  describe('cancelAuthorization()', () => {
+    it('should reject the pending authorization request as cancelled', () => {
+      const authorizationRequest = {
+        resolve: jest.fn(),
+        reject: jest.fn()
+      };
+      controller.authorizationRequest = authorizationRequest;
+
+      controller.cancelAuthorization();
+
+      expect(authorizationRequest.reject).toHaveBeenCalledWith(expect.objectContaining({code: 'OUTLOOK_AUTH_CANCELLED'}));
+      expect(controller.authorizationRequest).toBeNull();
+    });
+
+    it('should do nothing without a pending request', () => {
+      controller.authorizationRequest = null;
+
+      expect(() => controller.cancelAuthorization()).not.toThrow();
+    });
+
+    it('should cancel the pending request when the settings tab is closed', async () => {
+      const mvelo = require('../../../src/lib/lib-mvelo').default;
+      mvelo.tabs = {
+        getActive: jest.fn().mockResolvedValue({id: 1}),
+        loadAppTab: jest.fn().mockResolvedValue({id: 42})
+      };
+      const authorizationRequest = {
+        resolve: jest.fn(),
+        reject: jest.fn()
+      };
+      controller.authorizationRequest = authorizationRequest;
+
+      await controller.openAuthorizeDialog({email: 'test@outlook.com', scopes: []});
+
+      const [onRemoved] = chrome.tabs.onRemoved.addListener.mock.calls.at(-1);
+      onRemoved(41); // unrelated tab
+      expect(authorizationRequest.reject).not.toHaveBeenCalled();
+      onRemoved(42); // the settings tab
+      expect(authorizationRequest.reject).toHaveBeenCalledWith(expect.objectContaining({code: 'OUTLOOK_AUTH_CANCELLED'}));
+      expect(chrome.tabs.onRemoved.removeListener).toHaveBeenCalled();
     });
   });
 

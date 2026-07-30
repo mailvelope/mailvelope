@@ -4,8 +4,9 @@
  */
 
 import mvelo from '../lib/lib-mvelo';
-import {getUUID, mapError} from '../lib/util';
+import {MvError, getUUID, mapError} from '../lib/util';
 import * as l10n from '../lib/l10n';
+import {ERROR_OUTLOOK_AUTH_CANCELLED} from '../lib/constants';
 import * as outlook from '../modules/outlook';
 import {SubController} from './sub.controller';
 import {setAppDataSlot} from './sub.controller';
@@ -20,6 +21,7 @@ export default class OutlookController extends SubController {
     };
     this.peerType = 'outlookController';
     this.authorizationRequest = null;
+    this.authTabListener = null;
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
     this.on('secure-button', this.onSecureBtn);
@@ -145,14 +147,27 @@ export default class OutlookController extends SubController {
     try {
       const accessToken = await outlook.authorize(email, scopes);
       // License check deferred to Phase 4/5
+      this.clearAuthTabWatch();
       this.activateComponent();
-      if (this.authorizationRequest.afterAuth) {
+      if (this.authorizationRequest?.afterAuth) {
         this.authorizationRequest.afterAuth();
       }
-      this.authorizationRequest.resolve(accessToken);
+      this.authorizationRequest?.resolve(accessToken);
+      this.authorizationRequest = null;
     } catch (e) {
-      this.authorizationRequest.reject(e);
-      throw e;
+      const error = mapAuthError(e);
+      this.clearAuthTabWatch();
+      this.authorizationRequest?.reject(error);
+      this.authorizationRequest = null;
+      throw error;
+    }
+  }
+
+  cancelAuthorization() {
+    this.clearAuthTabWatch();
+    if (this.authorizationRequest) {
+      this.authorizationRequest.reject(new MvError('Authorization cancelled by user.', ERROR_OUTLOOK_AUTH_CANCELLED));
+      this.authorizationRequest = null;
     }
   }
 
@@ -167,6 +182,41 @@ export default class OutlookController extends SubController {
     }
     const slotId = getUUID();
     setAppDataSlot(slotId, {email, scopes, outlookCtrlId: this.id});
-    await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/outlook-api/auth`);
+    const appTab = await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/outlook-api/auth`);
+    if (appTab?.id) {
+      this.watchAuthTab(appTab.id);
+    }
+  }
+
+  // Cancel a pending authorization request when the settings tab is closed,
+  // so waiting components (e.g. the editor) don't hang forever
+  watchAuthTab(tabId) {
+    this.clearAuthTabWatch();
+    this.authTabListener = removedTabId => {
+      if (removedTabId === tabId) {
+        this.cancelAuthorization();
+      }
+    };
+    chrome.tabs.onRemoved.addListener(this.authTabListener);
+  }
+
+  clearAuthTabWatch() {
+    if (this.authTabListener) {
+      chrome.tabs.onRemoved.removeListener(this.authTabListener);
+      this.authTabListener = null;
+    }
+  }
+}
+
+// Replace Microsoft error descriptions with localized messages for error
+// classes the user can act on
+function mapAuthError(error) {
+  switch (error.code) {
+    case 'OUTLOOK_OAUTH_ADMIN_CONSENT':
+      return new MvError(l10n.get('outlook_oauth_error_admin_consent'), error.code);
+    case 'OUTLOOK_OAUTH_CONDITIONAL_ACCESS':
+      return new MvError(l10n.get('outlook_oauth_error_conditional_access'), error.code);
+    default:
+      return error;
   }
 }

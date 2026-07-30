@@ -70,6 +70,7 @@ export default class OutlookAPI extends React.Component {
       watchList: null
     };
     this.handleOutlookSwitch = this.handleOutlookSwitch.bind(this);
+    this.handleAuthCancel = this.handleAuthCancel.bind(this);
   }
 
   async componentDidMount() {
@@ -168,16 +169,24 @@ export default class OutlookAPI extends React.Component {
     this.loadPrefs();
   }
 
+  handleAuthCancel() {
+    const {outlookCtrlId} = this.state;
+    this.setState({showAuthModal: false, outlook_integration: false}, () => this.handleSave());
+    if (outlookCtrlId) {
+      port.emit('cancel-authorize-outlook', {outlookCtrlId});
+    }
+  }
+
   authModal() {
     return (
       <Modal
         isOpen={this.state.showAuthModal}
-        toggle={() => this.setState(prevState => ({showAuthModal: !prevState.showAuthModal}))}
+        toggle={this.handleAuthCancel}
         size="medium"
         title="Outlook API Authorization"
         footer={
           <div className="modal-footer justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={() => this.setState({showAuthModal: false, outlook_integration: false}, () => this.handleSave())}>{l10n.map.dialog_popup_close}</button>
+            <button type="button" className="btn btn-secondary" onClick={this.handleAuthCancel}>{l10n.map.dialog_popup_close}</button>
             {this.microsoftSignInButton()}
           </div>
         }

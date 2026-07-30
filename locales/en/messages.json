@@ -1451,9 +1451,25 @@
     "description": "Title of options page.",
     "message": "Mailvelope Options"
   },
+  "outlook_integration_auth_error_download": {
+    "description": "Error shown in the decrypt dialog in Outlook when Mailvelope is not authorized to download attachments via the Microsoft Graph API.",
+    "message": "Mailvelope is not authorized to download attachments. To use this function, grant Mailvelope access to your Microsoft account."
+  },
+  "outlook_integration_auth_error_send": {
+    "description": "Error shown in the email editor when Mailvelope is not authorized to send emails via the Microsoft Graph API.",
+    "message": "Mailvelope is not authorized to send emails. To use this function, grant Mailvelope access to your Microsoft account."
+  },
   "outlook_integration_sent_success": {
     "description": "Success notification shown after an email was sent via the Outlook integration.",
     "message": "The email was sent successfully."
+  },
+  "outlook_oauth_error_admin_consent": {
+    "description": "Error notification on the Outlook API settings page when the user's Microsoft 365 organization requires administrator approval before Mailvelope can be authorized.",
+    "message": "Mailvelope needs approval from your Microsoft 365 administrator before it can access your account."
+  },
+  "outlook_oauth_error_conditional_access": {
+    "description": "Error notification on the Outlook API settings page when a security policy of the user's organization (Conditional Access, e.g. requiring multi-factor authentication or a managed device) blocks the authorization.",
+    "message": "Your organization's sign-in policy blocked the authorization. Sign in to your Microsoft account in this browser and try again, or contact your administrator."
   },
   "preferred": {
     "description": "Indicates if a keyring is preferred",

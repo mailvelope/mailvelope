@@ -92,10 +92,11 @@ export default class EditorController extends SubController {
   }
 
   beforeAuthorization() {
+    const authErrorKey = this.peers.outlookController ? 'outlook_integration_auth_error_send' : 'gmail_integration_auth_error_send';
     this.ports.editor.emit('error-message', {
       error: {
         code: 'AUTHORIZATION_REQUIRED',
-        message: l10n.get('gmail_integration_auth_error_send'),
+        message: l10n.get(authErrorKey),
         autoHide: false,
         dismissable: false
       }
