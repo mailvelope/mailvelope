@@ -1,4 +1,6 @@
 import * as providerSpecific from '../../../src/content-scripts/providerSpecific';
+import GmailIntegration from '../../../src/content-scripts/gmailIntegration';
+import OutlookIntegration from '../../../src/content-scripts/outlookIntegration';
 import {goog} from '../../../src/modules/closure-library/closure/goog/emailaddress';
 
 // Mock dependencies
@@ -106,6 +108,33 @@ describe('providerSpecific unit tests', () => {
       const gmail1 = providerSpecific.get('mail.google.com');
       const gmail2 = providerSpecific.get('mail.google.com');
       expect(gmail1).toBe(gmail2);
+    });
+  });
+
+  // a page has exactly one host, so only the provider in use may create its webmail
+  // integration — eager creation ran multiple concurrent Outlook integrations, one per
+  // providerMap hostname, each scanning the DOM with its own per-message state
+  describe('Lazy provider instantiation', () => {
+    beforeEach(() => {
+      providerSpecific.init({provider: {gmail_integration: true, outlook_integration: true}});
+    });
+
+    it('should not create any integration during init', () => {
+      expect(GmailIntegration).not.toHaveBeenCalled();
+      expect(OutlookIntegration).not.toHaveBeenCalled();
+    });
+
+    it('should create one integration for the provider in use only', () => {
+      providerSpecific.get('outlook.office.com');
+      expect(OutlookIntegration).toHaveBeenCalledTimes(1);
+      expect(GmailIntegration).not.toHaveBeenCalled();
+    });
+
+    it('should reuse the instance on repeated lookups', () => {
+      const first = providerSpecific.get('outlook.office.com');
+      const second = providerSpecific.get('outlook.office.com');
+      expect(second).toBe(first);
+      expect(OutlookIntegration).toHaveBeenCalledTimes(1);
     });
   });
 

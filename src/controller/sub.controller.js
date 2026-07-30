@@ -149,7 +149,9 @@ export async function reloadFrames() {
   // close frames
   destroyNodes(await getAllControllerByType('dFrame'));
   destroyNodes(await getAllControllerByType('dFrameGmail'));
+  destroyNodes(await getAllControllerByType('dFrameOutlook'));
   destroyNodes(await getAllControllerByType('aFrameGmail'));
+  destroyNodes(await getAllControllerByType('aFrameOutlook'));
   destroyNodes(await getAllControllerByType('vFrame'));
   destroyNodes(await getAllControllerByType('eFrame'));
   destroyNodes(await getAllControllerByType('imFrame'));

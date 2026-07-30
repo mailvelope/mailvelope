@@ -261,11 +261,6 @@ export default class OutlookIntegration {
         continue;
       }
       msgData.att = this.getEncryptedAttachments(msgElem);
-      if (msgData.att.length) {
-        // must survive a re-scan that finds the frame already attached, otherwise the
-        // controller receives no message text for the unencrypted-body warning
-        msgData.plainText = this.getPlainText(msgElem);
-      }
       if (!msgData.controllerId && msgData.att.length) {
         const aFrame = new AttachmentFrame(this.getName());
         msgData.controllerId = aFrame.id;
@@ -277,6 +272,7 @@ export default class OutlookIntegration {
         if (wrapper) {
           wrapper.style.position = 'relative';
         }
+        msgData.plainText = this.getPlainText(msgElem);
         if (msgData.plainText) {
           // Outlook carries role="document" on the frame's own container, so hide the
           // body content beside the frame — hiding the container would hide the frame
@@ -308,11 +304,8 @@ export default class OutlookIntegration {
     if (!messageBody) {
       return '';
     }
-    // innerText is empty once the body content is hidden behind the decrypt frame, so fall
-    // back to textContent to keep the value stable when a re-scan recomputes it
     const {innerText} = messageBody;
-    const text = /\S/.test(innerText) ? innerText : messageBody.textContent;
-    return /\S/.test(text) ? text : '';
+    return /\S/.test(innerText) ? innerText : '';
   }
 
   /**
@@ -545,7 +538,7 @@ export default class OutlookIntegration {
     const composeButton = composeIcon?.closest('button');
     const composeWrapper = composeButton?.closest('.ms-OverflowSet-item');
     if (composeWrapper) {
-      composeWrapper.removeAttribute(`data-${FRAME_STATUS}`);
+      delete composeWrapper.dataset[FRAME_STATUS];
     }
   }
 

@@ -14,6 +14,7 @@ import GmailIntegration from './gmailIntegration';
 import OutlookIntegration from './outlookIntegration';
 
 let providerMap = null;
+let providerInstances = null;
 let prefs = null;
 
 /**
@@ -22,28 +23,29 @@ let prefs = null;
 export function init(preferences) {
   prefs = preferences;
   providerMap = new Map();
-  providerMap.set('mail.google.com', new Gmail());
-  providerMap.set('mail.yahoo.com', new Yahoo());
-  providerMap.set('outlook.live.com', new Outlook());
-  providerMap.set('outlook.office.com', new Outlook());
-  providerMap.set('outlook.office365.com', new Outlook());
-  providerMap.set('outlook.cloud.microsoft', new Outlook());
-  providerMap.set('default', new Default());
+  providerMap.set('mail.google.com', Gmail);
+  providerMap.set('mail.yahoo.com', Yahoo);
+  providerMap.set('outlook.live.com', Outlook);
+  providerMap.set('outlook.office.com', Outlook);
+  providerMap.set('outlook.office365.com', Outlook);
+  providerMap.set('outlook.cloud.microsoft', Outlook);
+  providerInstances = new Map();
 }
 
 /**
- * Lookup function that return the vendor specific module to a hostname.
- * If a hostname if not supported specifically, the default module will
- * be returned.
+ * Lookup function that returns the vendor specific module for a hostname.
+ * The module is instantiated on first request, so only the provider of the
+ * current page creates its webmail integration. If a hostname is not
+ * supported specifically, the default module will be returned.
  * @param  {String} hostname - The hostname of the webmail interface
  * @return {Object}   An instanciated module
  */
 export function get(hostname) {
-  if (providerMap.has(hostname)) {
-    return providerMap.get(hostname);
-  } else {
-    return providerMap.get('default');
+  if (!providerInstances.has(hostname)) {
+    const Provider = providerMap.get(hostname) ?? Default;
+    providerInstances.set(hostname, new Provider());
   }
+  return providerInstances.get(hostname);
 }
 
 //

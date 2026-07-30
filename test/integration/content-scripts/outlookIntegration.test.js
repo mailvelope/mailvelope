@@ -624,8 +624,8 @@ describe('OutlookIntegration TDD tests', () => {
     });
 
     // The body text is forwarded to the decrypt dialog, which renders it behind a
-    // "not encrypted" warning. It must survive a re-scan that finds the frame already
-    // attached — at that point the body is hidden, so innerText alone reads empty.
+    // "not encrypted" warning. It is read once when the frame is created — afterwards
+    // the body is hidden — so a re-scan must carry the record forward, not rebuild it.
     it('should keep the message text when a re-scan re-reads an attached message', async () => {
       const result = await page.evaluate(async () => {
         const {OutlookIntegration, csMain} = window.testHarness.getContentScripts();
@@ -642,9 +642,6 @@ describe('OutlookIntegration TDD tests', () => {
         await integration.scanMessages();
         const firstPass = [...integration.selectedMsgs.values()][0];
 
-        // drop the cache so the re-scan rebuilds msgData from the DOM instead of
-        // carrying the previous object forward
-        integration.selectedMsgs = null;
         await integration.scanMessages();
         const secondPass = [...integration.selectedMsgs.values()][0];
 
@@ -663,6 +660,37 @@ describe('OutlookIntegration TDD tests', () => {
       expect(result.reusedFrame).toBe(true);
       expect(result.secondAtt).toEqual(result.firstAtt);
       expect(result.secondPlainText).toContain('Encrypted files attached.');
+    });
+
+    // secureAction arrives from the controller after the frame exists (update-message-data)
+    // and gates the secure reply/forward buttons — like plainText it lives only in the
+    // per-message record and must not be dropped by later scans
+    it('should keep the secureAction flag across re-scans', async () => {
+      const result = await page.evaluate(async () => {
+        const {OutlookIntegration, csMain} = window.testHarness.getContentScripts();
+        csMain.init({
+          security: {display_decrypted: 'popup'},
+          general: {editor_type: 'plain'},
+          provider: {gmail_integration: false, outlook_integration: true}
+        }, []);
+        const integration = new OutlookIntegration();
+        integration.init();
+
+        await integration.scanMessages();
+        const msgId = [...integration.selectedMsgs.keys()][0];
+        integration.onUpdateMessageData({msgId, data: {secureAction: true}});
+
+        await integration.scanMessages();
+        const record = integration.selectedMsgs.get(msgId);
+
+        return {
+          secureAction: record?.secureAction,
+          plainText: record?.plainText
+        };
+      });
+
+      expect(result.secureAction).toBe(true);
+      expect(result.plainText).toContain('Encrypted files attached.');
     });
 
     it('should keep the frame visible while hiding the original body text', async () => {
@@ -787,6 +815,29 @@ describe('OutlookIntegration TDD tests', () => {
 
       expect(result.buttonExistedBefore).toBe(true);
       expect(result.buttonExistsAfter).toBe(false);
+    });
+
+    // the destroy path (reloadFrames) deactivates the integration and creates a fresh
+    // instance — a stale attach marker on the compose wrapper would block the re-attach
+    it('should re-create the editor button after deactivate', async () => {
+      const result = await page.evaluate(async () => {
+        const {OutlookIntegration} = window.testHarness.getContentScripts();
+
+        const outlook = new OutlookIntegration();
+        outlook.init();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        outlook.deactivate();
+
+        const next = new OutlookIntegration();
+        next.init();
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        return {
+          buttonCount: document.querySelectorAll('[data-mv-editor-btn]').length
+        };
+      });
+
+      expect(result.buttonCount).toBe(1);
     });
 
     it('RED: should remove event listeners on deactivate', async () => {
