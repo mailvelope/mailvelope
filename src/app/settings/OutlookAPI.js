@@ -67,7 +67,13 @@ export default class OutlookAPI extends React.Component {
     // Note: License checking for Outlook is deferred to Phase 4/5
   }
 
-  openOAuthDialog({email, scopes, outlookCtrlId}) {
+  openOAuthDialog({email, scopes, outlookCtrlId, authError}) {
+    if (authError) {
+      // terminal error of a background authorization renewal: a sign-in
+      // attempt would fail the same way, just show the message
+      this.props.onSetNotification({header: l10n.map.alert_header_warning, message: authError.message, type: 'error', hideDelay: 10000});
+      return;
+    }
     this.setState({showAuthModal: true, email, scopes, outlookCtrlId});
   }
 

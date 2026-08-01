@@ -83,7 +83,7 @@ describe('OutlookController', () => {
         messageId: 'msg-123'
       };
 
-      mockOutlook.getAccessToken.mockResolvedValue('valid-token');
+      mockOutlook.getAccessToken.mockResolvedValue({accessToken: 'valid-token', storedCredentials: true});
       controller.createPeer = jest.fn().mockResolvedValue(undefined);
       controller.peers = {
         editorController: {
@@ -105,7 +105,7 @@ describe('OutlookController', () => {
         userInfo: {email: 'user@outlook.com'}
       };
 
-      mockOutlook.getAccessToken.mockResolvedValue('valid-token');
+      mockOutlook.getAccessToken.mockResolvedValue({accessToken: 'valid-token', storedCredentials: true});
       controller.createPeer = jest.fn().mockResolvedValue(undefined);
       controller.peers = {
         editorController: {
@@ -122,7 +122,7 @@ describe('OutlookController', () => {
     it('should defer opening the editor until authorization completes', async () => {
       const options = {userInfo: {email: 'user@outlook.com'}};
 
-      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: false});
       mockOutlook.authorize.mockResolvedValue('fresh-token');
       controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
       controller.activateComponent = jest.fn().mockResolvedValue(undefined);
@@ -135,7 +135,7 @@ describe('OutlookController', () => {
       };
 
       const openEditorPromise = controller.onOpenEditor(options);
-      await Promise.resolve();
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       // editor must not open while the authorization is pending
       expect(controller.createPeer).not.toHaveBeenCalled();
@@ -150,17 +150,35 @@ describe('OutlookController', () => {
     it('should not open the editor when the authorization is cancelled', async () => {
       const options = {userInfo: {email: 'user@outlook.com'}};
 
-      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: false});
       controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
       controller.createPeer = jest.fn().mockResolvedValue(undefined);
 
       const openEditorPromise = controller.onOpenEditor(options);
-      await Promise.resolve();
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       controller.cancelAuthorization();
       await openEditorPromise;
 
       expect(controller.createPeer).not.toHaveBeenCalled();
+    });
+
+    it('should surface a terminal renewal error on the settings page', async () => {
+      const options = {userInfo: {email: 'user@outlook.com'}};
+      const error = Object.assign(new Error('AADSTS65001: consent required'), {code: 'OUTLOOK_OAUTH_ADMIN_CONSENT'});
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: true});
+      mockOutlook.authorize.mockRejectedValue(error);
+      const mvelo = require('../../../src/lib/lib-mvelo').default;
+      mvelo.tabs = {loadAppTab: jest.fn().mockResolvedValue(undefined)};
+      controller.createPeer = jest.fn();
+
+      await controller.onOpenEditor(options);
+
+      expect(controller.createPeer).not.toHaveBeenCalled();
+      const {setAppDataSlot} = require('../../../src/controller/sub.controller');
+      // chrome.i18n mock returns the key, so the message identifies the chosen l10n key
+      expect(setAppDataSlot).toHaveBeenCalledWith(expect.any(String), {authError: {message: 'outlook_oauth_error_admin_consent'}});
+      expect(mvelo.tabs.loadAppTab).toHaveBeenCalledWith(expect.stringMatching(/\?slotId=.*#\/settings\/outlook-api\/auth/));
     });
   });
 
@@ -187,7 +205,7 @@ describe('OutlookController', () => {
   describe('getAccessToken()', () => {
     it('should return token if already authorized', async () => {
       const userInfo = {email: 'test@outlook.com'};
-      mockOutlook.getAccessToken.mockResolvedValue('existing-token-123');
+      mockOutlook.getAccessToken.mockResolvedValue({accessToken: 'existing-token-123', storedCredentials: true});
 
       const token = await controller.getAccessToken({email: userInfo.email});
 
@@ -203,14 +221,14 @@ describe('OutlookController', () => {
 
     it('should trigger authorization dialog if no token', async () => {
       const userInfo = {email: 'test@outlook.com'};
-      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: false});
 
       controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
 
       const tokenPromise = controller.getAccessToken({email: userInfo.email});
 
       // Wait for async operations to complete
-      await Promise.resolve();
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(controller.openAuthorizeDialog).toHaveBeenCalledWith({
         email: 'test@outlook.com',
@@ -229,7 +247,7 @@ describe('OutlookController', () => {
     });
 
     it('should serve concurrent requests with a single authorization dialog', async () => {
-      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: false});
       mockOutlook.authorize.mockResolvedValue('shared-token');
 
       controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
@@ -237,7 +255,7 @@ describe('OutlookController', () => {
 
       const first = controller.getAccessToken({email: 'test@outlook.com'});
       const second = controller.getAccessToken({email: 'test@outlook.com'});
-      await Promise.resolve();
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(controller.openAuthorizeDialog).toHaveBeenCalledTimes(1);
       expect(controller.authorizationRequests).toHaveLength(2);
@@ -250,7 +268,7 @@ describe('OutlookController', () => {
     });
 
     it('should call beforeAuth callback before authorization', async () => {
-      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: false});
       const beforeAuth = jest.fn();
 
       controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
@@ -258,13 +276,13 @@ describe('OutlookController', () => {
       controller.getAccessToken({email: 'test@outlook.com', beforeAuth});
 
       // Wait for async operations to complete
-      await Promise.resolve();
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(beforeAuth).toHaveBeenCalled();
     });
 
     it('should call afterAuth callback after successful authorization', async () => {
-      mockOutlook.getAccessToken.mockResolvedValue(undefined);
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: false});
       mockOutlook.authorize.mockResolvedValue('new-token');
       const afterAuth = jest.fn();
 
@@ -274,7 +292,7 @@ describe('OutlookController', () => {
       const tokenPromise = controller.getAccessToken({email: 'test@outlook.com', afterAuth});
 
       // Wait for async operations to complete
-      await Promise.resolve();
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       // Simulate successful authorization via onAuthorize (which actually calls afterAuth)
       await controller.onAuthorize({email: 'test@outlook.com', scopes: []});
@@ -282,6 +300,139 @@ describe('OutlookController', () => {
       await tokenPromise;
 
       expect(afterAuth).toHaveBeenCalled();
+    });
+  });
+
+  describe('automatic reauthorization', () => {
+    const scopes = [
+      'https://graph.microsoft.com/Mail.Read',
+      'https://graph.microsoft.com/Mail.Send'
+    ];
+
+    beforeEach(() => {
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: true});
+      controller.openAuthorizeDialog = jest.fn().mockResolvedValue(undefined);
+    });
+
+    it('should renew the authorization directly without the settings dialog', async () => {
+      mockOutlook.authorize.mockResolvedValue('renewed-token');
+      const beforeAuth = jest.fn();
+      const afterAuth = jest.fn();
+
+      const token = await controller.getAccessToken({email: 'test@outlook.com', beforeAuth, afterAuth});
+
+      expect(token).toBe('renewed-token');
+      expect(mockOutlook.authorize).toHaveBeenCalledWith('test@outlook.com', scopes);
+      expect(controller.openAuthorizeDialog).not.toHaveBeenCalled();
+      expect(beforeAuth).toHaveBeenCalledWith({reauth: true});
+      expect(afterAuth).toHaveBeenCalled();
+    });
+
+    it('should serve concurrent waiters with a single renewal', async () => {
+      mockOutlook.authorize.mockResolvedValue('renewed-token');
+
+      const first = controller.getAccessToken({email: 'test@outlook.com'});
+      const second = controller.getAccessToken({email: 'test@outlook.com'});
+
+      await expect(first).resolves.toBe('renewed-token');
+      await expect(second).resolves.toBe('renewed-token');
+      expect(mockOutlook.authorize).toHaveBeenCalledTimes(1);
+    });
+
+    it('should fall back to the authorization dialog when the renewal fails', async () => {
+      const error = Object.assign(new Error('flow failed'), {code: 'OUTLOOK_OAUTH_ERROR'});
+      mockOutlook.authorize.mockRejectedValue(error);
+      const beforeAuth = jest.fn();
+
+      const tokenPromise = controller.getAccessToken({email: 'test@outlook.com', beforeAuth});
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(controller.openAuthorizeDialog).toHaveBeenCalledWith({email: 'test@outlook.com', scopes});
+      // the notification of the waiter is swapped for the authorization error
+      expect(beforeAuth).toHaveBeenNthCalledWith(1, {reauth: true});
+      expect(beforeAuth).toHaveBeenNthCalledWith(2, {reauth: false});
+      expect(controller.authorizationRequests).toHaveLength(1);
+
+      controller.authorizationRequests[0].resolve('dialog-token');
+      await expect(tokenPromise).resolves.toBe('dialog-token');
+    });
+
+    it('should renew silently on click after the frame-load check consumed a rejected refresh token', async () => {
+      const mvelo = require('../../../src/lib/lib-mvelo').default;
+      let store = {
+        'test@outlook.com': {
+          access_token: 'expired-token',
+          access_token_exp: Date.now() - 1000,
+          refresh_token: 'revoked-refresh-token',
+          scope: `openid https://graph.microsoft.com/User.Read ${scopes.join(' ')}`
+        }
+      };
+      mvelo.storage.get.mockImplementation(async () => JSON.parse(JSON.stringify(store)));
+      mvelo.storage.set.mockImplementation(async (key, value) => {
+        store = value;
+      });
+      global.fetch = jest.fn().mockResolvedValue({
+        ok: false,
+        headers: {get: () => 'application/json'},
+        json: async () => ({error: 'invalid_grant', error_codes: [9002313]})
+      });
+      mockOutlook.getAccessToken.mockImplementation(jest.requireActual('../../../src/modules/outlook').getAccessToken);
+      mockOutlook.authorize.mockResolvedValue('renewed-token');
+
+      try {
+        await expect(controller.checkAuthorization({email: 'test@outlook.com'})).resolves.toBeUndefined();
+        await expect(controller.getAccessToken({email: 'test@outlook.com'})).resolves.toBe('renewed-token');
+      } finally {
+        delete global.fetch;
+      }
+      expect(mockOutlook.authorize).toHaveBeenCalledWith('test@outlook.com', scopes);
+      expect(controller.openAuthorizeDialog).not.toHaveBeenCalled();
+    });
+
+    it('should mirror the silent renewal for waiters joining after the account was removed', async () => {
+      const {promise: authFlow, resolve: completeAuthFlow} = Promise.withResolvers();
+      mockOutlook.authorize.mockReturnValue(authFlow);
+
+      const first = controller.getAccessToken({email: 'test@outlook.com'});
+      await new Promise(resolve => setTimeout(resolve, 0));
+      // the user removed the account in the settings meanwhile
+      mockOutlook.getAccessToken.mockResolvedValue({storedCredentials: false});
+      const beforeAuth = jest.fn();
+      const second = controller.getAccessToken({email: 'test@outlook.com', beforeAuth});
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(beforeAuth).toHaveBeenCalledWith({reauth: true});
+      completeAuthFlow('renewed-token');
+      await expect(first).resolves.toBe('renewed-token');
+      await expect(second).resolves.toBe('renewed-token');
+    });
+
+    it('should mirror the dialog fallback for waiters joining after a failed renewal', async () => {
+      const error = Object.assign(new Error('flow failed'), {code: 'OUTLOOK_OAUTH_ERROR'});
+      mockOutlook.authorize.mockRejectedValue(error);
+
+      const first = controller.getAccessToken({email: 'test@outlook.com'});
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(controller.openAuthorizeDialog).toHaveBeenCalled();
+
+      const beforeAuth = jest.fn();
+      const second = controller.getAccessToken({email: 'test@outlook.com', beforeAuth});
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      // the flow waits on the settings dialog, not on a silent renewal
+      expect(beforeAuth).toHaveBeenCalledWith({reauth: false});
+      controller.resolveAuthorizationRequests('dialog-token');
+      await expect(first).resolves.toBe('dialog-token');
+      await expect(second).resolves.toBe('dialog-token');
+    });
+
+    it('should reject the waiters when the renewal fails terminally', async () => {
+      const error = Object.assign(new Error('AADSTS65001: consent required'), {code: 'OUTLOOK_OAUTH_ADMIN_CONSENT'});
+      mockOutlook.authorize.mockRejectedValue(error);
+
+      await expect(controller.getAccessToken({email: 'test@outlook.com'})).rejects.toMatchObject({code: 'OUTLOOK_OAUTH_ADMIN_CONSENT'});
+      expect(controller.openAuthorizeDialog).not.toHaveBeenCalled();
+      expect(controller.authorizationRequests).toHaveLength(0);
     });
   });
 
@@ -418,7 +569,7 @@ describe('OutlookController', () => {
 
   describe('checkAuthorization()', () => {
     it('should check if user has valid access token', async () => {
-      mockOutlook.getAccessToken.mockResolvedValue('valid-token');
+      mockOutlook.getAccessToken.mockResolvedValue({accessToken: 'valid-token', storedCredentials: true});
 
       const token = await controller.checkAuthorization({email: 'test@outlook.com'});
 

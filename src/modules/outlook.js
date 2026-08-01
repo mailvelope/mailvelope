@@ -190,40 +190,62 @@ const OUTLOOK_SCOPES_DEFAULT = ['openid', OUTLOOK_SCOPE_USER_READ];
 // Refresh ahead of expiry so a token does not expire mid-request
 const TOKEN_EXPIRY_BUFFER = 5 * 60 * 1000;
 
-export async function getAccessToken({email, scopes = []}) {
+function normalizeScopes(scopes) {
   // offline_access is consumed by the token endpoint but never echoed in the
   // granted scope, so it must not be part of the stored-scope check
-  scopes = deDup([...OUTLOOK_SCOPES_DEFAULT, ...scopes]).filter(scope => scope !== OUTLOOK_SCOPE_OFFLINE_ACCESS);
+  return deDup([...OUTLOOK_SCOPES_DEFAULT, ...scopes]).filter(scope => scope !== OUTLOOK_SCOPE_OFFLINE_ACCESS);
+}
+
+async function getStoredToken(email, scopes) {
+  scopes = normalizeScopes(scopes);
   const storedTokens = await mvelo.storage.get(OUTLOOK_OAUTH_STORE);
   const storedToken = storedTokens?.[email];
   if (!storedToken || !scopes.every(scope => storedToken.scope.split(' ').includes(scope))) {
     return;
   }
+  return storedToken;
+}
+
+/**
+ * Get an access token from the stored credentials
+ * @param  {String} email
+ * @param  {Array}  scopes
+ * @return {Promise<{accessToken: String|undefined, storedCredentials: Boolean}>} -
+ *         storedCredentials reports whether credentials covering the requested
+ *         scopes existed, even when they can no longer produce an access token
+ */
+export async function getAccessToken({email, scopes = []}) {
+  const storedToken = await getStoredToken(email, scopes);
+  if (!storedToken) {
+    return {storedCredentials: false};
+  }
   if (checkStoredToken(storedToken)) {
-    return storedToken.access_token;
+    return {accessToken: storedToken.access_token, storedCredentials: true};
   }
   if (!storedToken.refresh_token) {
-    return;
+    return {storedCredentials: true};
   }
   let refreshedToken;
   try {
     refreshedToken = await getRefreshedAccessToken(storedToken);
   } catch (error) {
     if (error.code === 'OUTLOOK_OAUTH_INVALID_GRANT') {
-      // refresh token definitively rejected: remove the stale credentials so
-      // re-authorization starts from a clean state
-      await removeAuthData(email);
+      // refresh token definitively rejected: drop the tokens but keep the
+      // account entry, so later calls still report stored credentials and
+      // pick the silent renewal until authorize() stores new tokens
+      await setAuthData(email, {scope: storedToken.scope});
     }
     if (error.code?.startsWith('OUTLOOK_OAUTH')) {
       // fall back to interactive authorization
-      return;
+      return {storedCredentials: true};
     }
     throw error;
   }
   if (refreshedToken.access_token) {
     await storeAuthData(email, buildAuthMeta(refreshedToken));
-    return refreshedToken.access_token;
+    return {accessToken: refreshedToken.access_token, storedCredentials: true};
   }
+  return {storedCredentials: true};
 }
 
 function checkStoredToken(storedData) {
@@ -439,6 +461,12 @@ async function storeAuthData(email, data) {
     entries = {[email]: data};
   }
   return mvelo.storage.set(OUTLOOK_OAUTH_STORE, entries);
+}
+
+// Replace the account entry instead of merging into it
+async function setAuthData(email, data) {
+  const entries = await mvelo.storage.get(OUTLOOK_OAUTH_STORE);
+  return mvelo.storage.set(OUTLOOK_OAUTH_STORE, {...entries, [email]: data});
 }
 
 async function fetchJSON(resource, options) {

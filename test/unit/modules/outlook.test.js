@@ -274,9 +274,10 @@ describe('Outlook module', () => {
         }
       });
 
-      const token = await outlook.getAccessToken({email, scopes: [outlook.OUTLOOK_SCOPE_MAIL_SEND]});
+      const {accessToken, storedCredentials} = await outlook.getAccessToken({email, scopes: [outlook.OUTLOOK_SCOPE_MAIL_SEND]});
 
-      expect(token).toBe('stored-token-123');
+      expect(accessToken).toBe('stored-token-123');
+      expect(storedCredentials).toBe(true);
       expect(mockFetch).not.toHaveBeenCalled();
     });
 
@@ -293,12 +294,12 @@ describe('Outlook module', () => {
         }
       });
 
-      const token = await outlook.getAccessToken({email, scopes: [outlook.OUTLOOK_SCOPE_MAIL_SEND, outlook.OUTLOOK_SCOPE_OFFLINE_ACCESS]});
+      const {accessToken} = await outlook.getAccessToken({email, scopes: [outlook.OUTLOOK_SCOPE_MAIL_SEND, outlook.OUTLOOK_SCOPE_OFFLINE_ACCESS]});
 
-      expect(token).toBe('stored-token-123');
+      expect(accessToken).toBe('stored-token-123');
     });
 
-    it('should return undefined if token expired and no refresh token', async () => {
+    it('should report the stored credentials if token expired and no refresh token', async () => {
       const email = 'test@outlook.com';
       const pastTime = new Date().getTime() - 1000; // Expired
 
@@ -310,9 +311,17 @@ describe('Outlook module', () => {
         }
       });
 
-      const token = await outlook.getAccessToken({email});
+      const {accessToken, storedCredentials} = await outlook.getAccessToken({email});
 
-      expect(token).toBeUndefined();
+      expect(accessToken).toBeUndefined();
+      expect(storedCredentials).toBe(true);
+    });
+
+    it('should report missing credentials when none are stored for the email', async () => {
+      const {accessToken, storedCredentials} = await outlook.getAccessToken({email: 'test@outlook.com'});
+
+      expect(accessToken).toBeUndefined();
+      expect(storedCredentials).toBe(false);
     });
 
     it('should refresh token if expired but refresh token available', async () => {
@@ -338,9 +347,9 @@ describe('Outlook module', () => {
         })
       });
 
-      const token = await outlook.getAccessToken({email});
+      const {accessToken} = await outlook.getAccessToken({email});
 
-      expect(token).toBe('new-access-token');
+      expect(accessToken).toBe('new-access-token');
       expect(mockFetch).toHaveBeenCalledWith(
         'https://login.microsoftonline.com/common/oauth2/v2.0/token',
         expect.objectContaining({
@@ -378,16 +387,15 @@ describe('Outlook module', () => {
         })
       });
 
-      const token = await outlook.getAccessToken({email});
+      const {accessToken} = await outlook.getAccessToken({email});
 
-      expect(token).toBe('new-access-token');
+      expect(accessToken).toBe('new-access-token');
     });
 
-    it('should remove stale credentials when the refresh token is rejected with invalid_grant', async () => {
+    it('should drop the tokens but keep the account when the refresh token is rejected with invalid_grant', async () => {
       const email = 'test@outlook.com';
       const pastTime = new Date().getTime() - 1000;
-
-      mockStorage.get.mockResolvedValue({
+      let store = {
         'test@outlook.com': {
           access_token: 'expired-token',
           access_token_exp: pastTime,
@@ -397,6 +405,10 @@ describe('Outlook module', () => {
         'other@outlook.com': {
           access_token: 'other-token'
         }
+      };
+      mockStorage.get.mockImplementation(async () => JSON.parse(JSON.stringify(store)));
+      mockStorage.set.mockImplementation(async (key, value) => {
+        store = value;
       });
 
       mockFetch.mockResolvedValueOnce({
@@ -409,15 +421,18 @@ describe('Outlook module', () => {
         })
       });
 
-      const token = await outlook.getAccessToken({email});
+      const first = await outlook.getAccessToken({email});
+      const second = await outlook.getAccessToken({email});
 
-      expect(token).toBeUndefined();
-      expect(mockStorage.set).toHaveBeenCalledWith(
-        'mvelo.oauth.outlook',
-        expect.not.objectContaining({
-          'test@outlook.com': expect.any(Object)
-        })
-      );
+      // both calls report stored credentials: the caller uses this to pick the
+      // silent renewal over the first-time authorization dialog
+      expect(first).toEqual({storedCredentials: true});
+      expect(second).toEqual({storedCredentials: true});
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+      expect(store).toEqual({
+        'test@outlook.com': {scope: LIVE_SCOPE},
+        'other@outlook.com': {access_token: 'other-token'}
+      });
     });
 
     it('should fall back to interactive authorization when the token endpoint returns an HTML error page', async () => {
@@ -440,14 +455,15 @@ describe('Outlook module', () => {
         headers: {get: () => 'text/html; charset=utf-8'}
       });
 
-      const token = await outlook.getAccessToken({email});
+      const {accessToken, storedCredentials} = await outlook.getAccessToken({email});
 
-      expect(token).toBeUndefined();
+      expect(accessToken).toBeUndefined();
+      expect(storedCredentials).toBe(true);
       // Credentials are kept: the failure cannot be classified as terminal
       expect(mockStorage.set).not.toHaveBeenCalled();
     });
 
-    it('should return undefined if missing required scopes', async () => {
+    it('should report missing credentials if the stored scope does not cover the requested scopes', async () => {
       const email = 'test@outlook.com';
       const futureTime = new Date().getTime() + 3600 * 1000;
 
@@ -459,9 +475,10 @@ describe('Outlook module', () => {
         }
       });
 
-      const token = await outlook.getAccessToken({email, scopes: [outlook.OUTLOOK_SCOPE_MAIL_SEND]});
+      const {accessToken, storedCredentials} = await outlook.getAccessToken({email, scopes: [outlook.OUTLOOK_SCOPE_MAIL_SEND]});
 
-      expect(token).toBeUndefined();
+      expect(accessToken).toBeUndefined();
+      expect(storedCredentials).toBe(false);
     });
   });
 

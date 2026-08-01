@@ -23,6 +23,8 @@ export default class OutlookController extends SubController {
     // pending waiters for a deferred authorization; multiple components
     // (decrypt frames, editor) can request a token while no authorization exists
     this.authorizationRequests = [];
+    // whether the active authorization flow is a silent renewal
+    this.silentRenewal = false;
     this.authTabListener = null;
     // register event handlers
     this.on('open-editor', this.onOpenEditor);
@@ -43,6 +45,12 @@ export default class OutlookController extends SubController {
     } catch (e) {
       if (e.code === ERROR_OUTLOOK_AUTH_CANCELLED) {
         // user declined the authorization, no editor
+        return;
+      }
+      if (isTerminalAuthError(e)) {
+        // no editor and no settings dialog open that could display the error,
+        // and 'open-editor' has no reply channel: surface it on the settings page
+        await this.openAuthErrorDialog(e);
         return;
       }
       throw e;
@@ -142,26 +150,59 @@ export default class OutlookController extends SubController {
    * Get access token
    * @param  {String} email
    * @param  {Array}  scopes
-   * @param  {Function} beforeAuth - called before new authorization request is started
+   * @param  {Function} beforeAuth - called with {reauth} before a new authorization request is started
    * @param  {Function} afterAuth - called after successful authorization request
    * @return {String}
    */
   async getAccessToken({email, scopes = [outlook.OUTLOOK_SCOPE_MAIL_READ, outlook.OUTLOOK_SCOPE_MAIL_SEND], beforeAuth, afterAuth} = {}) {
-    const accessToken = await this.checkAuthorization({email, scopes});
+    const {accessToken, storedCredentials} = await outlook.getAccessToken({email, scopes});
     if (accessToken) {
       // License check deferred to Phase 4/5
       return accessToken;
     }
-    if (beforeAuth) {
-      beforeAuth();
-    }
     const {promise, resolve, reject} = Promise.withResolvers();
-    this.authorizationRequests.push({resolve, reject, afterAuth});
-    // one authorization dialog serves all concurrent waiters
+    this.authorizationRequests.push({resolve, reject, beforeAuth, afterAuth});
+    // one authorization flow serves all concurrent waiters; joiners mirror the
+    // mode of the flow in progress, not the storage state
     if (this.authorizationRequests.length === 1) {
-      this.openAuthorizeDialog({email, scopes});
+      this.silentRenewal = storedCredentials;
+    }
+    beforeAuth?.({reauth: this.silentRenewal});
+    if (this.authorizationRequests.length === 1) {
+      if (this.silentRenewal) {
+        this.reauthorize({email, scopes});
+      } else {
+        this.openAuthorizeDialog({email, scopes});
+      }
     }
     return promise;
+  }
+
+  /**
+   * Renew an expired authorization directly via launchWebAuthFlow: with a live
+   * Microsoft session this completes without user interaction. Falls back to
+   * the settings-UI authorization dialog if the flow fails.
+   */
+  async reauthorize({email, scopes}) {
+    try {
+      const accessToken = await outlook.authorize(email, scopes);
+      this.resolveAuthorizationRequests(accessToken);
+    } catch (e) {
+      console.log(`Outlook silent renewal failed: ${e.code} ${e.message}`);
+      const error = mapAuthError(e);
+      if (isTerminalAuthError(error)) {
+        // the user has to act outside of Mailvelope, another sign-in attempt
+        // from the settings dialog would fail the same way
+        this.rejectAuthorizationRequests(error);
+        return;
+      }
+      // swap the reconnect notification of the waiters for the authorization error
+      this.silentRenewal = false;
+      for (const request of this.authorizationRequests) {
+        request.beforeAuth?.({reauth: false});
+      }
+      this.openAuthorizeDialog({email, scopes});
+    }
   }
 
   async onAuthorize({email, scopes, forcePicker = false}) {
@@ -172,10 +213,7 @@ export default class OutlookController extends SubController {
       // return to the webmail tab before resolving the waiters, so a deferred
       // editor opens on top of the webmail, not the settings tab
       await this.activateComponent().catch(() => { /* tab closed meanwhile */ });
-      for (const request of this.authorizationRequests.splice(0)) {
-        request.afterAuth?.();
-        request.resolve(accessToken);
-      }
+      this.resolveAuthorizationRequests(accessToken);
     } catch (e) {
       if (e.code === ERROR_OUTLOOK_ACCOUNT_MISMATCH) {
         // recoverable via the in-modal retry with the account picker: keep the
@@ -184,22 +222,40 @@ export default class OutlookController extends SubController {
       }
       const error = mapAuthError(e);
       this.clearAuthTabWatch();
-      for (const request of this.authorizationRequests.splice(0)) {
-        request.reject(error);
-      }
+      this.rejectAuthorizationRequests(error);
       throw error;
+    }
+  }
+
+  resolveAuthorizationRequests(accessToken) {
+    for (const request of this.authorizationRequests.splice(0)) {
+      request.afterAuth?.();
+      request.resolve(accessToken);
+    }
+  }
+
+  rejectAuthorizationRequests(error) {
+    for (const request of this.authorizationRequests.splice(0)) {
+      request.reject(error);
     }
   }
 
   cancelAuthorization() {
     this.clearAuthTabWatch();
-    for (const request of this.authorizationRequests.splice(0)) {
-      request.reject(new MvError('Authorization cancelled by user.', ERROR_OUTLOOK_AUTH_CANCELLED));
-    }
+    this.rejectAuthorizationRequests(new MvError('Authorization cancelled by user.', ERROR_OUTLOOK_AUTH_CANCELLED));
   }
 
-  checkAuthorization({email, scopes = [outlook.OUTLOOK_SCOPE_MAIL_READ, outlook.OUTLOOK_SCOPE_MAIL_SEND]}) {
-    return outlook.getAccessToken({email, scopes});
+  async checkAuthorization({email, scopes = [outlook.OUTLOOK_SCOPE_MAIL_READ, outlook.OUTLOOK_SCOPE_MAIL_SEND]}) {
+    const {accessToken} = await outlook.getAccessToken({email, scopes});
+    return accessToken;
+  }
+
+  // Show a terminal authorization error on the settings page: used when no
+  // component is open that could display it
+  async openAuthErrorDialog(error) {
+    const slotId = getUUID();
+    setAppDataSlot(slotId, {authError: {message: error.message}});
+    await mvelo.tabs.loadAppTab(`?slotId=${slotId}#/settings/outlook-api/auth`);
   }
 
   async openAuthorizeDialog({email, scopes}) {
@@ -235,15 +291,19 @@ export default class OutlookController extends SubController {
   }
 }
 
-// Replace Microsoft error descriptions with localized messages for error
-// classes the user can act on
+// Error classes the user can only resolve outside of Mailvelope: shown with a
+// localized message instead of the Microsoft error description, and terminal
+// for any sign-in attempt from Mailvelope
+const TERMINAL_AUTH_ERRORS = new Map([
+  ['OUTLOOK_OAUTH_ADMIN_CONSENT', 'outlook_oauth_error_admin_consent'],
+  ['OUTLOOK_OAUTH_CONDITIONAL_ACCESS', 'outlook_oauth_error_conditional_access']
+]);
+
 function mapAuthError(error) {
-  switch (error.code) {
-    case 'OUTLOOK_OAUTH_ADMIN_CONSENT':
-      return new MvError(l10n.get('outlook_oauth_error_admin_consent'), error.code);
-    case 'OUTLOOK_OAUTH_CONDITIONAL_ACCESS':
-      return new MvError(l10n.get('outlook_oauth_error_conditional_access'), error.code);
-    default:
-      return error;
-  }
+  const l10nKey = TERMINAL_AUTH_ERRORS.get(error.code);
+  return l10nKey ? new MvError(l10n.get(l10nKey), error.code) : error;
+}
+
+function isTerminalAuthError(error) {
+  return TERMINAL_AUTH_ERRORS.has(error.code);
 }
