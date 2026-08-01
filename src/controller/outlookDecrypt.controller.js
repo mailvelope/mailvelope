@@ -10,6 +10,7 @@ import {extractFileExtension} from '../lib/file';
 import * as model from '../modules/pgpModel';
 import * as outlook from '../modules/outlook';
 import {createController, controllerPool} from './main.controller';
+import {authNotifications} from './outlook.controller';
 import DecryptController from './decrypt.controller';
 import {lookupKey} from './import.controller';
 
@@ -47,13 +48,22 @@ export default class OutlookDecryptController extends DecryptController {
     const outlookCtrl = await this.getOutlookCtrl();
     return outlookCtrl.getAccessToken({
       ...this.state.userInfo,
-      beforeAuth: () => this.ports.dDialog.emit('error-message', {error: l10n.get('outlook_integration_auth_error_download')}),
+      beforeAuth: info => this.beforeAuthorization(info),
       afterAuth: () => this.afterAuthorization()
     });
   }
 
+  beforeAuthorization({reauth = false} = {}) {
+    if (reauth) {
+      this.ports.dDialog.emit('show-notification', authNotifications.reconnect());
+      return;
+    }
+    this.ports.dDialog.emit('error-message', {error: l10n.get('outlook_integration_auth_error_download')});
+  }
+
   async afterAuthorization() {
-    this.ports.dDialog.emit('hide-error-message');
+    // replaces the reconnect notification or the authorization error
+    this.ports.dDialog.emit('show-notification', authNotifications.authorized());
     (await this.getPopup())?.activate();
   }
 

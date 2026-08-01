@@ -579,10 +579,9 @@ nav {
 // custom toast
 
 .toast {
-  &.success,
-  &.error {
-    max-width: 450px;
-  }
+  // size to the message, keep single-line up to the cap, stay inside narrow frames
+  width: max-content;
+  max-width: min(520px, calc(100vw - 2rem));
   .toast-header {
     padding: 1rem 1.5rem;
   }

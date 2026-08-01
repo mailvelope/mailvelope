@@ -88,7 +88,7 @@ export default class DecryptMessage extends React.Component {
   }
 
   onShowPwdDialog(msg) {
-    this.setState({pwdDialog: msg, notification: null});
+    this.setState({pwdDialog: msg, notification: null, showNotification: false});
   }
 
   onHidePwdDialog() {
@@ -204,13 +204,13 @@ export default class DecryptMessage extends React.Component {
         hideDelay,
         dismissable
       },
-      waiting: false,
       pwdDialog: null,
       showNotification: true
     });
   }
 
   onErrorMessage(msg) {
+    this.setState({waiting: false});
     this.showNotification({
       type: 'error',
       title: l10n.map.editor_error_header,
@@ -226,25 +226,27 @@ export default class DecryptMessage extends React.Component {
     });
   }
 
-  handleCancel() {
-    this.port.emit('decrypt-dialog-cancel');
-    this.setState({notification: null});
+  // only a persistent notification blocks the locked frame, an auto-hiding toast is dismissed by the click
+  notificationBlocksUnlock() {
+    return this.state.showNotification && !this.state.notification.autoHide;
   }
 
   handleDecrypt() {
-    if (!this.state.showNotification && !this.state.waiting) {
-      if (this.state.message !== null && !this.state.signOnly) {
-        this.setState({locked: false});
-      } else {
-        this.port.emit('decrypt-message');
-      }
+    if (this.state.waiting || this.notificationBlocksUnlock()) {
+      return;
+    }
+    if (this.state.showNotification) {
+      this.hideNotification();
+    }
+    if (this.state.message !== null && !this.state.signOnly) {
+      this.setState({locked: false});
+    } else {
+      this.port.emit('decrypt-message');
     }
   }
 
-  hideNotification(timeout = 0) {
-    setTimeout(() => {
-      this.setState({showNotification: false});
-    }, timeout);
+  hideNotification() {
+    this.setState({showNotification: false});
   }
 
   signerKeyId() {
@@ -353,12 +355,12 @@ export default class DecryptMessage extends React.Component {
                 }
               </div>
             ) : (
-              <div className={`locked ${this.state.large ? 'large' : ''} modal-content shadow-lg border-0 h-100 ${(!this.state.showNotification && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
+              <div className={`locked ${this.state.large ? 'large' : ''} modal-content shadow-lg border-0 h-100 ${(!this.notificationBlocksUnlock() && !this.state.waiting) ? 'cursor' : ''}`} onClick={() => this.handleDecrypt()}>
                 <img src="../../img/Mailvelope/logo_signet.svg" />
                 {this.state.waiting ? (
                   <Spinner />
                 ) : (
-                  <p className={this.state.showNotification ? 'text-muted' : ''}>{l10n.map.decrypt_show_message_btn}</p>
+                  <p className={this.notificationBlocksUnlock() ? 'text-muted' : ''}>{l10n.map.decrypt_show_message_btn}</p>
                 )}
               </div>
             )}
@@ -367,7 +369,7 @@ export default class DecryptMessage extends React.Component {
         {this.state.pwdDialog && <iframe className="decrypt-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
         {this.state.notification &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} transition={{timeout: 150, unmountOnExit: true, onEntered: () => { this.blurWarning && this.blurWarning.startBlurValid; this.state.notification.autoHide && this.hideNotification(this.state.notification.hideDelay); }}}>
+            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} autoHide={this.state.notification.autoHide} hideDelay={this.state.notification.hideDelay} onHide={() => this.hideNotification()} transition={{timeout: 150, unmountOnExit: true}}>
               {this.state.notification.message}
             </Toast>
           </div>

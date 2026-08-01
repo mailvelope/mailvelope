@@ -40,8 +40,9 @@ export default class OutlookController extends SubController {
     // window that would cover the settings tab of a deferred authorization
     // (never raised above it on Firefox). Once authorized, onAuthorize returns
     // to the webmail tab and the editor popup opens on top of it.
+    let authorized = false;
     try {
-      await this.getAccessToken({email: options.userInfo.email});
+      await this.getAccessToken({email: options.userInfo.email, afterAuth: () => authorized = true});
     } catch (e) {
       if (e.code === ERROR_OUTLOOK_AUTH_CANCELLED) {
         // user declined the authorization, no editor
@@ -62,19 +63,22 @@ export default class OutlookController extends SubController {
     }
     options.recipientsTo ||= [];
     options.recipientsCc ||= [];
-    this.openEditor(options);
+    this.openEditor(options, {notifyAuthorized: authorized});
   }
 
   /**
    * Opens a new editor control and gets the recipients to encrypt plaintext
    * input to their public keys.
    * @param  {String} options.text   The plaintext input to encrypt
+   * @param  {Boolean} notifyAuthorized - show a success notification in the
+   *                                      editor for the just completed authorization
    */
-  openEditor(options) {
+  openEditor(options, {notifyAuthorized = false} = {}) {
     this.setState({userInfo: options.userInfo, messageId: options.messageId});
     this.peers.editorController.openEditor({
       integration: true,
       provider: this.peerType,
+      notifyAuthorized,
       predefinedText: options.text,
       quotedMail: options.quotedMail,
       quotedMailIndent: options.quotedMailIndent === undefined ? true : options.quotedMailIndent,
@@ -104,7 +108,6 @@ export default class OutlookController extends SubController {
     const userEmail = this.state.userInfo.email;
     const toFormatted = to.map(({name, email}) => formatAddress(email, name));
     const ccFormatted = cc.map(({name, email}) => formatAddress(email, name));
-    const accessToken = await this.peers.editorController.getAccessToken();
     try {
       const mail = outlook.buildMail({
         message: armored,
@@ -114,6 +117,7 @@ export default class OutlookController extends SubController {
         to: toFormatted,
         cc: ccFormatted
       });
+      const accessToken = await this.peers.editorController.getAccessToken();
       await outlook.sendMessage({message: mail, accessToken});
       this.peers.editorController.ports.editor.emit('show-notification', {
         message: l10n.get('outlook_integration_sent_success'),
@@ -290,6 +294,22 @@ export default class OutlookController extends SubController {
     }
   }
 }
+
+// Notification payloads for the Outlook authorization flow, emitted by the
+// components that display them (editor, decrypt dialog)
+export const authNotifications = {
+  // the authorization is renewed in the background, usually without user interaction
+  reconnect: () => ({
+    message: l10n.get('outlook_integration_reconnect'),
+    type: 'info',
+    autoHide: false,
+    dismissable: false
+  }),
+  authorized: () => ({
+    message: l10n.get('outlook_integration_authorized'),
+    type: 'success'
+  })
+};
 
 // Error classes the user can only resolve outside of Mailvelope: shown with a
 // localized message instead of the Microsoft error description, and terminal

@@ -304,4 +304,131 @@ describe('Decrypt Message tests', () => {
       alertSpy.mockRestore();
     });
   });
+
+  describe('Locked state notifications', () => {
+    it('should keep the notification visible when the frame locks', async () => {
+      const {ref} = setup();
+      await act(async () => {
+        ref.current.showNotification({message: 'authorized', type: 'success'});
+      });
+      await act(async () => {
+        ref.current.onLock();
+      });
+      expect(ref.current.state.locked).toBe(true);
+      expect(ref.current.state.showNotification).toBe(true);
+      expect(screen.getByText('authorized')).toBeInTheDocument();
+    });
+
+    it('should unlock on click while an auto-hiding toast is shown', async () => {
+      const {ref} = setup();
+      await act(async () => {
+        ref.current.onLock();
+        ref.current.showNotification({message: 'authorized', type: 'success'});
+      });
+      await act(async () => {
+        ref.current.handleDecrypt();
+      });
+      expect(ref.current.port.emit).toHaveBeenCalledWith('decrypt-message');
+    });
+
+    it('should ignore clicks while a persistent notification is shown', async () => {
+      const {ref} = setup();
+      await act(async () => {
+        ref.current.onLock();
+        ref.current.showNotification({message: 'reconnect', type: 'info', autoHide: false, dismissable: false});
+      });
+      await act(async () => {
+        ref.current.handleDecrypt();
+      });
+      expect(ref.current.port.emit).not.toHaveBeenCalledWith('decrypt-message');
+    });
+
+    it('should clear the notification when the password dialog opens', async () => {
+      const {ref} = setup();
+      await act(async () => {
+        ref.current.onLock();
+        ref.current.showNotification({message: 'authorized', type: 'success'});
+      });
+      await act(async () => {
+        ref.current.onShowPwdDialog({id: 'pwd-dialog-id'});
+      });
+      expect(ref.current.state.showNotification).toBe(false);
+      expect(ref.current.state.notification).toBeNull();
+    });
+
+    it('should keep the waiting spinner while a notification is shown', async () => {
+      const {ref} = setup();
+      expect(ref.current.state.waiting).toBe(true);
+      await act(async () => {
+        ref.current.showNotification({message: 'reconnect', type: 'info', autoHide: false, dismissable: false});
+      });
+      expect(ref.current.state.waiting).toBe(true);
+    });
+
+    it('should clear the waiting spinner on an error message', async () => {
+      const {ref} = setup();
+      await act(async () => {
+        ref.current.onErrorMessage({error: 'download failed'});
+      });
+      expect(ref.current.state.waiting).toBe(false);
+      expect(ref.current.state.showNotification).toBe(true);
+    });
+  });
+
+  describe('Notification auto-hide', () => {
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('should auto-hide a fresh toast without relying on the enter transition', () => {
+      jest.useFakeTimers();
+      const {ref} = setup();
+      act(() => {
+        ref.current.showNotification({message: 'authorized', type: 'success'});
+      });
+      expect(ref.current.state.showNotification).toBe(true);
+      act(() => {
+        jest.advanceTimersByTime(4000);
+      });
+      expect(ref.current.state.showNotification).toBe(false);
+    });
+
+    it('should arm auto-hide when a toast replaces an already visible one', () => {
+      jest.useFakeTimers();
+      const {ref} = setup();
+      // persistent notification, e.g. "Reconnecting to Microsoft…"
+      act(() => {
+        ref.current.showNotification({message: 'reconnect', type: 'info', autoHide: false, dismissable: false});
+      });
+      act(() => {
+        jest.advanceTimersByTime(5000);
+      });
+      expect(ref.current.state.showNotification).toBe(true);
+      act(() => {
+        ref.current.showNotification({message: 'authorized', type: 'success'});
+      });
+      act(() => {
+        jest.advanceTimersByTime(4000);
+      });
+      expect(ref.current.state.showNotification).toBe(false);
+    });
+
+    it('should not let the pending auto-hide of a replaced toast hide the new one', () => {
+      jest.useFakeTimers();
+      const {ref} = setup();
+      act(() => {
+        ref.current.showNotification({message: 'sent', type: 'success'});
+      });
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+      act(() => {
+        ref.current.showNotification({message: 'reconnect', type: 'info', autoHide: false, dismissable: false});
+      });
+      act(() => {
+        jest.advanceTimersByTime(10000);
+      });
+      expect(ref.current.state.showNotification).toBe(true);
+    });
+  });
 });

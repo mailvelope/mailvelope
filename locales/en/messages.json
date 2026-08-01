@@ -1459,6 +1459,14 @@
     "description": "Error shown in the email editor when Mailvelope is not authorized to send emails via the Microsoft Graph API.",
     "message": "Mailvelope is not authorized to send emails. To use this function, grant Mailvelope access to your Outlook mailbox."
   },
+  "outlook_integration_authorized": {
+    "description": "Success notification shown in the email editor and in the decrypt dialog after Mailvelope was authorized to access the user's Outlook mailbox.",
+    "message": "Mailvelope now has access to your Outlook mailbox."
+  },
+  "outlook_integration_reconnect": {
+    "description": "Notification shown in the email editor and in the decrypt dialog while Mailvelope automatically renews an expired Microsoft authorization in the background.",
+    "message": "Reconnecting to Microsoft…"
+  },
   "outlook_integration_sent_success": {
     "description": "Success notification shown after an email was sent via the Outlook integration.",
     "message": "The email was sent successfully."

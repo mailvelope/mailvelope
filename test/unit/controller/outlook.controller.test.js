@@ -97,7 +97,7 @@ describe('OutlookController', () => {
       expect(controller.createPeer).toHaveBeenCalledWith('editorController');
       expect(controller.state.userInfo).toEqual(options.userInfo);
       expect(controller.state.messageId).toBe('msg-123');
-      expect(controller.peers.editorController.openEditor).toHaveBeenCalledWith(expect.objectContaining({provider: 'outlookController'}));
+      expect(controller.peers.editorController.openEditor).toHaveBeenCalledWith(expect.objectContaining({provider: 'outlookController', notifyAuthorized: false}));
     });
 
     it('should activate existing editor if popup already exists', async () => {
@@ -144,7 +144,7 @@ describe('OutlookController', () => {
       await controller.onAuthorize({email: 'user@outlook.com', scopes: []});
       await openEditorPromise;
 
-      expect(controller.peers.editorController.openEditor).toHaveBeenCalled();
+      expect(controller.peers.editorController.openEditor).toHaveBeenCalledWith(expect.objectContaining({notifyAuthorized: true}));
     });
 
     it('should not open the editor when the authorization is cancelled', async () => {

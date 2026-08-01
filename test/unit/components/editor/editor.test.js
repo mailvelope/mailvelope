@@ -579,14 +579,45 @@ describe('Editor tests', () => {
         // Verify it's shown
         expect(ref.current.state.showNotification).toBe(true);
 
-        // Then hide it - the method uses setTimeout so we need to wait briefly
         await act(async () => {
           ref.current.hideNotification();
-          await new Promise(resolve => setTimeout(resolve, 15));
+        });
+
+        expect(ref.current.state.showNotification).toBe(false);
+        // kept in state for the exit transition of the toast
+        expect(ref.current.state.notification).not.toBeNull();
+      });
+
+      it('should clear the notification when the password dialog opens', async () => {
+        const {ref} = setup();
+
+        await act(async () => {
+          ref.current.showNotification({message: 'authorized', type: 'success'});
+        });
+        await act(async () => {
+          ref.current.onShowPwdDialog({id: 'pwd-dialog-id'});
         });
 
         expect(ref.current.state.showNotification).toBe(false);
         expect(ref.current.state.notification).toBeNull();
+      });
+
+      it('should close the editor after a closeOnHide toast even when another notification replaces it', () => {
+        jest.useFakeTimers();
+        const {ref} = setup();
+
+        act(() => {
+          ref.current.showNotification({message: 'sent', type: 'success', autoHide: true, hideDelay: 2000, closeOnHide: true, dismissable: false});
+        });
+        act(() => {
+          ref.current.showNotification({message: 'some error', type: 'error', autoHide: false});
+        });
+        act(() => {
+          jest.advanceTimersByTime(2000);
+        });
+
+        expect(ref.current.port.emit).toHaveBeenCalledWith('editor-close');
+        jest.useRealTimers();
       });
     });
 

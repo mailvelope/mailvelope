@@ -70,7 +70,8 @@ describe('EditorController unit tests', () => {
         keyringId: null,
         integration: false,
         provider: null,
-        userInfo: null
+        userInfo: null,
+        notifyAuthorized: false
       });
       expect(controller.peerType).toBe('editorController');
       expect(controller.popup).toBeNull();
@@ -283,6 +284,43 @@ describe('EditorController unit tests', () => {
 
       expect(controller.state.popupId).toBe('existing-popup');
       expect(controller.state.keyringId).toBe('new-keyring');
+    });
+  });
+
+  describe('authorization notifications', () => {
+    beforeEach(() => {
+      controller.ports = {editor: {emit: jest.fn()}};
+    });
+
+    it('should show the reconnect notification during automatic reauthorization', () => {
+      controller.state.provider = 'outlookController';
+
+      controller.beforeAuthorization({reauth: true});
+
+      expect(controller.ports.editor.emit).toHaveBeenCalledWith('show-notification', expect.objectContaining({type: 'info', autoHide: false}));
+    });
+
+    it('should show the authorization error when a new authorization is required', () => {
+      controller.state.provider = 'outlookController';
+
+      controller.beforeAuthorization();
+
+      expect(controller.ports.editor.emit).toHaveBeenCalledWith('error-message', {error: expect.objectContaining({code: 'AUTHORIZATION_REQUIRED'})});
+    });
+
+    it('should show the authorized notification once on editor mount', async () => {
+      controller.setState({notifyAuthorized: true, provider: 'outlookController'});
+
+      await controller.onEditorMount();
+
+      expect(controller.ports.editor.emit).toHaveBeenCalledWith('show-notification', expect.objectContaining({type: 'success'}));
+      expect(controller.state.notifyAuthorized).toBe(false);
+    });
+
+    it('should not show the authorized notification without a preceding authorization', async () => {
+      await controller.onEditorMount();
+
+      expect(controller.ports.editor.emit).not.toHaveBeenCalledWith('show-notification', expect.anything());
     });
   });
 

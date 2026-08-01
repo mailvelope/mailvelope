@@ -3,14 +3,22 @@
  * Licensed under the GNU Affero General Public License version 3
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Toast as ToastRS, ToastHeader as ToastHeaderRS, ToastBody as ToastBodyRS, Fade as FadeRS} from 'reactstrap';
 
 /**
  * Alert
  */
-export default function Toast({className, isOpen, transition, toggle, header, type, children: message}) {
+export default function Toast({className, isOpen, transition, toggle, header, type, autoHide, hideDelay, onHide, children: message}) {
+  // the auto-hide timer lives with the toast; re-arms when a new message
+  // replaces a visible one, deliberately not when the onHide identity changes
+  useEffect(() => {
+    if (isOpen && autoHide) {
+      const timer = setTimeout(onHide, hideDelay);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, autoHide, hideDelay, message]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <ToastRS className={`${className || ''} ${type || ''}`} isOpen={isOpen} transition={transition}>
       {header &&
@@ -36,7 +44,10 @@ Toast.propTypes = {
   transition: PropTypes.shape(FadeRS.propTypes),
   toggle: PropTypes.func,
   header: PropTypes.string,
-  type: PropTypes.oneOf(['success', 'error']),
+  type: PropTypes.oneOf(['success', 'error', 'info']),
+  autoHide: PropTypes.bool,
+  hideDelay: PropTypes.number,
+  onHide: PropTypes.func,
   children: PropTypes.node.isRequired,
 };
 

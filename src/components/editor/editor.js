@@ -84,6 +84,10 @@ export default class Editor extends React.Component {
     this.port.emit('editor-mount');
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.closeTimeout);
+  }
+
   registerEventListeners() {
     this.port.on('set-text', ({text}) => this.setState({defaultPlainText: text, plainText: text}));
     this.port.on('set-init-data', this.onSetInitData);
@@ -316,13 +320,17 @@ export default class Editor extends React.Component {
         type,
         autoHide,
         hideDelay,
-        closeOnHide,
         dismissable
       },
       waiting: false,
       pwdDialog: null,
       showNotification: true
     });
+    if (closeOnHide) {
+      // dedicated timer: the editor closes after the toast even when later
+      // notification activity replaces or hides it
+      this.closeTimeout = setTimeout(() => this.port.emit('editor-close'), hideDelay);
+    }
   }
 
   onDecryptFailed(msg) {
@@ -345,7 +353,7 @@ export default class Editor extends React.Component {
   }
 
   onShowPwdDialog(msg) {
-    this.setState({pwdDialog: msg, waiting: false, notification: null});
+    this.setState({pwdDialog: msg, waiting: false, notification: null, showNotification: false});
   }
 
   onHidePwdDialog() {
@@ -411,14 +419,9 @@ export default class Editor extends React.Component {
     });
   }
 
-  hideNotification(timeout = 0, closeEditor = false) {
-    setTimeout(() => {
-      if (closeEditor) {
-        this.port.emit('editor-close');
-      } else {
-        this.setState({showNotification: false, notification: null});
-      }
-    }, timeout);
+  hideNotification() {
+    // notification stays in state for the exit transition of the toast
+    this.setState({showNotification: false});
   }
 
   isEncryptDisabled() {
@@ -457,9 +460,6 @@ export default class Editor extends React.Component {
   onNotificationEnteredTransition() {
     if (this.blurWarning) {
       this.blurWarning.startBlurValid();
-    }
-    if (this.state.notification.autoHide) {
-      this.hideNotification(this.state.notification.hideDelay, this.state.notification.closeOnHide);
     }
   }
 
@@ -549,7 +549,7 @@ export default class Editor extends React.Component {
         {this.state.pwdDialog && <iframe className="editor-popup-pwd-dialog modal-content" src={`../enter-password/passwordDialog.html?id=${this.state.pwdDialog.id}`} frameBorder={0} />}
         {this.state.notification &&
           <div className="toastWrapper">
-            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} transition={{timeout: 150, unmountOnExit: true, onEntered: () => this.onNotificationEnteredTransition()}}>
+            <Toast isOpen={this.state.showNotification} header={this.state.notification.header} toggle={this.state.notification.dismissable ? () => this.hideNotification() : undefined} type={this.state.notification.type} autoHide={this.state.notification.autoHide} hideDelay={this.state.notification.hideDelay} onHide={() => this.hideNotification()} transition={{timeout: 150, unmountOnExit: true, onEntered: () => this.onNotificationEnteredTransition()}}>
               {this.state.notification.message}
             </Toast>
           </div>

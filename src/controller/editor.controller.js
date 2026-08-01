@@ -22,9 +22,15 @@ import {parseMessage, buildMail} from '../modules/mime';
 import * as gmail from '../modules/gmail';
 import {triggerSync} from './sync.controller';
 import * as keyRegistry from '../modules/keyRegistry';
+import {authNotifications as outlookAuthNotifications} from './outlook.controller';
 import {getById as getKeyringById, getPreferredKeyringId, getKeyData, getKeyByAddress, syncPublicKeys, getDefaultKeyFpr} from '../modules/keyring';
 import {mapAddressKeyMapToFpr} from '../modules/key';
 import {lookupKey} from './import.controller';
+
+// authorization feedback payloads keyed by the provider in state.provider
+const AUTH_NOTIFICATIONS = {
+  outlookController: outlookAuthNotifications
+};
 
 export default class EditorController extends SubController {
   constructor(port) {
@@ -39,7 +45,8 @@ export default class EditorController extends SubController {
       keyringId: null,
       integration: false,
       provider: null,
-      userInfo: null
+      userInfo: null,
+      notifyAuthorized: false
     };
     this.peerType = 'editorController';
     this.popup = null;
@@ -67,6 +74,13 @@ export default class EditorController extends SubController {
       embedded: Boolean(this.ports.editorCont),
       integration: this.state.integration
     });
+    if (this.state.notifyAuthorized) {
+      // authorization was established right before this editor opened; persist
+      // the reset first so a mount replay after a service-worker restart
+      // doesn't repeat the toast
+      await this.setState({notifyAuthorized: false});
+      this.ports.editor.emit('show-notification', AUTH_NOTIFICATIONS[this.state.provider].authorized());
+    }
     if (this.state.integration) {
       try {
         await this.getAccessToken();
@@ -87,12 +101,16 @@ export default class EditorController extends SubController {
     const provider = this.peers[this.state.provider] ?? this.peers.gmailController ?? this.peers.outlookController;
     return provider.getAccessToken({
       ...this.state.userInfo,
-      beforeAuth: () => this.beforeAuthorization(),
+      beforeAuth: info => this.beforeAuthorization(info),
       afterAuth: () => this.afterAuthorization()
     });
   }
 
-  beforeAuthorization() {
+  beforeAuthorization({reauth = false} = {}) {
+    if (reauth) {
+      this.ports.editor.emit('show-notification', AUTH_NOTIFICATIONS[this.state.provider].reconnect());
+      return;
+    }
     const authErrorKey = this.state.provider === 'outlookController' ? 'outlook_integration_auth_error_send' : 'gmail_integration_auth_error_send';
     this.ports.editor.emit('error-message', {
       error: {
@@ -296,8 +314,8 @@ export default class EditorController extends SubController {
    * @param {boolean} quotedMailIndent - if true the quoted mail will be indented
    * @param {Object} recipients - recipient email addresses, in the form {to: [{email}], cc: [{email}]}
    */
-  async openEditor({userInfo, provider, ...options}) {
-    this.setState({userInfo, provider});
+  async openEditor({userInfo, provider, notifyAuthorized = false, ...options}) {
+    this.setState({userInfo, provider, notifyAuthorized});
     this.options = options;
     this.options.privKeys = true; // send private keys for signing key selection to editor
     let height = 680;
