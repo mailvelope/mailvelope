@@ -105,8 +105,9 @@ export default class gmailDecryptController extends DecryptController {
   }
 
   async processData(accessToken) {
-    if (this.armored) {
-      await super.decrypt(this.armored, this.keyringId);
+    if (this.armored && await super.decrypt(this.armored, this.keyringId)) {
+      // password dialog cancelled: frame is locked again, no attachment download
+      return;
     }
     try {
       if (!accessToken && (this.clipped || this.attachments.length)) {

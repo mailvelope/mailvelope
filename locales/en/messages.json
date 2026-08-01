@@ -1635,6 +1635,10 @@
     "description": "Secure reply button title/tooltip",
     "message": "Secure reply"
   },
+  "provider_outlook_dialog_renewal_info": {
+    "description": "Explanatory sentence in the Outlook API authorization dialog on the settings page, informing the user that Microsoft requires the granted access to be renewed periodically.",
+    "message": "Microsoft requires Mailvelope to renew this access from time to time. The renewal usually completes in the background, without any action on your part."
+  },
   "provider_outlook_mismatch_intro": {
     "description": "First sentence of the dialog on the Outlook API settings page that appears when the user authorized a different Microsoft account than the one Mailvelope expected.",
     "message": "Mailvelope expects a different Outlook account than the one Microsoft authorized."

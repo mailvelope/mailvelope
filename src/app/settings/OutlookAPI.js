@@ -30,6 +30,7 @@ l10n.register([
   'provider_gmail_mismatch_label_expected',
   'provider_gmail_mismatch_retry_btn',
   'provider_gmail_mismatch_why_summary',
+  'provider_outlook_dialog_renewal_info',
   'provider_outlook_mismatch_intro',
   'provider_outlook_mismatch_step1',
   'provider_outlook_mismatch_step2',
@@ -50,7 +51,8 @@ export default class OutlookAPI extends React.Component {
       scopes: [],
       outlookCtrlId: '',
       watchList: null,
-      mismatch: null
+      mismatch: null,
+      authorizing: false
     };
     this.handleOutlookSwitch = this.handleOutlookSwitch.bind(this);
     this.handleAuthCancel = this.handleAuthCancel.bind(this);
@@ -79,6 +81,7 @@ export default class OutlookAPI extends React.Component {
 
   async getAuthorization({forcePicker = false} = {}) {
     const {email, scopes, outlookCtrlId} = this.state;
+    this.setState({authorizing: true});
     try {
       await port.send('authorize-outlook', {email, scopes, outlookCtrlId, forcePicker});
     } catch (error) {
@@ -95,9 +98,24 @@ export default class OutlookAPI extends React.Component {
       this.setState({showAuthModal: false, mismatch: null});
       this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
       return;
+    } finally {
+      this.setState({authorizing: false});
     }
     this.setState({showAuthModal: false, mismatch: null});
     await this.loadAuthorisations();
+    this.closeAuthTab();
+  }
+
+  // The settings tab was opened for the authorization flow; close it after
+  // success, unless the user navigated away from the auth route meanwhile
+  async closeAuthTab() {
+    if (!/\/auth$/.test(window.location.hash)) {
+      return;
+    }
+    const tab = await chrome.tabs.getCurrent();
+    if (tab) {
+      await chrome.tabs.remove(tab.id);
+    }
   }
 
   handleMismatchRetry() {
@@ -105,6 +123,10 @@ export default class OutlookAPI extends React.Component {
   }
 
   handleMismatchCancel() {
+    if (this.state.authorizing) {
+      // no cancellation once the sign-in window is open
+      return;
+    }
     const {outlookCtrlId} = this.state;
     this.setState({mismatch: null, outlook_integration: false}, () => this.handleSave());
     if (outlookCtrlId) {
@@ -184,6 +206,10 @@ export default class OutlookAPI extends React.Component {
   }
 
   handleAuthCancel() {
+    if (this.state.authorizing) {
+      // no cancellation once the sign-in window is open
+      return;
+    }
     const {outlookCtrlId} = this.state;
     this.setState({showAuthModal: false, outlook_integration: false}, () => this.handleSave());
     if (outlookCtrlId) {
@@ -200,7 +226,7 @@ export default class OutlookAPI extends React.Component {
         title="Outlook API Authorization"
         footer={
           <div className="modal-footer justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={this.handleAuthCancel}>{l10n.map.dialog_popup_close}</button>
+            <button type="button" className="btn btn-secondary" disabled={this.state.authorizing} onClick={this.handleAuthCancel}>{l10n.map.dialog_popup_close}</button>
             {this.microsoftSignInButton()}
           </div>
         }
@@ -216,6 +242,7 @@ export default class OutlookAPI extends React.Component {
             )}
           </ul>
           <p>Your credentials are stored securely and only used to access messages on your behalf when using Mailvelope.</p>
+          <p>{l10n.map.provider_outlook_dialog_renewal_info}</p>
           <p className="text-muted text-right mb-0">
             <small>
               <a href="https://mailvelope.com/en/privacy-policy" className="text-reset" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
@@ -228,14 +255,15 @@ export default class OutlookAPI extends React.Component {
 
   microsoftSignInButton() {
     return (
-      <button type="button" className="btn btn-primary" onClick={() => this.getAuthorization()}>
+      <button type="button" className="btn btn-primary" disabled={this.state.authorizing} onClick={() => this.getAuthorization()}>
+        {this.state.authorizing && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
         Sign in with Microsoft
       </button>
     );
   }
 
   mismatchModal() {
-    const {mismatch} = this.state;
+    const {mismatch, authorizing} = this.state;
     const intended = mismatch?.intendedEmail || '';
     const actual = mismatch?.actualEmail || '';
     const rows = [
@@ -251,8 +279,11 @@ export default class OutlookAPI extends React.Component {
         headerClass="text-danger"
         footer={
           <div className="modal-footer justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={this.handleMismatchCancel}>{l10n.map.provider_gmail_mismatch_cancel_btn}</button>
-            <button type="button" className="btn btn-primary" onClick={this.handleMismatchRetry}>{l10n.map.provider_gmail_mismatch_retry_btn}</button>
+            <button type="button" className="btn btn-secondary" disabled={authorizing} onClick={this.handleMismatchCancel}>{l10n.map.provider_gmail_mismatch_cancel_btn}</button>
+            <button type="button" className="btn btn-primary" disabled={authorizing} onClick={this.handleMismatchRetry}>
+              {authorizing && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
+              {l10n.map.provider_gmail_mismatch_retry_btn}
+            </button>
           </div>
         }
       >

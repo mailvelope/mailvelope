@@ -103,6 +103,10 @@ export default class DecryptController extends SubController {
     }
   }
 
+  /**
+   * @return {Promise<boolean|undefined>} true if the key password is cached, false if password entry is
+   *                                      required, undefined on failure (error emitted to the dialog)
+   */
   async canUnlockKey(armoredMessage, keyringId) {
     try {
       this.message = await model.readMessage({armoredMessage});
@@ -133,6 +137,9 @@ export default class DecryptController extends SubController {
     }
   }
 
+  /**
+   * @return {Promise<Boolean>} true if the user cancelled the password dialog
+   */
   async decrypt(armored, keyringId) {
     this.ports.dDialog.emit('waiting', {waiting: true});
     try {
@@ -161,7 +168,8 @@ export default class DecryptController extends SubController {
     } catch (error) {
       if (error.code === 'PWD_DIALOG_CANCEL') {
         if (this.hasPort('Frame')) {
-          return this.dialogCancel();
+          await this.dialogCancel();
+          return true;
         }
       }
       if (this.ports.dDialog) {
@@ -186,6 +194,7 @@ export default class DecryptController extends SubController {
       }
       this.ports.dDialog.emit('waiting', {waiting: false});
     }
+    return false;
   }
 
   async unlockKey({key, message}) {

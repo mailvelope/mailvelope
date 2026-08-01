@@ -4,6 +4,7 @@
  */
 
 import * as l10n from '../lib/l10n';
+import {ERROR_OUTLOOK_AUTH_CANCELLED} from '../lib/constants';
 import {dataURL2str, encodeHTML} from '../lib/util';
 import {parseAddress} from '../lib/email';
 import {extractFileExtension} from '../lib/file';
@@ -27,6 +28,7 @@ export default class OutlookDecryptController extends DecryptController {
     this.plainText = null;
     this.attachments = [];
     this.ascAttachments = [];
+    this.processing = false;
     // register event handlers
     this.on('set-data', this.onSetData);
     this.on('download-enc-attachment', this.onDownloadEncAttachment);
@@ -44,12 +46,18 @@ export default class OutlookDecryptController extends DecryptController {
     this.processData();
   }
 
-  async getAccessToken() {
+  async getAccessToken({beforeAuth, afterAuth} = {}) {
     const outlookCtrl = await this.getOutlookCtrl();
     return outlookCtrl.getAccessToken({
       ...this.state.userInfo,
-      beforeAuth: info => this.beforeAuthorization(info),
-      afterAuth: () => this.afterAuthorization()
+      beforeAuth: info => {
+        beforeAuth?.(info);
+        this.beforeAuthorization(info);
+      },
+      afterAuth: () => {
+        afterAuth?.();
+        this.afterAuthorization();
+      }
     });
   }
 
@@ -113,18 +121,53 @@ export default class OutlookDecryptController extends DecryptController {
   }
 
   async processData(accessToken) {
-    if (this.armored) {
-      await super.decrypt(this.armored, this.keyringId);
+    if (this.processing) {
+      // the locked frame stays clickable during a pending authorization
+      return;
     }
+    this.processing = true;
     try {
+      let freshAuth = false;
+      let silentRenewal = false;
+      let authError;
       if (!accessToken && this.attachments.length) {
-        accessToken = await this.getAccessToken();
+        try {
+          // establish authorization before any password interaction
+          accessToken = await this.getAccessToken({
+            beforeAuth: ({reauth = false} = {}) => silentRenewal = reauth,
+            afterAuth: () => freshAuth = true
+          });
+        } catch (error) {
+          // authorization failed or was declined: continue with the message body only;
+          // a declined authorization is silent unless there is no body to fall back to
+          if (error.code !== ERROR_OUTLOOK_AUTH_CANCELLED || !this.armored) {
+            authError = error;
+          }
+        }
       }
-      if (this.attachments.length) {
-        await this.onAttachments(accessToken);
+      if (freshAuth && !silentRenewal && this.armored && await this.canUnlockKey(this.armored, this.keyringId) === false) {
+        // after a sign-in in the settings tab, keep the success toast visible on the locked frame,
+        // the next click asks for the password; a silent renewal continues to the password dialog
+        this.ports.dDialog.emit('lock');
+        return;
       }
-    } catch (error) {
-      this.ports.dDialog.emit('error-message', {error: error.message});
+      if (this.armored && await super.decrypt(this.armored, this.keyringId)) {
+        // password dialog cancelled: frame is locked again, no attachment download
+        return;
+      }
+      if (authError) {
+        // emitted after the decrypt, the password dialog clears notifications
+        this.ports.dDialog.emit('error-message', {error: authError.message});
+      }
+      try {
+        if (accessToken && this.attachments.length) {
+          await this.onAttachments(accessToken);
+        }
+      } catch (error) {
+        this.ports.dDialog.emit('error-message', {error: error.message});
+      }
+    } finally {
+      this.processing = false;
     }
   }
 

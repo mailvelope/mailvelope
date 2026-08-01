@@ -386,9 +386,34 @@ describe('DecryptController unit tests', () => {
       controller.dialogCancel = jest.fn();
       controller.message = mockMessage;
 
-      await controller.decrypt('test-armored', 'test-keyring-id');
+      const cancelled = await controller.decrypt('test-armored', 'test-keyring-id');
 
       expect(controller.dialogCancel).toHaveBeenCalled();
+      expect(cancelled).toBe(true);
+    });
+
+    it('should return false on successful decryption', async () => {
+      const {decryptMessage} = require('../../../src/modules/pgpModel');
+      const {parseMessage} = require('../../../src/modules/mime');
+      decryptMessage.mockResolvedValue({data: 'decrypted-data', signatures: []});
+      parseMessage.mockResolvedValue({message: 'decrypted message', attachments: []});
+
+      controller.message = mockMessage;
+      const cancelled = await controller.decrypt('test-armored', 'test-keyring-id');
+
+      expect(cancelled).toBe(false);
+    });
+
+    it('should return false on non-cancel decrypt errors', async () => {
+      const {decryptMessage} = require('../../../src/modules/pgpModel');
+      const error = new Error('No key found');
+      error.code = 'NO_KEY_FOUND';
+      decryptMessage.mockRejectedValue(error);
+
+      controller.message = mockMessage;
+      const cancelled = await controller.decrypt('test-armored', 'test-keyring-id');
+
+      expect(cancelled).toBe(false);
     });
 
     it('should not expose internal errors to API', async () => {

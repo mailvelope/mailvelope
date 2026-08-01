@@ -16,8 +16,16 @@ export default {
       this.state = {...this.state, ...newState};
     }
 
-    hasPort(portName) {
-      return Boolean(this.ports[portName]);
+    getPort(...args) {
+      for (const portName in this.ports) {
+        if (args.some(name => portName.includes(name))) {
+          return this.ports[portName];
+        }
+      }
+    }
+
+    hasPort(...args) {
+      return Boolean(this.getPort(...args));
     }
 
     emit() {}

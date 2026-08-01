@@ -1226,6 +1226,9 @@
   "provider_gmail_secure_reply_btn": {
     "message": "Sicher antworten"
   },
+  "provider_outlook_dialog_renewal_info": {
+    "message": "Microsoft verlangt, dass Mailvelope diesen Zugriff von Zeit zu Zeit erneuert. Das geschieht in der Regel im Hintergrund, ohne dass Sie etwas tun müssen."
+  },
   "provider_outlook_mismatch_intro": {
     "message": "Mailvelope erwartet ein anderes Outlook-Konto, als Microsoft autorisiert hat."
   },
