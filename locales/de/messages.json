@@ -1220,6 +1220,21 @@
   "provider_gmail_secure_reply_btn": {
     "message": "Sicher antworten"
   },
+  "provider_outlook_mismatch_intro": {
+    "message": "Mailvelope erwartet ein anderes Outlook-Konto, als Microsoft autorisiert hat."
+  },
+  "provider_outlook_mismatch_step1": {
+    "message": "Klicken Sie unten auf \"Erneut versuchen\", um die Microsoft-Kontoauswahl erneut zu öffnen."
+  },
+  "provider_outlook_mismatch_step2": {
+    "message": "Wählen Sie <0></0>. Falls nicht gelistet, wählen Sie \"Anderes Konto verwenden\" und melden Sie sich an."
+  },
+  "provider_outlook_mismatch_title": {
+    "message": "Falsches Microsoft-Konto autorisiert"
+  },
+  "provider_outlook_mismatch_why_body": {
+    "message": "Ihr Browser ist möglicherweise mit einem anderen Microsoft-Konto angemeldet, oder im Microsoft-Anmeldedialog wurde ein anderes Konto ausgewählt."
+  },
   "pwd_dialog_cache_pwd": {
     "message": "Passwort temporär merken"
   },

@@ -439,9 +439,9 @@ export default class AppController extends SubController {
     }
   }
 
-  async authorizeOutlook({email, scopes, outlookCtrlId}) {
+  async authorizeOutlook({email, scopes, outlookCtrlId, forcePicker}) {
     const outlookCtrl = await controllerPool.get(outlookCtrlId);
-    return outlookCtrl.onAuthorize({email, scopes});
+    return outlookCtrl.onAuthorize({email, scopes, forcePicker});
   }
 
   async cancelAuthorizeOutlook({outlookCtrlId}) {

@@ -1627,6 +1627,26 @@
     "description": "Secure reply button title/tooltip",
     "message": "Secure reply"
   },
+  "provider_outlook_mismatch_intro": {
+    "description": "First sentence of the dialog on the Outlook API settings page that appears when the user authorized a different Microsoft account than the one Mailvelope expected.",
+    "message": "Mailvelope expects a different Outlook account than the one Microsoft authorized."
+  },
+  "provider_outlook_mismatch_step1": {
+    "description": "First step in the numbered recovery instructions of the wrong-account dialog on the Outlook API settings page. \"Try again\" refers to the button labeled with provider_gmail_mismatch_retry_btn.",
+    "message": "Click \"Try again\" below to reopen Microsoft's account chooser."
+  },
+  "provider_outlook_mismatch_step2": {
+    "description": "Second step in the numbered recovery instructions of the wrong-account dialog on the Outlook API settings page. <0> wraps the email address of the expected account, shown in bold.",
+    "message": "Pick <0></0>. If it isn't listed, choose \"Use another account\" and sign in."
+  },
+  "provider_outlook_mismatch_title": {
+    "description": "Title of the dialog on the Outlook API settings page that appears when the user authorized a different Microsoft account than the one Mailvelope expected.",
+    "message": "Wrong Microsoft account authorized"
+  },
+  "provider_outlook_mismatch_why_body": {
+    "description": "Explanation inside the collapsible \"Why does this happen?\" section of the wrong-account dialog on the Outlook API settings page.",
+    "message": "Your browser may be signed in with a different Microsoft account, or a different account was chosen on Microsoft's sign-in screen."
+  },
   "pwd_dialog_cache_pwd": {
     "description": "Checkbox label for remembering of the password.",
     "message": "Remember password temporarily"

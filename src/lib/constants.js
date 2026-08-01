@@ -33,6 +33,7 @@ export const APP_TOP_FRAME_ID = 'apptopframeid';
 // error codes for the Gmail OAuth flow used across the controller, modules, and UI
 export const ERROR_GMAIL_ACCOUNT_MISMATCH = 'GMAIL_ACCOUNT_MISMATCH';
 export const ERROR_GMAIL_AUTH_CANCELLED = 'GMAIL_AUTH_CANCELLED';
+export const ERROR_OUTLOOK_ACCOUNT_MISMATCH = 'OUTLOOK_ACCOUNT_MISMATCH';
 export const ERROR_OUTLOOK_AUTH_CANCELLED = 'OUTLOOK_AUTH_CANCELLED';
 // session pref key for the persisted "Skip setup" choice
 export const SETUP_SKIPPED = 'setupSkipped';

@@ -6,7 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {MvError, getUUID, mapError} from '../lib/util';
 import * as l10n from '../lib/l10n';
-import {ERROR_OUTLOOK_AUTH_CANCELLED} from '../lib/constants';
+import {ERROR_OUTLOOK_ACCOUNT_MISMATCH, ERROR_OUTLOOK_AUTH_CANCELLED} from '../lib/constants';
 import * as outlook from '../modules/outlook';
 import {SubController} from './sub.controller';
 import {setAppDataSlot} from './sub.controller';
@@ -164,9 +164,9 @@ export default class OutlookController extends SubController {
     return promise;
   }
 
-  async onAuthorize({email, scopes}) {
+  async onAuthorize({email, scopes, forcePicker = false}) {
     try {
-      const accessToken = await outlook.authorize(email, scopes);
+      const accessToken = await outlook.authorize(email, scopes, {forcePicker});
       // License check deferred to Phase 4/5
       this.clearAuthTabWatch();
       // return to the webmail tab before resolving the waiters, so a deferred
@@ -177,6 +177,11 @@ export default class OutlookController extends SubController {
         request.resolve(accessToken);
       }
     } catch (e) {
+      if (e.code === ERROR_OUTLOOK_ACCOUNT_MISMATCH) {
+        // recoverable via the in-modal retry with the account picker: keep the
+        // pending waiters and the tab watch
+        throw e;
+      }
       const error = mapAuthError(e);
       this.clearAuthTabWatch();
       for (const request of this.authorizationRequests.splice(0)) {

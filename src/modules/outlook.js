@@ -6,6 +6,7 @@
 import mvelo from '../lib/lib-mvelo';
 import {MvError, deDup} from '../lib/util';
 import {getUUID} from '../lib/util';
+import {ERROR_OUTLOOK_ACCOUNT_MISMATCH} from '../lib/constants';
 import {formatAddress} from '../lib/email';
 import {parseSignedMessage, buildMailWithHeader} from './mime';
 
@@ -229,12 +230,12 @@ function checkStoredToken(storedData) {
   return storedData.access_token && (storedData.access_token_exp >= new Date().getTime() + TOKEN_EXPIRY_BUFFER);
 }
 
-export async function authorize(email, scopes = [OUTLOOK_SCOPE_MAIL_READ, OUTLOOK_SCOPE_MAIL_SEND, OUTLOOK_SCOPE_OFFLINE_ACCESS]) {
+export async function authorize(email, scopes = [OUTLOOK_SCOPE_MAIL_READ, OUTLOOK_SCOPE_MAIL_SEND, OUTLOOK_SCOPE_OFFLINE_ACCESS], {forcePicker = false} = {}) {
   scopes = deDup([...OUTLOOK_SCOPES_DEFAULT, ...scopes]);
   // Generate PKCE code verifier
   const codeVerifier = generateCodeVerifier();
   // Get authorization code
-  const auth = await getAuthCode(email, scopes, codeVerifier);
+  const auth = await getAuthCode(email, scopes, codeVerifier, forcePicker ? 'select_account' : undefined);
   if (!auth.code) {
     throw new MvError('Authorization failed', 'OUTLOOK_OAUTH_ERROR');
   }
@@ -251,7 +252,11 @@ export async function authorize(email, scopes = [OUTLOOK_SCOPE_MAIL_READ, OUTLOO
   const userInfo = await getUserInfo(tokens.access_token);
   const accountEmails = [userInfo.mail, userInfo.userPrincipalName].filter(Boolean).map(address => address.toLowerCase());
   if (!accountEmails.includes(email.toLowerCase())) {
-    throw new MvError(`Email mismatch: expected ${email}, got ${userInfo.mail || userInfo.userPrincipalName}`, 'OAUTH_VALIDATION_ERROR');
+    throw new MvError(
+      'Email mismatch in user info from Microsoft Graph',
+      ERROR_OUTLOOK_ACCOUNT_MISMATCH,
+      {intendedEmail: email, actualEmail: userInfo.mail || userInfo.userPrincipalName}
+    );
   }
   // Store tokens
   await storeAuthData(email, buildAuthMeta({...userInfo, ...tokens}));

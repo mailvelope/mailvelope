@@ -300,7 +300,7 @@ describe('OutlookController', () => {
 
       await controller.onAuthorize({email, scopes});
 
-      expect(mockOutlook.authorize).toHaveBeenCalledWith(email, scopes);
+      expect(mockOutlook.authorize).toHaveBeenCalledWith(email, scopes, {forcePicker: false});
       expect(authorizationRequest.resolve).toHaveBeenCalledWith('new-access-token');
       expect(controller.activateComponent).toHaveBeenCalled();
       expect(controller.authorizationRequests).toHaveLength(0);
@@ -320,6 +320,35 @@ describe('OutlookController', () => {
       await expect(controller.onAuthorize({email})).rejects.toThrow('Authorization failed');
       expect(authorizationRequest.reject).toHaveBeenCalledWith(error);
       expect(controller.authorizationRequests).toHaveLength(0);
+    });
+
+    it('should keep the pending request and the tab watch on account mismatch', async () => {
+      const error = Object.assign(new Error('Email mismatch'), {
+        code: 'OUTLOOK_ACCOUNT_MISMATCH',
+        data: {intendedEmail: 'test@outlook.com', actualEmail: 'other@outlook.com'}
+      });
+      mockOutlook.authorize.mockRejectedValue(error);
+
+      const authorizationRequest = {
+        resolve: jest.fn(),
+        reject: jest.fn()
+      };
+      controller.authorizationRequests = [authorizationRequest];
+      controller.watchAuthTab(99);
+
+      await expect(controller.onAuthorize({email: 'test@outlook.com', scopes: []})).rejects.toMatchObject({code: 'OUTLOOK_ACCOUNT_MISMATCH'});
+      expect(authorizationRequest.reject).not.toHaveBeenCalled();
+      expect(controller.authorizationRequests).toHaveLength(1);
+      expect(controller.authTabListener).not.toBeNull();
+    });
+
+    it('should forward forcePicker to the module authorize', async () => {
+      mockOutlook.authorize.mockResolvedValue('picked-token');
+      controller.activateComponent = jest.fn().mockResolvedValue(undefined);
+
+      await controller.onAuthorize({email: 'test@outlook.com', scopes: [], forcePicker: true});
+
+      expect(mockOutlook.authorize).toHaveBeenCalledWith('test@outlook.com', [], {forcePicker: true});
     });
 
     it('should not fail when no authorization request is pending', async () => {

@@ -8,7 +8,9 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {port, getAppDataSlot} from '../app';
 import {matchPattern2RegExString} from '../../lib/util';
+import {ERROR_OUTLOOK_ACCOUNT_MISMATCH} from '../../lib/constants';
 import * as l10n from '../../lib/l10n';
+import Trans from '../../components/util/Trans';
 import Alert from '../../components/util/Alert';
 import Modal from '../../components/util/Modal';
 
@@ -18,41 +20,21 @@ const OUTLOOK_SCOPE_MAIL_READ = 'https://graph.microsoft.com/Mail.Read';
 const OUTLOOK_SCOPE_MAIL_SEND = 'https://graph.microsoft.com/Mail.Send';
 
 l10n.register([
-  'alert_header_error',
   'alert_header_important',
-  'alert_header_notice',
   'alert_header_warning',
   'dialog_popup_close',
   'keygrid_user_email',
-  'keygrid_refresh',
   'learn_more_link',
-  'provider_gmail_auth',
-  'provider_gmail_auth_cancel_btn',
-  'provider_gmail_auth_readonly',
-  'provider_gmail_auth_send',
-  'provider_gmail_auth_table_title',
-  'provider_gmail_dialog_auth_google_signin',
-  'provider_gmail_dialog_auth_intro',
-  'provider_gmail_dialog_auth_outro',
-  'provider_gmail_dialog_description',
-  'provider_gmail_dialog_gsuite_alert',
-  'provider_gmail_dialog_privacy_policy',
-  'provider_gmail_dialog_title',
-  'provider_gmail_integration',
-  'provider_gmail_integration_info',
-  'provider_gmail_integration_warning',
-  'provider_gmail_licensing_dialog_business_btn_info',
-  'provider_gmail_licensing_dialog_business_btn_price_info',
-  'provider_gmail_licensing_dialog_deactivate_btn',
-  'provider_gmail_licensing_dialog_para_1',
-  'provider_gmail_licensing_dialog_para_2',
-  'provider_gmail_licensing_dialog_para_3',
-  'provider_gmail_licensing_dialog_test_btn',
-  'provider_gmail_licensing_dialog_title',
-  'provider_gmail_licensing_table_caption',
-  'provider_gmail_licensing_table_title',
-  'settings_provider',
-  'watchlist_title_scan'
+  'provider_gmail_mismatch_cancel_btn',
+  'provider_gmail_mismatch_label_actual',
+  'provider_gmail_mismatch_label_expected',
+  'provider_gmail_mismatch_retry_btn',
+  'provider_gmail_mismatch_why_summary',
+  'provider_outlook_mismatch_intro',
+  'provider_outlook_mismatch_step1',
+  'provider_outlook_mismatch_step2',
+  'provider_outlook_mismatch_title',
+  'provider_outlook_mismatch_why_body'
 ]);
 
 const OUTLOOK_MATCH_PATTERN = '*.outlook.office.com';
@@ -67,10 +49,13 @@ export default class OutlookAPI extends React.Component {
       email: '',
       scopes: [],
       outlookCtrlId: '',
-      watchList: null
+      watchList: null,
+      mismatch: null
     };
     this.handleOutlookSwitch = this.handleOutlookSwitch.bind(this);
     this.handleAuthCancel = this.handleAuthCancel.bind(this);
+    this.handleMismatchRetry = this.handleMismatchRetry.bind(this);
+    this.handleMismatchCancel = this.handleMismatchCancel.bind(this);
   }
 
   async componentDidMount() {
@@ -86,15 +71,38 @@ export default class OutlookAPI extends React.Component {
     this.setState({showAuthModal: true, email, scopes, outlookCtrlId});
   }
 
-  async getAuthorization() {
+  async getAuthorization({forcePicker = false} = {}) {
+    const {email, scopes, outlookCtrlId} = this.state;
     try {
-      const {email, scopes, outlookCtrlId} = this.state;
-      await port.send('authorize-outlook', {email, scopes, outlookCtrlId});
-      await this.loadAuthorisations();
+      await port.send('authorize-outlook', {email, scopes, outlookCtrlId, forcePicker});
     } catch (error) {
+      if (error.code === ERROR_OUTLOOK_ACCOUNT_MISMATCH && error.data) {
+        this.setState({
+          showAuthModal: false,
+          mismatch: {
+            intendedEmail: error.data.intendedEmail || email,
+            actualEmail: error.data.actualEmail || ''
+          }
+        });
+        return;
+      }
+      this.setState({showAuthModal: false, mismatch: null});
       this.props.onSetNotification({header: l10n.map.alert_header_warning, message: error.message, type: 'error', hideDelay: 10000});
-    } finally {
-      this.setState({showAuthModal: false});
+      return;
+    }
+    this.setState({showAuthModal: false, mismatch: null});
+    await this.loadAuthorisations();
+  }
+
+  handleMismatchRetry() {
+    this.getAuthorization({forcePicker: true});
+  }
+
+  handleMismatchCancel() {
+    const {outlookCtrlId} = this.state;
+    this.setState({mismatch: null, outlook_integration: false}, () => this.handleSave());
+    if (outlookCtrlId) {
+      port.emit('cancel-authorize-outlook', {outlookCtrlId});
     }
   }
 
@@ -220,6 +228,52 @@ export default class OutlookAPI extends React.Component {
     );
   }
 
+  mismatchModal() {
+    const {mismatch} = this.state;
+    const intended = mismatch?.intendedEmail || '';
+    const actual = mismatch?.actualEmail || '';
+    const rows = [
+      {modifier: 'expected', icon: 'icon-checkmark', label: l10n.map.provider_gmail_mismatch_label_expected, email: intended},
+      {modifier: 'actual', icon: 'icon-close', label: l10n.map.provider_gmail_mismatch_label_actual, email: actual}
+    ];
+    return (
+      <Modal
+        isOpen={Boolean(mismatch)}
+        toggle={this.handleMismatchCancel}
+        size="medium"
+        title={l10n.map.provider_outlook_mismatch_title}
+        headerClass="text-danger"
+        footer={
+          <div className="modal-footer justify-content-between">
+            <button type="button" className="btn btn-secondary" onClick={this.handleMismatchCancel}>{l10n.map.provider_gmail_mismatch_cancel_btn}</button>
+            <button type="button" className="btn btn-primary" onClick={this.handleMismatchRetry}>{l10n.map.provider_gmail_mismatch_retry_btn}</button>
+          </div>
+        }
+      >
+        <div className="account-mismatch">
+          <p className="account-mismatch__intro">{l10n.map.provider_outlook_mismatch_intro}</p>
+          <div className="account-mismatch__compare">
+            {rows.map(({modifier, icon, label, email}) => (
+              <div key={modifier} className={`account-mismatch__row account-mismatch__row--${modifier}`}>
+                <span className={`icon ${icon} account-mismatch__icon`} aria-hidden="true"></span>
+                <span className="account-mismatch__label">{label}</span>
+                <span className="account-mismatch__email">{email}</span>
+              </div>
+            ))}
+          </div>
+          <ol className="account-mismatch__steps">
+            <li>{l10n.map.provider_outlook_mismatch_step1}</li>
+            <li><Trans id={l10n.map.provider_outlook_mismatch_step2} components={[<strong key="0">{intended}</strong>]} /></li>
+          </ol>
+          <details className="account-mismatch__details">
+            <summary>{l10n.map.provider_gmail_mismatch_why_summary}</summary>
+            <p>{l10n.map.provider_outlook_mismatch_why_body}</p>
+          </details>
+        </div>
+      </Modal>
+    );
+  }
+
   // License enforcement for Outlook is deferred to Phase 4/5
   // TODO: Implement licenseModal() for Microsoft 365 accounts
   // licenseModal() {
@@ -279,6 +333,7 @@ export default class OutlookAPI extends React.Component {
           </div>
         </form>
         {this.authModal()}
+        {this.mismatchModal()}
       </div>
     );
   }

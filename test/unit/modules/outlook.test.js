@@ -224,7 +224,40 @@ describe('Outlook module', () => {
         })
       });
 
-      await expect(outlook.authorize(email)).rejects.toThrow('Email mismatch');
+      await expect(outlook.authorize(email)).rejects.toMatchObject({
+        code: 'OUTLOOK_ACCOUNT_MISMATCH',
+        data: {intendedEmail: 'test@outlook.com', actualEmail: 'different@outlook.com'}
+      });
+    });
+
+    it('should request the account picker when forcePicker is set', async () => {
+      const email = 'test@outlook.com';
+
+      mockChromeIdentity.launchWebAuthFlow
+      .mockResolvedValueOnce('https://test-extension-id.chromiumapp.org/?code=auth-code-123&state=mock-uuid-12345');
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          access_token: 'access-token-456',
+          expires_in: 3600,
+          scope: LIVE_SCOPE
+        })
+      });
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          id: 'user-id-123',
+          mail: 'test@outlook.com',
+          userPrincipalName: 'test@outlook.com'
+        })
+      });
+
+      await outlook.authorize(email, undefined, {forcePicker: true});
+
+      const authUrl = new URL(mockChromeIdentity.launchWebAuthFlow.mock.calls[0][0].url);
+      expect(authUrl.searchParams.get('prompt')).toBe('select_account');
     });
   });
 
