@@ -19,7 +19,7 @@ import EventHandler from '../../lib/EventHandler';
 import PlainText from './components/PlainText';
 import EditorModalFooter from './components/EditorModalFooter';
 import {RecipientInput} from './components/RecipientInput';
-import {findKeyByEmail, hasAnyUnresolvedRecipient} from '../../lib/email';
+import {findKeyBySelector, hasAnyUnresolvedRecipient} from '../../lib/email';
 import BlurWarning from './components/BlurWarning';
 import SecurityBG from '../util/SecurityBG';
 import FileUpload from '../util/FileUpload';
@@ -267,7 +267,7 @@ export default class Editor extends React.Component {
    */
   sendPlainText(action, noCache, draft) {
     // Fall back to {email} when no key is known (consumed by 'sign' action).
-    const resolveKey = r => r.key || findKeyByEmail(this.state.publicKeys, r.email) || {email: r.email};
+    const resolveKey = r => r.key || findKeyBySelector(this.state.publicKeys, r.email) || {email: r.email};
     this.port.emit('editor-plaintext', {
       message: this.state.plainText,
       subject: this.state.subject,

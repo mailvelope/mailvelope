@@ -29,9 +29,11 @@ describe('RecipientInput component', () => {
       keyId: 'E47CCA58286FEFE6',
       fingerprint: '9acdfd634605bc0a0b18d518e38cca58286fefe6'
     },
+    // A user ID is free-form text (RFC 4880 section 5.11), so a key does not have
+    // to carry an email address at all.
     {
-      email: 'bob@example.com',
-      userId: 'Bob Johnson <bob@example.com>',
+      email: '',
+      userId: 'Bob Johnson',
       keyId: 'F58DDB69397G0FG7',
       fingerprint: 'a9defe745716cd1b1c29e629f49ddb69397g0fg7'
     }
@@ -47,6 +49,12 @@ describe('RecipientInput component', () => {
     {
       email: 'charlie@example.com',
       displayId: 'charlie@example.com'
+    },
+    // Recipient identified by the user ID of the address-less key above, without
+    // a key attached - it has to resolve against the keyring to be usable.
+    {
+      email: 'Bob Johnson',
+      displayId: 'Bob Johnson'
     }
   ];
 
@@ -68,7 +76,7 @@ describe('RecipientInput component', () => {
         });
 
         const tags = container.querySelectorAll('.tag.badge');
-        expect(tags).toHaveLength(2);
+        expect(tags).toHaveLength(3);
 
         // First recipient has key - should have success styling
         expect(tags[0]).toHaveClass('badge-success');
@@ -77,6 +85,11 @@ describe('RecipientInput component', () => {
         // Second recipient has no key - should have danger styling
         expect(tags[1]).toHaveClass('badge-danger');
         expect(tags[1].textContent).toContain('charlie@example.com');
+
+        // Third recipient has no address and carries no key, but its user ID is
+        // in the keyring - that resolves to success styling as well
+        expect(tags[2]).toHaveClass('badge-success');
+        expect(tags[2].textContent).toContain('Bob Johnson');
       });
 
       it('should display info styling when extraKey is enabled', () => {
@@ -189,7 +202,7 @@ describe('RecipientInput component', () => {
 
       it('should focus input after adding recipient', async () => {
         // Controlled wrapper so the parent state update flows back into the
-        // recipients prop — this is what triggers <ReactTags> to re-render
+        // recipients prop - this is what triggers <ReactTags> to re-render
         // and is the case the setTimeout-based focus restoration covers.
         function ControlledRecipients() {
           const [recipients, setRecipients] = React.useState([]);
@@ -265,6 +278,116 @@ describe('RecipientInput component', () => {
         });
         expect(recipients[0].lookupPending).toBeUndefined();
         expect(recipients[0].checkServer).toBeUndefined();
+      });
+    });
+
+    // Encrypting to a key needs its fingerprint, not an address, so a key that
+    // carries no email address (mockKeys[1]) has to be usable as a recipient.
+    const bobKey = mockKeys[1];
+
+    const addTag = async (container, value) => {
+      const input = container.querySelector('.tag-input-field');
+      await act(async () => {
+        fireEvent.change(input, {target: {value}});
+      });
+      await act(async () => {
+        fireEvent.keyDown(input, {key: 'Enter', keyCode: 13});
+      });
+    };
+
+    describe('recipient without an email address', () => {
+      it('should offer the address-less key in the suggestion list', async () => {
+        const {container} = setup({recipients: [], keys: mockKeys});
+
+        await act(async () => {
+          fireEvent.change(container.querySelector('.tag-input-field'), {target: {value: 'Bob'}});
+        });
+
+        const suggestion = container.querySelector('.suggestions li');
+        expect(suggestion).toBeTruthy();
+        expect(suggestion.textContent).toContain(bobKey.userId);
+        expect(suggestion.textContent).toContain(bobKey.keyId);
+      });
+
+      it('should add the recipient when its suggestion is selected', async () => {
+        // The key was listed in the suggestions before as well, but selecting it
+        // ran into the address validation in handleAddition and was dropped
+        // silently - and the suggestion itself was identified by the empty email.
+        const {container, props} = setup({recipients: [], keys: mockKeys});
+
+        await act(async () => {
+          fireEvent.change(container.querySelector('.tag-input-field'), {target: {value: 'Bob'}});
+        });
+        await act(async () => {
+          fireEvent.mouseDown(container.querySelector('.suggestions li'));
+        });
+
+        const [recipients] = props.onChangeRecipients.mock.calls[0];
+        expect(recipients).toHaveLength(1);
+        expect(recipients[0]).toEqual({
+          email: bobKey.userId,
+          displayId: bobKey.userId,
+          key: bobKey,
+          fingerprint: bobKey.fingerprint
+        });
+      });
+
+      it('should resolve a recipient typed as the user ID of a key', async () => {
+        const {container, props} = setup({recipients: [], keys: mockKeys});
+
+        await addTag(container, bobKey.userId);
+
+        const [recipients] = props.onChangeRecipients.mock.calls[0];
+        expect(recipients[0]).toMatchObject({
+          email: bobKey.userId,
+          key: bobKey,
+          fingerprint: bobKey.fingerprint
+        });
+        // A key that is in the keyring must not be queued for a keyserver lookup,
+        // which could never find an address-less user ID in the first place.
+        expect(recipients[0].checkServer).toBeUndefined();
+        expect(recipients[0].lookupPending).toBeUndefined();
+      });
+
+      it('should resolve a recipient typed as a key ID', async () => {
+        const {container, props} = setup({recipients: [], keys: mockKeys});
+
+        await addTag(container, mockKeys[0].keyId);
+
+        const [recipients] = props.onChangeRecipients.mock.calls[0];
+        expect(recipients[0]).toMatchObject({
+          key: mockKeys[0],
+          fingerprint: mockKeys[0].fingerprint
+        });
+      });
+
+      it('should not re-suggest a key that is already a recipient', async () => {
+        const {container} = setup({
+          recipients: [mockRecipients[2]],
+          keys: mockKeys
+        });
+
+        await act(async () => {
+          fireEvent.change(container.querySelector('.tag-input-field'), {target: {value: 'Bob'}});
+        });
+
+        expect(container.querySelector('.suggestions li')).toBeNull();
+      });
+
+      it('should report an unknown name as not found instead of a pending lookup', async () => {
+        const {container, props} = setup({recipients: [], keys: mockKeys});
+
+        await addTag(container, 'someone-unknown');
+
+        const [recipients] = props.onChangeRecipients.mock.calls[0];
+        // Only an address can be looked up on a keyserver, so a name that is not
+        // in the keyring reports "key not found" right away instead of waiting
+        // for a lookup that can never happen.
+        expect(recipients[0]).toEqual({
+          email: 'someone-unknown',
+          displayId: 'someone-unknown',
+          checkServer: false
+        });
       });
     });
 
@@ -422,7 +545,7 @@ describe('RecipientInput component', () => {
 
       it('flips badge from danger to success when keys arrive without recipient identity changing', () => {
         // Simulates a key being imported (via keyserver or otherwise) for an
-        // existing recipient. The recipient object reference is stable —
+        // existing recipient. The recipient object reference is stable -
         // only the keys prop changes.
         const stableRecipient = {email: 'late-key@example.com', displayId: 'late-key@example.com'};
         const {container, props, rerender} = setup({
