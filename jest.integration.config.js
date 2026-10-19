@@ -6,11 +6,6 @@ export default {
   globalSetup: '<rootDir>/test/integration/setup/global-setup.js',
   globalTeardown: '<rootDir>/test/integration/setup/global-teardown.js',
 
-  // Jest 30 performance optimizations
-  // Run integration tests sequentially to avoid Puppeteer concurrency issues
-  maxWorkers: 1,
-  workerIdleMemoryLimit: '512MB',
-
   // Jest 30 new features
   waitForUnhandledRejections: true,
 
@@ -63,13 +58,6 @@ export default {
 
   // Coverage output directory
   coverageDirectory: '<rootDir>/coverage/integration',
-
-  // Coverage reporters
-  coverageReporters: [
-    'text',
-    'lcov',
-    'html'
-  ],
 
   // Global variables
   globals: {

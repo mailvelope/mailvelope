@@ -4,10 +4,6 @@ export default {
   // Use jsdom environment for DOM testing (React components)
   testEnvironment: 'jsdom',
 
-  // Jest 30 performance optimizations
-  maxWorkers: '50%',
-  workerIdleMemoryLimit: '512MB',
-
   // Jest 30 new features
   waitForUnhandledRejections: true,
 
@@ -77,13 +73,6 @@ export default {
 
   // Coverage output directory
   coverageDirectory: '<rootDir>/coverage/unit',
-
-  // Coverage reporters
-  coverageReporters: [
-    'text',
-    'lcov',
-    'html'
-  ],
 
   // Clear mocks between tests
   clearMocks: true,

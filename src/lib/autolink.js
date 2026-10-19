@@ -4,7 +4,7 @@ function escapeAttr(str) {
   return str.replace(/"/g, '&quot;');
 }
 
-export default function autolink(str, {defaultProtocoll = 'https', nl2br = true, target = '_blank', escapeFn = text => text}) {
+export default function autolink(str, {defaultProtocol = 'https', nl2br = true, target = '_blank', escapeFn = text => text}) {
   const tokens = tokenize(str);
   const result = [];
 
@@ -17,7 +17,7 @@ export default function autolink(str, {defaultProtocoll = 'https', nl2br = true,
       continue;
     }
 
-    let link = `<a href="${escapeAttr(token.toHref(defaultProtocoll))}"`;
+    let link = `<a href="${escapeAttr(token.toHref(defaultProtocol))}"`;
 
     if (target) {
       link += ` target="${escapeAttr(target)}"`;
