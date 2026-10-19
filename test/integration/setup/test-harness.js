@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import {init as initModel} from 'modules/pgpModel';
 import {init as initKeyring, createKeyring, getById} from 'modules/keyring';
 import {initController, controllerPool} from 'controller/main.controller';
-import {createController, verifyConnectPermission} from 'controller/factory';
+import {createController, initFactory, verifyConnectPermission} from 'controller/factory';
 import {prefs} from 'modules/prefs';
 import {init as initClientAPI} from 'client-API/client-api';
 import {init as initClientAPIContentScript} from 'content-scripts/clientAPI';
@@ -49,7 +49,9 @@ window.testHarness = {
    */
   initCore: async ({skipController = false} = {}) => {
     try {
-      if (!skipController) {
+      if (skipController) {
+        initFactory();
+      } else {
         initController();
       }
       await initModel();

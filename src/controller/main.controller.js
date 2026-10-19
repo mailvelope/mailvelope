@@ -140,7 +140,7 @@ class ControllerMap {
 }
 
 export async function createController(type, port, eventCache) {
-  const existingController = (await getAllControllerByType(type))[0];
+  const existingController = controllerPool.map.values().find(contr => contr.mainType === type);
   if (existingController && existingController.persistent) {
     return existingController;
   }
@@ -168,8 +168,6 @@ async function allPortsConnected(id) {
 
 export async function getAllControllerByType(type) {
   const result = [];
-  // wait for last addPort action in queue to finish
-  await addPortQueue.queue[addPortQueue.queue.length - 1];
   for (const [, contr] of controllerPool.map.entries()) {
     if (contr.mainType === type) {
       await allPortsConnected(contr.id);

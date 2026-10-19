@@ -8,7 +8,7 @@ describe('EditorController integration tests', () => {
 
   beforeEach(async () => {
     await page.evaluate(async () => {
-      await window.testHarness.initCore();
+      await window.testHarness.initCore({skipController: true});
 
       // Create test keyring with test keys
       await window.testHarness.createTestKeyring('test-keyring-id', {importTestKeys: true});
