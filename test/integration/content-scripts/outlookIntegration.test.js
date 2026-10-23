@@ -438,6 +438,30 @@ describe('OutlookIntegration TDD tests', () => {
       }, {readingPaneWithPGP: OutlookDOMTemplates.readingPaneWithPGP, userMailbox: OutlookDOMTemplates.userMailbox});
     });
 
+    it('should not render secure reply and forward buttons', async () => {
+      const result = await page.evaluate(() => {
+        const {OutlookIntegration} = window.testHarness.getContentScripts();
+        const outlook = new OutlookIntegration();
+        const msgElem = document.createElement('div');
+        msgElem.innerHTML = `
+          <div role="toolbar"><button role="menuitem">Reply</button><button data-icon-name="MoreVerticalRegular"></button></div>
+          <div class="th6py"><button class="fui-Button">Reply</button><button class="fui-Button">Forward</button></div>`;
+        document.querySelector('.test-outlook-container').append(msgElem);
+
+        outlook.attachMsgBtns('conv#0', msgElem, {});
+        outlook.addBottomBtns('conv#0', msgElem);
+
+        return {
+          topBtn: Boolean(msgElem.querySelector('[data-mv-btn-top]')),
+          menuBtns: Boolean(msgElem.querySelector('[data-mv-menu-btns]')),
+          bottomBtns: Boolean(msgElem.querySelector('[data-mv-btns-bottom]')),
+          nativeBtnsVisible: [...msgElem.querySelectorAll('.th6py button')].every(btn => btn.style.display !== 'none')
+        };
+      });
+
+      expect(result).toEqual({topBtn: false, menuBtns: false, bottomBtns: false, nativeBtnsVisible: true});
+    });
+
     it.skip('RED: should add Secure Reply button to messages with PGP content', async () => {
       const result = await page.evaluate(async () => {
         const {OutlookIntegration} = window.testHarness.getContentScripts();

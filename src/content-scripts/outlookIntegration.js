@@ -18,6 +18,9 @@ l10n.register([
   'provider_gmail_secure_forward_btn'
 ]);
 
+// Secure reply/forward buttons stay hidden until onSecureBtn is implemented
+const SECURE_BUTTONS_ENABLED = false;
+
 export default class OutlookIntegration {
   constructor() {
     this.id = getUUID();
@@ -334,6 +337,9 @@ export default class OutlookIntegration {
   }
 
   attachMsgBtns(msgId, msgElem, msgData) {
+    if (!SECURE_BUTTONS_ENABLED) {
+      return;
+    }
     // per-message Fluent toolbar: the only toolbar in a message without an aria-label
     // (the quick-actions toolbar always carries one); its first menu item is Reply
     const actionToolbar = msgElem.querySelector('[role="toolbar"]:not([aria-label])');
@@ -390,6 +396,9 @@ export default class OutlookIntegration {
   // It needs to be adapted for Outlook's bottom action button structure
   // Outlook may use different selectors and DOM structure for quick actions
   addBottomBtns(msgId, msgElem) {
+    if (!SECURE_BUTTONS_ENABLED) {
+      return;
+    }
     const quickActionsToolbar = msgElem.querySelector('.th6py');
     if (!quickActionsToolbar) {
       return;
