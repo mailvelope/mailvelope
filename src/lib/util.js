@@ -366,16 +366,6 @@ export function toArray(param) {
   return param;
 }
 
-/**
- * Validate an url
- * @param  {String} url       The URL to validate
- * @return {Boolean}          True if valid, false if not
- */
-export function checkUrl(url) {
-  const pattern = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gi;
-  return pattern.test(url);
-}
-
 export function addDocumentTitle(text) {
   const title = document.createElement('title');
   title.appendChild(document.createTextNode(text));

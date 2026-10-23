@@ -26,7 +26,7 @@ export function isOversize(file) {
  * @param {Funtion} onLoadEnd
  * @returns {Promise<Object, Error>}
  */
-export function readUploadFile(file, onLoadEnd) {
+function readUploadFile(file, onLoadEnd) {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.onload = function() {

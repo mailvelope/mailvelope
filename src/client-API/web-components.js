@@ -32,89 +32,6 @@
  */
 
 /**
- * Custom HTML element that renders a signed, encrypted form. Wraps
- * {@link Mailvelope#createEncryptedFormContainer} so partners can embed an
- * encrypted form declaratively in HTML instead of via JavaScript.
- *
- * The form definition is provided as the `innerText` of a single child
- * `<script>` element. The signature attribute carries the OpenPGP signature
- * over that definition. On submit, the element dispatches an `encrypt` event
- * whose `detail.armoredData` is the encrypted form payload.
- *
- * @memberof module:web-components
- * @hideconstructor
- * @element openpgp-encrypted-form
- *
- * @attr {string} id - Required. Unique identifier used as the iframe container target.
- * @attr {string} [signature] - OpenPGP signature over the embedded form definition.
- *
- * @fires connected - Dispatched once the element is attached to the document.
- * @fires encrypt - Dispatched on successful encryption.
- *   `event.detail.armoredData` ({@link AsciiArmored}) holds the encrypted payload.
- * @fires error - Standard `ErrorEvent`. `event.error.code` may be one of:
- *   `NO_FORM_ID` (id attribute missing), `NO_FORM_SCRIPT` (no child `<script>`
- *   with form template), or any error code raised by
- *   {@link Mailvelope#createEncryptedFormContainer} (e.g. `INVALID_FORM`).
- *
- * @example
- * <openpgp-encrypted-form id="contact-form" signature="-----BEGIN PGP SIGNATURE-----...">
- *   <script type="text/template">
- *     <form data-recipient="contact@example.com">
- *       <input type="text" name="name">
- *       <input type="email" name="email">
- *       <textarea name="message"></textarea>
- *       <button type="submit">Send</button>
- *     </form>
- *   </script>
- * </openpgp-encrypted-form>
- * <script>
- *   document.getElementById('contact-form').addEventListener('encrypt', e => {
- *     console.log(e.detail.armoredData);
- *   });
- * </script>
- */
-class OpenPGPEncryptedForm extends HTMLElement {
-  /** @private */
-  connectedCallback() {
-    this.dispatchEvent(new Event('connected'));
-    const id = this.getAttribute('id');
-    if (!id) {
-      const error = new Error('No form id for openpgp-encrypted-tag. Please add a unique identifier.');
-      error.code = 'NO_FORM_ID';
-      return this.onError(error);
-    }
-    let html;
-    const scriptTags = this.getElementsByTagName('script');
-    if (scriptTags.length) {
-      html = scriptTags[0].innerText;
-    } else {
-      const error = new Error('No form template for openpgp-encrypted-tag. Please add a form template.');
-      error.code = 'NO_FORM_SCRIPT';
-      return this.onError(error);
-    }
-    window.mailvelope.createEncryptedFormContainer(`#${id}`, html, this.getAttribute('signature'))
-    .then(data => this.onEncrypt(data), error => this.onError(error));
-  }
-
-  /** @private */
-  onEncrypt(data) {
-    this.dispatchEvent(new CustomEvent('encrypt', {
-      detail: {armoredData: data.armoredData},
-      bubbles: true,
-      cancelable: true
-    }));
-  }
-
-  /** @private */
-  onError(error) {
-    this.dispatchEvent(new ErrorEvent('error', {
-      message: error.message,
-      error
-    }));
-  }
-}
-
-/**
  * Custom HTML element that renders the decrypted content of an encrypted mail.
  * Wraps {@link Mailvelope#createDisplayContainer} for declarative use.
  *
@@ -283,7 +200,6 @@ export function init() {
   if (!window.customElements) {
     return;
   }
-  window.customElements.define('openpgp-encrypted-form', OpenPGPEncryptedForm);
   window.customElements.define('openpgp-email-read', OpenPGPEmailRead);
   window.customElements.define('openpgp-email-write', OpenPGPEmailWrite);
 }

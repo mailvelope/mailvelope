@@ -12,7 +12,6 @@ import AuthDomainController from './authDomain.controller';
 import DecryptController from './decrypt.controller';
 import EditorController from './editor.controller';
 import EncryptController from './encrypt.controller';
-import EncryptedFormController from './encryptedForm.controller';
 import GmailController from './gmail.controller';
 import GmailDecryptController from './gmailDecrypt.controller';
 import ImportController from './import.controller';
@@ -41,7 +40,6 @@ export function initFactory() {
   register('editor',              EditorController,        ['editorCont']);
   register('editorCont',          EditorController,        ['editor']);
   register('eFrame',              EncryptController,       []);
-  register('encryptedFormCont',   EncryptedFormController, ['encryptedForm']);
   register('gmailInt',            GmailController,         []);
   register('imFrame',             ImportController,        []);
   register('importKeyDialog',     ImportController,        []);

@@ -94,7 +94,7 @@ export default class KeyExport extends React.Component {
             {this.state.keys.some(key => key.armoredPrivate) &&
               <div>
                 <p className="mb-2">{l10n.map.key_export_dialog_question}</p>
-                <div className="btn-group btn-group-toggle d-flex mb-3" data-toggle="buttons">
+                <div className="btn-group btn-group-toggle d-flex mb-3">
                   <label className={`btn btn-${this.state.type === 'pub' ? 'primary' : 'secondary'} w-100`} onClick={() => this.handleTypeChange('pub')}>
                     <input type="radio" name="public" defaultChecked={this.state.type === 'pub'} />
                     {l10n.map.keyring_public}

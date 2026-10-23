@@ -30,11 +30,6 @@ const conf = {
   ]
 };
 
-// Externals configuration
-conf.externals = {
-  jquery: 'jQuery'
-};
-
 // Resolve configuration
 conf.resolve = {
   modules: [path.resolve('./src'), 'node_modules'],

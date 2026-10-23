@@ -329,20 +329,8 @@
   "form_confirm": {
     "message": "Bestätigen"
   },
-  "form_definition_error_signature_invalid": {
-    "message": "Die Signatur des Formulars ist nicht valide."
-  },
-  "form_destination": {
-    "message": "Ziel"
-  },
-  "form_destination_default": {
-    "message": "Die verschlüsselten Daten werden zurück an die Seite gesendet."
-  },
   "form_import": {
     "message": "Importieren"
-  },
-  "form_loading": {
-    "message": "Formular wird geladen"
   },
   "form_no": {
     "message": "Nein"
@@ -350,14 +338,8 @@
   "form_ok": {
     "message": "Ok"
   },
-  "form_recipient": {
-    "message": "Empfänger"
-  },
   "form_save": {
     "message": "Speichern"
-  },
-  "form_sign_error_no_default_key": {
-    "message": "Es ist kein privater Schlüssel zum Signieren des Formular Inhalts vorhanden. Bitte Schlüssel importieren oder neu erzeugen."
   },
   "form_submit": {
     "message": "Senden"
@@ -1462,9 +1444,6 @@
   },
   "security_log_email_viewer": {
     "message": "Entschlüsselte PGP-E-Mail"
-  },
-  "security_log_encrypt_form": {
-    "message": "Verschlüsseltes Formular"
   },
   "security_log_encrypt_ui": {
     "message": "Verschlüsseln"

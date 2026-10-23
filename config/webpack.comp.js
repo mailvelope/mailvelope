@@ -5,7 +5,6 @@ const path = require('path');
 const common = require('./webpack.common');
 
 const externals = {
-  jquery: 'jQuery',
   react: 'React',
   'react-dom': 'ReactDOM'
 };
@@ -39,7 +38,6 @@ module.exports = [
   dev('action-menu', 'actionMenu'),
   dev('decrypt-message', 'decryptMessageRoot'),
   dev('editor', 'editorRoot'),
-  dev('encrypted-form', 'encryptedFormRoot'),
   dev('import-key', 'importKeyRoot'),
   dev('enter-password', 'passwordDialogRoot'),
   dev('generate-key', 'genKeyRoot'),
@@ -53,7 +51,6 @@ module.exports.prod = [
   prod('action-menu', 'actionMenu'),
   prod('decrypt-message', 'decryptMessageRoot'),
   prod('editor', 'editorRoot'),
-  prod('encrypted-form', 'encryptedFormRoot'),
   prod('import-key', 'importKeyRoot'),
   prod('enter-password', 'passwordDialogRoot'),
   prod('generate-key', 'genKeyRoot'),

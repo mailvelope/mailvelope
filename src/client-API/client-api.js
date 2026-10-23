@@ -171,19 +171,6 @@ class Mailvelope {
     }
     return send('settings-container', {selector, identifier: keyring && keyring.identifier, options});
   }
-
-  /**
-   * Creates an iframe to display an encrypted form
-   * The iframe will be injected into the container identified by selector.
-   * @param {CssSelector} selector - target container
-   * @param {String} formHtml - the form definition
-   * @param {AsciiArmored} signature - the OpenPGP signature over the form definition
-   * @returns {Promise.<Object, Error>} an object that includes armoredData
-   * @throws {Error} error.code = 'INVALID_FORM' the form definition is not valid
-   */
-  createEncryptedFormContainer(selector, formHtml, signature) {
-    return send('encrypted-form-container', {selector, formHtml, signature});
-  }
 }
 
 // connection to content script is alive

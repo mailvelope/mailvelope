@@ -439,25 +439,9 @@
     "description": "Confirm form button.",
     "message": "Confirm"
   },
-  "form_definition_error_signature_invalid": {
-    "description": "Error message when the form signature is not valid",
-    "message": "The form signature is not valid."
-  },
-  "form_destination": {
-    "description": "URL the form data will be sent to",
-    "message": "Destination"
-  },
-  "form_destination_default": {
-    "description": "Behavior when no action is specified in form",
-    "message": "The encrypted data will be returned to the page."
-  },
   "form_import": {
     "description": "Import form button.",
     "message": "Import"
-  },
-  "form_loading": {
-    "description": "Waiting modal when form is loading.",
-    "message": "Loading form"
   },
   "form_no": {
     "description": "No form button.",
@@ -467,17 +451,9 @@
     "description": "Ok form button.",
     "message": "OK"
   },
-  "form_recipient": {
-    "description": "The email for which the form will be encrypted for",
-    "message": "Recipient"
-  },
   "form_save": {
     "description": "Save form button.",
     "message": "Save"
-  },
-  "form_sign_error_no_default_key": {
-    "description": "Error message when trying to sign and no primary key is found",
-    "message": "No private key is available in the keyring to sign the form content. Please import or create one."
   },
   "form_submit": {
     "description": "Submit form button.",
@@ -1950,10 +1926,6 @@
   "security_log_email_viewer": {
     "description": "Email decryption container as an event source",
     "message": "Decrypted PGP Email"
-  },
-  "security_log_encrypt_form": {
-    "description": "Encrypt form as an event source",
-    "message": "Encrypt Form"
   },
   "security_log_encrypt_ui": {
     "description": "Security log source label for the encrypt view.",

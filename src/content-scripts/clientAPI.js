@@ -10,7 +10,6 @@ import {prefs, host, getMessageType} from './main';
 import {checkTypes} from './clientAPITypeCheck';
 import DecryptContainer from './decryptContainer';
 import EditorContainer from './editorContainer';
-import EncryptedFormContainer from './encryptedFormContainer';
 import KeyGenContainer from './keyGenContainer';
 import KeyBackupContainer from './keyBackupContainer';
 import RestoreBackupContainer from './restoreBackupContainer';
@@ -130,7 +129,6 @@ function registerClientEventHandler() {
   clientPort.on('set-logo', setLogo);
   clientPort.on('add-sync-handler', addSyncHandler);
   clientPort.on('sync-handler-done', syncHandlerDone);
-  clientPort.on('encrypted-form-container', encryptedFormContainer);
 }
 
 function getVersion() {
@@ -282,10 +280,4 @@ function addSyncHandler({keyringId}) {
 function syncHandlerDone(data) {
   const container = containers.get(data.syncHandlerId);
   container.syncDone(data);
-}
-
-function encryptedFormContainer({selector, formHtml, signature}) {
-  const container = new EncryptedFormContainer(selector, formHtml, signature);
-  containers.set(container.id, container);
-  return container.create();
 }

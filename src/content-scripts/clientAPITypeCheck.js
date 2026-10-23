@@ -30,8 +30,6 @@ const dataTypes = {
   restoreBackup: 'string',
   id: 'string',
   confirmRequired: 'boolean',
-  signature: 'string',
-  formHtml: 'string',
   headers: 'object'
 };
 

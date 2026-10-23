@@ -69,7 +69,6 @@
       "components/key-backup/backupKey.html",
       "components/restore-backup/backupRestore.html",
       "components/editor/editor.html",
-      "components/encrypted-form/encryptedForm.html",
       "res/fonts/*.woff2",
       "img/edit_add-22.png",
       "img/key-24.png",

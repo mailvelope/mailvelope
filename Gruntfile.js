@@ -27,25 +27,6 @@ module.exports = function(grunt) {
 
     copy: {
 
-      dep: {
-        files: [
-          {
-            expand: true,
-            flatten: true,
-            src: 'node_modules/jquery/dist/jquery.slim.min.js',
-            dest: 'build/tmp/dep/'
-          },
-          {
-            expand: true,
-            cwd: 'node_modules/bootstrap/dist/',
-            src: [
-              'js/bootstrap.bundle.min.js',
-            ],
-            dest: 'build/tmp/dep/bootstrap/'
-          }
-        ]
-      },
-
       dep_dev: {
         files: [{
           src: 'node_modules/react/umd/react.development.js',
@@ -247,7 +228,7 @@ module.exports = function(grunt) {
 
   // build steps
   grunt.registerTask('browser', ['copy:chrome', 'replace:version_chrome', 'copy:firefox', 'replace:version_firefox']);
-  grunt.registerTask('copy2tmp', ['copy:common', 'copy:locale', 'copy:dep']);
+  grunt.registerTask('copy2tmp', ['copy:common', 'copy:locale']);
   grunt.registerTask('tmp2browser', ['copy:tmp2chrome', 'copy:tmp2firefox']);
 
   // development build
