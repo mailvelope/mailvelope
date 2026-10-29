@@ -84,9 +84,55 @@ export function findKeyByEmail(keys, email) {
   return keys.find(key => key.email && key.email.toLowerCase() === email.toLowerCase());
 }
 
+const KEY_ID_RE = /^[0-9a-f]{16}$/i;
+const FINGERPRINT_RE = /^[0-9a-f]{40}$/i;
+
+const normalizeHex = value => value.replace(/[\s:]/g, '').replace(/^0x/i, '').toUpperCase();
+
+/**
+ * The string a recipient tag is identified by. Keys are not required to carry
+ * an email address (RFC 4880 section 5.11 puts no restrictions on the contents
+ * of a user ID), so fall back to the user ID and finally to the key ID instead
+ * of dropping the key.
+ */
+export function getRecipientSelector(key) {
+  return key.email || key.userId || key.keyId;
+}
+
+/**
+ * Resolve a recipient against keys that are already in the keyring, without
+ * requiring email syntax: email address, user ID, "user ID - key ID" as
+ * rendered by the suggestion list, key ID or fingerprint.
+ */
+export function findKeyBySelector(keys, selector) {
+  if (typeof selector !== 'string' || !selector.trim()) {
+    return undefined;
+  }
+  const value = selector.trim();
+  const lower = value.toLowerCase();
+  // The suggestion list renders "user ID - key ID", so accept that form too.
+  const texts = key => [key.email, key.userId, getRecipientSelector(key),
+    key.userId && key.keyId ? `${key.userId} - ${key.keyId}` : null]
+  .filter(Boolean)
+  .map(text => String(text).toLowerCase());
+  const byText = keys.find(key => texts(key).includes(lower));
+  if (byText) {
+    return byText;
+  }
+  // gpg prints IDs in groups, so match on the normalized value.
+  const hex = normalizeHex(value);
+  if (KEY_ID_RE.test(hex)) {
+    return keys.find(key => key.keyId && key.keyId.toUpperCase() === hex);
+  }
+  if (FINGERPRINT_RE.test(hex)) {
+    return keys.find(key => key.fingerprint && key.fingerprint.toUpperCase() === hex);
+  }
+  return undefined;
+}
+
 // Pending recipients are explicitly NOT errors — they're "we don't know yet".
 export function hasAnyUnresolvedRecipient(recipients, keys) {
-  return recipients.some(r => !r.lookupPending && !findKeyByEmail(keys, r.email));
+  return recipients.some(r => !r.lookupPending && !findKeyBySelector(keys, r.email));
 }
 
 export function splitAddress(address) {

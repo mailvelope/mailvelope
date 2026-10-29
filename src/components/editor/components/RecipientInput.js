@@ -9,7 +9,7 @@ import React, {useRef, useMemo} from 'react';
 import {WithContext as ReactTags} from 'react-tag-input';
 import * as l10n from '../../../lib/l10n';
 import {encodeHTML, getUUID} from '../../../lib/util';
-import {findKeyByEmail, hasAnyUnresolvedRecipient, isValidAddress} from '../../../lib/email';
+import {findKeyBySelector, getRecipientSelector, hasAnyUnresolvedRecipient, isValidAddress} from '../../../lib/email';
 
 import './RecipientInput.scss';
 
@@ -20,7 +20,7 @@ l10n.register([
 ]);
 
 function getTagClassName(recipient, keys, hasExtraKey) {
-  if (recipient.key || findKeyByEmail(keys, recipient.email)) {
+  if (recipient.key || findKeyBySelector(keys, recipient.email)) {
     return 'badge-success';
   }
   if (recipient.lookupPending) {
@@ -41,14 +41,19 @@ function tagToRecipient(tag, keys) {
   if (!tag || !tag.id) {
     return;
   }
-  const recipient = {email: tag.id, displayId: tag.id};
-  const key = findKeyByEmail(keys, recipient.email);
+  const selector = tag.id.trim();
+  const recipient = {email: selector, displayId: selector};
+  const key = findKeyBySelector(keys, selector);
   if (key) {
     recipient.key = key;
     recipient.fingerprint = key.fingerprint;
   } else {
-    recipient.checkServer = true;
-    recipient.lookupPending = true;
+    // Only an address can be looked up on a keyserver, so a name or key ID that
+    // is not in the keyring is reported as not found instead of pending forever.
+    recipient.checkServer = isValidAddress(selector);
+    if (recipient.checkServer) {
+      recipient.lookupPending = true;
+    }
   }
   return recipient;
 }
@@ -66,7 +71,7 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   const onDelete = tagIndex => updateParentRecipients(tags.filter((_, i) => i !== tagIndex));
 
   const onAddition = newTag => {
-    if (!isValidAddress(newTag.id)) {
+    if (!newTag.id || !newTag.id.trim()) {
       return;
     }
     updateParentRecipients([...tags, newTag]);
@@ -86,9 +91,9 @@ export function RecipientInput({extraKey, hideErrorMsg, keys, recipients, onChan
   };
 
   const suggestions = keys
-  .filter(key => !tags.find(tag => tag.id === key.email))
+  .filter(key => !tags.find(tag => tag.id === getRecipientSelector(key)))
   .map(key => ({
-    id: key.email,
+    id: getRecipientSelector(key),
     text: `${key.userId} - ${key.keyId}`,
   }));
 
