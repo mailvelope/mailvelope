@@ -192,6 +192,11 @@ function findPGPRanges() {
   for (const frame of iframes) {
     walkers.push(document.createTreeWalker(frame.contentDocument.body, NodeFilter.SHOW_TEXT, {acceptNode}, false));
   }
+  // check shadow roots for PGP content
+  const shadowRoots = Array.from(document.querySelectorAll('*')).filter(e => Boolean(e.shadowRoot));
+  for (const root of shadowRoots) {
+    walkers.push(document.createTreeWalker(root.shadowRoot, NodeFilter.SHOW_TEXT, {acceptNode}, false));
+  }
   const rangeList = [];
   for (const treeWalker of walkers) {
     let currPGPBegin = null;
@@ -220,7 +225,7 @@ function findPGPRanges() {
         const commonParentContainer = range.commonAncestorContainer;
         let depth = 0;
         let currParent = pgpEnd.parentElement;
-        while (currParent.parentElement && depth < 3) {
+        while (currParent && depth < 3) {
           if (currParent === commonParentContainer) {
             rangeList.push(range);
             break;
